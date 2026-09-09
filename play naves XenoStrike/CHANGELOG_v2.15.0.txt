@@ -1,0 +1,75 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.0
+CHAPTER II / MICRO-SWARM / RIFT ALLY / LAST CHANCE
+==================================================
+
+BASE
+- Desarrollo incremental sobre v2.14.5. No se reconstruyeron sistemas cerrados.
+- Conserva Hangar, 26 poderes, ramas A/B, rangos I–VII, fusiones, RIFT APEX,
+  matrices tácticas, Boss Rush, CHASE, Commander Convergence, Wave Objectives,
+  Combat Director, Reward Ledger, checkpoints, audio adaptativo, responsive y PWA.
+
+CAMPAÑA
+- Campaña expandida de 10 a 20 mundos.
+- Nuevos mundos 11–20 con familias, fondos antesala/boss y bosses propios.
+- Boss Rush preparado para Capítulo I y Capítulo II.
+
+BOSSES 11–20
+11 SCARAB IMPERATOR
+12 VESPERA LANCER
+13 REGENT MANDIBLE
+14 PYROLUX BEACON
+15 CAUSTIC ALCHEMIST
+16 ATLAS VEIL
+17 MIRAGE PHASMID
+18 PIT EMPEROR
+19 AURICULUS RAZOR
+20 APIS IMPERIA
+
+- Todos usan hojas idle / attack / hurt / phase / death a 384×384 por frame.
+- 5 estados animados y fallback explícito si falla un asset.
+- Herencias, afinidades de powers y matrices de contramedidas extendidas hasta Mundo 20.
+
+MICRO-SWARM DIRECTOR — MUNDOS 1–20
+- Desde Mundo 1 aparecen mini-enjambres recurrentes de 4–10 enemigos fáciles.
+- Formaciones: línea, bloque, cuña, cinta y dispersión.
+- Mundos 1–10 reutilizan assets existentes; Mundos 11–20 usan mini sprites CH2 animados.
+- Zumbido sintetizado de volumen muy bajo al aparecer.
+- No incrementan G.kills ni completan artificialmente la wave.
+- No penalizan al jugador al abandonar pantalla.
+- Targeting automático prioriza amenazas principales antes que mini-swarms.
+
+CURVA DE DIFICULTAD 1–20
+- Recalibrada para limitar inflación de HP.
+- La progresión aumenta principalmente daño, velocidad, presión, composición,
+  densidad, cadencia de formaciones y simultaneidad.
+- Mundo 1: enemyHp 0.92 / enemyDmg 0.90 / pressure 1.00.
+- Mundo 10: enemyHp 1.05 / enemyDmg 1.17 / pressure 1.27.
+- Mundo 20: enemyHp 1.10 / enemyDmg 1.47 / pressure 1.57.
+
+RIFT ALLY ☣ — DESDE MUNDO 11
+- Botón superior disponible desde Mundo 11 si existen bosses derrotados.
+- Selección aleatoria entre bosses derrotados disponibles.
+- Permanencia exacta: 10 segundos.
+- Minibarra propia.
+- Comportamientos de ataque derivados de identidad/patrón del boss invocado.
+- Una carga por sector en esta versión.
+
+ÚLTIMA OPORTUNIDAD
+- El golpe fatal activa un estado terminal de 5 segundos antes de Game Over.
+- Overlay rojo pulsante + ⚠ VAS A MORIR + contador descendente.
+- Carrito de tienda parpadea durante la ventana de rescate.
+- Si existe Vida Extra, solo se consume al pulsar explícitamente el carrito.
+- Si no existe Vida Extra, el carrito abre la tienda en soporte/rescate.
+- No existe compra automática.
+
+ASSETS CHAPTER II
+- 70 archivos de boss.
+- 120 archivos de enemigos.
+- 40 fondos PNG/WEBP.
+- 230/230 hashes SHA-256 coinciden con ASSET_MANIFEST de Z.AI.
+- 220/220 imágenes con dimensiones declaradas verificadas.
+
+PWA
+- Cache: swarm-rift-v2.15.0.
+- Cache busting CH2: av=2150.
+- 560 recursos listados y 0 faltantes.

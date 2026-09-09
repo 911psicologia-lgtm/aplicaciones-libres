@@ -1,0 +1,7 @@
+SWARM//RIFT v2.15.0 — FULL FUNCTIONAL DISTRIBUTION
+
+This ZIP contains every resource referenced by the v2.15.0 Service Worker (560/560 entries, 0 missing) plus current validation reports and runtime tests.
+
+The 20 lossless 1920x1080 PNG background masters from the Z.AI source handoff are intentionally not duplicated in this runtime distribution because the game uses the corresponding 1920x1080 WEBP runtime backgrounds. This removes ~69 MiB without changing gameplay, graphics used by the application, PWA/offline behavior, or any executable feature. The Z.AI source manifest and QA report remain included for provenance.
+
+No gameplay or runtime asset required by the application has been removed.

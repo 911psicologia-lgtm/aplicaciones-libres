@@ -1,0 +1,45 @@
+SWARM//RIFT — v2.15.0 — VALIDACIÓN FINAL
+=========================================
+
+SINTAXIS
+PASS  node --check js/game.js
+PASS  node --check sw.js
+
+AUTOAUDITORÍA
+PASS  AUTOAUDIT_v2.15.0 — 36/36 checks
+
+RUNTIME SIMULADO
+PASS  VERSION 2.15.0
+PASS  20 mundos
+PASS  20 bosses configurados con animación
+PASS  Capítulo II y 10 familias CH2
+PASS  Micro-Swarm Director desde Mundo 1
+PASS  mini-enjambres 4–10
+PASS  micro kills separadas de kills de wave
+PASS  RIFT ALLY aleatorio, 10 segundos
+PASS  Última oportunidad 5 segundos
+PASS  rescate manual con Vida Extra
+PASS  curva de dificultad 1–20 sin HP inflado como único mecanismo
+PASS  CHASE preservado
+PASS  PWA preservado
+
+ASSETS Z.AI
+PASS  230/230 SHA-256 coincidentes
+PASS  220/220 dimensiones de imagen coincidentes
+PASS  70/70 archivos de bosses
+PASS  120/120 archivos de enemigos
+PASS  40/40 archivos de backgrounds
+
+SERVICE WORKER
+PASS  cache swarm-rift-v2.15.0
+PASS  560/560 recursos precache existen
+PASS  0 recursos faltantes
+
+HTTP SMOKE
+PASS  12/12 recursos críticos HTTP 200
+
+NOTA DE VALIDACIÓN
+La validación automatizada cubre sintaxis, carga simulada DOM/Canvas, funciones nuevas,
+recursos, hashes, dimensiones, PWA y servidor HTTP local. No sustituye una prueba táctil
+prolongada en hardware físico; se recomienda comprobar balance perceptivo y rendimiento
+con 5–6 powers + mini-enjambres + bosses en móvil/tablet antes de congelar balance fino.

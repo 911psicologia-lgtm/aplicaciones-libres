@@ -13,7 +13,7 @@
   <link rel="preload" href="assets/player_ship.webp" as="image" type="image/webp">
   <link rel="preload" href="assets/bg_rust_canyon.webp" as="image" type="image/webp">
   <link rel="apple-touch-icon" href="assets/icon.svg">
-  <link rel="stylesheet" href="css/game.css?v=2144">
+  <link rel="stylesheet" href="css/game.css?v=2150">
 </head>
 <body>
   <main id="shell" aria-label="SWARM RIFT Insecta Siege">
@@ -29,6 +29,7 @@
     </section>
 
     <div id="topActions" class="top-actions" aria-label="Controles del juego">
+      <button id="allyBtn" class="ally-btn" type="button" title="RIFT ALLY — invoca un jefe derrotado durante 10 segundos" aria-label="Invocar aliado Rift" style="display:none">☣</button>
       <button id="shopBtn" type="button" title="Tienda — pausa el combate">🛒</button>
       <button id="pauseBtn" type="button" title="Pausa">Ⅱ</button>
       <button id="musicBtn" class="music-btn music-off" type="button" title="Música de jefe: activada" aria-label="Activar o desactivar música de fondo"><img src="assets/music_toggle.png" alt="" aria-hidden="true"></button>
@@ -43,6 +44,6 @@
     <audio id="bossMusic" src="assets/iron_legion_march.mp3" preload="metadata" loop></audio>
     <audio id="playlistAudio" preload="metadata"></audio>
   </main>
-  <script src="js/game.js?v=2144"></script>
+  <script src="js/game.js?v=2150"></script>
 </body>
 </html>

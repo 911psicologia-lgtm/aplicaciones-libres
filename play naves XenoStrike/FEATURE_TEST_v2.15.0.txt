@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "checks": {
+    "microSwarm": true,
+    "riftAlly": true,
+    "lastChanceWarning": true,
+    "lastChanceManualRescue": true,
+    "difficultyCurve": true,
+    "worlds": true,
+    "bossAnimations": true,
+    "ch2Families": true
+  },
+  "micro": {
+    "spawned": 10,
+    "hp": [
+      6.95,
+      6.95,
+      6.95
+    ],
+    "waveKills": 2,
+    "microKills": 1
+  },
+  "rift": {
+    "pool": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "ally": {
+      "sector": 8,
+      "time": 10,
+      "name": "ARCHITECT ZERO"
+    }
+  },
+  "lastChance": {
+    "warningOK": true,
+    "rescueOK": true,
+    "hp": 46,
+    "lifeStock": 0
+  },
+  "curve": {
+    "w1": {
+      "enemyHp": 0.92,
+      "enemyDmg": 0.9,
+      "bossHp": 1.04,
+      "pressure": 1,
+      "maxAlive": 0.94,
+      "reward": 0.96
+    },
+    "w10": {
+      "enemyHp": 1.05,
+      "enemyDmg": 1.17,
+      "bossHp": 1.14,
+      "pressure": 1.27,
+      "maxAlive": 1.14,
+      "reward": 1.23
+    },
+    "w20": {
+      "enemyHp": 1.1,
+      "enemyDmg": 1.47,
+      "bossHp": 1.24,
+      "pressure": 1.57,
+      "maxAlive": 1.24,
+      "reward": 1.64
+    },
+    "tempo20": {
+      "speed": 1.318,
+      "formation": 0.829,
+      "microCadence": 0.7270000000000001
+    }
+  }
+}

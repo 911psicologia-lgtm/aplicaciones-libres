@@ -1,0 +1,189 @@
+{
+  "version": "2.15.0",
+  "project": "SWARM//RIFT — Insecta Siege",
+  "checks_total": 36,
+  "checks_passed": 36,
+  "checks_failed": 0,
+  "checks": [
+    {
+      "name": "node --check js/game.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "node --check sw.js",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse manifest.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "JSON parse ASSET_MANIFEST_CH2_ZAI.json",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "VERSION 2.15.0",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "20 sector definitions",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "20 boss animation configs",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "10 CH2 family definitions",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm starts World 1",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm group 4-10",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm does not increment wave kills",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Micro-Swarm buzzing",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY button",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY from World 11",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "RIFT ALLY 10 seconds",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance 5 seconds",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Last Chance red overlay",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Rescue cart blinks",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Manual extra-life rescue",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "No automatic purchase during warning",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Difficulty curve HP limited",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "World 11-20 power focus",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Boss counters 11-20",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Heritage through World 20",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Boss Rush CH2 fields",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "PWA cache version",
+      "ok": true,
+      "detail": "PASS"
+    },
+    {
+      "name": "Service Worker asset list parsed",
+      "ok": true,
+      "detail": "560 entries"
+    },
+    {
+      "name": "All PWA resources exist",
+      "ok": true,
+      "detail": "560/560 present; missing=0"
+    },
+    {
+      "name": "Z.AI manifest asset count",
+      "ok": true,
+      "detail": "230/230"
+    },
+    {
+      "name": "Z.AI SHA-256 verification",
+      "ok": true,
+      "detail": "230/230 match"
+    },
+    {
+      "name": "Z.AI image dimensions",
+      "ok": true,
+      "detail": "220/220 match"
+    },
+    {
+      "name": "CH2 boss files",
+      "ok": true,
+      "detail": "70/70"
+    },
+    {
+      "name": "CH2 enemy files",
+      "ok": true,
+      "detail": "120/120"
+    },
+    {
+      "name": "CH2 background files",
+      "ok": true,
+      "detail": "40/40"
+    },
+    {
+      "name": "runtime_smoke_v2150.js",
+      "ok": true,
+      "detail": "{\"version\": true, \"worlds\": true, \"bosses\": true, \"chapterII\": true, \"micro\": true, \"rift\": true, \"lastChance\": true, \"bossAnim\": true, \"chase\": true, \"pwa\": true}"
+    },
+    {
+      "name": "feature_test_v2150.js",
+      "ok": true,
+      "detail": "{\"microSwarm\": true, \"riftAlly\": true, \"lastChanceWarning\": true, \"lastChanceManualRescue\": true, \"difficultyCurve\": true, \"worlds\": true, \"bossAnimations\": true, \"ch2Families\": true}"
+    }
+  ]
+}

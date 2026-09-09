@@ -1,0 +1,16 @@
+SWARM//RIFT — v2.15.0 FULL FUNCTIONAL DISTRIBUTION MANIFEST
+========================================================================
+Files before this manifest: 570
+Uncompressed bytes before this manifest: 233203457
+Uncompressed MiB before this manifest: 222.40
+Service Worker asset entries: 560; all referenced files present
+Runtime background WEBP: 20/20 present
+PNG source masters omitted from distribution: 20 (not used by runtime)
+
+4cd524466632ab61847403c9d3073a8048a94d20998f3e2b9d636ef288124da2  index.html
+78976d72e382e4edf79b409849063f553ce465dc90033073c37ce5806da1c13f  css/game.css
+4f4d756efc11368217f073d0a936f6e29a5714839e32ab03683a9c2cd45db69b  js/game.js
+6a244be37769331a4043a307a9624624e410098f99edc0b1e756a1a91f532ac2  sw.js
+a7d8910f677fc3b6ab6b2a23e12abbbb07da9200855104f2b23afdfe570bba13  manifest.json
+98e7b62e57140a564d1840537bd94e29fa1f43feed69c71f79b8c94fd8ab70e9  AUTOAUDIT_v2.15.0.json
+3009d7757ffd19909a36f3823c85939b7dcf4ce56121c5b8aadb9f1bc4317bed  VALIDACION_v2.15.0.txt

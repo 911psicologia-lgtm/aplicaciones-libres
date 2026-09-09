@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.7.3-prelector';
+const CACHE='emilia-bosque-v0.8.1-microcuentos';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",
@@ -17,6 +17,7 @@ const ASSETS=[
   "./assets/animals/rana.webp",
   "./assets/animals/sapo.webp",
   "./assets/audio/README.txt",
+  "./assets/audio/manifest.json",
   "./assets/catalog.json",
   "./assets/characters/abuela_cuentacuentos.webp",
   "./assets/characters/chico.webp",

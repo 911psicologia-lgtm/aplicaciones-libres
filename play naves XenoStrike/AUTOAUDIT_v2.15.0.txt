@@ -1,0 +1,40 @@
+SWARM//RIFT — v2.15.0 AUTOAUDIT
+========================================================================
+Checks: 36/36 PASS
+
+[PASS] node --check js/game.js — PASS
+[PASS] node --check sw.js — PASS
+[PASS] JSON parse manifest.json — PASS
+[PASS] JSON parse ASSET_MANIFEST_CH2_ZAI.json — PASS
+[PASS] VERSION 2.15.0 — PASS
+[PASS] 20 sector definitions — PASS
+[PASS] 20 boss animation configs — PASS
+[PASS] 10 CH2 family definitions — PASS
+[PASS] Micro-Swarm starts World 1 — PASS
+[PASS] Micro-Swarm group 4-10 — PASS
+[PASS] Micro-Swarm does not increment wave kills — PASS
+[PASS] Micro-Swarm buzzing — PASS
+[PASS] RIFT ALLY button — PASS
+[PASS] RIFT ALLY from World 11 — PASS
+[PASS] RIFT ALLY 10 seconds — PASS
+[PASS] Last Chance 5 seconds — PASS
+[PASS] Last Chance red overlay — PASS
+[PASS] Rescue cart blinks — PASS
+[PASS] Manual extra-life rescue — PASS
+[PASS] No automatic purchase during warning — PASS
+[PASS] Difficulty curve HP limited — PASS
+[PASS] World 11-20 power focus — PASS
+[PASS] Boss counters 11-20 — PASS
+[PASS] Heritage through World 20 — PASS
+[PASS] Boss Rush CH2 fields — PASS
+[PASS] PWA cache version — PASS
+[PASS] Service Worker asset list parsed — 560 entries
+[PASS] All PWA resources exist — 560/560 present; missing=0
+[PASS] Z.AI manifest asset count — 230/230
+[PASS] Z.AI SHA-256 verification — 230/230 match
+[PASS] Z.AI image dimensions — 220/220 match
+[PASS] CH2 boss files — 70/70
+[PASS] CH2 enemy files — 120/120
+[PASS] CH2 background files — 40/40
+[PASS] runtime_smoke_v2150.js — {"version": true, "worlds": true, "bosses": true, "chapterII": true, "micro": true, "rift": true, "lastChance": true, "bossAnim": true, "chase": true, "pwa": true}
+[PASS] feature_test_v2150.js — {"microSwarm": true, "riftAlly": true, "lastChanceWarning": true, "lastChanceManualRescue": true, "difficultyCurve": true, "worlds": true, "bossAnimations": true, "ch2Families": true}

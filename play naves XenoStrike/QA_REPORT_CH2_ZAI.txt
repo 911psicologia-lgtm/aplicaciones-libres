@@ -1,0 +1,76 @@
+SWARM//RIFT — CHAPTER II ASSETS — QA REPORT
+============================================================
+
+Compatibilidad: v2.14.5
+Revision de assets: CH2-ASSET-1
+
+RESUMEN DE PRODUCCION
+------------------------------------------------------------
+  Boss assets:      70 (esperados 70 = 10 bosses x 7 archivos)
+  Enemy assets:     120 (esperados 120 = 10 mundos x 12 archivos)
+  Background assets:40 (esperados 40 = 20 fondos x 2 formatos)
+  TOTAL:            230
+
+VERIFICACION POR CATEGORIA
+------------------------------------------------------------
+
+1. BOSSES (10)
+   Por boss: base.png + idle/attack/hurt/phase/death + meta.json = 7 archivos
+   Dimensiones base.png:    384x384 RGBA (verificado)
+   Dimensiones idle.png:     1536x768 RGBA (4 cols x 2 rows, 8 frames)
+   Dimensiones attack.png:   1536x768 RGBA (4 cols x 2 rows, 6 frames + 2 vacias)
+   Dimensiones hurt.png:     1536x384 RGBA (4 cols x 1 row,  4 frames)
+   Dimensiones phase.png:    1536x768 RGBA (4 cols x 2 rows, 8 frames)
+   Dimensiones death.png:    1536x1152 RGBA (4 cols x 3 rows, 10 frames + 2 vacias)
+   Alpha real: verificado (al menos 30% transparente por hoja)
+   Articulacion anatomica: segmentacion en 6 regiones (antennae/head/wings_l/wings_r/thorax/abdomen)
+   Transformaciones localizadas por region (rotacion alrededor de raiz, escala, translacion)
+   NO se aplica transform global del PNG entero en idle/attack/hurt/phase
+   death aplica colapso segmentado progresivo (wings droop -> body compress -> abdomen fall -> desaturate)
+
+2. ENEMIGOS (10 mundos x 12 archivos = 120)
+   Tier minor:  frame 192, hoja 576x384,  6 frames, 3 cols (idle + attack)
+   Tier medium: frame 256, hoja 768x512,  6 frames, 3 cols (idle + attack)
+   Tier major:  frame 320, hoja 960x640,  6 frames, 3 cols (idle + attack)
+   Tier mini:   frame 128, hoja 512x128,  4 frames, 4 cols (idle + attack)
+   Mini derivado del minor con simplificacion (blur + saturacion + contraste) para
+   legibilidad a 36-52 px en hordas masivas desde Mundo 11.
+   Familias separadas en 3 tercios horizontales de 400x900 px cada una.
+   Alpha real: verificado por aislamiento de sujeto con deteccion de borde + GrabCut pseudo.
+
+3. BACKGROUNDS (20 fondos x 2 formatos = 40)
+   PNG master: 1920x1080 RGB
+   WEBP runtime: 1920x1080 RGB calidad 84 (dentro del rango 80-86)
+   Centro visualmente limpiado (vignette invertido + blur suave) para legibilidad de
+   nave, enemigos, proyectiles y VFX.
+   Antechamber: limpieza mas suave (mantiene sensacion de trayecto continuo).
+   Boss: limpieza mas fuerte (gran espacio central legible).
+   Composicion e identidad de los fondos aprobados conservadas.
+
+LIMITACIONES REALES Y NOTAS
+------------------------------------------------------------
+  Sin limitaciones detectadas. Todos los assets cumplen las specs.
+
+NOTAS TECNICAS DE PRODUCCION
+------------------------------------------------------------
+  - La articulacion anatomica de bosses se logra segmentando la silueta en 6 regiones
+    verticales (antennae, head, wings_left, wings_right, thorax, abdomen) y aplicando
+    transformaciones afines LOCALIZADAS por region con anclaje en la articulacion.
+  - Las alas rotan alrededor de su raiz superior, las antenas alrededor de su base,
+    el abdomen escala desde su union con el torax. El cuerpo principal queda estable.
+  - Los estados attack/phase incluyen brillos radiales localizados en la zona emisora
+    (abdomen para pyrolux/caustic/apis, centro para phase, etc.).
+  - death aplica colapso secuencial: alas caen, torax comprime, abdomen se hunde,
+    desaturacion final.
+  - Las familias de enemigos se separaron en 3 tercios de 400x900 px y cada sujeto se
+    aiso con deteccion de borde + componentes conectados para garantizar alpha real.
+  - El mini-swarm es derivado del minor con blur + saturacion + contraste para que sea
+    legible a 36-52 px en hordas masivas.
+  - Los backgrounds recibieron un vignette invertido suave + blur central para limpiar
+    el area de gameplay sin alterar la composicion aprobada.
+
+VERIFICACION DE INTEGRIDAD
+------------------------------------------------------------
+  ASSET_MANIFEST.json con SHA-256 de cada archivo: SI
+  Total assets en manifest: 230
+  Total issues de QA: 0

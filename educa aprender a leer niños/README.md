@@ -1,21 +1,18 @@
-# Emilia · El Bosque de las Palabras · v0.7.3
+# Emilia · El Bosque de las Palabras · v0.8.1
 
-Versión de refinamiento de interfaz prelectora, priorizada para celular y tableta.
+Versión de **profundización lectora**. No amplía el alfabeto: desarrolla con mayor riqueza los mundos ya existentes, especialmente **Domo de D**, **Jardín de Palabras** y la biblioteca de cuentos.
 
 ## Ejes de esta versión
 
-- Cabecera infantil compacta: controles esenciales en una sola línea de iconos.
-- Indicador `1/3` reducido; se eliminan de la portada el título explicativo, la ruta textual y el contador de semillas.
-- Recorrido del mapa mediante huellitas humanas pequeñas y curvas; los tramos superados, actual y futuros tienen estados visuales distintos.
-- Siguiente mundo continúa resaltado mediante pulso del nodo, no mediante una flecha gigante sobre el mapa.
-- Continuar, recomendación de Lumi y repaso se compactan en una fila de acciones visuales.
-- Repaso pendiente pulsa de manera suave.
-- Instalar PWA se ofrece como icono de descarga solo cuando el navegador lo permite.
-- Actualizar PWA permanece oculto salvo que exista una versión nueva; entonces titila y, al tocarlo, activa la nueva versión y recarga.
-- Manifest configurado para `fullscreen` con fallback `standalone`.
-- Se solicita pantalla completa también desde gestos de usuario cuando el navegador lo admite.
-- Pantalla final de aventura reducida a indicadores visuales, siguiente mundo y navegación circular horizontal.
-- Trazado de letras y palabras ya no se cierra automáticamente al alcanzar el umbral. El check verde solo indica “evidencia suficiente”; el niño puede seguir dibujando hasta que decida completar.
-- Se preservan todos los contenidos, progresos y assets de v0.7.2, incluidas las cuatro variantes de Lumi.
+- Cuentos progresivos desde escucha/reconocimiento hasta lectura de frases cortas.
+- Nuevo cuento auditivo **Las vocales van al parque** después de completar el Claro de las Vocales.
+- Microcuentos específicos para M, P, S, L, N, T y D, además del cuento auditivo de vocales, picnic y Jardín de Palabras.
+- Nueva actividad `gapFill`: tocar o arrastrar letras/palabras a un espacio vacío.
+- Domo de D profundizado con completación de DADO y una frase con D.
+- Jardín de Palabras profundizado con completación de MAPA y frases cortas.
+- Las elecciones de imágenes, palabras, sílabas y letras pertinentes ahora se pronuncian al seleccionarlas.
+- Memoria palabra-imagen con audio al descubrir cada tarjeta.
+- Preguntas de comprensión narradas y opciones pronunciadas al tocarlas.
+- Se mantiene la lógica de trazado, PWA, perfiles, progreso local y el sistema visual de Lumi.
 
-Ver `VALIDACION_v0.7.3.txt` para la autoauditoría.
+Ver `RUTA_CUENTOS_v0.8.1.md` y `VALIDACION_v0.8.1.txt`.

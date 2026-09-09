@@ -34,6 +34,20 @@
   function nextAfter(ms){setTimeout(()=>{if(!session)return;session.replayIndex=null;if(EmiliaEngine.shouldEnd(session)){session.endedAdaptively=true;const res=EmiliaEngine.finish(session);session=null;EmiliaStore.clearActiveSession();EmiliaScreens.result(res);return;}session.index++;persistSession();if(session.index>=session.activities.length){const res=EmiliaEngine.finish(session);session=null;EmiliaStore.clearActiveSession();EmiliaScreens.result(res);}else EmiliaScreens.activity(session);},ms);}
   function attemptsFor(q){return session.attempts[q.id]||0;}
   function markAttempt(q){session.attempts[q.id]=(session.attempts[q.id]||0)+1;persistSession();return session.attempts[q.id];}
+  function audioLabel(value,prefix=''){
+    const v=String(value||'').trim().toLocaleLowerCase('es');
+    if(!v)return '';
+    if(prefix)return `${String(prefix).trim()} ${v}`.trim();
+    if(v.length===1 && 'aeiou'.includes(v)) return `vocal ${v}`;
+    return v;
+  }
+  function joinAudioList(items,prefix=''){
+    return (items||[]).map(x=>audioLabel(x,prefix)).filter(Boolean).join(', ');
+  }
+  function isShortToken(v){
+    const t=String(v||'').trim();
+    return t.length>0 && t.length<=3 && !/\s/.test(t);
+  }
 
   function spokenInstruction(q){
     if(q.voicePrompt)return q.voicePrompt;
@@ -46,11 +60,12 @@
       if(Array.isArray(q.options)&&q.options.every(x=>String(x).length===1)&&String(q.say||'').length>1)return `Escucha: ${q.say}. Toca la primera letra.`;
       return `Escucha: ${q.say}. Toca la sílaba que escuchaste.`;
     }
-    if(q.type==='listenPick')return `Escucha: ${q.say}. Toca lo que escuchaste.`;
-    if(q.type==='build')return `Escucha: ${q.word||q.say}. Forma la palabra.`;
-    if(q.type==='missingPart')return `Escucha: ${q.word||q.say}. Completa la palabra.`;
-    if(q.type==='soundBubbles')return `Escucha: ${q.say}. Atrapa la sílaba que escuchaste.`;
-    if(q.type==='syllableTrail')return 'Toca las piedras. Escucha una por una.';
+    if(q.type==='listenPick'){const heard=String(q.say||'').toLocaleLowerCase('es');if(isShortToken(heard))return heard.length===1?`Escucha ${heard.toUpperCase()}. Tócala.`:`Escucha ${heard}. Toca esa sílaba.`;return `Escucha ${heard}. Toca lo que escuchaste.`;}
+    if(q.type==='build')return `Escucha ${q.word||q.say}. Forma la palabra.`;
+    if(q.type==='missingPart')return `Escucha ${q.word||q.say}. Completa la palabra.`;
+    if(q.type==='gapFill')return q.voicePrompt||`Completa el espacio. Escucha cada opción y elige la que falta.`;
+    if(q.type==='soundBubbles')return `Escucha ${q.say}. Atrapa la sílaba que escuchaste.`;
+    if(q.type==='syllableTrail'){const list=joinAudioList(q.items,q.sayPrefix||'');if(q.sayPrefix)return `Toca las gemas. Escucha una por una: ${list}.`;const family=(q.items&&q.items[0])?String(q.items[0]).charAt(0).toUpperCase():'';return family?`Toca las gemas de la ${family}: ${list}.`:`Toca las gemas. Escucha una por una: ${list}.`;}
     if(q.type==='trace')return `Une los puntos de la letra ${String(q.letter||'').toUpperCase()}. Puedes hacer cada parte por separado.`;
     if(q.type==='wordReveal')return `Intenta leer ${q.word}. Si necesitas ayuda, toca la nota.`;
     return q.say||q.prompt||'';
@@ -80,36 +95,45 @@
   }
 
   function answerButtons(selector,q,s,speakQ){
-    document.querySelectorAll(selector).forEach(btn=>btn.onclick=()=>{
-      if(btn.disabled)return;document.querySelectorAll(selector).forEach(x=>x.disabled=true);
-      const val=btn.dataset.answer,ok=val===q.answer,prior=attemptsFor(q);markAttempt(q);const replay=isReplay();
+    document.querySelectorAll(selector).forEach(btn=>btn.onclick=async()=>{
+      if(btn.disabled)return;const all=[...document.querySelectorAll(selector)];all.forEach(x=>x.disabled=true);
+      const val=btn.dataset.answer,prior=attemptsFor(q),replay=isReplay();
+      const canSpeak=/[a-záéíóúñ]/i.test(String(val||''))&&q.speakSelection!==false;
+      if(canSpeak){
+        const kind=/^[a-záéíóúñ]$/i.test(String(val))?'phoneme':(String(val).length<=3&&!/\s/.test(String(val))?'syllable':'word');
+        await learningAudio(val,{kind,repeat:false,button:null,listeningText:'👂',readyText:'●'});
+      }
+      const ok=val===q.answer;markAttempt(q);
       if(ok){
         btn.classList.add('ok');EmiliaVoice.tone('ok');feedback(true);
         if(!replay){EmiliaMastery.record(q.skill,true,prior>0,{review:q.review});s.hits++;if(prior===0){s.independentHits++;registerSuccess(true);}else registerMiss();}
-        nextAfter(280);
+        nextAfter(260);
       }else{
         btn.classList.add('bad');EmiliaVoice.tone('bad');feedback(false);registerMiss();if(!replay){EmiliaMastery.record(q.skill,false,false,{review:q.review});s.errors++;}
-        const count=attemptsFor(q);setTimeout(async()=>{const all=[...document.querySelectorAll(selector)];all.forEach(x=>{x.classList.remove('bad');x.disabled=false;});if(count>=2){all.forEach(x=>{if(x.dataset.answer===q.answer)x.classList.add('reveal');else x.disabled=true;});await EmiliaVoice.speak('Mira la pista.',{kind:'instruction',repeat:false});}await speakQ();},300);
+        const count=attemptsFor(q);setTimeout(async()=>{all.forEach(x=>{x.classList.remove('bad');x.disabled=false;});if(count>=2){all.forEach(x=>{if(x.dataset.answer===q.answer)x.classList.add('reveal');else x.disabled=true;});await EmiliaVoice.speak('Mira la pista.',{kind:'instruction',repeat:false});}await speakQ();},300);
       }
     });
   }
 
   function showWordTrace(q,done){
     const card=document.querySelector('.activity-card');if(!card||!q.word){done();return;}
-    const lower=String(q.word).toLocaleLowerCase('es'),art=(EMILIA_CONTENT.wordArt||{})[lower]||'',listen=(EMILIA_CONTENT.ui||{}).listen||'';
-    card.innerHTML=`<div class="word-trace-stage"><div class="word-trace-heading"><div class="activity-icon"><img src="${EMILIA_CONTENT.mascot.src}" alt=""></div>${art?`<img class="word-reward-art" src="${art}" alt="">`:''}</div><div class="word-visual small lowercase-word">${EmiliaScreens.esc(lower)}</div><button class="listen-orb small attention" id="wordTraceAudio" aria-label="Escuchar instrucción">${listen?`<img class="ui-listen-icon" src="${listen}" alt="">`:'<span>♪</span>'}</button><div class="word-trace-shell"><canvas id="wordTraceCanvas" class="trace-canvas" aria-label="Escribir ${EmiliaScreens.esc(lower)} con el dedo"></canvas><div class="trace-ready-indicator" id="wordTraceReady" hidden>✓</div></div><div id="feedback"></div><div class="simple-trace-actions"><button class="trace-reset" id="wordTraceAgain" aria-label="Borrar y volver a intentar">↺</button><button class="btn btn-primary trace-main-action" id="wordTraceAction" disabled>✓ Completar</button></div></div>`;
+    const lower=String(q.word).toLocaleLowerCase('es'),art=(EMILIA_CONTENT.wordArt||{})[lower]||'',listen=(EMILIA_CONTENT.ui||{}).listen||'',repeat=(EMILIA_CONTENT.ui||{}).repeat||'';
+    card.innerHTML=`<div class="word-trace-stage"><div class="word-trace-heading"><div class="activity-icon"><img src="${EMILIA_CONTENT.mascot.src}" alt=""></div>${art?`<img class="word-reward-art" src="${art}" alt="">`:''}</div><div class="word-visual small lowercase-word">${EmiliaScreens.esc(lower)}</div><button class="listen-orb small attention" id="wordTraceAudio" aria-label="Escuchar instrucción">${listen?`<img class="ui-listen-icon" src="${listen}" alt="">`:'<span>♪</span>'}</button><div class="word-trace-shell"><canvas id="wordTraceCanvas" class="trace-canvas" aria-label="Escribir ${EmiliaScreens.esc(lower)} con el dedo"></canvas><div class="trace-ready-indicator" id="wordTraceReady" hidden>✓</div><button class="trace-float-reset" id="wordTraceAgainMini" aria-label="Rehacer palabra" title="Rehacer">${repeat?`<img class="ui-repeat-icon" src="${repeat}" alt="">`:'↺'}</button></div><div id="feedback"></div><div class="simple-trace-actions"><button class="trace-reset" id="wordTraceAgain" aria-label="Borrar y volver a intentar" title="Rehacer">${repeat?`<img class="ui-repeat-icon" src="${repeat}" alt="">`:'↺'}</button><button class="btn btn-primary trace-main-action" id="wordTraceAction" disabled>✓ Completar</button></div></div>`;
     const say=()=>learningAudio(`Escribe ${lower} con tu dedo. Puedes levantar el dedo entre letras.`,{button:document.getElementById('wordTraceAudio'),kind:'instruction',repeat:false,listeningText:'👂',readyText:'✍'});document.getElementById('wordTraceAudio').onclick=say;say();
-    const c=document.getElementById('wordTraceCanvas'),action=document.getElementById('wordTraceAction'),again=document.getElementById('wordTraceAgain'),ready=document.getElementById('wordTraceReady');let completed=false,logged=false,tr=null;
-    const complete=(cov,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('word_trace_complete',{word:q.word,skill:q.skill,coverage:Math.round((cov||0)*100),manual:!!meta.manual});}EmiliaVoice.tone('ok');feedback(true,'');action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');again.disabled=true;again.style.display='none';setTimeout(()=>EmiliaVoice.speak('Muy bien. Toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
+    const c=document.getElementById('wordTraceCanvas'),action=document.getElementById('wordTraceAction'),again=document.getElementById('wordTraceAgain'),againMini=document.getElementById('wordTraceAgainMini'),ready=document.getElementById('wordTraceReady');let completed=false,logged=false,tr=null;
+    const syncTraceResetButtons=state=>{[again,againMini].forEach(btn=>{if(!btn)return;btn.disabled=!!state.disabled;btn.classList.toggle('armed',!!state.armed);});};
+    const resetTraceStage=()=>{completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;syncTraceResetButtons({disabled:false,armed:false});tr&&tr.reset();};
+    const complete=(cov,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('word_trace_complete',{word:q.word,skill:q.skill,coverage:Math.round((cov||0)*100),manual:!!meta.manual});}EmiliaVoice.tone('ok');feedback(true,'');action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');syncTraceResetButtons({disabled:false,armed:true});setTimeout(()=>EmiliaVoice.speak('Muy bien. Si quieres, puedes rehacerla. O toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
     const progress=pr=>{if(completed)return;if(action)action.disabled=!pr.canComplete;if(ready){ready.hidden=!pr.autoComplete;ready.classList.toggle('on',!!pr.autoComplete);}};
     tr=EmiliaTracing.startWord(c,q.word,complete,progress);
-    again.onclick=()=>{if(completed)return;completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tr.reset();};
+    [again,againMini].forEach(btn=>{if(btn)btn.onclick=()=>resetTraceStage();});
     action.onclick=()=>{if(completed){done();return;}tr.forceComplete();};
+    syncTraceResetButtons({disabled:false,armed:false});
   }
 
   function bindActivity(q,s){
     const speakBtn=document.getElementById('speakQ');
-    const selector=q.type==='picturePick'?'.picture-option':q.type==='imageWordPick'?'.word-option':q.type==='build'?'.syllable-chip':q.type==='sentenceBuild'?'.sentence-chip':q.type==='memoryMatch'?'.memory-card':q.type==='soundBubbles'?'.sound-bubble':(q.type==='listenPick'||q.type==='symbolPick'||q.type==='missingPart')?'.option':'';
+    const selector=q.type==='picturePick'?'.picture-option':q.type==='imageWordPick'?'.word-option':q.type==='build'?'.syllable-chip':q.type==='sentenceBuild'?'.sentence-chip':q.type==='gapFill'?'.gap-choice':q.type==='memoryMatch'?'.memory-card':q.type==='soundBubbles'?'.sound-bubble':(q.type==='listenPick'||q.type==='symbolPick'||q.type==='missingPart')?'.option':'';
     const speakQ=()=>playInstruction(q,{button:speakBtn,lockSelector:selector});if(speakBtn)speakBtn.onclick=speakQ;
     if(q.type==='picturePick'){
       document.querySelectorAll('.picture-audio').forEach(btn=>btn.onclick=async e=>{
@@ -142,21 +166,40 @@
       document.querySelectorAll('.sentence-chip').forEach(btn=>btn.onclick=async()=>{if(btn.classList.contains('used')||btn.disabled)return;built.push(btn.dataset.word);btn.classList.add('used');render();await learningAudio(btn.dataset.word,{kind:'word',repeat:false,lockSelector:'.sentence-chip',button:null,listeningText:'👂',readyText:'●'});if(built.length===q.answerParts.length){const ok=built.join('|')===q.answerParts.join('|');if(ok){feedback(true);if(!replay){EmiliaMastery.record(q.skill,true,tries>0,{review:q.review});s.hits++;if(tries===0){s.independentHits++;registerSuccess(true);}else registerMiss();}nextAfter(360);}else{feedback(false);registerMiss();if(!replay){EmiliaMastery.record(q.skill,false,false,{review:q.review});s.errors++;}tries++;setTimeout(()=>{built=[];document.querySelectorAll('.sentence-chip').forEach(x=>x.classList.remove('used'));render();speakQ();},420);}}});
       const clear=document.getElementById('clearSentence');if(clear)clear.onclick=()=>{built=[];document.querySelectorAll('.sentence-chip').forEach(x=>x.classList.remove('used'));render();};
     }
+    if(q.type==='gapFill'){
+      speakQ();const slot=document.getElementById('gapSlot'),reset=document.getElementById('gapReset');let locked=false,tries=0;const replay=isReplay();
+      const clear=()=>{if(locked)return;if(slot){slot.textContent='?';slot.classList.remove('filled','ok','bad');}document.querySelectorAll('.gap-choice').forEach(x=>{x.classList.remove('used','bad','ok');x.disabled=false;});};
+      const choose=async btn=>{if(locked||btn.disabled)return;locked=true;document.querySelectorAll('.gap-choice').forEach(x=>x.disabled=true);const val=btn.dataset.answer||'';if(slot){slot.textContent=String(val).toLocaleLowerCase('es');slot.classList.add('filled');}btn.classList.add('used');const kind=/^[a-záéíóúñ]$/i.test(String(val))?'phoneme':(String(val).length<=3&&!/\s/.test(String(val))?'syllable':'word');await learningAudio(val,{kind,repeat:false,button:null,listeningText:'👂',readyText:'●'});const ok=val===q.answer;if(ok){slot&&slot.classList.add('ok');btn.classList.add('ok');EmiliaVoice.tone('ok');feedback(true);if(!replay){EmiliaMastery.record(q.skill,true,tries>0,{review:q.review});s.hits++;if(tries===0){s.independentHits++;registerSuccess(true);}else registerMiss();}setTimeout(()=>nextAfter(160),320);}else{slot&&slot.classList.add('bad');btn.classList.add('bad');EmiliaVoice.tone('bad');feedback(false);registerMiss();if(!replay){EmiliaMastery.record(q.skill,false,false,{review:q.review});s.errors++;}tries++;setTimeout(()=>{locked=false;clear();speakQ();},480);}};
+      document.querySelectorAll('.gap-choice').forEach(btn=>{
+        btn.onclick=()=>{if(btn.dataset.dragged==='1'){btn.dataset.dragged='0';return;}choose(btn);};
+        btn.draggable=true;btn.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',btn.dataset.answer||'');window.__emiliaGapDrag=btn;});
+        let touchDrag=null;
+        btn.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'||locked||btn.disabled)return;touchDrag={id:e.pointerId,sx:e.clientX,sy:e.clientY,moved:false,ghost:null};try{btn.setPointerCapture(e.pointerId);}catch(_){}});
+        btn.addEventListener('pointermove',e=>{if(!touchDrag||touchDrag.id!==e.pointerId)return;const dx=e.clientX-touchDrag.sx,dy=e.clientY-touchDrag.sy;if(!touchDrag.moved&&Math.hypot(dx,dy)>8){touchDrag.moved=true;const g=btn.cloneNode(true);g.classList.add('gap-drag-ghost');g.removeAttribute('id');document.body.appendChild(g);touchDrag.ghost=g;}if(touchDrag.moved&&touchDrag.ghost){touchDrag.ghost.style.left=e.clientX+'px';touchDrag.ghost.style.top=e.clientY+'px';if(slot){const r=slot.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;slot.classList.toggle('drag-over',inside);}}});
+        const endTouchDrag=e=>{if(!touchDrag||touchDrag.id!==e.pointerId)return;const wasMoved=touchDrag.moved;if(touchDrag.ghost)touchDrag.ghost.remove();if(slot)slot.classList.remove('drag-over');if(wasMoved&&slot){const r=slot.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;btn.dataset.dragged='1';if(inside)choose(btn);setTimeout(()=>{btn.dataset.dragged='0';},120);}touchDrag=null;};
+        btn.addEventListener('pointerup',endTouchDrag);btn.addEventListener('pointercancel',endTouchDrag);
+      });
+      if(slot){slot.addEventListener('dragover',e=>{e.preventDefault();slot.classList.add('drag-over');});slot.addEventListener('dragleave',()=>slot.classList.remove('drag-over'));slot.addEventListener('drop',e=>{e.preventDefault();slot.classList.remove('drag-over');const btn=window.__emiliaGapDrag;if(btn)choose(btn);window.__emiliaGapDrag=null;});}
+      if(reset)reset.onclick=()=>{locked=false;clear();};
+    }
     if(q.type==='memoryMatch'){
       speakQ();let first=null,matched=0,mistakes=0,done=false;const replay=isReplay(),cards=[...document.querySelectorAll('.memory-card')];
-      cards.forEach(btn=>btn.onclick=()=>{if(done||btn.disabled||btn.classList.contains('matched'))return;if(first===btn)return;btn.classList.add('open');if(!first){first=btn;return;}const a=first,b=btn;cards.forEach(x=>x.disabled=true);if(a.dataset.match===b.dataset.match&&a.dataset.kind!==b.dataset.kind){a.classList.add('matched');b.classList.add('matched');matched+=2;EmiliaVoice.tone('ok');rewardBurst('star');first=null;cards.forEach(x=>{if(!x.classList.contains('matched'))x.disabled=false;});if(matched===cards.length){done=true;feedback(true);if(!replay){EmiliaMastery.record(q.skill,true,mistakes>0,{review:q.review});s.hits++;if(mistakes===0){s.independentHits++;registerSuccess(true);}else{s.errors++;registerMiss();}}nextAfter(420);}}else{mistakes++;EmiliaVoice.tone('bad');registerMiss();setTimeout(()=>{a.classList.remove('open');b.classList.remove('open');first=null;cards.forEach(x=>{if(!x.classList.contains('matched'))x.disabled=false;});},520);}});
+      cards.forEach(btn=>btn.onclick=async()=>{if(done||btn.disabled||btn.classList.contains('matched'))return;if(first===btn)return;btn.classList.add('open');if(btn.dataset.match)await learningAudio(btn.dataset.match,{kind:'word',repeat:false,button:null,listeningText:'👂',readyText:'●'});if(!first){first=btn;return;}const a=first,b=btn;cards.forEach(x=>x.disabled=true);if(a.dataset.match===b.dataset.match&&a.dataset.kind!==b.dataset.kind){a.classList.add('matched');b.classList.add('matched');matched+=2;EmiliaVoice.tone('ok');rewardBurst('star');first=null;cards.forEach(x=>{if(!x.classList.contains('matched'))x.disabled=false;});if(matched===cards.length){done=true;feedback(true);if(!replay){EmiliaMastery.record(q.skill,true,mistakes>0,{review:q.review});s.hits++;if(mistakes===0){s.independentHits++;registerSuccess(true);}else{s.errors++;registerMiss();}}nextAfter(420);}}else{mistakes++;EmiliaVoice.tone('bad');registerMiss();setTimeout(()=>{a.classList.remove('open');b.classList.remove('open');first=null;cards.forEach(x=>{if(!x.classList.contains('matched'))x.disabled=false;});},520);}});
     }
     if(q.type==='syllableTrail'){
-      const touched=new Set(),next=document.getElementById('trailNext'),speakTrail=()=>playInstruction(q,{button:document.getElementById('speakQ'),lockSelector:'.trail-stone'});const sb=document.getElementById('speakQ');if(sb)sb.onclick=speakTrail;speakTrail();
-      document.querySelectorAll('.trail-stone').forEach(btn=>btn.onclick=async()=>{if(btn.disabled)return;const v=btn.dataset.sound;btn.classList.add('lit');await learningAudio((q.sayPrefix||'')+v,{kind:'syllable',repeat:false,lockSelector:'.trail-stone',button:null,listeningText:'👂',readyText:'●'});touched.add(v);EmiliaStore.event('exposure',{skill:q.skill,value:v});if(touched.size===q.items.length){next.disabled=false;rewardBurst('star');EmiliaVoice.tone('ok');}});next.onclick=()=>nextAfter(100);
+      const touched=new Set(),next=document.getElementById('trailNext'),speakTrail=()=>playInstruction(q,{button:document.getElementById('speakQ'),lockSelector:'.trail-gem'});const sb=document.getElementById('speakQ');if(sb)sb.onclick=speakTrail;speakTrail();
+      document.querySelectorAll('.trail-gem').forEach(btn=>btn.onclick=async()=>{if(btn.disabled)return;const v=btn.dataset.sound;btn.classList.add('lit');await learningAudio((q.sayPrefix||'')+v,{kind:'syllable',repeat:false,lockSelector:'.trail-gem',button:null,listeningText:'👂',readyText:'●'});touched.add(v);EmiliaStore.event('exposure',{skill:q.skill,value:v});if(touched.size===q.items.length){next.disabled=false;rewardBurst('star');EmiliaVoice.tone('ok');}});next.onclick=()=>nextAfter(100);
     }
     if(q.type==='trace'){
-      const canvas=document.getElementById('traceCanvas'),again=document.getElementById('traceAgain'),action=document.getElementById('traceAction'),ready=document.getElementById('traceReady'),audio=document.getElementById('speakQ'),say=()=>playInstruction(q,{button:audio,lockSelector:'#traceAction'});if(audio)audio.onclick=say;say();let tracer=null,completed=false,logged=false;
-      const complete=(coverage,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('trace_complete',{skill:q.skill,letter:q.letter,coverage:Math.round((coverage||0)*100),manual:!!meta.manual,segments:meta.segments||[]});}EmiliaVoice.tone('ok');feedback(true);action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');again.disabled=true;again.style.display='none';setTimeout(()=>EmiliaVoice.speak('Muy bien. Toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
+      const canvas=document.getElementById('traceCanvas'),again=document.getElementById('traceAgain'),againMini=document.getElementById('traceAgainMini'),action=document.getElementById('traceAction'),ready=document.getElementById('traceReady'),audio=document.getElementById('speakQ'),say=()=>playInstruction(q,{button:audio,lockSelector:'#traceAction'});if(audio)audio.onclick=say;say();let tracer=null,completed=false,logged=false;
+      const syncTraceResetButtons=state=>{[again,againMini].forEach(btn=>{if(!btn)return;btn.disabled=!!state.disabled;btn.classList.toggle('armed',!!state.armed);});};
+      const resetTraceStage=()=>{completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;syncTraceResetButtons({disabled:false,armed:false});tracer&&tracer.reset();};
+      const complete=(coverage,meta={})=>{if(completed)return;completed=true;if(!logged){logged=true;EmiliaStore.event('trace_complete',{skill:q.skill,letter:q.letter,coverage:Math.round((coverage||0)*100),manual:!!meta.manual,segments:meta.segments||[]});}EmiliaVoice.tone('ok');feedback(true);action.disabled=false;action.textContent='➜';action.setAttribute('aria-label','Siguiente');action.classList.add('is-next');action.parentElement&&action.parentElement.classList.add('next-ready');syncTraceResetButtons({disabled:false,armed:true});setTimeout(()=>EmiliaVoice.speak('Muy bien. Si quieres, puedes rehacerla. O toca la flecha para seguir.',{kind:'instruction',repeat:false}),150);};
       const progress=pr=>{if(completed)return;if(action)action.disabled=!pr.canComplete;if(ready){ready.hidden=!pr.autoComplete;ready.classList.toggle('on',!!pr.autoComplete);}};
       if(canvas)tracer=EmiliaTracing.start(canvas,q.letter,complete,progress);
-      if(again)again.onclick=()=>{if(completed)return;completed=false;logged=false;if(ready){ready.hidden=true;ready.classList.remove('on');}action.textContent='✓ Completar';action.setAttribute('aria-label','Completar');action.classList.remove('is-next');action.parentElement&&action.parentElement.classList.remove('next-ready');action.disabled=true;again.style.display='';tracer&&tracer.reset();};
+      [again,againMini].forEach(btn=>{if(btn)btn.onclick=()=>resetTraceStage();});
       if(action)action.onclick=()=>{if(completed)nextAfter(90);else tracer&&tracer.forceComplete();};
+      syncTraceResetButtons({disabled:false,armed:false});
     }
     if(q.type==='wordReveal'){
       const tried=document.getElementById('readTried'),model=document.getElementById('speakQ'),say=()=>learningAudio(q.say,{button:model,kind:'word',repeat:false,listeningText:'👂',readyText:'●'});if(model)model.onclick=say;if(tried)tried.onclick=()=>{EmiliaStore.event('reading_practice',{skill:q.skill,word:q.word,selfReported:true});rewardBurst('star');nextAfter(260);};
@@ -164,18 +207,28 @@
   }
 
   async function playStory(st){
-    storyContext={listened:true,storyId:st.id};const spans=[...document.querySelectorAll('.story-word')],btn=document.getElementById('storyListen'),tryBtn=document.getElementById('storyIRead');spans.forEach(x=>x.classList.remove('active'));if(btn){btn.disabled=true;btn.textContent='👂 Escuchando…';}if(tryBtn)tryBtn.disabled=true;
-    const status=document.getElementById('storyListenStatus');if(status)status.textContent='Lumi lee despacio, palabra por palabra.';
-    for(let i=0;i<st.words.length;i++){
-      spans.forEach(x=>x.classList.remove('active'));if(spans[i])spans[i].classList.add('active');
-      const clean=String(st.words[i]).replace(/[.,!?¡¿]/g,'');await EmiliaVoice.speak(clean,{kind:'word',repeat:false});await wait(210);
+    storyContext={listened:true,storyId:st.id};const btn=document.getElementById('storyListen'),tryBtn=document.getElementById('storyIRead');if(btn){btn.disabled=true;btn.textContent='👂 Escuchando…';}if(tryBtn)tryBtn.disabled=true;const status=document.getElementById('storyListenStatus');
+    if(st.kind==='audioFocus'){
+      if(status)status.textContent='Escucha el cuento y mira las vocales.';
+      const parts=st.sentences||[st.text];
+      document.querySelectorAll('.story-focus-token').forEach(x=>x.classList.remove('active'));
+      for(let i=0;i<parts.length;i++){await EmiliaVoice.speak(parts[i],{kind:'sentence',repeat:false});await wait(320);}
+      if(status)status.textContent='Ahora puedes tocar cada vocal para escucharla.';
+    }else{
+      const spans=[...document.querySelectorAll('.story-word')];spans.forEach(x=>x.classList.remove('active'));
+      if(status)status.textContent='Lumi lee despacio, palabra por palabra.';
+      for(let i=0;i<st.words.length;i++){
+        spans.forEach(x=>x.classList.remove('active'));if(spans[i])spans[i].classList.add('active');
+        const clean=String(st.words[i]).replace(/[.,!?¡¿]/g,'');await EmiliaVoice.speak(clean,{kind:'word',repeat:false});await wait(210);
+      }
+      spans.forEach(x=>x.classList.remove('active'));if(status)status.textContent='Ahora escucha la frase completa.';await wait(360);await EmiliaVoice.speak(st.text,{kind:'sentence',repeat:false});
     }
-    spans.forEach(x=>x.classList.remove('active'));if(status)status.textContent='Ahora escucha la frase completa.';await wait(380);await EmiliaVoice.speak(st.text,{kind:'sentence',repeat:false});
-    if(btn){btn.disabled=false;btn.textContent='♪ Escuchar otra vez';}if(tryBtn)tryBtn.disabled=false;if(status)status.textContent='Puedes volver a escucharla cuando quieras.';EmiliaStore.event('story_model',{storyId:st.id});
+    if(btn){btn.disabled=false;btn.textContent='♪ Escuchar otra vez';}if(tryBtn)tryBtn.disabled=false;EmiliaStore.event('story_model',{storyId:st.id});
   }
   function askComprehension(st){
-    const box=document.getElementById('bookFeedback');storyContext.storyId=st.id;box.innerHTML=`<div class="feedback-box coach comp-box"><strong>${st.comprehension.prompt}</strong><div class="activity-actions">${st.comprehension.options.map(o=>`<button class="btn btn-secondary comp-opt" data-a="${EmiliaScreens.esc(o)}">${EmiliaScreens.esc(o)}</button>`).join('')}</div></div>`;
-    document.querySelectorAll('.comp-opt').forEach(b=>b.onclick=()=>{if(b.dataset.a===st.comprehension.answer){EmiliaVoice.tone('ok');box.innerHTML='<div class="feedback-visual">✓</div>';EmiliaApp.rewardBurst('star');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',true,storyContext.listened,{story:st.id});EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened});const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}}else{EmiliaVoice.tone('bad');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',false,storyContext.listened,{story:st.id});toast('Mira la frase otra vez y vuelve a intentar.');}});
+    const box=document.getElementById('bookFeedback');storyContext.storyId=st.id;box.innerHTML=`<div class="feedback-box coach comp-box"><button class="listen-orb tiny" id="compListen" aria-label="Escuchar pregunta">♪</button><strong>${st.comprehension.prompt}</strong><div class="activity-actions">${st.comprehension.options.map(o=>`<button class="btn btn-secondary comp-opt" data-a="${EmiliaScreens.esc(o)}">${EmiliaScreens.esc(o)}</button>`).join('')}</div></div>`;
+    const sayPrompt=()=>EmiliaVoice.speak(st.comprehension.prompt,{kind:'instruction',repeat:false});const lb=document.getElementById('compListen');if(lb)lb.onclick=sayPrompt;sayPrompt();
+    document.querySelectorAll('.comp-opt').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.comp-opt').forEach(x=>x.disabled=true);await EmiliaVoice.speak(b.dataset.a,{kind:/^[a-záéíóúñ]$/i.test(String(b.dataset.a))?'phoneme':'word',repeat:false});if(b.dataset.a===st.comprehension.answer){EmiliaVoice.tone('ok');box.innerHTML='<div class="feedback-visual">✓</div>';EmiliaApp.rewardBurst('star');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',true,storyContext.listened,{story:st.id});EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened});const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}}else{EmiliaVoice.tone('bad');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',false,storyContext.listened,{story:st.id});EmiliaApp.toast('Escucha otra vez y vuelve a intentar.');setTimeout(()=>askComprehension(st),420);}});
   }
   function openStory(id){storyContext={listened:false,storyId:id};EmiliaScreens.book(id);}
   function exportProgress(){const blob=new Blob([EmiliaStore.exportJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='emilia_bosque_v7_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Copia exportada.');}

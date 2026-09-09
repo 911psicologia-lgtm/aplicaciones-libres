@@ -1,0 +1,68 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "chapterII": true,
+    "micro": true,
+    "rift": true,
+    "lastChance": true,
+    "bossAnim": true,
+    "chase": true,
+    "pwa": true
+  },
+  "status": {
+    "version": "2.15.0",
+    "worlds": 20,
+    "bosses": 20,
+    "chapterII": {
+      "active": true,
+      "assets": 10,
+      "backgroundPairs": 10
+    },
+    "microSwarm": {
+      "enabled": true,
+      "fromWorld": 1,
+      "count": [
+        4,
+        10
+      ],
+      "kills": 0,
+      "timer": 3.86,
+      "countsForWave": false,
+      "buzz": "very-low"
+    },
+    "riftAlly": {
+      "enabled": false,
+      "pool": [],
+      "active": null,
+      "used": false,
+      "duration": 10
+    },
+    "lastChance": {
+      "active": false,
+      "time": 0,
+      "manualLifeRescue": true,
+      "autoPurchase": false
+    },
+    "difficulty": {
+      "hpInflationLimited": true,
+      "tempo": {
+        "speed": 1,
+        "formation": 1,
+        "microCadence": 1.05
+      },
+      "balance": {
+        "enemyHp": 0.92,
+        "enemyDmg": 0.9,
+        "bossHp": 1.04,
+        "pressure": 1,
+        "maxAlive": 0.94,
+        "reward": 0.96
+      }
+    },
+    "pwa": true
+  },
+  "bossAnimated": 20
+}

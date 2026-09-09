@@ -1,0 +1,13 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.4 — AUTOAUDITORÍA
+
+[OK] Manifest JSON válido. display=fullscreen; override=['fullscreen', 'standalone', 'minimal-ui']; start_url=./index.html?v=0.7.4
+[OK] Service Worker: cache=emilia-bosque-v0.7.4-prelector; referencias=187; faltantes=0.
+[OK] Archivos JS listos para sintaxis: 10 comprobados con node --check.
+[OK] Cambios acotados: 10 archivos distintos frente a v0.7.3.
+      README.md, index.html, manifest.webmanifest, sw.js, CHANGELOG.md, js/app.js, css/screens.css, js/audio/voice.js, js/audio/audio-bank.js, js/screens/renderers.js
+[OK] Assets modificados: 0.
+[OK] assets/characters/lumi.svg intacto=True sha256=349a15b9296fbe4fe0020c2c8fc130f73c530b71cfd8d8e09ace30c21edcbce8
+[OK] assets/characters/lumi_cheer.png intacto=True sha256=7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+[OK] assets/characters/lumi_guide.png intacto=True sha256=bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+[OK] assets/characters/lumi_thinking.png intacto=True sha256=be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+[OK] assets/characters/lumi_victory.png intacto=True sha256=95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42
