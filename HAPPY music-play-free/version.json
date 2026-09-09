@@ -1,1 +1,6 @@
-{"build":"2026.09.09-r10.9-queue-podcast-resume","version":"R10.9","label":"Cola visible · Gestión manual · Continuar podcasts · 15/30s · velocidad"}
+{
+  "build": "2026.09.09-r10.10-daily-pending-spotify-video",
+  "version": "R10.10",
+  "label": "Spotify Podcasts · Pendientes 25/50/75 · Recomendados del día · Video flotante ampliable",
+  "date": "2026-09-09"
+}

@@ -12,10 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.9-queue-podcast-resume" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.10-daily-pending-spotify-video" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.9-queue-podcast-resume" />
+  <link rel="stylesheet" href="./styles.css?v=r10.10-daily-pending-spotify-video" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -119,6 +119,16 @@
             <div id="homePodcasts" class="horizontal-cards"></div>
           </section>
 
+          <section id="homePendingSection" class="home-section is-hidden">
+            <div class="section-row"><div><small>RETOMA DONDE QUEDASTE</small><h2>Pendientes de escuchar</h2></div><span class="section-hint">25 · 50 · 75%</span></div>
+            <div id="homePending" class="horizontal-cards"></div>
+          </section>
+
+          <section id="homeDailySection" class="home-section is-hidden">
+            <div class="section-row"><div><small>HÁBITOS + AFINIDAD</small><h2>Recomendados del día</h2></div><span id="homeDailyHint" class="section-hint">Según tu escucha</span></div>
+            <div id="homeDaily" class="horizontal-cards"></div>
+          </section>
+
           <section id="homeMusicVideoSection" class="home-section is-hidden">
             <div class="section-row"><div><small>DESDE YOUTUBE</small><h2>Música en video</h2></div><span class="section-hint">Según tu biblioteca</span></div>
             <div id="homeMusicVideo" class="horizontal-cards"></div>
@@ -206,7 +216,9 @@
     <div id="remoteDock" class="remote-dock is-hidden" aria-label="Fuente externa">
       <div id="remoteDockBar" class="remote-dock-bar">
         <button id="remoteDragHandle" class="remote-drag-handle" type="button" aria-label="Mover reproductor" title="Arrastra para mover"><span>⠿</span><b id="remoteLabel" class="remote-label">FUENTE EXTERNA</b></button>
+        <button id="remoteResizeBtn" class="remote-tool-btn remote-resize-btn" type="button" aria-label="Ampliar reproductor flotante" title="Ampliar video">⤢</button>
         <button id="remoteShareBtn" class="remote-tool-btn" type="button" aria-label="Compartir canción" title="Compartir">↗</button>
+        <button id="remoteCloseBtn" class="remote-tool-btn remote-close-btn" type="button" aria-label="Cerrar reproductor flotante" title="Cerrar">×</button>
       </div>
       <div id="remoteStage" class="remote-stage"></div>
     </div>
@@ -252,6 +264,6 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.9-queue-podcast-resume"></script>
+  <script src="./app.js?v=r10.10-daily-pending-spotify-video"></script>
 </body>
 </html>
