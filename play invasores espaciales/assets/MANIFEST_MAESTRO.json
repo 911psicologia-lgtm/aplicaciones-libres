@@ -1,0 +1,214 @@
+{
+ "proyecto": "Starfall Frontier",
+ "total_mundos": 20,
+ "generado": "procedural, semillas reproducibles",
+ "progresion_general": {
+  "screen_1": "Presenta esbirros base de la nueva familia, formación simple, dificultad baja-media.",
+  "screen_2": "Mezcla esbirros heredados del mundo anterior con nuevos esbirros y 1 subtipo especializado.",
+  "screen_3": "Aumenta densidad, combina formaciones, introduce 1 subjefe y preserva enemigos previos.",
+  "boss_screen": "Jefe de zona con patrones únicos; mundos 6/10/15/18/20 incluyen renacimiento o mutación."
+ },
+ "mundos": [
+  {
+   "mundo": "Mundo 01",
+   "sector": "Nebulosa Roja",
+   "jefe": "Xenomorfo Escarlata",
+   "fases": 3,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2092,
+   "manifest": "world_01/world_01_manifest.json"
+  },
+  {
+   "mundo": "Mundo 02",
+   "sector": "Anillo de Titanio",
+   "jefe": "Yautja Prime",
+   "fases": 3,
+   "renace": false,
+   "archivos": 61,
+   "peso_kb": 2163,
+   "manifest": "world_02/world_02_manifest.json"
+  },
+  {
+   "mundo": "Mundo 03",
+   "sector": "Vacío Bioluminiscente",
+   "jefe": "Nébula Sintética",
+   "fases": 3,
+   "renace": false,
+   "archivos": 61,
+   "peso_kb": 2273,
+   "manifest": "world_03/world_03_manifest.json"
+  },
+  {
+   "mundo": "Mundo 04",
+   "sector": "Cinturón Abisal",
+   "jefe": "Arachnid Matriarca",
+   "fases": 3,
+   "renace": false,
+   "archivos": 61,
+   "peso_kb": 2984,
+   "manifest": "world_04/world_04_manifest.json"
+  },
+  {
+   "mundo": "Mundo 05",
+   "sector": "Sector Leviatán",
+   "jefe": "Leviathan Omega",
+   "fases": 3,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 1966,
+   "manifest": "world_05/world_05_manifest.json"
+  },
+  {
+   "mundo": "Mundo 06",
+   "sector": "Fortaleza Carbón",
+   "jefe": "Dreadnought Rex",
+   "fases": 3,
+   "renace": true,
+   "archivos": 62,
+   "peso_kb": 2063,
+   "manifest": "world_06/world_06_manifest.json"
+  },
+  {
+   "mundo": "Mundo 07",
+   "sector": "Cementerio Orbital",
+   "jefe": "Necro Swarm",
+   "fases": 3,
+   "renace": false,
+   "archivos": 61,
+   "peso_kb": 2109,
+   "manifest": "world_07/world_07_manifest.json"
+  },
+  {
+   "mundo": "Mundo 08",
+   "sector": "Grieta Cristalina",
+   "jefe": "Prism Warden",
+   "fases": 3,
+   "renace": false,
+   "archivos": 61,
+   "peso_kb": 2030,
+   "manifest": "world_08/world_08_manifest.json"
+  },
+  {
+   "mundo": "Mundo 09",
+   "sector": "Campo Magmático",
+   "jefe": "Molten Core Tyrant",
+   "fases": 3,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2146,
+   "manifest": "world_09/world_09_manifest.json"
+  },
+  {
+   "mundo": "Mundo 10",
+   "sector": "Sombra Cuántica",
+   "jefe": "Phantom Dominion",
+   "fases": 4,
+   "renace": true,
+   "archivos": 63,
+   "peso_kb": 1987,
+   "manifest": "world_10/world_10_manifest.json"
+  },
+  {
+   "mundo": "Mundo 11",
+   "sector": "Marea Gravitatoria",
+   "jefe": "Gravity Devourer",
+   "fases": 4,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2347,
+   "manifest": "world_11/world_11_manifest.json"
+  },
+  {
+   "mundo": "Mundo 12",
+   "sector": "Cúpula de Ceniza",
+   "jefe": "Ashen Overmind",
+   "fases": 4,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2120,
+   "manifest": "world_12/world_12_manifest.json"
+  },
+  {
+   "mundo": "Mundo 13",
+   "sector": "Jardín Tóxico",
+   "jefe": "Spore Empress",
+   "fases": 4,
+   "renace": false,
+   "archivos": 63,
+   "peso_kb": 2832,
+   "manifest": "world_13/world_13_manifest.json"
+  },
+  {
+   "mundo": "Mundo 14",
+   "sector": "Ruinas del Imperio",
+   "jefe": "Ancient Sentinel King",
+   "fases": 4,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2135,
+   "manifest": "world_14/world_14_manifest.json"
+  },
+  {
+   "mundo": "Mundo 15",
+   "sector": "Talleres del Vacío",
+   "jefe": "Mecha Brood Sovereign",
+   "fases": 4,
+   "renace": true,
+   "archivos": 63,
+   "peso_kb": 2214,
+   "manifest": "world_15/world_15_manifest.json"
+  },
+  {
+   "mundo": "Mundo 16",
+   "sector": "Tormenta Iónica",
+   "jefe": "Ion Archon",
+   "fases": 4,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2276,
+   "manifest": "world_16/world_16_manifest.json"
+  },
+  {
+   "mundo": "Mundo 17",
+   "sector": "Océano de Antimateria",
+   "jefe": "Abyssal Rift Queen",
+   "fases": 4,
+   "renace": false,
+   "archivos": 63,
+   "peso_kb": 2257,
+   "manifest": "world_17/world_17_manifest.json"
+  },
+  {
+   "mundo": "Mundo 18",
+   "sector": "Pira Solar",
+   "jefe": "Phoenix Singularity",
+   "fases": 4,
+   "renace": true,
+   "archivos": 63,
+   "peso_kb": 2289,
+   "manifest": "world_18/world_18_manifest.json"
+  },
+  {
+   "mundo": "Mundo 19",
+   "sector": "Convergencia de Portales",
+   "jefe": "Multiform Nexus",
+   "fases": 4,
+   "renace": false,
+   "archivos": 62,
+   "peso_kb": 2944,
+   "manifest": "world_19/world_19_manifest.json"
+  },
+  {
+   "mundo": "Mundo 20",
+   "sector": "Frontera Final",
+   "jefe": "Starfall Overlord",
+   "fases": 4,
+   "renace": true,
+   "archivos": 63,
+   "peso_kb": 2316,
+   "manifest": "world_20/world_20_manifest.json"
+  }
+ ],
+ "peso_total_sprites_mb": 46.6
+}

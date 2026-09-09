@@ -1,0 +1,16 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.5 — VALIDACIÓN
+
+[OK] Manifest válido. start_url=./index.html?v=0.7.5 display=fullscreen
+[OK] Service Worker válido. cache=emilia-bosque-v0.7.5-prelector; referencias=187; faltantes=0
+[OK] Sintaxis JS verificada con node --check en 11 archivos.
+[OK] assets/characters/lumi.svg intacto=n/d
+[OK] assets/characters/lumi_cheer.png intacto=n/d
+[OK] assets/characters/lumi_guide.png intacto=n/d
+[OK] assets/characters/lumi_thinking.png intacto=n/d
+[OK] assets/characters/lumi_victory.png intacto=n/d
+[OK] Mejoras implementadas:
+  - Gemas/diamantes visibles en actividades de recorrido.
+  - Consignas de audio más breves y menos repetitivas.
+  - Icono de rehacer visible en trazos y acciones de repetición.
+  - Refuerzo del relieve visual en la barra superior.
+  - Ajuste adicional del TTS para PC: más pausas y menor velocidad.

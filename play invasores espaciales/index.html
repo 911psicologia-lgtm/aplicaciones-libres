@@ -1,131 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#08111c">
-  <title>Starfall Frontier v0.3.9.1</title>
-  <link rel="stylesheet" href="css/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Starfall Frontier v0.4.3</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-<div id="app">
-  <canvas id="game"></canvas>
+  <div id="app">
+    <canvas id="gameCanvas"></canvas>
 
-  <div class="hud" id="hud" aria-live="polite">
-    <div class="hud-row top">
-      <span id="hudPilot">PILOTO</span>
-      <span id="hudStage">SECTOR 1 · OLEADA 1</span>
-      <span id="hudScore">0 pts</span>
-    </div>
-    <div class="hud-row bottom">
-      <div class="life-wrap">
-        <span id="hudLives" class="lives"></span>
-        <div class="hpbar"><div id="hpFill"></div></div>
+    <div id="hud" class="overlay hidden">
+      <div class="hud-left">
+        <div class="pilot-line"><strong id="playerNameHud">Piloto</strong> · <span id="shipHud">Vanguard</span></div>
+        <div class="world-line"><span id="worldHud">Mundo 1</span> · <span id="waveHud">Oleada 1</span></div>
+        <div class="bars">
+          <div class="bar-wrap"><span>Casco</span><div class="bar"><div id="healthBar" class="fill health"></div></div></div>
+          <div class="bar-wrap"><span>Escudo</span><div class="bar"><div id="shieldBar" class="fill shield"></div></div></div>
+          <div class="bar-wrap"><span>Jefe</span><div class="bar"><div id="bossBar" class="fill boss"></div></div></div>
+        </div>
       </div>
-      <span id="hudPower">—</span>
-      <span id="hudCombo" class="combo-badge">—</span>
-      <span id="hudEvo" class="evo-badge">EVO —</span>
-      <span id="hudCheck">CP 1</span>
+      <div class="hud-right">
+        <div class="score-line"><span id="scoreHud">0</span> pts</div>
+        <div class="lives-line" id="livesHud">❤ ❤ ❤</div>
+        <div class="relic-line">Reliquias: <span id="relicHud">0</span></div>
+        <button id="pauseBtn" class="mini-btn">Pausa</button>
+      </div>
     </div>
-    <div class="hud-row tactical">
-      <span id="hudObjective">OBJ —</span>
-      <span id="hudFusion"></span>
-      <span id="hudMutator"></span>
+
+    <div id="menuScreen" class="screen visible">
+      <div class="panel hero-panel">
+        <h1>STARFALL FRONTIER</h1>
+        <p class="subtitle">Explora · Sobrevive · Evoluciona</p>
+        <div class="menu-group">
+          <label for="playerName">Usuario</label>
+          <input id="playerName" type="text" maxlength="18" placeholder="Ingresa tu nombre" />
+        </div>
+        <div class="menu-actions">
+          <button id="btnNewGame" class="primary">Jugar</button>
+          <button id="btnLoadGame">Cargar partida</button>
+          <button id="btnRanking">Ranking</button>
+          <button id="btnHangar">Hangar</button>
+        </div>
+        <p class="tiny">20 mundos · patrones únicos · audio dinámico por familia</p>
+      </div>
     </div>
+
+    <div id="hangarScreen" class="screen hidden">
+      <div class="panel">
+        <h2>Hangar</h2>
+        <div id="shipCards" class="ship-grid"></div>
+        <div class="panel-actions">
+          <button id="btnHangarBack">Volver</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="rankingScreen" class="screen hidden">
+      <div class="panel">
+        <h2>Ranking</h2>
+        <ol id="rankingList" class="ranking-list"></ol>
+        <div class="panel-actions">
+          <button id="btnRankingBack">Volver</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="pauseScreen" class="screen hidden">
+      <div class="panel small">
+        <h2>Juego en pausa</h2>
+        <div class="panel-actions">
+          <button id="btnResume">Continuar</button>
+          <button id="btnPauseSave">Guardar y salir</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameOverScreen" class="screen hidden">
+      <div class="panel small">
+        <h2 id="gameOverTitle">Game Over</h2>
+        <p id="gameOverText">Has caído en combate.</p>
+        <div class="panel-actions">
+          <button id="btnRetryCheckpoint" class="primary">Reintentar checkpoint</button>
+          <button id="btnBackMenu">Volver al menú</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toastLayer" class="overlay"></div>
   </div>
 
-  <div class="center-msg" id="centerMsg"></div>
-  <div class="controls-tag" id="controlsTag">ARRASTRA / ← → · AUTO-FUEGO · P PAUSA</div>
-  <button class="pause-btn" id="pauseBtn">PAUSA</button>
-
-  <section class="screen active simple-home" id="splash">
-    <div class="start-card">
-      <div class="compact-brand">
-        <div class="compact-kicker">DEEP SPACE DEFENSE</div>
-        <div class="compact-title">STARFALL <strong>FRONTIER</strong></div>
-        <div class="compact-version">v0.3.9.1</div>
-      </div>
-
-      <label class="pilot-label" for="splashPilot">Piloto</label>
-      <input id="splashPilot" class="pilot-input" maxlength="18" placeholder="Ingresa tu usuario" autocomplete="name">
-
-      <div class="primary-actions">
-        <button id="newGameBtn" class="primary-action">JUGAR</button>
-        <button id="continueBtn">CARGAR PARTIDA</button>
-        <button id="rankingBtn">RANKING</button>
-      </div>
-
-      <div class="menu-line" id="menuSaveHint">Sin partida guardada</div>
-      <button id="hangarBtn" class="quiet-action">NAVE · <span id="menuShipLabel">VANGUARD</span></button>
-      <div class="menu-status" id="assetStatus">Cargando...</div>
-    </div>
-  </section>
-
-
-  <section class="screen" id="hangar">
-    <div class="panel wide">
-      <div class="section-title">Hangar de combate</div>
-      <p class="small">Tres naves iniciales. El chasis cambia velocidad, cadencia, vida base y daño.</p>
-      <div class="ship-grid" id="shipGrid"></div>
-      <div class="row"><button data-back="splash">Volver</button></div>
-    </div>
-  </section>
-
-  <section class="screen" id="ranking">
-    <div class="panel">
-      <div class="section-title">Ranking local</div>
-      <div class="list" id="rankingList"></div>
-      <div class="row">
-        <button data-back="splash">Volver</button>
-        <button id="clearRankingBtn">Limpiar</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="screen" id="load">
-    <div class="panel">
-      <div class="section-title">Partida guardada</div>
-      <div class="list" id="loadInfo"></div>
-      <div class="row">
-        <button id="resumeSaveBtn">Continuar</button>
-        <button id="deleteSaveBtn">Borrar guardado</button>
-        <button data-back="splash">Volver</button>
-      </div>
-    </div>
-  </section>
-
-
-  <div class="gameover-overlay" id="gameOverOverlay">
-    <div class="gameover-box">
-      <div class="gameover-kicker">MISIÓN INTERRUMPIDA</div>
-      <h2>GAME OVER</h2>
-      <div class="gameover-stats" id="gameOverStats"></div>
-      <p class="small">El checkpoint conserva el inicio de la oleada actual. Al reintentar recuperas el paquete inicial de vidas y vuelves a ese punto.</p>
-      <div class="row">
-        <button id="restartCheckpointBtn">Reiniciar checkpoint</button>
-        <button id="gameOverExitBtn">Salir al menú</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="pause-overlay" id="pauseOverlay">
-    <div class="pause-box">
-      <h2>Pausa</h2>
-      <div class="pause-stats" id="pauseStats"></div>
-      <div class="row">
-        <button id="resumeBtn">Continuar</button>
-        <button id="exitBtn">Salir al menú</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="js/config.js"></script>
-<script src="js/assets.js"></script>
-<script src="js/storage.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/game.js"></script>
-<script src="js/main.js"></script>
+  <script src="js/worlds.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
 </body>
 </html>

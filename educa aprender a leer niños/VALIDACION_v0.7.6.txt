@@ -1,0 +1,9 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.7.6 — VALIDACIÓN
+
+[OK] Manifest válido. start_url=./index.html?v=0.7.6 display=fullscreen
+[OK] Service Worker válido. cache=emilia-bosque-v0.7.6-prelector; referencias=188; faltantes=0
+[OK] Sintaxis JS verificada con node --check.
+[OK] Banco de audio configurable por manifest.
+[OK] Panel adulto con pruebas y diagnóstico de audio.
+[OK] Animaciones suaves de Lumi activas por CSS.
+[OK] Paquete Z.AI de sonidos incluido.

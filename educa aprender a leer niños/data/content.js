@@ -9,7 +9,7 @@
   const SC=A+'scenes/';
   const skill=(id,label,group,order,prereqs=[])=>({id,label,group,order,prereqs});
   window.EMILIA_CONTENT={
-    version:7.3,
+    version:8.1,
     title:'Emilia · El Bosque de las Palabras',
     mascot:{
       name:'Lumi',
@@ -34,6 +34,7 @@
       adult:X+'icono_adulto.webp',
       forest:X+'icono_bosque.webp',
       microphone:X+'icono_microfono.webp',
+      gem:O+'gema.webp',
       seed:O+'semilla.webp',
       sprout:O+'brote.webp',
       firefly:O+'luciernaga.webp',
@@ -94,7 +95,7 @@
       skill('n_symbol','Reconoce N','Letras',24,[{skill:'hear_n',score:40}]),
       skill('n_family','Familia N','Sílabas',25,[{skill:'n_symbol',score:40}]),
       skill('blend_n','Combina con N','Combinar',26,[{skill:'n_family',score:45},{skill:'m_family',score:40}]),
-      skill('word_nido','Lee nido','Palabras',27,[{skill:'blend_n',score:45}]),
+      skill('word_mano','Lee palabras con N','Palabras',27,[{skill:'blend_n',score:45}]),
       skill('hear_t','Sonido inicial T','Escucha',28,[{skill:'n_family',score:45}]),
       skill('t_symbol','Reconoce T','Letras',29,[{skill:'hear_t',score:40}]),
       skill('t_family','Familia T','Sílabas',30,[{skill:'t_symbol',score:40}]),
@@ -105,6 +106,7 @@
       skill('d_family','Familia D','Sílabas',35,[{skill:'d_symbol',score:40}]),
       skill('blend_d','Combina con D','Combinar',36,[{skill:'d_family',score:45},{skill:'n_family',score:40}]),
       skill('word_dado','Lee palabras con D','Palabras',37,[{skill:'blend_d',score:45}]),
+      skill('word_nido','Lee nido','Palabras',37.5,[{skill:'blend_d',score:35},{skill:'n_family',score:45}]),
       skill('sentence_mp','Lee frase M/P','Lectura',38,[{skill:'word_mama',score:45},{skill:'word_papa',score:45}]),
       skill('sentence_l','Lee frase L','Lectura',39,[{skill:'word_lupa',score:45},{skill:'s_family',score:40}]),
       skill('sentence_ntd','Lee frases ampliadas','Lectura',40,[{skill:'word_nido',score:40},{skill:'word_taza',score:40},{skill:'word_dado',score:40}]),
@@ -171,7 +173,7 @@
       {id:'forest_n',chapter:1,letter:'N',name:'Nido de N',short:'N',x:27,y:30,art:W+'fondo_nido_n.webp',letterArt:L+'letra_n.webp',stone:O+'piedra_n.webp'},
       {id:'forest_t',chapter:1,letter:'T',name:'Torre de T',short:'T',x:70,y:20,art:W+'fondo_torre_t.webp',letterArt:L+'letra_t.webp',stone:O+'piedra_t.webp'},
       {id:'forest_d',chapter:1,letter:'D',name:'Domo de D',short:'D',x:48,y:10,art:W+'fondo_duna_d.webp',letterArt:L+'letra_d.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_mix',chapter:1,letter:'★',name:'Jardín de Palabras',short:'Palabras',x:80,y:8,art:W+'fondo_mi_libro.webp'},
+      {id:'forest_mix',chapter:1,letter:'★',name:'Jardín de Palabras',short:'Palabras',x:80,y:8,art:W+'fondo_gran_jardin_lector.webp'},
       {id:'forest_r',chapter:2,letter:'R',name:'Río de la R',short:'R',x:23,y:77,art:W+'fondo_sendero_r.webp',stone:O+'piedra_d.webp'},
       {id:'forest_c',chapter:2,letter:'C',name:'Casa de CA·CO·CU',short:'C',x:72,y:64,art:W+'fondo_sendero_c.webp',stone:O+'piedra_d.webp'},
       {id:'forest_b',chapter:2,letter:'B',name:'Bosquecito de B',short:'B',x:28,y:50,art:W+'fondo_sendero_b.webp',stone:O+'piedra_d.webp'},
@@ -203,15 +205,16 @@
         skillIds:['hear_m','m_symbol','m_family','blend_m','word_mama'],
         activities:[
           {id:'m_hunt',type:'picturePick',skill:'hear_m',prompt:'Busca una palabra que empiece con M',voicePrompt:'Busca una palabra que empiece con M.',targetLetter:'M',options:[{value:'mamá',src:C+'mama.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'lupa',src:O+'lupa.webp'}],answer:'mamá',coach:'MAMÁ empieza con M.'},
-          {id:'m_symbol',type:'symbolPick',skill:'m_symbol',prompt:'Escucha MAMÁ. ¿Con qué letra empieza?',voicePrompt:'Escucha: mamá. ¿Con qué letra empieza?',say:'mamá',audioKind:'word',options:['m','p','s'],answer:'m',coach:'MAMÁ empieza con M.'},
+          {id:'m_symbol',type:'symbolPick',skill:'m_symbol',prompt:'Escucha MAMÁ. ¿Con qué letra empieza?',voicePrompt:'Escucha mamá. Toca la primera letra.',say:'mamá',audioKind:'word',options:['m','p','s'],answer:'m',coach:'MAMÁ empieza con M.'},
           {id:'m_trace',type:'trace',assess:false,skill:'m_symbol',letter:'m',prompt:'Dibuja el camino de la M',say:'Esta es la M, como en mamá.',audioKind:'instruction'},
-          {id:'m_trail',type:'syllableTrail',assess:false,skill:'m_family',prompt:'Haz sonar las piedras de M',items:['ma','me','mi','mo','mu']},
+          {id:'m_trail',type:'syllableTrail',assess:false,skill:'m_family',prompt:'Haz sonar las gemas de M',items:['ma','me','mi','mo','mu']},
           {id:'m_family',type:'symbolPick',skill:'m_family',prompt:'Escucha y toca la sílaba',say:'mi',options:['ma','mi','mo','mu'],answer:'mi',coach:'Escucha MI completa. Empieza con M y termina con I.'},
           {id:'m_build',type:'build',skill:'blend_m',prompt:'Construye la palabra',say:'mamá',parts:['ma','má'],answerParts:['ma','má'],word:'mamá',coach:'Primero MA. Después MÁ: ma-má.'},
           {id:'m_read',type:'wordReveal',assess:false,skill:'word_mama',prompt:'Ahora intenta leerla tú',word:'mamá',parts:['ma','má'],say:'mamá'},
           {id:'m_mimo',type:'build',variant:true,skill:'blend_m',prompt:'Arma MIMO',say:'mimo',parts:['mi','mo'],answerParts:['mi','mo'],word:'mimo',coach:'MI y después MO.'},
           {id:'m_mima',type:'build',variant:true,skill:'blend_m',prompt:'Arma MIMA',say:'mima',parts:['mi','ma'],answerParts:['mi','ma'],word:'mima',coach:'MI y después MA.'},
-          {id:'m_word',type:'symbolPick',skill:'word_mama',prompt:'¿Dónde dice MAMÁ?',say:'mamá',options:['mamá','mimo','mima'],answer:'mamá',coach:'Mira cómo empieza: MA.'}
+          {id:'m_word',type:'symbolPick',skill:'word_mama',prompt:'¿Dónde dice MAMÁ?',say:'mamá',options:['mamá','mimo','mima'],answer:'mamá',coach:'Mira cómo empieza: MA.'},
+          {id:'m_gap_letter',type:'gapFill',variant:true,mode:'letter',skill:'word_mama',prompt:'Completa MAMÁ',voicePrompt:'Mira mamá. Falta una letra. Toca la M.',display:['m','a','__','á'],options:['m','p','s'],answer:'m',coach:'MAMÁ tiene dos M.'}
         ]
       },
       {
@@ -219,16 +222,17 @@
         skillIds:['hear_p','p_symbol','p_family','blend_p','word_papa'],
         activities:[
           {id:'p_hunt',type:'picturePick',skill:'hear_p',prompt:'Busca una palabra que empiece con P',voicePrompt:'Busca una palabra que empiece con P.',targetLetter:'P',options:[{value:'papá',src:C+'papa.webp'},{value:'cama',src:O+'cama.webp'},{value:'sapo',src:AN+'sapo.webp'}],answer:'papá',coach:'PAPÁ empieza con P.'},
-          {id:'p_symbol',type:'symbolPick',skill:'p_symbol',prompt:'Escucha PAPÁ. ¿Con qué letra empieza?',voicePrompt:'Escucha: papá. ¿Con qué letra empieza?',say:'papá',audioKind:'word',options:['m','p','l'],answer:'p',coach:'PAPÁ empieza con P.'},
+          {id:'p_symbol',type:'symbolPick',skill:'p_symbol',prompt:'Escucha PAPÁ. ¿Con qué letra empieza?',voicePrompt:'Escucha papá. Toca la primera letra.',say:'papá',audioKind:'word',options:['m','p','l'],answer:'p',coach:'PAPÁ empieza con P.'},
           {id:'p_trace',type:'trace',assess:false,skill:'p_symbol',letter:'p',prompt:'Sigue el camino de la P',say:'Esta es la P, como en papá.',audioKind:'instruction'},
-          {id:'p_trail',type:'syllableTrail',assess:false,skill:'p_family',prompt:'Haz sonar el puente de P',items:['pa','pe','pi','po','pu']},
+          {id:'p_trail',type:'syllableTrail',assess:false,skill:'p_family',prompt:'Haz sonar las gemas de P',items:['pa','pe','pi','po','pu']},
           {id:'p_family',type:'symbolPick',skill:'p_family',prompt:'¿Qué sílaba escuchas?',say:'pu',options:['pa','pi','pu','po'],answer:'pu',coach:'Escucha PU completa. Empieza como PUMA y termina con U.'},
           {id:'p_build',type:'build',skill:'blend_p',prompt:'Construye PAPÁ',say:'papá',parts:['pa','pá'],answerParts:['pa','pá'],word:'papá',coach:'Primero PA. Después PÁ.'},
           {id:'p_mix',type:'build',skill:'blend_p',prompt:'M y P pueden trabajar juntas',say:'puma',parts:['pu','ma'],answerParts:['pu','ma'],word:'puma',coach:'Primero PU. Después MA.'},
           {id:'p_read',type:'wordReveal',assess:false,skill:'word_papa',prompt:'Intenta leer esta palabra',word:'papá',parts:['pa','pá'],say:'papá'},
           {id:'p_pipa',type:'build',variant:true,skill:'blend_p',prompt:'Arma PIPA',say:'pipa',parts:['pi','pa'],answerParts:['pi','pa'],word:'pipa',coach:'PI y después PA.'},
           {id:'p_mapa',type:'build',variant:true,skill:'blend_p',prompt:'Arma MAPA',say:'mapa',parts:['ma','pa'],answerParts:['ma','pa'],word:'mapa',coach:'MA y después PA.'},
-          {id:'p_word',type:'symbolPick',skill:'word_papa',prompt:'¿Dónde dice PAPÁ?',say:'papá',options:['papá','puma','pipa'],answer:'papá',coach:'Busca PA al principio.'}
+          {id:'p_word',type:'symbolPick',skill:'word_papa',prompt:'¿Dónde dice PAPÁ?',say:'papá',options:['papá','puma','pipa'],answer:'papá',coach:'Busca PA al principio.'},
+          {id:'p_gap_word',type:'gapFill',variant:true,mode:'word',skill:'sentence_mp',prompt:'Completa la frase',voicePrompt:'Escucha: Mamá ama a papá. Elige la palabra que falta.',say:'Mamá ama a papá.',display:['mamá','ama','a','__'],options:['papá','mamá','puma'],answer:'papá',coach:'La frase dice: Mamá ama a papá.'}
         ]
       },
       {
@@ -236,9 +240,9 @@
         skillIds:['hear_s','s_symbol','s_family','blend_s','word_sapo'],
         activities:[
           {id:'s_hunt',type:'picturePick',skill:'hear_s',prompt:'Busca una palabra que empiece con S',voicePrompt:'Busca una palabra que empiece con S.',targetLetter:'S',options:[{value:'sapo',src:AN+'sapo.webp'},{value:'papá',src:C+'papa.webp'},{value:'lupa',src:O+'lupa.webp'}],answer:'sapo',coach:'SAPO empieza con S.'},
-          {id:'s_symbol',type:'symbolPick',skill:'s_symbol',prompt:'Escucha SAPO. ¿Con qué letra empieza?',voicePrompt:'Escucha: sapo. ¿Con qué letra empieza?',say:'sapo',audioKind:'word',options:['s','m','p'],answer:'s',coach:'SAPO empieza con S.'},
+          {id:'s_symbol',type:'symbolPick',skill:'s_symbol',prompt:'Escucha SAPO. ¿Con qué letra empieza?',voicePrompt:'Escucha sapo. Toca la primera letra.',say:'sapo',audioKind:'word',options:['s','m','p'],answer:'s',coach:'SAPO empieza con S.'},
           {id:'s_trace',type:'trace',assess:false,skill:'s_symbol',letter:'s',prompt:'Recorre la curva de la S',say:'Esta es la S, como en sapo.',audioKind:'instruction'},
-          {id:'s_trail',type:'syllableTrail',assess:false,skill:'s_family',prompt:'Haz sonar las hojas de S',items:['sa','se','si','so','su']},
+          {id:'s_trail',type:'syllableTrail',assess:false,skill:'s_family',prompt:'Haz sonar las gemas de S',items:['sa','se','si','so','su']},
           {id:'s_family',type:'symbolPick',skill:'s_family',prompt:'¿Cuál escuchas?',say:'so',options:['sa','so','su','si'],answer:'so',coach:'Escucha SO completa. Es el comienzo de SOPA.'},
           {id:'s_build',type:'build',skill:'blend_s',prompt:'Construye SAPO',say:'sapo',parts:['sa','po'],answerParts:['sa','po'],word:'sapo',coach:'Primero SA. Después PO.'},
           {id:'s_build2',type:'build',skill:'blend_s',prompt:'Ahora construye SOPA',say:'sopa',parts:['so','pa'],answerParts:['so','pa'],word:'sopa',coach:'SO y después PA.'},
@@ -246,7 +250,8 @@
           {id:'s_suma',type:'build',variant:true,skill:'blend_s',prompt:'Arma SUMA',say:'suma',parts:['su','ma'],answerParts:['su','ma'],word:'suma',coach:'SU y después MA.'},
           {id:'s_masa',type:'build',variant:true,skill:'blend_s',prompt:'Arma MASA',say:'masa',parts:['ma','sa'],answerParts:['ma','sa'],word:'masa',coach:'MA y después SA.'},
           {id:'s_missing',type:'missingPart',variant:true,skill:'blend_s',prompt:'Completa la palabra',say:'sopa',word:'sopa',display:['so','__'],options:['pa','ma','la'],answer:'pa',coach:'Escucha SO-PA.'},
-          {id:'s_word',type:'symbolPick',skill:'word_sapo',prompt:'¿Dónde dice SAPO?',say:'sapo',options:['sapo','sopa','suma'],answer:'sapo',coach:'Busca SA y después PO.'}
+          {id:'s_word',type:'symbolPick',skill:'word_sapo',prompt:'¿Dónde dice SAPO?',say:'sapo',options:['sapo','sopa','suma'],answer:'sapo',coach:'Busca SA y después PO.'},
+          {id:'s_gap_word',type:'gapFill',variant:true,mode:'word',skill:'blend_s',prompt:'Completa la frase',voicePrompt:'Escucha: Mamá amasa masa. Elige la palabra que falta.',say:'Mamá amasa masa.',display:['mamá','amasa','__'],options:['masa','sopa','sapo'],answer:'masa',coach:'La frase dice: Mamá amasa masa.'}
         ]
       },
       {
@@ -254,9 +259,9 @@
         skillIds:['hear_l','l_symbol','l_family','blend_l','word_lupa'],
         activities:[
           {id:'l_hunt',type:'picturePick',skill:'hear_l',prompt:'Busca una palabra que empiece con L',voicePrompt:'Busca una palabra que empiece con L.',targetLetter:'L',options:[{value:'lupa',src:O+'lupa.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'cama',src:O+'cama.webp'}],answer:'lupa',coach:'LUPA empieza con L.'},
-          {id:'l_symbol',type:'symbolPick',skill:'l_symbol',prompt:'Escucha LUPA. ¿Con qué letra empieza?',voicePrompt:'Escucha: lupa. ¿Con qué letra empieza?',say:'lupa',audioKind:'word',options:['l','p','m'],answer:'l',coach:'LUPA empieza con L.'},
+          {id:'l_symbol',type:'symbolPick',skill:'l_symbol',prompt:'Escucha LUPA. ¿Con qué letra empieza?',voicePrompt:'Escucha lupa. Toca la primera letra.',say:'lupa',audioKind:'word',options:['l','p','m'],answer:'l',coach:'LUPA empieza con L.'},
           {id:'l_trace',type:'trace',assess:false,skill:'l_symbol',letter:'l',prompt:'Traza el camino de la L',say:'Esta es la L, como en lupa.',audioKind:'instruction'},
-          {id:'l_trail',type:'syllableTrail',assess:false,skill:'l_family',prompt:'Enciende las ventanas de L',items:['la','le','li','lo','lu']},
+          {id:'l_trail',type:'syllableTrail',assess:false,skill:'l_family',prompt:'Haz sonar las gemas de L',items:['la','le','li','lo','lu']},
           {id:'l_family',type:'symbolPick',skill:'l_family',prompt:'¿Cuál escuchas?',say:'lu',options:['lo','lu','la','li'],answer:'lu',coach:'Escucha LU completa. Es el comienzo de LUPA.'},
           {id:'l_build',type:'build',skill:'blend_l',prompt:'Construye LUPA',say:'lupa',parts:['lu','pa'],answerParts:['lu','pa'],word:'lupa',coach:'LU y después PA.'},
           {id:'l_build2',type:'build',skill:'blend_l',prompt:'Construye LOLA',say:'Lola',parts:['lo','la'],answerParts:['lo','la'],word:'Lola',coach:'LO y después LA.'},
@@ -265,27 +270,28 @@
           {id:'l_lima',type:'build',variant:true,skill:'blend_l',prompt:'Arma LIMA',say:'lima',parts:['li','ma'],answerParts:['li','ma'],word:'lima',coach:'LI y después MA.'},
           {id:'l_pala',type:'build',variant:true,skill:'blend_l',prompt:'Arma PALA',say:'pala',parts:['pa','la'],answerParts:['pa','la'],word:'pala',coach:'PA y después LA.'},
           {id:'l_bubbles',type:'soundBubbles',variant:true,skill:'l_family',prompt:'Atrapa la sílaba que escuchas',say:'lo',options:['la','lo','lu','li'],answer:'lo',coach:'Escucha LO.'},
-          {id:'l_word',type:'symbolPick',skill:'word_lupa',prompt:'¿Dónde dice LUPA?',say:'lupa',options:['lupa','Lola','loma'],answer:'lupa',coach:'Busca LU y después PA.'}
+          {id:'l_word',type:'symbolPick',skill:'word_lupa',prompt:'¿Dónde dice LUPA?',say:'lupa',options:['lupa','Lola','loma'],answer:'lupa',coach:'Busca LU y después PA.'},
+          {id:'l_gap_word',type:'gapFill',variant:true,mode:'word',skill:'sentence_l',prompt:'Completa la frase',voicePrompt:'Escucha: Lola usa la lupa. Elige la palabra que falta.',say:'Lola usa la lupa.',display:['lola','usa','la','__'],options:['lupa','sopa','pala'],answer:'lupa',coach:'La frase dice: Lola usa la lupa.'}
         ]
       }
       ,{
-        id:'forest_n',order:6,world:'Bosque de los Ecos',title:'El nido de la N',subtitle:'Descubre NA·NE·NI·NO·NU y combina lo conocido para leer NIDO, MANO y MONO.',letter:'N',masteryTarget:60,requires:[{mission:'forest_l'},{skill:'l_family',score:48}],
-        skillIds:['hear_n','n_symbol','n_family','blend_n','word_nido'],
+        id:'forest_n',order:6,world:'Bosque de los Ecos',title:'El nido de la N',subtitle:'Descubre NA·NE·NI·NO·NU y combina lo conocido para leer MANO, MONO, LUNA y NANA.',letter:'N',masteryTarget:60,requires:[{mission:'forest_l'},{skill:'l_family',score:48}],
+        skillIds:['hear_n','n_symbol','n_family','blend_n','word_mano'],
         activities:[
           {id:'n_hunt',type:'picturePick',skill:'hear_n',prompt:'Busca una palabra que empiece con N',voicePrompt:'Busca una palabra que empiece con N.',targetLetter:'N',options:[{value:'nido',src:O+'nido.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'lupa',src:O+'lupa.webp'}],answer:'nido',coach:'NIDO empieza con N.'},
-          {id:'n_hear',type:'symbolPick',skill:'hear_n',prompt:'Escucha NIDO. ¿Con qué letra empieza?',voicePrompt:'Escucha: nido. ¿Con qué letra empieza?',say:'nido',audioKind:'word',options:['n','m','l'],answer:'n',coach:'NIDO empieza con N.'},
+          {id:'n_hear',type:'symbolPick',skill:'hear_n',prompt:'Escucha NIDO. ¿Con qué letra empieza?',voicePrompt:'Escucha nido. Toca la primera letra.',say:'nido',audioKind:'word',options:['n','m','l'],answer:'n',coach:'NIDO empieza con N.'},
           {id:'n_symbol',type:'symbolPick',skill:'n_symbol',prompt:'Busca la N',voicePrompt:'Busca la N.',say:'nido',audioKind:'word',options:['n','m','l'],answer:'n',coach:'Esta es la N.'},
           {id:'n_trace',type:'trace',assess:false,skill:'n_symbol',letter:'n',prompt:'Sigue la N con tu dedo',say:'Esta es la N, como en nido.',audioKind:'instruction'},
-          {id:'n_trail',type:'syllableTrail',assess:false,skill:'n_family',prompt:'Haz sonar las piedras de N',items:['na','ne','ni','no','nu']},
+          {id:'n_trail',type:'syllableTrail',assess:false,skill:'n_family',prompt:'Haz sonar las gemas de N',items:['na','ne','ni','no','nu']},
           {id:'n_family',type:'soundBubbles',skill:'n_family',prompt:'Atrapa la sílaba',say:'ni',options:['na','ni','no','nu'],answer:'ni',coach:'Escucha NI.'},
-          {id:'n_build',type:'build',skill:'blend_n',prompt:'Arma NIDO',say:'nido',parts:['ni','do'],answerParts:['ni','do'],word:'nido',coach:'NI y después DO.'},
-          {id:'n_mano',type:'build',variant:true,skill:'blend_n',prompt:'Arma MANO',say:'mano',parts:['ma','no'],answerParts:['ma','no'],word:'mano',coach:'MA y después NO.'},
+          {id:'n_build',type:'build',skill:'blend_n',prompt:'Arma MANO',say:'mano',parts:['ma','no'],answerParts:['ma','no'],word:'mano',coach:'MA y después NO.'},
+          {id:'n_nana',type:'build',variant:true,skill:'blend_n',prompt:'Arma NANA',say:'nana',parts:['na','na'],answerParts:['na','na'],word:'nana',coach:'NA y después NA.'},
           {id:'n_mono',type:'build',variant:true,skill:'blend_n',prompt:'Arma MONO',say:'mono',parts:['mo','no'],answerParts:['mo','no'],word:'mono',coach:'MO y después NO.'},
           {id:'n_luna',type:'build',variant:true,skill:'blend_n',prompt:'Arma LUNA',say:'luna',parts:['lu','na'],answerParts:['lu','na'],word:'luna',coach:'LU y después NA.'},
           {id:'n_pino',type:'build',variant:true,skill:'blend_n',prompt:'Arma PINO',say:'pino',parts:['pi','no'],answerParts:['pi','no'],word:'pino',coach:'PI y después NO.'},
           {id:'n_paloma',type:'build',variant:true,skill:'blend_n',prompt:'Arma PALOMA',say:'paloma',parts:['pa','lo','ma'],answerParts:['pa','lo','ma'],word:'paloma',coach:'PA, LO y MA.'},
-          {id:'n_missing',type:'missingPart',variant:true,skill:'word_nido',prompt:'Completa NIDO',say:'nido',word:'nido',display:['ni','__'],options:['do','no','to'],answer:'do',coach:'Escucha NI-DO.'},
-          {id:'n_word',type:'symbolPick',skill:'word_nido',prompt:'¿Dónde dice NIDO?',say:'nido',options:['nido','nene','mono'],answer:'nido',coach:'Busca NI y después DO.'}
+          {id:'n_gap_letter',type:'gapFill',variant:true,mode:'letter',skill:'word_mano',prompt:'Completa MANO',voicePrompt:'Mira mano. Falta una letra. Toca la N.',display:['m','a','__','o'],options:['n','m','l'],answer:'n',coach:'MANO lleva N antes de O.'},
+          {id:'n_word',type:'symbolPick',skill:'word_mano',prompt:'¿Dónde dice MANO?',say:'mano',options:['mano','mono','mapa'],answer:'mano',coach:'Busca MA y después NO.'}
         ]
       },
       {
@@ -293,10 +299,10 @@
         skillIds:['hear_t','t_symbol','t_family','blend_t','word_taza'],
         activities:[
           {id:'t_hunt',type:'picturePick',skill:'hear_t',prompt:'Busca una palabra que empiece con T',voicePrompt:'Busca una palabra que empiece con T.',targetLetter:'T',options:[{value:'taza',src:O+'taza.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'papá',src:C+'papa.webp'}],answer:'taza',coach:'TAZA empieza con T.'},
-          {id:'t_hear',type:'symbolPick',skill:'hear_t',prompt:'Escucha TINA. ¿Con qué letra empieza?',voicePrompt:'Escucha: tina. ¿Con qué letra empieza?',say:'tina',audioKind:'word',options:['t','n','p'],answer:'t',coach:'TINA empieza con T.'},
+          {id:'t_hear',type:'symbolPick',skill:'hear_t',prompt:'Escucha TINA. ¿Con qué letra empieza?',voicePrompt:'Escucha tina. Toca la primera letra.',say:'tina',audioKind:'word',options:['t','n','p'],answer:'t',coach:'TINA empieza con T.'},
           {id:'t_symbol',type:'symbolPick',skill:'t_symbol',prompt:'Busca la T',voicePrompt:'Busca la T.',say:'tina',audioKind:'word',options:['t','n','p'],answer:'t',coach:'Esta es la T.'},
           {id:'t_trace',type:'trace',assess:false,skill:'t_symbol',letter:'t',prompt:'Sigue la T con tu dedo',say:'Esta es la T, como en tina.',audioKind:'instruction'},
-          {id:'t_trail',type:'syllableTrail',assess:false,skill:'t_family',prompt:'Haz sonar las piedras de T',items:['ta','te','ti','to','tu']},
+          {id:'t_trail',type:'syllableTrail',assess:false,skill:'t_family',prompt:'Haz sonar las gemas de T',items:['ta','te','ti','to','tu']},
           {id:'t_family',type:'soundBubbles',skill:'t_family',prompt:'Atrapa la sílaba',say:'to',options:['ta','ti','to','tu'],answer:'to',coach:'Escucha TO.'},
           {id:'t_tina',type:'build',skill:'blend_t',prompt:'Arma TINA',say:'tina',parts:['ti','na'],answerParts:['ti','na'],word:'tina',coach:'TI y después NA.'},
           {id:'t_toma',type:'build',variant:true,skill:'blend_t',prompt:'Arma TOMA',say:'toma',parts:['to','ma'],answerParts:['to','ma'],word:'toma',coach:'TO y después MA.'},
@@ -307,19 +313,23 @@
           {id:'t_pelota',type:'build',variant:true,skill:'blend_t',prompt:'Arma PELOTA',say:'pelota',parts:['pe','lo','ta'],answerParts:['pe','lo','ta'],word:'pelota',coach:'PE, LO y TA.'},
           {id:'t_tomate',type:'build',variant:true,skill:'blend_t',prompt:'Arma TOMATE',say:'tomate',parts:['to','ma','te'],answerParts:['to','ma','te'],word:'tomate',coach:'TO, MA y TE.'},
           {id:'t_maleta',type:'build',variant:true,skill:'blend_t',prompt:'Arma MALETA',say:'maleta',parts:['ma','le','ta'],answerParts:['ma','le','ta'],word:'maleta',coach:'MA, LE y TA.'},
-          {id:'t_missing',type:'missingPart',variant:true,skill:'word_taza',prompt:'Completa PATO',say:'pato',word:'pato',display:['pa','__'],options:['to','do','no'],answer:'to',coach:'Escucha PA-TO.'}
+          {id:'t_missing',type:'missingPart',variant:true,skill:'word_taza',prompt:'Completa PATO',say:'pato',word:'pato',display:['pa','__'],options:['to','do','no'],answer:'to',coach:'Escucha PA-TO.'},
+          {id:'t_gap_letter',type:'gapFill',variant:true,mode:'letter',skill:'word_taza',prompt:'Completa PATO',voicePrompt:'Mira pato. Falta una letra. Toca la T.',display:['p','a','__','o'],options:['t','n','l'],answer:'t',coach:'PATO lleva T antes de O.'}
         ]
       },
       {
-        id:'forest_d',order:8,world:'Bosque de los Ecos',title:'El domo de la D',subtitle:'Explora DA·DE·DI·DO·DU y combina para leer DADO, DEDO, NIDO y LADO.',letter:'D',masteryTarget:60,requires:[{mission:'forest_t'},{skill:'t_family',score:48}],
+        id:'forest_d',order:8,world:'Bosque de los Ecos',title:'El domo de la D',subtitle:'Explora DA·DE·DI·DO·DU, completa letras y usa palabras con D dentro de frases cortas.',letter:'D',masteryTarget:60,minAssessed:6,maxAssessed:10,requires:[{mission:'forest_t'},{skill:'t_family',score:48}],
         skillIds:['hear_d','d_symbol','d_family','blend_d','word_dado'],
         activities:[
           {id:'d_hunt',type:'picturePick',skill:'hear_d',prompt:'Busca una palabra que empiece con D',voicePrompt:'Busca una palabra que empiece con D.',targetLetter:'D',options:[{value:'dado',src:O+'dado.webp'},{value:'nido',src:O+'nido.webp'},{value:'sapo',src:AN+'sapo.webp'}],answer:'dado',coach:'DADO empieza con D.'},
-          {id:'d_hear',type:'symbolPick',skill:'hear_d',prompt:'Escucha DADO. ¿Con qué letra empieza?',voicePrompt:'Escucha: dado. ¿Con qué letra empieza?',say:'dado',audioKind:'word',options:['d','t','n'],answer:'d',coach:'DADO empieza con D.'},
+          {id:'d_hear',type:'symbolPick',skill:'hear_d',prompt:'Escucha DADO. ¿Con qué letra empieza?',voicePrompt:'Escucha dado. Toca la primera letra.',say:'dado',audioKind:'word',options:['d','t','n'],answer:'d',coach:'DADO empieza con D.'},
           {id:'d_symbol',type:'symbolPick',skill:'d_symbol',prompt:'Busca la D',voicePrompt:'Busca la D.',say:'dado',audioKind:'word',options:['d','t','n'],answer:'d',coach:'Esta es la D.'},
           {id:'d_trace',type:'trace',assess:false,skill:'d_symbol',letter:'d',prompt:'Sigue la D con tu dedo',say:'Esta es la D, como en dado.',audioKind:'instruction'},
-          {id:'d_trail',type:'syllableTrail',assess:false,skill:'d_family',prompt:'Haz sonar las piedras de D',items:['da','de','di','do','du']},
+          {id:'d_trail',type:'syllableTrail',assess:false,skill:'d_family',prompt:'Haz sonar las gemas de D',items:['da','de','di','do','du']},
           {id:'d_family',type:'soundBubbles',skill:'d_family',prompt:'Atrapa la sílaba',say:'de',options:['da','de','di','do'],answer:'de',coach:'Escucha DE.'},
+          {id:'d_gap_letter',type:'gapFill',mode:'letter',skill:'d_symbol',prompt:'Completa DADO',voicePrompt:'Falta la primera letra de dado. Toca la D.',display:['__','a','d','o'],options:['d','t','n'],answer:'d',coach:'DADO empieza con D.'},
+          {id:'d_nido',type:'build',skill:'word_nido',prompt:'Ahora sí: arma NIDO',say:'nido',parts:['ni','do'],answerParts:['ni','do'],word:'nido',coach:'Ya conoces NI y ahora conoces DO: NI-DO.'},
+          {id:'d_gap_word',type:'gapFill',mode:'word',variant:true,skill:'word_dado',prompt:'Completa la frase',voicePrompt:'Escucha: Tito toma el dado. Elige la palabra que falta.',say:'Tito toma el dado.',display:['tito','toma','el','__'],options:['dado','nido','pato'],answer:'dado',coach:'La frase dice: Tito toma el dado.'},
           {id:'d_dado',type:'build',skill:'blend_d',prompt:'Arma DADO',say:'dado',parts:['da','do'],answerParts:['da','do'],word:'dado',coach:'DA y después DO.'},
           {id:'d_dedo',type:'build',variant:true,skill:'blend_d',prompt:'Arma DEDO',say:'dedo',parts:['de','do'],answerParts:['de','do'],word:'dedo',coach:'DE y después DO.'},
           {id:'d_lado',type:'build',variant:true,skill:'blend_d',prompt:'Arma LADO',say:'lado',parts:['la','do'],answerParts:['la','do'],word:'lado',coach:'LA y después DO.'},
@@ -331,17 +341,20 @@
           {id:'d_word',type:'symbolPick',skill:'word_dado',prompt:'¿Dónde dice DADO?',say:'dado',options:['dado','dedo','lado'],answer:'dado',coach:'Busca DA y después DO.'}
         ]
       }      ,{
-        id:'forest_mix',order:9,world:'Jardín lector',title:'El jardín de las palabras',subtitle:'Mezcla todo lo aprendido: imágenes, palabras, sílabas y primeras frases.',letter:'★',masteryTarget:62,minAssessed:6,maxAssessed:9,requires:[{mission:'forest_d'},{skill:'d_family',score:48}],
+        id:'forest_mix',order:9,world:'Jardín lector',title:'El jardín de las palabras',subtitle:'Lee, escucha, completa espacios y mueve palabras para construir frases con todo lo aprendido.',letter:'★',masteryTarget:62,minAssessed:7,maxAssessed:11,requires:[{mission:'forest_d'},{skill:'d_family',score:48}],
         skillIds:['mixed_words','word_image_link','sentence_build','comprehension_2'],
         activities:[
-          {id:'mix_picword_puma',type:'imageWordPick',skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca la palabra puma.',word:'puma',src:AN+'puma.webp',options:['sapo','puma','lupa'],answer:'puma',coach:'Busca pu y después ma.'},
-          {id:'mix_picword_nido',type:'imageWordPick',variant:true,skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca la palabra nido.',word:'nido',src:O+'nido.webp',options:['nido','dado','pato'],answer:'nido',coach:'Busca ni y después do.'},
-          {id:'mix_picword_sopa',type:'imageWordPick',variant:true,skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca la palabra sopa.',word:'sopa',src:O+'sopa.webp',options:['sopa','sapo','pipa'],answer:'sopa',coach:'Busca so y después pa.'},
+          {id:'mix_picword_puma',type:'imageWordPick',skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca puma.',word:'puma',src:AN+'puma.webp',options:['sapo','puma','lupa'],answer:'puma',coach:'Busca pu y después ma.'},
+          {id:'mix_picword_nido',type:'imageWordPick',variant:true,skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca nido.',word:'nido',src:O+'nido.webp',options:['nido','dado','pato'],answer:'nido',coach:'Busca ni y después do.'},
+          {id:'mix_picword_sopa',type:'imageWordPick',variant:true,skill:'word_image_link',prompt:'Busca la palabra del dibujo',voicePrompt:'Mira el dibujo. Busca sopa.',word:'sopa',src:O+'sopa.webp',options:['sopa','sapo','pipa'],answer:'sopa',coach:'Busca so y después pa.'},
           {id:'mix_memory',type:'memoryMatch',skill:'mixed_words',prompt:'Encuentra las parejas',voicePrompt:'Une cada dibujo con su palabra.',pairs:[{word:'mamá',src:C+'mama.webp'},{word:'sapo',src:AN+'sapo.webp'},{word:'lupa',src:O+'lupa.webp'}],coach:'Busca el dibujo y la palabra que dicen lo mismo.'},
-          {id:'mix_clap',type:'symbolPick',skill:'mixed_words',prompt:'¿Cuántas partes escuchas?',voicePrompt:'Escucha: pelota. Da una palmada por cada parte. ¿Cuántas partes escuchas?',say:'pelota',audioKind:'word',options:['2','3','4'],answer:'3',coach:'PE · LO · TA tiene tres partes.'},
-          {id:'mix_sentence_tito',type:'sentenceBuild',skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: Tito toma sopa. Pon las palabras en orden.',say:'Tito toma sopa.',parts:['tito','toma','sopa'],answerParts:['tito','toma','sopa'],coach:'Primero Tito. Después toma. Al final sopa.'},
-          {id:'mix_sentence_mama',type:'sentenceBuild',variant:true,skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: Mamá mima a papá. Pon las palabras en orden.',say:'Mamá mima a papá.',parts:['mamá','mima','a','papá'],answerParts:['mamá','mima','a','papá'],coach:'Escucha otra vez y empieza por mamá.'},
-          {id:'mix_sentence_pato',type:'sentenceBuild',variant:true,skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: El pato nada. Pon las palabras en orden.',say:'El pato nada.',parts:['el','pato','nada'],answerParts:['el','pato','nada'],coach:'Primero el. Después pato. Al final nada.'},
+          {id:'mix_gap_mapa',type:'gapFill',mode:'letter',skill:'mixed_words',prompt:'Completa MAPA',voicePrompt:'Mira la palabra. Falta una letra. Elige la que completa mapa.',display:['m','a','__','a'],options:['p','m','s'],answer:'p',coach:'MAPA lleva P en el centro.'},
+          {id:'mix_gap_sopa',type:'gapFill',mode:'word',skill:'sentence_build',prompt:'Completa la frase',voicePrompt:'Escucha: Tito toma sopa. Elige la palabra que falta.',say:'Tito toma sopa.',display:['tito','toma','__'],options:['sopa','lupa','dado'],answer:'sopa',coach:'Tito toma sopa.'},
+          {id:'mix_gap_lupa',type:'gapFill',mode:'word',variant:true,skill:'sentence_build',prompt:'Completa la frase',voicePrompt:'Escucha: Lola usa la lupa. Elige la palabra que falta.',say:'Lola usa la lupa.',display:['lola','usa','la','__'],options:['lupa','sopa','pala'],answer:'lupa',coach:'Lola usa la lupa.'},
+          {id:'mix_clap',type:'symbolPick',skill:'mixed_words',prompt:'¿Cuántas partes escuchas?',voicePrompt:'Escucha pelota. Da una palmada por cada parte.',say:'pelota',audioKind:'word',options:['2','3','4'],answer:'3',coach:'PE · LO · TA tiene tres partes.',speakSelection:false},
+          {id:'mix_sentence_tito',type:'sentenceBuild',skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: Tito toma sopa. Ordena las palabras.',say:'Tito toma sopa.',parts:['tito','toma','sopa'],answerParts:['tito','toma','sopa'],coach:'Primero Tito. Después toma. Al final sopa.'},
+          {id:'mix_sentence_mama',type:'sentenceBuild',variant:true,skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: Mamá mima a papá. Ordena las palabras.',say:'Mamá mima a papá.',parts:['mamá','mima','a','papá'],answerParts:['mamá','mima','a','papá'],coach:'Escucha otra vez y empieza por mamá.'},
+          {id:'mix_sentence_pato',type:'sentenceBuild',variant:true,skill:'sentence_build',prompt:'Ordena la frase',voicePrompt:'Escucha: El pato nada. Ordena las palabras.',say:'El pato nada.',parts:['el','pato','nada'],answerParts:['el','pato','nada'],coach:'Primero el. Después pato. Al final nada.'},
           {id:'mix_build_paloma',type:'build',variant:true,skill:'mixed_words',prompt:'Construye paloma',say:'paloma',parts:['pa','lo','ma'],answerParts:['pa','lo','ma'],word:'paloma',coach:'PA, LO y MA.'},
           {id:'mix_find_dado',type:'symbolPick',skill:'mixed_words',prompt:'¿Dónde dice dado?',voicePrompt:'Busca la palabra dado.',say:'dado',audioKind:'word',options:['dedo','dado','lado'],answer:'dado',coach:'Busca da y después do.'}
         ]
@@ -353,7 +366,7 @@
           {id:'r_hunt',type:'picturePick',skill:'hear_r',prompt:'Busca una palabra que empiece con R',voicePrompt:'Busca una palabra que empiece con R.',targetLetter:'R',options:[{value:'rana',src:AN+'rana.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'cama',src:O+'cama.webp'}],answer:'rana',coach:'RANA empieza con R.'},
           {id:'r_symbol',type:'symbolPick',skill:'r_symbol',prompt:'Escucha RANA. ¿Con qué letra empieza?',voicePrompt:'Escucha: rana. ¿Con qué letra empieza?',say:'rana',audioKind:'word',options:['r','l','d'],answer:'r',coach:'RANA empieza con R.'},
           {id:'r_trace',type:'trace',assess:false,skill:'r_symbol',letter:'r',prompt:'Une los puntos de la R',say:'Esta es la R, como en rana.',audioKind:'instruction'},
-          {id:'r_trail',type:'syllableTrail',assess:false,skill:'r_family',prompt:'Haz sonar las piedras de R',items:['ra','re','ri','ro','ru']},
+          {id:'r_trail',type:'syllableTrail',assess:false,skill:'r_family',prompt:'Haz sonar las gemas de R',items:['ra','re','ri','ro','ru']},
           {id:'r_family',type:'soundBubbles',skill:'r_family',prompt:'Atrapa la sílaba',say:'ra',options:['ra','re','ro','ru'],answer:'ra',coach:'Escucha RA.'},
           {id:'r_rana',type:'build',skill:'blend_r',prompt:'Arma RANA',say:'rana',parts:['ra','na'],answerParts:['ra','na'],word:'rana',coach:'RA y después NA.'},
           {id:'r_rama',type:'build',variant:true,skill:'blend_r',prompt:'Arma RAMA',say:'rama',parts:['ra','ma'],answerParts:['ra','ma'],word:'rama',coach:'RA y después MA.'},
@@ -385,7 +398,7 @@
           {id:'b_symbol',type:'symbolPick',skill:'hear_b',prompt:'Escucha BOTA. ¿Con qué letra empieza?',voicePrompt:'Escucha: bota. ¿Con qué letra empieza?',say:'bota',audioKind:'word',options:['b','p','d'],answer:'b',coach:'BOTA empieza con B.'},
           {id:'b_find',type:'picturePick',variant:true,skill:'hear_b',prompt:'Busca una palabra que empiece con B',voicePrompt:'Busca una palabra que empiece con B.',targetLetter:'B',options:[{value:'bota',src:O+'bota.webp'},{value:'rana',src:AN+'rana.webp'},{value:'foca',src:AN+'foca.webp'}],answer:'bota',coach:'BOTA empieza con B.'},
           {id:'b_trace',type:'trace',assess:false,skill:'b_symbol',letter:'b',prompt:'Une los puntos de la B',say:'Esta es la B, como en bota.',audioKind:'instruction'},
-          {id:'b_trail',type:'syllableTrail',assess:false,skill:'b_family',prompt:'Haz sonar las piedras de B',items:['ba','be','bi','bo','bu']},
+          {id:'b_trail',type:'syllableTrail',assess:false,skill:'b_family',prompt:'Haz sonar las gemas de B',items:['ba','be','bi','bo','bu']},
           {id:'b_family',type:'soundBubbles',skill:'b_family',prompt:'Atrapa la sílaba',say:'bo',options:['ba','be','bo','bu'],answer:'bo',coach:'Escucha BO.'},
           {id:'b_bota',type:'build',skill:'blend_b',prompt:'Arma BOTA',say:'bota',parts:['bo','ta'],answerParts:['bo','ta'],word:'bota',coach:'BO y después TA.'},
           {id:'b_bata',type:'build',variant:true,skill:'blend_b',prompt:'Arma BATA',say:'bata',parts:['ba','ta'],answerParts:['ba','ta'],word:'bata',coach:'BA y después TA.'},
@@ -402,7 +415,7 @@
           {id:'f_hunt',type:'picturePick',skill:'hear_f',prompt:'Busca una palabra que empiece con F',voicePrompt:'Busca una palabra que empiece con F.',targetLetter:'F',options:[{value:'foca',src:AN+'foca.webp'},{value:'rana',src:AN+'rana.webp'},{value:'cama',src:O+'cama.webp'}],answer:'foca',coach:'FOCA empieza con F.'},
           {id:'f_symbol',type:'symbolPick',skill:'f_symbol',prompt:'Escucha FOTO. ¿Con qué letra empieza?',voicePrompt:'Escucha: foto. ¿Con qué letra empieza?',say:'foto',audioKind:'word',options:['f','t','r'],answer:'f',coach:'FOTO empieza con F.'},
           {id:'f_trace',type:'trace',assess:false,skill:'f_symbol',letter:'f',prompt:'Une los puntos de la F',say:'Esta es la F, como en foto.',audioKind:'instruction'},
-          {id:'f_trail',type:'syllableTrail',assess:false,skill:'f_family',prompt:'Haz sonar las piedras de F',items:['fa','fe','fi','fo','fu']},
+          {id:'f_trail',type:'syllableTrail',assess:false,skill:'f_family',prompt:'Haz sonar las gemas de F',items:['fa','fe','fi','fo','fu']},
           {id:'f_family',type:'soundBubbles',skill:'f_family',prompt:'Atrapa la sílaba',say:'fo',options:['fa','fi','fo','fu'],answer:'fo',coach:'Escucha FO.'},
           {id:'f_foto',type:'build',skill:'blend_f',prompt:'Arma FOTO',say:'foto',parts:['fo','to'],answerParts:['fo','to'],word:'foto',coach:'FO y después TO.'},
           {id:'f_fama',type:'build',variant:true,skill:'blend_f',prompt:'Arma FAMA',say:'fama',parts:['fa','ma'],answerParts:['fa','ma'],word:'fama',coach:'FA y después MA.'},
@@ -553,7 +566,7 @@
     reviewActivities:[
       {id:'rv_a',type:'listenPick',skill:'hear_vowels',prompt:'Una luciérnaga vuelve: ¿qué vocal escuchas?',say:'e',options:['a','e','o'],answer:'e',coach:'Escucha la E otra vez.'},
       {id:'rv_v',type:'symbolPick',skill:'vowel_symbols',prompt:'Recuerda esta vocal',say:'i',options:['u','i','a'],answer:'i',coach:'Escucha la I otra vez.'},
-      {id:'rv_m',type:'symbolPick',skill:'m_family',prompt:'Una piedra conocida',say:'mo',options:['ma','mo','mu'],answer:'mo',coach:'Escucha MO completa.'},
+      {id:'rv_m',type:'symbolPick',skill:'m_family',prompt:'Una gema conocida',say:'mo',options:['ma','mo','mu'],answer:'mo',coach:'Escucha MO completa.'},
       {id:'rv_mb',type:'picturePick',skill:'hear_m',prompt:'Busca una palabra que empiece con M',voicePrompt:'Busca una palabra que empiece con M.',targetLetter:'M',options:[{value:'mamá',src:C+'mama.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'lupa',src:O+'lupa.webp'}],answer:'mamá',coach:'MAMÁ empieza con M.'},
       {id:'rv_p',type:'symbolPick',skill:'p_family',prompt:'Recuerda P',say:'pa',options:['pa','pi','pu'],answer:'pa',coach:'Escucha PA completa.'},
       {id:'rv_s',type:'symbolPick',skill:'s_family',prompt:'Recuerda S',say:'su',options:['sa','su','so'],answer:'su',coach:'Escucha SU completa.'},
@@ -595,12 +608,17 @@
       {id:'stories_10',icon:'📚',art:X+'medalla_patrones.webp',name:'Diez historias leídas'}
     ],
     stories:[
-      {id:'story_mp',title:'Mamá y papá',requires:[{skill:'word_mama',score:35},{skill:'word_papa',score:35}],art:C+'mama.webp',art2:C+'papa.webp',text:'Mamá mima a papá.',words:['Mamá','mima','a','papá.'],skill:'sentence_mp',comprehension:{prompt:'¿A quién mima mamá?',options:['A papá','Al sapo','A Lola'],answer:'A papá'}},
-      {id:'story_l',title:'La lupa',requires:[{skill:'word_lupa',score:35},{skill:'s_family',score:35}],art:O+'lupa.webp',text:'Lola usa la lupa.',words:['Lola','usa','la','lupa.'],skill:'sentence_l',comprehension:{prompt:'¿Qué usa Lola?',options:['La lupa','La sopa','El sapo'],answer:'La lupa'}},
-      {id:'story_ntd',title:'El nido',requires:[{skill:'word_nido',score:35},{skill:'t_family',score:35},{skill:'d_family',score:35}],art:O+'nido.webp',art2:C+'tito.webp',text:'Tito nota el nido.',words:['Tito','nota','el','nido.'],skill:'sentence_ntd',comprehension:{prompt:'¿Qué nota Tito?',options:['El nido','La sopa','La lupa'],answer:'El nido'}},
-      {id:'story_sopa',title:'La sopa',requires:[{skill:'s_family',score:45},{skill:'t_family',score:35}],art:C+'tito.webp',art2:O+'sopa.webp',text:'Tito toma sopa.',words:['Tito','toma','sopa.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',comprehension:{prompt:'¿Qué toma Tito?',options:['Sopa','Un dado','Una lupa'],answer:'Sopa'}},
-      {id:'story_pato',title:'El pato',requires:[{skill:'t_family',score:45},{skill:'d_family',score:40}],art:AN+'pato.webp',text:'El pato nada.',words:['El','pato','nada.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',comprehension:{prompt:'¿Qué hace el pato?',options:['Nada','Toma sopa','Usa la lupa'],answer:'Nada'}},
-      {id:'story_nana',title:'Nana y Tito',requires:[{skill:'sentence_build',score:30}],art:C+'nana.webp',art2:C+'tito.webp',text:'Nana mima a Tito.',words:['Nana','mima','a','Tito.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',comprehension:{prompt:'¿A quién mima Nana?',options:['A Tito','Al pato','Al sapo'],answer:'A Tito'}},
+      {id:'story_vowels_park',kind:'audioFocus',stage:'vowels',title:'Las vocales van al parque',requires:[{mission:'forest_vowels'}],art:W+'fondo_sendero_vocales.webp',focusTokens:['a','e','i','o','u'],sentences:['A, E, I, O y U fueron al parque de diversiones.','A abrió la puerta. E entró primero. I invitó a O. U usó un aro.','Al final, las cinco vocales volvieron juntas.'],text:'A, E, I, O y U fueron al parque. Cada vocal tuvo una tarea y las cinco volvieron juntas.',words:[],skill:'hear_vowels',comprehensionSkill:'vowel_symbols',comprehension:{prompt:'Toca la vocal U.',options:['A','U','E'],answer:'U'}},
+      {id:'story_m_world',kind:'decodable',stage:'m',title:'Mimi ama a mamá',requires:[{mission:'forest_m'}],art:C+'nina.webp',art2:C+'mama.webp',text:'Mimi ama a mamá. Mamá mima a Mimi.',words:['Mimi','ama','a','mamá.','Mamá','mima','a','Mimi.'],skill:'word_mama',comprehensionSkill:'comprehension_1',allowed:['a','e','i','o','u','m'],comprehension:{prompt:'¿Quién mima a Mimi?',options:['Mamá','Mimi','Momo'],answer:'Mamá'}},
+      {id:'story_p_world',kind:'decodable',stage:'p',title:'Papá ama a mamá',requires:[{mission:'forest_p'}],art:C+'mama.webp',art2:C+'papa.webp',text:'Papá ama a mamá. Mamá ama a papá.',words:['Papá','ama','a','mamá.','Mamá','ama','a','papá.'],skill:'sentence_mp',comprehensionSkill:'comprehension_1',allowed:['a','e','i','o','u','m','p'],comprehension:{prompt:'¿A quién ama mamá?',options:['A papá','A Mimi','A Pipo'],answer:'A papá'}},
+      {id:'story_s_world',kind:'decodable',stage:'s',title:'Susi amasa',requires:[{mission:'forest_s'}],art:C+'mama.webp',art2:C+'nina.webp',text:'Mamá amasa masa. Susi amasa.',words:['Mamá','amasa','masa.','Susi','amasa.'],skill:'blend_s',comprehensionSkill:'comprehension_1',allowed:['a','e','i','o','u','m','p','s'],comprehension:{prompt:'¿Quién amasa masa?',options:['Mamá','Papá','Susi'],answer:'Mamá'}},
+      {id:'story_l_world',kind:'decodable',stage:'l',title:'Lola usa la lupa',requires:[{mission:'forest_l'}],art:C+'lola.webp',art2:O+'lupa.webp',text:'Lola usa la lupa. Lola ama a mamá.',words:['Lola','usa','la','lupa.','Lola','ama','a','mamá.'],skill:'sentence_l',comprehensionSkill:'comprehension_1',allowed:['a','e','i','o','u','m','p','s','l'],comprehension:{prompt:'¿Qué usa Lola?',options:['La lupa','La sopa','La masa'],answer:'La lupa'}},
+      {id:'story_n_world',kind:'decodable',stage:'n',title:'Nana ama la luna',requires:[{mission:'forest_n'}],art:C+'nana.webp',art2:O+'luna.webp',text:'Nana usa una lupa. Nana ama la luna.',words:['Nana','usa','una','lupa.','Nana','ama','la','luna.'],skill:'word_mano',comprehensionSkill:'comprehension_1',allowed:['a','e','i','o','u','m','p','s','l','n'],comprehension:{prompt:'¿Qué usa Nana?',options:['Una lupa','La luna','Una sopa'],answer:'Una lupa'}},
+      {id:'story_t_world',kind:'decodable',stage:'t',title:'Tito toma sopa',requires:[{mission:'forest_t'}],art:C+'tito.webp',art2:O+'sopa.webp',text:'Tito toma sopa. Tito salta.',words:['Tito','toma','sopa.','Tito','salta.'],skill:'word_taza',comprehensionSkill:'comprehension_2',allowed:['a','e','i','o','u','m','p','s','l','n','t'],comprehension:{prompt:'¿Qué toma Tito?',options:['Sopa','Lupa','Masa'],answer:'Sopa'}},
+      {id:'story_d_world',kind:'decodable',stage:'d',title:'El dado de Tito',requires:[{mission:'forest_d'}],art:C+'tito.webp',art2:O+'dado.webp',text:'Tito da un dado a Nana. Nana toma el dado.',words:['Tito','da','un','dado','a','Nana.','Nana','toma','el','dado.'],skill:'sentence_ntd',comprehensionSkill:'comprehension_2',allowed:['a','e','i','o','u','m','p','s','l','n','t','d'],comprehension:{prompt:'¿Qué da Tito?',options:['Un dado','Una lupa','Una sopa'],answer:'Un dado'}},
+      {id:'story_ntd',kind:'decodable',stage:'d',title:'El nido',requires:[{mission:'forest_d'},{skill:'word_nido',score:25}],art:O+'nido.webp',art2:C+'tito.webp',text:'Tito nota el nido.',words:['Tito','nota','el','nido.'],skill:'sentence_ntd',allowed:['a','e','i','o','u','m','p','s','l','n','t','d'],comprehension:{prompt:'¿Qué nota Tito?',options:['El nido','La sopa','La lupa'],answer:'El nido'}},
+      {id:'story_picnic',kind:'decodable',stage:'garden',title:'El picnic',requires:[{mission:'forest_d'}],art:O+'sopa.webp',art2:C+'mama.webp',text:'Mamá pone sopa. Papá toma pan. Lola toma limonada.',words:['Mamá','pone','sopa.','Papá','toma','pan.','Lola','toma','limonada.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',allowed:['a','e','i','o','u','m','p','s','l','n','t','d'],comprehension:{prompt:'¿Qué toma Lola?',options:['Limonada','Sopa','Un dado'],answer:'Limonada'}},
+      {id:'story_garden_first',kind:'decodable',stage:'garden',title:'El jardín de palabras',requires:[{mission:'forest_mix'}],art:W+'fondo_gran_jardin_lector.webp',art2:O+'mapa.webp',text:'Tito toma un mapa. Lola nota una paloma. La paloma pasa.',words:['Tito','toma','un','mapa.','Lola','nota','una','paloma.','La','paloma','pasa.'],skill:'sentence_build',comprehensionSkill:'comprehension_2',allowed:['a','e','i','o','u','m','p','s','l','n','t','d'],comprehension:{prompt:'¿Qué nota Lola?',options:['Una paloma','Un dado','Una sopa'],answer:'Una paloma'}},
       {id:'story_rana',title:'La rana',requires:[{skill:'word_rana',score:35},{skill:'t_family',score:35}],art:AN+'rana.webp',text:'La rana salta.',words:['La','rana','salta.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Quién salta?',options:['La rana','El pato','Lola'],answer:'La rana'}},
       {id:'story_cama',title:'La cama',requires:[{skill:'word_cama',score:35},{skill:'l_family',score:35}],art:O+'cama.webp',art2:C+'nina.webp',text:'Lola usa la cama.',words:['Lola','usa','la','cama.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué usa Lola?',options:['La cama','La lupa','La sopa'],answer:'La cama'}},
       {id:'story_beso',title:'Un beso',requires:[{skill:'word_bota',score:35},{skill:'d_family',score:35}],art:O+'beso.webp',text:'Mamá da un beso.',words:['Mamá','da','un','beso.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿Qué da mamá?',options:['Un beso','Una lupa','Un dado'],answer:'Un beso'}},

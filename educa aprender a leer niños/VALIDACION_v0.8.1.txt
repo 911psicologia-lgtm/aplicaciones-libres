@@ -1,0 +1,20 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.1 — AUTOAUDITORÍA
+
+[OK] Content version: 8.1.
+[OK] Estructura: 94 habilidades · 22 mundos · 22 misiones · 23 cuentos.
+[OK] Primer sendero: 117 actividades; 11 actividades gapFill.
+[OK] Microcuentos específicos disponibles después de Vocales, M, P, S, L, N, T, D y Jardín.
+[OK] Auditoría de decodabilidad: 0 grafemas fuera del repertorio permitido en los microcuentos marcados como decodificables.
+[OK] Opciones de comprensión de esos microcuentos: 0 grafemas fuera del repertorio permitido.
+[OK] NIDO no se construye en el mundo N; su construcción completa se realiza en Domo de D.
+[OK] Arrastre táctil mediante Pointer Events añadido a gapFill; el toque sigue siendo alternativa principal.
+[OK] Palabras de cuentos decodificables pueden tocarse para oírlas.
+[OK] Manifest JSON válido. start_url=./index.html?v=0.8.1 display=fullscreen.
+[OK] Service Worker: cache=emilia-bosque-v0.8.1-microcuentos; referencias=188; faltantes=0.
+[OK] CSS balanceado: 954 aperturas / 954 cierres.
+[OK] Assets modificados frente a v0.8.0: 0.
+[OK] assets/characters/lumi.svg intacto=True sha256=349a15b9296fbe4fe0020c2c8fc130f73c530b71cfd8d8e09ace30c21edcbce8
+[OK] assets/characters/lumi_cheer.png intacto=True sha256=7b390c7a8f4554851380fb64ef2ef107c7c9e702b8ce2f29e8cd286abe1bcf71
+[OK] assets/characters/lumi_guide.png intacto=True sha256=bf23716aa9235071e0bd40e65282ca591883ef11216a910faf4608a4b1fcaf91
+[OK] assets/characters/lumi_thinking.png intacto=True sha256=be27fff9b5ea182c2c9b81928cfa670ea44cebd8330a7215456c80a4c3e5b356
+[OK] assets/characters/lumi_victory.png intacto=True sha256=95e825d56ab05c35f177fb6ba64f39956db13b8d581cecbd0e4b737a4fb7ae42

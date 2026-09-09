@@ -1,0 +1,458 @@
+{
+ "mundo": "Mundo 09",
+ "sector": "Campo Magmático",
+ "jefe": "Molten Core Tyrant",
+ "familia": "Tirano de obsidiana fundida: grietas de magma, escoria, corazón de volcán.",
+ "fases_jefe": 3,
+ "renace": false,
+ "heredado_del_anterior": [
+  "20% de esbirros menores heredados del mundo anterior",
+  "1 subtipo especial heredado del mundo anterior"
+ ],
+ "progresion": {
+  "screen_1": "Presenta esbirros base de la nueva familia, formación simple, dificultad baja-media.",
+  "screen_2": "Mezcla esbirros heredados del mundo anterior con nuevos esbirros y 1 subtipo especializado.",
+  "screen_3": "Aumenta densidad, combina formaciones, introduce 1 subjefe y preserva algunos enemigos previos.",
+  "boss_screen": "Jefe de zona con patrones únicos, posibilidad de 1 fase extra o resurrección selectiva en mundos avanzados."
+ },
+ "paleta": {
+  "neon_a": "#ff691d",
+  "neon_b": "#ffd81a",
+  "core": "#ff8c2e"
+ },
+ "presupuesto_px": {
+  "esbirros": "~100-128",
+  "subjefes": "~200",
+  "jefe": "~340",
+  "fondos": "1600x900"
+ },
+ "assets": [
+  {
+   "archivo": "minions/world_09_minion_swarmer.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro swarmer: enjambre rápido, baja vida; animación de aleteo/pulsación.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_swarmer_danado.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante danado de swarmer: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_swarmer_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de swarmer (6 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 8 fps; frame width = ancho/6.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_stinger.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro stinger: ataque en ráfaga, disparo punzante; animación de carga de núcleo.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_stinger_elite.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante elite de stinger: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_stinger_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de stinger (6 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 8 fps; frame width = ancho/6.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_hunter.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro hunter: zigzag ofensivo; animación de embestida.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_hunter_danado.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante danado de hunter: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_hunter_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de hunter (6 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 8 fps; frame width = ancho/6.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_sentinel.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro sentinel: protección/escudo rotativo; placas orbitando.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_sentinel_elite.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante elite de sentinel: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_sentinel_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de sentinel (8 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 6 fps; frame width = ancho/8.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_spitter.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro spitter: disparo de plasma/veneno; garganta cargando.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_spitter_danado.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante danado de spitter: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_spitter_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de spitter (6 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 8 fps; frame width = ancho/6.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_phantom.png",
+   "tipo": "sprite",
+   "funcion": "Esbirro phantom: camuflaje/return; desvanecimiento y zarcillos.",
+   "uso": "Oleadas 1-3; tamaño pequeño recomendado (48-72 px en pantalla).",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_phantom_elite.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante elite de phantom: cambios reales de silueta/auras/grietas.",
+   "uso": "Úsalo como élite tardío o enemigo dañado para variedad visual.",
+   "frames": 1
+  },
+  {
+   "archivo": "minions/world_09_minion_phantom_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de phantom (6 frames, izquierda→derecha, loop).",
+   "uso": "Reproduce a 8 fps; frame width = ancho/6.",
+   "frames": 1
+  },
+  {
+   "archivo": "subbosses/world_09_subboss_a_ofensivo.png",
+   "tipo": "sprite",
+   "funcion": "Subjefe Agente de Abanico (ofensivo): patrón radial/abanico.",
+   "uso": "Aparece en pantalla 3; escala sugerida 96-128 px.",
+   "frames": 1
+  },
+  {
+   "archivo": "subbosses/world_09_subboss_a_ofensivo_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación del subjefe a (8 frames, loop).",
+   "uso": "Reproduce a 7 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "subbosses/world_09_subboss_b_tactico.png",
+   "tipo": "sprite",
+   "funcion": "Subjefe Táctico de Escudo (tactico): lanzas, invocación y control de área.",
+   "uso": "Aparece en pantalla 3; escala sugerida 96-128 px.",
+   "frames": 1
+  },
+  {
+   "archivo": "subbosses/world_09_subboss_b_tactico_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación del subjefe b (8 frames, loop).",
+   "uso": "Reproduce a 7 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_fase1.png",
+   "tipo": "sprite_fase",
+   "funcion": "Jefe Molten Core Tyrant — fase 1 de 3: intacto.",
+   "uso": "Cambia de sprite al cruzar umbrales de vida (66%, 33%, 15%).",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_fase2.png",
+   "tipo": "sprite_fase",
+   "funcion": "Jefe Molten Core Tyrant — fase 2 de 3: primeras grietas.",
+   "uso": "Cambia de sprite al cruzar umbrales de vida (66%, 33%, 15%).",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_fase3.png",
+   "tipo": "sprite_fase",
+   "funcion": "Jefe Molten Core Tyrant — fase 3 de 3: blindaje cediendo.",
+   "uso": "Cambia de sprite al cruzar umbrales de vida (66%, 33%, 15%).",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_nucleo_abierto.png",
+   "tipo": "sprite_variante",
+   "funcion": "Variante de núcleo abierto: fauce oscura con dientes y corazón blanco.",
+   "uso": "Úsalo en la última fase o durante el ataque cargado definitivo.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_sheet_anim.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación idle del jefe (12 frames: alas, pulso de núcleo, nodos).",
+   "uso": "Reproduce a 10 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_boss_molten_core_tyrant_sheet_muerte.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de muerte (8 frames: flash→colapso→esquirlas→brasas).",
+   "uso": "Reproduce a 8 fps; bloquea input 1 s.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_reliquia_molten_core_tyrant.png",
+   "tipo": "sprite",
+   "funcion": "Reliquia-recompensa del jefe (gema de la familia).",
+   "uso": "Aparece al morir el jefe; atrae con imán.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_reliquia_molten_core_tyrant_sheet_flotante.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de reliquia flotante (8 frames: bob + pulso + chispas).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "boss/world_09_reliquia_sheet_adherencia.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de adherencia: la reliquia vuela y se acopla a la nave (6 frames).",
+   "uso": "Reproduce al recoger; luego muestra el buff asociado.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_gota_magma.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil del jefe: gota magma (tipo orb).",
+   "uso": "Dispara desde el núcleo o nodos; rota según dirección.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_gota_magma_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de gota_magma (4 frames: pulso/rotación).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_ola_piroclasto.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil del jefe: ola piroclasto (tipo wave).",
+   "uso": "Dispara desde el núcleo o nodos; rota según dirección.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_ola_piroclasto_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de ola_piroclasto (4 frames: pulso/rotación).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_brasa_perforante.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil del jefe: brasa perforante (tipo bolt).",
+   "uso": "Dispara desde el núcleo o nodos; rota según dirección.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_brasa_perforante_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de brasa_perforante (4 frames: pulso/rotación).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_anillo_erupcion.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil del jefe: anillo erupcion (tipo ring).",
+   "uso": "Dispara desde el núcleo o nodos; rota según dirección.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_anillo_erupcion_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de anillo_erupcion (4 frames: pulso/rotación).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_haz_fundido.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil del jefe: haz fundido (tipo beamseg).",
+   "uso": "Dispara desde el núcleo o nodos; rota según dirección.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_haz_fundido_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación de haz_fundido (4 frames: pulso/rotación).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_subboss_a_brasa_perforante.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil propio del subjefe a: brasa perforante.",
+   "uso": "Identidad de disparo del subjefe (abanico si A, control si B).",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_subboss_a_brasa_perforante_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación del proyectil de subjefe (4 frames).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_subboss_b_anillo_erupcion.png",
+   "tipo": "proyectil",
+   "funcion": "Proyectil propio del subjefe b: anillo erupcion.",
+   "uso": "Identidad de disparo del subjefe (abanico si A, control si B).",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_subboss_b_anillo_erupcion_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Animación del proyectil de subjefe (4 frames).",
+   "uso": "Reproduce a 8 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "projectiles/world_09_projectile_spitter_plasma_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Proyectil básico de esbirro spitter (4 frames).",
+   "uso": "Ráfagas de 3; velocidad media.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/world_09_powerup_arma_sector.png",
+   "tipo": "powerup",
+   "funcion": "Cápsula de arma del sector (láser teñido del mundo).",
+   "uso": "Aparece en pantallas 2-3; el set global completo vive en _global/powerups/.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/world_09_powerup_defensa_sector.png",
+   "tipo": "powerup",
+   "funcion": "Cápsula de defensa del sector (escudo teñido).",
+   "uso": "Aparece en pantallas 2-3; el set global completo vive en _global/powerups/.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/world_09_powerup_soporte_sector.png",
+   "tipo": "powerup",
+   "funcion": "Cápsula de soporte del sector (vida/reparación teñida).",
+   "uso": "Aparece en pantallas 2-3; el set global completo vive en _global/powerups/.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_meteor.png",
+   "tipo": "obstaculo",
+   "funcion": "Metoro giratorio destruible; gira lentamente (usa la hoja de 8 frames).",
+   "uso": "Static + hoja de giro.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_meteor_sheet_giro.png",
+   "tipo": "spritesheet",
+   "funcion": "Giro del meteoro (8 frames, loop).",
+   "uso": "Reproduce a 6 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_meteor_fracturado.png",
+   "tipo": "obstaculo",
+   "funcion": "Roca defensora fracturada; cubierta parcial, gira poco.",
+   "uso": "Se parte en 2 tras 3 impactos (reusa esquirlas de la muerte del jefe).",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_microasteroide.png",
+   "tipo": "obstaculo",
+   "funcion": "Microasteroide lento; relleno de esquiva.",
+   "uso": "Spawn en racimos de 3-5.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_restos_nave_humana.png",
+   "tipo": "obstaculo",
+   "funcion": "Restos de nave humana (fuselaje partido, cabina apagada).",
+   "uso": "Cobertura; aparece en todos los mundos.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_restos_nave_alienigena.png",
+   "tipo": "obstaculo",
+   "funcion": "Restos de nave alienígena (casco curvo, venas luminosas).",
+   "uso": "Cobertura con pulso de luz.",
+   "frames": 1
+  },
+  {
+   "archivo": "obstacles/world_09_obstacle_cobertura_defensiva.png",
+   "tipo": "obstaculo_defensa",
+   "funcion": "Cobertura defensiva de energía translúcida (2 emisores + arco).",
+   "uso": "Bloquea proyectiles 6-8 s; color del sector.",
+   "frames": 1
+  },
+  {
+   "archivo": "backgrounds/world_09_bg_base.jpg",
+   "tipo": "fondo",
+   "funcion": "Fondo base del sector (16:9).",
+   "uso": "Scroll vertical lento; capa_lejos detrás, capa_cerca delante con parallax. [JPEG 1440x810 q85: fondo opaco; las capas PNG 800x450 escalan a 1600x900 en runtime].",
+   "frames": 1
+  },
+  {
+   "archivo": "backgrounds/world_09_bg_base_capa_lejos.png",
+   "tipo": "fondo_capa",
+   "funcion": "Capa lejana de parallax: solo campo de estrellas (RGBA).",
+   "uso": "Scroll 0.25x. [PNG RGBA 800x450: escalar a 1600x900 al dibujar].",
+   "frames": 1
+  },
+  {
+   "archivo": "backgrounds/world_09_bg_base_capa_cerca.png",
+   "tipo": "fondo_capa",
+   "funcion": "Capa cercana de parallax: nebulosa + rasgos del sector (RGBA).",
+   "uso": "Scroll 0.6x sobre la lejana. [PNG RGBA 800x450: escalar a 1600x900 al dibujar].",
+   "frames": 1
+  },
+  {
+   "archivo": "backgrounds/world_09_bg_intenso.jpg",
+   "tipo": "fondo",
+   "funcion": "Fondo intenso: nebulosa encendida y más estrellas.",
+   "uso": "Pantallas 2-3 o eventos de horda. [JPEG 1440x810 q85: fondo opaco; las capas PNG 800x450 escalan a 1600x900 en runtime].",
+   "frames": 1
+  },
+  {
+   "archivo": "backgrounds/world_09_bg_jefe.jpg",
+   "tipo": "fondo",
+   "funcion": "Fondo de jefe: viñeta + resplandor ominoso del color del núcleo.",
+   "uso": "Pantalla 4 de jefe. [JPEG 1440x810 q85: fondo opaco; las capas PNG 800x450 escalan a 1600x900 en runtime].",
+   "frames": 1
+  }
+ ]
+}

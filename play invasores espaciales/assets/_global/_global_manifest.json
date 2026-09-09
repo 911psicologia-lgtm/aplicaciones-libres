@@ -1,0 +1,137 @@
+{
+ "assets": [
+  {
+   "archivo": "powerups/powerup_rafaga.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: rafaga.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_laser.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: laser.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_misiles.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: misiles.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_escudo.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: escudo.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_dron_aliado.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: dron aliado.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_emp.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: emp.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_iman.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: iman.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_vida.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: vida.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_reparacion.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: reparacion.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_sobrescudo.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: sobrescudo.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "powerups/powerup_multiplicador.png",
+   "tipo": "powerup",
+   "funcion": "Power-up global: multiplicador.",
+   "uso": "Ícono hexagonal con glifo; 40-56 px en pantalla.",
+   "frames": 1
+  },
+  {
+   "archivo": "fx/explosion_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Explosión genérica (10 frames).",
+   "uso": "Muerte de esbirros/obstáculos; 10 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "fx/hit_spark_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Chispa de impacto (4 frames).",
+   "uso": "Al golpear enemigo sin matarlo; 12 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "fx/motor_azul_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Llama de motor azul (4 frames).",
+   "uso": "Anclar bajo la nave del color correspondiente; 10 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "fx/motor_verde_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Llama de motor verde (4 frames).",
+   "uso": "Anclar bajo la nave del color correspondiente; 10 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "fx/motor_violeta_sheet.png",
+   "tipo": "spritesheet",
+   "funcion": "Llama de motor violeta (4 frames).",
+   "uso": "Anclar bajo la nave del color correspondiente; 10 fps.",
+   "frames": 1
+  },
+  {
+   "archivo": "ships/nave_vanguard.png",
+   "tipo": "nave_jugador",
+   "funcion": "Nave Vanguard (Equilibrada).",
+   "uso": "Sprite del jugador; ~96-120 px; polaridad vertical (apunta arriba).",
+   "frames": 1
+  },
+  {
+   "archivo": "ships/nave_warden.png",
+   "tipo": "nave_jugador",
+   "funcion": "Nave Warden (Blindada).",
+   "uso": "Sprite del jugador; ~96-120 px; polaridad vertical (apunta arriba).",
+   "frames": 1
+  },
+  {
+   "archivo": "ships/nave_specter.png",
+   "tipo": "nave_jugador",
+   "funcion": "Nave Specter (Ágil).",
+   "uso": "Sprite del jugador; ~96-120 px; polaridad vertical (apunta arriba).",
+   "frames": 1
+  }
+ ]
+}

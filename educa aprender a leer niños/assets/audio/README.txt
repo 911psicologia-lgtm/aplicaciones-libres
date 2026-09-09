@@ -1,8 +1,21 @@
-BANCO DE AUDIO PEDAGÓGICO — v0.3.0
+BANCO DE AUDIO PEDAGÓGICO — v0.7.6
 
-El motor busca primero audios locales controlados para: a, e, i, o, u, m, p, s, l.
-Formatos/rutas esperadas actualmente: assets/audio/<clave>.ogg
+La app busca primero clips locales definidos en:
+- assets/audio/manifest.json
 
-Si un archivo no existe, la app usa Web Speech API como respaldo.
-No se incluyen fonemas sintéticos etiquetados como grabaciones pedagógicas.
-Para producción, grabar voz humana clara en español colombiano/latino, normalizada y sin música de fondo.
+Si una clave o alias no existe, usa Web Speech API como respaldo.
+
+Sugerencia de producción:
+- voz humana clara
+- español colombiano / latino neutro
+- archivos muy cortos
+- sin música
+- volumen homogéneo
+- silencios limpios al inicio y al final
+
+Ejemplos de claves recomendadas:
+- vocales: a, e, i, o, u
+- consonantes: m, p, s, l, n, t, d, r, b, f
+- sílabas: ma, me, mi, mo, mu, pa, pe, pi, po, pu
+- palabras frecuentes: mamá, mimo, mapa, mesa
+- consignas fijas: escucha, toca lo que escuchaste, rehacer, seguir

@@ -1,0 +1,77 @@
+PAQUETE DE SOLICITUD PARA Z.AI · ANIMACIONES DE LUMI / LOUMINA
+
+OBJETIVO
+Crear un paquete de sprites/frames ligeros para animar a Lumi en la app infantil Emilia · El Bosque de las Palabras, manteniendo exactamente la identidad visual ya existente del personaje.
+
+ESTILO OBLIGATORIO
+- Misma estética del personaje actual (ternura, brillo suave, 3D ilustrado amigable).
+- Fondo transparente PNG.
+- Silueta limpia.
+- Colores pastel suaves, sin ruido visual.
+- Debe verse bien en móvil y tablet.
+
+TAMAÑO Y FORMATO
+- Lienzo por frame: 1024x1024 px.
+- Entrega final: PNG transparente.
+- Nombre de archivos coherente y secuencial.
+- También entregar una hoja-resumen con nombres de animación y cantidad de frames.
+
+ANIMACIONES SOLICITADAS
+1. idle_blink
+   - 6 a 8 frames
+   - Lumi quieto, respiración sutil, parpadeo amable.
+
+2. cheer_jump
+   - 8 a 10 frames
+   - Alegría por completar una lección: pequeño salto, brazos arriba, sonrisa grande, brillo suave.
+
+3. point_forward
+   - 6 a 8 frames
+   - Señalar hacia adelante / siguiente paso.
+
+4. listening
+   - 6 a 8 frames
+   - Pose de escucha: inclinación leve, atención, gesto receptivo.
+
+5. thinking
+   - 6 a 8 frames
+   - Mirada reflexiva, mano cerca del rostro, curiosidad suave.
+
+6. celebrate_star
+   - 8 a 10 frames
+   - Celebra con una estrellita o destello; útil para pantalla de resultados.
+
+7. wave_hello
+   - 6 a 8 frames
+   - Saludo amistoso al entrar a la app.
+
+EXPRESIONES CLAVE
+- ternura
+- alegría
+- guía amable
+- escucha
+- curiosidad
+- celebración
+
+RESTRICCIONES
+- No cambiar forma base del personaje.
+- No añadir ropa o accesorios que rompan continuidad.
+- No fondos.
+- No texto incrustado.
+
+ORGANIZACIÓN DE ENTREGA
+/carpetas
+  /idle_blink
+  /cheer_jump
+  /point_forward
+  /listening
+  /thinking
+  /celebrate_star
+  /wave_hello
+  manifest_animaciones_lumi.json
+  preview_contact_sheet.png
+
+SUGERENCIA TÉCNICA PARA LA APP
+- Idealmente cada animación debe pesar poco.
+- Puede usarse spritesheet adicional si resulta más eficiente.
+- Si Z.AI puede, entregar también una versión spritesheet horizontal por animación.

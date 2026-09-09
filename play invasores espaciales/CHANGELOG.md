@@ -1,30 +1,22 @@
-# Changelog
+# Changelog — v0.4.3 FULL
 
-## v0.3.9.1 — Full Architecture Restoration + Boss Power Identity
+## Audio Pack Integration
+- Integrados 449 OGG del paquete `STARFALL_FRONTIER_AUDIO_PACK_v1`.
+- Añadido `js/audio.js` como gestor central de sonido.
+- Ambientes únicos por mundo con loop.
+- Sonidos de esbirros por familia y rol.
+- Sonidos exclusivos de Subjefe A y B: intro, ataque y muerte.
+- Jefes: intro, ataque primario/secundario/control, cambio de fase, muerte y resurrección selectiva.
+- Reliquias: liberación del jefe + adhesión a la nave.
+- Armas y poderes del jugador conectados a sus SFX reales.
+- Escudo con activación, impacto y rotura diferenciados.
+- Motor ligero/pesado según nave.
+- UI, stingers, checkpoints, Game Over y victoria conectados.
+- Obstáculos con sonidos de paso y destrucción.
 
-### Corrección estructural
-- Restaurada íntegramente la arquitectura multiarchivo de v0.3.8.
-- Restaurados todos los módulos JS, CSS, assets de naves, enemigos, meteoros y fondos.
-- Restaurada la batería completa de pruebas.
-- Conservada la corrección crítica de transición jefe -> recompensa -> siguiente sector.
-
-### Subjefes
-- ARACHNID: `RED DE CAZA`.
-- LEVIATHAN: `DOBLE SINGULARIDAD`.
-- DREADNOUGHT: `BATERÍA TRIDENTE`.
-- Cada patrón combina proyectiles diferentes y posee audio/halo propio.
-
-### Jefes
-- NÚCLEO NOVA: `CORONA HELIOS`.
-- ARCONTE LANZA: `JUICIO AXIAL`.
-- MADRE ENJAMBRE: `SEMILLA DEVORADORA`.
-- DEVORADOR GRAVÍTICO: `HORIZONTE ROTO`.
-- FÉNIX SINTÉTICO: `ALAS DE RENACIMIENTO`.
-- Ataques aumentan en complejidad por fase y se anuncian brevemente en HUD/barra de jefe.
-- Mejoradas las firmas sonoras por identidad.
-
-### Conservado
-- Resurrecciones de jefes seleccionados.
-- Reliquias que orbitan al jefe muerto, viajan a la nave y se adhieren automáticamente.
-- Evolución permanente de poderes.
-- Responsive móvil/tablet/PC, checkpoints, vidas, mutadores, objetivos, fusiones y dron aliado.
+## Rendimiento y estabilidad
+- Carga diferida del audio.
+- Precalentamiento únicamente del mundo activo.
+- Límite de polifonía y cooldown por sonido.
+- Pausa/reanudación sincronizada con ambiente y motor.
+- Fallback silencioso en caso de archivo de audio no disponible.

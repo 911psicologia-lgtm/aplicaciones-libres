@@ -1,0 +1,15 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.0 — AUTOAUDITORÍA
+
+[OK] Manifest JSON válido. start_url=./index.html?v=0.8.0 display=fullscreen.
+[OK] Service Worker: cache=emilia-bosque-v0.8.0-profundizacion; referencias=188; faltantes=0.
+[OK] Todos los archivos JavaScript y data/content.js pasan node --check.
+[OK] CSS balanceado por llaves: 938 aperturas / 938 cierres.
+[OK] Assets heredados comparados: 171 archivos; modificados=0; nuevos/no presentes en base=0.
+[OK] Rutas literales de assets en content.js faltantes=0.
+[OK] Cuentos decodificables añadidos al primer sendero:
+  - Domo de D: grafemas fuera del repertorio esperado=[]
+  - Picnic: grafemas fuera del repertorio esperado=[]
+  - Jardín de Palabras: grafemas fuera del repertorio esperado=[]
+[OK] El cuento de vocales está marcado como audioFocus y no se presenta como lectura autónoma.
+[OK] gapFill admite toque y drag/drop; las opciones se pronuncian al elegirse.
+[OK] Selecciones visuales y memoria palabra-imagen incorporan refuerzo auditivo.

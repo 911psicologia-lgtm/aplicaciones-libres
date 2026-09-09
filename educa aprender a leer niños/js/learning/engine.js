@@ -91,9 +91,10 @@
     if(session.kind==='mission'&&session.missionId){if(!s.completedMissions.includes(session.missionId))s.completedMissions.push(session.missionId);s.lastMission=session.missionId;}
     const growth=s.growth||(s.growth={stage:0,plants:0,fireflies:0});growth.plants=Math.max(growth.plants||0,s.seeds||0);growth.fireflies=Math.min(18,Math.floor((s.seeds||0)/2));growth.stage=Math.min(4,Math.floor((s.seeds||0)/5));
     const newAchievements=checkAchievements(s,session);
-    EmiliaStore.event('session_end',{kind:session.kind,missionId:session.missionId,pct,seeds,errors:session.errors,reviews:session.reviewCount||0,adaptive:!!session.endedAdaptively,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0});
+    const storyUnlocked=session.kind==='mission'&&session.missionId?(EMILIA_CONTENT.stories||[]).find(st=>(st.requires||[]).some(r=>r.mission===session.missionId)&&EmiliaMastery.prereqsMet(st.requires||[]))||null:null;
+    EmiliaStore.event('session_end',{kind:session.kind,missionId:session.missionId,pct,seeds,errors:session.errors,reviews:session.reviewCount||0,adaptive:!!session.endedAdaptively,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0,storyUnlocked:storyUnlocked&&storyUnlocked.id});
     EmiliaStore.save();
-    return {kind:session.kind,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission(),newAchievements,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0};
+    return {kind:session.kind,missionId:session.missionId,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission(),newAchievements,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0,storyUnlocked};
   }
   function unlockedStories(){return EMILIA_CONTENT.stories.filter(st=>EmiliaMastery.prereqsMet(st.requires||[]));}
   function recommendedStory(){const arr=unlockedStories();return arr[arr.length-1]||null;}
