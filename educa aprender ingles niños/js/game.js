@@ -98,15 +98,7 @@ function renderQuestion() {
   $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
 
   // Vidas + botón escuchar
-  const lr = $('livesRow');
-  lr.innerHTML = `<span class="life-compact">❤️ <b>x${G.lives}</b></span>`;
-  const lb = $('listenBtn');
-  if (lb && lb.parentElement !== lr) {
-    lr.appendChild(lb);
-    lb.style.margin = '0';
-    lb.style.padding = '8px 16px';
-    lb.style.fontSize = '.85em';
-  }
+  renderLivesRow();
 
   // Tarjeta pregunta
   $('qBadge').textContent = w.icon + ' ' + w.name;
@@ -196,6 +188,48 @@ function speakCurrent() {
   beep(true);
 }
 
+/* ── Núcleo de recompensa/fallo compartido por todos los juegos ── */
+function coreReward(item, evt) {
+  G.ok++; G.streak++;
+  updateProfile(p => {
+    p.stats.totalCorrect = (p.stats.totalCorrect || 0) + 1;
+    p.coins = (p.coins || 0) + 2;
+    p.xp = (p.xp || 0) + 12;
+  });
+  beep(true);
+  TTS.sayFeedback(true);
+  if (evt) floatXP('+12 XP', evt.clientX, evt.clientY);
+  updateProfile(pp => { pp.streak = G.streak; if (G.streak > (pp.maxStreak || 0)) pp.maxStreak = G.streak; });
+  if ([3, 5, 7, 10, 15, 20, 25, 30].includes(G.streak)) {
+    const bonus = G.streak >= 20 ? 5 : G.streak >= 10 ? 3 : G.streak >= 5 ? 2 : 1;
+    const coinsBonus = G.streak * 3;
+    notif(`🔥 ¡RACHA x${G.streak}! ¡Imparable!`, 'var(--gold)');
+    celebrate({
+      icon: G.streak >= 20 ? '⚡' : G.streak >= 10 ? '💥' : '🔥',
+      title: `🔥 ¡RACHA x${G.streak}!`,
+      sub: G.streak >= 20 ? '¡ERES UN GENIO ABSOLUTO! 🧠' : G.streak >= 10 ? '¡Vas imparable! 🚀' : '¡Increíble ritmo! 💪',
+      rewards: [`🪙 +${coinsBonus} Monedas`, `⭐ +${bonus} Estrellas`, `✨ +${G.streak * 5} XP BONUS`],
+      confetti: Math.min(G.streak >= 10 ? 3 : 2, 3), dur: 3000
+    });
+    updateProfile(pp => { pp.coins = (pp.coins || 0) + coinsBonus; pp.stars = (pp.stars || 0) + bonus; pp.xp = (pp.xp || 0) + G.streak * 5; });
+  }
+}
+
+function coreFail(q) {
+  G.streak = 0; G.lives--;
+  updateProfile(pp => { pp.streak = 0; });
+  beep(false);
+  TTS.sayFeedback(false);
+  if (G.lives <= 0) {
+    showFeedback(false, '💔 Sin vidas', `Era: ${q.item.en} = ${q.item.es}`);
+    setTimeout(() => endMission(), 2000);
+    updateTopbar(); return 'dead';
+  }
+  showFeedback(false, '¡Intenta otra vez! 💪', `Era: ${q.item.en} = ${q.item.es}`);
+  updateTopbar();
+  return 'alive';
+}
+
 function chooseAnswer(el, q, evt) {
   if (Date.now() < G.lockUntil) return;
   G.lockUntil = Date.now() + 900;
@@ -207,30 +241,7 @@ function chooseAnswer(el, q, evt) {
   });
 
   if (ok) {
-    G.ok++; G.streak++;
-    el.classList.add('correct');
-    updateProfile(p => {
-      p.stats.totalCorrect = (p.stats.totalCorrect || 0) + 1;
-      p.coins = (p.coins || 0) + 2;
-      p.xp = (p.xp || 0) + 12;
-    });
-    beep(true);
-    TTS.sayFeedback(true);
-    if (evt) floatXP('+12 XP', evt.clientX, evt.clientY);
-    updateProfile(pp => { pp.streak = G.streak; if (G.streak > (pp.maxStreak || 0)) pp.maxStreak = G.streak; });
-    if ([3, 5, 7, 10, 15, 20, 25, 30].includes(G.streak)) {
-      const bonus = G.streak >= 20 ? 5 : G.streak >= 10 ? 3 : G.streak >= 5 ? 2 : 1;
-      const coinsBonus = G.streak * 3;
-      notif(`🔥 ¡RACHA x${G.streak}! ¡Imparable!`, 'var(--gold)');
-      celebrate({
-        icon: G.streak >= 20 ? '⚡' : G.streak >= 10 ? '💥' : '🔥',
-        title: `🔥 ¡RACHA x${G.streak}!`,
-        sub: G.streak >= 20 ? '¡ERES UN GENIO ABSOLUTO! 🧠' : G.streak >= 10 ? '¡Vas imparable! 🚀' : '¡Increíble ritmo! 💪',
-        rewards: [`🪙 +${coinsBonus} Monedas`, `⭐ +${bonus} Estrellas`, `✨ +${G.streak * 5} XP BONUS`],
-        confetti: Math.min(G.streak >= 10 ? 3 : 2, 3), dur: 3000
-      });
-      updateProfile(pp => { pp.coins = (pp.coins || 0) + coinsBonus; pp.stars = (pp.stars || 0) + bonus; pp.xp = (pp.xp || 0) + G.streak * 5; });
-    }
+    coreReward(q.item, evt);
     showFeedback(true, '¡Correcto! 🎉', `${q.item.en} = ${q.item.es}`);
     // En Colores, tras acertar se refuerza la palabra (EN + ES)
     if (G.world.kind === 'colors') {
@@ -241,16 +252,8 @@ function chooseAnswer(el, q, evt) {
     }
   } else {
     el.classList.add('wrong');
-    G.streak = 0; G.lives--;
-    updateProfile(pp => { pp.streak = 0; });
-    beep(false);
-    TTS.sayFeedback(false);
-    if (G.lives <= 0) {
-      showFeedback(false, '💔 Sin vidas', `Era: ${q.item.en} = ${q.item.es}`);
-      setTimeout(() => endMission(), 2000);
-      updateTopbar(); return;
-    }
-    showFeedback(false, '¡Intenta otra vez! 💪', `Era: ${q.item.en} = ${q.item.es}`);
+    recordMistake((G.world && G.world.id) || G.mtype, q.item);
+    if (coreFail(q) === 'dead') return;
     // En Colores, tras fallar se enseña la palabra correcta
     if (G.world.kind === 'colors') {
       setTimeout(() => TTS.speak([
@@ -274,7 +277,7 @@ function nextQuestion() {
   G.qi++;
   G.lockUntil = 0;
   if (G.qi >= G.questions.length) endMission();
-  else renderQuestion();
+  else (G.renderFn || renderQuestion)();
 }
 
 /* ── FIN DE MISIÓN + COFRE SORPRESA ── */
@@ -293,6 +296,12 @@ function endMission() {
     if (pct === 100) p.stats.perfect = (p.stats.perfect || 0) + 1;
     p.stats.missions = (p.stats.missions || 0) + 1;
     p.stats.daysPlayed[todayStr()] = true;
+    if (G.mtype === 'spell') p.stats.spellGames = (p.stats.spellGames || 0) + 1;
+    if (G.mtype === 'match') p.stats.matchGames = (p.stats.matchGames || 0) + 1;
+    if (G.mtype === 'review') {
+      p.stats.reviews = (p.stats.reviews || 0) + 1;
+      p.stats.learnedWords = (p.stats.learnedWords || 0) + (G.learned || 0);
+    }
     p.best = p.best || {};
     p.best[G.mtype] = Math.max(p.best[G.mtype] || 0, stars);
     p.stars = (p.stars || 0) + stars;
@@ -356,6 +365,17 @@ function endMission() {
   if (pct >= 60) { beepWin(); burst(80); if (pct === 100) setTimeout(() => burst(60), 400); }
   else beep(false);
 
+  // Celebración especial de repaso: palabras superadas
+  if (G.mtype === 'review' && G.learned > 0) {
+    celebrate({
+      icon: uiTag('mascot_cheer', '🧠', 'cel-img'),
+      title: `¡${G.learned} superada${G.learned > 1 ? 's' : ''}!`,
+      sub: 'Palabras que ya dominas ✅',
+      rewards: ['🧠 ¡Cerebro más fuerte!', `📚 ${mistakeCount()} palabras por repasar`],
+      confetti: 2, dur: 3200
+    });
+  }
+
   if (stars > 0) {
     const streakBonus = G.streak >= 10 ? ` 🔥 RACHA x${G.streak}!` : (G.streak >= 3 ? ` 🔥 Racha x${G.streak}` : '');
     celebrate({
@@ -365,6 +385,23 @@ function endMission() {
       rewards: [`⭐ +${stars}`, `🪙 +${coinsGained}`, `✨ +${xpGained} XP`, ...(G.streak >= 5 ? [`🔥 Racha x${G.streak} activa!`] : [])],
       confetti: stars, dur: 3200
     });
+  }
+
+  // Título especial para repaso
+  if (G.mtype === 'review') $('rTitle').textContent = '¡Repaso completado! 🧠';
+
+  // Acceso rápido: repasar errores desde resultados
+  const rbs = document.querySelector('.result-btns');
+  const oldBtn = $('rReviewBtn');
+  if (oldBtn) oldBtn.remove();
+  const pending = mistakeCount();
+  if (pending > 0 && rbs) {
+    const rb = document.createElement('button');
+    rb.id = 'rReviewBtn';
+    rb.className = 'bigbtn bb-purple bb-sm';
+    rb.innerHTML = `🔁 Repasar mis errores (${pending})`;
+    rb.onclick = () => startReviewMission();
+    rbs.appendChild(rb);
   }
 
   showScreen('resultScreen');
@@ -412,4 +449,9 @@ window.openChest = function (stars) {
   checkBadges();
 };
 
-function retryMission() { if (G.mtype) startMission(G.mtype); }
+function retryMission() {
+  if (G.mtype === 'spell') return startSpellMission();
+  if (G.mtype === 'match') return startMatchMission();
+  if (G.mtype === 'review') return startReviewMission();
+  if (G.mtype) startMission(G.mtype);
+}

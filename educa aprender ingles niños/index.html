@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0518">
-<title>🌈 PequeWorld v3 — Inglés para Niños</title>
+<title>🌈 PequeWorld v4 — Inglés para Niños</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900;1000&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/games.css">
 </head>
 <body>
 
@@ -48,6 +49,7 @@
   <span class="login-mascot"><img class="mascot-login" src="assets/img/ui/mascot.jpg" alt="PequeWorld" onerror="this.outerHTML='🌍'"></span>
   <div class="login-title">PequeWorld</div>
   <div class="login-sub">¡Aprende inglés jugando con fotos de verdad! 🎈</div>
+  <div class="small" style="text-align:center;margin-bottom:4px">💡 Crea tu perfil con <b style="color:var(--gold)">tu foto</b>: cámara 📷 o galería 🖼️</div>
 
   <div id="profileRow" class="profile-row"></div>
 
@@ -70,6 +72,9 @@
 
   <!-- Meta diaria -->
   <div id="dailyGoal" class="daily-goal"></div>
+
+  <!-- Zona de juegos: Completar · Emparejar · Repaso de errores -->
+  <div id="gamesZone"></div>
 
   <!-- Tabs de nivel -->
   <div class="lvl-tabs" id="lvlTabs"></div>
@@ -174,6 +179,7 @@
 <script src="js/effects.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/game.js"></script>
+<script src="js/games.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

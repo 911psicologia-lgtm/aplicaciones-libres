@@ -198,7 +198,7 @@ WORLDS.push(
     {en:'Heat',    es:'Calor',    img:'fire',      em:'🌡️', hint:'Sube'},
     {en:'Cold',    es:'Frío',     img:'ice',       em:'🥶', hint:'Brr'},
     {en:'Steam',   es:'Vapor',    img:'cloud',     em:'♨️', hint:'Sale'},
-    {en:'Shadow',  es:'Sombra',   img:'nightsky',  em:'🌑', hint:'Oscuro'},
+    {en:'Shadow',  es:'Sombra',   img:'shadow',    em:'🌑', hint:'Oscuro'},
     {en:'Spark',   es:'Chispa',   img:'fireworks', em:'✨', hint:'Brilla'},
    ]},
 
@@ -223,7 +223,7 @@ WORLDS.push(
    story:'En la Fiesta Sorpresa armamos frases con palabras de celebración.',
    items:[
     {en:'Surprise',es:'Sorpresa', img:'gift',      em:'🎊', hint:'¡Tadaa!'},
-    {en:'Wish',    es:'Deseo',    img:'lollipop',  em:'🙏', hint:'Pedir'},
+    {en:'Wish',    es:'Deseo',    img:'wish',      em:'🌠', hint:'Pedir'},
     {en:'Candle',  es:'Vela',     img:'candle',    em:'🕯️', hint:'Soplar'},
     {en:'Cake',    es:'Torta',    img:'cake',      em:'🎂', hint:'Dulce'},
     {en:'Party',   es:'Fiesta',   img:'confetti',  em:'🎉', hint:'Celebrar'},

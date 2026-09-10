@@ -107,6 +107,14 @@ const BADGES = [
   // ★ EXPLORADOR
   {id:'explorer_all', icon:'🗺️', name:'Explorador Total', desc:'Juega en todos los mundos al menos 1 vez', c:p=>WORLDS.every(w=>p.best[w.id]!=null)},
   {id:'champion_all', icon:'🏆', name:'Campeón Absoluto', desc:'Obtén 3⭐ en todos los mundos', c:p=>WORLDS.every(w=>(p.best&&p.best[w.id]||0)>=3)},
+  // ★ JUEGOS MENTALES (nuevo en v4)
+  {id:'spell1',  icon:'🔤', name:'Primer Completado', desc:'Termina un juego de Completar palabras', c:p=>(p.stats.spellGames||0)>=1},
+  {id:'spell10', icon:'✏️', name:'Escriba Pequeño',  desc:'Termina 10 juegos de Completar', c:p=>(p.stats.spellGames||0)>=10},
+  {id:'match1',  icon:'🧩', name:'Emparejador',      desc:'Termina un juego de Emparejar', c:p=>(p.stats.matchGames||0)>=1},
+  {id:'match10', icon:'🔗', name:'Maestro del Par',  desc:'Termina 10 juegos de Emparejar', c:p=>(p.stats.matchGames||0)>=10},
+  {id:'review1', icon:'🔁', name:'Repasador Estrella', desc:'Completa un repaso de errores', c:p=>(p.stats.reviews||0)>=1},
+  {id:'learn10', icon:'🧠', name:'Mente Genial',     desc:'Supera 10 palabras en repasos', c:p=>(p.stats.learnedWords||0)>=10},
+  {id:'learn25', icon:'🎓', name:'Sabelotodo',       desc:'Supera 25 palabras en repasos', c:p=>(p.stats.learnedWords||0)>=25},
   // ★ DÍAS
   {id:'days3',  icon:'📅', name:'3 Días jugados', desc:'Juega en 3 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=3},
   {id:'days7',  icon:'🗓️', name:'Semana Heroica', desc:'Juega en 7 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=7},
@@ -134,15 +142,31 @@ function defaultState() {
     settings: {langMode:'ENES', voiceEnabled:true, voiceRate:.82, voicePitch:1.15}
   };
 }
+/* Asegura los campos nuevos de v4 en perfiles antiguos */
+function migrateProfile(p) {
+  if (!p) return;
+  if (!p.mistakes) p.mistakes = {};
+  if (!p.avatar) p.avatar = 'avatar_1';
+  if (!p.avatarData) p.avatarData = '';
+  if (!p.stats) p.stats = {};
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords'].forEach(k => {
+    if (p.stats[k] == null) p.stats[k] = 0;
+  });
+  if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
+  if (!p.dailyGoal) p.dailyGoal = {date:'', count:0, claimed:false};
+  if (!p.badges) p.badges = [];
+  if (!p.best) p.best = {};
+}
 function defaultProfile(name, avatar='avatar_1') {
   return {
     id: 'p_' + Math.random().toString(16).slice(2),
-    name, avatar,
+    name, avatar, avatarData: '',
     xp:0, coins:0, stars:0, level:1,
     streak:0, maxStreak:0,
     badges: [],
     best: {},
-    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, daysPlayed:{}},
+    mistakes: {},
+    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, daysPlayed:{}},
     dailyGoal: {date:'', count:0, claimed:false}
   };
 }

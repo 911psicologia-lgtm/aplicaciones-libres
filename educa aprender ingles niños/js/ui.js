@@ -8,26 +8,31 @@ let STATE = null;
 function loadState() {
   try {
     const r = localStorage.getItem(LS);
-    if (r) { STATE = JSON.parse(r); return; }
+    if (r) { STATE = JSON.parse(r); }
   } catch (e) {}
-  STATE = defaultState();
-  // migra datos de v1 si existen
-  try {
-    const old = localStorage.getItem('pequeworld_v1');
-    if (old) {
-      const o = JSON.parse(old);
-      if (o && o.profiles) {
-        Object.values(o.profiles).forEach(p => {
-          p.avatar = 'avatar_1'; p.stats.chests = p.stats.chests || 0;
-          p.stats.dailyGoals = p.stats.dailyGoals || 0;
-          p.dailyGoal = {date:'', count:0, claimed:false};
-          STATE.profiles[p.id] = p;
-        });
-        STATE.active = o.active || '';
-        STATE.settings = o.settings || STATE.settings;
+  if (!STATE) {
+    STATE = defaultState();
+    // migra datos de v1 si existen
+    try {
+      const old = localStorage.getItem('pequeworld_v1');
+      if (old) {
+        const o = JSON.parse(old);
+        if (o && o.profiles) {
+          Object.values(o.profiles).forEach(p => {
+            p.avatar = 'avatar_1'; p.stats.chests = p.stats.chests || 0;
+            p.stats.dailyGoals = p.stats.dailyGoals || 0;
+            p.dailyGoal = {date:'', count:0, claimed:false};
+            STATE.profiles[p.id] = p;
+          });
+          STATE.active = o.active || '';
+          STATE.settings = o.settings || STATE.settings;
+        }
       }
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
+  // migra perfiles antiguos a los campos nuevos de v4
+  Object.values(STATE.profiles).forEach(p => migrateProfile(p));
+  saveState();
 }
 function saveState() { try { localStorage.setItem(LS, JSON.stringify(STATE)); } catch (e) {} }
 function activeProfile() { return STATE.profiles[STATE.active] || null; }
@@ -79,6 +84,7 @@ function openModal(title, body, footer = '') {
 function closeModal() {
   $('modalOverlay').classList.remove('on');
   document.body.style.overflow = '';
+  if (window.stopCamera) window.stopCamera();
 }
 $('modalOverlay').addEventListener('click', e => { if (e.target === $('modalOverlay')) closeModal(); });
 
@@ -114,7 +120,10 @@ $('celebrationOverlay').addEventListener('click', _celClose);
    LOGIN / PERFILES (con fotos de avatares)
    ═══════════════════════════════════════════ */
 let selectedProfileId = '';
-function avatarHTML(av) {
+function avatarHTML(av, data) {
+  if (av === 'custom' && data) {
+    return `<img class="avatar-img" src="${data}" alt="mi foto">`;
+  }
   const found = AVATARS.find(a => a.id === av);
   return `<img class="avatar-img" src="${AV_IMG(av)}" alt="avatar"
     onerror="this.outerHTML='${found ? found.em : '👧'}'">`;
@@ -129,7 +138,7 @@ function renderLogin() {
     tile.className = 'profile-tile' + (STATE.active === id ? ' selected' : '');
     const totalStars = p.stars || 0;
     tile.innerHTML = `
-      ${avatarHTML(p.avatar || 'avatar_1')}
+      ${avatarHTML(p.avatar || 'avatar_1', p.avatarData)}
       <div class="pt-name">${p.name || 'Niño'}</div>
       <div class="pt-stars">${'⭐'.repeat(Math.min(totalStars, 5)) || '☆☆☆'}</div>
     `;
@@ -155,25 +164,30 @@ function openCreateProfile() {
       <label style="font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.5px">Nombre</label>
       <input class="nice-input" id="profileNameIn" placeholder="Ej: Martín" maxlength="20" style="margin-top:6px" autofocus>
     </div>
-    <div style="font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Avatar</div>
-    <div class="av-grid" id="avGrid">
-      ${AVATARS.map(a => `<button class="av-btn${a.id === chosenAv ? ' sel' : ''}" data-av="${a.id}" onclick="pickAv('${a.id}',this)">${avatarHTML(a.id)}</button>`).join('')}
-    </div>
+    <div style="font-size:.8em;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Tu avatar · con tu foto 📸</div>
+    ${avatarStudioHTML(chosenAv, '')}
   `, `
     <button class="bigbtn bb-ghost bb-sm" onclick="closeModal()">Cancelar</button>
     <button class="bigbtn bb-gold bb-sm" onclick="doCreateProfile()">Crear ✓</button>
   `);
   window._chosenAv = chosenAv;
+  window._chosenAvatarData = '';
 }
 window.pickAv = (av, btn) => {
   document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('sel'));
   btn.classList.add('sel');
   window._chosenAv = av;
+  window._chosenAvatarData = '';
+  const pv = $('avPreview');
+  if (pv) pv.innerHTML = avatarHTML(av);
+  const nm = $('avPreviewName');
+  if (nm) nm.textContent = 'Elige tu avatar';
 };
 function doCreateProfile() {
   const name = ($('profileNameIn') || {value: ''}).value.trim() || 'Niño';
   const av = window._chosenAv || 'avatar_1';
   const p = defaultProfile(name, av);
+  if (av === 'custom' && window._chosenAvatarData) p.avatarData = window._chosenAvatarData;
   STATE.profiles[p.id] = p;
   STATE.active = p.id;
   saveState();
@@ -182,6 +196,28 @@ function doCreateProfile() {
   notif('✅ ¡Perfil creado! Hola ' + name, 'var(--green)');
   beep(true);
 }
+/* Editar avatar desde Ajustes */
+window.openEditAvatar = function () {
+  const p = activeProfile(); if (!p) return;
+  openModal('📷 Mi Foto de Avatar', `
+    ${avatarStudioHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData)}
+  `, `
+    <button class="bigbtn bb-ghost bb-sm" onclick="closeModal()">Cancelar</button>
+    <button class="bigbtn bb-gold bb-sm" onclick="doSaveAvatar()">Guardar ✓</button>
+  `);
+  window._chosenAv = p.avatar === 'custom' ? 'custom' : p.avatar;
+  window._chosenAvatarData = p.avatarData || '';
+};
+window.doSaveAvatar = function () {
+  const av = window._chosenAv || 'avatar_1';
+  updateProfile(p => {
+    p.avatar = av;
+    if (av === 'custom' && window._chosenAvatarData) p.avatarData = window._chosenAvatarData;
+  });
+  closeModal(); renderLogin(); updateTopbar();
+  notif('✅ ¡Avatar actualizado!', 'var(--green)');
+  beep(true);
+};
 function doEnter() {
   const p = activeProfile();
   if (!p) { notif('👆 Elige o crea un perfil primero', 'var(--red)'); return; }
@@ -237,6 +273,9 @@ function renderMap() {
   // Meta diaria
   renderDailyGoal(p);
 
+  // Zona de Juegos (Completar · Emparejar · Repaso de errores)
+  renderGamesZone(p);
+
   // Tabs de nivel
   const lvlTab = $('lvlTabs'); lvlTab.innerHTML = '';
   const TABS = [
@@ -286,6 +325,37 @@ function renderMap() {
 
   updateTopbar();
   checkBadges();
+}
+
+/* ── ZONA DE JUEGOS (mapa) ── */
+function renderGamesZone(p) {
+  const host = $('gamesZone');
+  if (!host) return;
+  const pend = mistakeCount();
+  host.innerHTML = '';
+
+  const title = document.createElement('div');
+  title.className = 'gz-title';
+  title.textContent = '🧠 Zona de Juegos';
+  host.appendChild(title);
+
+  const row = document.createElement('div');
+  row.className = 'gz-row';
+
+  const defs = [
+    {cls: 'gz-spell', ico: '🔤', name: 'Completa', sub: 'la palabra', fn: () => startSpellMission()},
+    {cls: 'gz-match', ico: '🧩', name: 'Empareja', sub: 'foto + palabra', fn: () => startMatchMission()},
+    {cls: 'gz-review' + (pend ? '' : ' gz-off'), ico: '🔁', name: 'Repaso',
+     sub: pend ? pend + (pend === 1 ? ' error' : ' errores') : '¡Sin errores!', fn: () => startReviewMission()},
+  ];
+  defs.forEach(d => {
+    const c = document.createElement('div');
+    c.className = 'gz-card ' + d.cls;
+    c.innerHTML = `<span class="gz-ico">${d.ico}</span><span class="gz-name">${d.name}</span><span class="gz-sub">${d.sub}</span>${d.cls.includes('gz-review') && pend ? `<span class="gz-badge">${Math.min(pend, 99)}</span>` : ''}`;
+    c.onclick = () => d.fn();
+    row.appendChild(c);
+  });
+  host.appendChild(row);
 }
 
 /* ── META DIARIA ── */
@@ -415,7 +485,7 @@ function renderTrophyContent() {
   } else {
     // Ranking con medallas de fotos
     const realPlayers = Object.values(STATE.profiles)
-      .map(pp => ({name: pp.name, av: pp.avatar || 'avatar_1', xp: pp.xp || 0, stars: pp.stars || 0, coins: pp.coins || 0, me: pp.id === STATE.active, isAI: false}));
+      .map(pp => ({name: pp.name, av: pp.avatar || 'avatar_1', avData: pp.avatarData || '', xp: pp.xp || 0, stars: pp.stars || 0, coins: pp.coins || 0, me: pp.id === STATE.active, isAI: false}));
     const all = [...realPlayers, ...AI_RIVALS].sort((a, b) => b.xp - a.xp);
     const medals = ['ui_medal_gold', 'ui_medal_silver', 'ui_medal_bronze'];
     const medalEm = ['🥇', '🥈', '🥉'];
@@ -431,7 +501,7 @@ function renderTrophyContent() {
         : isMe ? 'background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3)' : '';
       html += `<div class="rank-row${isMe ? ' me' : ''}" style="${bgStyle}">
         <div class="rank-pos-wrap">${pos}</div>
-        <div class="rank-av">${r.isAI ? r.av : avatarHTML(r.av)}</div>
+        <div class="rank-av">${r.isAI ? r.av : avatarHTML(r.av, r.avData)}</div>
         <div style="flex:1;min-width:0">
           <div class="rank-name">${isMe ? '👉 ' : ''}${r.name}${r.isAI ? ` <span style="font-size:.65em;color:var(--purple);background:rgba(155,89,182,.2);padding:1px 6px;border-radius:8px">${r.title}</span>` : ''}</div>
           <div style="font-size:.68em;color:var(--muted);margin-top:1px">⭐ ${r.stars} · 🪙 ${r.coins}</div>
@@ -452,8 +522,19 @@ function renderTrophyContent() {
 /* ── AJUSTES ── */
 function openSettings() {
   beep(true);
+  const p = activeProfile();
   const s = STATE.settings;
   openModal('⚙️ Ajustes', `
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">📷 Mi avatar</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        ${avatarHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData)}
+        <button class="bigbtn bb-green bb-sm" onclick="openEditAvatar()">📷 Cambiar mi foto</button>
+      </div>
+      <div class="small" style="margin-top:6px">Tómale una foto con la cámara o elige una de tu galería.</div>
+    </div>
+    <div class="divider"></div>
     <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">🌍 Idioma</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
