@@ -1,0 +1,354 @@
+/* ═══════════════════════════════════════════════════════════
+   PequeWorld — VOCABULARIO NIVEL 2 “Explorador” (5–6 años)
+   ═══════════════════════════════════════════════════════════ */
+WORLDS.push(
+  /* ── CONSONANTS ── */
+  {id:'letters_basic', name:'Consonants', es:'Consonantes', icon:'🚂', color:'wc-letters', lvl:2, kind:'letters',
+   story:'El Tren de Consonantes necesita letras para avanzar. Aprendemos las más usadas primero.',
+   items:[
+    {en:'M',es:'M', img:'moon',    em:'🌙', hint:'M de Moon'},
+    {en:'P',es:'P', img:'penguin', em:'🐧', hint:'P de Penguin'},
+    {en:'S',es:'S', img:'sun',     em:'☀️', hint:'S de Sun'},
+    {en:'T',es:'T', img:'turtle',  em:'🐢', hint:'T de Turtle'},
+    {en:'L',es:'L', img:'lion',    em:'🦁', hint:'L de Lion'},
+    {en:'N',es:'N', img:'notes',   em:'🎵', hint:'N de Note'},
+    {en:'R',es:'R', img:'rainbow', em:'🌈', hint:'R de Rainbow'},
+    {en:'B',es:'B', img:'bee',     em:'🐝', hint:'B de Bee'},
+    {en:'C',es:'C', img:'cat',     em:'🐱', hint:'C de Cat'},
+    {en:'D',es:'D', img:'dog',     em:'🐶', hint:'D de Dog'},
+   ]},
+
+  /* ── NUMBERS 11–20 ── */
+  {id:'numbers_11_20', name:'Numbers 11–20', es:'Números 11–20', icon:'🚀', color:'wc-numbers', lvl:2, kind:'numbers',
+   story:'Sube al cohete: contamos del 11 al 20, uno por uno.',
+   items:[
+    {en:'Eleven',   es:'Once',      num:11},
+    {en:'Twelve',   es:'Doce',      num:12},
+    {en:'Thirteen', es:'Trece',     num:13},
+    {en:'Fourteen', es:'Catorce',   num:14},
+    {en:'Fifteen',  es:'Quince',    num:15},
+    {en:'Sixteen',  es:'Dieciséis', num:16},
+    {en:'Seventeen',es:'Diecisiete',num:17},
+    {en:'Eighteen', es:'Dieciocho', num:18},
+    {en:'Nineteen', es:'Diecinueve',num:19},
+    {en:'Twenty',   es:'Veinte',    num:20},
+   ]},
+
+  /* ── FAMILY ── */
+  {id:'family', name:'Family', es:'Familia', icon:'👨‍👩‍👧', color:'wc-family', lvl:2, kind:'words',
+   story:'En la Casa de la Familia aprendemos quién es quién, con fotos de personas reales.',
+   items:[
+    {en:'Mom',    es:'Mamá',    img:'mom',     em:'👩'},
+    {en:'Dad',    es:'Papá',    img:'dad',     em:'👨'},
+    {en:'Brother',es:'Hermano', img:'brother', em:'👦'},
+    {en:'Sister', es:'Hermana', img:'sister',  em:'👧'},
+    {en:'Baby',   es:'Bebé',    img:'baby',    em:'👶'},
+    {en:'Grandma',es:'Abuela',  img:'grandma', em:'👵'},
+    {en:'Grandpa',es:'Abuelo',  img:'grandpa', em:'👴'},
+    {en:'Family', es:'Familia', img:'family',  em:'👨‍👩‍👧‍👦'},
+   ]},
+
+  /* ── FOOD (picnic) ── */
+  {id:'food_picnic', name:'Food', es:'Comida (picnic)', icon:'🧺', color:'wc-food', lvl:2, kind:'words',
+   story:'Preparamos un picnic con 10 cosas ricas y fáciles. ¡Todas con fotos de verdad!',
+   items:[
+    {en:'Apple',    es:'Manzana', img:'apple',    em:'🍎'},
+    {en:'Banana',   es:'Banano',  img:'banana',   em:'🍌'},
+    {en:'Milk',     es:'Leche',   img:'milk',     em:'🥛'},
+    {en:'Bread',    es:'Pan',     img:'bread',    em:'🍞'},
+    {en:'Egg',      es:'Huevo',   img:'egg',      em:'🥚'},
+    {en:'Cookie',   es:'Galleta', img:'cookie',   em:'🍪'},
+    {en:'Candy',    es:'Dulce',   img:'lollipop', em:'🍭'},
+    {en:'Pizza',    es:'Pizza',   img:'pizza',    em:'🍕'},
+    {en:'Cake',     es:'Pastel',  img:'cake',     em:'🎂'},
+    {en:'Ice cream',es:'Helado',  img:'icecream', em:'🍦'},
+   ]},
+
+  /* ── EMOTIONS (more) ── */
+  {id:'emotions_more', name:'Emotions+', es:'Emociones (más)', icon:'😃', color:'wc-phrases', lvl:2, kind:'words',
+   story:'En el Parque de Emociones aprendemos más formas de sentir y expresarnos.',
+   items:[
+    {en:'Excited', es:'Emocionado', img:'face_excited',  em:'🤩', hint:'¡Wiii!'},
+    {en:'Bored',   es:'Aburrido',   img:'face_bored',    em:'🥱', hint:'Zzz'},
+    {en:'Proud',   es:'Orgulloso',  img:'face_proud',    em:'😤', hint:'Yo pude'},
+    {en:'Brave',   es:'Valiente',   img:'herokid',       em:'🦁', hint:'Como héroe'},
+    {en:'Friendly',es:'Amigable',   img:'face_happy',    em:'😊', hint:'Buen trato'},
+    {en:'Sick',    es:'Enfermo',    img:'face_sick',     em:'🤒', hint:'Fiebre'},
+    {en:'Okay',    es:'Bien',       img:'thumbsup',      em:'👌', hint:'Todo bien'},
+    {en:'Thankful',es:'Agradecido', img:'hearthands',    em:'🙌', hint:'Gracias'},
+    {en:'Worried', es:'Preocupado', img:'face_confused', em:'😟', hint:'Piensa'},
+    {en:'Tired',   es:'Cansado',    img:'face_sleepy',   em:'😴', hint:'Descansa'},
+   ]},
+
+  /* ── PETS (care) ── */
+  {id:'pets_care', name:'Pets Care', es:'Cuidar mascotas', icon:'🦴', color:'wc-animals', lvl:2, kind:'words',
+   story:'En la Clínica de Mascotas aprendemos cosas de cuidado y accesorios.',
+   items:[
+    {en:'Leash',  es:'Correa',   img:'leash',   em:'🦮', hint:'Paseo'},
+    {en:'Bowl',   es:'Tazón',    img:'bowl',    em:'🥣', hint:'Comida'},
+    {en:'Bone',   es:'Hueso',    img:'bone',    em:'🦴', hint:'Perro'},
+    {en:'Toy',    es:'Juguete',  img:'teddy',   em:'🪀', hint:'Jugar'},
+    {en:'Bath',   es:'Baño',     img:'bath',    em:'🛁', hint:'Limpio'},
+    {en:'Brush',  es:'Cepillo',  img:'brush',   em:'🧶', hint:'Peinar'},
+    {en:'Puppy',  es:'Cachorro', img:'dog',     em:'🐕', hint:'Pequeño'},
+    {en:'Kitten', es:'Gatito',   img:'cat',     em:'🐈', hint:'Miau'},
+    {en:'Parrot', es:'Loro',     img:'parrot',  em:'🦜', hint:'Habla'},
+    {en:'Hamster',es:'Hámster',  img:'hamster', em:'🐹', hint:'Rueda'},
+   ]},
+
+  /* ── PRINCESS (kingdom) ── */
+  {id:'princess_kingdom', name:'Princess Kingdom', es:'Reino de princesas', icon:'🏰', color:'wc-home', lvl:2, kind:'words',
+   story:'En el Reino Brillante aparecen nuevos objetos del castillo.',
+   items:[
+    {en:'Queen',   es:'Reina',    img:'queen',    em:'👑', hint:'Manda'},
+    {en:'King',    es:'Rey',      img:'king',     em:'🤴', hint:'Corona'},
+    {en:'Palace',  es:'Palacio',  img:'castle',   em:'🏯', hint:'Grande'},
+    {en:'Throne',  es:'Trono',    img:'chair',    em:'🪑', hint:'Silla real'},
+    {en:'Wand',    es:'Varita',   img:'wand',     em:'🪄', hint:'Magia'},
+    {en:'Mirror',  es:'Espejo',   img:'mirror',   em:'🪞', hint:'Reflejo'},
+    {en:'Garden',  es:'Jardín',   img:'garden',   em:'🌷', hint:'Flores'},
+    {en:'Horse',   es:'Caballo',  img:'horse',    em:'🐎', hint:'Galopa'},
+    {en:'Carriage',es:'Carruaje', img:'carriage', em:'🛞', hint:'Viaje'},
+    {en:'Gem',     es:'Gema',     img:'gem',      em:'💎', hint:'Brilla'},
+   ]},
+
+  /* ── SUPERHERO (gear) ── */
+  {id:'superhero_gear', name:'Super Gear', es:'Equipo super', icon:'🛡️', color:'wc-words', lvl:2, kind:'words',
+   story:'En el Taller Heroico aprendemos cosas del equipo de héroes.',
+   items:[
+    {en:'Helmet',es:'Casco',    img:'helmet',     em:'🪖', hint:'Protege'},
+    {en:'Gadget',es:'Gadget',   img:'laptop',     em:'🧰', hint:'Herramienta'},
+    {en:'Laser', es:'Láser',    img:'flashlight', em:'🔦', hint:'Luz fuerte'},
+    {en:'Map',   es:'Mapa',     img:'map',        em:'🗺️', hint:'Ruta'},
+    {en:'Jet',   es:'Jet',      img:'airplane',   em:'✈️', hint:'Vuela'},
+    {en:'Rescue',es:'Rescate',  img:'ambulance',  em:'🚑', hint:'Ayuda'},
+    {en:'Secret',es:'Secreto',  img:'key',        em:'🤫', hint:'Shh'},
+    {en:'Jump',  es:'Saltar',   img:'kid_jump',   em:'🤾', hint:'Arriba'},
+    {en:'Fly',   es:'Volar',    img:'eagle',      em:'🦅', hint:'Cielo'},
+    {en:'Team',  es:'Equipo',   img:'handshake',  em:'🤝', hint:'Juntos'},
+   ]},
+
+  /* ── UNIVERSE (space) ── */
+  {id:'universe_space', name:'Space', es:'Espacio', icon:'👩‍🚀', color:'wc-weather', lvl:2, kind:'words',
+   story:'En la Estación Espacial aparecen astronautas, cometas y galaxias.',
+   items:[
+    {en:'Astronaut',es:'Astronauta',img:'astronaut', em:'👩‍🚀', hint:'Traje'},
+    {en:'Comet',    es:'Cometa',    img:'comet',     em:'☄️', hint:'Cola'},
+    {en:'Galaxy',   es:'Galaxia',   img:'galaxy',    em:'🌀', hint:'Espiral'},
+    {en:'Satellite',es:'Satélite',  img:'satellite', em:'🛰️', hint:'Orbitando'},
+    {en:'Moon',     es:'Luna',      img:'moon',      em:'🌔', hint:'Fase'},
+    {en:'Rocket',   es:'Cohete',    img:'rocket',    em:'🚀', hint:'Sube'},
+    {en:'Planet',   es:'Planeta',   img:'planet',    em:'🪐', hint:'Anillos'},
+    {en:'Telescope',es:'Telescopio',img:'telescope', em:'🔭', hint:'Mirar'},
+    {en:'Earth',    es:'Tierra',    img:'globe',     em:'🌍', hint:'Casa'},
+    {en:'Stars',    es:'Estrellas', img:'star',      em:'🌟', hint:'Cielo'},
+   ]},
+
+  /* ── DINOSAURS (explorer) ── */
+  {id:'dinos_explorer', name:'Dino Explorer', es:'Exploradores Dino', icon:'🧭', color:'wc-animals', lvl:2, kind:'words',
+   story:'En el Campamento Dino buscamos pistas y nombres nuevos.',
+   items:[
+    {en:'Dinosaur',   es:'Dinosaurio', img:'dinosaur',    em:'🦖', hint:'Ruge'},
+    {en:'T-Rex',      es:'T-Rex',      img:'trex',        em:'🦖', hint:'Rey'},
+    {en:'Triceratops',es:'Triceratops',img:'triceratops', em:'🦏', hint:'Cuernos'},
+    {en:'Volcano',    es:'Volcán',     img:'volcano',     em:'🌋', hint:'Caliente'},
+    {en:'Jungle',     es:'Selva',      img:'jungle',      em:'🌴', hint:'Árboles'},
+    {en:'Skeleton',   es:'Esqueleto',  img:'skeleton',    em:'💀', hint:'Huesos'},
+    {en:'Fossil',     es:'Fósil',      img:'fossil',      em:'🦴', hint:'Antiguo'},
+    {en:'Footprint',  es:'Huella',     img:'footprint',   em:'👣', hint:'Pasos'},
+    {en:'Egg',        es:'Huevo',      img:'egg',         em:'🥚', hint:'Nace'},
+    {en:'Baby Dino',  es:'Dino bebé',  img:'chick',       em:'🐣', hint:'Pequeño'},
+   ]},
+
+  /* ── ELEMENTS (weather+) ── */
+  {id:'elements_weather', name:'Elements+', es:'Elementos (clima)', icon:'⛈️', color:'wc-weather', lvl:2, kind:'words',
+   story:'En la Montaña del Clima mezclamos elementos con lluvia, tormenta e hielo.',
+   items:[
+    {en:'Storm',    es:'Tormenta', img:'storm',     em:'⛈️', hint:'Trueno'},
+    {en:'Ice',      es:'Hielo',    img:'ice',       em:'🧊', hint:'Frío'},
+    {en:'Lightning',es:'Rayo',     img:'lightning', em:'🌩️', hint:'Flash'},
+    {en:'Fog',      es:'Niebla',   img:'cloud',     em:'🌁', hint:'No se ve'},
+    {en:'Wave',     es:'Ola',      img:'wave',      em:'🌊', hint:'Mar'},
+    {en:'Sand',     es:'Arena',    img:'sand',      em:'🏖️', hint:'Playa'},
+    {en:'Rain',     es:'Lluvia',   img:'rain',      em:'🌧️', hint:'Cae'},
+    {en:'Snow',     es:'Nieve',    img:'snow',      em:'❄️', hint:'Fría'},
+    {en:'Sun',      es:'Sol',      img:'sun',       em:'🌞', hint:'Sonríe'},
+    {en:'Wind',     es:'Viento',   img:'kite',      em:'💨', hint:'Vuela'},
+   ]},
+
+  /* ── TOYS (play) ── */
+  {id:'toys_play', name:'More Toys', es:'Más juguetes', icon:'🪀', color:'wc-words', lvl:2, kind:'words',
+   story:'En la Feria de Juegos aparecen juguetes nuevos y divertidos.',
+   items:[
+    {en:'Yo-yo',  es:'Yo-yo',     img:'yoyo',       em:'🪀', hint:'Sube/baja'},
+    {en:'Game',   es:'Juego',     img:'controller', em:'🎮', hint:'Control'},
+    {en:'Cards',  es:'Cartas',    img:'cards',      em:'🃏', hint:'Baraja'},
+    {en:'Marbles',es:'Canicas',   img:'marbles',    em:'🔵', hint:'Bolitas'},
+    {en:'Sticker',es:'Sticker',   img:'sticker',    em:'🏷️', hint:'Pega'},
+    {en:'Crayon', es:'Crayón',    img:'crayons',    em:'🖍️', hint:'Dibuja'},
+    {en:'Book',   es:'Libro',     img:'book',       em:'📘', hint:'Leer'},
+    {en:'Drum',   es:'Tambor',    img:'drum',       em:'🥁', hint:'Sonido'},
+    {en:'Ball',   es:'Pelota',    img:'ball',       em:'🏀', hint:'Bota'},
+    {en:'Puzzle', es:'Puzzle',    img:'puzzle',     em:'🧩', hint:'Encaja'},
+   ]},
+
+  /* ── BIRTHDAY (party) ── */
+  {id:'birthday_party', name:'Birthday Party', es:'Fiesta de cumple', icon:'🎈', color:'wc-food', lvl:2, kind:'words',
+   story:'En la Gran Fiesta aprendemos palabras típicas de un cumpleaños.',
+   items:[
+    {en:'Invite',  es:'Invitación',img:'envelope',   em:'💌', hint:'Ven'},
+    {en:'Friends', es:'Amigos',    img:'friends',    em:'👫', hint:'Juntos'},
+    {en:'Candles', es:'Velas',     img:'candle',     em:'🕯️', hint:'Soplar'},
+    {en:'Surprise',es:'Sorpresa',  img:'gift',       em:'🎁', hint:'¡Tadaa!'},
+    {en:'Song',    es:'Canción',   img:'microphone', em:'🎶', hint:'Cantar'},
+    {en:'Cake',    es:'Pastel',    img:'cake',       em:'🎂', hint:'Dulce'},
+    {en:'Piñata',  es:'Piñata',    img:'pinata',     em:'🪅', hint:'Golpea'},
+    {en:'Confetti',es:'Confeti',   img:'confetti',   em:'🎊', hint:'Papelitos'},
+    {en:'Smile',   es:'Sonrisa',   img:'face_happy', em:'😁', hint:'Feliz'},
+    {en:'Hug',     es:'Abrazo',    img:'hug',        em:'🤗', hint:'Cariño'},
+   ]},
+
+  /* ── JOBS (community) ── */
+  {id:'jobs_community', name:'Jobs+', es:'Trabajos (más)', icon:'🧑‍🔧', color:'wc-home', lvl:2, kind:'words',
+   story:'En el Barrio de Oficios conocemos profesiones nuevas.',
+   items:[
+    {en:'Pilot',         es:'Piloto',      img:'pilot',    em:'🧑‍✈️', hint:'Avión'},
+    {en:'Scientist',     es:'Científico',  img:'scientist',em:'🧪', hint:'Experimento'},
+    {en:'Engineer',      es:'Ingeniero',   img:'laptop',   em:'📐', hint:'Diseña'},
+    {en:'Vet',           es:'Veterinario', img:'vet',      em:'🐾', hint:'Mascotas'},
+    {en:'Mechanic',      es:'Mecánico',    img:'mechanic', em:'🔧', hint:'Arregla'},
+    {en:'Baker',         es:'Panadero',    img:'baker',    em:'🥖', hint:'Pan'},
+    {en:'Dentist',       es:'Dentista',    img:'dentist',  em:'🦷', hint:'Dientes'},
+    {en:'Police officer',es:'Oficial',     img:'police',   em:'🚓', hint:'Patrulla'},
+    {en:'Gardener',      es:'Jardinero',   img:'gardener', em:'🪴', hint:'Plantas'},
+    {en:'Musician',      es:'Músico',      img:'guitar',   em:'🎸', hint:'Toca'},
+   ]},
+
+  /* ── 🏡 SCHOOL ── */
+  {id:'school_basic', name:'School', es:'La Escuela', icon:'🏫', color:'wc-school', lvl:2, kind:'words',
+   story:'En el Aula Mágica aprendemos cosas que usamos todos los días en la escuela.',
+   items:[
+    {en:'Pencil',  es:'Lápiz',     img:'pencil',     em:'✏️', hint:'Escribe'},
+    {en:'Eraser',  es:'Borrador',  img:'eraser',     em:'🧹', hint:'Borra'},
+    {en:'Ruler',   es:'Regla',     img:'ruler',      em:'📏', hint:'Mide'},
+    {en:'Scissors',es:'Tijeras',   img:'scissors',   em:'✂️', hint:'Corta'},
+    {en:'Glue',    es:'Pegamento', img:'glue',       em:'🧴', hint:'Pega'},
+    {en:'Backpack',es:'Mochila',   img:'backpack',   em:'🎒', hint:'Carga'},
+    {en:'Notebook',es:'Cuaderno',  img:'notebook',   em:'📓', hint:'Anota'},
+    {en:'Crayons', es:'Crayones',  img:'crayons',    em:'🖍️', hint:'Colorea'},
+    {en:'Desk',    es:'Escritorio',img:'desk',       em:'🪑', hint:'Siéntate'},
+    {en:'Board',   es:'Tablero',   img:'chalkboard', em:'📋', hint:'Escribe'},
+   ]},
+
+  /* ── 🚗 TRANSPORT ── */
+  {id:'transport_basic', name:'Transport', es:'Transporte', icon:'🚗', color:'wc-numbers', lvl:2, kind:'words',
+   story:'En la Gran Autopista conocemos todos los medios de transporte del mundo.',
+   items:[
+    {en:'Car',       es:'Carro',       img:'car',        em:'🚗', hint:'Brrm'},
+    {en:'Bus',       es:'Bus',         img:'bus',        em:'🚌', hint:'Ruta'},
+    {en:'Truck',     es:'Camión',      img:'truck',      em:'🚛', hint:'Grande'},
+    {en:'Airplane',  es:'Avión',       img:'airplane',   em:'✈️', hint:'Vuela'},
+    {en:'Helicopter',es:'Helicóptero', img:'helicopter', em:'🚁', hint:'Gira'},
+    {en:'Bicycle',   es:'Bicicleta',   img:'bicycle',    em:'🚲', hint:'Pedalea'},
+    {en:'Boat',      es:'Bote',        img:'boat',       em:'⛵', hint:'Navega'},
+    {en:'Train',     es:'Tren',        img:'train',      em:'🚂', hint:'Choo-choo'},
+    {en:'Submarine', es:'Submarino',   img:'submarine',  em:'🛸', hint:'Bajo el agua'},
+    {en:'Motorcycle',es:'Moto',        img:'motorcycle', em:'🏍️', hint:'Rápida'},
+   ]},
+
+  /* ── 🏋️ SPORTS ── */
+  {id:'sports_basic', name:'Sports', es:'Deportes', icon:'⚽', color:'wc-sports', lvl:2, kind:'words',
+   story:'En el Gran Estadio conocemos los deportes más emocionantes del planeta.',
+   items:[
+    {en:'Soccer',    es:'Fútbol',     img:'soccerball', em:'⚽', hint:'Gol'},
+    {en:'Basketball',es:'Baloncesto', img:'basketball', em:'🏀', hint:'Encesta'},
+    {en:'Swimming',  es:'Natación',   img:'kid_swim',   em:'🏊', hint:'Nada'},
+    {en:'Running',   es:'Correr',     img:'kid_run',    em:'🏃', hint:'Rápido'},
+    {en:'Tennis',    es:'Tenis',      img:'tennisball', em:'🎾', hint:'Raqueta'},
+    {en:'Baseball',  es:'Béisbol',    img:'baseball',   em:'⚾', hint:'Batea'},
+    {en:'Cycling',   es:'Ciclismo',   img:'bicycle',    em:'🚴', hint:'Pedal'},
+    {en:'Gymnastics',es:'Gimnasia',   img:'kid_jump',   em:'🤸', hint:'Salto'},
+    {en:'Surfing',   es:'Surf',       img:'surfboard',  em:'🏄', hint:'Olas'},
+    {en:'Skating',   es:'Patinaje',   img:'iceskate',   em:'⛸️', hint:'Desliza'},
+   ]},
+
+  /* ── 🌿 NATURE ── */
+  {id:'nature_basic', name:'Nature', es:'La Naturaleza', icon:'🌿', color:'wc-nature', lvl:2, kind:'words',
+   story:'En el Bosque Encantado descubrimos plantas, insectos y paisajes de la naturaleza.',
+   items:[
+    {en:'Tree',    es:'Árbol',    img:'tree',      em:'🌳', hint:'Alto'},
+    {en:'Flower',  es:'Flor',     img:'flower',    em:'🌸', hint:'Bonita'},
+    {en:'Butterfly',es:'Mariposa',img:'butterfly', em:'🦋', hint:'Vuela'},
+    {en:'Bee',     es:'Abeja',    img:'bee',       em:'🐝', hint:'Miel'},
+    {en:'Mushroom',es:'Hongo',    img:'mushroom',  em:'🍄', hint:'Rojo'},
+    {en:'Rainbow', es:'Arcoíris', img:'rainbow',   em:'🌈', hint:'Colores'},
+    {en:'River',   es:'Río',      img:'river',     em:'🏞️', hint:'Fluye'},
+    {en:'Mountain',es:'Montaña',  img:'mountain',  em:'⛰️', hint:'Alta'},
+    {en:'Desert',  es:'Desierto', img:'desert',    em:'🏜️', hint:'Arena'},
+    {en:'Forest',  es:'Bosque',   img:'jungle',    em:'🌲', hint:'Árboles'},
+   ]},
+
+  /* ── 🍳 KITCHEN ── */
+  {id:'cooking_basic', name:'Kitchen', es:'En la cocina', icon:'🍳', color:'wc-food', lvl:2, kind:'words',
+   story:'En la Cocina Mágica aprendemos comidas y utensilios con fotos apetitosas.',
+   items:[
+    {en:'Kitchen',es:'Cocina',  img:'kitchen',em:'🍳', hint:'Lugar'},
+    {en:'Pie',    es:'Tarta',   img:'pie',    em:'🥧', hint:'Horno'},
+    {en:'Soup',   es:'Sopa',    img:'soup',   em:'🍲', hint:'Caliente'},
+    {en:'Fries',  es:'Papitas', img:'fries',  em:'🍟', hint:'Crujiente'},
+    {en:'Carrot', es:'Zanahoria',img:'carrot',em:'🥕', hint:'Naranja'},
+    {en:'Cookie', es:'Galleta', img:'cookie', em:'🍪', hint:'Dulce'},
+    {en:'Juice',  es:'Jugo',    img:'juice',  em:'🥤', hint:'Beber'},
+    {en:'Bread',  es:'Pan',     img:'bread',  em:'🍞', hint:'Hornea'},
+    {en:'Milk',   es:'Leche',   img:'milk',   em:'🥛', hint:'Blanca'},
+    {en:'Egg',    es:'Huevo',   img:'egg',    em:'🥚', hint:'Desayuno'},
+   ]},
+
+  /* ── 🤸 ACTIONS ── */
+  {id:'actions_basic', name:'Actions', es:'Acciones', icon:'🏃', color:'wc-words', lvl:2, kind:'words',
+   story:'En el Gimnasio de Acciones aprendemos verbos con fotos de niños en movimiento.',
+   items:[
+    {en:'Jump', es:'Saltar',  img:'kid_jump',   em:'🤸', hint:'Arriba'},
+    {en:'Run',  es:'Correr',  img:'kid_run',    em:'🏃', hint:'Rápido'},
+    {en:'Swim', es:'Nadar',   img:'kid_swim',   em:'🏊', hint:'Agua'},
+    {en:'Fly',  es:'Volar',   img:'eagle',      em:'🦅', hint:'Cielo'},
+    {en:'Sing', es:'Cantar',  img:'microphone', em:'🎤', hint:'Voz'},
+    {en:'Draw', es:'Dibujar', img:'crayons',    em:'🖍️', hint:'Arte'},
+    {en:'Read', es:'Leer',    img:'book',       em:'📖', hint:'Libro'},
+    {en:'Write',es:'Escribir',img:'pencil',     em:'✏️', hint:'Papel'},
+    {en:'Sleep',es:'Dormir',  img:'kid_sleep',  em:'😴', hint:'Zzz'},
+    {en:'Eat',  es:'Comer',   img:'kid_eat',    em:'🍽️', hint:'Ñam'},
+   ]},
+
+  /* ── 👕 CLOTHES (nuevo) ── */
+  {id:'clothes_basic', name:'Clothes', es:'La ropa', icon:'👕', color:'wc-school', lvl:2, kind:'words',
+   story:'En el Armario Encantado aprendemos las prendas que nos ponemos cada día.',
+   items:[
+    {en:'T-shirt',es:'Camiseta', img:'tshirt',em:'👕', hint:'Arriba'},
+    {en:'Pants',  es:'Pantalón', img:'pants', em:'👖', hint:'Piernas'},
+    {en:'Shoes',  es:'Zapatos',  img:'shoes', em:'👟', hint:'Pies'},
+    {en:'Socks',  es:'Medias',   img:'socks', em:'🧦', hint:'Suaves'},
+    {en:'Jacket', es:'Chaqueta', img:'jacket',em:'🧥', hint:'Abriga'},
+    {en:'Scarf',  es:'Bufanda',  img:'scarf', em:'🧣', hint:'Cuello'},
+    {en:'Gloves', es:'Guantes',  img:'gloves',em:'🧤', hint:'Manos'},
+    {en:'Boots',  es:'Botas',    img:'boots', em:'🥾', hint:'Lluvia'},
+    {en:'Hat',    es:'Sombrero', img:'hat',   em:'👒', hint:'Cabeza'},
+    {en:'Dress',  es:'Vestido',  img:'dress', em:'👗', hint:'Bonito'},
+   ]},
+
+  /* ── 🐞 INSECTS (nuevo) ── */
+  {id:'insects_basic', name:'Insects', es:'Insectos', icon:'🐞', color:'wc-nature', lvl:2, kind:'words',
+   story:'En el Jardín de los Bichos conocemos los insectos más increíbles con fotos de cerca.',
+   items:[
+    {en:'Ant',       es:'Hormiga',   img:'ant',        em:'🐜'},
+    {en:'Bee',       es:'Abeja',     img:'bee',        em:'🐝'},
+    {en:'Butterfly', es:'Mariposa',  img:'butterfly',  em:'🦋'},
+    {en:'Ladybug',   es:'Mariquita', img:'ladybug',    em:'🐞'},
+    {en:'Spider',    es:'Araña',     img:'spider',     em:'🕷️'},
+    {en:'Snail',     es:'Caracol',   img:'snail',      em:'🐌'},
+    {en:'Caterpillar',es:'Oruga',    img:'caterpillar',em:'🐛'},
+    {en:'Dragonfly', es:'Libélula',  img:'dragonfly',  em:'🪰'},
+    {en:'Grasshopper',es:'Saltamontes',img:'grasshopper',em:'🦗'},
+    {en:'Beetle',    es:'Escarabajo',img:'beetle',     em:'🪲'},
+   ]},
+);
