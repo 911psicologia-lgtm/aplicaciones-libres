@@ -127,7 +127,7 @@ function renderQuestion() {
     $('qInstruction').textContent = '¿Cómo se llama este color?';
     $('qWord').textContent = '';
     $('qWord').style.display = 'none';
-    $('qTrans').textContent = item.es;
+    $('qTrans').textContent = 'Toca la respuesta correcta 👇';
     $('qVisual').innerHTML = `<div class="color-ring" style="--c:${item.color || '#fff'}">${imgTag(item.img, item.em, 'q-big-img', item.en)}</div>`;
   } else if (w.kind === 'phrases') {
     $('qInstruction').textContent = '¿Cuál es esta frase en inglés?';
@@ -177,13 +177,21 @@ function renderQuestion() {
   const fb = $('feedbackBar');
   fb.className = 'feedback-bar';
 
-  // Pronunciar
-  setTimeout(() => TTS.sayWord(item.en, item.es, w.kind), 300);
+  // Pronunciar (en Colores NO se dice la respuesta: solo la pista)
+  setTimeout(() => {
+    if (w.kind === 'colors') TTS.speak([{ text: 'What color is this?', lang: 'en-US', rate: .82 }]);
+    else TTS.sayWord(item.en, item.es, w.kind);
+  }, 300);
 }
 
 function speakCurrent() {
   if (!G.active || G.qi >= G.questions.length) return;
   const q = G.questions[G.qi];
+  if (G.world.kind === 'colors') {
+    TTS.speak([{ text: 'What color is this?', lang: 'en-US', rate: .82 }]);
+    beep(true);
+    return;
+  }
   TTS.sayWord(q.item.en, q.item.es, G.world.kind);
   beep(true);
 }
@@ -224,6 +232,13 @@ function chooseAnswer(el, q, evt) {
       updateProfile(pp => { pp.coins = (pp.coins || 0) + coinsBonus; pp.stars = (pp.stars || 0) + bonus; pp.xp = (pp.xp || 0) + G.streak * 5; });
     }
     showFeedback(true, '¡Correcto! 🎉', `${q.item.en} = ${q.item.es}`);
+    // En Colores, tras acertar se refuerza la palabra (EN + ES)
+    if (G.world.kind === 'colors') {
+      setTimeout(() => TTS.speak([
+        { text: q.item.en, lang: 'en-US', rate: .72, pauseMs: 550 },
+        { text: q.item.es, lang: 'es-ES', rate: .8 }
+      ]), 1100);
+    }
   } else {
     el.classList.add('wrong');
     G.streak = 0; G.lives--;
@@ -236,6 +251,13 @@ function chooseAnswer(el, q, evt) {
       updateTopbar(); return;
     }
     showFeedback(false, '¡Intenta otra vez! 💪', `Era: ${q.item.en} = ${q.item.es}`);
+    // En Colores, tras fallar se enseña la palabra correcta
+    if (G.world.kind === 'colors') {
+      setTimeout(() => TTS.speak([
+        { text: q.item.en, lang: 'en-US', rate: .72, pauseMs: 550 },
+        { text: q.item.es, lang: 'es-ES', rate: .8 }
+      ]), 1300);
+    }
   }
   updateTopbar();
 }

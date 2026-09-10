@@ -37,7 +37,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 /* ── PANTALLAS ── */
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;-webkit-overflow-scrolling:touch;z-index:1}
 .screen.on{opacity:1;pointer-events:all}
-#gameScreen{overflow:hidden!important;padding:0!important}
+#gameScreen{overflow-x:hidden!important;overflow-y:auto!important;padding:0!important}
 
 /* ── TOPBAR ── */
 #topbar{
@@ -48,6 +48,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
   padding:0 14px;z-index:200
 }
 #topbar.on{display:flex}
+.bar-in{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;max-width:860px;margin:0 auto}
 .tb-logo{font-family:'Baloo 2',cursive;font-size:1.4em;color:var(--gold);display:flex;align-items:center;gap:8px}
 .tb-chips{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
 .tchip{
@@ -67,6 +68,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
   display:none;align-items:center;justify-content:space-around;z-index:200
 }
 #botnav.on{display:flex}
+#botnav .bar-in{justify-content:space-around;max-width:600px}
 .bnbtn{
   display:flex;flex-direction:column;align-items:center;gap:2px;
   padding:6px 14px;border-radius:16px;cursor:pointer;
@@ -190,6 +192,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 /* ── TARJETAS DE MUNDO (con foto) ── */
 .world-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(min-width:480px){.world-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:860px){#mapScreen,#trophiesScreen{max-width:820px}.world-grid{grid-template-columns:repeat(4,1fr)}}
 .world-card{
   background:var(--card);border-radius:var(--r);padding:10px 10px 12px;
   text-align:center;cursor:pointer;border:3px solid transparent;

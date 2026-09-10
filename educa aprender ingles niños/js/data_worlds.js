@@ -36,7 +36,7 @@ const WORLDS = [
    story:'El Arcoíris perdido necesita 4 colores para brillar. ¡Encuéntralos en las fotos!',
    items:[
     {en:'Red',   es:'Rojo',     img:'apple',  em:'🍎', color:'#e74c3c'},
-    {en:'Blue',  es:'Azul',     img:'bird',   em:'🐦', color:'#3498db'},
+    {en:'Blue',  es:'Azul',     img:'blue_balloon', em:'🔵', color:'#3498db'},
     {en:'Yellow',es:'Amarillo', img:'banana', em:'🍌', color:'#f1c40f'},
     {en:'Green', es:'Verde',    img:'frog',   em:'🐸', color:'#2ecc71'},
    ]},

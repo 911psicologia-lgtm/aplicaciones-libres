@@ -8,11 +8,20 @@
 #gameScreen{
   padding:0;
   align-items:stretch;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
+  scrollbar-width:none;
   display:flex;flex-direction:column;
   justify-content:flex-start;
   gap:0;
   padding-bottom:calc(var(--botnav-h) + env(safe-area-inset-bottom) + 10px);
+}
+#gameScreen::-webkit-scrollbar{display:none}
+/* ★ Responsive: en tablet/PC el juego se centra en una columna cómoda ★ */
+@media(min-width:700px){
+  #gameScreen>*:not(.listen-btn):not(.lives-row){width:100%;max-width:640px;margin-left:auto;margin-right:auto}
+  .opts-grid{padding-left:16px;padding-right:16px}
+  .question-card{margin-left:16px;margin-right:16px}
 }
 .game-top-strip{
   flex-shrink:0;
@@ -71,9 +80,9 @@
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)
 }
 
-/* ★ IMAGEN GRANDE DE PREGUNTA (foto real) ★ */
+/* ★ IMAGEN GRANDE DE PREGUNTA (foto real, altura fluida) ★ */
 .q-big-img{
-  height:min(23vh,185px);
+  height:clamp(104px,19vh,180px);
   width:min(62vw,240px);
   object-fit:cover;
   border-radius:20px;
@@ -155,24 +164,64 @@ span.word-card{display:inline-flex}
   display:grid;grid-template-columns:1fr 1fr;gap:10px;
   flex-shrink:0;
   padding:0 12px;
-  padding-bottom:calc(var(--botnav-h) + 96px);
+  padding-bottom:calc(var(--botnav-h) + 64px);
 }
 .opt-btn{
-  padding:10px 10px;border-radius:18px;
+  padding:9px 9px;border-radius:18px;
   border:3px solid rgba(255,255,255,.1);
   background:rgba(255,255,255,.07);
   cursor:pointer;font-family:'Nunito',sans-serif;
   font-size:.95em;font-weight:900;color:var(--text);
   transition:all .2s;text-align:center;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-  min-height:92px;position:relative;overflow:hidden;flex-shrink:0
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  min-height:clamp(64px,9.5vh,92px);position:relative;overflow:hidden;flex-shrink:0
 }
 .opt-btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
 .opt-btn:active{transform:scale(.93)}
 .ob-img{
-  width:100%;height:clamp(60px,10vh,80px);
+  width:100%;height:clamp(48px,7.8vh,72px);
   object-fit:cover;border-radius:12px;
   background:rgba(255,255,255,.06);
+}
+
+/* ── Responsive vertical: pantallas bajas (laptops / móviles apaisados) ── */
+@media(max-height:760px){
+  .game-top-strip{padding-top:calc(var(--topbar-h) + 2px);padding-bottom:4px}
+  .lives-row{padding:2px 0;gap:6px}
+  .listen-btn{margin:2px auto 2px;padding:5px 16px;font-size:.8em}
+  .life-compact{padding:4px 10px;font-size:.78em}
+  .game-prog-label{font-size:.65em}
+  .question-card{padding:5px 14px 7px;margin-bottom:5px}
+  .q-big-img{height:clamp(80px,15vh,122px)}
+  .color-ring{padding:3px;border-width:4px;border-radius:22px}
+  .q-world-badge{margin-bottom:2px;padding:2px 9px;font-size:.62em}
+  .q-instruction{margin-bottom:2px}
+  .q-big-word{font-size:1.55em}
+  .q-translation{font-size:.78em}
+  .opt-btn{min-height:clamp(56px,8.6vh,72px);gap:3px;padding:5px}
+  .ob-img{height:clamp(40px,6.6vh,56px)}
+  .opts-grid{gap:7px;padding-bottom:calc(var(--botnav-h) + 28px)}
+}
+@media(max-height:620px){
+  .q-big-img{height:clamp(72px,13vh,104px);width:min(44vw,160px)}
+  .ob-img{height:clamp(34px,5.8vh,46px)}
+  .opt-btn{min-height:50px;gap:2px;padding:5px}
+  .q-big-word{font-size:1.35em}
+  .q-translation{font-size:.75em}
+}
+
+/* ── Responsive: en tablet/PC la foto de la opción es cuadrada y centrada ── */
+@media(min-width:700px){
+  .ob-img{--obsz:clamp(76px,10vh,108px);width:var(--obsz);height:var(--obsz)}
+  .ob-img.wide{width:min(100%,240px);height:clamp(60px,8.6vh,84px)}
+}
+/* ── Responsive: PC grande con buena altura → fotos más grandes ── */
+@media(min-width:700px) and (min-height:900px){
+  .q-big-img{height:clamp(170px,24vh,220px);width:min(40vw,300px)}
+  .q-big-img.wide{width:min(46vw,340px)}
+  .opts-grid{max-width:680px}
+  .ob-img{--obsz:clamp(92px,11vh,124px);width:var(--obsz);height:var(--obsz)}
+  .ob-img.wide{width:min(100%,260px);height:clamp(72px,9vh,96px)}
 }
 span.ob-img.img-fallback{font-size:2em}
 .opt-btn .ob-emoji{font-size:2em;display:block;line-height:1.1}
