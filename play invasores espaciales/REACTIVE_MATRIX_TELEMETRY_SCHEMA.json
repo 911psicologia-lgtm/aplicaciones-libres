@@ -1,0 +1,19 @@
+{
+  "schema": "reactive_matrix_shadow_v1",
+  "storage_key": "sf3_reactive_matrix_telemetry_v1",
+  "max_encounters": 60,
+  "fields": {
+    "build": "ship, primary damage, fire interval, projectile/secondary factors, upgrades, inventory, boss powers, augments, relics",
+    "staticPower": "theoreticalDps, offenseIndex, survivalIndex, skillIndex, powerIndex",
+    "stateTransitions": "M0-M3 transitions with TTK/DPS and shadow response",
+    "suppliesOffered": "physical boss supplies/pods exposed to player",
+    "suppliesUsed": "physical boss supplies actually collected",
+    "damageReceived": "damage taken during boss encounter",
+    "nativeResurrection": "pre-existing boss resurrection system triggered",
+    "matrixMitigationApplied": "always 0 in Shadow Mode",
+    "matrixJamActivated": "always false in Shadow Mode",
+    "matrixRebootActivated": "always false in Shadow Mode",
+    "durationSec": "real gameplay duration excluding paused time",
+    "outcome": "victory, defeat, aborted"
+  }
+}

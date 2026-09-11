@@ -1,0 +1,22 @@
+MOBILE COMBAT ERGONOMICS REGRESSION v2.15.19
+Base funcional: v2.15.18
+
+Resultado: 5/5 perfiles PASS
+- iPhone landscape con notch
+- landscape compacto con notch
+- Android landscape
+- tablet landscape
+- mobile portrait
+
+Validado:
+- safe-area bounds
+- player bounds
+- action rail
+- clamp de movimiento
+- HUD safe center
+- touch target efectivo 44 px
+- direct touch
+- single primary touch
+- secondary touch ignored
+- coalesced pointer moves
+- viewport debounce

@@ -34,5 +34,21 @@
     for(const a of pool){if(seen.has(a.skill))continue;seen.add(a.skill);out.push(cloneActivity(a));if(out.length>=max)break;}
     return out;
   }
-  window.EmiliaScheduler={candidates,dueCount,injectReviews,practiceActivities,weakestTaught,adaptiveReviews};
+  function learnedGapPool(){
+    const done=new Set(EmiliaStore.get().completedMissions||[]),out=[];
+    for(const m of (EMILIA_CONTENT.missions||[])){
+      if(!done.has(m.id))continue;
+      for(const a of (m.activities||[]))if(a.type==='gapFill')out.push(Object.assign({},a,{sourceMission:m.id}));
+    }
+    return out;
+  }
+  function gapPracticeCount(){return learnedGapPool().length;}
+  function gapPracticeActivities(max=5){
+    const pool=learnedGapPool();if(!pool.length)return [];
+    const seed=(EmiliaStore.get().sessions||0)+1,rot=seed%pool.length,ordered=pool.slice(rot).concat(pool.slice(0,rot)),out=[],seen=new Set();
+    for(const a of ordered){const key=a.skill+'|'+a.mode;if(seen.has(key)&&out.length<Math.min(3,max))continue;seen.add(key);out.push(Object.assign({},a,{id:'gap_practice_'+a.id+'_'+seed,review:true,gapPractice:true}));if(out.length>=max)break;}
+    if(out.length<Math.min(max,pool.length))for(const a of ordered){if(out.some(x=>x.id.includes(a.id+'_')))continue;out.push(Object.assign({},a,{id:'gap_practice_'+a.id+'_'+seed+'_b',review:true,gapPractice:true}));if(out.length>=max)break;}
+    return out;
+  }
+  window.EmiliaScheduler={candidates,dueCount,injectReviews,practiceActivities,weakestTaught,adaptiveReviews,gapPracticeCount,gapPracticeActivities};
 })();

@@ -4,7 +4,7 @@ const sandbox={window:{}}; sandbox.window.SF={}; vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
 const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
-if(C.VERSION!=='0.5.9') throw new Error('wrong version');
+if(C.VERSION!=='0.6.1') throw new Error('wrong version');
 if(!C.bossFortress) throw new Error('missing bossFortress');
 if(C.bossFortress.initialShieldRatio<.3) throw new Error('fortress too weak');
 if(C.bossFortress.phaseRechargeRatio[2]<.2) throw new Error('phase 3 recharge too weak');

@@ -1,0 +1,44 @@
+STARFALL FRONTIER v0.6.1 — VALIDATION REPORT
+================================================
+Base obligatoria: v0.6.0 ECONOMY + BOSS SUPPLY FULL
+Resultado global: PASS
+
+Sintaxis
+- JS productivo: 10 archivos · PASS
+- Service Worker: PASS
+
+Regresión
+- Suite Node: 24/24 PASS
+- Reactive Matrix Shadow test: PASS
+- Validator integral: PASS
+
+Rutas / referencias
+- Referencias locales en index.html: 12 · todas existentes
+- Archivos assets/: 273
+- Archivos audio/: 451
+- Runtime world refs assets.js/world_content.js: PASS
+
+PWA
+- manifest.webmanifest: JSON válido
+- display: fullscreen
+- iconos 192/512: PASS
+- sw.js shell cache: PASS
+- registro condicionado a HTTP/HTTPS: PASS
+
+No regresión crítica frente a v0.6.0
+- assets+audio aggregate SHA-256: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847 · MATCH
+- js/economy.js SHA-256: f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441 · MATCH
+
+Reactive Matrix
+- mode=shadow: PASS
+- M0/M1/M2/M3: PASS
+- hysteresis/cooldown: PASS
+- DPS rolling + TTK projected: PASS
+- local telemetry: PASS
+- Boss Supply offered/used telemetry: PASS
+- adaptive mitigation applied by Matrix: 0 (expected)
+- System Jam by Matrix: false (expected)
+- Matrix Reboot: false (expected)
+- economy/prices/inventory mutation by Matrix: NONE
+
+Total project files: 784

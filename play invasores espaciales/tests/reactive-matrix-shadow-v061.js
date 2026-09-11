@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const store=new Map();
+const localStorage={getItem:k=>store.has(k)?store.get(k):null,setItem:(k,v)=>store.set(k,String(v)),removeItem:k=>store.delete(k)};
+const sandbox={window:null,localStorage,console,Date,JSON,Math,performance:{now:()=>0}}; sandbox.window=sandbox; sandbox.window.SF={};
+vm.createContext(sandbox);
+for(const f of ['config.js','storage.js','reactive_matrix.js']) vm.runInContext(fs.readFileSync(path.join(root,'js',f),'utf8'),sandbox,{filename:f});
+const C=sandbox.window.SF.config,R=sandbox.window.SF.reactiveMatrix,S=sandbox.window.SF.storage;
+if(C.VERSION!=='0.6.1') throw new Error('wrong version');
+if(!C.reactiveMatrix?.enabled||C.reactiveMatrix.mode!=='shadow') throw new Error('shadow mode not enabled');
+if(!Array.isArray(C.reactiveMatrix.targetWindows.initial)||C.reactiveMatrix.targetWindows.final[1]<120) throw new Error('target windows missing');
+R.start({sector:3,bossName:'TEST',bossHp:800,build:{shipId:'specter',shipName:'Specter',primaryDamage:2.8,fireInterval:.07,projectileFactor:2.3,secondaryFactor:1.7,speed:505,maxHp:12,lives:4,shieldActive:true,combo:15,activePowers:{missile:true,chain:true,drone:true},upgrades:{weapon:5},bossAugments:{damage:.2},relicLevels:{missile:3},bossPowers:['missile']}},0);
+for(let t=500;t<=7000;t+=500){ R.noteDamage(45,'hull',t); R.update({bossHp:Math.max(250,800-t/20),defenseHp:80,hpRatio:.8,mobilityIndex:1.17,hasUsefulSecondary:true,combo:18,damageReceivedRatio:.08},t); }
+const st=R.status();
+if(!['M2','M3'].includes(st.state)) throw new Error('high DPS not recognized: '+st.state);
+if(!st.response.includes('REACTIVE')&&!st.response.includes('ADAPTIVE')) throw new Error('shadow response recommendation missing');
+R.noteSupplyOffered('shield','bossSupply'); R.noteSupplyUsed('shield','bossSupply'); R.notePlayerDamage(3.5); R.noteNativeResurrection();
+R.finalize('victory',{bossHp:0,defenseHp:0,hpRatio:.6,mobilityIndex:1.17,hasUsefulSecondary:true,combo:20,damageReceivedRatio:.2},8000);
+const logs=S.loadMatrixTelemetry();
+if(logs.length!==1) throw new Error('telemetry not stored');
+const e=logs[0];
+if(e.matrixMitigationApplied!==0||e.matrixJamActivated!==false||e.matrixRebootActivated!==false) throw new Error('shadow mode intervened');
+if(!e.suppliesUsed.length||!e.nativeResurrection||e.damageReceived<3) throw new Error('telemetry fields incomplete');
+if(e.durationSec<7.9||!e.victory) throw new Error('duration/outcome invalid');
+const game=fs.readFileSync(path.join(root,'js','game.js'),'utf8'),html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+for(const token of ['matrixBuildSnapshot','updateReactiveMatrix','noteSupplyUsed','REACTIVE MATRIX · SHADOW']) if(!game.includes(token)) throw new Error('missing game hook '+token);
+if(!html.includes('js/reactive_matrix.js')) throw new Error('matrix script not referenced');
+console.log('REACTIVE MATRIX SHADOW v0.6.1 PASS',{state:st.state,ttk:st.estimatedTtk.toFixed(1),logs:logs.length});

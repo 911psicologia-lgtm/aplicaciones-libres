@@ -1,0 +1,31 @@
+VALIDACIÓN v0.9.3 · RITMO DE SESIONES
+
+Versión de contenido: 9.3
+Mundos/misiones: 22
+Habilidades: 105
+Actividades de misión declaradas: 312
+Cuentos: 27
+Escaleras de escritura: 19
+Escaleras de frases: 18
+
+CAMBIOS DE RITMO
+- Misiones largas: pausa segura después de 4 actividades.
+- Sesiones especialmente largas: segunda pausa posible después de 8 actividades.
+- La pausa guarda el índice siguiente: no obliga a repetir la actividad terminada.
+- Prácticas breves: sin pausas intermedias.
+- Contador infantil: cuatro puntos por microtramo; total numérico secundario.
+- Cuento nuevo priorizado visualmente en el cierre del mundo.
+- Tras responder la comprensión del cuento: accesos directos a bosque o siguiente aventura.
+
+VALIDACIÓN TÉCNICA
+JavaScript: OK (11 archivos comprobados)
+Service Worker: 224 referencias; 0 faltantes
+CSS: {'tokens.css': (1, 1), 'screens.css': (1296, 1296), 'base.css': (31, 31), 'animations.css': (16, 16)}
+Assets heredados: 208 -> 208
+Assets modificados: 0
+Assets nuevos: 0
+Assets eliminados: 0
+Manifest start_url: ./index.html?v=0.9.3
+
+NOTA
+La pausa no califica, no penaliza y no marca la misión como finalizada. Es una salida segura para sesiones infantiles cortas.

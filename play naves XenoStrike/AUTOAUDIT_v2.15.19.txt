@@ -1,0 +1,14 @@
+AUTOAUDIT v2.15.19 — PASS
+
+- PWA manifest/resources: 560 referencias, 0 faltantes.
+- Manifest CH2 fuente: 230.
+- Assets CH2 runtime presentes/verificados: 210/210.
+- Hash mismatches CH2: 0.
+- Omitidos esperados: 20 PNG masters de backgrounds; WEBP runtime preservados.
+- Assets runtime comparados contra v2.15.18: 551.
+- Assets runtime cambiados o faltantes: 0.
+- Marcadores Adaptive Hive: PASS.
+- Garantía Shadow-only: PASS.
+- Migración v2.15.18→v2.15.19: PASS.
+- Cache bust v2.15.19: PASS.
+- Sistemas core preservados: PASS.

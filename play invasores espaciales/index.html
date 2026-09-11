@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#08111c">
-  <title>Starfall Frontier v0.5.9</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Starfall Frontier v0.6.1</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -31,19 +33,24 @@
       <span id="hudObjective">OBJ —</span>
       <span id="hudFusion"></span>
       <span id="hudMutator"></span>
+      <span id="hudEconomy" class="economy-hud">NV 1 · XP 0 · ◈ 0</span>
     </div>
   </div>
 
   <div class="center-msg" id="centerMsg"></div>
   <div class="controls-tag" id="controlsTag">ARRASTRA / ← → · AUTO-FUEGO · P PAUSA</div>
   <button class="pause-btn" id="pauseBtn">PAUSA</button>
+  <div class="top-tools" id="topTools">
+    <button class="shop-btn" id="shopBtn" title="Tienda y arsenal" aria-label="Abrir tienda">🛒</button>
+    <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa" aria-label="Pantalla completa">[ ]</button>
+  </div>
 
   <section class="screen active simple-home" id="splash">
     <div class="start-card">
       <div class="compact-brand">
         <div class="compact-kicker">DEEP SPACE DEFENSE</div>
         <div class="compact-title">STARFALL <strong>FRONTIER</strong></div>
-        <div class="compact-version">v0.5.9 · ENDURANCE DIRECTOR + PHASE PRESSURE</div>
+        <div class="compact-version">v0.6.1 · REACTIVE MATRIX SHADOW · ECONOMÍA INTACTA</div>
       </div>
 
       <label class="pilot-label" for="splashPilot">Piloto</label>
@@ -94,6 +101,21 @@
     </div>
   </section>
 
+  <div class="shop-overlay" id="shopOverlay" aria-hidden="true">
+    <div class="shop-panel">
+      <div class="shop-head">
+        <div>
+          <div class="shop-kicker">ARSENAL // ECONOMÍA</div>
+          <h2>TIENDA DE COMBATE</h2>
+        </div>
+        <button id="shopCloseBtn" class="shop-close" aria-label="Cerrar tienda">×</button>
+      </div>
+      <div class="shop-balance" id="shopBalance"></div>
+      <div class="shop-legend">Brillo amarillo = puedes comprarlo ahora con tu nivel y capital.</div>
+      <div class="shop-boss-powers" id="shopBossPowers"></div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
+  </div>
 
   <div class="gameover-overlay" id="gameOverOverlay">
     <div class="gameover-box">
@@ -124,6 +146,8 @@
 <script src="js/world_content.js"></script>
 <script src="js/assets.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/economy.js"></script>
+<script src="js/reactive_matrix.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/game.js"></script>

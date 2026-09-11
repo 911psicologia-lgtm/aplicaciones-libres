@@ -13,4 +13,4 @@ for(const token of ['endurancePowerScale','bossFortressRatio','subbossShieldRati
 const boss=1+12*d.bossRelicHpPer+4*d.bossChassisHpPer;
 const sub=1+12*d.subbossRelicHpPer+4*d.subbossChassisHpPer;
 if(boss<1.45||sub<1.28) throw new Error('late-game compensation insufficient');
-console.log('ENDURANCE DIRECTOR v0.5.9 OK',{bossScale:boss.toFixed(3),subbossScale:sub.toFixed(3)});
+console.log('ENDURANCE DIRECTOR v0.6.0 OK',{bossScale:boss.toFixed(3),subbossScale:sub.toFixed(3)});

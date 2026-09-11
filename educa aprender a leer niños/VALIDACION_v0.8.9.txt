@@ -1,0 +1,75 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS · v0.8.9
+VALIDACIÓN DE ESCALERA DE ESCRITURA
+
+OBJETIVO DE ESTA PASADA
+- Pasar de reconocer/completar a una escritura progresivamente más autónoma.
+- Mantener el refuerzo fuera de las misiones principales para no alargar en exceso cada mundo.
+- Reutilizar solo palabras de mundos ya superados.
+
+IMPLEMENTADO
+1. NUEVO MODO “ESCALERA DE ESCRITURA”
+   - Se abre después de superar el mundo M.
+   - Elige entre palabras ya enseñadas y rota entre las más recientes.
+   - Banco inicial: mamá, papá, sapo, lupa, mano, pato, dado y paloma.
+
+2. PROGRESIÓN DE CUATRO PASOS
+   1) MIRAR Y ESCUCHAR
+      - La palabra aparece completa y segmentada en sílabas.
+      - El niño toca las partes de izquierda a derecha y escucha cada sílaba.
+      - Al terminar escucha la palabra completa.
+   2) ARMAR
+      - Las sílabas aparecen desordenadas.
+      - El niño reconstruye la palabra sin copiar el orden visible.
+      - Al acertar escucha la palabra completa.
+   3) COMPLETAR
+      - Falta una letra o, en PALOMA, una sílaba.
+      - El niño selecciona la pieza correcta.
+      - La app pronuncia después la palabra completa.
+   4) ESCRIBIR
+      - El lienzo comienza con guía mínima: línea base y puntos de posición, sin contorno completo de la palabra.
+      - El niño puede escribir con el dedo y levantarlo entre letras.
+      - El check solo indica evidencia suficiente; no corta la escritura.
+      - Botón 👁 de ayuda: muestra la palabra y cambia a una guía tenue.
+      - Pedir ayuda queda registrado como apoyo, no como castigo.
+      - Al completar se pronuncia la palabra completa.
+
+3. FRASE DE CIERRE
+   - Después de superar Jardín de Palabras, la escalera puede añadir un quinto paso:
+     completar una palabra dentro de una frase ya decodificable.
+
+4. TRAZADO PROGRESIVO
+   - startWord admite tres niveles de guía: full, faded y minimal.
+   - Los ejercicios antiguos conservan la guía completa.
+   - La nueva escritura autónoma comienza en minimal y pasa a faded solo si el niño pide pista.
+
+CONTEOS
+- 22 mundos / misiones.
+- 94 habilidades.
+- 23 cuentos.
+- 248 actividades dentro de misiones.
+- 32 actividades de repaso.
+- 8 palabras disponibles en Escalera de escritura.
+- 4 pasos obligatorios por escalera; 5 tras Jardín de Palabras cuando hay frase asociada.
+
+VALIDACIONES AUTOMÁTICAS
+- Sintaxis JavaScript: OK.
+- IDs duplicados en actividades de misión: 0.
+- Referencias a habilidades inexistentes: 0.
+- Prerrequisitos inválidos: 0.
+- Escaleras con mundo/habilidad inválidos: 0.
+- Escaleras con segmentación incompatible con la palabra: 0.
+- Huecos mal configurados: 0.
+- Referencias PWA/Service Worker: 224; faltantes: 0.
+- Llaves CSS: 1258 apertura / 1258 cierre.
+- Assets totales: 208.
+- Assets añadidos/eliminados: 0.
+- Cambios en assets: solo metadatos de assets/audio/README.txt y assets/audio/manifest.json para reflejar la versión 0.8.9.
+- Imágenes aprobadas de Lumi: sin cambios byte a byte.
+
+PRUEBA LÓGICA
+- Generación de Escalera comprobada desde M hasta Jardín de Palabras.
+- El cuarto paso (escritura) siempre se alcanza antes de que el cierre adaptativo pueda terminar la sesión.
+- La frase extra solo aparece cuando Jardín de Palabras ya está superado.
+
+NOTA DE PRUEBA
+La validación de esta entrega es estructural, lógica y de integridad. La ergonomía del trazado con guía mínima debe confirmarse en la prueba real de tablet/celular, porque el tamaño del dedo y la superficie física son parte del comportamiento que interesa evaluar.

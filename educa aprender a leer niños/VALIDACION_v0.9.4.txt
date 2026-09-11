@@ -1,0 +1,24 @@
+VALIDACIÓN v0.9.4 · BALANCE PEDAGÓGICO
+
+Contenido: 22 mundos · 22 misiones · 105 habilidades · 27 cuentos
+Banco: 312 actividades de misión · 43 refuerzos · 19 escaleras de escritura · 18 Frases Vivas
+
+JavaScript: OK · 12 archivos revisados
+IDs duplicados: habilidades 0 · misiones 0 · actividades 0
+Referencias curriculares rotas: 0
+Manifest start_url: ./index.html?v=0.9.4
+Service Worker: 224 referencias · 0 faltantes
+CSS: 1344 aperturas / 1344 cierres
+
+Comparación del compositor de sesión (22 mundos × 12 semillas de sesión, sin repasos inyectados):
+v0.9.3 · racha media máxima de familia: 3.60 · sesiones-mundo con rachas >=3: 210/264
+v0.9.4 · racha media máxima de familia: 1.34 · sesiones-mundo con rachas >=3: 0/264
+v0.9.3 · racha media máxima del mismo tipo: 2.54 · rachas >=3: 120/264
+v0.9.4 · racha media máxima del mismo tipo: 1.28 · rachas >=3: 0/264
+
+Assets heredados comparados: 208
+Assets modificados: 0
+Assets faltantes: 0
+Nota de empaquetado: 2 nombres con ñ aparecen codificados en el índice ZIP original; sus bytes coinciden con moño.webp y nina_con_moño.webp.
+
+Nota: la comparación de secuencias es una simulación determinista del compositor, no una prueba visual en navegador.

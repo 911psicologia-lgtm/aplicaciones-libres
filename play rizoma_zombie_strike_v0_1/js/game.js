@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.43.0';
+  const VERSION = '3.44.0';
   // v3.29.0: rebalance global 1–20 por composición/ritmo, RIFT ALLY aleatorio 10s y Última Oportunidad manual de 5s.
   // v3.31.0: pulido UX móvil, cierre universal de overlays, carriles táctiles robustos y legibilidad de combate.
   // v3.33.0: identidad legible de Naves Rizoma, telegráfico de especial con assets reales y lectura de build ampliada.
@@ -11,6 +11,7 @@
   // v3.39.0: telemetría local de balance por intento/mundo: tiempo activo y de jefe, daño, eventos letales, poderes y picos de densidad. No transmite datos.
   // v3.42.0: Comparador de Playtests + detección de variabilidad. Diagnóstico contextual por nave, dificultad y dispersión; no altera combate, HP, daño ni spawns.
   // v3.43.0: perfiles comparables de build para Playtest Guiado + aislamiento completo de estadísticas/preferencias persistentes; registra contexto inicial reproducible.
+  // v3.44.0: RIZOMA ADAPTIVE BOSS DIRECTOR · SHADOW MODE. Calcula potencia efectiva, DPS y TTK A0–A3 sin alterar HP, daño, spawns ni patrones.
   // Conserva tractor progresivo, Taller RIZOMA, RIFT ALLY, Última Oportunidad, 20 mundos y assets existentes.
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
   // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
@@ -1905,7 +1906,7 @@
       arsenalTelemetry: { powers:{}, fusions:{}, criticals:{}, criticalCombos:{} },
       arsenalDoctrine: 'free',
       expeditionMemory: { runs:[], pinnedRunId:null },
-      balanceTelemetry: { schema:1, runs:[] },
+      balanceTelemetry: { schema:2, runs:[] },
       stats: { bestScore: 0, runs: 0, totalKills: 0, bosses: 0, highestWave: 1, bestMap: 1, totalCoins: 0 },
       avatarTier: 1,
       shipParts: { core: 0, wings: 0, cannon: 0, engine: 0 },
@@ -2115,8 +2116,8 @@
       if (p.lastSave?.mapIndex != null) { const wn = p.lastSave.mapIndex + 1; p.levelProgress[wn] = Math.max(p.levelProgress[wn] || 1, p.lastSave.wave || 1); }
       p.hangarFocus = p.hangarFocus || 'engine';
       p.ranking = p.ranking || [];
-      p.balanceTelemetry = (p.balanceTelemetry && typeof p.balanceTelemetry === 'object') ? p.balanceTelemetry : {schema:1,runs:[]};
-      p.balanceTelemetry.schema = 1; p.balanceTelemetry.runs = Array.isArray(p.balanceTelemetry.runs) ? p.balanceTelemetry.runs.slice(-80) : [];
+      p.balanceTelemetry = (p.balanceTelemetry && typeof p.balanceTelemetry === 'object') ? p.balanceTelemetry : {schema:2,runs:[]};
+      p.balanceTelemetry.schema = 2; p.balanceTelemetry.runs = Array.isArray(p.balanceTelemetry.runs) ? p.balanceTelemetry.runs.slice(-80) : [];
       p.lastSave = p.lastSave || null;
       reconcileCampaignProgress(p);
       reconcileConquestRewards(p);
@@ -3354,6 +3355,8 @@
       this.replayMode = save?.replayMode || null;
       this.trainingMode = save?.trainingMode || null;
       this.telemetrySession = save?.telemetrySession ? this.restoreBalanceTelemetry(save.telemetrySession) : this.createBalanceTelemetrySession(!!save);
+      this.adaptiveBossShadow=this.createAdaptiveBossShadowState();
+      if(this.telemetrySession?.adaptiveBoss){const prev=this.telemetrySession.adaptiveBoss;this.adaptiveBossShadow.state=prev.state||'A1';this.adaptiveBossShadow.maxState=prev.maxState||'A1';this.adaptiveBossShadow.initialTtk=Number.isFinite(Number(prev.initialTtk))?Number(prev.initialTtk):null;this.adaptiveBossShadow.minTtk=Number.isFinite(Number(prev.minTtk))?Number(prev.minTtk):null;this.adaptiveBossShadow.evaluations=Array.isArray(prev.evaluations)?prev.evaluations.slice(-80):[];}
       const lifeCoreBonus=Math.min(3,Math.max(0,Number(p.upgrades?.lifecore||0)));
       const campaignBaseLives=4+lifeCoreBonus;
       if (!save && this.mapIndex === 0 && !this.replayMode && !this.trainingMode) p.campaignExtraLives = campaignBaseLives;
@@ -3651,17 +3654,85 @@
 
     createBalanceTelemetrySession(resumed=false) {
       const mode=this.trainingMode?.active?'training':(this.replayMode?.guidedPlaytest?'playtest':(this.replayMode?.active?'replay':'campaign'));
-      return {schema:1,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0},startBuild:null,endBuild:null,finalized:false};
+      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0},adaptiveBoss:{schema:1,mode:'shadow',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,evaluations:[]},startBuild:null,endBuild:null,finalized:false};
     }
 
     restoreBalanceTelemetry(saved={}) {
       const fresh=this.createBalanceTelemetrySession(true),t={...fresh,...saved};
-      t.schema=1;t.world=this.mapIndex+1;t.mapIndex=this.mapIndex;t.difficulty=this.difficulty||t.difficulty||'normal';t.resumed=true;t.finalized=false;
-      t.powers={...(saved.powers||{})};t.density={...fresh.density,...(saved.density||{})};t.boss={...fresh.boss,...(saved.boss||{})};t.sampleTimer=0;
+      t.schema=2;t.world=this.mapIndex+1;t.mapIndex=this.mapIndex;t.difficulty=this.difficulty||t.difficulty||'normal';t.resumed=true;t.finalized=false;
+      t.powers={...(saved.powers||{})};t.density={...fresh.density,...(saved.density||{})};t.boss={...fresh.boss,...(saved.boss||{})};t.adaptiveBoss={...fresh.adaptiveBoss,...(saved.adaptiveBoss||{}),evaluations:Array.isArray(saved.adaptiveBoss?.evaluations)?saved.adaptiveBoss.evaluations.slice(-80):[]};t.sampleTimer=0;
       return t;
     }
 
+    createAdaptiveBossShadowState() {
+      return {schema:1,mode:'shadow',enabled:true,damageBuckets:[],bossDamageBuckets:[],sampleTimer:0,lastEvalAt:0,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,effectiveDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,evaluations:[],bossStarted:false,lastStateNotice:null};
+    }
+
+    ensureAdaptiveBossShadow() {
+      if(!this.adaptiveBossShadow||this.adaptiveBossShadow.schema!==1)this.adaptiveBossShadow=this.createAdaptiveBossShadowState();
+      return this.adaptiveBossShadow;
+    }
+
+    adaptiveBossTargetWindow(world=this.mapIndex+1) {
+      const w=clamp(Number(world)||1,1,20);
+      if(w<=5)return {min:45,max:75,label:'TEMPRANO'};
+      if(w<=10)return {min:55,max:90,label:'MEDIO'};
+      if(w<=15)return {min:65,max:105,label:'AVANZADO'};
+      if(w<=19)return {min:75,max:115,label:'ÉLITE'};
+      return {min:90,max:130,label:'FINAL'};
+    }
+
+    recordAdaptiveBossDamage(amount,boss=false) {
+      const dmg=Math.max(0,Number(amount)||0);if(!dmg)return;
+      const a=this.ensureAdaptiveBossShadow(),slot=Math.floor(now()/250),arr=boss?a.bossDamageBuckets:a.damageBuckets,last=arr[arr.length-1];
+      if(last&&last.slot===slot)last.damage+=dmg;else arr.push({slot,damage:dmg});
+      const cutoff=slot-112;while(arr.length&&arr[0].slot<cutoff)arr.shift();
+    }
+
+    adaptiveRecentDps(arr=[],seconds=20) {
+      if(!arr.length)return {dps:0,span:0,damage:0};
+      const current=Math.floor(now()/250),slots=Math.max(1,Math.round(seconds*4)),cutoff=current-slots+1,rows=arr.filter(r=>r.slot>=cutoff&&r.slot<=current);
+      if(!rows.length)return {dps:0,span:0,damage:0};
+      const damage=rows.reduce((sum,r)=>sum+(Number(r.damage)||0),0),span=Math.min(seconds,Math.max(.25,(current-Math.min(...rows.map(r=>r.slot))+1)*.25));
+      return {dps:damage/Math.max(.25,span),span,damage};
+    }
+
+    adaptiveBossBuildSignal() {
+      const levels=Object.values(this.powerLevels||{}).reduce((sum,v)=>sum+Math.max(0,Number(v)||0),0),active=Object.keys(this.powerActivity||{}).filter(id=>this.isPowerActive?.(id)).length,combos=Object.values(this.activeCombos||{}).filter(Boolean).length,stage=Math.max(1,Number(this.getRizomaArsenalStage?.(this.player)||1)),mastery=clamp((this.combatMastery?.value||0)/100,0,1),allies=(this.drones||[]).length+(this.guardianInvocation?1:0);
+      return {levels,active,combos,stage,mastery,allies,signal:clamp(.42+stage*.13+Math.min(18,levels)*.025+Math.min(4,active)*.06+Math.min(3,combos)*.08+mastery*.18+Math.min(3,allies)*.06,.55,2.35)};
+    }
+
+    adaptiveBossResponse(state,world=this.mapIndex+1) {
+      const w=clamp(Number(world)||1,1,20);
+      if(state==='A0')return {label:'ASISTENCIA',summary:'Habría ofrecido 1–2 recursos contextuales según la carencia dominante.',assistanceDrops:2,mitigation:0,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:0};
+      if(state==='A2')return {label:'SOBREPOTENCIA',summary:'Habría activado amortiguación moderada, prioridad signature y puertas blandas de fase.',assistanceDrops:0,mitigation:.18,phaseGate:true,signaturePriority:true,suppressionSeconds:0,resurrectionHp:0};
+      if(state==='A3')return {label:'DOMINACIÓN',summary:`Habría activado amortiguación fuerte, interferencia temporal y ${w>=11?'posible resurrección única':'respuesta defensiva máxima'}.`,assistanceDrops:0,mitigation:.30,phaseGate:true,signaturePriority:true,suppressionSeconds:4,resurrectionHp:w>=11?.42:0};
+      return {label:'EQUILIBRIO',summary:'Sin intervención: el Guardián permanecería en su comportamiento normal.',assistanceDrops:0,mitigation:0,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:0};
+    }
+
+    evaluateAdaptiveBossShadow(force=false) {
+      const a=this.ensureAdaptiveBossShadow(),window=this.adaptiveBossTargetWindow(),pre=this.adaptiveRecentDps(a.damageBuckets,20),boss=this.adaptiveRecentDps(a.bossDamageBuckets,8),build=this.adaptiveBossBuildSignal(),b=this.bossActive;
+      const bossStarted=!!(b&&b.hp>0),baseHp=Math.max(1,Number(b?.baseHp||this.getWorldBalance()?.bossHp||1)),remaining=bossStarted?Math.max(1,(Number(b.hp)||0)+(Number(b.shield)||0)):baseHp,targetMid=(window.min+window.max)/2,expectedDps=baseHp/Math.max(1,targetMid);
+      let effectiveDps=bossStarted&&boss.span>=2?boss.dps:Math.max(pre.dps*.78,expectedDps*build.signal*.58);
+      effectiveDps=Math.max(.01,effectiveDps);
+      const ttk=remaining/effectiveDps,dpsRatio=effectiveDps/Math.max(.01,expectedDps),powerIndex=Math.round(100*clamp(.72*dpsRatio+.28*build.signal,0,3.2));
+      const enough=(bossStarted?boss.span>=2.0:pre.span>=4.0)||force;let state='A1';
+      if(enough){if(ttk<window.min*.45||powerIndex>=220)state='A3';else if(ttk<window.min*.82||powerIndex>=150)state='A2';else if(ttk>window.max*1.55&&powerIndex<78)state='A0';}
+      const rank={A0:0,A1:1,A2:2,A3:3};if(rank[state]>rank[a.maxState||'A1'])a.maxState=state;
+      a.state=state;a.powerIndex=powerIndex;a.preBossDps=pre.dps;a.bossDps=boss.dps;a.effectiveDps=effectiveDps;a.currentTtk=ttk;a.targetWindow=window;a.wouldDo=this.adaptiveBossResponse(state);a.bossStarted=bossStarted;
+      if(a.initialTtk==null&&bossStarted)a.initialTtk=ttk;if(a.minTtk==null||ttk<a.minTtk)a.minTtk=ttk;
+      const stamp=Number((this.telemetrySession?.bossSeconds||0).toFixed(1)),last=a.evaluations[a.evaluations.length-1];
+      if(force||!last||Math.abs((last.t||0)-stamp)>=1.8||last.state!==state){a.evaluations.push({t:stamp,state,powerIndex,ttk:Number(ttk.toFixed(2)),preBossDps:Number(pre.dps.toFixed(2)),bossDps:Number(boss.dps.toFixed(2)),effectiveDps:Number(effectiveDps.toFixed(2)),build:{stage:build.stage,levels:build.levels,active:build.active,combos:build.combos,mastery:Number(build.mastery.toFixed(3)),allies:build.allies},wouldDo:a.wouldDo});a.evaluations=a.evaluations.slice(-80);}
+      const t=this.telemetrySession;if(t&&!t.finalized)t.adaptiveBoss={schema:1,mode:'shadow',enabled:true,state:a.state,maxState:a.maxState,powerIndex:a.powerIndex,preBossDps:Number(a.preBossDps.toFixed(2)),bossDps:Number(a.bossDps.toFixed(2)),effectiveDps:Number(a.effectiveDps.toFixed(2)),initialTtk:a.initialTtk==null?null:Number(a.initialTtk.toFixed(2)),currentTtk:Number(a.currentTtk.toFixed(2)),minTtk:a.minTtk==null?null:Number(a.minTtk.toFixed(2)),targetWindow:a.targetWindow,wouldDo:a.wouldDo,evaluations:a.evaluations.slice()};
+      return a;
+    }
+
+    updateAdaptiveBossShadow(dt) {
+      const a=this.ensureAdaptiveBossShadow();a.sampleTimer=(a.sampleTimer||0)-dt;if(a.sampleTimer>0)return;a.sampleTimer=this.bossActive?.hp>0?.5:1.25;this.evaluateAdaptiveBossShadow(false);
+    }
+
     updateBalanceTelemetry(dt) {
+      this.updateAdaptiveBossShadow(dt);
       const t=this.telemetrySession;if(!t||t.finalized)return;
       t.activeSeconds=(t.activeSeconds||0)+dt;t.waveReached=Math.max(t.waveReached||1,this.wave||1);
       if(this.bossFight?.active&&this.bossActive){t.bossSeconds=(t.bossSeconds||0)+dt;t.boss.started=true;t.boss.phasesReached=Math.max(t.boss.phasesReached||0,this.bossActive.phase||1);t.boss.phaseBreaks=Math.max(t.boss.phaseBreaks||0,this.bossFight.phaseBreaks||0);t.boss.cleanPhases=Math.max(t.boss.cleanPhases||0,this.bossFight.cleanPhases||0);}
@@ -3690,7 +3761,8 @@
       this.captureBalanceTelemetryStartBuild();
       t.endBuild={ship:t.ship,fleetShip:this.player?.fleetShip||null,domainForm:this.player?.domainForm||'rizoma',difficulty:this.difficulty||'normal',arsenalStage:t.arsenalStage};
       if(this.bossFight){t.boss.phaseBreaks=Math.max(t.boss.phaseBreaks||0,this.bossFight.phaseBreaks||0);t.boss.cleanPhases=Math.max(t.boss.cleanPhases||0,this.bossFight.cleanPhases||0);}
-      const p=currentProfile();p.balanceTelemetry=(p.balanceTelemetry&&typeof p.balanceTelemetry==='object')?p.balanceTelemetry:{schema:1,runs:[]};p.balanceTelemetry.schema=1;p.balanceTelemetry.runs=Array.isArray(p.balanceTelemetry.runs)?p.balanceTelemetry.runs:[];
+      this.evaluateAdaptiveBossShadow(true);
+      const p=currentProfile();p.balanceTelemetry=(p.balanceTelemetry&&typeof p.balanceTelemetry==='object')?p.balanceTelemetry:{schema:2,runs:[]};p.balanceTelemetry.schema=2;p.balanceTelemetry.runs=Array.isArray(p.balanceTelemetry.runs)?p.balanceTelemetry.runs:[];
       const compact=JSON.parse(JSON.stringify(t));delete compact.sampleTimer;p.balanceTelemetry.runs.push(compact);p.balanceTelemetry.runs=p.balanceTelemetry.runs.slice(-80);saveState();return compact;
     }
 
@@ -8998,6 +9070,7 @@
       this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
       this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0 };
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.started=true;this.telemetrySession.boss.phasesReached=Math.max(1,this.telemetrySession.boss.phasesReached||0);}
+      const adaptive=this.ensureAdaptiveBossShadow();adaptive.bossDamageBuckets=[];adaptive.initialTtk=null;adaptive.minTtk=null;adaptive.maxState='A1';adaptive.evaluations=[];this.evaluateAdaptiveBossShadow(true);
       this.enemies.push(this.bossActive);
       this.bossIntroduced = true;
       this.applyCombatMasteryBossPrep();
@@ -9915,6 +9988,7 @@
 
     damageEnemy(e, amount, meta = {}) {
       if (!e || e.hp <= 0) return;
+      const adaptiveBeforeHp=Math.max(0,Number(e.hp)||0),adaptiveBeforeShield=Math.max(0,Number(e.shield)||0),adaptiveIsBoss=!!(e.boss&&this.bossActive===e);
       if (e.boss && this.bossActive === e && (this.mapIndex === 0 || this.mapIndex === 1)) {
         const guardians=this.enemies.filter(o=>!o.boss&&(this.mapIndex===0?(o.bossEscort||o.behavior==='mirror'):true)).length;
         if(guardians>0){
@@ -9958,6 +10032,8 @@
       if (meta.slow) e.slow = Math.max(e.slow || 0, meta.slow);
       if (!meta.burn && Math.random() < .6) this.emit(e.x, e.y, meta.color || e.color, 1, 30, .24);
       if (e.boss && this.bossActive === e) this.updateBossUi();
+      const adaptiveApplied=Math.max(0,adaptiveBeforeHp-Math.max(0,Number(e.hp)||0))+Math.max(0,adaptiveBeforeShield-Math.max(0,Number(e.shield)||0));
+      this.recordAdaptiveBossDamage(adaptiveApplied,adaptiveIsBoss);
     }
 
 
@@ -11014,7 +11090,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>`;}else els.resultTelemetrySummary.innerHTML='';}
+      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>${t.adaptiveBoss?.enabled?`<span>🧪 ${t.adaptiveBoss.maxState||t.adaptiveBoss.state} · TTK ${t.adaptiveBoss.initialTtk?Math.round(t.adaptiveBoss.initialTtk)+'s':'—'}</span>`:''}`;}else els.resultTelemetrySummary.innerHTML='';}
       els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(guidedPlaytestVictory?'Ver laboratorio':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex===19?'Cerrar Saga II':(this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11||this.mapIndex===12)?'Ver señales futuras':'Ver epílogo'))) : 'Reactivar nave')));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);
@@ -14285,7 +14361,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
   });
 
   function getBalanceTelemetrySummary(profile=currentProfile()) {
-    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&r.schema===1);
+    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&Number(r.schema||1)>=1);
     const campaign=runs.filter(r=>r.mode==='campaign'),playtest=runs.filter(r=>r.mode==='playtest'),eligible=[...campaign,...playtest];
     const raw={};
     const add=(slot,r)=>{slot.attempts++;slot.wins+=r.victory?1:0;slot.active+=r.activeSeconds||0;slot.boss+=r.bossSeconds||0;slot.hpDamage+=r.hpDamage||0;slot.shieldDamage+=r.shieldDamage||0;slot.lethal+=r.lethalEvents||0;slot.revives+=r.revives||0;slot.maxThreat=Math.max(slot.maxThreat,r.density?.maxThreatLoad||0);slot.maxEnemyBullets=Math.max(slot.maxEnemyBullets,r.density?.maxEnemyBullets||0);slot.powerActivations+=r.powerActivations||0;};
@@ -14300,7 +14376,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
       const out=finalize(chosen);
       return {...out,campaignAttempts:c.attempts,playtestAttempts:p.attempts,source:chosen.source,totalComparableAttempts:c.attempts+p.attempts};
     });
-    return {schema:1,totalRuns:runs.length,campaignRuns:campaign.length,playtestRuns:playtest.length,comparableRuns:eligible.length,worlds};
+    return {schema:2,totalRuns:runs.length,campaignRuns:campaign.length,playtestRuns:playtest.length,comparableRuns:eligible.length,worlds};
   }
 
   function renderBalanceTelemetryStatus() {
@@ -14308,13 +14384,13 @@ ${JSON.stringify(snapshot, null, 2)}`;
   }
 
   function exportBalanceTelemetry() {
-    const p=currentProfile(),payload={app:'Rizoma Zombie Strike',version:VERSION,telemetrySchema:1,privacy:'Datos generados y almacenados localmente; la aplicación no los transmite.',exportedAt:new Date().toISOString(),profile:{id:p.id,name:p.name},summary:getBalanceTelemetrySummary(p),runs:p.balanceTelemetry?.runs||[]};
+    const p=currentProfile(),payload={app:'Rizoma Zombie Strike',version:VERSION,telemetrySchema:2,privacy:'Datos generados y almacenados localmente; la aplicación no los transmite.',exportedAt:new Date().toISOString(),profile:{id:p.id,name:p.name},summary:getBalanceTelemetrySummary(p),runs:p.balanceTelemetry?.runs||[]};
     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`rizoma_balance_telemetry_${(p.name||'jugador').replace(/[^a-z0-9_-]+/gi,'_')}_v${VERSION}.json`;a.click();URL.revokeObjectURL(url);
   }
 
   function clearBalanceTelemetry() {
     const p=currentProfile(),count=p.balanceTelemetry?.runs?.length||0;if(!count){renderBalanceTelemetryStatus();renderBalanceLab();return;}
-    if(!confirm(`¿Borrar ${count} registro${count===1?'':'s'} de telemetría local de este perfil?`))return;p.balanceTelemetry={schema:1,runs:[]};saveState();renderBalanceTelemetryStatus();renderBalanceLab();
+    if(!confirm(`¿Borrar ${count} registro${count===1?'':'s'} de telemetría local de este perfil?`))return;p.balanceTelemetry={schema:2,runs:[]};saveState();renderBalanceTelemetryStatus();renderBalanceLab();
   }
 
   function balanceMedian(values=[]) {
@@ -14349,13 +14425,13 @@ ${JSON.stringify(snapshot, null, 2)}`;
   }
 
   function balanceComparableBuildGroups(profile,world,source) {
-    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&r.schema===1&&Number(r.world)===Number(world)&&r.mode===source),groups=new Map();
+    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&Number(r.schema||1)>=1&&Number(r.world)===Number(world)&&r.mode===source),groups=new Map();
     for(const run of runs){const ctx=balanceRunBuildContext(run),key=balanceBuildKey(ctx,false),g=groups.get(key)||{key,count:0,wins:0,ctx,exactCount:0,active:[],boss:[],hp:[],threat:[]};g.count++;g.wins+=run.victory?1:0;g.exactCount+=ctx.exact?1:0;g.active.push(Number(run.activeSeconds)||0);if(Number(run.bossSeconds)>0)g.boss.push(Number(run.bossSeconds));g.hp.push(Number(run.hpDamage)||0);g.threat.push(Number(run.density?.maxThreatLoad)||0);groups.set(key,g);}
     return [...groups.values()].map(g=>({...g,winRate:g.count?g.wins/g.count:0,avgActive:g.active.reduce((a,b)=>a+b,0)/Math.max(1,g.active.length),avgBoss:g.boss.reduce((a,b)=>a+b,0)/Math.max(1,g.boss.length),avgHp:g.hp.reduce((a,b)=>a+b,0)/Math.max(1,g.hp.length),maxThreat:Math.max(0,...g.threat)})).sort((a,b)=>b.count-a.count||b.exactCount-a.exactCount);
   }
 
   function balanceSampleContext(profile,world,source) {
-    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&r.schema===1&&Number(r.world)===Number(world)&&r.mode===source);
+    const runs=(profile?.balanceTelemetry?.runs||[]).filter(r=>r&&Number(r.schema||1)>=1&&Number(r.world)===Number(world)&&r.mode===source);
     const contexts=runs.map(balanceRunBuildContext),uniq=key=>[...new Set(contexts.map(r=>r?.[key]).filter(v=>v!==null&&v!==undefined&&v!==''))];
     const stages=[...new Set(contexts.map(r=>Number(r.stage)||1))].sort((a,b)=>a-b),ships=uniq('ship'),difficulties=uniq('difficulty'),fleets=[...new Set(contexts.filter(c=>c.fleetKnown).map(c=>c.fleetShip||'rizoma'))],guardians=[...new Set(contexts.filter(c=>c.guardianKnown).map(c=>c.guardian||'sin-guardian'))];
     const activeCV=balanceVariation(runs.map(r=>r.activeSeconds||0)),bossCV=balanceVariation(runs.map(r=>r.bossSeconds||0).filter(v=>v>0)),hpCV=balanceVariation(runs.map(r=>r.hpDamage||0)),threatCV=balanceVariation(runs.map(r=>r.density?.maxThreatLoad||0));
@@ -14517,6 +14593,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
     else if(!lab.flagged.length)lines.push(lab.enough?'No aparecen señales fuertes con la muestra disponible. Mantener balance y seguir recolectando datos.':'Todavía no hay suficiente repetición por mundo para diagnosticar balance.');
     else for(const r of lab.flagged)lines.push(`M${r.world} · ${r.name} · ${r.attempts} intentos (${r.source}) · victorias ${Math.round(r.winRate*100)}% · duración ${fmtBalanceTime(r.avgActiveSeconds)} · jefe ${fmtBalanceTime(r.avgBossSeconds)} · casco ${Math.round(r.avgHpDamage)} · amenaza ${Math.round(r.maxThreat)} · variabilidad ${r.context.variabilityLabel} · REVISAR: ${r.signals.join(', ')}.`);
     for(const r of lab.variable.filter(r=>!r.signals.length))lines.push(`M${r.world} · ${r.name} · NO REBALANCEAR AÚN · ${r.variabilitySignals.join(', ')} · naves ${r.context.ships.join('/')||'—'} · flota ${r.context.fleets.join('/')||'—'} · guardianes ${r.context.guardians.join('/')||'—'} · dificultad ${r.context.difficulties.join('/')||'—'} · CV tiempo ${Math.round(r.context.activeCV*100)}% · CV casco ${Math.round(r.context.hpCV*100)}%.`);
+    const shadowRuns=(currentProfile()?.balanceTelemetry?.runs||[]).filter(r=>r?.adaptiveBoss?.enabled&&r.mode!=='training');if(shadowRuns.length){const counts={A0:0,A1:0,A2:0,A3:0};for(const run of shadowRuns)counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']=(counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']||0)+1;const ttks=shadowRuns.map(r=>Number(r.adaptiveBoss.initialTtk)).filter(Number.isFinite);lines.push('',`ADAPTIVE BOSS DIRECTOR · SHADOW MODE: ${shadowRuns.length} encuentro(s) · A0 ${counts.A0} · A1 ${counts.A1} · A2 ${counts.A2} · A3 ${counts.A3}${ttks.length?` · TTK inicial mediano ${Math.round(balanceMedian(ttks))}s`:''}.`,'El Director solo observó y registró qué habría hecho; no modificó HP, daño, fases, spawns ni economía.');}
     lines.push('','Nota: estas señales son heurísticas locales y no prueban causalidad. Antes de cambiar HP/daño/spawns conviene revisar varias partidas y contexto de build, dificultad y habilidad del jugador.');
     return lines.join('\n');
   }

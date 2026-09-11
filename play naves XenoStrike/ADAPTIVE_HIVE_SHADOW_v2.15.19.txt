@@ -1,0 +1,60 @@
+ADAPTIVE HIVE BOSS DIRECTOR / RESPUESTA EVOLUTIVA DE LA COLMENA
+IMPLEMENTACIÓN INICIAL SEGURA — v2.15.19 SHADOW MODE
+
+PRINCIPIO DE DISEÑO
+El sistema no pretende castigar una build fuerte. Una build más poderosa sigue causando más daño y resolviendo el encuentro más rápido. El Director busca detectar únicamente los extremos donde se pierden fases, signatures y espectáculo, y los extremos opuestos de estancamiento.
+
+ESTADO ACTUAL
+SHADOW MODE = SOLO ANÁLISIS.
+Todas las respuestas adaptativas son propuestas registradas en telemetría. Ninguna modifica todavía el gameplay.
+
+MEDICIÓN
+- Ventana móvil de DPS: 20 s.
+- DPS de boss: pérdida efectiva de HP después de defensas/reglas ya existentes.
+- DPS previo: daño efectivo realizado durante el sector antes del boss.
+- TTK vivo: HP actual del boss / DPS efectivo actual.
+- Revisión: 1 s aproximadamente, excepto entrada y transición de fase.
+
+ÍNDICE DE POTENCIA
+Combina medición observada y estructura de la build. No se basa solo en contar poderes.
+Incluye poderes/rangos, fusiones/combos, cadencia, volley/proyectiles simultáneos, aliados, mejoras permanentes, supervivencia, estado de shield/HP y desempeño reciente.
+
+CRÍTICO
+No existe un stat crítico dedicado expuesto por la base v2.15.18. El campo queda reservado como unavailable/0. Esto evita fabricar información.
+
+ESTADOS
+A0 ASISTENCIA: TTK muy largo + señales reales de build/supervivencia débil.
+A1 EQUILIBRIO: rango normal; respuesta = ninguna.
+A2 SOBREPOTENCIA: TTK suficientemente corto + potencia/DPS alto.
+A3 DOMINACIÓN: TTK extremo, con riesgo claro de borrar la experiencia del boss.
+
+ESTABILIDAD
+- El candidato debe sostenerse 3 s.
+- Después de cambiar de estado existe un cooldown mínimo de 5 s.
+- Esto evita saltos A1↔A2 por picos breves.
+
+RESPUESTAS FUTURAS DISEÑADAS, NO ACTIVAS
+A0: drop contextual que debe recogerse y usarse; máximo teórico 2/boss, separación mínima 18 s.
+A2: armadura reactiva temporal moderada, prioridad signature, movilidad defensiva, summons existentes y soft phase gates breves.
+A3: versión más intensa pero limitada; mínimo previsto de recepción de daño ~68%, nunca invulnerabilidad larga.
+W16+: posible pulso de supresión secundaria 3–5 s, telegráfico y evitable.
+Boss avanzado/final: posible resurrección única 35–50% HP con patrón alternativo; nunca una simple repetición de fase.
+
+VENTANAS DIAGNÓSTICAS
+W1–5 45–75 s
+W6–10 55–90 s
+W11–19 70–110 s
+W20 90–130 s
+No son temporizadores obligatorios ni metas rígidas.
+
+TELEMETRÍA
+Clave local: swarm_rift_hive_boss_telemetry_v1
+Máximo: 120 bosses.
+No usa fetch, XHR, beacon ni transmisión externa.
+Hooks de inspección de desarrollo:
+- window.__SWARM_HIVE_SHADOW_STATUS()
+- window.__SWARM_HIVE_TELEMETRY()
+- window.__SWARM_V21519_STATUS()
+
+CONDICIÓN PARA SIGUIENTE ETAPA
+No activar supresión/resurrección a ciegas. Primero recoger sesiones reales suficientes para calibrar umbrales por tramo. La activación aconsejada sería gradual: A0 contextual + A2 leve primero; A3 avanzada después de validar sensación de poder y duración.

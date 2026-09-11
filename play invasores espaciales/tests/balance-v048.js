@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..');
 const sandbox={window:{}}; sandbox.window.SF={}; vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.5.9') throw new Error('wrong version');
+if(C.VERSION!=='0.6.1') throw new Error('wrong version');
 if(!C.difficultyCurve||C.difficultyCurve.worlds.length!==5) throw new Error('missing 5-world curve');
 for(let i=1;i<C.difficultyCurve.worlds.length;i++){
   if(C.difficultyCurve.worlds[i].hp<C.difficultyCurve.worlds[i-1].hp) throw new Error('world hp curve not monotonic');

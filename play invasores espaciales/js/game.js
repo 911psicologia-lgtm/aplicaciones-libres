@@ -4,6 +4,8 @@ window.SF = window.SF || {};
   const UI = ()=>NS.ui;
   const S = ()=>NS.storage;
   const A = ()=>NS.audio;
+  const E = ()=>NS.economy;
+  const M = ()=>NS.reactiveMatrix;
 
   const G = {
     canvas:null, ctx:null, w:0, h:0, dpr:1,
@@ -21,7 +23,7 @@ window.SF = window.SF || {};
     activePowers:{spread:0, shield:0, chain:0, missile:0, overdrive:0, drone:0},
     backgroundTick:0, lastTs:0, bgOffset:0,
     lowFx:false, threatPulseUntil:0, layout:null, gameOver:false, lifeLost:false, engageAfter:0,
-    waveStartAt:0, waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, bossAugments:{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0}, relicLevels:{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0}, rewardPending:false, sectorMutator:null, objective:null, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, droneAngle:0, droneLastShot:0, eliteKillsWave:0, meteorKillsWave:0, podsOpenedWave:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null
+    waveStartAt:0, waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, bossAugments:{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0}, relicLevels:{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0}, rewardPending:false, sectorMutator:null, objective:null, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, droneAngle:0, droneLastShot:0, eliteKillsWave:0, meteorKillsWave:0, podsOpenedWave:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null, bossSupplyNextAt:0, bossSuppliesGiven:0
   };
 
   function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
@@ -60,6 +62,40 @@ window.SF = window.SF || {};
   function playerHitScale(){ return (G.ship?.hitbox || 1) * (G.layout?.playerHitboxScale || 1); }
   function enemyHitRect(e){ const pad=(G.layout?.enemyHitPad||0)*(e.role==='boss'?1.3:e.role==='miniboss'?1.15:1); return {x:e.x-pad,y:e.y-pad,w:e.w+pad*2,h:e.h+pad*2}; }
   function pickupRect(p){ const mul=(G.layout?.pickupMagnetBonus||1); const w=p.w*mul, h=p.h*mul; return {x:p.x-w/2,y:p.y-h/2,w,h}; }
+  function profileHullBonus(){ return E()?.upgradeLevel?.('hull')||0; }
+  function profileWeaponMul(){ return 1+(E()?.upgradeLevel?.('weapon')||0)*.035; }
+  function profileMagnetMul(){ return 1+(E()?.upgradeLevel?.('magnet')||0)*.12; }
+  function profilePowerMul(){ return 1+(E()?.upgradeLevel?.('power')||0)*.09; }
+
+  function matrixBuildSnapshot(now=performance.now()){
+    const ep=E()?.state?.()||{};
+    const over=now<(G.activePowers.overdrive||0), spread=now<(G.activePowers.spread||0), missile=now<(G.activePowers.missile||0), chain=now<(G.activePowers.chain||0), drone=now<(G.activePowers.drone||0), shield=now<(G.activePowers.shield||0);
+    const overMul=over?.75:1;
+    const fireInterval=G.ship.fireRate*Math.max(.68,1-(G.bossAugments.fireRate||0))*overMul;
+    const primaryDamage=G.ship.damage*(1+(G.bossAugments.damage||0))*profileWeaponMul();
+    const projectileFactor=spread?2.30:1;
+    const secondaryFactor=1+(missile?.35:0)+(chain?.22:0)+(drone?.28:0);
+    return {
+      shipId:G.shipId,shipName:G.ship?.name||G.shipId,primaryDamage,fireInterval,critChance:0,projectileFactor,secondaryFactor,
+      speed:G.ship?.speed||0,maxHp:G.maxHp,lives:G.lives,shieldActive:shield,combo:G.combo,
+      recentDamageRatio:G.maxHp?G.waveDamageTaken/G.maxHp:0,
+      activePowers:{spread,shield,chain,missile,overdrive,drone},upgrades:{...(ep.upgrades||{})},inventory:{...(ep.inventory||{})},
+      bossPowers:Object.keys(ep.bossPowers||{}),bossAugments:{...G.bossAugments},relicLevels:{...G.relicLevels}
+    };
+  }
+  function matrixBossDefenseHp(e){
+    if(!e) return 0;
+    const modules=(e.armorNodes||[]).filter(n=>n.alive).reduce((a,n)=>a+Math.max(0,n.hp||0),0);
+    const hard=(e.hardpoints||[]).filter(h=>h.alive).reduce((a,h)=>a+Math.max(0,h.hp||0),0);
+    return Math.max(0,e.fortressHp||0)+modules+hard;
+  }
+  function updateReactiveMatrix(now=performance.now()){
+    if(!C.reactiveMatrix?.enabled||C.reactiveMatrix.mode!=='shadow'||G.phase!=='boss') return;
+    const boss=G.enemies.find(e=>e.alive&&e.role==='boss'); if(!boss) return;
+    M()?.update?.({bossHp:boss.hp,defenseHp:matrixBossDefenseHp(boss),hpRatio:G.maxHp?G.hp/G.maxHp:1,mobilityIndex:(G.ship?.speed||430)/430,
+      hasUsefulSecondary:now<(G.activePowers.missile||0)||now<(G.activePowers.chain||0)||now<(G.activePowers.drone||0),combo:G.combo,
+      damageReceivedRatio:G.maxHp?G.waveDamageTaken/G.maxHp:0},now);
+  }
 
   function reflowWorldOnResize(){
     const margin=G.layout?.sideMargin||12;
@@ -83,6 +119,7 @@ window.SF = window.SF || {};
     if(G.droneLastShot) G.droneLastShot+=delta;
     if(G.rewardStartedAt) G.rewardStartedAt+=delta; if(G.rewardTransitionAt) G.rewardTransitionAt+=delta;
     if(G.timers.fire) G.timers.fire+=delta; if(G.timers.dive) G.timers.dive+=delta; if(G.timers.save) G.timers.save+=delta; if(G.timers.fusionPulse) G.timers.fusionPulse+=delta; if(G.timers.fusionShot) G.timers.fusionShot+=delta;
+    M()?.shift?.(delta);
   }
 
   function computeLayout(){
@@ -239,7 +276,7 @@ window.SF = window.SF || {};
   }
   function completeObjective(){
     const o=G.objective; if(!o||o.done) return;
-    o.done=true; G.score+=C.tacticalObjectives.bonusScore*G.sector; A().objective?.();
+    o.done=true; G.score+=C.tacticalObjectives.bonusScore*G.sector; E()?.add?.(8+G.sector*2,5+G.sector); A().objective?.();
     addText(G.w*.5,G.h*.31,`OBJETIVO +${C.tacticalObjectives.bonusScore*G.sector}`,'#a8ffcf',1250,0,-14,true);
     UI().flashMsg('OBJETIVO COMPLETADO',850);
     const y=Math.max(90,G.h*.18), x=clamp(G.px,40,G.w-40); spawnPowerDrop(x,y,o.reward||'heal');
@@ -384,8 +421,8 @@ window.SF = window.SF || {};
     const ship = C.ships.find(s=>s.id===shipId) || C.ships[0];
     Object.assign(G, { running:true, paused:false, mode:'game', player, shipId:ship.id, ship,
       sector:1, wave:1, score:0, nextLifeAt:C.progression.extraLifeEvery,
-      hp:ship.hp, maxHp:ship.hp, lives:3, invulnUntil:0, phase:'wave', phaseName:'FORMACIÓN', subphase:0,
-      combo:0, comboUntil:0, activePowers:{spread:0,shield:0,chain:0,missile:0,overdrive:0,drone:0}, bossAugments:{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0}, relicLevels:{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0}, backgroundTick:0, lowFx:false, gameOver:false, lifeLost:false, waveStartAt:performance.now(), waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, objective:null, sectorMutator:null, droneAngle:0, droneLastShot:0
+      hp:ship.hp+profileHullBonus(), maxHp:ship.hp+profileHullBonus(), lives:3, invulnUntil:0, phase:'wave', phaseName:'FORMACIÓN', subphase:0,
+      combo:0, comboUntil:0, activePowers:{spread:0,shield:0,chain:0,missile:0,overdrive:0,drone:0}, bossAugments:{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0}, relicLevels:{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0}, backgroundTick:0, lowFx:false, gameOver:false, lifeLost:false, waveStartAt:performance.now(), waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null, bossSupplyNextAt:0, bossSuppliesGiven:0, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, objective:null, sectorMutator:null, droneAngle:0, droneLastShot:0
     });
     G.layout = computeLayout(); G.px=G.w*.5; G.py=G.h*(G.layout?.portrait ? .80 : .82); resetArrays(); UI().renderGameOver(G,false); buildStage(); UI().showHud(true); UI().hideScreens();
   }
@@ -394,9 +431,9 @@ window.SF = window.SF || {};
     const ship = C.ships.find(s=>s.id===data.shipId) || C.ships[0];
     Object.assign(G, { running:true, paused:false, mode:'game', player:data.player||'PILOTO', shipId:ship.id, ship,
       sector:data.sector||1, wave:data.wave||1, score:data.score||0, nextLifeAt:data.nextLifeAt||C.progression.extraLifeEvery,
-      hp:data.hp||ship.hp, maxHp:data.maxHp||ship.hp, lives:data.lives||3, invulnUntil:0,
+      hp:data.hp||ship.hp+profileHullBonus(), maxHp:Math.max(data.maxHp||ship.hp,ship.hp+profileHullBonus()+(data.bossAugments?.maxHp||0)), lives:data.lives||3, invulnUntil:0,
       checkpointWave:data.checkpointWave||data.wave||1, phase:'wave', phaseName:'FORMACIÓN', subphase:0,
-      combo:0, comboUntil:0, activePowers:{spread:0,shield:0,chain:0,missile:0,overdrive:0,drone:0}, bossAugments:{...(data.bossAugments||{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0})}, relicLevels:{...(data.relicLevels||{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0})}, backgroundTick:0, lowFx:false, gameOver:false, lifeLost:false, waveStartAt:performance.now(), waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, objective:null, sectorMutator:null, droneAngle:0, droneLastShot:0
+      combo:0, comboUntil:0, activePowers:{spread:0,shield:0,chain:0,missile:0,overdrive:0,drone:0}, bossAugments:{...(data.bossAugments||{damage:0,fireRate:0,speed:0,maxHp:0,magnet:0,maxLives:0})}, relicLevels:{...(data.relicLevels||{spread:0,shield:0,chain:0,missile:0,overdrive:0,heal:0,life:0,drone:0})}, backgroundTick:0, lowFx:false, gameOver:false, lifeLost:false, waveStartAt:performance.now(), waveDamageTaken:0, maxComboWave:0, tutorialStep:0, autoPaused:false, pauseStartedAt:0, rewardStartedAt:0, rewardTransitionAt:0, sectorTransitionLock:false, lastError:'', recoveryCount:0, microSwarmNextAt:0, microSwarmBursts:0, microSwarmSerial:0, webSlowUntil:0, bossDeathFx:null, bossSupplyNextAt:0, bossSuppliesGiven:0, fusion:{id:'',until:0,color:'#fff',label:''}, fusionCooldowns:{}, objective:null, sectorMutator:null, droneAngle:0, droneLastShot:0
     });
     G.layout = computeLayout(); G.px=G.w*.5; G.py=G.h*(G.layout?.portrait ? .80 : .82); resetArrays(); UI().renderGameOver(G,false); buildStage(); G.checkpoint=snapshot(); UI().showHud(true); UI().hideScreens();
   }
@@ -563,7 +600,14 @@ window.SF = window.SF || {};
     const baseIdentity=C.bossIdentity.patterns[(G.sector-1)%C.bossIdentity.patterns.length];
     const wc=integratedWorld();
     const identity=wc?{...baseIdentity,name:wc.bossName,resurrect:wc.boss?.canRevive||baseIdentity.resurrect}:baseIdentity;
-    G.enemies.push({ kind:'boss', role:'boss', x:G.w*.5-bw/2, y:Math.max(58,G.h*.06), w:bw, h:bh, baseX:G.w*.5-bw/2, baseY:Math.max(58,G.h*.06), hp, maxHp:hp, alive:true, t:0, score:1300+G.sector*240, color:'#ff8466', nextShot:performance.now()+800, burst:0, renderH:bh*1.28, phaseIdx:0, phaseAnnounced:0, summonAt:performance.now()+3200, dashUntil:0, identity, familyWorld:wc?.id||0, resurrectionsLeft:identity.resurrect?1:0, resurrectUntil:0, coreOpenUntil:0, nextCoreAt:performance.now()+C.bossCore.periodicEveryMs, coreReason:'', fortressMax:hp*bossFortressRatio(), fortressHp:hp*bossFortressRatio(), fortressRechargeAt:0, fortressRechargeRatio:0, fortressPulseAt:performance.now()+C.bossFortress.powerCooldownMs[0], armorNodes:buildBossModules(hp), modulesDisabled:false, hardpoints:buildBossHardpoints(hp), regulatorDisabled:false, driveDisabled:false, introUntil:performance.now()+(C.bossArena?.introInvulnerabilityMs||0), phaseGateUntil:0, phaseGatesTriggered:0, adaptUntil:0, damageWindowStart:0, damageWindowTaken:0, spawnAt:performance.now(), phaseStartedAt:performance.now(), pressureLevel:0, powerScale });
+    const bossEntity={ kind:'boss', role:'boss', x:G.w*.5-bw/2, y:Math.max(58,G.h*.06), w:bw, h:bh, baseX:G.w*.5-bw/2, baseY:Math.max(58,G.h*.06), hp, maxHp:hp, alive:true, t:0, score:1300+G.sector*240, color:'#ff8466', nextShot:performance.now()+800, burst:0, renderH:bh*1.28, phaseIdx:0, phaseAnnounced:0, summonAt:performance.now()+3200, dashUntil:0, identity, familyWorld:wc?.id||0, resurrectionsLeft:identity.resurrect?1:0, resurrectUntil:0, coreOpenUntil:0, nextCoreAt:performance.now()+C.bossCore.periodicEveryMs, coreReason:'', fortressMax:hp*bossFortressRatio(), fortressHp:hp*bossFortressRatio(), fortressRechargeAt:0, fortressRechargeRatio:0, fortressPulseAt:performance.now()+C.bossFortress.powerCooldownMs[0], armorNodes:buildBossModules(hp), modulesDisabled:false, hardpoints:buildBossHardpoints(hp), regulatorDisabled:false, driveDisabled:false, introUntil:performance.now()+(C.bossArena?.introInvulnerabilityMs||0), phaseGateUntil:0, phaseGatesTriggered:0, adaptUntil:0, damageWindowStart:0, damageWindowTaken:0, spawnAt:performance.now(), phaseStartedAt:performance.now(), pressureLevel:0, powerScale };
+    G.enemies.push(bossEntity);
+    if(C.reactiveMatrix?.enabled&&C.reactiveMatrix.mode==='shadow'){
+      M()?.start?.({sector:G.sector,bossName:identity.name,bossHp:bossEntity.hp,build:matrixBuildSnapshot()},performance.now());
+      for(const pod of G.rewardPods) if(pod.source==='bossArenaPod') M()?.noteSupplyOffered?.(pod.kind,'bossArenaPod');
+      UI().flashMsg('REACTIVE MATRIX · SHADOW MODE',760);
+    }
+    G.bossSuppliesGiven=0; G.bossSupplyNextAt=performance.now()+(C.economy?.bossSupply?.firstMs||4200);
     UI().flashMsg(`${identity.name} · ${wc?.sectorName||`SECTOR ${G.sector}`}`, 1100); A().boss();
     setTimeout(()=>{ if(G.running&&G.phase==='boss'&&!G.gameOver) UI().flashMsg('OBJETIVOS: ARMAMENTO · REGULADOR · PROPULSIÓN',1050); },1150);
   }
@@ -572,7 +616,10 @@ window.SF = window.SF || {};
     const kinds = ['spread','shield','chain','missile','heal','overdrive','emp','drone'];
     const ps = G.w>=1200 ? 30 : (G.w>=700 ? 27 : 24);
     if(bossArena){
-      G.rewardPods.push({x:G.w*0.82, y:G.h*0.70, w:ps,h:ps,hp:4,maxHp:4, kind:Math.random()<.55?'shield':'heal', bob:Math.random()*Math.PI*2, open:false});
+      const inherited=E()?.bossPowerPool?.()||[];
+      const offensive=inherited.length?pick(inherited):pick(['missile','overdrive','shield']);
+      G.rewardPods.push({x:G.w*0.80, y:G.h*0.68, w:ps,h:ps,hp:3,maxHp:3, kind:Math.random()<.58?'shield':'heal', source:'bossArenaPod', bob:Math.random()*Math.PI*2, open:false});
+      G.rewardPods.push({x:G.w*0.20, y:G.h*0.58, w:ps,h:ps,hp:3,maxHp:3, kind:offensive, source:'bossArenaPod', bob:Math.random()*Math.PI*2, open:false});
       return;
     }
     const pod1 = {x:G.w*0.25, y: G.h*0.43, w:ps,h:ps,hp:3,maxHp:3, kind:pick(kinds), bob:Math.random()*Math.PI*2, open:false};
@@ -581,7 +628,24 @@ window.SF = window.SF || {};
     if(G.wave>=2 || Math.random()<0.5) G.rewardPods.push(pod2);
   }
 
-  function spawnPowerDrop(x,y,kind){ const mul=G.layout?.powerScale||1; const base=G.w>=1200?28:G.w>=700?25:22; const sz=Math.round(base*mul); G.powerDrops.push({x,y,w:sz,h:sz,kind,vx:0,vy:G.layout?.portrait?86:96,life:11000,blink:0,phase:Math.random()*Math.PI*2}); }
+  function spawnPowerDrop(x,y,kind,source='world'){ const mul=G.layout?.powerScale||1; const base=G.w>=1200?28:G.w>=700?25:22; const sz=Math.round(base*mul); G.powerDrops.push({x,y,w:sz,h:sz,kind,source,vx:0,vy:G.layout?.portrait?86:96,life:11000,blink:0,phase:Math.random()*Math.PI*2}); }
+
+  function updateBossSupply(now){
+    const cfg=C.economy?.bossSupply; if(!cfg?.enabled || G.phase!=='boss' || G.rewardPending) return;
+    const boss=G.enemies.find(e=>e.alive&&e.role==='boss'); if(!boss) return;
+    if((G.bossSuppliesGiven||0)>=cfg.maxPerFight || now<(G.bossSupplyNextAt||0)) return;
+    const inherited=E()?.bossPowerPool?.()||[];
+    let kind;
+    const hpRatio=G.maxHp?G.hp/G.maxHp:1;
+    if(hpRatio<.40) kind=Math.random()<.62?'heal':'shield';
+    else if(inherited.length) kind=pick(inherited);
+    else kind=pick(['shield','missile','overdrive','heal']);
+    const x=G.w*(.24+Math.random()*.52), y=Math.max(90,G.h*.18);
+    spawnPowerDrop(x,y,kind,'bossSupply'); G.bossSuppliesGiven=(G.bossSuppliesGiven||0)+1; M()?.noteSupplyOffered?.(kind,'bossSupply');
+    const a=cfg.intervalMs?.[0]||9500,b=cfg.intervalMs?.[1]||12500; G.bossSupplyNextAt=now+rand(a,b);
+    addText(x,y-16,'APOYO DE JEFE',C.powers[kind]?.color||'#fff0a5',950,0,-11,true);
+    UI().flashMsg(`SUMINISTRO · ${C.powers[kind]?.label||kind}`,650);
+  }
 
   function bindInput(){
     window.addEventListener('resize', resize);
@@ -638,9 +702,11 @@ window.SF = window.SF || {};
     updateFormation(dt, now);
     maybeLaunchDiver(now);
     updateEnemies(dt, now);
+    updateBossSupply(now);
     updateMicroSwarmDirector(now);
     if(G.paused) return;
     updateBullets(dt, now);
+    updateReactiveMatrix(now);
     if(G.paused) return;
     updateObstacles(dt);
     updatePowerDrops(dt, now);
@@ -686,7 +752,7 @@ window.SF = window.SF || {};
     const rate = G.ship.fireRate * Math.max(.68,1-(G.bossAugments.fireRate||0)) * overMul;
     if(now - G.timers.fire < rate*1000) return;
     G.timers.fire = now; A().shot(now<G.activePowers.overdrive?'rapid':'basic');
-    const damage = G.ship.damage * (1+(G.bossAugments.damage||0));
+    const damage = G.ship.damage * (1+(G.bossAugments.damage||0)) * profileWeaponMul();
     const bs=G.layout?.bulletScale||1;
     const muzzle=(G.layout?.playerH||64)*.43;
     let primaryVx=0;
@@ -912,7 +978,8 @@ window.SF = window.SF || {};
         const pos=bossModulePos(e,node,now);
         if(circleRect(pos.x,pos.y,rr,{x:b.x,y:b.y,w:b.w,h:b.h})){
           if(now<(e.introUntil||0)){ explode(pos.x,pos.y,'#d8f7ff',2,42); return true; }
-          node.hp-=b.damage*(b.isMissile?1.35:1);
+          const beforeHp=node.hp; const dealt=b.damage*(b.isMissile?1.35:1);
+          node.hp-=dealt; M()?.noteDamage?.(Math.min(beforeHp,dealt),'module',now);
           explode(pos.x,pos.y,'#8de9ff',3,58);
           if(node.hp<=0) destroyBossModule(e,node,now);
           return true;
@@ -983,7 +1050,7 @@ window.SF = window.SF || {};
           if(now<(e.introUntil||0)){ explode(pos.x,pos.y,'#fff0c2',2,42); return true; }
           let dmg=b.damage*(b.isMissile?1.28:1);
           if((e.fortressHp||0)>0 && now>=(e.coreOpenUntil||0)) dmg*=C.bossHardpoints?.shieldedDamageMul||.42;
-          part.hp-=dmg;
+          const beforeHp=part.hp; part.hp-=dmg; M()?.noteDamage?.(Math.min(beforeHp,dmg),'hardpoint',now);
           explode(pos.x,pos.y,part.id==='regulator'?'#ffe28a':'#ffab83',3,60);
           if(part.hp<=0) destroyBossHardpoint(e,part,now);
           return true;
@@ -1385,7 +1452,7 @@ window.SF = window.SF || {};
       let consumed=false;
       for(const ob of G.obstacles){ if(ob.alive && Math.hypot((b.x+b.w/2)-ob.x,(b.y+b.h/2)-ob.y) < ob.r){ ob.hp -= b.damage * (b.isMissile?1.4:1); explode(b.x,b.y,'#ffb76e',3,80); G.playerBullets.splice(i,1); consumed=true; if(ob.hp<=0){ destroyMeteor(ob,'player'); } break; } }
       if(consumed) continue;
-      for(const pod of G.rewardPods){ if(!pod.open && rectHit(b,pod)){ pod.hp -= b.damage; G.playerBullets.splice(i,1); explode(pod.x+pod.w/2,pod.y+pod.h/2,C.powers[pod.kind].color,4,70); consumed=true; if(pod.hp<=0){ pod.open=true; G.podsOpenedWave++; objectiveEvent('pod',1); spawnPowerDrop(pod.x+pod.w/2,pod.y+pod.h/2,pod.kind); addText(pod.x,pod.y-8,'PREMIO','#fff49a',850); } break; } }
+      for(const pod of G.rewardPods){ if(!pod.open && rectHit(b,pod)){ pod.hp -= b.damage; G.playerBullets.splice(i,1); explode(pod.x+pod.w/2,pod.y+pod.h/2,C.powers[pod.kind].color,4,70); consumed=true; if(pod.hp<=0){ pod.open=true; G.podsOpenedWave++; objectiveEvent('pod',1); spawnPowerDrop(pod.x+pod.w/2,pod.y+pod.h/2,pod.kind,pod.source||'pod'); addText(pod.x,pod.y-8,'PREMIO','#fff49a',850); } break; } }
       if(consumed) continue;
       if(hitBossModule(b,now)){ G.playerBullets.splice(i,1); continue; }
       if(hitBossHardpoint(b,now)){ G.playerBullets.splice(i,1); continue; }
@@ -1393,7 +1460,7 @@ window.SF = window.SF || {};
       // Cadena evoluciona con las reliquias: mayor probabilidad y daño, manteniendo el presupuesto ligero.
       if(now < G.activePowers.chain){
         const ct=weaponTier('chain'), chance=.08+Math.max(0,ct-1)*C.weaponEvolution.chainChanceBonus;
-        if(Math.random()<chance){ const target=nearestEnemy(b.x,b.y); if(target){ let chainDmg=.45+(ct>=2?.16:0)+(ct>=3?.22:0); if(target.role==='boss'){ if((target.fortressHp||0)>0){ const a=Math.min(target.fortressHp,chainDmg); target.fortressHp-=a; chainDmg-=a; if(target.fortressHp<=0){ target.fortressHp=0; openBossCore(target,C.bossFortress.breakExposeMs,'FORTALEZA ROTA · NÚCLEO ABIERTO'); } } if(chainDmg>0 && now>=(target.coreOpenUntil||0)) chainDmg*=.72; } target.hp -= chainDmg; explode(target.x+target.w/2,target.y+target.h/2,'#9ebeff',2+(ct>=3?1:0),50); if(target.hp<=0){ killEnemy(target); if(G.rewardPending || G.phase==='reward') return; } } }
+        if(Math.random()<chance){ const target=nearestEnemy(b.x,b.y); if(target){ let chainDmg=.45+(ct>=2?.16:0)+(ct>=3?.22:0); if(target.role==='boss'){ if((target.fortressHp||0)>0){ const a=Math.min(target.fortressHp,chainDmg); target.fortressHp-=a; chainDmg-=a; M()?.noteDamage?.(a,'fortress-chain',now); if(target.fortressHp<=0){ target.fortressHp=0; openBossCore(target,C.bossFortress.breakExposeMs,'FORTALEZA ROTA · NÚCLEO ABIERTO'); } } if(chainDmg>0 && now>=(target.coreOpenUntil||0)) chainDmg*=.72; if(chainDmg>0) M()?.noteDamage?.(Math.min(target.hp,chainDmg),'hull-chain',now); } target.hp -= chainDmg; explode(target.x+target.w/2,target.y+target.h/2,'#9ebeff',2+(ct>=3?1:0),50); if(target.hp<=0){ killEnemy(target); if(G.rewardPending || G.phase==='reward') return; } } }
       }
 
       for(const e of G.enemies){
@@ -1429,7 +1496,7 @@ window.SF = window.SF || {};
             const ph=bossPhaseIndex(e), coreOpen=now<(e.coreOpenUntil||0);
             if((e.fortressHp||0)>0 && !coreOpen){
               const absorbed=Math.min(e.fortressHp,hitDamage);
-              e.fortressHp-=absorbed; hitDamage-=absorbed;
+              e.fortressHp-=absorbed; hitDamage-=absorbed; M()?.noteDamage?.(absorbed,'fortress',now);
               explode(b.x,b.y,'#71e7ff',3,70);
               if(e.fortressHp<=0){ e.fortressHp=0; openBossCore(e,C.bossFortress.breakExposeMs,'FORTALEZA ROTA · NÚCLEO ABIERTO'); }
             }
@@ -1453,6 +1520,7 @@ window.SF = window.SF || {};
               if(gi<gates.length){ const threshold=e.maxHp*gates[gi]; if(e.hp-hitDamage<threshold){ hitDamage=Math.max(0,e.hp-threshold); e.phaseGatesTriggered=gi+1; e.phaseGateUntil=now+(C.bossFortress.phaseGateMs||620); } }
             }
           }
+          if(e.role==='boss'&&hitDamage>0) M()?.noteDamage?.(Math.min(e.hp,hitDamage),'hull',now);
           e.hp -= hitDamage; G.playerBullets.splice(i,1); consumed=true; explode(b.x,b.y,b.color,4,90);
           if(e.hp<=0){ killEnemy(e); if(G.rewardPending || G.phase==='reward') return; }
           break;
@@ -1481,6 +1549,7 @@ window.SF = window.SF || {};
   function nearestEnemy(x,y){ let best=null, bd=Infinity; for(const e of G.enemies){ if(!e.alive) continue; const d=(e.x+e.w/2-x)**2+(e.y+e.h/2-y)**2; if(d<bd){bd=d;best=e;} } return best; }
 
   function triggerBossResurrection(e){
+    M()?.noteNativeResurrection?.();
     e.resurrectionsLeft=Math.max(0,(e.resurrectionsLeft||0)-1); e.hp=e.maxHp*C.bossIdentity.resurrectionHpRatio; e.alive=true; e.resurrectUntil=performance.now()+1450; e.phaseAnnounced=-1; e.phaseGatesTriggered=1; e.phaseGateUntil=performance.now()+650; e.adaptUntil=0; e.damageWindowStart=0; e.damageWindowTaken=0; e.phaseStartedAt=performance.now(); e.pressureLevel=0; e.fortressHp=Math.max(e.fortressHp||0,(e.fortressMax||e.maxHp*bossFortressRatio())*.58); e.fortressPulseAt=performance.now()+4200; if(G.sector>=(C.bossModules?.reviveOneNodeFromSector||3)&&e.armorNodes?.length){ const dead=e.armorNodes.find(n=>!n.alive); if(dead){ dead.alive=true; dead.hp=Math.max(1,dead.maxHp*.65); e.modulesDisabled=false; } } if(G.sector>=(C.bossHardpoints?.reviveOneFromSector||4)&&e.hardpoints?.length){ const deadHp=e.hardpoints.find(p=>!p.alive); if(deadHp){ deadHp.alive=true; deadHp.hp=Math.max(1,deadHp.maxHp*.55); if(deadHp.id==='regulator') e.regulatorDisabled=false; if(deadHp.id==='drive') e.driveDisabled=false; } }
     G.enemyBullets=[]; G.threatPulseUntil=performance.now()+900; explode(e.x+e.w/2,e.y+e.h/2,'#a98cff',34,210);
     addText(e.x+e.w/2,e.y,'RESURRECCIÓN','#d8b0ff',1450,0,-18,true); UI().flashMsg(`${e.identity?.name||'JEFE'} · RESURRECCIÓN`,1200); A().bossResurrect();
@@ -1496,12 +1565,13 @@ window.SF = window.SF || {};
     G.enemyBullets.length=0; G.playerBullets.length=0;
     for(const other of G.enemies){ if(other!==e && other.role!=='boss') other.alive=false; }
     const kinds=(e.identity?.reward||['spread','shield','overdrive']).slice(0,3);
+    E()?.grantBossPowers?.(kinds,G.sector);
     const ox=e.x+e.w/2, oy=e.y+e.h/2;
     for(let i=0;i<kinds.length;i++){
       const kind=kinds[i];
       G.bossRewards.push({kind,x:ox,y:oy,vx:0,vy:0,t:0,delay:i*150,orbitMs:C.weaponEvolution.relicOrbitMs,orbitAngle:i*(Math.PI*2/3),originX:ox,originY:oy,trail:[],arrived:false,relicIndex:i,familyWorld:integratedWorld()?.id||0});
     }
-    UI().flashMsg('PODER DEL JEFE · ABSORCIÓN AUTOMÁTICA',1200); A().bossReward();
+    UI().flashMsg('PODER DEL JEFE · HEREDADO + CARGA AL ARSENAL',1350); A().bossReward();
   }
 
   function applyBossRelic(kind){
@@ -1618,10 +1688,15 @@ window.SF = window.SF || {};
     if(e.role==='boss') G.bossDeathFx={worldId:e.familyWorld||G.sector,x:e.x+e.w/2,y:e.y+e.h/2,h:e.renderH||e.h*1.3,color:e.identity?.accent||e.color,startedAt:performance.now(),duration:C.worldFamilies?.bossDeathFxMs||920};
     e.alive=false; G.score += Math.round(e.score * (1 + Math.min(.65,G.combo*.035)) * mutatorScoreMul());
     G.combo++; G.maxComboWave=Math.max(G.maxComboWave,G.combo); G.comboUntil = performance.now() + 2300;
+    const eco=E()?.rewardKill?.({role:e.role,sector:G.sector,elite:!!e.eliteClass});
+    const streak=E()?.rewardStreak?.(G.combo);
+    if(eco?.leveled){ UI().flashMsg(`NIVEL ${eco.level} · TIENDA ACTUALIZADA`,900); addText(G.px,G.py-52,`NIVEL ${eco.level}`,'#ffe875',1200,0,-14,true); }
+    if(streak){ addText(e.x+e.w/2,e.y-20,`${streak.label} · +${streak.coins}◈`,'#ffe875',1100,0,-15,true); }
     if(e.eliteClass){ G.eliteKillsWave++; objectiveEvent('elite',1); maybeDrop(pick(['drone','overdrive','shield','missile']),e.x+e.w/2,e.y+e.h/2,1); addText(e.x+e.w/2,e.y-6,`${e.eliteLabel||'ÉLITE'} +BONUS`,e.eliteColor||'#ffd66b',900,0,-14,true); }
     explode(e.x+e.w/2,e.y+e.h/2,e.color, e.role==='boss'?28:e.role==='miniboss'?18:10, e.role==='boss'?200:130);
     if(e.role==='boss') A().bossDeath?.(); else if(e.role==='miniboss') A().minibossDeath?.(e.identity?.style ?? 0); else A().enemyDestroyed?.(e.kind);
     if(e.role==='boss'){
+      M()?.finalize?.('victory',{bossHp:0,defenseHp:0,hpRatio:G.maxHp?G.hp/G.maxHp:1,mobilityIndex:(G.ship?.speed||430)/430,hasUsefulSecondary:false,combo:G.combo,damageReceivedRatio:G.maxHp?G.waveDamageTaken/G.maxHp:0},performance.now());
       awardSectorClear();
       addText(e.x+e.w/2,e.y,'SECTOR LIMPIO','#ffe091',1600,0,-24,true);
       UI().flashMsg('SECTOR COMPLETADO', 1100);
@@ -1643,6 +1718,7 @@ window.SF = window.SF || {};
 
   function damagePlayer(amount, reason='DAÑO'){
     const actual=Math.max(.35,amount*(G.ship?.armor||1));
+    if(G.phase==='boss') M()?.notePlayerDamage?.(actual);
     G.hp = Math.max(0,G.hp-actual); G.waveDamageTaken+=actual; G.invulnUntil = performance.now()+900; G.shake = 8; A().hit(); addText(G.px,G.py-20,reason,'#ff9e93',700,0,-15,true);
     if(G.hp > 0 && G.hp <= Math.max(2,Math.ceil(G.maxHp*.25))){ addText(G.px,G.py-44,'VIDA CRÍTICA','#ff6e7b',1000,0,-12,true); A().critical(); }
     if(G.hp <= 0) loseLife();
@@ -1673,6 +1749,10 @@ window.SF = window.SF || {};
 
   function gameOver(){
     if(G.gameOver) return;
+    if(G.phase==='boss'){
+      const boss=G.enemies.find(e=>e.alive&&e.role==='boss');
+      M()?.finalize?.('defeat',{bossHp:boss?.hp||0,defenseHp:matrixBossDefenseHp(boss),hpRatio:0,mobilityIndex:(G.ship?.speed||430)/430,hasUsefulSecondary:false,combo:G.combo,damageReceivedRatio:G.maxHp?G.waveDamageTaken/G.maxHp:0},performance.now());
+    }
     G.gameOver=true; G.lifeLost=false; G.paused=true;
     S().saveRanking(G.player,G.score,G.sector,G.wave);
     const cp=G.checkpoint || snapshot();
@@ -1691,7 +1771,7 @@ window.SF = window.SF || {};
     A().pauseAmbience?.(false); UI().renderGameOver(G,false); buildStage(); UI().flashMsg(`REINICIO · CHECKPOINT ${G.wave}`, 1000);
   }
 
-  function destroyMeteor(ob,source='player'){ ob.alive=false; A().obstacleBreak?.(); const playerMade=source==='player'; const bonus=playerMade?Math.round(90*G.sector*mutatorScoreMul()*(G.sectorMutator?.id==='debris'?1.8:1)):0; if(playerMade){ G.meteorKillsWave++; objectiveEvent('meteor',1); G.score+=bonus; } explode(ob.x,ob.y,'#ffb45e',22,160); addText(ob.x,ob.y,playerMade?`ROCA +${bonus}`:'ROCA DESTRUIDA','#ffcf7c',900); if(playerMade) maybeDrop(Math.random()<.28?'heal':'spread', ob.x, ob.y, 1); }
+  function destroyMeteor(ob,source='player'){ ob.alive=false; A().obstacleBreak?.(); const playerMade=source==='player'; const bonus=playerMade?Math.round(90*G.sector*mutatorScoreMul()*(G.sectorMutator?.id==='debris'?1.8:1)):0; if(playerMade){ G.meteorKillsWave++; objectiveEvent('meteor',1); G.score+=bonus; E()?.add?.(2+Math.floor(G.sector/2),2); } explode(ob.x,ob.y,'#ffb45e',22,160); addText(ob.x,ob.y,playerMade?`ROCA +${bonus}`:'ROCA DESTRUIDA','#ffcf7c',900); if(playerMade) maybeDrop(Math.random()<.28?'heal':'spread', ob.x, ob.y, 1); }
 
   function updateObstacles(dt){ G.obstacles = G.obstacles.filter(o=>o.alive); const margin=G.layout?.sideMargin||12; G.obstacles.forEach(o=>{ o.angle += o.spin * dt/1000; if(o.motion!=='static'){ o.x += (o.vx||0)*dt/1000; o.y += (o.vy||0)*dt/1000; if(o.x>-o.r*.2 && o.x<G.w+o.r*.2) o.entered=true; const top=G.h*.40,bottom=G.h*.73; if(o.motion==='diagonal'){ if(o.y<top){o.y=top;o.vy=Math.abs(o.vy||0);} if(o.y>bottom){o.y=bottom;o.vy=-Math.abs(o.vy||0);} } const goneRight=(o.vx||0)>0 && o.entered && o.x>G.w+o.r*1.5; const goneLeft=(o.vx||0)<0 && o.entered && o.x<-o.r*1.5; if(goneRight||goneLeft) o.alive=false; } else { o.x=clamp(o.x,margin+o.r,G.w-margin-o.r); } }); }
 
@@ -1700,7 +1780,7 @@ window.SF = window.SF || {};
       const p = G.powerDrops[i]; p.life -= dt; p.phase += dt/200;
       const dx=G.px-p.x, dy=G.py-p.y, dist=Math.hypot(dx,dy)||1;
       const baseMag=G.layout?.portrait?C.rewards.mobileMagnetRadius:C.rewards.desktopMagnetRadius;
-      const magnet=baseMag*(G.ship?.magnet||1)*(1+(G.bossAugments.magnet||0))*(G.sectorMutator?.magnetMul||1);
+      const magnet=baseMag*(G.ship?.magnet||1)*(1+(G.bossAugments.magnet||0))*(G.sectorMutator?.magnetMul||1)*profileMagnetMul();
       if(dist<magnet){
         const pull=clamp(1-dist/magnet,.12,1);
         p.vx += dx/dist*(420*pull)*dt/1000; p.vy += dy/dist*(420*pull)*dt/1000;
@@ -1710,7 +1790,7 @@ window.SF = window.SF || {};
       if(p.life<=0 || p.y>G.h+40){ G.powerDrops.splice(i,1); continue; }
       const rect = pickupRect(p);
       const ph=G.layout?.playerH||64, playerRect = {x:G.px-ph*.29,y:G.py-ph*.42,w:ph*.58,h:ph*.84};
-      if(rectHit(rect, playerRect)){ applyPower(p.kind); G.powerDrops.splice(i,1); }
+      if(rectHit(rect, playerRect)){ applyPower(p.kind); if(p.source==='bossSupply'||p.source==='bossArenaPod') M()?.noteSupplyUsed?.(p.kind,p.source); G.powerDrops.splice(i,1); }
     }
   }
 
@@ -1727,7 +1807,7 @@ window.SF = window.SF || {};
       explode(G.px,G.py,'#c8a7ff',22,150);
     } else {
       const durations = {spread:8000, shield:7000, chain:7000, missile:6500, overdrive:7000, drone:C.allyDrone.durationMs};
-      const dur=(durations[kind]||6000)*(G.ship?.powerDuration||1)*(G.sectorMutator?.powerDuration||1);
+      const dur=(durations[kind]||6000)*(G.ship?.powerDuration||1)*(G.sectorMutator?.powerDuration||1)*profilePowerMul();
       const base=Math.max(now,G.activePowers[kind]||0);
       G.activePowers[kind]=Math.min(now+C.rewards.powerMaxExtensionMs, base+dur);
       if(kind==='shield' && weaponTier('shield')>=2){
@@ -1738,6 +1818,17 @@ window.SF = window.SF || {};
       }
     }
     A().power(kind); UI().flashMsg(C.powers[kind].label, 700); addText(G.px,G.py-28,C.powers[kind].label,C.powers[kind].color,1000,0,-18,true);
+  }
+
+  function useInventoryPower(kind){
+    if(!G.running || G.gameOver || !C.powers[kind]) return false;
+    if(!E()?.consume?.(kind)) return false;
+    applyPower(kind); saveProgress(); return true;
+  }
+  function applyStoreUpgrade(item){
+    if(!item || item.type!=='upgrade' || !G.running) return;
+    if(item.upgrade==='hull'){ G.maxHp+=1; G.hp=Math.min(G.maxHp,G.hp+1); addText(G.px,G.py-42,'CASCO +1','#ffe875',900,0,-12,true); }
+    saveProgress();
   }
 
   function updateParticles(dt){
@@ -1751,13 +1842,13 @@ window.SF = window.SF || {};
     let bonus=C.combatDirector.waveClearBase*G.wave*G.sector;
     if(perfect) bonus+=C.combatDirector.perfectWaveBonus*G.sector;
     if(G.maxComboWave>=10) bonus+=G.maxComboWave*18;
-    bonus*=mutatorScoreMul(); G.score+=Math.round(bonus); A().waveClear(perfect);
+    bonus*=mutatorScoreMul(); G.score+=Math.round(bonus); E()?.rewardWave?.(G.sector,perfect,G.maxComboWave); A().waveClear(perfect);
     addText(G.w*.5,G.h*.34,perfect?`PERFECT +${Math.round(bonus)}`:`OLEADA +${Math.round(bonus)}`,perfect?'#9dffb3':'#a8e7ff',1200,0,-14,true);
   }
   function awardSectorClear(){
     let bonus=C.combatDirector.sectorClearBase*G.sector + G.lives*140;
     if(G.waveDamageTaken<=0.001) bonus+=C.combatDirector.perfectWaveBonus*2*G.sector;
-    bonus*=mutatorScoreMul(); G.score+=Math.round(bonus); A().waveClear(G.waveDamageTaken<=0.001);
+    bonus*=mutatorScoreMul(); G.score+=Math.round(bonus); E()?.rewardSector?.(G.sector,G.waveDamageTaken<=0.001); A().waveClear(G.waveDamageTaken<=0.001);
     addText(G.w*.5,G.h*.28,`BONUS SECTOR +${Math.round(bonus)}`,'#ffe38a',1450,0,-16,true);
   }
 
@@ -1827,7 +1918,7 @@ window.SF = window.SF || {};
     renderTexts(ctx);
     renderBossBars(ctx);
     if(shaken) ctx.restore();
-    UI().renderHud({player:G.player, ship:G.ship, sector:G.sector, sectorName:integratedWorld()?.sectorName||currentSectorCfg().name, wave:G.wave, score:G.score, lives:G.lives, hp:G.hp, maxHp:G.maxHp, checkpointWave:G.checkpointWave, activePowerText:currentPowerText(), evolutionText:evolutionSummary(), phaseName:G.phaseName, combo:G.combo, objectiveText:objectiveText(), fusionText:fusionText(now), mutatorName:G.sectorMutator?.name||''});
+    UI().renderHud({player:G.player, ship:G.ship, sector:G.sector, sectorName:integratedWorld()?.sectorName||currentSectorCfg().name, wave:G.wave, score:G.score, lives:G.lives, hp:G.hp, maxHp:G.maxHp, checkpointWave:G.checkpointWave, activePowerText:currentPowerText(), evolutionText:evolutionSummary(), phaseName:G.phaseName, combo:G.combo, objectiveText:objectiveText(), fusionText:fusionText(now), mutatorName:G.sectorMutator?.name||'', economyProfile:E()?.state?.()});
   }
 
   function renderBg(ctx, sc, now){
@@ -2154,6 +2245,9 @@ window.SF = window.SF || {};
       const hardAlive=(e.hardpoints||[]).filter(p=>p.alive).length, hardTotal=(e.hardpoints||[]).length;
       if((e.fortressHp||0)>0){ ctx.fillStyle='#8fefff'; ctx.font='800 9px Inter,Arial'; ctx.textAlign='center'; ctx.fillText(`FORTALEZA${modulesTotal?` · MÓDULOS ${modulesAlive}/${modulesTotal}`:''}${hardTotal?` · SISTEMAS ${hardAlive}/${hardTotal}`:''}`,G.w/2,y+31); } else if(performance.now()<(e.coreOpenUntil||0)){ ctx.fillStyle='#fff0a6'; ctx.font='800 10px Inter,Arial'; ctx.textAlign='center'; ctx.fillText(`NÚCLEO ABIERTO · DAÑO x${C.bossCore.damageMultiplier.toFixed(1)}${hardTotal?` · SISTEMAS ${hardAlive}/${hardTotal}`:''}`,G.w/2,y+31); }
       if(performance.now()<(e.signatureUntil||0)){ ctx.fillStyle=e.signatureColor||e.identity?.accent||'#fff0a6'; ctx.font='900 10px Inter,Arial'; ctx.textAlign='center'; ctx.fillText('✦ '+(e.signatureLabel||e.identity?.signature||'ATAQUE ESPECIAL')+' ✦',G.w/2,y+(performance.now()<(e.coreOpenUntil||0)?46:42)); }
+      if(C.reactiveMatrix?.enabled&&C.reactiveMatrix.mode==='shadow'&&C.reactiveMatrix.showHud){
+        const rm=M()?.status?.(); if(rm?.active){ const cols={M0:'#8fffb0',M1:'#9deaff',M2:'#ffe27a',M3:'#ff9a78'}; ctx.fillStyle=cols[rm.state]||'#9deaff'; ctx.font='800 9px Inter,Arial'; ctx.textAlign='center'; const ttk=Number.isFinite(rm.estimatedTtk)?Math.round(rm.estimatedTtk):0; const dps=Number.isFinite(rm.dps)?rm.dps.toFixed(1):'0.0'; const compact=G.layout?.portrait&&G.w<=520; ctx.fillText(compact?`MATRIX SHADOW · ${rm.state} ${rm.label} · TTK ${ttk}s`:`REACTIVE MATRIX · SHADOW · ${rm.state} ${rm.label} · DPS ${dps} · TTK ${ttk}s`,G.w/2,y+58); }
+      }
     } }
   }
 
@@ -2273,7 +2367,7 @@ window.SF = window.SF || {};
     else { const now=performance.now(); shiftGameClocks(now-(G.pauseStartedAt||now)); G.pauseStartedAt=0; G.paused=false; G.autoPaused=false; G.lastTs=now; A().pauseAll?.(false); A().ui?.('resume'); }
     UI().renderPause(G);
   }
-  function exitToMenu(){ G.running=false; G.mode='menu'; G.paused=false; G.pauseStartedAt=0; G.gameOver=false; G.lifeLost=false; A().stopAll?.(); UI().showHud(false); UI().renderPause(G); UI().renderGameOver(G,false); UI().showScreen('splash'); NS.main.refreshPanels(); }
+  function exitToMenu(){ if(G.phase==='boss'){ const boss=G.enemies.find(e=>e.alive&&e.role==='boss'); M()?.finalize?.('aborted',{bossHp:boss?.hp||0,defenseHp:matrixBossDefenseHp(boss),hpRatio:G.maxHp?G.hp/G.maxHp:0,mobilityIndex:(G.ship?.speed||430)/430,hasUsefulSecondary:false,combo:G.combo,damageReceivedRatio:G.maxHp?G.waveDamageTaken/G.maxHp:0},performance.now()); } G.running=false; G.mode='menu'; G.paused=false; G.pauseStartedAt=0; G.gameOver=false; G.lifeLost=false; A().stopAll?.(); UI().showHud(false); UI().renderPause(G); UI().renderGameOver(G,false); UI().showScreen('splash'); NS.main.refreshPanels(); }
 
   function recoverLoopError(err,ts){
     G.lastError=String(err?.message||err||'Error desconocido'); G.recoveryCount=(G.recoveryCount||0)+1;
@@ -2297,5 +2391,5 @@ window.SF = window.SF || {};
     finally{ requestAnimationFrame(loop); }
   }
 
-  NS.game = { init, resize, startNew, continueFromSave, loop, togglePause, exitToMenu, restartCheckpoint, state:G, currentPowerText, saveProgress, _debug:{forceCompleteBossRewards,finishBossRewardTransition} };
+  NS.game = { init, resize, startNew, continueFromSave, loop, togglePause, exitToMenu, restartCheckpoint, state:G, currentPowerText, saveProgress, useInventoryPower, applyStoreUpgrade, _debug:{forceCompleteBossRewards,finishBossRewardTransition} };
 })(window.SF);

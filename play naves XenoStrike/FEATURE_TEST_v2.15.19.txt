@@ -1,0 +1,30 @@
+FEATURE TEST v2.15.19
+Resultado: 40/40 PASS
+
+Cobertura principal:
+- versión/mundos;
+- Shadow Mode;
+- ventanas objetivo;
+- ventana DPS 20 s;
+- hysteresis/cooldown;
+- índice multi-entrada;
+- clasificación sintética A0/A1/A2/A3;
+- planificación de ayuda A0;
+- armadura futura limitada >=68%;
+- supresión futura avanzada 3–5 s, telegráfica y evitable;
+- rebirth futuro avanzado una vez y 35–50%;
+- DPS previo y TTK vivo;
+- transición real sintética A1→A3 bajo DPS extremo;
+- telemetría local;
+- migración v2.15.18;
+- hooks de spawn/damage/incoming/update/victory/defeat;
+- cache bust/PWA;
+- ausencia de red en el bloque Hive;
+- ausencia de armadura aplicada en Shadow;
+- preservación Micro-Swarm, RIFT ALLY, Last Chance, Boss Rush, Commander Convergence y PWA.
+
+Ejemplo sintético fuerte:
+Power Index 160.7; DPS observado 260; DPS esperado 111.11; 4 powers; rank sum 16; combo 1; cadence 2.36; volley 7; allies 1.21.
+
+Ejemplo W20 extremo:
+La sesión sintética terminó en A3 y planeó 68% daño recibido, prioridad signature 1.35, RIFT DISRUPTION 4.2 s y rebirth único 48%, pero shadowGuarantee confirmó 0 intervenciones reales.

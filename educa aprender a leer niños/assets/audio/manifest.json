@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "0.7.6",
+    "version": "0.9.0",
     "locale": "es-CO",
-    "description": "Banco opcional de microaudios pedagógicos para Emilia"
+    "description": "Banco opcional de microaudios pedagógicos con categorías semánticas separadas"
   },
   "clips": {
     "a": "assets/audio/a.ogg",
@@ -24,6 +24,38 @@
     "pi": "assets/audio/pi.ogg",
     "po": "assets/audio/po.ogg",
     "pu": "assets/audio/pu.ogg"
+  },
+  "kinds": {
+    "vowel": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u"
+    ],
+    "phoneme": [
+      "m",
+      "p",
+      "s",
+      "l"
+    ],
+    "syllable": [
+      "ma",
+      "me",
+      "mi",
+      "mo",
+      "mu",
+      "pa",
+      "pe",
+      "pi",
+      "po",
+      "pu"
+    ],
+    "letterName": [],
+    "word": [],
+    "instruction": [],
+    "sentence": [],
+    "story": []
   },
   "aliases": {
     "vocal a": "a",

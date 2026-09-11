@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rizoma-zombie-strike-v3-43-0';
+const CACHE_NAME = 'rizoma-zombie-strike-v3-44-0';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
@@ -9,6 +9,6 @@ self.addEventListener('activate', event => {
       .then(() => self.clients.claim())
   );
 });
-// v3.43.0: perfiles comparables de build + aislamiento completo del Playtest Guiado; diagnóstico local sin transmisión ni cambios de combate, HP, daño o cadencias.
+// v3.44.0: Adaptive Boss Director SHADOW MODE: potencia/DPS/TTK A0–A3; solo observación y telemetría, sin cambios de combate, HP, daño, spawns ni cadencias.
 // principal para evitar que una versión antigua del juego quede congelada en caché.
 self.addEventListener('fetch', () => {});

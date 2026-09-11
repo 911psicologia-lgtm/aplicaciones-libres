@@ -1,0 +1,64 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS · v0.8.8
+VALIDACIÓN DE REFUERZO DE LECTOESCRITURA
+
+OBJETIVO DE ESTA PASADA
+- Profundizar el primer sendero sin abrir letras nuevas.
+- Incorporar palabra incompleta → selección/arrastre → pronunciación de palabra completa.
+- Extender el mismo principio a sílabas y frases.
+- Añadir un minijuego específico de refuerzo con contenidos ya aprendidos.
+- Incorporar lectura fluida del cuento completo, diferenciada del modelado de una sola página.
+
+IMPLEMENTADO
+1. PALABRAS INCOMPLETAS
+   - MAMÁ: m _ m á → A → “mamá”.
+   - PAPÁ: p a _ á → P → “papá”.
+   - SAPO: s _ p o → A → “sapo”.
+   - LUPA: l u _ a → P → “lupa”.
+   - MANO: m a _ o → N → “mano”.
+   - PATO: p a _ o → T → “pato”.
+   - DADO: _ a d o → D → “dado”.
+   - NIDO: n i _ o → D → “nido”.
+   - MAPA y otros refuerzos del Jardín de Palabras.
+
+2. PROGRESIÓN
+   - Letra faltante.
+   - Sílaba faltante: PALOMA = PA · __ · MA.
+   - Palabra faltante en frases cortas de M, P, S, L, N, T, D y Jardín.
+   - Tras el acierto se lee la unidad completa (palabra o frase), no solo la ficha elegida.
+
+3. MINIJUEGO “PALABRAS ESCONDIDAS”
+   - Disponible cuando hay al menos 3 huecos procedentes de mundos ya superados.
+   - Solo toma actividades de misiones completadas; no adelanta grafemas futuros.
+   - Sesiones de hasta 5 actividades.
+   - Mezcla huecos de letras, sílabas y palabras según el progreso real.
+
+4. CUENTOS
+   - Nuevo botón libro + ▶ para leer el cuento completo desde la primera página.
+   - Lectura completa fluida, página por página.
+   - El botón de oído conserva el modelado de la página actual (palabra por palabra + frase).
+   - La lectura completa puede detenerse.
+   - Mientras Lumi lee todo el cuento se suspenden las consignas automáticas de microinteracción para evitar interrupciones.
+
+CONTEOS
+- 22 mundos / misiones.
+- 94 habilidades.
+- 23 cuentos.
+- 248 actividades dentro de misiones.
+- 32 actividades de repaso.
+- 19 actividades gapFill dentro de misiones.
+
+VALIDACIONES AUTOMÁTICAS
+- Sintaxis JavaScript: OK.
+- IDs duplicados: 0.
+- Referencias a habilidades inexistentes: 0.
+- Prerrequisitos inválidos: 0.
+- gapFill mal configurados: 0.
+- Referencias PWA/Service Worker: 224; faltantes: 0.
+- Referencias de assets resueltas desde EMILIA_CONTENT: 151; faltantes: 0.
+- Llaves CSS: 1230 apertura / 1230 cierre.
+- Assets totales: 208; sin altas ni bajas.
+- Cambios dentro de assets: solo metadatos de assets/audio/manifest.json y assets/audio/README.txt para versión 0.8.8.
+- Imágenes aprobadas de Lumi: sin cambios byte a byte.
+
+NOTA DE PRUEBA
+La validación de esta entrega es estructural, lógica y de integridad. No se declara una prueba visual automatizada de navegador como aprobada; Chromium headless del entorno no produjo una captura fiable durante esta pasada. Conviene confirmar la ergonomía final con la prueba real en tablet/celular, como se ha venido haciendo.

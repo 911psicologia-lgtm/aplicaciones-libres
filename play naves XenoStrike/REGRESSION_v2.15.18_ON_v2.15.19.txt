@@ -1,0 +1,31 @@
+REGRESIÓN DE LA BASE ESTABLE v2.15.18 SOBRE v2.15.19
+
+Se ejecutó tools/feature_test_v21518.js contra la nueva build.
+Resultado bruto: 31/35 PASS.
+
+Los únicos 4 checks que no pasan son identificadores que DEBEN cambiar al crear v2.15.19:
+- version
+- cssBust
+- jsBust
+- swCache
+
+Los 31/31 checks funcionales/restantes de v2.15.18 pasan, incluyendo:
+- 20 mundos;
+- perfiles desktop/mobile/tablet;
+- safe areas;
+- player bounds;
+- action rail y routing;
+- HUD/combat focus/Last Chance;
+- migración de save;
+- touch targets;
+- segundo dedo ignorado;
+- coalesced pointer moves;
+- cancelación por visibility/orientation;
+- viewport stabilizer;
+- direct touch sin joystick;
+- ausencia de DASH input;
+- Micro-Swarm;
+- RIFT ALLY;
+- performance systems.
+
+Además tools/mobile_ergonomics_test_v21518.js pasa 5/5 perfiles sobre v2.15.19.

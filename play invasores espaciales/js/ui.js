@@ -3,7 +3,7 @@ window.SF = window.SF || {};
   const UI = {
     els: {},
     init(){
-      const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCombo','hudEvo','hudCheck','hudObjective','hudFusion','hudMutator','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','gameOverOverlay','gameOverStats','assetStatus','savePreview','pilotName','splashPilot','menuSaveHint','menuShipLabel','shipGrid','rankingList','loadInfo'];
+      const ids = ['hud','hudPilot','hudStage','hudScore','hudLives','hpFill','hudPower','hudCombo','hudEvo','hudCheck','hudObjective','hudFusion','hudMutator','centerMsg','controlsTag','pauseBtn','pauseOverlay','pauseStats','gameOverOverlay','gameOverStats','assetStatus','savePreview','pilotName','splashPilot','menuSaveHint','menuShipLabel','shipGrid','rankingList','loadInfo','hudEconomy','shopOverlay','shopBalance','shopBossPowers','shopGrid','shopBtn','fullscreenBtn'];
       ids.forEach(id => UI.els[id] = document.getElementById(id));
       document.querySelectorAll('[data-back]').forEach(btn => btn.addEventListener('click', ()=>{ NS.audio?.ensure?.(); NS.audio?.ui?.('back'); UI.showScreen(btn.dataset.back); }));
     },
@@ -48,10 +48,33 @@ window.SF = window.SF || {};
     renderLoadInfo(data){
       UI.els.loadInfo.innerHTML = data ? [`Piloto: ${data.player}`, `Sector ${data.sector} · Oleada ${data.wave}`, `Puntaje: ${data.score}`, `Vidas: ${data.lives}`, `Checkpoint: oleada ${data.checkpointWave}`].map(v=>`<div class="list-item"><span>${v}</span></div>`).join('') : '<div class="list-item"><span>No existe partida guardada</span></div>';
     },
+    renderEconomy(profile){
+      if(!profile) return;
+      if(UI.els.hudEconomy) UI.els.hudEconomy.textContent=`NV ${profile.level} · XP ${profile.xpIntoLevel}/${profile.xpToNext} · ◈ ${profile.coins}`;
+    },
+    renderShop(profile,catalog,inGame=false){
+      if(!profile) return;
+      UI.renderEconomy(profile);
+      if(UI.els.shopBalance) UI.els.shopBalance.innerHTML=`<span>NIVEL ${profile.level}</span><span>XP ${profile.xpIntoLevel}/${profile.xpToNext}</span><span>◈ ${profile.coins} MONEDAS</span><span>MEJOR RACHA x${profile.bestStreak||0}</span>`;
+      const bp=Object.keys(profile.bossPowers||{});
+      if(UI.els.shopBossPowers) UI.els.shopBossPowers.textContent=bp.length?`PODERES DE JEFE HEREDADOS: ${bp.map(k=>NS.config.powers[k]?.label||k).join(' · ')}`:'PODERES DE JEFE HEREDADOS: derrota al primer jefe para desbloquearlos.';
+      if(UI.els.shopGrid) UI.els.shopGrid.innerHTML=(catalog||[]).map(item=>{
+        const cls=item.maxed?'maxed':item.affordable?'affordable':!item.levelOk?'locked':'unaffordable';
+        const lock=!item.levelOk?`<span class="shop-lock">NV ${item.level}</span>`:item.maxed?'<span class="shop-lock">MÁX.</span>':'';
+        const owned=item.type==='consumable'?`CARGAS ${item.owned}`:`MEJORA ${item.owned}/${item.max}`;
+        const buyLabel=item.maxed?'MÁXIMO':!item.levelOk?`NV ${item.level}`:`COMPRAR ◈${item.price}`;
+        const use=(item.type==='consumable'&&inGame)?`<button class="use-btn" data-use="${item.kind}" ${item.owned>0?'':'disabled'}>USAR ×${item.owned}</button>`:'';
+        return `<div class="shop-item ${cls}">${lock}<div class="shop-item-title">${item.label}</div><div class="shop-item-desc">${item.desc}</div><div class="shop-meta"><span class="shop-owned">${owned}</span><span class="shop-price">◈ ${item.price}</span></div><div class="shop-actions"><button data-buy="${item.id}" ${item.affordable?'':'disabled'}>${buyLabel}</button>${use}</div></div>`;
+      }).join('');
+    },
+    setFullscreenState(active,supported=true){
+      if(!UI.els.fullscreenBtn) return; UI.els.fullscreenBtn.textContent=active?'[■]':'[ ]'; UI.els.fullscreenBtn.disabled=!supported; UI.els.fullscreenBtn.title=active?'Salir de pantalla completa':'Pantalla completa';
+    },
     renderHud(state){
       UI.els.hudPilot.textContent = `${state.player} · ${state.ship.name}`;
       UI.els.hudStage.textContent = state.sectorName ? `MUNDO ${state.sector} · ${state.sectorName} · O${state.wave}${state.phaseName?` · ${state.phaseName}`:''}` : `SECTOR ${state.sector} · OLEADA ${state.wave}${state.phaseName?` · ${state.phaseName}`:''}`;
       UI.els.hudScore.textContent = `${state.score} pts`;
+      if(state.economyProfile) UI.renderEconomy(state.economyProfile);
       UI.els.hudPower.textContent = state.activePowerText || 'SIN PODER';
       if(UI.els.hudEvo) UI.els.hudEvo.textContent=state.evolutionText||'EVO —';
       if(UI.els.hudCombo){

@@ -159,9 +159,9 @@
     };
   }
 
-  function startWord(canvas,word,onComplete,onProgress){
+  function startWord(canvas,word,onComplete,onProgress,opts={}){
     const ctx=canvas.getContext('2d'),dpr=Math.max(1,window.devicePixelRatio||1),clean=String(word||'').toLocaleLowerCase('es');
-    let drawing=false,current=[],strokes=[],done=false,letters=[];
+    let drawing=false,current=[],strokes=[],done=false,letters=[],guide=opts.guide||'full';
 
     function layout(targetCtx){
       const r=canvas.getBoundingClientRect();
@@ -173,12 +173,18 @@
     function resize(){const r=canvas.getBoundingClientRect();canvas.width=Math.max(1,r.width*dpr);canvas.height=Math.max(1,r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
     function draw(){
       const info=layout(ctx),r=info.r;ctx.clearRect(0,0,r.width,r.height);ctx.font=info.font;ctx.textAlign='left';ctx.textBaseline='middle';ctx.lineJoin='round';ctx.lineCap='round';
-      // Guía fina y con pequeños puntos por letra; no se pide rellenar el contorno.
-      letters.forEach((lt,i)=>{
-        ctx.strokeStyle='rgba(87,167,115,.20)';ctx.lineWidth=Math.max(5,info.size*.065);ctx.strokeText(lt.ch,lt.x0,lt.y);
-        const dotY=[lt.y-info.size*.28,lt.y,lt.y+info.size*.28];
-        dotY.forEach((yy,j)=>{ctx.beginPath();ctx.arc(lt.cx,yy,3.8,0,Math.PI*2);ctx.fillStyle=j===0?'rgba(239,183,70,.72)':'rgba(87,167,115,.38)';ctx.fill();});
-      });
+      // La guía puede disminuir progresivamente: completa, tenue o mínima.
+      if(guide==='minimal'){
+        ctx.strokeStyle='rgba(87,167,115,.16)';ctx.lineWidth=2;ctx.setLineDash([7,8]);ctx.beginPath();ctx.moveTo(Math.max(16,(r.width-info.total)/2),info.y+info.size*.45);ctx.lineTo(Math.min(r.width-16,(r.width+info.total)/2),info.y+info.size*.45);ctx.stroke();ctx.setLineDash([]);
+        letters.forEach((lt,i)=>{ctx.beginPath();ctx.arc(lt.cx,lt.y+info.size*.38,3.5,0,Math.PI*2);ctx.fillStyle=i===0?'rgba(239,183,70,.78)':'rgba(87,167,115,.28)';ctx.fill();});
+      }else{
+        const strokeAlpha=guide==='faded'?.10:.20,dotAlpha=guide==='faded'?.25:.38;
+        letters.forEach((lt,i)=>{
+          ctx.strokeStyle=`rgba(87,167,115,${strokeAlpha})`;ctx.lineWidth=Math.max(5,info.size*.065);ctx.strokeText(lt.ch,lt.x0,lt.y);
+          const dotY=[lt.y-info.size*.28,lt.y,lt.y+info.size*.28];
+          dotY.forEach((yy,j)=>{ctx.beginPath();ctx.arc(lt.cx,yy,3.8,0,Math.PI*2);ctx.fillStyle=j===0?`rgba(239,183,70,${guide==='faded'?.48:.72})`:`rgba(87,167,115,${dotAlpha})`;ctx.fill();});
+        });
+      }
       redrawUser();
     }
     function redrawUser(){ctx.strokeStyle='#4fa66d';ctx.lineWidth=17;ctx.lineCap='round';ctx.lineJoin='round';for(const s of strokes){if(s.length<2)continue;ctx.beginPath();s.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();}}
@@ -206,7 +212,8 @@
     return{
       reset(){done=false;drawing=false;current=[];strokes=[];draw();onProgress&&onProgress({ratio:0,span:0,path:0,strokes:0,letters:[],canComplete:false,autoComplete:false});},
       forceComplete(){const pr=progress();if(pr.canComplete){finish(pr.ratio,true);return true;}return false;},
-      progress
+      progress,
+      setGuide(next){guide=next||'full';draw();}
     };
   }
   window.EmiliaTracing={start,startWord};

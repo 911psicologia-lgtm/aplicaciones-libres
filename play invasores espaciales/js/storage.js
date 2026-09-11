@@ -20,6 +20,13 @@ window.SF = window.SF || {};
     },
     clearRanking(){ safe.del(C.RANK_KEY); },
     loadShip(){ return safe.get(C.SHIP_KEY, C.ships[0].id); },
-    saveShip(id){ safe.set(C.SHIP_KEY, id); }
+    saveShip(id){ safe.set(C.SHIP_KEY, id); },
+    loadProfile(){ return safe.get(C.PROFILE_KEY, null); },
+    saveProfile(profile){ safe.set(C.PROFILE_KEY, profile); },
+    loadMatrixTelemetry(){ return safe.get(C.MATRIX_TELEMETRY_KEY, []); },
+    appendMatrixTelemetry(entry,maxEntries=60){
+      const list=safe.get(C.MATRIX_TELEMETRY_KEY, []); list.push(entry); safe.set(C.MATRIX_TELEMETRY_KEY,list.slice(-Math.max(10,maxEntries||60))); return list.length;
+    },
+    clearMatrixTelemetry(){ safe.del(C.MATRIX_TELEMETRY_KEY); }
   };
 })(window.SF);

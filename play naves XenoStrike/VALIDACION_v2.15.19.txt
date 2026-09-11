@@ -1,0 +1,27 @@
+VALIDACIÓN v2.15.19 — ADAPTIVE HIVE BOSS DIRECTOR · SHADOW MODE
+
+PASS:
+- node --check js/game.js
+- node --check sw.js
+- Feature Test v2.15.19: 40/40
+- Autoaudit: PASS
+- HTTP smoke: 12/12 HTTP 200
+- PWA: 560 recursos / 0 faltantes
+- CH2: 210/210 recursos runtime con hash correcto
+- Assets runtime contra v2.15.18: 551 comparados / 0 cambios
+- Mobile Ergonomics heredado: 5/5 perfiles PASS
+- Regresión v2.15.18: 31/31 checks funcionales preservados; 4 checks de versión/cache fallan deliberadamente por incremento de versión.
+
+GARANTÍA SHADOW
+- reducción adaptativa de daño aplicada: NO
+- drops adaptativos entregados: NO
+- powers suprimidos: NO
+- boss resucitado: NO
+- HP inflado por el Director: NO
+- transmisión externa de telemetría: NO
+
+LIMITACIONES HONESTAS
+- No sustituye una sesión humana prolongada en PC/teléfono/tablet físicos.
+- Los umbrales A0–A3 son iniciales; necesitan calibrarse con telemetría Shadow de partidas reales.
+- La estadística dedicada de crítico no existe en el motor v2.15.18; se dejó reservada sin fabricar datos.
+- Las respuestas A0/A2/A3 que aparecen en telemetría son recomendaciones hipotéticas, no comportamiento activo en v2.15.19.

@@ -1,0 +1,53 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS · v0.9.1
+VALIDACIÓN · SEGUNDO SENDERO PROFUNDO
+
+OBJETIVO
+- Llevar R–C–B–F–G al nivel de profundidad pedagógica del primer sendero.
+- Mantener progresión decodificable y no adelantar patrones ortográficos posteriores.
+
+IMPLEMENTADO
+1. R, C, B, F y G añaden cuatro capas de práctica: letra faltante, palabra-imagen, palabra faltante en frase y orden de frase.
+2. G añade además completar GUSANO por sílaba (GU · SA · NO).
+3. Se crean 5 habilidades de lectura de frase específicas: sentence_r, sentence_c, sentence_b, sentence_f y sentence_g.
+4. Escalera de escritura se amplía con RANA, CAMA, BOTA, FOTO y GATO.
+5. Frases Vivas se amplía con una frase correspondiente a cada uno de esos mundos.
+6. Semillas que vuelven incorpora 5 refuerzos nuevos de letra faltante para R–G.
+7. Los cuentos de R, C, B y F pasan a escenas interactivas por páginas; se añade “El gato y el gusano” para G.
+8. El Gran Jardín Lector añade consolidación explícita R–C–B–F–G y desbloquea “El gran jardín lector” como cuento final del segundo sendero.
+9. La quinta fase de Escalera de escritura registra ahora la habilidad de frase específica cuando está definida.
+
+PROFUNDIDAD DEL SEGUNDO SENDERO
+- Río de la R: 14 actividades / 6 habilidades.
+- Casa de CA·CO·CU: 14 actividades / 6 habilidades.
+- Bosquecito de B: 15 actividades / 6 habilidades.
+- Flor de la F: 15 actividades / 6 habilidades.
+- Gruta de GA·GO·GU: 16 actividades / 6 habilidades.
+- Gran Jardín Lector: 16 actividades de integración.
+
+CONTEOS GLOBALES
+- 22 mundos / 22 misiones.
+- 99 habilidades.
+- 275 actividades dentro de misiones.
+- 37 actividades de repaso.
+- 13 escaleras de escritura.
+- 12 escaleras de frases.
+- 25 cuentos.
+
+VALIDACIONES AUTOMÁTICAS
+- Sintaxis JavaScript: OK.
+- IDs duplicados de actividades: 0.
+- IDs duplicados de habilidades: 0.
+- IDs duplicados de cuentos: 0.
+- Referencias de habilidades inválidas: 0.
+- Referencias de assets del contenido faltantes: 0.
+- Referencias PWA/Service Worker: 224; faltantes: 0.
+- Llaves CSS: 1287 apertura / 1287 cierre.
+- Decodabilidad de los nuevos contenidos R, C, B, F, G y cierre del Gran Jardín: OK.
+- C mantiene CA·CO·CU; no se introducen CE·CI.
+- G mantiene GA·GO·GU; no se introducen GE·GI ni GUE·GUI.
+
+NOTA DE ASSETS
+Esta versión reutiliza los assets existentes. No se generaron ni se editaron imágenes durante esta implementación.
+
+NOTA DE PRUEBA
+La validación es estructural, lógica y de integridad. La composición final en celular/tablet debe seguir comprobándose con pruebas reales de uso; no se declara una validación visual automatizada.

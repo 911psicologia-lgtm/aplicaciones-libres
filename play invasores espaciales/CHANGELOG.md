@@ -1,23 +1,40 @@
-# STARFALL FRONTIER v0.5.9 — ENDURANCE DIRECTOR + PHASE PRESSURE
+# STARFALL FRONTIER v0.6.1 — REACTIVE MATRIX · SHADOW MODE
 
-## Objetivo
-Evitar que la progresión permanente del jugador vuelva triviales a los jefes y subjefes, sin convertir a los enemigos comunes en esponjas de daño.
+## Base
+Derivación directa de **v0.6.0 — ECONOMY + BOSS SUPPLY FULL**. No se reconstruyó el proyecto ni se sustituyeron assets.
 
-## Implementaciones
-- **Endurance Director**: jefes y subjefes escalan parcialmente con las reliquias, la evolución del chasis y los aumentos permanentes de daño del jugador.
-- El escalado se limita con topes para conservar combates razonables y no producir barras interminables.
-- La **Fortaleza del jefe** también aumenta gradualmente con la progresión de la nave, hasta un bono máximo controlado.
-- El **escudo de los subjefes** recibe una compensación progresiva menor.
-- Cada fase del jefe incorpora un temporizador de **Presión I / Presión II**: si el combate se estanca, aumentan moderadamente movilidad, frecuencia de ataque, escoltas y pulsos defensivos.
-- Los subjefes disponen de una presión equivalente, más suave.
-- Al cambiar de fase del jefe se reinicia la presión, dejando una nueva ventana táctica y evitando una dificultad acumulativa injusta.
-- La resurrección del jefe reinicia la presión y recupera Fortaleza relativa a su estructura real.
-- HUD actualizado: muestra el nivel de presión activo del jefe; los subjefes indican P1/P2 junto a su nombre.
+## Reactive Boss Matrix
+- PLAYER COMBAT POWER INDEX a partir de DPS teórico, DPS efectivo reciente, build, upgrades, powers, survivabilidad y desempeño.
+- ESTIMATED TTK continuo basado en HP actual del boss / DPS efectivo.
+- TTK estructural adicional para observación de Fortaleza, módulos y hardpoints.
+- Estados: M0 SUPPORT, M1 NOMINAL, M2 OVERDRIVE y M3 DOMINANCE.
+- Hysteresis de 1,8 s y cooldown de 3,5 s entre cambios.
+- Ventanas objetivo por etapa: 45–75, 55–90, 70–110 y 90–130 s.
 
-## Se conserva
-- 3 oleadas + arena de jefe.
-- Boss Fortress, módulos orbitales, sistemas destructibles y núcleo expuesto.
-- Assets realistas W01–05 como arte principal.
-- Family Tactics, Mission Director, Asteroid Director, Micro-Swarm y evolución visual de la nave.
-- Quiet Audio: identidad sonora del armamento del jugador sin saturación.
-- Responsive, checkpoints, guardado y watchdog de transición.
+## Shadow Mode
+- No modifica HP, daño, cadencia, economía, precios, inventario ni Boss Supply.
+- No ejecuta System Jam.
+- No ejecuta reboot adaptativo.
+- No aplica mitigación adaptativa.
+- Solo registra qué respuesta habría propuesto.
+
+## Telemetría local
+- Build, upgrades, poderes, DPS, power index, TTK estimado/real.
+- Estado M0–M3 y transiciones.
+- Boss Supply ofrecido/usado.
+- Daño recibido, resurrección nativa, duración y resultado.
+- Máximo 60 encuentros bajo `sf3_reactive_matrix_telemetry_v1`.
+
+## HUD
+Línea de diagnóstico durante boss: `REACTIVE MATRIX · SHADOW · Mx · DPS · TTK`.
+
+## PWA
+- `manifest.webmanifest` fullscreen.
+- `sw.js` cachea solo shell ligero; no precarga los assets pesados.
+- Registro solo bajo HTTP/HTTPS.
+
+## Validación
+- Sintaxis JS + Service Worker.
+- Referencias de index, runtime assets y PWA.
+- Suite completa histórica + nueva prueba Shadow Matrix.
+- Integridad SHA-256 de assets/audio y economía frente a v0.6.0.

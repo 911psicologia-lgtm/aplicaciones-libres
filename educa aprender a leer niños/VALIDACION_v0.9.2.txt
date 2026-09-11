@@ -1,0 +1,47 @@
+Emilia · El Bosque de las Palabras · v0.9.2
+VALIDACIÓN DE CIERRE · TERCER SENDERO POR PATRONES
+
+ESTRUCTURA
+- Mundos: 22
+- Misiones: 22
+- Habilidades: 105
+- Actividades de misión: 312
+- Refuerzos de Semillas que vuelven: 43
+- Escaleras de escritura: 19
+- Frases Vivas: 18
+- Cuentos: 27
+
+TERCER SENDERO
+- Ñ: 14 actividades
+- CH: 12 actividades
+- QU: 13 actividades
+- R/RR: 14 actividades
+- CE/CI: 15 actividades
+- GE/GI: 13 actividades
+- Bosque de los Secretos: 16 actividades
+
+CAMBIOS PEDAGÓGICOS VERIFICADOS
+- QU no introduce CE/CI, GE/GI ni GUE/GUI como distractores.
+- CH no introduce patrones posteriores como distractores.
+- GE/GI no introduce GUE/GUI.
+- R/RR contrasta PERO/PERRO y CARO/CARRO antes de producir RR en palabra y frase.
+- CE/CI compara explícitamente CA·CO·CU con CE·CI.
+- GE/GI compara explícitamente GA·GO·GU con GE·GI.
+- Los ejercicios de parte ortográfica faltante usan el modo `pattern` y, al acertar, reproducen la palabra completa.
+- En RR, la selección `rr` se verbaliza como “doble erre”, evitando tratarla como una sílaba.
+- Cada mundo del tercer sendero tiene frase, Escalera de escritura, Frases Vivas y cuento propio.
+- El Bosque de los Secretos termina con un cuento integrador de los seis patrones.
+
+VALIDACIÓN TÉCNICA
+- Todos los archivos JavaScript: sintaxis OK con node --check.
+- IDs de habilidades, misiones, cuentos, ladders y actividades: sin duplicados/roturas detectadas.
+- Referencias de habilidades y prerrequisitos: OK.
+- Assets referenciados por contenido: 0 faltantes.
+- Service Worker: 224 referencias; 0 faltantes.
+- Manifest web: JSON válido.
+- CSS: llaves balanceadas.
+- Assets heredados comparados con v0.9.1: 208; modificados 0, añadidos 0, eliminados 0.
+- Lumi guide/thinking/cheer/victory: byte por byte sin cambios.
+
+NOTA
+No se declara una prueba visual automatizada en navegador. La validación de cierre cubre estructura, sintaxis, referencias, assets y reglas pedagógicas programables; la comprobación visual/táctil final debe hacerse en el dispositivo real.

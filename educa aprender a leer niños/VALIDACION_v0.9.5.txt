@@ -1,0 +1,10 @@
+Emilia · El Bosque de las Palabras · v0.9.5
+
+Ajustes implementados:
+- Cuentos: botón principal “Escuchar” más visible y ubicado antes del texto.
+- Narración: realce progresivo de palabras mientras Lumi lee.
+- Comprensión: nueva caja final con iconos en una sola línea, botón para volver al cuento y respuestas más grandes.
+- Cierre de cuento: mensaje “¡Lo hiciste muy bien!” con acciones claras para volver al bosque o seguir.
+- Instrucciones: formulaciones más breves e intuitivas para primeras letras y gemas/sílabas.
+- Resultados: simplificación visual de iconos; se prioriza el cofre junto al progreso.
+- PWA: actualización de caché para forzar nueva versión.

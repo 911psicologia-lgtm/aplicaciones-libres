@@ -1,11 +1,31 @@
-# STARFALL FRONTIER v0.5.9 — ENDURANCE DIRECTOR
+# STARFALL FRONTIER v0.6.1 — REACTIVE MATRIX SHADOW
 
-Build funcional centrada en preservar la dificultad de jefes y subjefes a medida que la nave acumula reliquias y mejoras permanentes.
+Build completa basada **exclusivamente** en `v0.6.0 — ECONOMY + BOSS SUPPLY FULL`.
 
-## Novedad principal
-El juego calcula un escalado limitado de resistencia para bosses y subbosses según el poder real alcanzado por el jugador. Este ajuste no se aplica a los minions, por lo que la campaña mantiene ritmo y los combates importantes conservan su peso.
+## Cambio principal
+Se incorpora **REACTIVE BOSS MATRIX / ADAPTIVE COMBAT MATRIX** en su primera fase: **SHADOW MODE**. La matriz calcula potencia real, DPS reciente, TTK proyectado y estado M0–M3 durante cada boss, pero no modifica todavía el combate.
 
-Los jefes también activan **Presión I / II** cuando una fase dura demasiado: aumenta moderadamente la cadencia, movilidad y actividad defensiva. Al entrar a una nueva fase la presión vuelve a cero para mantener ventanas de recuperación y lectura táctica.
+## Conservado sin regresión
+- economía, XP, monedas, tienda y precios;
+- Boss Supply y poderes heredados;
+- naves, enemigos, assets realistas W01–05 y audio;
+- Boss Fortress, Boss Anatomy, Endurance Director y Family Tactics;
+- Asteroid Director, Mission Director, evolución de nave y Micro-Swarm;
+- responsive, fullscreen, checkpoints, ranking y guardado.
 
-## Archivo principal
-`index.html`
+Los árboles `assets/` y `audio/` y el archivo `js/economy.js` se verifican por SHA-256 contra la base v0.6.0.
+
+## Telemetría local
+La Matrix conserva hasta 60 encuentros localmente. No transmite información fuera del juego.
+
+Desde consola:
+- `SF.reactiveMatrix.exportTelemetry()`
+- `SF.reactiveMatrix.clearTelemetry()`
+
+## PWA
+Se incluye shell PWA ligero (`manifest.webmanifest` + `sw.js`) con `display: fullscreen`. Solo se cachea el shell HTML/CSS/JS e iconos; los assets pesados permanecen bajo el streaming existente.
+
+## Iniciar
+Abre `index.html`. En `file://` el juego funciona normalmente y el Service Worker no intenta registrarse. Para instalación PWA, servir la carpeta por HTTP/HTTPS.
+
+Consulta `REACTIVE_MATRIX_SHADOW_IMPLEMENTATION.md` para la especificación completa.

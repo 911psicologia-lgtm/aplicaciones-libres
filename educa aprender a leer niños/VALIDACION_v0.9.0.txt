@@ -1,0 +1,46 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS · v0.9.0
+VALIDACIÓN DE “FRASES VIVAS”
+
+OBJETIVO
+- Extender la progresión reconocer → completar → construir → escribir al nivel de frase.
+- Retirar apoyo de forma gradual sin abrir letras nuevas.
+
+IMPLEMENTADO
+1. Nuevo modo “Frases vivas”, disponible desde P.
+2. 7 escaleras: P, S, L, N, T, D y Jardín de Palabras.
+3. Cuatro pasos por frase:
+   - modelo: frase completa + palabras tocables de izquierda a derecha;
+   - completar: una palabra ausente; audio completo solo si se pide ayuda;
+   - ordenar: reconstrucción palabra por palabra; audio completo solo si se pide ayuda;
+   - leer en escena: frase sobre fondo narrativo con personajes/objetos tocables y audio opcional.
+4. Al ordenar correctamente se reproduce la frase completa como confirmación.
+5. El uso voluntario del audio en completar/ordenar se registra como ayuda y evita contar esa respuesta como totalmente independiente.
+6. La lectura final en escena no se califica automáticamente; solo se registra si hubo apoyo.
+7. Repetir una práctica desde la pantalla de resultado conserva ahora su modo: repaso, palabras escondidas, escritura o frases.
+
+CONTEOS
+- 22 mundos / 22 misiones.
+- 94 habilidades.
+- 23 cuentos.
+- 248 actividades dentro de misiones.
+- 32 actividades de repaso.
+- 8 escaleras de escritura.
+- 7 escaleras de frases.
+
+VALIDACIONES AUTOMÁTICAS
+- Sintaxis JavaScript: OK.
+- IDs duplicados en actividades de misión: 0.
+- Decodabilidad de las 7 frases según letras disponibles: OK.
+- Referencias PWA/Service Worker: 224; faltantes: 0.
+- Llaves CSS: 1287 apertura / 1287 cierre.
+- Assets añadidos: 0; eliminados: 0.
+- Assets modificados respecto a v0.8.9: 2 (audio/README.txt, audio/manifest.json).
+- Imágenes aprobadas de Lumi: sin cambios byte a byte.
+
+PRUEBA LÓGICA
+- La sesión de Frases vivas siempre conserva los 4 pasos; el cierre adaptativo no puede omitir la lectura final en escena.
+- Los pasos de completar y ordenar son los dos pasos evaluables; modelo y lectura en escena son apoyo/práctica.
+- El botón de audio es opcional en los pasos con apoyo reducido.
+
+NOTA DE PRUEBA
+La validación es estructural, lógica y de integridad. La composición visual y el tamaño de toque de las nuevas escenas deben confirmarse en la prueba real de tablet/celular; no se declara una validación visual automatizada.

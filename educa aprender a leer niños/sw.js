@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.8.6-adaptive-reading';
+const CACHE='emilia-bosque-v0.9.5-cuentos-intuitivos';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

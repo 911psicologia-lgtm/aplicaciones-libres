@@ -1,0 +1,106 @@
+RIZOMA ZOMBIE STRIKE v3.44.0
+VALIDACIÓN — ADAPTIVE BOSS DIRECTOR · SHADOW MODE
+============================================================
+
+BASE COMPARADA
+- v3.43.0 — Perfiles Comparables de Build
+
+VERSIONADO
+- game.js: 3.44.0 OK
+- index.html: 3.44.0 OK
+- manifest.json: 3.44.0 OK
+- service worker/cache: 3.44.0 OK
+
+SINTAXIS / ESTRUCTURA
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parseable: OK
+- Curva de mundos: 20 entradas
+- Mundo 21 jugable: NO añadido
+- IDs HTML: 226
+- IDs HTML duplicados: 0
+
+CURVA DE GUARDIANES
+- M1: 11.200 HP
+- M5: 19.500 HP
+- M10: 38.900 HP
+- M15: 77.800 HP
+- M20: 155.500 HP
+- Curva preservada: OK
+
+CONTINUIDAD DE COMBATE vs v3.43
+Funciones críticas idénticas byte a byte:
+- bossPattern(): IDÉNTICA
+- boss2Pattern(): IDÉNTICA
+- boss2Special(): IDÉNTICA
+- triggerBossSpecial(): IDÉNTICA
+- applyBossVolleyAccent(): IDÉNTICA
+- addEnemyBullet(): IDÉNTICA
+- updateAdvancedEnemyIdentity(): IDÉNTICA
+- advancedEnemyAim(): IDÉNTICA
+- updateContinuityEnemyDirector(): IDÉNTICA
+
+Hooks de observación:
+- spawnBoss(): solo inicializa Shadow Mode; núcleo original idéntico al retirar el hook.
+- damageEnemy(): solo mide HP/shield efectivo después de aplicar la lógica original; núcleo original idéntico al retirar el hook.
+
+Resultado: SHADOW MODE no introduce cambios de HP, daño, proyectiles, spawns, patrones ni economía.
+
+ADAPTIVE BOSS DIRECTOR
+- Estados: A0 / A1 / A2 / A3: OK
+- TTK objetivo M1–5: 45–75 s
+- TTK objetivo M6–10: 55–90 s
+- TTK objetivo M11–15: 65–105 s
+- TTK objetivo M16–19: 75–115 s
+- TTK objetivo M20: 90–130 s
+- Buckets de daño: 250 ms
+- Ventana DPS previa: hasta 20 s
+- Ventana DPS boss: hasta 8 s
+- Hysteresis activa real: NO; Shadow Mode registra estados, no gobierna combate.
+- Intervenciones reales: 0
+
+PRUEBA SINTÉTICA M20
+- TTK 20 s -> A3 DOMINACIÓN: OK
+- TTK 35 s -> A3 DOMINACIÓN: OK
+- TTK 60 s -> A2 SOBREPOTENCIA: OK
+- TTK 100 s -> A1 EQUILIBRIO: OK
+- TTK 240 s -> A0 ASISTENCIA: OK
+
+RESPUESTAS SIMULADAS / NO ACTIVAS
+- A0: 1–2 ayudas contextuales (solo recomendación)
+- A1: ninguna intervención
+- A2: ~18% amortiguación + signature + puertas blandas (solo recomendación)
+- A3: ~30% amortiguación + supresión ~4 s + posible resurrección M11+ ~42% (solo recomendación)
+
+TELEMETRÍA
+- Schema nuevo: 2
+- Compatibilidad con runs schema 1: OK
+- adaptiveBoss registrado en JSON: OK
+- Resumen final muestra estado/TTK: OK por inspección estructural
+- Informe de Laboratorio agrega conteo Shadow: OK por inspección estructural
+- Sin fetch/XHR/WebSocket/sendBeacon añadido por este sistema: OK
+
+ASSETS
+- Assets base v3.43: 840
+- Assets v3.44: 840
+- Assets idénticos byte a byte: 840
+- Assets modificados: 0
+- Assets extra: 0
+- Referencias explícitas detectadas: 800
+- Referencias físicas válidas: 799
+- Patrón dinámico no físico: assets/boss2/sigil_w
+- Referencias físicas faltantes: 0
+
+NAVES RIZOMA
+- ship_meta.json: 6/6 presentes y JSON válido
+
+LIMITACIONES DE VALIDACIÓN
+- No se afirma prueba física Android/iOS.
+- No se afirma campaña M1→M20 jugada de extremo a extremo.
+- No se afirma smoke test visual real de navegador.
+- Shadow Mode requiere partidas reales para calibrar umbrales antes de activar respuestas adaptativas.
+
+EMPAQUETADO
+- ZIP completo, no parche.
+- unzip -t: se ejecuta después del empaquetado.
+- SHA-256: se genera después del ZIP final.

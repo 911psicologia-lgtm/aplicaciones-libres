@@ -1,0 +1,14 @@
+ASSET AUDIT v2.15.19
+
+Base comparada: SWARM//RIFT v2.15.18 MOBILE COMBAT ERGONOMICS.
+Assets runtime comparados byte-a-byte mediante CRC/tamaño: 551.
+Cambios/faltantes: 0.
+
+CH2:
+- manifest fuente: 230 recursos;
+- runtime: 210 recursos verificados;
+- SHA-256 mismatches: 0;
+- 20 PNG masters de backgrounds siguen omitidos intencionalmente;
+- sus WEBP runtime permanecen presentes.
+
+La v2.15.19 no reemplaza assets reales ni introduce placeholders.

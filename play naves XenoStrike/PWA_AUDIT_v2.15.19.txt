@@ -1,0 +1,9 @@
+PWA AUDIT v2.15.19
+
+Service Worker cache: swarm-rift-v2.15.19
+Recursos referenciados por PWA: 560
+Recursos faltantes: 0
+index.html:
+- css/game.css?v=21519
+- js/game.js?v=21519
+Resultado: PASS

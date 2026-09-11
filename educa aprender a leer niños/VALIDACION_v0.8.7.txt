@@ -1,0 +1,31 @@
+EMILIA · EL BOSQUE DE LAS PALABRAS v0.8.7 — AUTOAUDITORÍA
+
+VERSIÓN
+- content.js: 8.7
+- PWA start_url: ./index.html?v=0.8.7
+- Service Worker cache: emilia-bosque-v0.8.7-audio-precision
+
+AUDIO
+- Ritmo predeterminado: normal 1×
+- Ritmos: suave 0.90× / normal 1× / ágil 1.12×
+- Categorías explícitas en contenido: {'vowel': 6, 'word': 26, 'instruction': 13, 'syllable': 25, 'sentence': 1}
+- soundBubbles sin audioKind syllable: 0
+- actividades de vocales auditadas sin audioKind vowel: 0
+- manifest audio version: 0.8.7
+- categorías manifest: vowel, phoneme, syllable, letterName, word, instruction, sentence, story
+
+CORRECCIONES SEMÁNTICAS
+- Heurística antigua letra -> phoneme eliminada: OK
+- Gemas de vocales ya no envían “Vocal a” como sílaba: OK
+- Cuentos usan categoría story: OK
+- Control de velocidad enlazado en actividades: OK
+
+PWA / ARCHIVOS
+- Referencias del Service Worker: 224
+- Referencias faltantes: 0
+- CSS llaves: 1201 aperturas / 1201 cierres
+
+ASSETS GRÁFICOS
+- Comparados con v0.8.6: 201
+- Modificados: 0
+- Lumi intacta: SÍ

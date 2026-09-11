@@ -1,0 +1,28 @@
+SWARM//RIFT v2.15.19 — BUILD MANIFEST
+Nombre: ADAPTIVE HIVE BOSS DIRECTOR · SHADOW MODE
+Base exclusiva: v2.15.18 MOBILE COMBAT ERGONOMICS
+
+Código modificado:
+- js/game.js
+- index.html
+- sw.js
+
+Herramientas nuevas:
+- tools/feature_test_v21519.js
+- tools/audit_v21519.py
+
+Documentación nueva:
+- CHANGELOG_v2.15.19.txt
+- ADAPTIVE_HIVE_SHADOW_v2.15.19.txt
+- FEATURE_TEST_v2.15.19.json/.txt
+- AUTOAUDIT_v2.15.19.json/.txt
+- REGRESSION_v2.15.18_ON_v2.15.19.txt
+- ASSET_AUDIT_v2.15.19.txt
+- PWA_AUDIT_v2.15.19.txt
+- NODE_CHECK_v2.15.19.txt
+- VALIDACION_v2.15.19.txt
+- HTTP_SMOKE_v2.15.19.txt
+- CONTENT_SHA256_v2.15.19.txt
+
+Assets runtime modificados: 0.
+Modo adaptativo aplicado al gameplay: 0 intervenciones (Shadow Mode).

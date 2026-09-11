@@ -3,7 +3,9 @@ window.SF.config = {
   SAVE_KEY: 'sf3_save',
   RANK_KEY: 'sf3_rank',
   SHIP_KEY: 'sf3_ship',
-  VERSION: '0.5.9',
+  PROFILE_KEY: 'sf3_profile_v1',
+  MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
+  VERSION: '0.6.1',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -19,6 +21,30 @@ window.SF.config = {
     overdrive: { label: 'OVERDRIVE', color: '#fff16a', icon: 'overdrive' },
     life: { label: 'VIDA', color: '#ff7588', icon: 'life' },
     drone: { label: 'DRON ALIADO', color: '#7fffd4', icon: 'drone' }
+  },
+
+  economy: {
+    streaks: {
+      5:{xp:12,coins:8,label:'RACHA 5'},
+      10:{xp:28,coins:18,label:'RACHA 10'},
+      20:{xp:65,coins:42,label:'RACHA 20'},
+      30:{xp:110,coins:70,label:'RACHA 30'}
+    },
+    bossSupply: { enabled:true, firstMs:4200, intervalMs:[9500,12500], maxPerFight:3 },
+    catalog: [
+      {id:'repair',kind:'heal',type:'consumable',label:'KIT DE REPARACIÓN',desc:'+4 HP al usar',cost:55,level:1},
+      {id:'shield',kind:'shield',type:'consumable',label:'CARGA DE ESCUDO',desc:'escudo temporal',cost:70,level:1},
+      {id:'missile',kind:'missile',type:'consumable',label:'SALVA DE MISILES',desc:'misiles temporales',cost:90,level:2},
+      {id:'chain',kind:'chain',type:'consumable',label:'ARCO DE CADENA',desc:'daño encadenado',cost:105,level:2},
+      {id:'overdrive',kind:'overdrive',type:'consumable',label:'OVERDRIVE',desc:'movilidad y cadencia',cost:115,level:2},
+      {id:'drone',kind:'drone',type:'consumable',label:'DRON DE APOYO',desc:'aliado autónomo',cost:135,level:3},
+      {id:'emp',kind:'emp',type:'consumable',label:'PULSO EMP',desc:'limpia amenazas menores',cost:155,level:4},
+      {id:'life',kind:'life',type:'consumable',label:'NÚCLEO DE VIDA',desc:'+1 vida',cost:240,level:5},
+      {id:'hull',upgrade:'hull',type:'upgrade',label:'BLINDAJE DE CASCO',desc:'+1 HP máximo permanente',cost:320,step:170,level:3,max:5},
+      {id:'magnet',upgrade:'magnet',type:'upgrade',label:'TRACTOR MAGNÉTICO',desc:'+12% alcance de recogida',cost:280,step:150,level:3,max:5},
+      {id:'power',upgrade:'power',type:'upgrade',label:'CELDA DE PODER',desc:'+9% duración de poderes',cost:310,step:170,level:4,max:5},
+      {id:'weapon',upgrade:'weapon',type:'upgrade',label:'CALIBRACIÓN DE ARMAS',desc:'+3.5% daño permanente',cost:380,step:210,level:5,max:5}
+    ]
   },
   sectors: [
     { name: 'Nebulosa Roja', bg: ['#16070c','#4b0d1c','#9a1733'], fog: '#ff4968' },
@@ -271,6 +297,32 @@ window.SF.config = {
     phaseGateMs: 480,
     rageFireCdMul: .78,
     rageMoveMul: 1.16
+  },
+
+  reactiveMatrix: {
+    enabled: true,
+    mode: 'shadow',
+    showHud: true,
+    debugConsole: false,
+    telemetryMaxEntries: 60,
+    dpsWindowMs: 6000,
+    updateIntervalMs: 350,
+    minDpsSampleMs: 1500,
+    hysteresisMs: 1800,
+    stateCooldownMs: 3500,
+    expectedDpsBase: 8.4,
+    expectedDpsGrowth: .12,
+    supportTtkMul: 1.22,
+    supportPowerIndex: .72,
+    overdriveTtkMul: .82,
+    overdrivePowerIndex: 1.55,
+    dominanceTtkMul: .50,
+    targetWindows: {
+      initial:[45,75],
+      intermediate:[55,90],
+      advanced:[70,110],
+      final:[90,130]
+    }
   },
 
   enduranceDirector: {
