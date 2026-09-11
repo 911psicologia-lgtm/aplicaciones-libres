@@ -1,0 +1,94 @@
+RIZOMA ZOMBIE STRIKE v3.39.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.39.0
+[OK] manifest 3.39.0
+[OK] sw cache v3-39-0
+[OK] index v3.39.0
+[OK] 20 filas curva dificultad :: rows=20
+[OK] hitos HP intactos :: [11200, 19500, 38900, 77800, 155500]
+[OK] curva dificultad preservada v3.38→v3.39 :: bloque byte a byte
+[OK] CSV curva preservado
+[OK] sin Mundo 21 jugable
+[OK] 6 ship_meta válidos :: rz12_bastion, rz16_hydra, rz1_fenix, rz20_prime, rz4_mantis, rz8_nebula
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 added=0 changed=0
+[OK] referencias literales assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0 :: duplicados=[]
+[OK] damageEnemy preservado byte a byte :: bytes=36
+[OK] updateAdvancedEnemyIdentity preservado byte a byte :: bytes=7660
+[OK] advancedEnemyAim preservado byte a byte :: bytes=625
+[OK] triggerBossSpecial preservado byte a byte :: bytes=12267
+[OK] bossPattern preservado byte a byte :: bytes=10758
+[OK] boss2Pattern preservado byte a byte :: bytes=3875
+[OK] boss2Special preservado byte a byte :: bytes=7062
+[OK] applyBossVolleyAccent preservado byte a byte :: bytes=1128
+[OK] addEnemyBullet preservado byte a byte :: bytes=64
+[OK] spawnBoss lógica de combate preservada :: única inserción: marcador telemétrico
+[OK] balanceTelemetry perfil por defecto
+[OK] migración balanceTelemetry
+[OK] createBalanceTelemetrySession presente
+[OK] restoreBalanceTelemetry presente
+[OK] updateBalanceTelemetry presente
+[OK] recordBalancePower presente
+[OK] finalizeBalanceTelemetry presente
+[OK] sesión se conserva en guardado
+[OK] sesión se restaura al reanudar
+[OK] reinicio cierra intento previo
+[OK] victoria cierra telemetría
+[OK] derrota cierra telemetría
+[OK] replay sin jefe cierra telemetría
+[OK] tiempo activo instrumentado
+[OK] tiempo de jefe instrumentado
+[OK] muestreo densidad 4 Hz
+[OK] pico enemigos
+[OK] pico proyectiles enemigos
+[OK] pico partículas
+[OK] pico amenaza combinada
+[OK] daño entrante instrumentado
+[OK] daño de escudo instrumentado
+[OK] daño real de casco instrumentado
+[OK] evento letal instrumentado
+[OK] Última Oportunidad instrumentada
+[OK] rescates instrumentados
+[OK] poderes instrumentados
+[OK] historial limitado a 80 intentos
+[OK] telemetría sin transmisión de red :: sin fetch/XHR/WebSocket/sendBeacon
+[OK] panel telemetría en Ajustes
+[OK] exportación JSON de telemetría
+[OK] resumen agregado por mundo
+[OK] resumen telemétrico en resultado
+[OK] prompt IA incorpora telemetría
+[OK] texto de privacidad local
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor presente
+[OK] Taller RIZOMA presente
+[OK] DOMINIO presente
+[OK] Hangar presente
+[OK] RIFT mantiene 10 s
+[OK] Guardián Vinculado mantiene 12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] Enemy Behavior Evolution preservado
+[OK] Guardian Telegraph preservado
+[OK] Guardian Phase Identity preservada
+[OK] Boss Phase Signature Evolution preservada
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json JSON válido
+
+TOTAL 74/74 OK
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+
+NOTA DE TELEMETRÍA
+------------------------------------------------------------
+La telemetría v3.39.0 se almacena en localStorage dentro del perfil activo y se exporta sólo por acción explícita del usuario. El código nuevo no usa fetch, XMLHttpRequest, WebSocket ni sendBeacon.
+Los tiempos contabilizan juego activo; las pausas no incrementan activeSeconds porque update(dt) no corre mientras this.paused es true.
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] ZIP completo generado con la carpeta v3.39.0 y todos los assets heredados.
+[OK] unzip -t del paquete final: sin errores.
+[OK] SHA-256 companion generado después de la verificación final.

@@ -1,0 +1,19 @@
+SWARM//RIFT — Insecta Siege
+Build: v2.15.9 — BOSS IDENTITY PASS II
+Base incremental: v2.15.8 — BOSS IDENTITY PASS I
+Scope nuevo: Bosses de Mundos 16–20
+
+Identidades Pass II:
+16 Atlas Veil — VELO HIPNÓTICO
+17 Mirage Phasmid — FRACTURA MIMÉTICA
+18 Pit Emperor — VÓRTICE DE FOSA
+19 Auriculus Razor — PINZA ELECTROFÁGICA
+20 Apis Imperia — DOMINIO DE LA COLMENA
+
+Chapter II boss identities: 10/10
+Worlds: 20
+Bosses: 20
+Micro-Swarm: Worlds 1–20
+RIFT ALLY: World 11+, random defeated boss, 10 s
+Last Chance: fatal-hit intercept, 5 s, manual rescue
+Asset binaries: unchanged from v2.15.8

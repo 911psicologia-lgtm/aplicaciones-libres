@@ -1,0 +1,18 @@
+SWARM//RIFT — Insecta Siege v2.15.16
+BOSS DEATH & ARENA AFTERMATH PASS
+
+CAMBIOS
+- Mundos 11–20 reciben 10 secuencias de colapso de arena posteriores a la derrota del boss.
+- Cada ecosistema conserva una identidad propia: deorbitado Khepri, desarme Vespera, liberación de tenazas, apagón Lúmen, neutralización cáustica, disolución del velo, quiebre mimético, asentamiento de fosa, descarga Razor y silencio de colmena.
+- La capa Boss Arena Presentation cede el control visual al Aftermath cuando el boss entra en estado dying.
+- Perfiles de explosión/muerte CH2 ahora usan paletas específicas por familia, no el fallback genérico.
+- El Aftermath continúa durante la ventana post-boss y dibuja un campo de recuperación/recolección coherente con el magnetismo ya existente.
+- Pulsos visuales escalonados acompañan la animación death y el apagado de la arena.
+- Render sensible al Performance Governor: menor complejidad geométrica en BALANCED/RECOVERY.
+- Training sigue excluido para conservar máxima legibilidad.
+- No se añaden hitboxes, daño, enemigos, HP, drops, objetivos ni cambios de balance.
+- Migración de saves v2.15.15 -> v2.15.16.
+- Cache PWA actualizado a swarm-rift-v2.15.16 e index cache-bust v=21516.
+
+PRESERVADO
+20 mundos, 20 bosses, Boss Identity I/II, Animation↔Attack Sync, Boss Audio Event Sync, Enemy Sonic Ecology, Wave Choreographer, Pre-Boss Escalation, Boss Arena Presentation, Micro-Swarm, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY, Last Chance, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, powers/fusiones, checkpoints, Asset Streamer, Device Profiler, Frame Pacer y Performance Governor.

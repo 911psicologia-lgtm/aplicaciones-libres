@@ -5,7 +5,7 @@
    ═══════════════════════════════════════════════════════════ */
 const WORLDS = [
   /* ── VOCALS ── */
-  {id:'letters_vowels', name:'Vowels', es:'Vocales', icon:'🎤', color:'wc-letters', lvl:1, kind:'letters',
+  {id:'letters_vowels', name:'Vowels', es:'Vocales', icon:'🎤', color:'wc-letters', lvl:1, kind:'letters', cover:'cover_letters',
    story:'En el Bosque de las Vocales, cada sonido abre una puerta mágica. Aprende A–E–I–O–U con fotos fáciles.',
    items:[
     {en:'A',es:'A', img:'apple',    em:'🍎', hint:'A de Apple'},
@@ -16,7 +16,7 @@ const WORLDS = [
    ]},
 
   /* ── NUMBERS 1–10 ── */
-  {id:'numbers_1_10', name:'Numbers 1–10', es:'Números 1–10', icon:'🐥', color:'wc-numbers', lvl:1, kind:'numbers',
+  {id:'numbers_1_10', name:'Numbers 1–10', es:'Números 1–10', icon:'🐥', color:'wc-numbers', lvl:1, kind:'numbers', cover:'cover_numbers',
    story:'En la Granja de los Números contamos con estrellas. Del 1 al 10, paso a paso.',
    items:[
     {en:'One',   es:'Uno',   num:1},
@@ -32,7 +32,7 @@ const WORLDS = [
    ]},
 
   /* ── COLORS (basic) ── */
-  {id:'colors_basic', name:'Colors', es:'Colores básicos', icon:'🌈', color:'wc-colors', lvl:1, kind:'colors',
+  {id:'colors_basic', name:'Colors', es:'Colores básicos', icon:'🌈', color:'wc-colors', lvl:1, kind:'colors', cover:'cover_colors',
    story:'El Arcoíris perdido necesita 4 colores para brillar. ¡Encuéntralos en las fotos!',
    items:[
     {en:'Red',   es:'Rojo',     img:'apple',  em:'🍎', color:'#e74c3c'},
@@ -42,7 +42,7 @@ const WORLDS = [
    ]},
 
   /* ── BABY ANIMALS ── */
-  {id:'animals_baby', name:'Animals', es:'Animales (bebé)', icon:'🐾', color:'wc-animals', lvl:1, kind:'words',
+  {id:'animals_baby', name:'Animals', es:'Animales (bebé)', icon:'🐾', color:'wc-animals', lvl:1, kind:'words', cover:'lion',
    story:'En el Mini-Zoo, los animales te saludan con sus caritas. Aprende los primeros 8 con fotos reales.',
    items:[
     {en:'Dog',  es:'Perro',  img:'dog',   em:'🐶'},
@@ -56,7 +56,7 @@ const WORLDS = [
    ]},
 
   /* ── HELLO WORLD (phrases) ── */
-  {id:'phrases_hello', name:'Hello!', es:'Saludos', icon:'👋', color:'wc-phrases', lvl:1, kind:'phrases',
+  {id:'phrases_hello', name:'Hello!', es:'Saludos', icon:'👋', color:'wc-phrases', lvl:1, kind:'phrases', cover:'waving',
    story:'En la Plaza de Saludos dices “hola”, “adiós” y las palabras mágicas. ¡Con fotos de verdad!',
    items:[
     {en:'Hello!',     es:'¡Hola!',      img:'waving',      em:'👋'},
@@ -68,7 +68,7 @@ const WORLDS = [
    ]},
 
   /* ── EMOTIONS (basic) ── */
-  {id:'emotions_basic', name:'Emotions', es:'Emociones', icon:'😊', color:'wc-phrases', lvl:1, kind:'words',
+  {id:'emotions_basic', name:'Emotions', es:'Emociones', icon:'😊', color:'wc-phrases', lvl:1, kind:'words', cover:'face_happy',
    story:'En el Jardín de las Caritas, cada emoción tiene su foto. Reconoce cómo te sientes.',
    items:[
     {en:'Happy',    es:'Feliz',      img:'face_happy',     em:'😄', hint:'Sonrisa grande'},
@@ -84,7 +84,7 @@ const WORLDS = [
    ]},
 
   /* ── PETS (basic) ── */
-  {id:'pets_basic', name:'Pets', es:'Mascotas', icon:'🐾', color:'wc-animals', lvl:1, kind:'words',
+  {id:'pets_basic', name:'Pets', es:'Mascotas', icon:'🐾', color:'wc-animals', lvl:1, kind:'words', cover:'dog',
    story:'En la Casita de Mascotas aprendemos nombres de amigos peludos y con plumas.',
    items:[
     {en:'Dog',     es:'Perro',    img:'dog',     em:'🐶', hint:'Guau'},
@@ -100,7 +100,7 @@ const WORLDS = [
    ]},
 
   /* ── PRINCESS (basic) ── */
-  {id:'princess_basic', name:'Princess', es:'Princesas', icon:'👑', color:'wc-home', lvl:1, kind:'words',
+  {id:'princess_basic', name:'Princess', es:'Princesas', icon:'👑', color:'wc-home', lvl:1, kind:'words', cover:'crown',
    story:'En el Castillo de Brillo aprendemos palabras mágicas de princesa con fotos bonitas.',
    items:[
     {en:'Princess',es:'Princesa', img:'princess',em:'👸', hint:'Vestido'},
@@ -116,7 +116,7 @@ const WORLDS = [
    ]},
 
   /* ── SUPERHERO (basic) ── */
-  {id:'superhero_basic', name:'Superheroes', es:'Superhéroes', icon:'🦸', color:'wc-words', lvl:1, kind:'words',
+  {id:'superhero_basic', name:'Superheroes', es:'Superhéroes', icon:'🦸', color:'wc-words', lvl:1, kind:'words', cover:'cape',
    story:'En la Ciudad Valiente practicamos palabras de superhéroes para ayudar a todos.',
    items:[
     {en:'Hero',   es:'Héroe',     img:'herokid',   em:'🦸', hint:'Valiente'},
@@ -132,7 +132,7 @@ const WORLDS = [
    ]},
 
   /* ── UNIVERSE (basic) ── */
-  {id:'universe_basic', name:'Universe', es:'Universo', icon:'🌙', color:'wc-weather', lvl:1, kind:'words',
+  {id:'universe_basic', name:'Universe', es:'Universo', icon:'🌙', color:'wc-weather', lvl:1, kind:'words', cover:'planet',
    story:'En el Mini-Espacio miramos el cielo: sol, luna y estrellas.',
    items:[
     {en:'Sun',    es:'Sol',     img:'sun',      em:'☀️', hint:'Calienta'},
@@ -148,7 +148,7 @@ const WORLDS = [
    ]},
 
   /* ── DINOSAURS (basic) ── */
-  {id:'dinos_basic', name:'Dinosaurs', es:'Dinosaurios', icon:'🦖', color:'wc-animals', lvl:1, kind:'words',
+  {id:'dinos_basic', name:'Dinosaurs', es:'Dinosaurios', icon:'🦖', color:'wc-animals', lvl:1, kind:'words', cover:'trex',
    story:'En el Valle Dino aprendemos nombres simples de dinosaurios.',
    items:[
     {en:'Dino',       es:'Dino',        img:'dinosaur',   em:'🦕', hint:'Gigante'},
@@ -164,7 +164,7 @@ const WORLDS = [
    ]},
 
   /* ── ELEMENTS (basic) ── */
-  {id:'elements_basic', name:'Elements', es:'Elementos', icon:'🌊', color:'wc-weather', lvl:1, kind:'words',
+  {id:'elements_basic', name:'Elements', es:'Elementos', icon:'🌊', color:'wc-weather', lvl:1, kind:'words', cover:'volcano',
    story:'En la Isla de los Elementos jugamos con agua, fuego, aire y tierra.',
    items:[
     {en:'Water',es:'Agua',  img:'water',em:'💧', hint:'Gotas'},
@@ -180,7 +180,7 @@ const WORLDS = [
    ]},
 
   /* ── TOYS (basic) ── */
-  {id:'toys_basic', name:'Toys', es:'Juguetes', icon:'🧸', color:'wc-words', lvl:1, kind:'words',
+  {id:'toys_basic', name:'Toys', es:'Juguetes', icon:'🧸', color:'wc-words', lvl:1, kind:'words', cover:'teddy',
    story:'En el Cuarto de Juegos cada juguete tiene su nombre en inglés.',
    items:[
     {en:'Ball',   es:'Pelota',       img:'ball',   em:'⚽', hint:'Rueda'},
@@ -196,7 +196,7 @@ const WORLDS = [
    ]},
 
   /* ── BIRTHDAY (basic) ── */
-  {id:'birthday_basic', name:'Birthday', es:'Cumpleaños', icon:'🎉', color:'wc-food', lvl:1, kind:'words',
+  {id:'birthday_basic', name:'Birthday', es:'Cumpleaños', icon:'🎉', color:'wc-food', lvl:1, kind:'words', cover:'cake',
    story:'En la Fiesta Feliz aprendemos palabras de cumpleaños.',
    items:[
     {en:'Birthday',es:'Cumpleaños',img:'cake',     em:'🎂', hint:'Pastel'},
@@ -212,7 +212,7 @@ const WORLDS = [
    ]},
 
   /* ── JOBS (basic) ── */
-  {id:'jobs_basic', name:'Jobs', es:'Trabajos', icon:'👷', color:'wc-home', lvl:1, kind:'words',
+  {id:'jobs_basic', name:'Jobs', es:'Trabajos', icon:'👷', color:'wc-home', lvl:1, kind:'words', cover:'doctor',
    story:'En la Ciudad de Oficios conocemos profesiones con fotos claras.',
    items:[
     {en:'Doctor',     es:'Doctor',    img:'doctor',       em:'🩺', hint:'Salud'},
@@ -228,7 +228,7 @@ const WORLDS = [
    ]},
 
   /* ── 🎵 MÚSICA ── */
-  {id:'music_basic', name:'Music', es:'Música', icon:'🎵', color:'wc-phrases', lvl:1, kind:'words',
+  {id:'music_basic', name:'Music', es:'Música', icon:'🎵', color:'wc-phrases', lvl:1, kind:'words', cover:'guitar',
    story:'En el Estudio Musical aprendemos instrumentos y sonidos con fotos.',
    items:[
     {en:'Piano',  es:'Piano',    img:'piano',      em:'🎹', hint:'Teclas'},
@@ -244,7 +244,7 @@ const WORLDS = [
    ]},
 
   /* ── 🌊 OCEAN ── */
-  {id:'ocean_basic', name:'Ocean', es:'El Océano', icon:'🌊', color:'wc-ocean', lvl:1, kind:'words',
+  {id:'ocean_basic', name:'Ocean', es:'El Océano', icon:'🌊', color:'wc-ocean', lvl:1, kind:'words', cover:'dolphin',
    story:'Bajo el mar hay un mundo increíble. Aprende sus habitantes con fotos fascinantes.',
    items:[
     {en:'Shark',    es:'Tiburón',         img:'shark',    em:'🦈', hint:'Peligroso'},
@@ -260,7 +260,7 @@ const WORLDS = [
    ]},
 
   /* ── 🎨 SHAPES & COLORS+ ── */
-  {id:'shapes_basic', name:'Shapes', es:'Formas', icon:'🔷', color:'wc-colors', lvl:1, kind:'words',
+  {id:'shapes_basic', name:'Shapes', es:'Formas', icon:'🔷', color:'wc-colors', lvl:1, kind:'words', cover:'paintpalette',
    story:'En el Taller de Formas aprendemos figuras y colores nuevos con fotos simples.',
    items:[
     {en:'Circle', es:'Círculo',  img:'ball',   em:'⭕', hint:'Redondo'},
@@ -276,7 +276,7 @@ const WORLDS = [
    ]},
 
   /* ── 🌍 MY WORLD ── */
-  {id:'my_world', name:'My World', es:'Mi mundo', icon:'🌍', color:'wc-animals', lvl:1, kind:'words',
+  {id:'my_world', name:'My World', es:'Mi mundo', icon:'🌍', color:'wc-animals', lvl:1, kind:'words', cover:'house',
    story:'En Mi Pequeño Mundo aprendemos las cosas que nos rodean cada día.',
    items:[
     {en:'House', es:'Casa',    img:'house',  em:'🏠', hint:'Vivir'},
@@ -292,7 +292,7 @@ const WORLDS = [
    ]},
 
   /* ── 🦁 WILD ANIMALS ── */
-  {id:'animals_wild', name:'Wild Animals', es:'Animales salvajes', icon:'🦁', color:'wc-animals', lvl:1, kind:'words',
+  {id:'animals_wild', name:'Wild Animals', es:'Animales salvajes', icon:'🦁', color:'wc-animals', lvl:1, kind:'words', cover:'tiger',
    story:'En la Selva Safari descubrimos los animales más salvajes y maravillosos del mundo.',
    items:[
     {en:'Lion',    es:'León',     img:'lion',     em:'🦁', hint:'Ruge'},
@@ -308,7 +308,7 @@ const WORLDS = [
    ]},
 
   /* ── 🍓 FRUITS (nuevo) ── */
-  {id:'fruits_basic', name:'Fruits', es:'Frutas', icon:'🍓', color:'wc-food', lvl:1, kind:'words',
+  {id:'fruits_basic', name:'Fruits', es:'Frutas', icon:'🍓', color:'wc-food', lvl:1, kind:'words', cover:'cover_fruits',
    story:'En la Frutería Dulce aprendemos las frutas más ricas con fotos deliciosas.',
    items:[
     {en:'Apple',    es:'Manzana',  img:'apple',     em:'🍎'},
@@ -321,5 +321,19 @@ const WORLDS = [
     {en:'Pineapple',es:'Piña',     img:'pineapple', em:'🍍'},
     {en:'Mango',    es:'Mango',    img:'mango',     em:'🥭'},
     {en:'Cherry',   es:'Cereza',   img:'cherry',    em:'🍒'},
+   ]},
+
+  /* ── 🐮 FARM ANIMALS (nuevo en v5) ── */
+  {id:'farm_animals', name:'Farm Animals', es:'Animales de la granja', icon:'🐮', color:'wc-farm', lvl:1, kind:'words', cover:'barn',
+   story:'En la Granja Alegre conocemos a los animales con sus sonidos. ¡Muuu!',
+   items:[
+    {en:'Cow',    es:'Vaca',    img:'cow',    em:'🐮', hint:'Muuu'},
+    {en:'Pig',    es:'Cerdo',   img:'pig',    em:'🐷', hint:'Oink'},
+    {en:'Horse',  es:'Caballo', img:'horse',  em:'🐴', hint:'Relincha'},
+    {en:'Sheep',  es:'Oveja',   img:'sheep',  em:'🐑', hint:'Bee'},
+    {en:'Duck',   es:'Pato',    img:'duck',   em:'🦆', hint:'Cuac'},
+    {en:'Chicken',es:'Gallina', img:'chicken',em:'🐔', hint:'Pío'},
+    {en:'Goat',   es:'Cabra',   img:'goat',   em:'🐐', hint:'Meee'},
+    {en:'Barn',   es:'Granero', img:'barn',   em:'🏚️', hint:'Casa rural'},
    ]},
 ];

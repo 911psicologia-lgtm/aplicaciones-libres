@@ -236,6 +236,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 .wc-nature{background:linear-gradient(135deg,rgba(50,200,100,.18),rgba(25,100,50,.12));border-color:rgba(50,200,100,.3)}
 .wc-school{background:linear-gradient(135deg,rgba(200,150,50,.18),rgba(100,75,25,.12));border-color:rgba(200,150,50,.3)}
 .wc-travel{background:linear-gradient(135deg,rgba(100,200,255,.18),rgba(50,100,128,.12));border-color:rgba(100,200,255,.3)}
+.wc-farm{background:linear-gradient(135deg,rgba(230,126,34,.18),rgba(120,60,20,.12));border-color:rgba(230,126,34,.3)}
+.wc-town{background:linear-gradient(135deg,rgba(149,117,205,.18),rgba(70,50,110,.12));border-color:rgba(149,117,205,.3)}
 
 /* ── UTILIDADES ── */
 .section-title{font-family:'Baloo 2',cursive;font-size:1.3em;color:var(--gold);margin-bottom:12px}

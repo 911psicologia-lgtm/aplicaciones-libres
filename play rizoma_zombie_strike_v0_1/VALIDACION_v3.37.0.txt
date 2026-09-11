@@ -1,0 +1,76 @@
+RIZOMA ZOMBIE STRIKE v3.37.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.37.0
+[OK] manifest 3.37.0
+[OK] sw cache v3-37-0
+[OK] index v3.37.0
+[OK] 20 filas curva dificultad :: rows=20
+[OK] curva Guardianes preservada v3.36→v3.37 :: CSV byte a byte
+[OK] hitos HP intactos :: M1=11200; M5=19500; M10=38900; M15=77800; M20=155500
+[OK] campaña termina en Mundo 20
+[OK] 6 ship_meta válidos :: rz12_bastion, rz16_hydra, rz1_fenix, rz20_prime, rz4_mantis, rz8_nebula
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 added=0 changed=0
+[OK] referencias literales assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0 :: duplicados=[]
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor progresivo preservado
+[OK] Taller RIZOMA preservado
+[OK] DOMINIO preservado
+[OK] Hangar preservado
+[OK] RIFT mantiene 10 s
+[OK] Guardián Vinculado mantiene ~12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] damageEnemy preservado byte a byte :: bytes=36
+[OK] updateAdvancedEnemyIdentity preservado byte a byte :: bytes=7660
+[OK] advancedEnemyAim preservado byte a byte :: bytes=625
+[OK] triggerBossSpecial preservado byte a byte :: bytes=12267
+[OK] boss2Pattern preservado byte a byte :: bytes=3875
+[OK] applyBossVolleyAccent preservado byte a byte :: bytes=1128
+[OK] spawnBoss preservado byte a byte :: bytes=15175
+[OK] preservado RIZOMA_IMPACT_VFX
+[OK] preservado rz1TridentCharge
+[OK] preservado rz4VectorArc
+[OK] preservado rz8DroneLink
+[OK] preservado rz12AegisCharge
+[OK] preservado rz16HydraSidebeam
+[OK] preservado rz20Hyperlaser
+[OK] 20 perfiles telegráficos preservados :: worlds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+[OK] 20 identidades de fase :: rows=20
+[OK] cada identidad define 4 fases :: 4 etiquetas por mundo
+[OK] guardianPhaseIdentity presente
+[OK] transición reutiliza phaseRupture .82
+[OK] transición no añade nuevo freeze global
+[OK] render identidad fase presente
+[OK] identidad se dibuja antes de rotación
+[OK] mazo anti-repetición de patrones
+[OK] mazo de patrones conserva variantes 0–3
+[OK] bossPattern usa mazo anti-repetición
+[OK] mazo anti-repetición de movimiento
+[OK] updateBossMotion usa mazo
+[OK] mazos reinician al cambiar fase
+[OK] evita repetir primera carta entre mazos
+[OK] telegráfico CARGA/FIJACIÓN/IMPACTO preservado
+[OK] M6 EMP evitable preservado
+[OK] Enemy Behavior Evolution preservado
+[OK] proyectiles propios M16–M19 preservados
+[OK] sin Mundo 21 jugable
+[OK] sin versión v3.36 obsoleta en archivos runtime
+
+TOTAL 56/56 OK
+
+VALIDACIÓN DE SINTAXIS
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json JSON válido
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] empaquetado ZIP verificado con unzip -t; se vuelve a comprobar tras el sellado final
+[OK] SHA-256 companion se genera después del sellado final del ZIP

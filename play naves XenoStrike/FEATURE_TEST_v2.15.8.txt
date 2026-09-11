@@ -1,0 +1,25 @@
+SWARM//RIFT v2.15.8 — FEATURE TEST
+==================================
+Resultado: PASS
+
+Regresión heredada v2.15.7:
+- 20 mundos / 20 bosses: PASS
+- 10 familias CH2: PASS
+- Micro-Swarm: PASS
+- Family Combat Grammar / Coordinated Maneuvers: PASS
+- Formation Break: PASS
+- RIFT ALLY: PASS
+- Last Chance: PASS
+- Adaptive Counterplay: PASS
+- Performance Governor: PASS
+- Device Profiler / Dynamic Resolution / Jank-Aware Frame Pacer: PASS
+- Asset Residency Streamer: lazy boot / menu light / world core / boss on-demand / eviction / Chapter I clear: PASS
+- Migraciones v2.15.2–v2.15.7: PASS
+
+Nuevas comprobaciones v2.15.8:
+- saveMigration2157: PASS
+- bossIdentityDefs: PASS
+- bossIdentitySignatures: PASS
+- bossIdentityMovement: PASS
+
+Resultado del runner: 39/39 checks PASS.

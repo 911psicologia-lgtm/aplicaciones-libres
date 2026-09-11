@@ -298,6 +298,8 @@ function endMission() {
     p.stats.daysPlayed[todayStr()] = true;
     if (G.mtype === 'spell') p.stats.spellGames = (p.stats.spellGames || 0) + 1;
     if (G.mtype === 'match') p.stats.matchGames = (p.stats.matchGames || 0) + 1;
+    if (G.mtype === 'memory') p.stats.memGames = (p.stats.memGames || 0) + 1;
+    if (G.mtype === 'listen') p.stats.listenGames = (p.stats.listenGames || 0) + 1;
     if (G.mtype === 'review') {
       p.stats.reviews = (p.stats.reviews || 0) + 1;
       p.stats.learnedWords = (p.stats.learnedWords || 0) + (G.learned || 0);
@@ -452,6 +454,8 @@ window.openChest = function (stars) {
 function retryMission() {
   if (G.mtype === 'spell') return startSpellMission();
   if (G.mtype === 'match') return startMatchMission();
+  if (G.mtype === 'memory') return startMemoryMission();
+  if (G.mtype === 'listen') return startListenMission();
   if (G.mtype === 'review') return startReviewMission();
   if (G.mtype) startMission(G.mtype);
 }

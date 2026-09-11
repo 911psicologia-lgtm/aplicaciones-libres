@@ -1,0 +1,8 @@
+SWARM//RIFT v2.15.11 — CH2 ASSET AUDIT
+=========================================
+Entradas de manifiesto: 230
+SHA correctos distribuidos: 210
+Masters PNG omitidos esperados: 20
+Faltantes inesperados: 0
+Discrepancias SHA-256: 0
+PASS

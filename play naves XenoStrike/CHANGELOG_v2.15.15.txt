@@ -1,0 +1,16 @@
+SWARM//RIFT — Insecta Siege v2.15.15
+BOSS ARENA PRESENTATION PASS
+
+CAMBIOS
+- Arenas de boss Mundos 11–20 reaccionan visualmente a Fases I/II/III.
+- 10 gramáticas escénicas: orbit, lance, clamp, lumen, acid, veil, mirror, vortex, razor, hive.
+- Iluminación ambiental progresiva por fase sin modificar gameplay.
+- Pulso escénico en transiciones de fase y lectura crítica por debajo de 15% HP.
+- Render adaptativo al Performance Governor: menos geometría decorativa bajo carga.
+- Training excluido de la capa escénica para conservar máxima legibilidad.
+- Mantiene íntegros Pre-Boss Escalation, Wave Choreographer, Boss Identity, Audio Sync, Micro-Swarm, RIFT ALLY, Last Chance, Device Profiler, Frame Pacer y Asset Streamer.
+- Migración de saves v2.15.14 -> v2.15.15.
+- Cache PWA actualizado a swarm-rift-v2.15.15 e index cache-bust v=21515.
+
+NOTA
+La nueva capa es visual exclusivamente: no cambia HP, daño, hitboxes, cadencia, drops, objetivos ni número de enemigos.

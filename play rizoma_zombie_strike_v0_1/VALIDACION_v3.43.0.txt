@@ -1,0 +1,100 @@
+RIZOMA ZOMBIE STRIKE v3.43.0
+VALIDACIÓN — PERFILES COMPARABLES DE BUILD
+============================================================
+
+BASE COMPARADA
+- v3.42.0 — Comparador de Playtests + Detección de Variabilidad
+
+VERSIONADO
+- game.js: 3.43.0 OK
+- index.html: 3.43.0 OK
+- manifest.json: 3.43.0 OK
+- service worker/cache: 3.43.0 OK
+
+SINTAXIS / ESTRUCTURA
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parseable: OK
+- Mundos presentes: 20/20
+- Mundo 21 jugable: NO
+- IDs HTML: 226
+- IDs HTML duplicados: 0
+
+CURVA DE GUARDIANES
+- M1: 11.200 HP
+- M5: 19.500 HP
+- M10: 38.900 HP
+- M15: 77.800 HP
+- M20: 155.500 HP
+- Curva preservada: OK
+
+CONTINUIDAD DE COMBATE — COMPARACIÓN BYTE A BYTE vs v3.42
+- damageEnemy(): IDÉNTICA
+- bossPattern(): IDÉNTICA
+- boss2Pattern(): IDÉNTICA
+- boss2Special(): IDÉNTICA
+- triggerBossSpecial(): IDÉNTICA
+- applyBossVolleyAccent(): IDÉNTICA
+- addEnemyBullet(): IDÉNTICA
+- spawnBoss(): IDÉNTICA
+- updateAdvancedEnemyIdentity(): IDÉNTICA
+- advancedEnemyAim(): IDÉNTICA
+- updateContinuityEnemyDirector(): IDÉNTICA
+Resultado: 11/11 funciones críticas idénticas.
+
+ASSETS
+- Assets base v3.42: 840
+- Assets v3.43: 840
+- Assets idénticos byte a byte: 840
+- Assets modificados: 0
+- Assets extra: 0
+- Referencias físicas auditadas v3.42: 799
+- Referencias físicas auditadas v3.43: 799
+- Referencias faltantes: 0
+
+PRUEBA SINTÉTICA DEL COMPARADOR
+CASO A — PERFIL DOMINANTE REPRODUCIBLE
+- Mundo de prueba: M12
+- 2 playtests comparables RZ12 / Normal / E3
+- Perfil recomendado: RZ12 / Normal / E3
+- Soporte: 2
+- Resultado: OK
+
+CASO B — PERFIL HISTÓRICO NO REPRODUCIBLE
+- Mundo de prueba: M13
+- Muestra histórica E2
+- Perfil actual E3
+- Resultado: no se fuerza equivalencia histórica; se normaliza desde build actual
+- Resultado: OK
+
+AGRUPACIÓN DE BUILD
+- Grupos diferenciados por dificultad/nave/dominio/etapa: OK
+- Contexto de Flota y Guardián incluido cuando existe: OK
+- Contexto inicial/final de build en telemetría: OK
+
+AISLAMIENTO DE PLAYTEST GUIADO
+- No incrementa stats.runs: OK
+- No modifica preferredDifficulty: OK
+- No modifica dificultad global persistente: OK
+- No escribe maestría/uso persistente de arsenal: OK
+- No persiste poderes descubiertos: OK
+- No persiste fusiones descubiertas: OK
+- No persiste críticos/combos críticos: OK
+- No actualiza progresión de DOMINIO: OK
+- DOMINIO bloqueado durante prueba comparable: OK
+- Nave Rizoma bloqueada durante prueba comparable: OK
+- Flota bloqueada durante prueba comparable: OK
+- Guardián bloqueado durante prueba comparable: OK
+- Reinicio conserva comparableBuild: OK
+- Monedas persistentes excluidas del wallet de prueba: OK
+- Recompensas/ranking/progreso de campaña excluidos: OK
+
+LIMITACIONES DE VALIDACIÓN
+- No se afirma prueba física Android/iOS.
+- No se afirma campaña M1→M20 jugada de extremo a extremo.
+- No se afirma smoke test visual de navegador real en esta validación.
+
+EMPAQUETADO
+- Debe entregarse ZIP completo, no parche.
+- unzip -t: se completa después de generar el ZIP final.
+- SHA-256: se genera después del ZIP final.

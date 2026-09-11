@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege v2.15.12 — ENEMY SONIC ECOLOGY
+
+- 20 perfiles sonoros procedurales de familia (Mundos 1–20).
+- Tier-aware audio: mini, minor, medium y major reciben pesos y alturas diferentes.
+- Eventos integrados: spawn, shot y death.
+- Mini-swarms conservan su zumbido de entrada y usan muerte mínima, sin saturar la mezcla.
+- Audio Budget Governor: limita voces procedurales en ventanas de 250 ms.
+- Prioridad acústica a boss, telegraphs y Última Oportunidad.
+- Bajo BALANCED/RECOVERY baja densidad sonora antes de tocar gameplay.
+- No añade WAV/OGG/MP3; WebAudio bajo demanda.
+- Migración explícita v2.15.11 -> v2.15.12.
+- Sistemas de v2.15.11 y anteriores preservados.

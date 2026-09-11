@@ -1,0 +1,67 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.8
+BOSS IDENTITY PASS I — WORLDS 11–15
+========================================
+
+OBJETIVO
+Convertir los bosses 11–15 del Capítulo II en combates con identidad mecánica propia, sin reconstruir el juego y preservando todos los sistemas cerrados de v2.15.7.
+
+CAMBIOS PRINCIPALES
+
+MUNDO 11 — SCARAB IMPERATOR
+- Firma: ÓRBITA KHEPRI.
+- Movimiento orbital/gravitatorio propio.
+- Anillos gravitatorios expansivos y nodos orbitales según fase.
+- Atracción moderada hacia el centro gravitatorio y daño por contacto con anillos/nodos.
+- Fases: ASCENSO KHEPRI / GRAVEDAD CELESTE / SOL NEGRO IMPERATOR.
+
+MUNDO 12 — VESPERA LANCER
+- Firma: PICA VECTORIAL.
+- Locomoción rápida de pasadas y oscilación de lancer.
+- Ataques por carriles vectoriales que escalan de 1 a 3 según fase.
+- Trazas tóxicas y presión de precisión sin inflar HP.
+- Fases: ACECHO VECTORIAL / LANZA TÓXICA / PREDACIÓN VESPERA.
+
+MUNDO 13 — REGENT MANDIBLE
+- Firma: TENAZA REGICIDA.
+- Movimiento pesado de seguimiento y doble emisor mandibular.
+- Cierre superior/inferior de tenazas alrededor de una brecha segura decreciente.
+- Se desactiva para este boss el Razor Beam genérico heredado del patrón blade.
+- Fases: CERROJO DE OBSIDIANA / TENAZA DE FORJA / REGICIDIO.
+
+MUNDO 14 — PYROLUX BEACON
+- Firma: CONSTELACIÓN LÚMEN.
+- Movimiento de baliza en figura de ocho.
+- Nodos luminosos orbitales conectados por haces de constelación.
+- Peligro por proximidad a nodos y por intersección con sus enlaces.
+- Fases: BALIZA ÁMBAR / CONSTELACIÓN DE CAZA / SUPERNOVA LÚMEN.
+
+MUNDO 15 — CAUSTIC ALCHEMIST
+- Firma: DESTILACIÓN CÁUSTICA.
+- Movimiento de asedio/distilería propio.
+- Zonas corrosivas persistentes múltiples: 2 en fase 1, 3 en fases 2–3.
+- Fase 3 añade una onda expansiva final de reacción.
+- Fases: MEZCLA PRESURIZADA / DESTILACIÓN VIVA / REACCIÓN CÁUSTICA.
+
+INTEGRACIÓN DE MOTOR
+- Nueva capa CH2_BOSS_IDENTITIES para identidad, firma y nombres de fase.
+- Estados signature específicos por boss mediante makeCH2IdentitySignature/updateCH2IdentitySignature.
+- Render telegráfico propio por identidad mediante drawCH2IdentitySignature.
+- Movimiento específico 11–15 reemplaza el movimiento genérico heredado cuando corresponde.
+- Transiciones de fase muestran nombres propios y pulso visual de identidad.
+- La intro del boss muestra su signature propia.
+- bossSignatureConfig admite overrides CH2 incluso si el patrón antiguo no tenía signature genérica.
+
+CONTINUIDAD
+Se conservan: 20 mundos, 20 bosses, assets animados, familias minor/medium/major/mini, Micro-Swarm Director 1–20, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY, Last Chance, Performance Governor, Device Profiler, Frame Pacer, Asset Residency Streamer, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, poderes/fusiones, checkpoints, saves y PWA.
+
+SAVES / CACHE
+- VERSION: 2.15.8
+- KEY_META: swarm_rift_meta_v2158
+- KEY_RUN: swarm_rift_run_v2158
+- Migración explícita desde v2.15.7.
+- Service Worker cache: swarm-rift-v2.15.8
+- Cache busting index: ?v=2158
+- Assets binarios CH2 no cambiaron y conservan ?av=2157 intencionalmente.
+
+SIGUIENTE PASO PREVISTO
+Boss Identity Pass II — Mundos 16–20. No forma parte de esta build.

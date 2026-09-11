@@ -1,0 +1,34 @@
+SWARM//RIFT v2.15.9 — VALIDACIÓN DE BUILD
+=========================================
+
+CÓDIGO
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+FEATURE / RUNTIME SIMULADO
+- tools/feature_test_v2159.js: PASS
+- 40/40 checks: PASS
+- 20 mundos / 20 bosses: PASS
+- Boss Identity Pass II: Mundos 16–20 ejercitados: PASS
+- Identidades CH2 completas 11–20: 10/10 PASS
+- Micro-Swarm / Family Combat Grammar / Coordinated Maneuvers: PASS
+- Adaptive Counterplay / RIFT ALLY / Last Chance: PASS
+- Performance Governor / Device Profiler / Frame Pacer / Asset Streamer: PASS
+- Migración v2.15.8 -> v2.15.9: PASS
+
+PWA / RECURSOS
+- Referencias verificadas: 560
+- Recursos faltantes: 0
+
+ASSETS CH2
+- Entradas originales del manifiesto: 230
+- Recursos runtime distribuidos y SHA-256 correctos: 210/210
+- Discrepancias SHA-256: 0
+- 20 no distribuidos: únicamente masters PNG de backgrounds; WEBP runtime permanecen.
+
+HTTP SMOKE LOCAL
+- 10/10 endpoints: HTTP 200
+- Incluye index, game.js, sw.js y recursos de bosses Mundos 16–20.
+
+LIMITACIÓN REAL
+No se ha realizado una sesión prolongada de juego humano en teléfono/tableta físicos. Las pruebas realizadas son sintaxis, runtime simulado con DOM/canvas mock, recursos, hashes y servidor HTTP local.

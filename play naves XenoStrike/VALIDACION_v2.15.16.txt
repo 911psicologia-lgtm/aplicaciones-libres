@@ -1,0 +1,22 @@
+SWARM//RIFT v2.15.16 — VALIDACION
+====================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature/runtime checks: 28/28 PASS
+Aftermath definitions: 10/10 worlds (11–20)
+Distinct aftermath motifs: 10/10
+Death-stage progression: PASS
+Arena -> death aftermath handoff: PASS
+Post-boss reward-field presentation: PASS
+Training exclusion: PASS
+Performance-aware render smoke: PASS
+Gameplay-neutral static check: PASS
+Save migration v2.15.15 -> v2.15.16: PASS
+PWA resources: 560 / missing 0
+CH2 SHA-256 distributed: 210/210 PASS
+Expected omitted PNG masters: 20/20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+HTTP smoke: 12/12 HTTP 200
+
+Limitacion real: no sustituye una sesion humana prolongada en telefono/tableta fisicos. La mezcla visual final de algunos colapsos puede requerir ajuste despues de juego real, especialmente en pantallas pequeñas.

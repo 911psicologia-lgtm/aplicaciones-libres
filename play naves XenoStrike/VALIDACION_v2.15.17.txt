@@ -1,0 +1,28 @@
+SWARM//RIFT v2.15.17 — VALIDACION
+====================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature/runtime checks: 30/30 PASS
+UI profiles: DESKTOP / TABLET / MOBILE_LANDSCAPE / MOBILE_PORTRAIT PASS
+HUD priority ordering: PASS
+Last Chance highest-priority focus: PASS
+Boss alert focus: PASS
+Pre-boss/boss/tactical/objective focus: PASS
+Compact HUD render smoke: PASS
+Compact boss HP bar render smoke: PASS
+DOM focus reset on menu transition: PASS
+Core HP/shield always visible in compact HUD: PASS
+Action-rail reservation in compact HUD: PASS
+Mobile power display cap: 4
+Direct-touch / hidden joystick presentation preserved: PASS
+Save migration v2.15.16 -> v2.15.17: PASS
+PWA resources: 560 / missing 0
+CH2 SHA-256 distributed: 210/210 PASS
+Expected omitted PNG masters: 20/20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+HTTP smoke: 12/12 HTTP 200
+
+Gameplay-neutrality: el nuevo bloque HUD no modifica HP, daño, spawns, cadencias, hitboxes, drops, objetivos ni timers de gameplay.
+
+Limitacion real: no sustituye una sesion humana prolongada en telefono/tableta fisicos. La densidad, tamanos y posiciones del HUD deben observarse durante juego real, especialmente en pantallas landscape de baja altura y con notch/safe-area particulares.

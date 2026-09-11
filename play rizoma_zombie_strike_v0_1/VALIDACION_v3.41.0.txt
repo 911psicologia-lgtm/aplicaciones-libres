@@ -1,0 +1,74 @@
+RIZOMA ZOMBIE STRIKE v3.41.0 — VALIDACIÓN
+Base comparada: v3.40.0
+
+RESULTADO GENERAL: OK EN VALIDACIÓN ESTÁTICA Y PRUEBA SINTÉTICA
+
+[VERSIONADO]
+- game.js VERSION = 3.41.0: OK
+- index.html runtime = v3.41.0: OK
+- manifest version/start_url = 3.41.0: OK
+- service worker cache = v3-41-0: OK
+
+[SINTAXIS]
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parse JSON: OK
+
+[CAMPAÑA]
+- WORLD_DIFFICULTY_CURVE = 20 mundos: OK
+- Hitos: M1 11200 / M5 19500 / M10 38900 / M15 77800 / M20 155500: OK
+- No se añadió Mundo 21: OK
+
+[CONTINUIDAD DE COMBATE v3.40 -> v3.41]
+Funciones críticas comparadas sin cambios:
+- damageEnemy(): OK
+- bossPattern(): OK
+- boss2Pattern(): OK
+- boss2Special(): OK
+- triggerBossSpecial(): OK
+- applyBossVolleyAccent(): OK
+- addEnemyBullet(): OK
+- spawnBoss(): OK
+- updateAdvancedEnemyIdentity(): OK
+- advancedEnemyAim(): OK
+- Curva WORLD_DIFFICULTY_CURVE: preservada
+
+[ASSETS]
+- Assets v3.40: 840
+- Assets v3.41: 840
+- Hash agregado del árbol assets v3.40: 0fb0b3d705070e3708e6f082ccc03ad5c623264916a08d356764bab5c79794c6
+- Hash agregado del árbol assets v3.41: 0fb0b3d705070e3708e6f082ccc03ad5c623264916a08d356764bab5c79794c6
+- Modificados: 0
+- Referencias literales físicas auditadas: 799
+- Referencias faltantes: 0
+- ship_meta.json: 6 presentes
+
+[HTML]
+- IDs encontrados: 225
+- IDs duplicados: 0
+
+[PLAYTEST GUIADO]
+- Ruta fullWorld independiente de repetición por nivel: OK
+- Telemetría marcada como mode=playtest: OK
+- completeMap() conserva retorno temprano de replay y evita progresión: OK
+- finalizeRun() sale antes de economía/ranking/memoria para Playtest: OK
+- Taller no usa monedas persistentes en Playtest: OK
+- Compra de vida no usa monedas persistentes en Playtest: OK
+- Reiniciar mundo conserva Playtest Guiado: OK
+- Resultado identifica Playtest completado: OK
+- Botón final puede volver al Laboratorio: OK
+
+[MUESTRA HOMOGÉNEA]
+Prueba sintética sobre funciones reales extraídas de game.js:
+- 2 campañas + 1 playtest NO se mezclan como 3 intentos: OK
+- 3 playtests + 2 campañas -> fuente diagnóstica = playtest, n=3: OK
+- Laboratorio devuelve siempre 20 filas: OK
+- Señal con n=3 priorizada como CONFIRMAR SEÑAL: OK
+- Cobertura total se conserva por separado: OK
+
+[PRIVACIDAD]
+- No se añadió transmisión externa para telemetría/playtest: OK
+- Datos siguen locales hasta exportación manual: OK
+
+[LIMITACIÓN]
+No se declara prueba física Android/iOS ni campaña completa M1->M20 jugada en dispositivo real. La validación visual de navegador no se afirma si no se ejecuta satisfactoriamente.

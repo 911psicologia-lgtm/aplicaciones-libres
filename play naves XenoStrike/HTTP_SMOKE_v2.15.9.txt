@@ -1,0 +1,14 @@
+SWARM//RIFT v2.15.9 — HTTP SMOKE
+=================================
+- index.html: HTTP 200
+- js/game.js?v=2159: HTTP 200
+- sw.js: HTTP 200
+- assets_ch2/backgrounds/w16_boss.webp: HTTP 200
+- assets_ch2/bosses/atlas_veil/attack.png: HTTP 200
+- assets_ch2/bosses/mirage_phasmid/phase.png: HTTP 200
+- assets_ch2/bosses/pit_emperor/death.png: HTTP 200
+- assets_ch2/bosses/auriculus_razor/idle.png: HTTP 200
+- assets_ch2/bosses/apis_imperia/base.png: HTTP 200
+- assets_ch2/enemies/w20/mini_idle.png: HTTP 200
+
+Resultado: 10/10 HTTP 200

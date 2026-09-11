@@ -1,0 +1,23 @@
+SWARM//RIFT — Insecta Siege v2.15.12 — VALIDACIÓN FINAL
+
+FEATURE TEST: 58/58 PASS
+node --check js/game.js: PASS
+node --check sw.js: PASS
+PWA: 560 referencias / 0 faltantes
+HTTP smoke: 12/12 HTTP 200
+CH2 assets distribuidos: 210/210 SHA-256 correctos
+CH2 manifest original: 230 recursos; 20 PNG master de fondos no distribuidos, sus WEBP runtime sí están incluidos
+SHA mismatches CH2: 0
+
+NUEVO v2.15.12
+- Enemy Sonic Ecology para 20 familias (Mundos 1–20).
+- Eventos proceduralmente diferenciados: spawn / shot / death.
+- Jerarquía sonora por tier: mini / minor / medium / major.
+- Audio Budget Governor en ventanas de 250 ms.
+- Priorización de boss y Última Oportunidad sobre sonidos de familia.
+- BALANCED/RECOVERY reducen densidad sonora, no gameplay.
+- Micro-Swarm conserva zumbido de entrada y muerte mínima sin ruido excesivo.
+- Migración v2.15.11 -> v2.15.12.
+
+LIMITACIÓN REAL
+No sustituye una escucha prolongada en auriculares, altavoces y móviles físicos. La lógica, presupuesto acústico, integración y regresión automatizada sí fueron validados.

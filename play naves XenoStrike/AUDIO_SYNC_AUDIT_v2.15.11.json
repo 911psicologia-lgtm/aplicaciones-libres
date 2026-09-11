@@ -1,0 +1,22 @@
+{
+  "version": "2.15.11",
+  "ok": true,
+  "profile_count": 20,
+  "unique_ids": 20,
+  "events": [
+    "warn",
+    "release",
+    "impact",
+    "phase",
+    "death",
+    "allyIn",
+    "allyOut"
+  ],
+  "checks_total": 53,
+  "checks_failed": [],
+  "frame_locked_regular_release": true,
+  "phase_release_crossing": true,
+  "signature_impact_helper": 24,
+  "rift_ally_portal_events": true,
+  "new_audio_files": 0
+}

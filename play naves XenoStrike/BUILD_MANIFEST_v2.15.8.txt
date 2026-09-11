@@ -1,0 +1,22 @@
+SWARM//RIFT — Insecta Siege
+Build: v2.15.8 — BOSS IDENTITY PASS I
+Base incremental: v2.15.7 — ASSET RESIDENCY STREAMER
+Scope nuevo: Bosses de Mundos 11–15
+
+Identidades:
+11 Scarab Imperator — ÓRBITA KHEPRI
+12 Vespera Lancer — PICA VECTORIAL
+13 Regent Mandible — TENAZA REGICIDA
+14 Pyrolux Beacon — CONSTELACIÓN LÚMEN
+15 Caustic Alchemist — DESTILACIÓN CÁUSTICA
+
+Worlds: 20
+Bosses: 20
+CH2 families: 10
+PWA refs verified: 560 / missing 0
+CH2 runtime assets hash-verified: 210/210
+Feature tests: 39/39 PASS
+HTTP smoke: 9/9 HTTP 200
+Node syntax: PASS
+
+Next: v2.15.9 candidate — Boss Identity Pass II (Worlds 16–20)

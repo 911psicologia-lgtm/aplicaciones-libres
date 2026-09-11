@@ -1,0 +1,20 @@
+SWARM//RIFT — Insecta Siege v2.15.17
+HUD & MOBILE READABILITY PASS
+
+CAMBIOS
+- Nuevo sistema de prioridad del HUD: LAST CHANCE > alerta de boss > pre-boss > boss > recompensas > maniobra táctica > objetivo > frenesí > combate.
+- El HUD compacto de móvil/tablet se reorganiza en tres zonas: núcleo vital arriba, mensaje prioritario contextual y poderes/cola/combo abajo.
+- HP y escudo dejan de depender solo de porcentajes pequeños en móvil: ahora tienen barras compactas persistentes y lectura numérica.
+- El HUD compacto reserva explícitamente espacio para la botonera superior derecha y evita colocar poderes bajo los controles táctiles.
+- Poderes activos en móvil se limitan visualmente a los cuatro más relevantes; la cola se resume como contador ⏳N y no genera filas de texto.
+- RIFT ALLY activo recibe contador compacto ☣Ns; combo conserva un chip pequeño ×N.
+- Durante Last Chance se ocultan del HUD compacto los elementos secundarios y la botonera reduce visualmente controles no críticos, manteniendo carrito y RIFT visibles/clicables.
+- En alerta de boss, controles secundarios se atenúan sin ser deshabilitados.
+- Barra de vida de boss compacta: nombre + fase + porcentaje, posición adaptativa para no chocar con banner de llegada/alerta.
+- Sincronización DOM del modo de HUD también al cambiar de pantalla, evitando que un estado crítico quede visualmente pegado al volver al menú.
+- Se corrige cache-bust CSS que permanecía en v=21511; CSS y JS pasan ambos a v=21517.
+- Migración de saves v2.15.16 -> v2.15.17.
+- Cache PWA actualizado a swarm-rift-v2.15.17.
+
+PRESERVADO
+20 mundos, 20 bosses, control táctil directo sin joystick visible, auto-fire, Boss Death & Arena Aftermath, Boss Arena Presentation, Pre-Boss Escalation, Wave Choreographer, Boss Identity I/II, Animation↔Attack Sync, Boss Audio Event Sync, Enemy Sonic Ecology, Micro-Swarm, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY, Last Chance, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, powers/fusiones, checkpoints, Asset Streamer, Device Profiler, Frame Pacer y Performance Governor.

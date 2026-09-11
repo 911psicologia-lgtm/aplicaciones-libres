@@ -1,0 +1,11 @@
+SWARM//RIFT — v2.15.12 ENEMY SONIC ECOLOGY
+Version: 2.15.12
+Files: 675
+Uncompressed bytes before manifest: 234100286
+Service worker cache: swarm-rift-v2.15.12
+Save keys: swarm_rift_meta_v21512 / swarm_rift_run_v21512
+Previous save migration: v21511 and historical chain
+Family audio profiles: 20
+Enemy audio events: spawn, shot, death
+Audio tiers: mini, minor, medium, major
+Feature tests: 58/58 PASS

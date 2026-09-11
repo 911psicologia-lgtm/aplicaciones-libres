@@ -1,0 +1,31 @@
+{
+  "version": "2.15.15",
+  "name": "BOSS ARENA PRESENTATION PASS",
+  "summary": {
+    "passed": 21,
+    "total": 21
+  },
+  "checks": {
+    "version_2_15_15": true,
+    "arena_worlds_11_20": true,
+    "ten_distinct_motifs": true,
+    "phase_reactive": true,
+    "phase_transition_reactive": true,
+    "critical_pulse_15_percent": true,
+    "performance_aware": true,
+    "training_excluded": true,
+    "gameplay_neutral": true,
+    "preboss_preserved": true,
+    "wave_choreographer_preserved": true,
+    "micro_swarm_preserved": true,
+    "rift_ally_preserved": true,
+    "last_chance_preserved": true,
+    "performance_governor_preserved": true,
+    "asset_streamer_preserved": true,
+    "save_migration_v21514": true,
+    "index_cache_bust": true,
+    "service_worker_cache": true,
+    "status_probe": true,
+    "arena_render_smoke_90_calls": true
+  }
+}

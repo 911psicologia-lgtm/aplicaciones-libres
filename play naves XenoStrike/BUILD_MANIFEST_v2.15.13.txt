@@ -1,0 +1,13 @@
+SWARM//RIFT — v2.15.13 CHAPTER II WAVE CHOREOGRAPHER
+Version: 2.15.13
+Base: v2.15.12
+Service worker cache: swarm-rift-v2.15.13
+Save keys: swarm_rift_meta_v21513 / swarm_rift_run_v21513
+Migration source added: v2.15.12
+Worlds: 20
+Bosses: 20
+CH2 wave acts: 30
+PWA resources: 560
+Feature/regression checks: 62/62 PASS
+HTTP smoke: 8/8 PASS
+CH2 distributed asset hashes: 210/210 PASS

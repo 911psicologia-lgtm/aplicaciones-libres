@@ -1,0 +1,28 @@
+SWARM//RIFT — Insecta Siege v2.15.18
+MOBILE COMBAT ERGONOMICS PASS
+========================================
+
+Base: v2.15.17 HUD & Mobile Readability.
+
+Cambios principales
+- Safe-area real: se leen env(safe-area-inset-*) mediante un probe CSS y se usan para HUD y límites móviles.
+- Combat bounds táctiles: la nave evita zonas físicamente comprometidas por notch/home indicator en dispositivos coarse.
+- Action Rail Exclusion: un margen alrededor de los controles superiores evita que un toque fallido sobre/entre botones secuestre la dirección de la nave.
+- Un solo dedo primario controla la nave: un segundo pointer táctil ya no reemplaza el pointer activo.
+- Pointer coalescing: se usa el último evento coalescido disponible para reducir rezago perceptible sin aumentar el loop de simulación.
+- Dead-zone táctil ajustado a 13 px y respuesta directa afinada; ratón conserva su comportamiento previo.
+- Reset seguro de control directo al cambiar orientación, perder foco o esconder la pestaña/app.
+- Viewport stabilizer: resize/orientation/visualViewport se agrupan para evitar cascadas de resize durante giros móviles.
+- Objetivos táctiles efectivos de 44×44 CSS px para la botonera superior en coarse pointer, manteniendo iconos visualmente compactos.
+- HUD compacto usa safe-area, centro útil real y reserva superior derecha ampliada para evitar colisiones con la botonera.
+- Los chips de poderes respetan safe-area inferior.
+- Migración explícita v2.15.17 -> v2.15.18.
+- Cache PWA e index cache-bust actualizados a v2.15.18.
+
+Preservado
+- Control directo táctil; joystick sigue oculto/desactivado.
+- No se añade DASH.
+- Auto-fire, mouse steering, Normal/Hard, 20 mundos, 20 bosses, Micro-Swarm, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY, Last Chance, Boss Rush, Grand Boss Rush, CHASE, Hangar, poderes/fusiones, Performance Governor, Device Profiler, Frame Pacer y Asset Streamer.
+
+Nota de diseño
+Este pass sí modifica el sobre espacial de movimiento en dispositivos coarse para mantener la nave fuera de áreas de notch/home-indicator. No cambia HP, daño, cadencia, hitboxes, drops, objetivos ni densidad de enemigos.

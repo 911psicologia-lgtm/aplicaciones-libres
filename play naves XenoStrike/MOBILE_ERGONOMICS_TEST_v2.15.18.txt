@@ -1,0 +1,7 @@
+Mobile ergonomics profiles: 5/5 PASS
+Overall: PASS
+iphone-landscape-notch: PASS | profile=MOBILE_LANDSCAPE | bounds={'left': 73, 'right': 771, 'top': 44, 'bottom': 341} | rail={'left': 577, 'top': 0, 'right': 844, 'bottom': 58}
+compact-landscape-notch: PASS | profile=MOBILE_LANDSCAPE | bounds={'left': 70, 'right': 597, 'top': 44, 'bottom': 326} | rail={'left': 388.21999999999997, 'top': 0, 'right': 631, 'bottom': 66}
+android-landscape: PASS | profile=MOBILE_LANDSCAPE | bounds={'left': 30, 'right': 885, 'top': 44, 'bottom': 378} | rail={'left': 577, 'top': 0, 'right': 846, 'bottom': 58}
+tablet-landscape: PASS | profile=TABLET | bounds={'left': 30, 'right': 1150, 'top': 44, 'bottom': 786} | rail={'left': 577, 'top': 0, 'right': 846, 'bottom': 58}
+mobile-portrait: PASS | profile=MOBILE_PORTRAIT | bounds={'left': 30, 'right': 360, 'top': 85, 'bottom': 782} | rail={'left': 172, 'top': 39, 'right': 390, 'bottom': 113}

@@ -1,0 +1,21 @@
+RIZOMA ZOMBIE STRIKE v3.42.0 - VALIDACIÓN
+
+BASE: v3.41.0 Playtest Guiado + Diagnóstico
+ALCANCE: Comparador de Playtests + Detección de Variabilidad
+
+OK - node --check js/game.js
+OK - node --check sw.js
+OK - manifest.json válido
+OK - versión 3.42.0 sincronizada en game.js, index.html, manifest.json y service worker
+OK - 20 entradas WORLD_DIFFICULTY_CURVE
+OK - hitos HP preservados: M1=11200, M5=19500, M10=38900, M15=77800, M20=155500
+OK - 11 funciones críticas comparadas contra v3.41: idénticas byte a byte
+OK - 840 assets heredados / 840 presentes / 0 modificados / 0 faltantes
+OK - referencias literales auditadas con el mismo método en v3.41 y v3.42: 792 / 792; faltantes=0
+OK - IDs HTML duplicados=0
+OK - detección de variabilidad presente
+OK - estado NORMALIZAR MUESTRA presente
+OK - CSV incorpora CV/contexto de muestra
+OK - protocolo guiado incorpora variabilidad y composición de muestra
+
+LIMITACIÓN: no se realizó prueba física Android/iOS ni campaña jugada M1-M20. No se afirma smoke test visual real.

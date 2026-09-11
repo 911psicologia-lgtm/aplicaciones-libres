@@ -1,0 +1,6 @@
+Source manifest assets: 230
+Distributed SHA verified: 210
+Expected omitted PNG background masters: 20
+Unexpected missing: 0
+Hash mismatches: 0
+Result: PASS

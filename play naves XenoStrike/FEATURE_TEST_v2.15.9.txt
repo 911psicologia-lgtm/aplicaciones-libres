@@ -1,0 +1,21 @@
+SWARM//RIFT v2.15.9 — FEATURE TEST
+==================================
+Resultado: PASS
+
+Regresión heredada:
+- 20 mundos / 20 bosses: PASS
+- Micro-Swarm desde Mundo 1, sin inflar kills de wave: PASS
+- Family Combat Grammar / Coordinated Maneuvers / Formation Break: PASS
+- Adaptive Counterplay: PASS
+- RIFT ALLY 10 s / Last Chance 5 s: PASS
+- Performance Governor / Device Profiler / Frame Pacer: PASS
+- Asset Residency Streamer: PASS
+- Migraciones v2.15.2–v2.15.8: PASS
+
+Nuevas comprobaciones v2.15.9 — Boss Identity Pass II:
+- CH2_BOSS_IDENTITIES 11–20 (10/10): PASS
+- Signatures propias 11–20: PASS
+- Locomoción propia 11–20: PASS
+- Atlas / Mirage / Pit / Auriculus / Apis ejercitados en runtime simulado: PASS
+
+Resultado del runner: 40/40 checks PASS.

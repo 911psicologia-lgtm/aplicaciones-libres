@@ -1,0 +1,13 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.17
+Build: HUD_MOBILE_READABILITY
+Worlds: 20
+Bosses: 20
+HUD focus modes: 9 gameplay priorities + MENU
+UI profiles: 4
+Mobile active-power visual cap: 4
+CH2 distributed assets verified: 210
+PWA resources: 560
+Feature/runtime checks: 30/30
+HTTP smoke: 12/12
+Created: 2026-09-10

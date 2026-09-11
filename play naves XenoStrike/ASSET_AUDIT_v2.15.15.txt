@@ -1,0 +1,7 @@
+SWARM//RIFT v2.15.15 CH2 ASSET AUDIT
+Manifest assets: 230
+Distributed SHA matches: 210
+Expected omitted PNG background masters: 20
+Unexpected missing: 0
+Hash mismatches: 0
+Result: PASS

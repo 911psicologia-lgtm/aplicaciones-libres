@@ -1,0 +1,12 @@
+SWARM//RIFT v2.15.9 — RESOURCE / ASSET AUDIT
+===============================================
+
+PWA references: 560
+PWA missing: 0
+
+CH2 manifest entries: 230
+Runtime assets present + SHA-256 correct: 210
+SHA mismatches: 0
+Not distributed: 20
+Unexpected missing assets: 0
+Expected omissions: 20 PNG master backgrounds; runtime WEBP counterparts remain.

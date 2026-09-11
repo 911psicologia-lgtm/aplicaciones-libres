@@ -8,6 +8,30 @@ const AVATARS = [
   {id:'avatar_4', em:'👧'}, {id:'avatar_5', em:'🧒'}, {id:'avatar_6', em:'👦'},
 ];
 
+/* ── 🛍️ TIENDA DE AVATARES (nuevo en v5 — se compran con monedas) ── */
+const SHOP_AVATARS = [
+  {id:'av_lion',    name:'León Valiente',   price:100},
+  {id:'av_panda',   name:'Panda Dulce',     price:100},
+  {id:'av_frog',    name:'Rana Saltarina',  price:120},
+  {id:'av_fox',     name:'Zorro Astuto',    price:150},
+  {id:'av_penguin', name:'Pingüino Polar',  price:150},
+  {id:'av_dino',    name:'Dino Bebé',       price:200},
+  {id:'av_robot',   name:'Robot Amigo',     price:250},
+  {id:'av_unicorn', name:'Unicornio Mágico',price:300},
+];
+
+/* ── 🎡 RULETA DIARIA (nuevo en v5) ── */
+const SPIN_PRIZES = [
+  {label:'+10 🪙',  color:'#F39C12', apply:p=>{p.coins=(p.coins||0)+10;}},
+  {label:'+25 XP',  color:'#8E44AD', apply:p=>{p.xp=(p.xp||0)+25;}},
+  {label:'+20 🪙',  color:'#E67E22', apply:p=>{p.coins=(p.coins||0)+20;}},
+  {label:'+1 ⭐',   color:'#F1C40F', apply:p=>{p.stars=(p.stars||0)+1;}},
+  {label:'+50 XP',  color:'#6C3483', apply:p=>{p.xp=(p.xp||0)+50;}},
+  {label:'+15 🪙',  color:'#D35400', apply:p=>{p.coins=(p.coins||0)+15;}},
+  {label:'+40 XP',  color:'#9B59B6', apply:p=>{p.xp=(p.xp||0)+40;}},
+  {label:'🎉 50+⭐',color:'#E74C3C', apply:p=>{p.coins=(p.coins||0)+50;p.stars=(p.stars||0)+1;}},
+];
+
 /* ── NIVELES ── */
 const LEVEL_NAMES = ['', 'Semilla 🌱', 'Explorador 🚀', 'Héroe 🌟'];
 const LEVEL_AVATARS = ['', '🌱', '🚀', '🌟'];
@@ -32,6 +56,9 @@ const WORLD_GROUPS = {
   travel:   ['countries_basic'],
   beach:    ['at_beach'],
   events:   ['special_events'],
+  farm:     ['farm_animals'],
+  veggies:  ['vegetables_basic'],
+  town:     ['my_town'],
 };
 function bestStars(p, id) { return (p.best && p.best[id]) || 0; }
 function anyWorldComplete(p, groupKey, stars = 3) {
@@ -107,6 +134,9 @@ const BADGES = [
   // ★ EXPLORADOR
   {id:'explorer_all', icon:'🗺️', name:'Explorador Total', desc:'Juega en todos los mundos al menos 1 vez', c:p=>WORLDS.every(w=>p.best[w.id]!=null)},
   {id:'champion_all', icon:'🏆', name:'Campeón Absoluto', desc:'Obtén 3⭐ en todos los mundos', c:p=>WORLDS.every(w=>(p.best&&p.best[w.id]||0)>=3)},
+  {id:'world_farm',   icon:'🐮', name:'Maestro Granja',    desc:'3⭐ en Farm Animals', c:p=>bestStars(p,'farm_animals')>=3},
+  {id:'world_veggies',icon:'🥦', name:'Maestro Verduras',  desc:'3⭐ en Vegetables', c:p=>anyWorldComplete(p,'veggies',3)},
+  {id:'world_town',   icon:'🏘️', name:'Maestro del Pueblo',desc:'3⭐ en My Town', c:p=>anyWorldComplete(p,'town',3)},
   // ★ JUEGOS MENTALES (nuevo en v4)
   {id:'spell1',  icon:'🔤', name:'Primer Completado', desc:'Termina un juego de Completar palabras', c:p=>(p.stats.spellGames||0)>=1},
   {id:'spell10', icon:'✏️', name:'Escriba Pequeño',  desc:'Termina 10 juegos de Completar', c:p=>(p.stats.spellGames||0)>=10},
@@ -115,6 +145,15 @@ const BADGES = [
   {id:'review1', icon:'🔁', name:'Repasador Estrella', desc:'Completa un repaso de errores', c:p=>(p.stats.reviews||0)>=1},
   {id:'learn10', icon:'🧠', name:'Mente Genial',     desc:'Supera 10 palabras en repasos', c:p=>(p.stats.learnedWords||0)>=10},
   {id:'learn25', icon:'🎓', name:'Sabelotodo',       desc:'Supera 25 palabras en repasos', c:p=>(p.stats.learnedWords||0)>=25},
+  // ★ V5 — ruleta, tienda, memoria y escucha
+  {id:'spin1',   icon:'🎡', name:'Primera Ruleta',   desc:'Gira la ruleta diaria', c:p=>(p.stats.spins||0)>=1},
+  {id:'spin7',   icon:'🎰', name:'Suertudo',         desc:'Gira la ruleta 7 veces', c:p=>(p.stats.spins||0)>=7},
+  {id:'shop1',   icon:'🛍️', name:'Coleccionista',    desc:'Consigue tu primer avatar de la tienda', c:p=>(p.unlockedAvatars||[]).length>=1},
+  {id:'shopall', icon:'👑', name:'Gran Colección',   desc:'Consigue todos los avatares de la tienda', c:p=>(p.unlockedAvatars||[]).length>=SHOP_AVATARS.length},
+  {id:'mem1',    icon:'🃏', name:'Buena Memoria',    desc:'Termina un Memorama', c:p=>(p.stats.memGames||0)>=1},
+  {id:'mem10',   icon:'🧩', name:'Cerebro Fotográfico',desc:'Termina 10 Memoramas', c:p=>(p.stats.memGames||0)>=10},
+  {id:'listen1', icon:'👂', name:'Oído de Oro',      desc:'Termina un juego de Escucha', c:p=>(p.stats.listenGames||0)>=1},
+  {id:'listen10',icon:'🎧', name:'Oído Perfecto',    desc:'Termina 10 juegos de Escucha', c:p=>(p.stats.listenGames||0)>=10},
   // ★ DÍAS
   {id:'days3',  icon:'📅', name:'3 Días jugados', desc:'Juega en 3 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=3},
   {id:'days7',  icon:'🗓️', name:'Semana Heroica', desc:'Juega en 7 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=7},
@@ -142,14 +181,16 @@ function defaultState() {
     settings: {langMode:'ENES', voiceEnabled:true, voiceRate:.82, voicePitch:1.15}
   };
 }
-/* Asegura los campos nuevos de v4 en perfiles antiguos */
+/* Asegura los campos nuevos de v4/v5 en perfiles antiguos */
 function migrateProfile(p) {
   if (!p) return;
   if (!p.mistakes) p.mistakes = {};
   if (!p.avatar) p.avatar = 'avatar_1';
   if (!p.avatarData) p.avatarData = '';
+  if (!p.unlockedAvatars) p.unlockedAvatars = [];
+  if (!p.lastSpin) p.lastSpin = '';
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
@@ -161,12 +202,13 @@ function defaultProfile(name, avatar='avatar_1') {
   return {
     id: 'p_' + Math.random().toString(16).slice(2),
     name, avatar, avatarData: '',
+    unlockedAvatars: [], lastSpin: '',
     xp:0, coins:0, stars:0, level:1,
     streak:0, maxStreak:0,
     badges: [],
     best: {},
     mistakes: {},
-    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, daysPlayed:{}},
+    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, daysPlayed:{}},
     dailyGoal: {date:'', count:0, claimed:false}
   };
 }

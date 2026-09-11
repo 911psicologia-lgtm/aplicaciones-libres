@@ -3,7 +3,7 @@ window.SF.config = {
   SAVE_KEY: 'sf3_save',
   RANK_KEY: 'sf3_rank',
   SHIP_KEY: 'sf3_ship',
-  VERSION: '0.4.8',
+  VERSION: '0.5.9',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -31,14 +31,29 @@ window.SF.config = {
   worldFamilies: {
     enabled: true,
     maxIntegratedWorld: 5,
-    // Integra la nueva familia sin destruir los assets originales de alta calidad.
-    currentRatioByWave: {1:.46,2:.58,3:.68,4:.62},
+    // v0.5.7: los assets realistas W01–05 pasan a ser arte principal, no simples overlays.
+    realisticPrimary: true,
+    currentRatioByWave: {1:.62,2:.72,3:.82,4:.78},
     carryoverRatio: .20,
-    legacyRatioFloor: .18,
-    bossOverlayAlpha: .34,
-    subbossOverlayAlpha: .42,
-    backgroundOverlayAlpha: .22,
-    projectileSpriteAlpha: .82
+    legacyRatioFloor: .12,
+    bossOverlayAlpha: .96,
+    subbossOverlayAlpha: .96,
+    backgroundOverlayAlpha: .78,
+    originalBackgroundGhostAlpha: .14,
+    projectileSpriteAlpha: .92,
+    bossDeathFxMs: 920
+  },
+
+  worldFamilyTactics: {
+    enabled: true,
+    announceWave1: true,
+    worlds: {
+      1:{id:'crimson_predation',label:'PREDACIÓN ESCARLATA',desc:'cazadores más agresivos · ataques orgánicos cercanos',diveMul:.82,acidSpread:true},
+      2:{id:'yautja_hunt',label:'CAZA DE SOMBRA',desc:'cazadores se camuflan y cambian de carril antes de disparar',cloakMs:1050,cloakEvery:[4300,6500],cloakShift:32},
+      3:{id:'nebula_phase',label:'FASE NÉBULA',desc:'unidades energéticas alternan ventanas de fase defensiva',phaseMs:900,phaseEvery:[4400,6200],phaseDamageMul:.48},
+      4:{id:'arachnid_web',label:'RED ARÁCNIDA',desc:'más crías y proyectiles de telaraña que ralentizan brevemente',breederMul:.74,webSlow:.68,webSlowMs:950},
+      5:{id:'leviathan_tide',label:'MAREA LEVIATÁN',desc:'formación ondulante · presión lateral y pulsos abisales',waveAmpX:14,waveAmpY:7,sentinelRadiusMul:1.18}
+    }
   },
   wave: {
     startCols: 10,
@@ -57,9 +72,17 @@ window.SF.config = {
   obstacles: {
     baseCount: 1,
     maxCount: 2,
-    hpBase: 30,
-    radius: [24, 42],
-    spinRange: [0.4, 1.2]
+    hpBase: 36,
+    radius: [28, 52],
+    mediumRadius: [24, 36],
+    largeRadius: [38, 54],
+    spinRange: [0.18, 0.62],
+    crossSpeed: [28, 52],
+    diagonalSpeedY: [7, 15],
+    moverChance: .42,
+    diagonalChance: .16,
+    lowerBandPortrait: [.47,.69],
+    lowerBandLandscape: [.45,.67]
   },
   progression: {
     wavesPerSector: 4,
@@ -107,11 +130,11 @@ window.SF.config = {
   difficultyCurve: {
     // Curva W01–05: inicia accesible, escala de forma visible y reserva la mayor presión para W04–05.
     worlds: [
-      {hp:.90,speed:.92,fireCd:1.10,subbossHp:.90,bossHp:.90,bossFireCd:1.10,eliteChance:.72},
-      {hp:.98,speed:.98,fireCd:1.04,subbossHp:.98,bossHp:.98,bossFireCd:1.04,eliteChance:.88},
-      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:1.08,bossHp:1.08,bossFireCd:1.00,eliteChance:1.00},
-      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:1.18,bossHp:1.18,bossFireCd:.95,eliteChance:1.12},
-      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:1.28,bossHp:1.30,bossFireCd:.90,eliteChance:1.24}
+      {hp:.90,speed:.92,fireCd:1.10,subbossHp:1.42,bossHp:1.34,bossFireCd:1.02,eliteChance:.72},
+      {hp:.98,speed:.98,fireCd:1.04,subbossHp:1.58,bossHp:1.50,bossFireCd:.96,eliteChance:.88},
+      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:1.78,bossHp:1.70,bossFireCd:.90,eliteChance:1.00},
+      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:2.00,bossHp:1.94,bossFireCd:.84,eliteChance:1.12},
+      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:2.24,bossHp:2.20,bossFireCd:.78,eliteChance:1.24}
     ],
     waves: {
       1:{hp:.88,speed:.92,fireCd:1.12,eliteMul:.70},
@@ -120,7 +143,7 @@ window.SF.config = {
       4:{hp:1.00,speed:1.00,fireCd:1.00,eliteMul:1.00}
     },
     mobileEnemyHpMul:.94,
-    mobileBossHpMul:.96,
+    mobileBossHpMul:1.00,
     mobileFireCdMul:1.06,
     lowHpGraceFireCdMul:1.12,
     lowHpGraceSpeedMul:.94
@@ -173,7 +196,7 @@ window.SF.config = {
   enemyEcology: {
     sentinelFromWave: 2,
     reanimatorFromWave: 3,
-    breederFromWave: 4,
+    breederFromWave: 3,
     sentinelShieldHp: 2.2,
     sentinelRadius: 92,
     reanimatorDelayMs: 2100,
@@ -188,12 +211,126 @@ window.SF.config = {
     amplitudePortrait: .52,
     amplitudeLandscape: .7
   },
+
+  microSwarm: {
+    enabled: true,
+    fromWave: 2,
+    intervalMs: [5200,7600],
+    maxBurstsByWave: {2:1,3:2,4:1},
+    triggerAliveRatio: .42,
+    mobileCount: [3,5],
+    desktopCount: [4,7],
+    hpBase: 1,
+    durationMs: [2300,3200],
+    shotChance: .58
+  },
+  bossModules: {
+    enabled: true,
+    countBySector: [2,2,3,3,3],
+    hpRatio: .11,
+    orbitRadiusX: .58,
+    orbitRadiusY: .42,
+    orbitSpeed: .00115,
+    radiusRatio: .065,
+    minRadius: 10,
+    maxRadius: 18,
+    allBrokenFortressStrip: .46,
+    allBrokenCoreExposeMs: 3200,
+    reviveOneNodeFromSector: 3
+  },
+  bossHardpoints: {
+    enabled: true,
+    countBySector: [2,3,3,4,4],
+    hpRatio: .075,
+    shieldedDamageMul: .42,
+    weaponCooldownPenalty: .24,
+    driveMovementMul: .62,
+    regulatorFortressStrip: .24,
+    allBrokenFortressStrip: .20,
+    allBrokenCoreExposeMs: 2600,
+    minRadius: 11,
+    maxRadius: 18,
+    radiusRatio: .072,
+    reviveOneFromSector: 4
+  },
+  assetStreaming: {
+    enabled: true,
+    keepPreviousWorld: true,
+    keepNextWorld: false
+  },
+
+  subbossFortress: {
+    enabled: true,
+    initialShieldRatio: .44,
+    armorMul: .72,
+    exposedDamageMul: 1.38,
+    maxDamagePerHitRatio: .045,
+    phaseThreshold: .50,
+    phaseRechargeRatio: .28,
+    breakExposeMs: 1450,
+    phaseGateMs: 480,
+    rageFireCdMul: .78,
+    rageMoveMul: 1.16
+  },
+
+  enduranceDirector: {
+    // Compensa el crecimiento permanente del jugador sin inflar los minions.
+    enabled: true,
+    bossRelicHpPer: .025,
+    bossChassisHpPer: .045,
+    bossDamageAugmentWeight: .70,
+    bossMaxPowerScale: 1.55,
+    subbossRelicHpPer: .016,
+    subbossChassisHpPer: .030,
+    subbossDamageAugmentWeight: .45,
+    subbossMaxPowerScale: 1.32,
+    fortressRelicBonus: .008,
+    fortressChassisBonus: .015,
+    fortressMaxBonus: .16,
+    subShieldRelicBonus: .006,
+    subShieldChassisBonus: .012,
+    subShieldMaxBonus: .12,
+    bossPhasePressureAfterMs: [15000,12500,10000],
+    bossPressureFireMul: [1,.88,.78],
+    bossPressureMoveMul: [1,1.055,1.11],
+    bossPressureSecondStageMul: 1.72,
+    subbossPressureAfterMs: 11500,
+    subbossPressureFireMul: [1,.90,.82],
+    subbossPressureMoveMul: [1,1.05,1.10],
+    subbossPressureSecondStageMul: 1.72
+  },
+
+  bossFortress: {
+    initialShieldRatio: .52,
+    phaseRechargeRatio: [0,.28,.36],
+    pulseRechargeRatio: [.05,.075,.10],
+    armorByPhase: [.68,.62,.56],
+    maxDamagePerHitRatio: .018,
+    breakExposeMs: 2050,
+    powerCooldownMs: [7600,5900,4400],
+    pulseProjectileCount: [7,9,12],
+    phaseGateMs: 620,
+    adaptationWindowMs: 1100,
+    adaptationThresholdRatio: .065,
+    adaptationDamageMul: .55,
+    adaptationMs: 900
+  },
+
   bossCore: {
-    exposeMs: 1850,
-    phaseExposeMs: 2400,
-    damageMultiplier: 1.72,
-    periodicEveryMs: 7200,
-    periodicChance: .68
+    exposeMs: 1700,
+    phaseExposeMs: 2050,
+    damageMultiplier: 1.62,
+    periodicEveryMs: 9400,
+    periodicChance: .45
+  },
+
+  shipEvolution: {
+    // Evolución visual persistente: refleja reliquias absorbidas sin añadir ruido a la interfaz.
+    stageThresholds: [0,2,5,8,12],
+    maxStage: 4,
+    wingExtension: [.0,.08,.13,.18,.24],
+    glowStrength: [.0,.12,.18,.24,.32],
+    engineTrailMul: [1,1.08,1.16,1.25,1.34]
   },
   weaponEvolution: {
     tier2At: 2,
@@ -232,13 +369,30 @@ window.SF.config = {
   },
   tacticalObjectives: {
     bonusScore: 420,
-    definitions: [
-      {wave:1,id:'combo',label:'OBJETIVO · RACHA x6',target:6,reward:'overdrive'},
-      {wave:2,id:'elite',label:'OBJETIVO · ELIMINA 2 ÉLITES',target:2,reward:'shield'},
-      {wave:3,id:'miniboss',label:'OBJETIVO · DERRIBA EL SUBJEFE',target:1,reward:'drone'},
-      {wave:4,id:'meteor',label:'OBJETIVO · ROMPE UN METEORO',target:1,reward:'missile'},
-      {wave:5,id:'pod',label:'OBJETIVO · ABRE UN POD',target:1,reward:'heal'}
-    ]
+    bossPartTarget: 2,
+    pools: {
+      1:[
+        {id:'combo',label:'OBJETIVO · RACHA x6',target:6,reward:'overdrive'},
+        {id:'pod',label:'OBJETIVO · ABRE UN POD',target:1,reward:'heal'}
+      ],
+      2:[
+        {id:'meteor',label:'OBJETIVO · ROMPE UN METEORO',target:1,reward:'missile'},
+        {id:'elite',label:'OBJETIVO · ELIMINA 1 ÉLITE',target:1,reward:'shield'}
+      ],
+      3:[
+        {id:'miniboss',label:'OBJETIVO · DERRIBA EL SUBJEFE',target:1,reward:'drone'},
+        {id:'combo',label:'OBJETIVO · RACHA x10',target:10,reward:'overdrive'}
+      ],
+      4:[
+        {id:'bosspart',label:'OBJETIVO · DESTRUYE 2 SISTEMAS DEL JEFE',target:2,reward:'shield'},
+        {id:'meteor',label:'OBJETIVO · ROMPE LA ROCA DEFENSORA',target:1,reward:'missile'}
+      ]
+    }
+  },
+  bossArena: {
+    introInvulnerabilityMs: 1050,
+    introMessageMs: 950,
+    bossOnlyWave: true
   },
   fusion: {
     durationMs: 5200,

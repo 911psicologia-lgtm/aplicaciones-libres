@@ -1,0 +1,30 @@
+SWARM//RIFT — Insecta Siege
+Build: v2.15.10 — ANIMATION ↔ ATTACK SYNC
+Base incremental: v2.15.9 — BOSS IDENTITY PASS II
+Scope nuevo: sincronización temporal y espacial de animación/ataques en bosses 1–20
+
+Worlds: 20
+Bosses: 20
+Boss animation sync profiles: 20/20
+CH2 anatomical emitter profiles: 10/10
+Boss attack states: idle / attack / hurt / phase / death
+Signature release-frame lock: enabled
+Phase deterministic cue: enabled
+RIFT ALLY attack cue sync: enabled
+
+Preserved:
+- Boss Identity Pass I/II
+- Micro-Swarm Worlds 1–20
+- Family Combat Grammar
+- Coordinated Maneuvers
+- Adaptive Counterplay
+- RIFT ALLY World 11+, random defeated boss, 10 s
+- Last Chance fatal-hit intercept, 5 s, manual rescue
+- Performance Governor / Device Profiler / Frame Pacer
+- Asset Residency Streamer
+- Boss Rush / Grand Boss Rush / Commander Convergence / CHASE
+- Hangar / powers / fusions / checkpoints / saves / PWA
+
+Asset binaries: unchanged from v2.15.9
+Runtime CH2 assets distributed: 210
+Expected omitted masters: 20 PNG background masters (WEBP runtime retained)

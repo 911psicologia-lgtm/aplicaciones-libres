@@ -340,9 +340,23 @@ window.startReviewMission = function () {
     const it = w && w.items.find(x => x.en === m.en);
     if (!w || !it) return;
     const canSpell = spellableItem(it.en) && !!it.img;
-    if (canSpell && i % 2 === 1) {
+    const modo = i % 3;
+    if (canSpell && modo === 1) {
       // tipo completar-letra: hereda todos los campos de buildSpellQ
       qs.push({key, world: w, item: it, type: 'spell', ...buildSpellQ(w, it)});
+    } else if (it.img && modo === 2) {
+      // tipo ESCUCHA (v5): solo audio → elegir entre 4 fotos
+      let wrongs = shuffle(w.items.filter(x => x !== it && x.img)).slice(0, 3);
+      if (wrongs.length < 3) {
+        gameWorlds().forEach(ww => {
+          if (ww.id !== w.id && wrongs.length < 3) {
+            const cand = ww.items.filter(x => x.img && x.en !== it.en);
+            if (cand.length) wrongs.push(cand[(Math.random() * cand.length) | 0]);
+          }
+        });
+      }
+      const opts = shuffle([it, ...wrongs.slice(0, 3)]);
+      qs.push({key, world: w, item: it, type: 'listen', opts, ans: it});
     } else {
       // tipo elección: foto → palabra en inglés
       let wrongs = shuffle(w.items.filter(x => x !== it)).slice(0, 3);
@@ -370,6 +384,8 @@ function renderReviewQuestion() {
 
   if (q.type === 'spell') {
     renderSpellUI(q);
+  } else if (q.type === 'listen') {
+    renderListenUI(q, (el, qq) => chooseReviewAnswer(el, qq));
   } else {
     $('qVisual').innerHTML = imgTag(q.item.img, q.item.em, 'q-big-img', q.item.en);
     $('qInstruction').textContent = '¿Cómo se dice en inglés?';
@@ -460,9 +476,48 @@ function avatarStudioHTML(currentAv, currentData) {
       </div>
       <div class="av-grid" id="avGrid">
         ${AVATARS.map(a => `<button class="av-btn${a.id === currentAv ? ' sel' : ''}" data-av="${a.id}" onclick="pickAv('${a.id}',this)">${avatarHTML(a.id)}</button>`).join('')}
+        ${SHOP_AVATARS.map(a => {
+          const pp = activeProfile();
+          const owned = !!(pp && (pp.unlockedAvatars || []).includes(a.id));
+          const act = owned
+            ? `pickAv('${a.id}',this)`
+            : (pp ? `buyFromStudio('${a.id}',this)` : `notif('🎁 Gana monedas jugando y consíguelo en la tienda','var(--purple)')`);
+          return `<button class="av-btn shop${owned ? '' : ' locked-shop'}${a.id === currentAv ? ' sel' : ''}" data-av="${a.id}" onclick="${act}" title="${a.name}">
+            ${avatarHTML(a.id)}${owned ? '' : `<span class="price-tag">🪙${a.price}</span>`}</button>`;
+        }).join('')}
       </div>
     </div>`;
 }
+
+window.buyFromStudio = function (id, btn) {
+  const a = SHOP_AVATARS.find(x => x.id === id);
+  const p = activeProfile();
+  if (!a || !p) return;
+  if ((p.coins || 0) < a.price) {
+    notif(`🪙 Te faltan ${a.price - (p.coins || 0)} monedas — ¡sigue jugando!`, 'var(--red)');
+    beep(false);
+    return;
+  }
+  updateProfile(pp => {
+    pp.coins = (pp.coins || 0) - a.price;
+    pp.unlockedAvatars = [...(pp.unlockedAvatars || []), id];
+    pp.stats.avatarBought = (pp.stats.avatarBought || 0) + 1;
+  });
+  window._chosenAv = id;
+  window._chosenAvatarData = '';
+  document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('sel'));
+  if (btn) btn.classList.remove('locked-shop');
+  if (btn) {
+    const tag = btn.querySelector('.price-tag');
+    if (tag) tag.remove();
+  }
+  const pv = $('avPreview');
+  if (pv) pv.innerHTML = avatarHTML(id);
+  const nm = $('avPreviewName');
+  if (nm) nm.textContent = `🎉 ¡${a.name} desbloqueado!`;
+  burst(50); beepWin();
+  checkBadges();
+};
 
 function applyAvatarPhoto(dataURL) {
   if (!dataURL) return;
@@ -542,4 +597,204 @@ window.onGalleryPick = function (ev) {
   };
   rd.readAsDataURL(f);
   ev.target.value = '';
+};
+
+/* ══════════ 6) ESCUCHA Y ELIGE (v5 — entrenamiento del oído) ══════════ */
+function renderListenUI(q, chooser) {
+  const lb = $('listenBtn');
+  if (lb) { lb.style.display = ''; lb.textContent = '🔊 Escuchar otra vez'; }
+  $('qBadge').textContent = '🎧 Escucha y elige';
+  $('qInstruction').textContent = 'Escucha y toca la foto correcta';
+  $('qVisual').innerHTML = `<div class="listen-big" onclick="speakListenWord()">🔊</div>`;
+  const wEl = $('qWord');
+  wEl.className = 'q-big-word';
+  wEl.style.display = 'none';
+  wEl.textContent = q.item.en;
+  $('qTrans').textContent = '';
+
+  const og = $('optsGrid');
+  og.className = 'opts-grid';
+  og.innerHTML = '';
+  (q.opts || []).forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.dataset.correct = (opt === q.ans) ? '1' : '0';
+    b.innerHTML = `${imgTag(opt.img, opt.em, 'ob-img', opt.en)}<span class="ob-word" style="opacity:.55">${opt.en}</span>`;
+    b.onclick = (e) => chooser(b, q, e);
+    og.appendChild(b);
+  });
+  const fb = $('feedbackBar');
+  fb.className = 'feedback-bar';
+  setTimeout(() => speakListenWord(q), 400);
+}
+window.speakListenWord = function (q) {
+  const item = (q && q.item) || (G.active && G.questions[G.qi] && G.questions[G.qi].item);
+  if (!item) return;
+  TTS.speak([{text: item.en, lang: 'en-US', rate: .7}, {text: item.en, lang: 'en-US', rate: .78, pauseMs: 0}]);
+  beep(true);
+};
+
+window.startListenMission = function () {
+  beep(true);
+  const pool = [];
+  gameWorlds().forEach(w => w.items.forEach(it => { if (it.img) pool.push({w, it}); }));
+  if (pool.length < 8) { notif('📚 Juega más mundos para desbloquear este juego', 'var(--red)'); return; }
+  const picks = shuffle(pool).slice(0, 8);
+  const qs = picks.map(({w, it}) => {
+    let wrongs = shuffle(pool.filter(x => x.it !== it)).slice(0, 12).map(x => x.it);
+    wrongs = shuffle([...new Set(wrongs)]).slice(0, 3);
+    const opts = shuffle([it, ...wrongs]);
+    return {item: it, world: w, opts, ans: it};
+  });
+  bootGameMission('listen', 'Listen & Pick', 'Escucha y elige', '🎧', qs, renderListenQuestion);
+};
+
+function renderListenQuestion() {
+  if (!G.active || G.qi >= G.questions.length) { endMission(); return; }
+  const q = G.questions[G.qi];
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Escucha ${G.qi + 1}/${tot}`;
+  $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
+  renderLivesRow();
+  renderListenUI(q, (el, qq, e) => chooseListenAnswer(el, qq, e));
+}
+
+window.chooseListenAnswer = function (el, q, evt) {
+  if (Date.now() < G.lockUntil) return;
+  G.lockUntil = now() + 900;
+  const ok = el.dataset.correct === '1';
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === '1') b.classList.add('correct');
+  });
+  // revelar la palabra tras responder
+  const wEl = $('qWord');
+  wEl.style.display = '';
+  wEl.classList.add('reveal-word');
+  if (ok) {
+    coreReward(q.item, evt);
+    showFeedback(true, '¡Escucha perfecta! 👂', `${q.item.en} = ${q.item.es}`);
+    TTS.sayWord(q.item.en, q.item.es, 'words');
+  } else {
+    el.classList.add('wrong');
+    recordMistake(q.world.id, q.item);
+    if (coreFail(q) === 'dead') return;
+  }
+  updateTopbar();
+};
+
+/* ══════════ 7) MEMORAMA (v5 — parejas foto+palabra) ══════════ */
+window.startMemoryMission = function () {
+  beep(true);
+  const pool = gameWorlds().filter(w => w.items.filter(i => i.img).length >= 6);
+  if (!pool.length) { notif('📚 Juega más mundos para desbloquear este juego', 'var(--red)'); return; }
+  const world = pool[(Math.random() * pool.length) | 0];
+  const picks = shuffle(world.items.filter(i => i.img)).slice(0, 6);
+  const qs = picks.map(it => ({item: it}));
+  const pp = activeProfile();
+  G = {
+    active: true, mtype: 'memory',
+    world: {id: 'memory', name: 'Memory', es: 'Memorama', icon: '🃏', kind: 'memory', srcWorld: world},
+    questions: qs, qi: 0, ok: 0, lives: 5,
+    streak: pp ? (pp.streak || 0) : 0, newBadges: [],
+    lockUntil: 0, t0: now(), renderFn: renderMemoryBoard, learned: 0,
+    mem: {open: [], matched: 0, attempts: 0, lock: false, cards: []}
+  };
+  const cards = [];
+  picks.forEach((it, id) => {
+    cards.push({id, kind: 'img', it});
+    cards.push({id, kind: 'word', it});
+  });
+  G.mem.cards = shuffle(cards);
+  $('gWorldName').textContent = 'Memory / Memorama · ' + world.name;
+  showScreen('gameScreen');
+  document.querySelectorAll('.bnbtn').forEach((b, j) => b.classList.toggle('act', j === 1));
+  renderMemoryBoard();
+  updateTopbar();
+};
+
+function memCardFace(c) {
+  return c.kind === 'img'
+    ? imgTag(c.it.img, c.it.em, 'mem-face', c.it.en)
+    : `<span class="mem-word">${c.it.en}</span>`;
+}
+
+function renderMemoryBoard() {
+  if (!G.active) return;
+  const m = G.mem;
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Pareja ${Math.min(m.matched + 1, tot)}/${tot}`;
+  $('gProgFill').style.width = ((m.matched / tot) * 100) + '%';
+  renderLivesRow();
+  const lb = $('listenBtn');
+  if (lb) lb.style.display = 'none';
+  $('qBadge').textContent = '🃏 Memorama';
+  $('qInstruction').textContent = 'Encuentra cada foto con su palabra';
+  $('qVisual').innerHTML = `<div class="match-hint">🎯 Intentos: ${m.attempts} · Encuentra las ${tot} parejas</div>`;
+  const wEl = $('qWord');
+  wEl.className = 'q-big-word';
+  wEl.style.display = 'none';
+  $('qTrans').textContent = '';
+
+  const og = $('optsGrid');
+  og.className = 'memory-host';
+  og.innerHTML = m.cards.map((c, i) => `
+    <button class="mem-card" data-i="${i}" data-id="${c.id}" onclick="memFlip(this)">
+      <span class="mem-back">❓</span>
+      <span class="mem-front">${memCardFace(c)}</span>
+    </button>`).join('');
+  const fb = $('feedbackBar');
+  fb.className = 'feedback-bar';
+}
+
+window.memFlip = function (el) {
+  const m = G.mem;
+  if (!G.active || m.lock || el.classList.contains('open') || el.classList.contains('done')) return;
+  el.classList.add('open');
+  m.open.push(el);
+  beep(true);
+  if (m.open.length < 2) return;
+
+  m.lock = true;
+  m.attempts++;
+  const [a, b] = m.open;
+  if (a.dataset.id === b.dataset.id && a !== b) {
+    // ¡pareja!
+    const it = G.questions[+a.dataset.id].item;
+    const firstTry = (m.attempts - m.matched) === 1;
+    setTimeout(() => {
+      a.classList.add('done'); b.classList.add('done');
+      a.classList.remove('open'); b.classList.remove('open');
+      TTS.sayWord(it.en, it.es, 'words');
+      G.qi = m.matched;
+      if (firstTry) {
+        G.ok++;
+        coreReward(it, null);
+        showFeedback(true, '¡De primera! 🌟', `${it.en} = ${it.es}`);
+      } else {
+        G.streak = 0;
+        updateProfile(p => { p.streak = 0; });
+        showFeedback(true, '¡Pareja! 🎉', `${it.en} = ${it.es}`);
+      }
+      m.matched++;
+      m.open = []; m.lock = false;
+      $('gProgLabel').textContent = `Pareja ${Math.min(m.matched + 1, G.questions.length)}/${G.questions.length}`;
+      $('gProgFill').style.width = ((m.matched / G.questions.length) * 100) + '%';
+      updateTopbar();
+      setTimeout(() => {
+        $('feedbackBar').className = 'feedback-bar';
+        if (m.matched >= G.questions.length) endMission();
+      }, 850);
+    }, 350);
+  } else {
+    // no coinciden
+    beep(false);
+    TTS.sayFeedback(false);
+    a.classList.add('wrong'); b.classList.add('wrong');
+    setTimeout(() => {
+      a.classList.remove('open', 'wrong');
+      b.classList.remove('open', 'wrong');
+      m.open = []; m.lock = false;
+    }, 750);
+  }
 };

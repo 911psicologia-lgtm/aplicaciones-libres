@@ -1,0 +1,44 @@
+SWARM//RIFT v2.15.11 — VALIDACIÓN DE BUILD
+==========================================
+
+CÓDIGO
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+FEATURE / RUNTIME SIMULADO
+- tools/feature_test_v21511.js: PASS
+- 53/53 checks: PASS
+- 20 mundos / 20 bosses: PASS
+- 20/20 perfiles de identidad sonora: PASS
+- Eventos WARN/RELEASE/IMPACT/PHASE/DEATH/ALLY_IN/ALLY_OUT: PASS
+- Release de ataque regular enlazado al release-frame: PASS
+- Impacto de signatures Mundos 1–20: PASS
+- Impacto de proyectil de boss en colisión real: PASS
+- Release sonoro de transición de fase enlazado a releaseAt: PASS
+- Portal sonoro RIFT ALLY entrada/salida: PASS
+- Migración v2.15.10 -> v2.15.11: PASS
+- Sistemas previos v2.15.10 preservados: PASS
+
+PWA / RECURSOS
+- Referencias verificadas: 560
+- Recursos faltantes: 0
+
+ASSETS CH2
+- Entradas originales del manifiesto: 230
+- Recursos runtime distribuidos y SHA-256 correctos: 210/210
+- Discrepancias SHA-256: 0
+- 20 no distribuidos: únicamente masters PNG de backgrounds; WEBP runtime permanecen.
+
+HTTP SMOKE LOCAL
+- 12/12 endpoints: HTTP 200
+
+EFICIENCIA
+- Nuevos archivos de audio: 0
+- La identidad sonora es procedural WebAudio y se crea solo al producirse el evento.
+- Throttle de impactos para evitar acumulación de nodos en ataques multigolpe.
+
+LIMITACIÓN REAL
+No se ha realizado escucha comparativa prolongada en altavoces/auriculares físicos ni una
+sesión humana extensa en teléfono/tableta. Los eventos, perfiles y sincronización temporal
+se validaron por runtime simulado; la mezcla final de volúmenes puede requerir ajuste fino
+tras escucha real.

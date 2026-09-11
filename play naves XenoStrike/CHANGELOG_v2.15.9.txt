@@ -1,0 +1,57 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.9
+BOSS IDENTITY PASS II — WORLDS 16–20
+========================================
+
+OBJETIVO
+Completar la identidad mecánica de los diez bosses del Capítulo II. Esta build profundiza Mundos 16–20 sobre v2.15.8 sin reconstruir ni retirar sistemas cerrados.
+
+MUNDO 16 — ATLAS VEIL
+- Firma: VELO HIPNÓTICO.
+- Movimiento propio VEIL-WEAVE y transparencia ritual localizada.
+- Velos radiales de seda/polvo giratorios con una abertura de lectura visible.
+- El núcleo del velo ralentiza suavemente la inercia sin alterar estadísticas permanentes.
+- Fases: SUSURRO DE SEDA / ECLIPSE HIPNÓTICO / VELO ABSOLUTO.
+
+MUNDO 17 — MIRAGE PHASMID
+- Firma: FRACTURA MIMÉTICA.
+- Locomoción refractiva rápida y opacidad oscilante.
+- Corredores de corte refractado con ecos visuales y proyectiles prismáticos.
+- Fases: CAMUFLAJE FOLIAR / ESPEJO FRACTAL / JARDÍN DE FANTASMAS.
+
+MUNDO 18 — PIT EMPEROR
+- Firma: VÓRTICE DE FOSA.
+- Mecánica de enterramiento visual, reposicionamiento y reaparición con onda de impacto.
+- 1/2/3 fosas según fase, con atracción local y daño dentro del pozo.
+- Fases: ACECHO SUBTERRÁNEO / FOSA IMPERIAL / HAMBRE DEL DESIERTO.
+
+MUNDO 19 — AURICULUS RAZOR
+- Firma: PINZA ELECTROFÁGICA.
+- Dos brazos de plasma convergen como pinzas sobre el corredor objetivo.
+- Fase 3 añade pulso terminal; se desactiva el Razor Beam genérico heredado del patrón blade.
+- Fases: CIZALLA DE PLASMA / MALLA CONDUCTIVA / ARCO TERMINAL.
+
+MUNDO 20 — APIS IMPERIA
+- Firma: DOMINIO DE LA COLMENA.
+- Campo de celdas hexagonales con una celda segura telegráfica.
+- Convoca guardia real limitada por presupuesto de población y ejecuta salvas reales durante el dominio.
+- Fases: GUARDIA REAL / PANAL SOLAR / MANDATO IMPERIAL.
+
+MOTOR
+- CH2_BOSS_IDENTITIES ahora cubre Mundos 11–20 (10/10).
+- make/update/drawCH2IdentitySignature amplían estados específicos para Atlas, Mirage, Pit, Auriculus y Apis.
+- updateCH2BossIdentityMovement cubre los diez bosses del Capítulo II.
+- bossIdentityPhasePulse cubre 10/10 identidades.
+- Los bosses pueden usar transparencia visual localizada sin alterar hitbox ni HP.
+- Movimiento signature genérico queda suprimido en Mundos 11–20 para evitar duplicar identidad.
+
+CONTINUIDAD
+Se preservan Micro-Swarm 1–20, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY 10s, Última Oportunidad 5s, Performance Governor, Device Profiler, Frame Pacer, Asset Residency Streamer, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, powers/fusiones, checkpoints, saves y PWA.
+
+SAVES / CACHE
+- VERSION: 2.15.9
+- KEY_META: swarm_rift_meta_v2159
+- KEY_RUN: swarm_rift_run_v2159
+- Migración explícita desde v2.15.8.
+- Service Worker cache: swarm-rift-v2.15.9
+- Cache busting index: ?v=2159
+- Assets CH2 conservan ?av=2157 porque los binarios no cambiaron.

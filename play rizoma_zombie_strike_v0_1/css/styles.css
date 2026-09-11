@@ -2282,3 +2282,31 @@ body.low-performance .rizoma-tactic-badge{box-shadow:none!important}.fx-auto-cri
 .rizoma-tactic-badge.rizoma-boss-live{top:max(128px,calc(122px + var(--safe-top)))}
 @media(max-width:1100px) and (orientation:landscape){.rizoma-tactic-badge.rizoma-boss-live{top:max(86px,calc(80px + var(--safe-top)))}}
 @media(max-height:430px) and (orientation:landscape){.rizoma-tactic-badge.rizoma-boss-live{top:max(72px,calc(67px + var(--safe-top)))}}
+
+
+/* v3.39.0 · Telemetría local de balance: compacta y no invasiva. */
+.telemetry-settings{display:grid;gap:5px;padding:10px 12px;border:1px solid rgba(150,215,255,.16);border-radius:12px;background:rgba(4,14,24,.44);margin:3px 0}
+.telemetry-settings>small{font-size:10px;letter-spacing:.12em;opacity:.72}.telemetry-settings>strong{font-size:12px}.telemetry-settings>span{font-size:10.5px;line-height:1.35;opacity:.72}.telemetry-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:3px}.telemetry-actions .soft-btn{min-height:40px;padding:7px 9px;font-size:11px}
+@media(max-width:700px){.telemetry-settings{padding:9px 10px}.telemetry-actions .soft-btn{min-height:44px}}
+
+.result-telemetry-summary{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:7px 0 3px}.result-telemetry-summary small{width:100%;font-size:9px;letter-spacing:.13em;opacity:.58}.result-telemetry-summary span{font-size:10.5px;padding:4px 7px;border-radius:999px;background:rgba(95,190,255,.08);border:1px solid rgba(125,215,255,.12)}
+
+
+/* v3.40.0 · Laboratorio de Balance Local */
+.balance-lab{border:1px solid rgba(150,215,255,.16);border-radius:12px;background:rgba(4,14,24,.44);overflow:hidden;margin:3px 0}
+.balance-lab>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:44px;padding:9px 12px;touch-action:manipulation}
+.balance-lab>summary::-webkit-details-marker{display:none}.balance-lab>summary span{font-size:10px;letter-spacing:.12em}.balance-lab>summary small{font-size:9.5px;opacity:.62}.balance-lab[open]>summary{border-bottom:1px solid rgba(150,215,255,.10)}
+.balance-lab-body{display:grid;gap:8px;padding:10px 12px 12px;max-height:min(62vh,560px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}.balance-lab-body>strong{font-size:11.5px}.balance-lab-body>p{margin:0;font-size:10.5px;line-height:1.4;opacity:.72}
+.balance-lab-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.balance-lab-actions .soft-btn{min-height:40px;padding:7px 9px;font-size:11px}
+.balance-lab-legend{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;font-size:8px;letter-spacing:.06em;opacity:.48;padding:0 5px}.balance-lab-rows{display:grid;gap:6px}
+.balance-lab-row{display:grid;grid-template-columns:minmax(110px,.95fr) minmax(190px,1.45fr) minmax(145px,1.15fr);gap:7px;align-items:center;padding:7px 8px;border-radius:10px;border:1px solid rgba(150,215,255,.09);background:rgba(2,10,18,.38)}
+.balance-lab-world{display:flex;gap:7px;align-items:center;min-width:0}.balance-lab-world b{font-size:11px}.balance-lab-world span{font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.78}.balance-lab-metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}.balance-lab-metrics span{font-size:8.8px;text-align:center;white-space:nowrap}.balance-lab-diagnosis{display:grid;gap:1px;min-width:0}.balance-lab-diagnosis strong{font-size:9px;letter-spacing:.04em}.balance-lab-diagnosis small{font-size:8.6px;line-height:1.25;opacity:.64}
+.balance-lab-row.state-review{border-color:rgba(255,192,94,.28);background:rgba(66,38,8,.20)}.balance-lab-row.state-variable{border-color:rgba(166,155,255,.25);background:rgba(31,24,67,.20)}.balance-lab-row.state-stable{border-color:rgba(115,255,199,.16)}.balance-lab-row.state-low{opacity:.85}.balance-lab-row.state-none{opacity:.58}
+@media(max-width:760px){.balance-lab>summary{min-height:44px;padding:9px 10px}.balance-lab-body{padding:9px 10px 11px;max-height:58vh}.balance-lab-actions .soft-btn{min-height:44px}.balance-lab-row{grid-template-columns:1fr;gap:5px}.balance-lab-world span{font-size:10px}.balance-lab-metrics span{font-size:8.5px}.balance-lab-diagnosis{grid-template-columns:auto 1fr;gap:6px;align-items:baseline}.balance-lab-legend{display:none}}
+
+/* v3.41.0 · Playtest Guiado: diagnóstico y muestra repetible, sin cambios de combate */
+.playtest-guide{display:grid;gap:5px;padding:9px 10px;border:1px solid rgba(126,231,255,.18);border-radius:11px;background:linear-gradient(135deg,rgba(8,34,47,.58),rgba(7,17,29,.42))}
+.playtest-guide>small{font-size:8.5px;letter-spacing:.12em;opacity:.58}.playtest-guide>strong{font-size:11.5px;line-height:1.3}.playtest-guide>span{font-size:9px;opacity:.64}.playtest-guide>p{margin:0;font-size:10px;line-height:1.4;opacity:.78}
+.playtest-guide #playtestGuideBuild{display:block;font-size:9.5px;font-weight:800;letter-spacing:.035em;opacity:.92;padding:5px 7px;border-radius:8px;background:rgba(126,231,255,.07);border:1px solid rgba(126,231,255,.12)}
+.playtest-guide-actions{display:grid;grid-template-columns:1.25fr 1fr;gap:7px;margin-top:2px}.playtest-guide-actions .primary-btn,.playtest-guide-actions .soft-btn{min-height:42px;font-size:10.5px;padding:7px 9px}
+@media(max-width:760px){.playtest-guide{padding:9px}.playtest-guide-actions{grid-template-columns:1fr 1fr}.playtest-guide-actions .primary-btn,.playtest-guide-actions .soft-btn{min-height:44px}}

@@ -1,0 +1,81 @@
+RIZOMA ZOMBIE STRIKE v3.36.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.36.0
+[OK] manifest 3.36.0
+[OK] sw cache v3-36-0
+[OK] index v3.36.0
+[OK] 20 filas curva dificultad :: rows=20
+[OK] curva de Guardianes preservada v3.35→v3.36 :: rows compared=20
+[OK] hitos HP intactos :: M1=11200; M5=19500; M10=38900; M15=77800; M20=155500
+[OK] campaña termina en Mundo 20 :: max=20
+[OK] 6 ship_meta válidos :: rz12_bastion, rz16_hydra, rz1_fenix, rz20_prime, rz4_mantis, rz8_nebula
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 added=0 changed=0
+[OK] referencias literales de assets sin faltantes :: 799 referencias; missing=0; dynamic=1
+[OK] IDs HTML duplicados = 0 :: duplicados=[]
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor progresivo preservado
+[OK] Taller RIZOMA preservado
+[OK] DOMINIO preservado
+[OK] Hangar preservado
+[OK] RIFT mantiene 10 s
+[OK] Guardián Vinculado mantiene 12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] updateAdvancedEnemyIdentity preservado byte a byte :: bytes=7660
+[OK] advancedEnemyAim preservado byte a byte :: bytes=625
+[OK] damageEnemy preservado byte a byte :: bytes=2981
+[OK] preservado RIZOMA_IMPACT_VFX
+[OK] preservado rz1TridentCharge
+[OK] preservado rz4VectorArc
+[OK] preservado rz8DroneLink
+[OK] preservado rz12AegisCharge
+[OK] preservado rz16HydraSidebeam
+[OK] preservado rz20Hyperlaser
+[OK] 20 perfiles telegráficos :: worlds=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+[OK] guardianTelegraphMeta presente
+[OK] bossTelegraphProfile presente
+[OK] startBossTelegraph presente
+[OK] drawBossTelegraph presente
+[OK] bossTelegraphGapIndex presente
+[OK] bossTelegraphLaneIndex presente
+[OK] telegráfico con estados CARGA/FIJACIÓN/IMPACTO
+[OK] telegráfico móvil extiende ventana
+[OK] ventana final de lectura suprime nueva ráfaga regular
+[OK] M7 usa carril pretelegráfico :: count=2
+[OK] M9–M20 usan hueco pretelegráfico :: count=13
+[OK] plan de hueco usa ángulo fijo
+[OK] M6 EMP usa objetivo fijado y radio evitable
+[OK] telegráfico dibujado fuera de transformación visual del boss :: draw=1123640; anim=1124024
+[OK] M16 proyectiles propios preservados :: world16ShotSynapse, world16ShotPsi, world16ShotLance
+[OK] M17 proyectiles propios preservados :: world17ShotLance, world17ShotCryo, world17ShotBlizzard
+[OK] M18 proyectiles propios preservados :: world18ShotInk, world18ShotPage, world18ShotSeal
+[OK] M19 proyectiles propios preservados :: world19ShotProbe, world19ShotPsion, world19ShotBeam
+TOTAL 50/50 OK
+
+VALIDACIÓN DE SINTAXIS
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json JSON válido
+
+INTEGRIDAD / CONTINUIDAD
+------------------------------------------------------------
+[OK] La curva de Guardianes coincide con v3.35.0.
+[OK] Los 214 valores/expresiones declarativas de HP detectados en game.js permanecen en el mismo orden y contenido que v3.35.0.
+[OK] damageEnemy() permanece byte a byte respecto de v3.35.0.
+[OK] updateAdvancedEnemyIdentity() permanece byte a byte respecto de v3.35.0.
+[OK] advancedEnemyAim() permanece byte a byte respecto de v3.35.0.
+[OK] 840 assets heredados preservados byte a byte.
+[OK] 799 referencias literales estáticas de assets auditadas; faltantes = 0.
+[OK] Se mantiene 1 referencia dinámica prevista: assets/boss2/sigil_w${f.world}.svg.
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+La entrega se valida mediante sintaxis, estructura, continuidad, integridad de assets y empaquetado.
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] El ZIP completo se comprueba con unzip -t después de su creación.
+[OK] SHA-256 companion se genera después de la comprobación del ZIP final.

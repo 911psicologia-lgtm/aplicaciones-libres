@@ -1,0 +1,34 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.14
+PRE-BOSS ESCALATION PASS
+========================================
+BASE: v2.15.13 CH2 WAVE CHOREOGRAPHER
+
+NUEVO
+-----
+- 10 secuencias de umbral pre-boss específicas para Mundos 11–20.
+- Duración CH2 entre 5.20 y 6.20 s según mundo; reintentos/checkpoints conservan la antesala breve heredada de 3 s.
+- Cuatro etapas telegráficas por mundo: alineación/retirada, vanguardia, señal crítica y aparición del boss.
+- Flyby visual de 5–9 minis de la familia correspondiente, sin hitbox, daño ni kills de wave.
+- Silueta de enemigo mayor como presagio visual del linaje, una sola pasada.
+- Crossfade progresivo del fondo de antesala hacia el fondo de arena boss.
+- Motivos HUD/VFX propios: órbita, lanza, tenaza, lúmen, ácido, velo, espejo, vórtice, razor y colmena.
+- Entrada de bosses 11–20 recalibrada entre 2.48 y 2.95 s y banner de llegada con firma signature.
+- HUD de antesala muestra nombre del umbral, etapa activa y barra de progreso.
+- Cache-bust de index corregido a game.js?v=21514.
+
+PRESERVADO
+----------
+- 20 mundos y 20 bosses.
+- CH2 Wave Choreographer (30 actos).
+- Micro-Swarm Director desde Mundo 1, 4–10 minis, sin kills de wave.
+- Family Combat Grammar, Coordinated Maneuvers y Adaptive Counterplay.
+- Boss Identity Pass I/II, Animation↔Attack Sync y Audio Event Sync.
+- Enemy Sonic Ecology.
+- RIFT ALLY desde Mundo 11, aleatorio, 10 s.
+- Última Oportunidad 5 s, rescate manual y sin compra automática.
+- Performance Governor, Device Profiler, Frame Pacer y Asset Residency Streamer.
+- Boss Rush, Grand Boss Rush, CHASE, Commander Convergence, Hangar, powers/fusiones, checkpoints, saves y PWA.
+
+BALANCE
+-------
+La nueva antesala es una transición audiovisual. No añade HP, daño, kills necesarias ni una cuarta oleada.

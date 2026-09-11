@@ -1,0 +1,38 @@
+SWARM//RIFT v2.15.10 — VALIDACIÓN DE BUILD
+==========================================
+
+CÓDIGO
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+FEATURE / RUNTIME SIMULADO
+- tools/feature_test_v21510.js: PASS
+- 47/47 checks: PASS
+- 20 mundos / 20 bosses: PASS
+- 20/20 perfiles Animation ↔ Attack Sync: PASS
+- Signature release-frame lock: PASS
+- Emisores anatómicos CH2: PASS
+- Proyectil/origen anatómico post-movimiento: PASS
+- Impact cue de ataques primarios: PASS
+- Timeline de transición phase: PASS
+- RIFT ALLY / Last Chance: PASS
+- Micro-Swarm / Family Combat Grammar / Coordinated Maneuvers: PASS
+- Adaptive Counterplay / Performance Governor / Device Profiler / Frame Pacer / Asset Streamer: PASS
+- Migración v2.15.9 -> v2.15.10: PASS
+
+PWA / RECURSOS
+- Referencias verificadas: 560
+- Recursos faltantes: 0
+
+ASSETS CH2
+- Entradas originales del manifiesto: 230
+- Recursos runtime distribuidos y SHA-256 correctos: 210/210
+- Discrepancias SHA-256: 0
+- 20 no distribuidos: únicamente masters PNG de backgrounds; WEBP runtime permanecen.
+
+HTTP SMOKE LOCAL
+- 12/12 endpoints: HTTP 200
+- Incluye index, game.js, sw.js, manifest, bosses representativos 11–20, mini W20 y background boss W20.
+
+LIMITACIÓN REAL
+No se ha realizado una sesión prolongada de juego humano en teléfono/tableta físicos. La sincronización se validó por sintaxis, runtime simulado con DOM/canvas mock, estados/frames, recursos, hashes y servidor HTTP local.

@@ -1,0 +1,12 @@
+200 index.html
+200 js/game.js
+200 sw.js
+200 manifest.json
+200 assets_ch2/backgrounds/w11_antechamber.webp
+200 assets_ch2/backgrounds/w11_boss.webp
+200 assets_ch2/backgrounds/w16_antechamber.webp
+200 assets_ch2/backgrounds/w16_boss.webp
+200 assets_ch2/backgrounds/w20_boss.webp
+200 assets_ch2/enemies/w16/mini_idle.png
+200 assets_ch2/enemies/w20/major.png
+200 assets_ch2/bosses/apis_imperia/attack.png

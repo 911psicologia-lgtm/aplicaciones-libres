@@ -35,7 +35,7 @@ WORLDS.push(
    ]},
 
   /* ── FAMILY ── */
-  {id:'family', name:'Family', es:'Familia', icon:'👨‍👩‍👧', color:'wc-family', lvl:2, kind:'words',
+  {id:'family', name:'Family', es:'Familia', icon:'👨‍👩‍👧', color:'wc-family', lvl:2, kind:'words', cover:'family',
    story:'En la Casa de la Familia aprendemos quién es quién, con fotos de personas reales.',
    items:[
     {en:'Mom',    es:'Mamá',    img:'mom',     em:'👩'},
@@ -49,7 +49,7 @@ WORLDS.push(
    ]},
 
   /* ── FOOD (picnic) ── */
-  {id:'food_picnic', name:'Food', es:'Comida (picnic)', icon:'🧺', color:'wc-food', lvl:2, kind:'words',
+  {id:'food_picnic', name:'Food', es:'Comida (picnic)', icon:'🧺', color:'wc-food', lvl:2, kind:'words', cover:'bread',
    story:'Preparamos un picnic con 10 cosas ricas y fáciles. ¡Todas con fotos de verdad!',
    items:[
     {en:'Apple',    es:'Manzana', img:'apple',    em:'🍎'},
@@ -225,7 +225,7 @@ WORLDS.push(
    ]},
 
   /* ── 🏡 SCHOOL ── */
-  {id:'school_basic', name:'School', es:'La Escuela', icon:'🏫', color:'wc-school', lvl:2, kind:'words',
+  {id:'school_basic', name:'School', es:'La Escuela', icon:'🏫', color:'wc-school', lvl:2, kind:'words', cover:'school',
    story:'En el Aula Mágica aprendemos cosas que usamos todos los días en la escuela.',
    items:[
     {en:'Pencil',  es:'Lápiz',     img:'pencil',     em:'✏️', hint:'Escribe'},
@@ -241,7 +241,7 @@ WORLDS.push(
    ]},
 
   /* ── 🚗 TRANSPORT ── */
-  {id:'transport_basic', name:'Transport', es:'Transporte', icon:'🚗', color:'wc-numbers', lvl:2, kind:'words',
+  {id:'transport_basic', name:'Transport', es:'Transporte', icon:'🚗', color:'wc-numbers', lvl:2, kind:'words', cover:'car',
    story:'En la Gran Autopista conocemos todos los medios de transporte del mundo.',
    items:[
     {en:'Car',       es:'Carro',       img:'car',        em:'🚗', hint:'Brrm'},
@@ -257,7 +257,7 @@ WORLDS.push(
    ]},
 
   /* ── 🏋️ SPORTS ── */
-  {id:'sports_basic', name:'Sports', es:'Deportes', icon:'⚽', color:'wc-sports', lvl:2, kind:'words',
+  {id:'sports_basic', name:'Sports', es:'Deportes', icon:'⚽', color:'wc-sports', lvl:2, kind:'words', cover:'soccerball',
    story:'En el Gran Estadio conocemos los deportes más emocionantes del planeta.',
    items:[
     {en:'Soccer',    es:'Fútbol',     img:'soccerball', em:'⚽', hint:'Gol'},
@@ -273,7 +273,7 @@ WORLDS.push(
    ]},
 
   /* ── 🌿 NATURE ── */
-  {id:'nature_basic', name:'Nature', es:'La Naturaleza', icon:'🌿', color:'wc-nature', lvl:2, kind:'words',
+  {id:'nature_basic', name:'Nature', es:'La Naturaleza', icon:'🌿', color:'wc-nature', lvl:2, kind:'words', cover:'tree',
    story:'En el Bosque Encantado descubrimos plantas, insectos y paisajes de la naturaleza.',
    items:[
     {en:'Tree',    es:'Árbol',    img:'tree',      em:'🌳', hint:'Alto'},
@@ -321,7 +321,7 @@ WORLDS.push(
    ]},
 
   /* ── 👕 CLOTHES (nuevo) ── */
-  {id:'clothes_basic', name:'Clothes', es:'La ropa', icon:'👕', color:'wc-school', lvl:2, kind:'words',
+  {id:'clothes_basic', name:'Clothes', es:'La ropa', icon:'👕', color:'wc-school', lvl:2, kind:'words', cover:'tshirt',
    story:'En el Armario Encantado aprendemos las prendas que nos ponemos cada día.',
    items:[
     {en:'T-shirt',es:'Camiseta', img:'tshirt',em:'👕', hint:'Arriba'},
@@ -337,7 +337,7 @@ WORLDS.push(
    ]},
 
   /* ── 🐞 INSECTS (nuevo) ── */
-  {id:'insects_basic', name:'Insects', es:'Insectos', icon:'🐞', color:'wc-nature', lvl:2, kind:'words',
+  {id:'insects_basic', name:'Insects', es:'Insectos', icon:'🐞', color:'wc-nature', lvl:2, kind:'words', cover:'butterfly',
    story:'En el Jardín de los Bichos conocemos los insectos más increíbles con fotos de cerca.',
    items:[
     {en:'Ant',       es:'Hormiga',   img:'ant',        em:'🐜'},
@@ -350,5 +350,37 @@ WORLDS.push(
     {en:'Dragonfly', es:'Libélula',  img:'dragonfly',  em:'🪰'},
     {en:'Grasshopper',es:'Saltamontes',img:'grasshopper',em:'🦗'},
     {en:'Beetle',    es:'Escarabajo',img:'beetle',     em:'🪲'},
+   ]},
+
+  /* ── 🥦 VEGETABLES (nuevo en v5) ── */
+  {id:'vegetables_basic', name:'Vegetables', es:'Verduras', icon:'🥦', color:'wc-food', lvl:2, kind:'words', cover:'broccoli',
+   story:'En la Huerta Verde cosechamos las verduras más ricas y sanas.',
+   items:[
+    {en:'Carrot',  es:'Zanahoria', img:'carrot',  em:'🥕', hint:'Naranja'},
+    {en:'Tomato',  es:'Tomate',    img:'tomato',  em:'🍅', hint:'Rojo'},
+    {en:'Corn',    es:'Maíz',      img:'corn',    em:'🌽', hint:'Amarillo'},
+    {en:'Potato',  es:'Papa',      img:'potato',  em:'🥔', hint:'Marrón'},
+    {en:'Broccoli',es:'Brócoli',   img:'broccoli',em:'🥦', hint:'Verde'},
+    {en:'Onion',   es:'Cebolla',   img:'onion',   em:'🧅', hint:'Hace llorar'},
+    {en:'Lettuce', es:'Lechuga',   img:'lettuce', em:'🥬', hint:'Ensalada'},
+    {en:'Peas',    es:'Guisantes', img:'peas',    em:'🫛', hint:'Vainitas'},
+    {en:'Mushroom',es:'Champiñón', img:'mushroom',em:'🍄', hint:'Del bosque'},
+    {en:'Pumpkin', es:'Calabaza',  img:'pumpkin', em:'🎃', hint:'Naranja'},
+   ]},
+
+  /* ── 🏘️ MY TOWN (nuevo en v5) ── */
+  {id:'my_town', name:'My Town', es:'Mi pueblo', icon:'🏘️', color:'wc-town', lvl:2, kind:'words', cover:'bakery',
+   story:'Un paseo por el pueblo para aprender los lugares en inglés.',
+   items:[
+    {en:'School',  es:'Escuela',   img:'school',  em:'🏫'},
+    {en:'Park',    es:'Parque',    img:'park',    em:'🌳'},
+    {en:'Store',   es:'Tienda',    img:'store',   em:'🏪'},
+    {en:'Hospital',es:'Hospital',  img:'hospital',em:'🏥'},
+    {en:'Library', es:'Biblioteca',img:'library', em:'📚'},
+    {en:'Zoo',     es:'Zoológico', img:'zoo',     em:'🦁'},
+    {en:'Bakery',  es:'Panadería', img:'bakery',  em:'🥐'},
+    {en:'Bridge',  es:'Puente',    img:'bridge',  em:'🌉'},
+    {en:'Street',  es:'Calle',     img:'street',  em:'🛣️'},
+    {en:'City',    es:'Ciudad',    img:'city',    em:'🏙️'},
    ]},
 );

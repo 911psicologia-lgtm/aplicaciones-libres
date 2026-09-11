@@ -1,0 +1,17 @@
+SWARM//RIFT v2.15.14 — VALIDACIÓN
+=================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature Test: 69/69 PASS
+Pre-boss definitions 11–20: PASS
+Four-stage escalation: PASS
+Flyby minis use CH2 128px sprite sheet: PASS
+Elite silhouette one-pass: PASS
+Boss entry duration inherited from profile: PASS
+Checkpoint/generic 3s pre-boss preserved: PASS
+No hidden wave / no extra kills: PASS
+Save migration v2.15.13 -> v2.15.14: PASS
+PWA: 560 resources / 0 missing
+CH2 runtime asset SHA: 210/210 correct / 0 mismatches
+HTTP smoke: 12/12 HTTP 200
+Limitation: no prolonged human play session on physical phone/tablet in this environment.

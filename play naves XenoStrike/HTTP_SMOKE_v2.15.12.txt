@@ -1,0 +1,14 @@
+SWARM//RIFT v2.15.12 HTTP SMOKE
+PASS 12/12
+200 index.html
+200 js/game.js
+200 sw.js
+200 manifest.json
+200 assets/player_ship.webp
+200 assets_ch2/backgrounds/w11_antechamber.webp
+200 assets_ch2/backgrounds/w20_boss.webp
+200 assets_ch2/bosses/scarab_imperator/attack.png
+200 assets_ch2/bosses/apis_imperia/death.png
+200 assets_ch2/enemies/w16/mini_idle.png
+200 assets_ch2/enemies/w20/major_attack.png
+200 QA_REPORT_CH2_ZAI.txt

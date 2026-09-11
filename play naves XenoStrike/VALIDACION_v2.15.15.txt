@@ -1,0 +1,16 @@
+SWARM//RIFT v2.15.15 — VALIDACION
+====================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Boss Arena render smoke: PASS (90 llamadas: 10 mundos x 3 fases x 3 estados)
+Feature checks: 21/21 PASS
+PWA resources: 560 / missing 0
+CH2 SHA-256 distributed: 210/210 PASS
+Expected omitted PNG masters: 20/20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+HTTP smoke: 10/10 HTTP 200
+Save migration v2.15.14 -> v2.15.15: PASS
+Gameplay-neutral arena presentation: PASS
+
+Limitacion real: no sustituye una sesion prolongada de juego humano en movil/tableta fisicos.

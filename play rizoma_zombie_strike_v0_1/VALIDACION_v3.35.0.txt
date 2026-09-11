@@ -1,0 +1,77 @@
+RIZOMA ZOMBIE STRIKE v3.35.0
+VALIDACIÓN TÉCNICA
+============================================================
+[OK] VERSION game.js 3.35.0
+[OK] manifest 3.35.0
+[OK] sw cache v3-35-0
+[OK] index v3.35.0
+[OK] 20 filas curva dificultad :: rows=20
+[OK] hitos HP intactos :: M1=11200; M5=19500; M10=38900; M15=77800; M20=155500
+[OK] campaña de jefes termina en Mundo 20 :: max=20; world21=False
+[OK] 6 ship_meta válidos :: rz12_bastion, rz16_hydra, rz1_fenix, rz20_prime, rz4_mantis, rz8_nebula
+[OK] assets base preservados byte a byte :: 840 archivos; missing=0 added=0 changed=0
+[OK] referencias literales de assets sin faltantes :: 799 referencias; missing=0
+[OK] IDs HTML duplicados = 0 :: duplicados=[]
+[OK] RIFT ALLY presente
+[OK] Última Oportunidad presente
+[OK] Tractor progresivo preservado
+[OK] Taller RIZOMA preservado
+[OK] DOMINIO preservado
+[OK] Hangar preservado
+[OK] RIFT mantiene 10 s
+[OK] Guardián Vinculado mantiene 12 s
+[OK] Última Oportunidad mantiene 5 s
+[OK] mapa conductual M11–M20 completo :: 10 mundos
+[OK] 3 identidades por mundo
+[OK] advancedEnemyAim presente
+[OK] updateAdvancedEnemyIdentity presente
+[OK] movimiento avanzado integrado
+[OK] alpha conductual integrado
+[OK] FX conductual respeta lowPerformance
+[OK] FX conductual respeta reducedMotion
+[OK] M11 identidad diferencial :: SUBTERRÁNEO / ACECHO / ANCLA
+[OK] M12 identidad diferencial :: CORRIENTE / CAZADOR HADAL / ARRECIFE
+[OK] M13 identidad diferencial :: SURF MAGMÁTICO / PERFORADOR / BASTIÓN ÍGNEO
+[OK] M14 identidad diferencial :: ÓRBITA CORONAL / PREDICTOR SOLAR / COLAPSO
+[OK] M15 identidad diferencial :: ADHESIÓN / FAGOCITOSIS / TEJIDO VIVO
+[OK] M16 identidad diferencial :: SINAPSIS / PREDICCIÓN / NODO CORTICAL
+[OK] M17 identidad diferencial :: MANADA / EMBESTIDA / ACECHO AURORA
+[OK] M18 identidad diferencial :: PASO DE VIÑETA / MECHA TÁCTICO / FASE YOKAI
+[OK] M19 identidad diferencial :: FORMACIÓN ZHYR / ANTICIPACIÓN / MÍMESIS
+[OK] M20 identidad diferencial :: CAZA SAURIA / MUTACIÓN NECRO / PROTOCOLO BIOTECH
+[OK] M16 proyectiles propios conectados :: world16ShotSynapse, world16ShotPsi, world16ShotLance
+[OK] M16 daño base de minion no inflado
+[OK] M17 proyectiles propios conectados :: world17ShotLance, world17ShotCryo, world17ShotBlizzard
+[OK] M17 daño base de minion no inflado
+[OK] M18 proyectiles propios conectados :: world18ShotInk, world18ShotPage, world18ShotSeal
+[OK] M18 daño base de minion no inflado
+[OK] M19 proyectiles propios conectados :: world19ShotProbe, world19ShotPsion, world19ShotBeam
+[OK] M19 daño base de minion no inflado
+[OK] aim predictivo integrado en disparo
+[OK] HP base minions M11–M20 intacto :: 60 minions comparados
+[OK] damageEnemy preservado byte a byte :: bytes=5944
+[OK] preservado RIZOMA_IMPACT_VFX
+[OK] preservado rz1TridentCharge
+[OK] preservado rz4VectorArc
+[OK] preservado rz8DroneLink
+[OK] preservado rz12AegisCharge
+[OK] preservado rz16HydraSidebeam
+[OK] preservado rz20Hyperlaser
+
+TOTAL ESTÁTICO 56/56 OK
+
+PRUEBA DE NAVEGADOR / DISPOSITIVO
+------------------------------------------------------------
+[NO DECLARADA] No se afirma smoke test visual real ni prueba física Android/iOS.
+La entrega se valida mediante sintaxis, estructura, integridad de assets, referencias y empaquetado.
+
+VALIDACIÓN DE SINTAXIS
+------------------------------------------------------------
+[OK] node --check js/game.js
+[OK] node --check sw.js
+[OK] manifest.json JSON válido
+
+EMPAQUETADO
+------------------------------------------------------------
+[OK] El ZIP completo se comprueba con unzip -t después de su creación.
+[OK] SHA-256 companion generado después de la comprobación del ZIP.

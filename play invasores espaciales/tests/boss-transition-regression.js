@@ -13,7 +13,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox); S
 G.sector=1; G.wave=5; G.phase='boss'; G.phaseName='JEFE'; G.subphase=2; G.rewardPending=false; G.rewardStartedAt=0; G.rewardTransitionAt=0; G.recoveryCount=0;
 G.enemies=[]; G.enemyBullets=[]; G.playerBullets=[]; G.rewardPods=[]; G.obstacles=[];
 const id=C.bossIdentity.patterns[0];
-const boss={kind:'boss',role:'boss',x:150,y:100,w:90,h:80,baseX:150,baseY:100,hp:.35,maxHp:50,alive:true,t:0,score:1000,color:'#f66',nextShot:1e9,phaseIdx:2,phaseAnnounced:2,summonAt:1e9,identity:id,resurrectionsLeft:0,resurrectUntil:0,coreOpenUntil:1e9,nextCoreAt:1e9};
+const boss={kind:'boss',role:'boss',x:150,y:100,w:90,h:80,baseX:150,baseY:100,hp:.35,maxHp:50,alive:true,t:0,score:1000,color:'#f66',nextShot:1e9,phaseIdx:2,phaseAnnounced:2,summonAt:1e9,identity:id,resurrectionsLeft:0,resurrectUntil:0,coreOpenUntil:1e9,nextCoreAt:1e9,phaseGatesTriggered:2,phaseGateUntil:0,fortressHp:0,fortressMax:0,armorNodes:[],hardpoints:[],adaptUntil:0,damageWindowStart:0,damageWindowTaken:0};
 G.enemies.push(boss);
 for(let i=0;i<6;i++) G.playerBullets.push({x:175,y:125,w:8,h:16,vx:0,vy:0,damage:1,color:'#fff',life:1000});
 G.timers.fire=1e9; G.engageAfter=0;

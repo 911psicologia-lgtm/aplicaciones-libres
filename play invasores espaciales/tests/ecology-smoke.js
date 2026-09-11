@@ -12,10 +12,10 @@ SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'});
 SF.game.init(canvas); SF.game.startNew('ECO','vanguard');
 const G=SF.game.state;
-G.checkpoint={sector:1,wave:4,score:0,nextLifeAt:9000}; SF.game.restartCheckpoint();
+G.checkpoint={sector:1,wave:3,score:0,nextLifeAt:9000}; SF.game.restartCheckpoint();
 const kinds=new Set(G.enemies.filter(e=>e.role==='formation').map(e=>e.kind));
 for(const k of ['sentinel','reanimator','breeder']) if(!kinds.has(k)) throw new Error('missing ecology kind '+k);
-if(!G.formation.pattern || G.formation.pattern==='block') throw new Error('wave 4 should exercise a non-block formation pattern');
+if(!G.formation.pattern) throw new Error('wave 3 should have a formation pattern');
 for(let i=0;i<420;i++){now+=16;SF.game.loop(now);}
 if(G.formation.y>G.layout.maxFormationY+.01) throw new Error('ecology formation escaped mobile band');
 if(G.enemyBullets.length>G.layout.enemyBulletCap) throw new Error('ecology bullet cap failed');

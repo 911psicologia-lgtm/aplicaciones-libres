@@ -1,0 +1,8 @@
+SWARM//RIFT v2.15.14 — CH2 ASSET AUDIT
+=======================================
+Z.AI manifest assets: 230
+Distributed and SHA-256 matched: 210
+SHA-256 mismatches: 0
+Intentionally omitted production masters: 20
+Omitted set: 20 PNG 1920x1080 master backgrounds; runtime WEBP copies remain distributed.
+Result: PASS

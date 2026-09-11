@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const sandbox={window:{}}; sandbox.window.SF={}; vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
+const C=sandbox.window.SF.config;
+const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
+if(C.VERSION!=='0.5.9') throw new Error('wrong version');
+if(!C.bossFortress) throw new Error('missing bossFortress');
+if(C.bossFortress.initialShieldRatio<.3) throw new Error('fortress too weak');
+if(C.bossFortress.phaseRechargeRatio[2]<.2) throw new Error('phase 3 recharge too weak');
+if(C.bossFortress.maxDamagePerHitRatio>.04) throw new Error('one-hit protection too weak');
+for(const token of ['fortressMax:hp*bossFortressRatio()','FORTALEZA ADAPTATIVA','FORTALEZA ROTA · NÚCLEO ABIERTO','MATRIZ DE FASE','maxDamagePerHitRatio']) if(!game.includes(token)) throw new Error('missing fortress runtime token '+token);
+const totals=C.difficultyCurve.worlds.map((w,i)=>{const sector=i+1,hp=Math.ceil((220+sector*85)*w.bossHp),fort=Math.round(hp*C.bossFortress.initialShieldRatio);return {sector,hp,fort,total:hp+fort};});
+if(totals[0].total<450) throw new Error('world 1 boss effective durability still too low');
+for(let i=1;i<totals.length;i++) if(totals[i].total<=totals[i-1].total) throw new Error('boss durability not increasing');
+console.log('BOSS FORTRESS v0.5.1 OK',totals);

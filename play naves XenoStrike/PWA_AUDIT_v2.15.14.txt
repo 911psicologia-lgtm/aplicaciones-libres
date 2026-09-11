@@ -1,0 +1,7 @@
+SWARM//RIFT v2.15.14 — PWA AUDIT
+==================================
+Cache: swarm-rift-v2.15.14
+Referenced resources: 560
+Missing resources: 0
+Index game.js cache-bust: v=21514
+Result: PASS

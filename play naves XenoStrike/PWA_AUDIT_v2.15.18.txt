@@ -1,0 +1,3 @@
+PWA resources: 560
+Missing: 0
+Result: PASS

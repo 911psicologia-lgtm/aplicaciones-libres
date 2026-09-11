@@ -1,0 +1,35 @@
+SWARM//RIFT — Insecta Siege v2.15.11
+AUDIO EVENT SYNC / BOSS SONIC IDENTITIES
+=========================================
+
+OBJETIVO
+Cerrar el paso 4 del Boss Identity Pass: sincronizar gesto/animación, liberación del ataque,
+impacto, cambio de fase, muerte y aparición/desaparición de RIFT ALLY con una identidad
+sonora específica por jefe, sin añadir archivos pesados ni alterar balance.
+
+CAMBIOS
+- 20 perfiles sonoros procedurales, uno por boss de Mundos 1–20.
+- 7 eventos sincronizados: WARN, RELEASE, IMPACT, PHASE, DEATH, ALLY_IN, ALLY_OUT.
+- Los disparos regulares de boss disparan su audio desde bossAnimImpactCue, en el mismo
+  release-frame anatómico introducido en v2.15.10.
+- Las signatures de Mundos 1–20 generan impacto sonoro cuando la zona/rayo/vórtice toca
+  realmente al jugador.
+- Las balas de boss/teniente generan impacto en la colisión real con nave/escudo.
+- Las transiciones de fase conservan su señal de inicio y ahora disparan el golpe de
+  liberación exactamente al cruzar releaseAt de la animación phase.
+- RIFT ALLY tiene portal de entrada y retorno con la huella sonora del boss sorteado.
+- La muerte del boss/teniente utiliza el perfil del sector correspondiente.
+- Throttle de impacto (~70 ms) para evitar saturación acústica en multigolpes.
+- Todo se sintetiza con WebAudio bajo demanda: no se añaden assets de audio ni memoria
+  residente adicional.
+
+PRESERVADO
+20 mundos, 20 bosses, Boss Identity Pass I/II, Animation↔Attack Sync, Micro-Swarm 1–20,
+Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY 10 s,
+Última Oportunidad 5 s, Performance Governor, Device Profiler, Frame Pacer,
+Asset Residency Streamer, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE,
+Hangar, powers/fusiones, checkpoints, saves y PWA.
+
+SAVE
+- Nuevas claves: swarm_rift_meta_v21511 / swarm_rift_run_v21511
+- Migración directa desde v2.15.10 y cadena histórica conservada.

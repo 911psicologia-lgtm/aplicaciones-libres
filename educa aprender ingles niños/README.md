@@ -1,89 +1,86 @@
-# 🌈 PequeWorld v4 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v5 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
-**fotografías e ilustraciones reales**, **3 juegos mentales nuevos**
-(Completar · Emparejar · Repaso de errores) y **avatar con tu propia foto**
-(cámara o galería).
+**fotos reales**, **76 mundos / 757 palabras**, **5 juegos mentales**
+(Completa · Empareja · **Memoria** · **Escucha** · Repaso de errores),
+**avatar con tu propia foto** (cámara o galería), **Tienda de Avatares** y
+**Ruleta diaria de premios**.
+
+> 📋 Consulta `AUDITORIA-v5.md` para ver la autoauditoría completa y todo lo
+> que cambió en esta versión.
 
 ## 🚀 Cómo jugar
 
 **Opción 1 (más fácil):** descomprime el ZIP y haz doble clic en `index.html`.
 
-**Opción 2 (recomendada en Chrome):** sirve la carpeta con un servidor local
-para que la voz TTS y la **cámara** funcionen al 100%:
+**Opción 2 (recomendada — activa la cámara 📷):** arrastra:
+- **Windows:** doble clic en `Iniciar-PequeWorld-WINDOWS.bat`
+- **Mac / Linux:** doble clic en `iniciar-mac-linux.sh`
+
+(ambos lanzan un mini servidor local y abren el navegador en
+`http://localhost:8080`). También puedes hacerlo a mano:
 
 ```bash
-# con Python
 cd pequeworld
-python3 -m http.server 8080
-# abre http://localhost:8080
+python3 -m http.server 8080   # abre http://localhost:8080
 ```
 
-> La app guarda el progreso en el navegador (localStorage). La voz en inglés
-> usa la API de síntesis de voz del sistema. La cámara requiere permiso del
-> navegador; si no está disponible (p. ej. abriendo el archivo directo), la
-> app lo avisa con amabilidad y ofrece cargar una foto **de la galería**.
+> La app guarda el progreso **en este dispositivo** (localStorage): no hay
+> conexión entre dispositivos ni cuentas en internet. La voz en inglés usa la
+> síntesis de voz del sistema. La cámara requiere el contexto seguro
+> `localhost` o permiso del navegador; si no está disponible (archivo
+> abierto directo), la app lo avisa y ofrece usar una foto **de la galería**.
+
+## 🎮 Novedades v5
+
+| Novedad | Detalle |
+|---------|---------|
+| 🐮 Farm Animals | Mundo nuevo Nivel 1 con sonidos de granja |
+| 🥦 Vegetables · 🏘️ My Town | Mundos nuevos Nivel 2 (verduras y lugares) |
+| ⛅ Clima y 🧍 Cuerpo ampliados | 10 y 14 palabras respectivamente |
+| 🃏 Memorama | 6 parejas foto+palabra, con bonus «de primera» |
+| 🎧 Escucha y Elige | Solo audio → 4 fotos (entrenamiento del oído) |
+| 🔁 Repaso mejorado | Mezcla 3 tipos: foto→palabra, completar letra y escucha |
+| 🛍️ Tienda de Avatares | 8 personajes coleccionables (100–300 monedas) |
+| 🎡 Ruleta diaria | 1 giro gratis al día: monedas, XP, estrellas o jackpot |
+| 🏅 11 insignias nuevas | Ruleta, tienda, memoria, escucha y maestros v5 |
+| 🧑 Foto en el hero | El mapa saluda con TU foto de perfil |
+| 🖼️ Portadas únicas | Sin imágenes repetidas en las tarjetas del mapa |
+| 👨‍👩‍👧 Zona de padres | Estadísticas + exportar/importar progreso (JSON local) |
 
 ## 🗂️ Estructura del proyecto
 
 ```
 pequeworld/
 ├── index.html              ← pantalla principal (abre este archivo)
-├── css/
-│   ├── style.css           ← base, login, mapa, mundos
-│   ├── game.css            ← juego, premios, cofre, medallas
-│   └── games.css           ← zona de juegos, completar, emparejar, cámara
-├── js/
-│   ├── utils.js            ← utilidades + rutas de imágenes
-│   ├── data_worlds.js      ← vocabulario Nivel 1 (21 mundos)
-│   ├── data_worlds2.js     ← vocabulario Nivel 2 (22 mundos)
-│   ├── data_worlds3.js     ← vocabulario Nivel 3 (30 mundos)
-│   ├── data_meta.js        ← niveles, insignias, avatares, meta diaria
-│   ├── audio.js            ← voz TTS + efectos de sonido
-│   ├── effects.js          ← confeti, estrellas, toasts
-│   ├── ui.js               ← login, mapa, premios, ajustes, zona de juegos
-│   ├── game.js             ← motor del juego + cofre sorpresa
-│   ├── games.js            ← ★ Completar · Emparejar · Repaso · Cámara avatar
-│   └── main.js             ← arranque
-└── assets/
-    └── img/
-        ├── words/          ← 340+ fotos e ilustraciones del vocabulario
-        ├── ui/             ← mascota y assets de premios (IA)
-        └── avatars/        ← avatares para los perfiles (IA)
+├── Iniciar-PequeWorld-WINDOWS.bat   ← arranque con cámara (Windows)
+├── iniciar-mac-linux.sh    ← arranque con cámara (Mac/Linux)
+├── servidor-local.py       ← mini servidor local (sin dependencias)
+├── css/                    ← estilos (base · juego · juegos v4/v5)
+├── js/                     ← lógica en 11 módulos sin dependencias
+│   ├── data_worlds*.js     ← vocabulario Niveles 1-3
+│   ├── data_meta.js        ← niveles, insignias, tienda, ruleta
+│   ├── games.js            ← completar, emparejar, memoria, escucha, repaso, avatar
+│   └── ...                 ← audio, efectos, ui, juego, utilidades
+├── assets/img/words/       ← fotos del vocabulario (376+)
+├── assets/img/avatars/     ← avatares + coleccionables de la tienda
+├── assets/img/ui/          ← premios: trofeo, medallas, cofre, mascota
+└── AUDITORIA-v5.md         ← autoauditoría y registro de cambios
 ```
 
-## 🆕 Qué hay de nuevo en v4
+## 🏆 Sistema de recompensas
 
-- **📸 Avatar con tu foto**: al crear el perfil (o desde Ajustes) puedes
-  **encender la cámara**, sonreír y capturar tu foto, o **elegir una imagen de
-  la galería**. La foto se recorta en círculo y queda como tu avatar en login,
-  mapa y ranking.
-- **🔤 Juego “Completa la palabra”**: se muestra la foto y la palabra con una
-  letra faltante; el niño elige la letra correcta entre 4 opciones. La app
-  deletrea la palabra en voz alta (D… O… G…).
-- **🧩 Juego “Empareja”**: 5 fotos y 5 palabras mezcladas; toca una foto y luego
-  su palabra. 2 rondas por partida, con audio de refuerzo en cada acierto.
-- **🔁 Repaso inteligente de errores**: cada error se guarda en el perfil. La
-  nueva **Zona de Juegos** del mapa muestra “Repaso (N errores)” y construye
-  una misión con las palabras falladas, alternando foto→palabra y letra que
-  falta. Al acertar, la palabra **se marca como aprendida** y sale de la lista.
-  También hay un botón “Repasar mis errores (N)” en la pantalla de resultados.
-- **🏅 7 insignias nuevas** de los juegos mentales (Primer Completado,
-  Escriba Pequeño, Emparejador, Maestro del Par, Repasador Estrella,
-  Mente Genial, Sabelotodo).
-- **🎨 40+ imágenes corregidas**: auditoría visual completa del vocabulario;
-  se reemplazaron fotos en blanco y negro, vintage o confusas (enfermera,
-  chef, dentista, abuela, panadero, pulpo, langosta, baile, notas, p¡ñata…)
-  por ilustraciones claras y coloridas que un niño reconoce al instante.
-- **📱 Responsive verificado** en móvil (390px), tablet (820px), laptop bajo
-  (1366×705) y PC (1920px): sin scroll horizontal, nada tapado por la barra
-  inferior, tablero de emparejar siempre a la vista.
+- ⭐ Estrellas por misión (hasta 3) · ✨ XP y niveles · 🪙 monedas
+- 🎁 Cofre sorpresa al terminar con 2+ estrellas
+- 🎯 Meta diaria (3 misiones) · 🔥 Rachas · 🎡 Ruleta diaria
+- 🛍️ Tienda de avatares coleccionables
+- 🏅 +80 insignias y medallas por mundo
+- 📊 Ranking con 5 rivales IA para superarse
 
-## 🎓 Pedagogía
+## 🔧 Notas técnicas
 
-- Voz lenta y clara (configurable) en inglés, español o bilingüe.
-- Refuerzo positivo: aplausos, confeti y celebraciones; nunca castigos.
-- Progresión en 3 niveles: Semilla (3-5), Explorador (5-6), Héroe (6-7).
-- Estrellas por misión (0-3) para motivar la repetición sin presión.
-- El **repaso espaciado** de errores consolida el vocabulario: la app trae de
-  vuelta las palabras falladas hasta que el niño las domina.
+- Sin frameworks ni dependencias: HTML + CSS + JS clásico (funciona abriendo
+  el archivo directo, sin instalación).
+- Progreso en `localStorage` (clave `pequeworld_v2`), con migración
+  automática desde perfiles v4/v3.
+- Copia de seguridad: Ajustes → Zona de padres → Exportar/Importar (JSON).

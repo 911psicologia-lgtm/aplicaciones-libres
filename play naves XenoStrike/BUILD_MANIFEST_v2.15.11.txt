@@ -1,0 +1,11 @@
+SWARM//RIFT — BUILD MANIFEST v2.15.11
+=======================================
+Version: 2.15.11
+Build: AUDIO_EVENT_SYNC_BOSS_SONIC_IDENTITIES
+Files: 667
+Uncompressed bytes: 234057347
+Feature checks: 53/53 PASS
+PWA refs: 560 / missing 0
+CH2 runtime SHA: 210/210 PASS
+HTTP smoke: 12/12 PASS
+New audio assets: 0 (procedural WebAudio)

@@ -1,0 +1,39 @@
+SWARM//RIFT v2.15.18 — VALIDACION
+====================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature/runtime checks: 35/35 PASS
+Mobile ergonomics profile matrix: 5/5 PASS
+- iPhone-like landscape + notch: PASS
+- compact landscape + notch: PASS
+- Android landscape: PASS
+- tablet landscape: PASS
+- mobile portrait: PASS
+Safe-area player bounds: PASS
+Action-rail exclusion/routing: PASS
+44x44 effective top-action targets: PASS
+Single-primary-touch contract: PASS
+Secondary pointer guard: PASS
+Coalesced pointer input: PASS
+Orientation / visibility / blur reset hooks: PASS
+Viewport resize debounce: PASS
+Save migration v2.15.17 -> v2.15.18: PASS
+Static/source autoaudit: 24/24 PASS
+PWA resources: 560 / missing 0
+CH2 SHA-256 distributed: 210/210 PASS
+Expected omitted PNG background masters: 20/20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+HTTP smoke: 12/12 HTTP 200
+
+Preservacion funcional
+Direct touch: PASS
+Joystick visual/control: sigue desactivado
+DASH: no añadido
+Micro-Swarm / RIFT ALLY / Last Chance / HUD v2.15.17 / Performance Governor / Asset Streamer: presentes
+
+Limitaciones reales
+- No sustituye una sesión humana prolongada en teléfono/tableta físicos.
+- Los safe-area se implementan con CSS env() y se validan por contrato/simulación; el tamaño real depende del navegador/dispositivo.
+- El target efectivo de 44×44 usa pseudo-elementos CSS alrededor del botón; debe observarse en Safari/iOS y Chrome/Android reales para confirmar sensación táctil y ausencia de activaciones accidentales.
+- No se declara prueba física de notch, barra de gestos, funda/pantalla ni latencia táctil real.

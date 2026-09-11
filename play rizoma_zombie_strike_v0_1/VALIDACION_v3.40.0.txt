@@ -1,0 +1,79 @@
+RIZOMA ZOMBIE STRIKE v3.40.0 — VALIDACIÓN
+Base comparada: v3.39.0
+
+RESULTADO GENERAL: OK
+
+[VERSIONADO]
+- game.js VERSION = 3.40.0: OK
+- index.html = v3.40.0: OK
+- manifest version/start_url = 3.40.0: OK
+- service worker cache = v3-40-0: OK
+
+[SINTAXIS]
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parse JSON: OK
+
+[CAMPAÑA]
+- Mundos esperados = 20: OK
+- Mundo 21 jugable: NO
+- Curva de Guardianes preservada por comparación de getWorldBalance(): OK
+- Hitos preservados: M1 11200 / M5 19500 / M10 38900 / M15 77800 / M20 155500
+
+[CONTINUIDAD DE COMBATE v3.39 -> v3.40]
+Funciones comparadas byte a byte: 11/11 idénticas
+- damageEnemy(): OK
+- bossPattern(): OK
+- boss2Pattern(): OK
+- boss2Special(): OK
+- triggerBossSpecial(): OK
+- applyBossVolleyAccent(): OK
+- addEnemyBullet(): OK
+- spawnBoss(): OK
+- updateAdvancedEnemyIdentity(): OK
+- advancedEnemyAim(): OK
+- getWorldBalance(): OK
+
+[ASSETS]
+- Assets heredados v3.39: 840
+- Assets v3.40: 840
+- Faltantes respecto a v3.39: 0
+- Añadidos: 0
+- Modificados byte a byte: 0
+- Referencias literales físicas auditadas: 799
+- Referencias literales físicas faltantes: 0
+
+[HTML]
+- IDs encontrados: 220
+- IDs duplicados: 0
+
+[LABORATORIO DE BALANCE]
+- Presenta M1–M20: OK
+- Umbral de señal fuerte >= 3 intentos: OK
+- Confianza baja/media/alta: OK
+- Estado SIN DATOS: OK
+- Estado MUESTRA INSUFICIENTE: OK
+- Estado ESTABLE · PROVISIONAL: OK
+- Estado REVISAR: OK
+- Exportación CSV: OK en prueba sintética (21 líneas = cabecera + 20 mundos)
+- Informe copiable: OK en prueba sintética
+- Señal de letalidad con muestra suficiente: OK
+- No emite señal fuerte con 1–2 intentos: OK
+
+[PRIVACIDAD]
+- Laboratorio opera sobre telemetría local: OK
+- Sin transmisión añadida: OK
+
+[PRUEBA SINTÉTICA]
+- 20 filas generadas: OK
+- 3 mundos con muestra suficiente en dataset sintético: OK
+- 2 mundos correctamente marcados para revisión en dataset sintético: OK
+
+[LIMITACIÓN]
+No se declara prueba física Android/iOS ni campaña M1->M20 jugada en dispositivo real. Cualquier smoke test Chromium se documenta por separado solo si completa correctamente.
+
+[SMOKE TEST CHROMIUM]
+- Intento: chromium --headless=new sobre servidor HTTP local.
+- Resultado: NO COMPLETADO; timeout 20 s.
+- Entorno reportó errores DBus/UPower y no produjo DOM.
+- Por tanto NO se afirma validación visual de navegador.

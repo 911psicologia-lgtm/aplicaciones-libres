@@ -1,0 +1,15 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const sandbox={window:{SF:{}},console,Image:function(){}}; vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
+const C=sandbox.window.SF.config;
+if(C.VERSION!=='0.5.9') throw new Error('wrong version');
+if(!C.bossHardpoints?.enabled) throw new Error('boss hardpoints disabled');
+if(C.bossHardpoints.countBySector.length<5) throw new Error('hardpoint curve incomplete');
+if(C.bossHardpoints.hpRatio<.04) throw new Error('hardpoints too weak');
+if(!C.assetStreaming?.enabled) throw new Error('asset streaming disabled');
+const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
+for(const token of ['buildBossHardpoints','hitBossHardpoint','REGULADOR DE FORTALEZA DESTRUIDO','PROPULSIÓN DEL JEFE DAÑADA','bossWeaponCooldownMul','SISTEMAS CRÍTICOS DESTRUIDOS','trimWorldCache']) if(!game.includes(token)) throw new Error('missing runtime token '+token);
+const assets=fs.readFileSync(path.join(root,'js/assets.js'),'utf8');
+for(const token of ['function unloadWorld','function trimWorldCache','worldLoaded.delete']) if(!assets.includes(token)) throw new Error('missing streaming token '+token);
+console.log('PASS boss anatomy + streaming v0.5.5');

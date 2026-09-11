@@ -1,0 +1,11 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.15
+Build: BOSS_ARENA_PRESENTATION
+Worlds: 20
+Bosses: 20
+CH2 arena presentations: 10
+CH2 distributed assets verified: 210
+PWA resources: 560
+Feature checks: 21/21
+HTTP smoke: 10/10
+Created: 2026-09-10

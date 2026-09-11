@@ -1,0 +1,8 @@
+AUTOAUDIT v2.15.18
+Static checks: 24/24 PASS
+PWA resources: 560 / missing 0
+CH2 distributed hashes: 210/210 PASS
+Expected omitted PNG masters: 20/20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+Overall: PASS

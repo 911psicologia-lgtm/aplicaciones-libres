@@ -1,0 +1,8 @@
+SWARM//RIFT v2.15.13 CH2 ASSET AUDIT
+Manifest original Z.AI: 230 assets
+Distribuidos y verificados SHA-256: 210
+Discrepancias: 0
+Faltantes requeridos por runtime: 0
+Omitidos deliberadamente: 20 PNG master de fondos 1920x1080 (duplicados de producción)
+Runtime backgrounds WEBP 1920x1080: presentes
+RESULTADO: PASS

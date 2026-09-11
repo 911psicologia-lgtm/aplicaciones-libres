@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.34.0";document.head.appendChild(m);}</script>
+  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.41.0";document.head.appendChild(m);}</script>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.34.0</title>
+  <title>Rizoma Zombie Strike — Saga II completa · v3.43.0</title>
   <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
   <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
@@ -36,7 +36,7 @@
         <span class="brand-mark">⬢</span>
         <div>
           <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.34.0</small>
+          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.43.0</small>
         </div>
       </div>
       <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
@@ -515,6 +515,7 @@
             <p id="resultText"></p>
             <div id="resultRewards" class="reward-row"></div>
             <div id="resultBuildSummary" class="result-build-summary"></div>
+            <div id="resultTelemetrySummary" class="result-telemetry-summary"></div>
             <div id="resultExpeditionMemory" class="result-expedition-memory"></div>
             <div id="lifeShop" class="life-shop hidden">
               <strong>Comprar 1 vida</strong>
@@ -551,6 +552,30 @@
         <label class="switch-row"><span>Modo bajo rendimiento <small>reduce FX, no dificultad</small></span><input id="toggleLowPerformance" type="checkbox" /></label>
         <button id="btnExportBackup" class="soft-btn wide">Exportar backup JSON</button>
         <button id="btnExportRankingSettings" class="soft-btn wide">Exportar ranking JSON</button>
+        <div class="telemetry-settings" aria-label="Telemetría local de balance">
+          <small>TELEMETRÍA LOCAL · BALANCE</small>
+          <strong id="telemetryStatus">Aún sin intentos registrados</strong>
+          <span>Duración, jefe, daño, eventos letales, poderes y picos de densidad. Se guarda solo en este dispositivo.</span>
+          <div class="telemetry-actions"><button id="btnExportTelemetry" class="soft-btn" type="button">Exportar JSON</button><button id="btnClearTelemetry" class="soft-btn" type="button">Reiniciar</button></div>
+        </div>
+        <details class="balance-lab" aria-label="Laboratorio de Balance Local">
+          <summary><span>LABORATORIO DE BALANCE LOCAL</span><small>diagnóstico + perfiles comparables por mundo</small></summary>
+          <div class="balance-lab-body">
+            <strong id="balanceLabStatus">Sin datos todavía</strong>
+            <p>Compara los mundos con tu propia telemetría, detecta variabilidad y propone un perfil reproducible de Nave Rizoma, Flota, dificultad y etapa para repetir pruebas sin mezclar configuraciones.</p>
+            <div class="balance-lab-actions"><button id="btnExportBalanceCSV" class="soft-btn" type="button">Exportar CSV</button><button id="btnCopyBalanceReport" class="soft-btn" type="button">Copiar informe</button></div>
+            <section class="playtest-guide" aria-label="Playtest Guiado">
+              <small>PLAYTEST GUIADO · SIGUIENTE PRUEBA</small>
+              <strong id="playtestGuideTarget">Calculando mundo recomendado…</strong>
+              <span id="playtestGuideBuild">PERFIL COMPARABLE · calculando…</span>
+              <span id="playtestGuideMeta">Sin muestra</span>
+              <p id="playtestGuideReason">El laboratorio elegirá una prueba según cobertura, incertidumbre y señales pendientes.</p>
+              <div class="playtest-guide-actions"><button id="btnStartGuidedPlaytest" class="primary-btn small" type="button">Probar mundo completo</button><button id="btnCopyPlaytestProtocol" class="soft-btn" type="button">Copiar protocolo</button></div>
+            </section>
+            <div class="balance-lab-legend"><span>INT.</span><span>VICT.</span><span>TIEMPO</span><span>JEFE</span><span>CASCO</span><span>AMENAZA</span></div>
+            <div id="balanceLabRows" class="balance-lab-rows"></div>
+          </div>
+        </details>
         <button id="btnCopyAIPrompt" class="soft-btn wide">Copiar prompt para analizar partida con IA</button>
         <button id="btnInstallPWA" class="soft-btn wide hidden">Instalar app</button>
         <label class="soft-btn wide file-label">Importar backup JSON<input id="backupInput" type="file" accept="application/json" hidden /></label>
@@ -559,6 +584,6 @@
     </div>
   </div>
 
-  <script src="js/game.js?v=3.34.0"></script>
+  <script src="js/game.js?v=3.43.0"></script>
 </body>
 </html>

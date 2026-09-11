@@ -1,0 +1,235 @@
+{
+  "ok": true,
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "bosses": true,
+    "ch2Families": true,
+    "microSwarm": true,
+    "playDefinitions": true,
+    "telegraphRoles": true,
+    "playExecution": true,
+    "noHpInflation": true,
+    "formationBreak": true,
+    "royalCommand": true,
+    "criticalRelief": true,
+    "riftAlly": true,
+    "lastChance": true,
+    "difficultyCurve": true,
+    "saveMigration2152": true,
+    "adaptiveBehaviorRead": true,
+    "adaptiveLaneBias": true,
+    "unpredictableRelief": true,
+    "saveMigration2153": true,
+    "saveMigration2154": true,
+    "saveMigration2155": true,
+    "performanceRecovery": true,
+    "performanceRestores": true,
+    "microFloorUnderLoad": true,
+    "deviceProfiler": true,
+    "dynamicInternalResolution": true,
+    "jankAwareFramePacer": true,
+    "saveMigration2156": true,
+    "saveMigration2157": true,
+    "saveMigration2158": true,
+    "bossIdentityDefs": true,
+    "bossIdentitySignatures": true,
+    "bossIdentityMovement": true,
+    "streamBootLazy": true,
+    "streamMenuLight": true,
+    "streamCurrentCore": true,
+    "streamBossOnDemand": true,
+    "streamEvictsStale": true,
+    "streamClearsOnChapter1": true
+  },
+  "world16": {
+    "active": true,
+    "surge": true,
+    "guard": true,
+    "cloak": true,
+    "play": "VELO DE PINZA"
+  },
+  "world20": {
+    "play": "CERCO IMPERIAL",
+    "guard": 1.45
+  },
+  "counterplay": {
+    "breaks": 0,
+    "scoreGain": 922
+  },
+  "migration": {
+    "migrationSeen": true,
+    "migrationLoaded": true,
+    "sector": 20,
+    "mig2154OK": true,
+    "mig2156OK": true,
+    "mig2158OK": true
+  },
+  "streaming": {
+    "bootStream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 0,
+      "menuWorld": 1,
+      "loads": 19,
+      "evictions": 19,
+      "failures": 0,
+      "prefetches": 0,
+      "lastReason": "rift-ally",
+      "resident": {}
+    },
+    "menuStream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 0,
+      "menuWorld": 16,
+      "loads": 21,
+      "evictions": 19,
+      "failures": 0,
+      "prefetches": 0,
+      "lastReason": "menu",
+      "resident": {
+        "16": {
+          "core": 2,
+          "boss": 0,
+          "coreLoaded": false,
+          "bossLoaded": false
+        }
+      }
+    },
+    "coreStream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 16,
+      "menuWorld": 16,
+      "loads": 32,
+      "evictions": 19,
+      "failures": 0,
+      "prefetches": 1,
+      "lastReason": "test-sector",
+      "resident": {
+        "16": {
+          "core": 13,
+          "boss": 0,
+          "coreLoaded": true,
+          "bossLoaded": false
+        }
+      }
+    },
+    "bossStream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 16,
+      "menuWorld": 16,
+      "loads": 38,
+      "evictions": 19,
+      "failures": 0,
+      "prefetches": 1,
+      "lastReason": "test-boss",
+      "resident": {
+        "16": {
+          "core": 13,
+          "boss": 6,
+          "coreLoaded": true,
+          "bossLoaded": true
+        }
+      }
+    },
+    "evictedStream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 18,
+      "menuWorld": 16,
+      "loads": 51,
+      "evictions": 38,
+      "failures": 0,
+      "prefetches": 2,
+      "lastReason": "test-next",
+      "resident": {
+        "18": {
+          "core": 13,
+          "boss": 0,
+          "coreLoaded": true,
+          "bossLoaded": false
+        }
+      }
+    },
+    "chapter1Stream": {
+      "enabled": true,
+      "device": "MID",
+      "currentWorld": 5,
+      "menuWorld": 16,
+      "loads": 51,
+      "evictions": 51,
+      "failures": 0,
+      "prefetches": 2,
+      "lastReason": "chapter1",
+      "resident": {}
+    }
+  },
+  "performance": {
+    "device": {
+      "class": "MID",
+      "score": 1,
+      "hardwareConcurrency": 4,
+      "deviceMemory": 4,
+      "coarse": false,
+      "nativeDpr": 2,
+      "pixelLoad": 3686400,
+      "dprCap": 1.7
+    },
+    "fullDpr": 1.7,
+    "slow": {
+      "tier": "RECOVERY",
+      "fps": 25,
+      "frameMs": 39.99,
+      "p95Ms": 40,
+      "jank25": 1,
+      "jank33": 1,
+      "enemyFactor": 0.88,
+      "microFactor": 0.64,
+      "ambientFactor": 0.48,
+      "vfxFactor": 0.54,
+      "particleCap": 520,
+      "renderScale": 0.78,
+      "effectiveDpr": 1.33,
+      "renderResizes": 0,
+      "transitions": 2
+    },
+    "fast": {
+      "tier": "FULL",
+      "fps": 62.5,
+      "frameMs": 16,
+      "p95Ms": 16,
+      "jank25": 0,
+      "jank33": 0,
+      "enemyFactor": 1,
+      "microFactor": 1,
+      "ambientFactor": 1,
+      "vfxFactor": 1,
+      "particleCap": 900,
+      "renderScale": 1,
+      "effectiveDpr": 1.7,
+      "renderResizes": 0,
+      "transitions": 4
+    },
+    "jank": {
+      "tier": "RECOVERY",
+      "fps": 48.5,
+      "frameMs": 20.62,
+      "p95Ms": 42,
+      "jank25": 0.2,
+      "jank33": 0.2,
+      "enemyFactor": 0.88,
+      "microFactor": 0.64,
+      "ambientFactor": 0.48,
+      "vfxFactor": 0.54,
+      "particleCap": 520,
+      "renderScale": 0.78,
+      "effectiveDpr": 1.33,
+      "renderResizes": 0,
+      "transitions": 5
+    },
+    "slowMicro": 6
+  }
+}

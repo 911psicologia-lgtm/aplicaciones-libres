@@ -1,0 +1,19 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.18
+Build: MOBILE_COMBAT_ERGONOMICS
+Base: 2.15.17 HUD_MOBILE_READABILITY
+Worlds: 20
+Bosses: 20
+Control: direct Pointer Events touch + mouse; no joystick; no DASH
+Safe-area aware: yes
+Effective coarse-pointer top-action target: 44x44 CSS px
+Single active touch steering: yes
+Pointer coalescing: yes
+Viewport debounce/orientation reset: yes
+Feature/runtime checks: 35/35
+Mobile profile matrix: 5/5
+Static/source checks: 24/24
+PWA resources: 560
+CH2 distributed assets verified: 210
+HTTP smoke: 12/12
+Created: 2026-09-10

@@ -1,0 +1,30 @@
+SWARM//RIFT v2.15.12 CH2 ASSET AUDIT
+Manifest total: 230
+Distributed matching SHA-256: 210
+Missing from distribution: 20
+SHA mismatches: 0
+
+Missing entries:
+assets_ch2/backgrounds/w11_antechamber.png
+assets_ch2/backgrounds/w11_boss.png
+assets_ch2/backgrounds/w12_antechamber.png
+assets_ch2/backgrounds/w12_boss.png
+assets_ch2/backgrounds/w13_antechamber.png
+assets_ch2/backgrounds/w13_boss.png
+assets_ch2/backgrounds/w14_antechamber.png
+assets_ch2/backgrounds/w14_boss.png
+assets_ch2/backgrounds/w15_antechamber.png
+assets_ch2/backgrounds/w15_boss.png
+assets_ch2/backgrounds/w16_antechamber.png
+assets_ch2/backgrounds/w16_boss.png
+assets_ch2/backgrounds/w17_antechamber.png
+assets_ch2/backgrounds/w17_boss.png
+assets_ch2/backgrounds/w18_antechamber.png
+assets_ch2/backgrounds/w18_boss.png
+assets_ch2/backgrounds/w19_antechamber.png
+assets_ch2/backgrounds/w19_boss.png
+assets_ch2/backgrounds/w20_antechamber.png
+assets_ch2/backgrounds/w20_boss.png
+
+Mismatches:
+

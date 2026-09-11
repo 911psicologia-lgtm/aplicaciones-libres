@@ -76,6 +76,12 @@ WORLDS.push(
     {en:'Hand', es:'Mano',    img:'hand',      em:'✋'},
     {en:'Foot', es:'Pie',     img:'foot',      em:'🦶'},
     {en:'Heart',es:'Corazón', img:'heart',     em:'❤️'},
+    {en:'Arm',    es:'Brazo',   img:'arm',    em:'💪'},
+    {en:'Leg',    es:'Pierna',  img:'leg',    em:'🦵'},
+    {en:'Finger', es:'Dedo',    img:'finger', em:'👆'},
+    {en:'Teeth',  es:'Dientes', img:'teeth',  em:'🦷'},
+    {en:'Knee',   es:'Rodilla', img:'knee',   em:'🦵'},
+    {en:'Shoulder',es:'Hombro', img:'shoulder',em:'🙆'},
    ]},
 
   /* ── WEATHER ── */
@@ -88,6 +94,10 @@ WORLDS.push(
     {en:'Snow',   es:'Nieve',   img:'snow',    em:'❄️'},
     {en:'Wind',   es:'Viento',  img:'kite',    em:'💨'},
     {en:'Rainbow',es:'Arcoíris',img:'rainbow', em:'🌈'},
+    {en:'Fog',    es:'Niebla',  img:'fog',     em:'🌫️'},
+    {en:'Storm',  es:'Tormenta',img:'storm',   em:'⛈️'},
+    {en:'Lightning',es:'Relámpago',img:'lightning',em:'⚡'},
+    {en:'Umbrella',es:'Paraguas',img:'umbrella',em:'☂️'},
    ]},
 
   /* ── EMOTIONS (hero) ── */

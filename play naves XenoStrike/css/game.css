@@ -12,8 +12,9 @@ html,body,#shell{margin:0;width:100%;height:100%;height:100dvh;overflow:hidden;b
 body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);user-select:none;-webkit-user-select:none}
 #shell{position:fixed;inset:0}
 #game{display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:none;background:#03050b}
+#safeAreaProbe{position:fixed;inset:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);z-index:-1}
 .top-actions{position:fixed;z-index:12;right:max(8px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));display:flex;gap:6px;flex-wrap:nowrap;justify-content:flex-end;max-width:258px}
-.top-actions button{width:38px;height:34px;border-radius:11px;border:1px solid rgba(120,238,255,.36);background:rgba(4,10,24,.54);color:#eaffff;font-weight:900;font-size:15px;backdrop-filter:blur(10px);box-shadow:0 5px 20px rgba(0,0,0,.2)}
+.top-actions button{position:relative;width:38px;height:34px;border-radius:11px;border:1px solid rgba(120,238,255,.36);background:rgba(4,10,24,.54);color:#eaffff;font-weight:900;font-size:15px;backdrop-filter:blur(10px);box-shadow:0 5px 20px rgba(0,0,0,.2)}
 .top-actions button:active{transform:scale(.94);background:rgba(35,98,120,.5)}
 .music-btn{position:relative;overflow:visible}
 .music-btn img{width:22px;height:22px;display:block;margin:auto;object-fit:contain;filter:invert(1) brightness(1.35);mix-blend-mode:screen;opacity:.88;border-radius:4px;transition:opacity .2s,filter .2s,transform .2s}
@@ -71,3 +72,36 @@ body:not(.require-landscape) #rotateGate{display:none!important}
 /* v2.15.1 · feedback táctico refinado */
 .ally-btn:not(.ally-spent):not(.ally-active){animation:riftReadyBreath 2.4s ease-in-out infinite}
 @keyframes riftReadyBreath{0%,100%{box-shadow:0 0 9px rgba(85,220,255,.12),inset 0 0 8px rgba(90,220,255,.05)}50%{box-shadow:0 0 16px rgba(85,220,255,.28),inset 0 0 12px rgba(90,220,255,.10)}}
+
+
+/* v2.15.17 · HUD & MOBILE READABILITY PASS */
+.top-actions[data-hud-focus="LAST_CHANCE"] #shopBtn{width:44px;border-width:2px;z-index:2}
+@media (pointer:coarse),(max-width:900px){
+  .top-actions{gap:8px;max-width:286px}
+  .top-actions button{width:36px;height:36px;border-radius:10px;font-size:13px;background:rgba(4,10,24,.68)}
+  .top-actions button::before{content:"";position:absolute;inset:-4px;border-radius:14px;pointer-events:auto}
+  .top-actions[data-hud-profile="MOBILE_LANDSCAPE"]{gap:8px;max-width:286px}
+  .top-actions[data-hud-profile="MOBILE_LANDSCAPE"] button{width:36px;height:36px;border-radius:10px;font-size:13px;background:rgba(4,10,24,.68)}
+  .top-actions[data-hud-profile="MOBILE_LANDSCAPE"] .music-btn img{width:19px;height:19px}
+  .top-actions[data-hud-focus="BOSS_ALERT"] button:not(#shopBtn):not(#allyBtn){opacity:.58}
+  .top-actions[data-hud-focus="LAST_CHANCE"] button:not(#shopBtn):not(#allyBtn){opacity:.26;filter:saturate(.55)}
+  .top-actions[data-hud-focus="LAST_CHANCE"] #shopBtn{width:46px;height:38px;opacity:1;filter:none}
+  .top-actions[data-hud-focus="LAST_CHANCE"] #allyBtn{opacity:.75;filter:none}
+}
+@media (orientation:portrait) and (pointer:coarse){
+  .top-actions{gap:8px;max-width:286px}
+  .top-actions button{width:38px;height:38px}
+  .top-actions button::before{inset:-3px}
+}
+@media (max-height:430px) and (orientation:landscape){
+  .top-actions{top:max(5px,env(safe-area-inset-top));right:max(5px,env(safe-area-inset-right));gap:7px}
+  .top-actions button{width:35px!important;height:35px!important}
+  .top-actions button::before{inset:-4.5px}
+}
+
+/* v2.15.18 · MOBILE COMBAT ERGONOMICS */
+@media (pointer:coarse){
+  #game{touch-action:none;-webkit-user-drag:none}
+  .top-actions{padding-top:1px;padding-right:1px}
+  .top-actions button{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+}

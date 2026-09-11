@@ -1,0 +1,12 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.16
+Build: BOSS_DEATH_ARENA_AFTERMATH
+Worlds: 20
+Bosses: 20
+CH2 aftermath profiles: 10
+CH2 arena presentations preserved: 10
+CH2 distributed assets verified: 210
+PWA resources: 560
+Feature/runtime checks: 28/28
+HTTP smoke: 12/12
+Created: 2026-09-10

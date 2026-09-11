@@ -1,0 +1,53 @@
+SWARM//RIFT v2.15.10 — FEATURE TEST
+===================================
+
+Overall: PASS
+Checks: 47/47 PASS
+
+- version: PASS
+- worlds: PASS
+- bosses: PASS
+- ch2Families: PASS
+- microSwarm: PASS
+- playDefinitions: PASS
+- telegraphRoles: PASS
+- playExecution: PASS
+- noHpInflation: PASS
+- formationBreak: PASS
+- royalCommand: PASS
+- criticalRelief: PASS
+- riftAlly: PASS
+- lastChance: PASS
+- difficultyCurve: PASS
+- saveMigration2152: PASS
+- adaptiveBehaviorRead: PASS
+- adaptiveLaneBias: PASS
+- unpredictableRelief: PASS
+- saveMigration2153: PASS
+- saveMigration2154: PASS
+- saveMigration2155: PASS
+- performanceRecovery: PASS
+- performanceRestores: PASS
+- microFloorUnderLoad: PASS
+- deviceProfiler: PASS
+- dynamicInternalResolution: PASS
+- jankAwareFramePacer: PASS
+- saveMigration2156: PASS
+- saveMigration2157: PASS
+- saveMigration2158: PASS
+- bossIdentityDefs: PASS
+- bossIdentitySignatures: PASS
+- bossIdentityMovement: PASS
+- animationSyncProfiles: PASS
+- signatureReleaseFrame: PASS
+- anatomicalEmitters: PASS
+- projectileEmitterSync: PASS
+- primaryImpactFrame: PASS
+- phaseTimeline: PASS
+- saveMigration2159: PASS
+- streamBootLazy: PASS
+- streamMenuLight: PASS
+- streamCurrentCore: PASS
+- streamBossOnDemand: PASS
+- streamEvictsStale: PASS
+- streamClearsOnChapter1: PASS

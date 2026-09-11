@@ -240,6 +240,7 @@ function getPlayerLevel(p) {
 }
 function xpForNextLevel(lv) { return LEVEL_XP[Math.min(lv + 1, 3)] || LEVEL_XP[3]; }
 function worldCover(w) {
+  if (w.cover) return w.cover; // v5: portada distintiva anti-duplicados
   const it = w.items.find(i => i.img);
   return it ? it.img : null;
 }
@@ -261,9 +262,8 @@ function renderMap() {
     }
   }
 
-  // Hero banner con mascota
-  $('mapAv').innerHTML = `<img class="mascot-img" src="assets/img/ui/mascot.jpg" alt="mascota"
-     onerror="this.outerHTML='${LEVEL_AVATARS[lv] || '🚀'}'">`;
+  // Hero banner con la FOTO del niño (v5)
+  $('mapAv').innerHTML = avatarHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData);
   $('mapName').textContent = `¡Hola, ${p.name}!`;
   $('mapSub').textContent = `Nivel ${lv} · ${LEVEL_NAMES[lv]}`;
   const xpCur = p.xp || 0; const xpNext = xpForNextLevel(lv); const xpBase = LEVEL_XP[lv] || 0;
@@ -273,7 +273,10 @@ function renderMap() {
   // Meta diaria
   renderDailyGoal(p);
 
-  // Zona de Juegos (Completar · Emparejar · Repaso de errores)
+  // Ruleta diaria (v5)
+  renderSpinBanner(p);
+
+  // Zona de Juegos (v5: Completar · Emparejar · Memoria · Escucha · Repaso)
   renderGamesZone(p);
 
   // Tabs de nivel
@@ -345,6 +348,8 @@ function renderGamesZone(p) {
   const defs = [
     {cls: 'gz-spell', ico: '🔤', name: 'Completa', sub: 'la palabra', fn: () => startSpellMission()},
     {cls: 'gz-match', ico: '🧩', name: 'Empareja', sub: 'foto + palabra', fn: () => startMatchMission()},
+    {cls: 'gz-mem',   ico: '🃏', name: 'Memoria', sub: 'encuentra parejas', fn: () => startMemoryMission()},
+    {cls: 'gz-listen',ico: '🎧', name: 'Escucha', sub: 'y elige la foto', fn: () => startListenMission()},
     {cls: 'gz-review' + (pend ? '' : ' gz-off'), ico: '🔁', name: 'Repaso',
      sub: pend ? pend + (pend === 1 ? ' error' : ' errores') : '¡Sin errores!', fn: () => startReviewMission()},
   ];
@@ -411,7 +416,7 @@ function bumpDailyGoal() {
 let _trophyTab = 0;
 function switchTrophyTab(i) {
   _trophyTab = i;
-  [0, 1, 2, 3].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
+  [0, 1, 2, 3, 4].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
   renderTrophyContent();
 }
 function renderTrophies() { switchTrophyTab(0); }
@@ -482,6 +487,9 @@ function renderTrophyContent() {
     html += '</div>';
     host.innerHTML = html;
 
+  } else if (_trophyTab === 4) {
+    // 🛍️ TIENDA DE AVATARES (v5)
+    host.innerHTML = renderShopHTML();
   } else {
     // Ranking con medallas de fotos
     const realPlayers = Object.values(STATE.profiles)
@@ -557,6 +565,17 @@ function openSettings() {
       <button class="bigbtn bb-sm ${s.voiceEnabled ? 'bb-green' : 'bb-ghost'}" id="voiceToggleBtn" onclick="toggleVoice(this)">${s.voiceEnabled ? '🔊 Activada' : '🔇 Silenciada'}</button>
     </div>
     <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">👨‍👩‍👧 Zona de padres</div>
+      ${parentsStatsHTML(p)}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="bigbtn bb-ghost bb-sm" onclick="exportProgress()">⬇️ Exportar progreso</button>
+        <button class="bigbtn bb-ghost bb-sm" onclick="triggerImport()">⬆️ Importar progreso</button>
+      </div>
+      <input type="file" accept="application/json,.json" id="importInp" style="display:none" onchange="onImportPick(event)">
+      <div class="small" style="margin-top:6px">Copia de seguridad local en un archivo. La app guarda todo en este dispositivo y nunca envía datos a internet.</div>
+    </div>
+    <div class="divider"></div>
     <div>
       <div style="font-weight:900;margin-bottom:8px;color:var(--red)">⚠️ Zona peligrosa</div>
       <button class="bigbtn bb-ghost bb-sm" onclick="resetProfile()">🔄 Reiniciar mi perfil</button>
@@ -581,10 +600,9 @@ window.toggleVoice = (btn) => {
 window.resetProfile = () => {
   if (!confirm('¿Seguro? Se borrarán todos los premios de este perfil.')) return;
   updateProfile(p => {
-    p.xp = 0; p.coins = 0; p.stars = 0; p.level = 1;
-    p.streak = 0; p.maxStreak = 0; p.badges = []; p.best = {};
-    p.stats = {missions: 0, perfect: 0, totalCorrect: 0, chests: 0, dailyGoals: 0, daysPlayed: {}};
-    p.dailyGoal = {date: '', count: 0, claimed: false};
+    const fresh = defaultProfile(p.name, 'avatar_1');
+    fresh.id = p.id;
+    Object.keys(fresh).forEach(k => { p[k] = fresh[k]; });
   });
   closeModal(); notif('🔄 Perfil reiniciado', 'var(--red)');
 };
@@ -600,3 +618,204 @@ function checkBadges() {
   });
   saveState();
 }
+
+/* ═════════════════════════════════════════
+   V5 — RULETA DIARIA DE PREMIOS
+   ═════════════════════════════════════════ */
+function renderSpinBanner(p) {
+  let host = $('spinZone');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'spinZone';
+    host.className = 'spin-banner';
+    const gz = $('gamesZone');
+    if (gz && gz.parentNode) gz.parentNode.insertBefore(host, gz);
+    else if ($('dailyGoal')) $('dailyGoal').parentNode.insertBefore(host, $('dailyGoal').nextSibling);
+  }
+  const can = p.lastSpin !== todayStr();
+  host.innerHTML = `<div class="spin-row">
+    <span class="spin-ico">🎡</span>
+    <div style="flex:1;min-width:0">
+      <div class="spin-title">Ruleta diaria de premios</div>
+      <div class="small">Gira 1 vez al día: monedas, XP o estrellas</div>
+    </div>
+    ${can
+      ? '<button class="bigbtn bb-purple bb-sm" onclick="openSpin()">¡Girar! 🎁</button>'
+      : '<span class="dg-claimed">✅ ¡Vuelve mañana!</span>'}
+  </div>`;
+}
+
+window.openSpin = function () {
+  const p = activeProfile(); if (!p) return;
+  if (p.lastSpin === todayStr()) { notif('🎡 Ya giraste hoy — ¡vuelve mañana!', 'var(--orange)'); return; }
+  beep(true);
+  const segs = SPIN_PRIZES;
+  const seg = 360 / segs.length;
+  const grads = segs.map((s, i) => `${s.color} ${i * seg}deg ${(i + 1) * seg}deg`).join(',');
+  openModal('🎡 Ruleta Diaria', `
+    <div class="wheel-wrap">
+      <div class="wheel-pointer">▼</div>
+      <div class="wheel" id="wheelEl" style="background:conic-gradient(${grads})">
+        ${segs.map((s, i) => `<span class="wheel-label" style="transform:rotate(${i * seg + seg / 2}deg) translate(-50%,-80px)">${s.label}</span>`).join('')}
+        <div class="wheel-center">🌟</div>
+      </div>
+    </div>
+    <div class="small" style="text-align:center;margin-top:12px">¡Toca GIRAR y prueba tu suerte!</div>
+  `, `<button class="bigbtn bb-gold bb-sm" id="spinGo" onclick="doSpin()">🎯 ¡GIRAR!</button>`);
+};
+
+window.doSpin = function () {
+  const p = activeProfile(); if (!p) return;
+  if (p.lastSpin === todayStr()) return;
+  const wheel = $('wheelEl'); const btn = $('spinGo');
+  if (!wheel || (btn && btn.disabled)) return;
+  if (btn) btn.disabled = true;
+  const segs = SPIN_PRIZES;
+  const idx = (Math.random() * segs.length) | 0;
+  const seg = 360 / segs.length;
+  const target = 360 * 5 + (360 - (idx * seg + seg / 2)) - (seg / 2);
+  requestAnimationFrame(() => { wheel.style.transform = `rotate(${target}deg)`; });
+  updateProfile(pp => { pp.lastSpin = todayStr(); pp.stats.spins = (pp.stats.spins || 0) + 1; });
+  setTimeout(() => {
+    const prize = segs[idx];
+    updateProfile(pp => prize.apply(pp));
+    saveState();
+    burst(90); beepWin();
+    celebrate({
+      icon: '🎡',
+      title: '¡Premio de la ruleta!',
+      sub: 'Vuelve mañana para girar otra vez',
+      rewards: [prize.label], confetti: 2, dur: 3200
+    });
+    closeModal();
+    renderMap(); updateTopbar(); checkBadges();
+  }, 3600);
+};
+
+/* ═════════════════════════════════════════
+   V5 — TIENDA DE AVATARES (monedas locales)
+   ═════════════════════════════════════════ */
+function renderShopHTML() {
+  const p = activeProfile();
+  let html = `<div class="small" style="text-align:center;margin-bottom:10px">
+    💰 Tienes <b style="color:var(--gold)">${p.coins || 0} monedas</b> · Gana más jugando misiones, la ruleta y los cofres
+  </div><div class="shop-grid">`;
+  SHOP_AVATARS.forEach(a => {
+    const owned = (p.unlockedAvatars || []).includes(a.id);
+    const equipped = p.avatar === a.id;
+    const can = (p.coins || 0) >= a.price;
+    html += `<div class="shop-tile ${owned ? 'owned' : can ? 'can' : 'poor'}">
+      <div class="shop-av">${avatarHTML(a.id)}</div>
+      <div class="shop-name">${a.name}</div>
+      ${owned
+        ? (equipped
+          ? '<span class="shop-tag eq">✓ En uso</span>'
+          : `<button class="bigbtn bb-green bb-sm" onclick="equipShopAvatar('${a.id}')">Usar</button>`)
+        : `<button class="bigbtn ${can ? 'bb-gold' : 'bb-ghost'} bb-sm" onclick="buyShopAvatar('${a.id}')">🪙 ${a.price}</button>
+           <div class="small" style="margin-top:4px;font-size:.62em">${can ? '¡Puedes comprarlo!' : `Te faltan ${a.price - (p.coins || 0)} 🪙`}</div>`}
+    </div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+window.buyShopAvatar = function (id) {
+  const a = SHOP_AVATARS.find(x => x.id === id);
+  const p = activeProfile();
+  if (!a || !p) return;
+  if ((p.unlockedAvatars || []).includes(id)) return;
+  if ((p.coins || 0) < a.price) {
+    notif(`🪙 Te faltan ${a.price - (p.coins || 0)} monedas — ¡sigue jugando!`, 'var(--red)');
+    beep(false);
+    return;
+  }
+  updateProfile(pp => {
+    pp.coins = (pp.coins || 0) - a.price;
+    pp.unlockedAvatars = [...(pp.unlockedAvatars || []), id];
+    pp.avatar = id;
+    pp.stats.avatarBought = (pp.stats.avatarBought || 0) + 1;
+  });
+  burst(70); beepWin();
+  celebrate({
+    icon: `<img class="cel-img" src="${AV_IMG(id)}" alt="" onerror="this.outerHTML='🎉'">`,
+    title: `¡${a.name} es tuyo!`,
+    sub: 'Nuevo avatar desbloqueado y equipado',
+    rewards: [`🛍️ Colección: ${(activeProfile().unlockedAvatars || []).length}/${SHOP_AVATARS.length}`],
+    confetti: 2, dur: 3000
+  });
+  renderTrophyContent(); updateTopbar(); checkBadges();
+};
+
+window.equipShopAvatar = function (id) {
+  updateProfile(p => { p.avatar = id; });
+  renderTrophyContent(); updateTopbar();
+  notif('✅ Avatar equipado', 'var(--green)');
+  beep(true);
+};
+
+/* ═════════════════════════════════════════
+   V5 — ZONA DE PADRES (estadísticas + respaldo)
+   ═════════════════════════════════════════ */
+function parentsStatsHTML(p) {
+  const s = p.stats || {};
+  const days = Object.keys(s.daysPlayed || {}).length;
+  const st = [
+    ['✨ XP', (p.xp || 0) + ' · Nivel ' + (p.level || 1)],
+    ['✅ Correctas', s.totalCorrect || 0],
+    ['🎯 Misiones', s.missions || 0],
+    ['💎 Perfectas', s.perfect || 0],
+    ['📆 Días jugados', days],
+    ['🏅 Insignias', (p.badges || []).length + '/' + BADGES.length],
+    ['🧠 Repasos superados', s.learnedWords || 0],
+    ['🔁 Errores por repasar', mistakeCount()],
+    ['🎮 Juegos v5', `Mem: ${s.memGames || 0} · Esc: ${s.listenGames || 0}`],
+    ['🎡 Giros de ruleta', s.spins || 0],
+  ];
+  return `<div class="parent-grid">${st.map(x => `
+    <div class="parent-cell"><span class="pc-k">${x[0]}</span><b class="pc-v">${x[1]}</b></div>`).join('')}</div>`;
+}
+
+window.exportProgress = function () {
+  try {
+    const blob = new Blob([JSON.stringify(STATE, null, 2)], {type: 'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pequeworld-progreso-' + todayStr() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    notif('⬇️ Progreso exportado', 'var(--green)');
+    beep(true);
+  } catch (e) { notif('⚠️ No pude exportar', 'var(--red)'); }
+};
+
+window.triggerImport = function () {
+  const i = $('importInp');
+  if (i) i.click();
+};
+
+window.onImportPick = function (ev) {
+  const f = ev.target.files && ev.target.files[0];
+  if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const o = JSON.parse(rd.result);
+      if (!o || !o.profiles || typeof o.profiles !== 'object') throw new Error('formato');
+      STATE = o;
+      Object.values(STATE.profiles).forEach(pp => migrateProfile(pp));
+      if (!STATE.settings) STATE.settings = defaultState().settings;
+      if (!STATE.active || !STATE.profiles[STATE.active]) STATE.active = Object.keys(STATE.profiles)[0] || '';
+      saveState();
+      closeModal();
+      renderLogin();
+      showScreen('loginScreen');
+      showUI(false);
+      notif('✅ Progreso importado', 'var(--green)');
+      beep(true);
+    } catch (e) { notif('⚠️ Archivo de respaldo no válido', 'var(--red)'); }
+  };
+  rd.readAsText(f);
+  ev.target.value = '';
+};

@@ -1,0 +1,49 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.10
+ANIMATION ↔ ATTACK SYNC
+====================================
+
+OBJETIVO
+Sincronizar la animación corporal de los bosses con el instante real en que nace cada ataque, evitando que el proyectil, rayo o efecto aparezca antes/después del gesto visual. La build continúa incrementalmente desde v2.15.9 y no reconstruye sistemas cerrados.
+
+SINCRONIZACIÓN DE BOSS
+- 20 perfiles de sincronización, uno por Mundo 1–20.
+- Telegraph/signature: la hoja attack avanza desde frame de preparación hasta un releaseFrame explícito.
+- El daño/proyectil se libera exactamente al releaseFrame configurado.
+- Después del release continúa el follow-through restante de la hoja.
+- Ataques instantáneos/volleys comienzan directamente en el frame emisor para no reproducir preparación después del disparo.
+- Transiciones de fase usan timeline determinista de phase y no quedan sobrescritas por impactos incidentales.
+
+EMISORES ANATÓMICOS CH2
+11 Scarab Imperator — orb-reactor
+12 Vespera Lancer — venom-lance
+13 Regent Mandible — mandibles
+14 Pyrolux Beacon — lantern-abdomen
+15 Caustic Alchemist — caustic-nozzle
+16 Atlas Veil — veil-core
+17 Mirage Phasmid — crystal-blade
+18 Pit Emperor — vortex-maw
+19 Auriculus Razor — electro-forceps
+20 Apis Imperia — royal-stinger
+
+INTEGRACIÓN
+- Proyectiles CH2 frontales nacen desde el emisor anatómico post-movimiento del boss.
+- Regent Mandible diferencia origen superior/inferior de la tenaza.
+- APIS Domain volley usa emisor anatómico.
+- Anillos/ondas que por diseño son radiales siguen naciendo desde el centro del boss.
+- RIFT ALLY usa la misma sincronización de impacto/ataque cuando ejecuta golpes.
+- Boss specials heredados y Razor Beam quedan conectados a wind-up/release.
+
+CONTINUIDAD
+Se preservan 20 mundos, 20 bosses, Boss Identity Pass I/II, Micro-Swarm 1–20, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, RIFT ALLY 10 s, Última Oportunidad 5 s, Performance Governor, Device Profiler, Frame Pacer, Asset Residency Streamer, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, powers/fusiones, checkpoints, saves y PWA.
+
+BALANCE
+Esta build no aumenta HP, daño ni cadencia por motivo de sincronización. El cambio es de coherencia audiovisual/temporal y origen espacial del ataque.
+
+SAVES / CACHE
+- VERSION: 2.15.10
+- KEY_META: swarm_rift_meta_v21510
+- KEY_RUN: swarm_rift_run_v21510
+- Migración explícita desde v2.15.9.
+- Service Worker cache: swarm-rift-v2.15.10
+- Cache busting app: ?v=21510
+- Assets CH2 conservan ?av=2157 porque los binarios no cambiaron.

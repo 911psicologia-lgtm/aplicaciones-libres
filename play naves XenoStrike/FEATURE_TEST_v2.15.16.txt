@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "summary": {
+    "passed": 28,
+    "total": 28
+  },
+  "checks": {
+    "version": true,
+    "worlds20": true,
+    "aftermathWorlds11to20": true,
+    "aftermathLabels": true,
+    "distinctMotifs": true,
+    "startsPerWorld": true,
+    "stagedCollapse": true,
+    "deathColorProfilesCH2": true,
+    "renderSmoke40Calls": true,
+    "arenaDeathHandoff": true,
+    "trainingExcluded": true,
+    "killPathStartsAftermath": true,
+    "rewardField": true,
+    "performanceAwareRender": true,
+    "gameplayNeutral": true,
+    "arenaPresentationPreserved": true,
+    "saveMigration21515": true,
+    "indexCacheBust": true,
+    "serviceWorkerCache": true,
+    "statusProbe": true,
+    "bossDeathAnimationPreserved": true,
+    "microSwarmPreserved": true,
+    "riftAllyPreserved": true,
+    "lastChancePreserved": true,
+    "assetStreamerPreserved": true,
+    "performanceGovernorPreserved": true,
+    "waveChoreographerPreserved": true,
+    "preBossEscalationPreserved": true
+  },
+  "status": {
+    "enabled": false,
+    "active": false,
+    "world": 0,
+    "id": null,
+    "label": null,
+    "after": null,
+    "motif": null,
+    "stage": 0,
+    "time": 0,
+    "finalized": false,
+    "rewardField": false,
+    "gameplayNeutral": true
+  }
+}

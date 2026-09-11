@@ -1,0 +1,5 @@
+SWARM//RIFT v2.15.17 PWA AUDIT
+Service worker cache: swarm-rift-v2.15.17
+Asset references: 560
+Missing: 0
+Result: PASS

@@ -1,0 +1,14 @@
+SWARM//RIFT v2.15.17 HTTP SMOKE
+200 index.html
+200 js/game.js
+200 css/game.css
+200 sw.js
+200 manifest.json
+200 assets/player_ship.webp
+200 assets/bg_rust_canyon.webp
+200 assets_ch2/backgrounds/w11_antechamber.webp
+200 assets_ch2/backgrounds/w20_boss.webp
+200 assets_ch2/bosses/scarab_imperator/idle.png
+200 assets_ch2/bosses/apis_imperia/death.png
+200 assets_ch2/enemies/w16/mini_idle.png
+Result: 12/12 HTTP 200

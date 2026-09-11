@@ -1,0 +1,39 @@
+SWARM//RIFT v2.15.8 — VALIDACIÓN DE BUILD
+=========================================
+
+CÓDIGO
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+FEATURE TEST
+- tools/feature_test_v2158.js: PASS
+- 39/39 checks: PASS
+
+PWA / RECURSOS
+- Referencias verificadas: 560
+- Recursos faltantes: 0
+
+ASSETS CH2
+- Entradas originales de manifiesto: 230
+- Recursos runtime distribuidos y SHA-256 correctos: 210/210
+- Discrepancias SHA-256: 0
+- 20 no distribuidos: únicamente masters PNG de backgrounds, redundantes; WEBP runtime 1920×1080 permanecen.
+
+HTTP SMOKE LOCAL
+- index.html: HTTP 200
+- js/game.js?v=2158: HTTP 200
+- sw.js: HTTP 200
+- w11_boss.webp: HTTP 200
+- scarab_imperator/idle.png: HTTP 200
+- vespera_lancer/attack.png: HTTP 200
+- regent_mandible/phase.png: HTTP 200
+- pyrolux_beacon/death.png: HTTP 200
+- caustic_alchemist/base.png: HTTP 200
+- Resultado: 9/9 HTTP 200
+
+ALCANCE DE ESTA BUILD
+- Boss Identity Pass I terminado: Mundos 11–15.
+- Boss Identity Pass II (Mundos 16–20) queda para el siguiente paso.
+
+LIMITACIÓN REAL
+No se ha realizado una sesión prolongada de juego humano en teléfono/tableta físicos; las validaciones anteriores son de sintaxis, runtime simulado, recursos, hashes, servidor local y empaquetado.

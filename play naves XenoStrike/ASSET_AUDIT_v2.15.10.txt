@@ -1,0 +1,32 @@
+SWARM//RIFT v2.15.10 — ASSET AUDIT CH2
+========================================
+
+Entradas originales del manifiesto Z.AI: 230
+Recursos distribuidos con SHA-256 correcto: 210
+Discrepancias SHA-256: 0
+No distribuidos: 20
+De ellos, masters PNG de backgrounds esperados fuera de runtime: 20
+
+NO DISTRIBUIDOS
+- assets_ch2/backgrounds/w11_antechamber.png
+- assets_ch2/backgrounds/w11_boss.png
+- assets_ch2/backgrounds/w12_antechamber.png
+- assets_ch2/backgrounds/w12_boss.png
+- assets_ch2/backgrounds/w13_antechamber.png
+- assets_ch2/backgrounds/w13_boss.png
+- assets_ch2/backgrounds/w14_antechamber.png
+- assets_ch2/backgrounds/w14_boss.png
+- assets_ch2/backgrounds/w15_antechamber.png
+- assets_ch2/backgrounds/w15_boss.png
+- assets_ch2/backgrounds/w16_antechamber.png
+- assets_ch2/backgrounds/w16_boss.png
+- assets_ch2/backgrounds/w17_antechamber.png
+- assets_ch2/backgrounds/w17_boss.png
+- assets_ch2/backgrounds/w18_antechamber.png
+- assets_ch2/backgrounds/w18_boss.png
+- assets_ch2/backgrounds/w19_antechamber.png
+- assets_ch2/backgrounds/w19_boss.png
+- assets_ch2/backgrounds/w20_antechamber.png
+- assets_ch2/backgrounds/w20_boss.png
+
+RESULTADO: PASS — 210/210 recursos runtime presentes coinciden con el manifiesto; los 20 ausentes son masters PNG redundantes de backgrounds.

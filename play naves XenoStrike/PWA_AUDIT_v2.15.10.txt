@@ -1,0 +1,7 @@
+SWARM//RIFT v2.15.10 — PWA RESOURCE AUDIT
+==========================================
+
+Referencias en ASSETS: 560
+Recursos faltantes: 0
+
+RESULTADO: PASS

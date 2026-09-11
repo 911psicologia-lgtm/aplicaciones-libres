@@ -41,6 +41,23 @@ window.SF = window.SF || {};
     worldLoaded.add(sector);
     return w;
   }
+  function unloadWorld(sector){
+    const w=world(sector); if(!w) return 0;
+    let removed=0;
+    for(const src of collectWorldUrls(w)){
+      if(cache.delete(src)) removed++;
+    }
+    worldLoaded.delete(sector);
+    return removed;
+  }
+  function trimWorldCache(keepSectors=[]){
+    const keep=new Set((keepSectors||[]).filter(n=>Number.isFinite(n)&&n>0));
+    let removed=0;
+    for(const w of (NS.worldContent?.worlds||[])){
+      if(!keep.has(w.id) && worldLoaded.has(w.id)) removed+=unloadWorld(w.id);
+    }
+    return removed;
+  }
   async function loadAll(){
     const urls=[...new Set([...Object.values(manifest.ships),...Object.values(manifest.enemies),...manifest.obstacles,...manifest.backgrounds])];
     await Promise.all(urls.map(load));
@@ -81,6 +98,6 @@ window.SF = window.SF || {};
     getEnemy:kind=>cache.get(manifest.enemies[kind]),
     getObstacle:i=>cache.get(manifest.obstacles[i%manifest.obstacles.length]),
     getBackground:sector=>cache.get(manifest.backgrounds[(sector-1)%manifest.backgrounds.length]),
-    getWorldMinion:worldMinion,getWorldSubboss:worldSubboss,getWorldBoss:worldBoss,getWorldProjectile:worldProjectile,getWorldObstacle:worldObstacle,getWorldBackground:worldBackground,getWorldPowerup:worldPowerup
+    getWorldMinion:worldMinion,getWorldSubboss:worldSubboss,getWorldBoss:worldBoss,getWorldProjectile:worldProjectile,getWorldObstacle:worldObstacle,getWorldBackground:worldBackground,getWorldPowerup:worldPowerup,unloadWorld,trimWorldCache
   };
 })(window.SF);

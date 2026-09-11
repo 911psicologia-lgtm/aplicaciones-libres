@@ -1,0 +1,5 @@
+SWARM//RIFT v2.15.13 PWA AUDIT
+Service Worker cache: swarm-rift-v2.15.13
+ASSETS declarados: 560
+ASSETS faltantes: 0
+RESULTADO: PASS

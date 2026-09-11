@@ -1,0 +1,12 @@
+SWARM//RIFT v2.15.15 HTTP SMOKE
+200 index.html
+200 js/game.js
+200 sw.js
+200 manifest.json
+200 assets_ch2/backgrounds/w11_boss.webp
+200 assets_ch2/backgrounds/w20_boss.webp
+200 assets_ch2/bosses/scarab_imperator/phase.png
+200 assets_ch2/bosses/apis_imperia/phase.png
+200 assets_ch2/enemies/w17/mini_idle.png
+200 assets/ambient/preboss_10_resonance.mp3
+Result: PASS (10/10 HTTP 200)

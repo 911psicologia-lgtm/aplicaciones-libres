@@ -1,26 +1,23 @@
-# STARFALL FRONTIER v0.4.8 — BALANCE CURVE PASS
+# STARFALL FRONTIER v0.5.9 — ENDURANCE DIRECTOR + PHASE PRESSURE
 
-## Balance de mundos
-- W01: entrada accesible y menor densidad efectiva de élites.
-- W02: dificultad casi neutra respecto al tronco estable.
-- W03: incremento moderado de resistencia y velocidad.
-- W04: presión alta, subjefes más resistentes y cadencia superior.
-- W05: máxima dificultad del bloque actual, con jefes y subjefes claramente más exigentes.
+## Objetivo
+Evitar que la progresión permanente del jugador vuelva triviales a los jefes y subjefes, sin convertir a los enemigos comunes en esponjas de daño.
 
-## Balance de oleadas
-- Oleada 1: HP y velocidad reducidos para lectura inicial.
-- Oleada 2: dificultad estándar con primera presión táctica.
-- Oleada 3: resistencia y velocidad aumentadas antes del jefe.
-- Oleada 4: jefe, con curva propia separada.
+## Implementaciones
+- **Endurance Director**: jefes y subjefes escalan parcialmente con las reliquias, la evolución del chasis y los aumentos permanentes de daño del jugador.
+- El escalado se limita con topes para conservar combates razonables y no producir barras interminables.
+- La **Fortaleza del jefe** también aumenta gradualmente con la progresión de la nave, hasta un bono máximo controlado.
+- El **escudo de los subjefes** recibe una compensación progresiva menor.
+- Cada fase del jefe incorpora un temporizador de **Presión I / Presión II**: si el combate se estanca, aumentan moderadamente movilidad, frecuencia de ataque, escoltas y pulsos defensivos.
+- Los subjefes disponen de una presión equivalente, más suave.
+- Al cambiar de fase del jefe se reinicia la presión, dejando una nueva ventana táctica y evitando una dificultad acumulativa injusta.
+- La resurrección del jefe reinicia la presión y recupera Fortaleza relativa a su estructura real.
+- HUD actualizado: muestra el nivel de presión activo del jefe; los subjefes indican P1/P2 junto a su nombre.
 
-## Accesibilidad dinámica
-- En móvil: ligera reducción de HP enemigo/jefe y cadencia más espaciosa.
-- Con HP crítico: movimiento enemigo y cadencia reciben un alivio discreto.
-- El sistema de élites ahora se gradúa por mundo/oleada en vez de aparecer con una presión casi uniforme.
-
-## Sistemas preservados
-- Assets realistas W01–05.
-- Audio completo.
-- Checkpoints, vidas y Game Over.
-- Boss transition watchdog.
-- Fusiones, reliquias, mutadores, subjefes y ecología enemiga.
+## Se conserva
+- 3 oleadas + arena de jefe.
+- Boss Fortress, módulos orbitales, sistemas destructibles y núcleo expuesto.
+- Assets realistas W01–05 como arte principal.
+- Family Tactics, Mission Director, Asteroid Director, Micro-Swarm y evolución visual de la nave.
+- Quiet Audio: identidad sonora del armamento del jugador sin saturación.
+- Responsive, checkpoints, guardado y watchdog de transición.

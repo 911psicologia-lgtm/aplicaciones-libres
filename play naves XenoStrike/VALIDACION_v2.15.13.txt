@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege v2.15.13 — VALIDACIÓN FINAL
+========================================================
+
+Build: CHAPTER II WAVE CHOREOGRAPHER
+Base: v2.15.12 ENEMY SONIC ECOLOGY
+
+VALIDACIONES
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- Feature/regression test: 62/62 PASS
+- Mundos: 20 PASS
+- Bosses animados: 20 PASS
+- Familias CH2: 10 PASS
+- Coreografía CH2: 10 mundos x 3 actos = 30 actos únicos PASS
+- Progresión de tiers: mayor aumenta Orda 1 -> Orda 3 en cada mundo PASS
+- Identidad de secuencia: M11/M16/M20 verificada PASS
+- Migración v2.15.12 -> v2.15.13 PASS
+- PWA resources: 560 / missing 0 PASS
+- Assets CH2 distribuidos contra manifiesto Z.AI: 210/210 SHA-256 correctos; 0 discrepancias PASS
+- 20 PNG master de background deliberadamente omitidos; runtime WEBP presente.
+- HTTP smoke: 8/8 HTTP 200 PASS
+
+LIMITACIÓN REAL
+- No sustituye una sesión humana prolongada en teléfono/tableta físicos. Los cambios son de coreografía y balance; conviene afinar sensaciones tras juego real.

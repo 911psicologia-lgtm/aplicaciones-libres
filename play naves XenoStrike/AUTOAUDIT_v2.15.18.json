@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "checks": {
+    "version_21518": true,
+    "save_keys_21518": true,
+    "migration_21517": true,
+    "safe_area_probe": true,
+    "safe_player_bounds": true,
+    "action_rail_exclusion": true,
+    "secondary_pointer_guard": true,
+    "coalesced_pointer_moves": true,
+    "touch_release_reset": true,
+    "orientation_reset": true,
+    "visibility_reset": true,
+    "blur_reset": true,
+    "viewport_stabilizer": true,
+    "effective_44_target": true,
+    "safe_hud_center": true,
+    "direct_touch_preserved": true,
+    "status_hook": true,
+    "pwa_cache_21518": true,
+    "index_bust_21518": true,
+    "micro_swarm_preserved": true,
+    "rift_ally_preserved": true,
+    "last_chance_preserved": true,
+    "performance_preserved": true,
+    "asset_streamer_preserved": true
+  },
+  "pwa": {
+    "resources": 560,
+    "missing": []
+  },
+  "ch2": {
+    "source": 230,
+    "verified": 210,
+    "expected_omitted_png_masters": 20,
+    "unexpected_missing": [],
+    "mismatches": []
+  }
+}

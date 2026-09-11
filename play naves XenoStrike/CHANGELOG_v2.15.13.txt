@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege v2.15.13 — CHAPTER II WAVE CHOREOGRAPHER
+
+NUEVO
+- Estructura individual de oleadas para Mundos 11–20: 10 mundos x 3 actos = 30 actos únicos.
+- Cada acto define nombre, mezcla minor/medium/major, secuencia preferente de eventos del Combat Director, formación dominante, entradas, objetivos y tempo.
+- El Director usa la secuencia temática de cada acto con variación controlada, sin eliminar aleatoriedad.
+- El sistema de spawn usa composición específica por acto; el peso de unidades mayores crece de Orda 1 -> 3 sin inflar HP.
+- Entradas y formaciones se sesgan según el mundo/acto (órbitas, lanzas, tenazas, constelaciones, química, velo, espejo, fosa, malla, colmena).
+- Objetivos secundarios de wave respetan la identidad del acto mediante ponderación adicional.
+- Micro-Swarm conserva presencia desde Mundo 1; en CH2 su cadencia ahora también responde al acto de la oleada.
+- Banner de ORDA muestra el nombre del acto en Mundos 11–20.
+- Nueva API de diagnóstico: window.__SWARM_WAVE_CHOREOGRAPHY(sector,wave) y window.__SWARM_V21513_STATUS().
+- Migración explícita v2.15.12 -> v2.15.13.
+
+PRESERVADO
+- 20 mundos / 20 bosses.
+- Boss Identity Pass I/II, Animation↔Attack Sync y Audio Event Sync.
+- Enemy Sonic Ecology + Audio Budget Governor.
+- Micro-Swarm Director desde Mundo 1, sin sumar kills principales.
+- Family Combat Grammar, Coordinated Maneuvers y Adaptive Counterplay.
+- RIFT ALLY aleatorio de 10 s desde Mundo 11.
+- Última Oportunidad de 5 s con rescate manual.
+- Performance Governor, Device Profiler, Frame Pacer y Asset Residency Streamer.
+- Boss Rush, Grand Boss Rush, CHASE, Commander Convergence, Hangar, poderes, fusiones, checkpoints, saves y PWA.

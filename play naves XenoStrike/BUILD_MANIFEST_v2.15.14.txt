@@ -1,0 +1,16 @@
+SWARM//RIFT — BUILD MANIFEST
+============================
+Version: 2.15.14
+Parent: 2.15.13 CH2 WAVE CHOREOGRAPHER
+Feature: PRE-BOSS ESCALATION PASS
+Worlds: 20
+Bosses: 20
+CH2 pre-boss profiles: 10
+Pre-boss stages/profile: 4
+CH2 wave acts preserved: 30
+PWA resources: 560
+PWA missing: 0
+CH2 distributed SHA matches: 210/210
+Feature checks: 69/69
+Index cache-bust: 21514
+Service worker cache: swarm-rift-v2.15.14

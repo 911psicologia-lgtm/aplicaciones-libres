@@ -1,0 +1,11 @@
+SWARM//RIFT v2.15.17 HUD STATIC AUDIT
+Checks: 9/9
+priority_function: PASS
+compact_renderer: PASS
+status_probe: PASS
+last_chance_css: PASS
+boss_alert_css: PASS
+css_bust: PASS
+js_bust: PASS
+gameplay_neutral: PASS
+direct_touch_hidden_joystick: PASS
