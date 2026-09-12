@@ -1,0 +1,76 @@
+════════════════════════════════════════════════════════════════════
+  LEEME PRIMERO — Despliegue en Cloudflare (2 minutos)
+  Aplicaciones Libres - Audio y Video Super Converter
+════════════════════════════════════════════════════════════════════
+
+⚠️  CAUSA Nº1 DE LA "PANTALLA EN BLANCO":
+    Subir la carpeta del CÓDIGO FUENTE en vez de esta versión compilada.
+    Si al abrir tu página ves blanco (o el panel "No se pudo iniciar la
+    aplicación" que menciona /src/main.tsx), es que subiste la carpeta
+    equivocada. LA SOLUCIÓN ES ESTE ZIP: contiene la app ya compilada.
+
+────────────────────────────────────────────────────────────────────
+CONTENIDO DE ESTA CARPETA (la app ya compilada y lista para subir)
+────────────────────────────────────────────────────────────────────
+  index.html                  ← la aplicación (primera página)
+  favicon.svg                 ← icono de la pestaña
+  assets/…                    ← JavaScript + CSS compilados
+  ffmpeg/…                    ← motor local (4 fragmentos del núcleo)
+  _headers                    ← cabeceras (solo se usa en CF Pages)
+  LEEME-DESPLIEGUE.txt        ← este archivo (puedes borrarlo)
+
+  ✅ IMPORTANTE: index.html debe quedar EN LA RAÍZ de lo que subas.
+     No lo metas dentro de otra carpeta (p. ej. "HAPPY Audio-video
+     super converter"). Si quieres esa ruta, el index.html de la app
+     debe estar directamente dentro de ella.
+
+────────────────────────────────────────────────────────────────────
+OPCIÓN A — Cloudflare Pages (recomendado, sin comandos)
+────────────────────────────────────────────────────────────────────
+  1. Entra en https://dash.cloudflare.com → Workers & Pages → Create.
+  2. Elige la pestaña "Pages" → "Upload assets" (Subir recursos).
+  3. Ponle un nombre al proyecto (p. ej. aplicaciones-libres).
+  4. ARRASTRA EL CONTENIDO de este ZIP (o la carpeta descomprimida
+     completa: al soltarla, Cloudflare sube su contenido). Debe
+     detectar index.html en la raíz.
+  5. Pulsa "Deploy site" y abre la URL que te da:
+     https://tu-proyecto.pages.dev  ← ¡funcionando!
+
+  Nota: los archivos _headers y el límite de 25 MiB se respetan en
+  Pages; el núcleo ya viene partido en 4 fragmentos (<10 MiB cada uno),
+  así que no hay ningún archivo grande.
+
+────────────────────────────────────────────────────────────────────
+OPCIÓN B — Cloudflare Workers (activos estáticos)
+────────────────────────────────────────────────────────────────────
+  Requiere Node.js 20+ y ejecutar en la carpeta descomprimida:
+
+      npx wrangler deploy
+
+  con un archivo wrangler.toml (o wrangler.jsonc) junto a index.html:
+
+      name = "aplicaciones-libres"
+      compatibility_date = "2025-01-01"
+
+      [assets]
+      directory = "./"          # ← la carpeta donde ESTÁ index.html
+
+  Así la app se publica en la raíz:
+      https://aplicaciones-libres.<tu-subdominio>.workers.dev/
+
+  ⚠️ En tu despliegue actual la app quedó en
+     /HAPPY%20Audio-video-super-converter/ y además era el código
+     fuente: por eso se veía en blanco. Con este ZIP y "directory"
+     apuntando a la carpeta que contiene index.html, funciona en la raíz.
+
+────────────────────────────────────────────────────────────────────
+VERIFICACIÓN RÁPIDA TRAS DESPLEGAR
+────────────────────────────────────────────────────────────────────
+  1. Abre tu URL → debe verse el tema oscuro esmeralda con el título
+     "Aplicaciones Libres - Audio y Video Super Converter".
+  2. La pestaña no debe tener favicon roto (favicon.svg está junto a
+     index.html).
+  3. Arrastra un audio y pulsa "Convertir": el motor pasa de
+     "Motor en espera" a "Motor listo" y descargas el resultado.
+  Si algo falla, la propia página ahora muestra un panel con el motivo
+  exacto y la solución (ya no hay pantalla en blanco silenciosa).

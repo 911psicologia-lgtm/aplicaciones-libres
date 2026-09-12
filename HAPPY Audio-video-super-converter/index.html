@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0b211d" />
-    <title>Audio y Video Super Converter</title>
+    <title>Aplicaciones Libres - Audio y Video Super Converter</title>
     <meta
       name="description"
       content="Convierte audio y video entre todos los formatos, incrusta subtítulos SRT/VTT y edita metadatos y efectos — 100% en tu navegador, sin subir tus archivos."
@@ -13,16 +13,148 @@
       name="keywords"
       content="convertidor de audio, convertidor de video, subtítulos SRT, editor de metadatos, conversor multimedia, FFmpeg WebAssembly"
     />
-    <meta property="og:title" content="Audio y Video Super Converter" />
+    <meta property="og:title" content="Aplicaciones Libres - Audio y Video Super Converter" />
     <meta
       property="og:description"
       content="Convierte, subtitula y edita tus archivos multimedia — 100% local y privado."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <style>
+      /* Pantalla de arranque previa al bundle (tema esmeralda oscuro de la app) */
+      html, body { margin: 0; }
+      #boot-splash {
+        position: fixed; inset: 0; z-index: 2147483646;
+        background: #0b211d; color: #e7f6f1;
+        display: flex; align-items: center; justify-content: center;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      #boot-splash .bs-card { text-align: center; padding: 24px; }
+      #boot-splash h1 { margin: 18px 0 6px; font-size: 20px; letter-spacing: .2px; color: #f3fbf8; }
+      #boot-splash p { margin: 0; font-size: 14px; color: #9fd8c8; }
+      #boot-splash .bs-spinner {
+        width: 44px; height: 44px; margin: 0 auto;
+        border-radius: 50%; border: 4px solid #1f4a40; border-top-color: #10b981;
+        animation: bs-spin 0.9s linear infinite;
+      }
+      @keyframes bs-spin { to { transform: rotate(360deg); } }
+    </style>
+    <script type="module" crossorigin src="./assets/index-D3Q1MEbI.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DWOc7jFk.css">
   </head>
   <body>
+    <!-- Pantalla de arranque visible: evita el "blanco" mientras carga el bundle -->
+    <div id="boot-splash" aria-live="polite">
+      <div class="bs-card">
+        <div class="bs-spinner" aria-hidden="true"></div>
+        <h1>Aplicaciones Libres</h1>
+        <p>Audio y Video Super Converter — cargando aplicación…</p>
+      </div>
+    </div>
+    <noscript>
+      <div style="position:fixed;inset:0;background:#0b211d;color:#e7f6f1;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;text-align:center;padding:24px;z-index:2147483647">
+        <p>Esta aplicación necesita JavaScript para funcionar. Todo el procesamiento es local: tus archivos nunca salen de tu dispositivo.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Diagnóstico de arranque: si la app no monta, muestra el motivo en pantalla
+      // en lugar de dejar una página en blanco (p. ej. despliegue de la carpeta
+      // equivocada, assets faltantes o MIME incorrecto del servidor).
+      (function () {
+        var splash = document.getElementById('boot-splash')
+        var montada = false
+        var overlayMostrado = false
+
+        function quitarSplash() {
+          if (splash && splash.parentNode) splash.parentNode.removeChild(splash)
+          splash = null
+        }
+
+        function mostrarError(titulo, detalle, causas) {
+          if (overlayMostrado) return
+          overlayMostrado = true
+          quitarSplash()
+          var ov = document.createElement('div')
+          ov.setAttribute('role', 'alert')
+          var s = ov.style
+          s.cssText =
+            'position:fixed;inset:0;background:#0b211d;color:#e7f6f1;z-index:2147483647;' +
+            'display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto;' +
+            "font-family:system-ui,-apple-system,'Segoe UI',sans-serif"
+          var html =
+            '<div style="max-width:640px;width:100%;background:#102e28;border:1px solid #1f4a40;border-radius:14px;padding:24px">' +
+            '<div style="font-size:34px;line-height:1">⚠</div>' +
+            '<h2 style="margin:10px 0 6px;font-size:19px;color:#f3fbf8">' + titulo + '</h2>' +
+            (detalle ? '<pre style="white-space:pre-wrap;word-break:break-word;background:#0b211d;border:1px solid #1f4a40;border-radius:8px;padding:10px;font-size:12px;color:#9fd8c8;margin:0 0 14px">' + detalle + '</pre>' : '') +
+            '<p style="margin:0 0 8px;font-size:14px;color:#bfe8db">Causas más frecuentes y su solución:</p>' +
+            '<ol style="margin:0 0 18px;padding-left:20px;font-size:13.5px;line-height:1.65;color:#d7efe7">' + causas + '</ol>' +
+            '<button onclick="location.reload()" style="background:#10b981;color:#04110d;border:0;border-radius:10px;padding:10px 18px;font-weight:600;font-size:14px;cursor:pointer">Reintentar</button>' +
+            '</div>'
+          ov.innerHTML = html
+          document.body.appendChild(ov)
+        }
+
+        function errorDespliegue(detalle) {
+          mostrarError(
+            'No se pudo iniciar la aplicación',
+            detalle,
+            '<li><b>Carpeta equivocada (causa más común):</b> se está publicando el código fuente del proyecto en vez de la versión compilada. Sube <b>el CONTENIDO de la carpeta <code>dist/</code></b> (el archivo <code>index.html</code> debe estar en la raíz de lo que subes, junto a <code>assets/</code> y <code>ffmpeg/</code>).</li>' +
+            '<li><b>Archivos incompletos:</b> comprueba que <code>assets/</code>, <code>ffmpeg/</code> y <code>favicon.svg</code> estén junto a <code>index.html</code>.</li>' +
+            '<li><b>El servidor sirve los .js con tipo incorrecto:</b> en Cloudflare usa Pages (arrastrar <code>dist/</code>) o Workers con <code>[assets]</code> (ver README.md).</li>'
+          )
+        }
+
+        function esRecursoPropio(url) {
+          // Ignora errores de extensiones del navegador y recursos externos
+          if (!url) return true
+          var u = String(url)
+          if (/^(chrome|moz|safari|edge)-extension:\/\//i.test(u)) return false
+          if (/^https?:\/\//i.test(u)) {
+            try { return new URL(u).origin === location.origin } catch (e2) { return false }
+          }
+          return true
+        }
+
+        // Errores JS / promesas: solo se muestran si la app finalmente no monta
+        var ultimoErrorJs = ''
+        function recordarError(txt) { if (!ultimoErrorJs) ultimoErrorJs = String(txt).slice(0, 400) }
+
+        window.addEventListener('error', function (e) {
+          if (montada) return
+          var t = e.target
+          if (t && (t.tagName === 'SCRIPT' || t.tagName === 'LINK')) {
+            var url = t.src || t.href || ''
+            if (esRecursoPropio(url)) errorDespliegue('No se pudo cargar: ' + url)
+          } else if (e.message && esRecursoPropio(e.filename)) {
+            recordarError(String(e.message) + (e.filename ? '\n' + e.filename + ':' + (e.lineno || '') : ''))
+          }
+        }, true)
+
+        window.addEventListener('unhandledrejection', function (e) {
+          if (montada) return
+          var r = e.reason
+          recordarError(r && r.message ? String(r.message) : String(r))
+        })
+
+        // Detección de montaje de React: cuando #root recibe hijos, la app arrancó
+        var root = document.getElementById('root')
+        if (root && typeof MutationObserver !== 'undefined') {
+          var obs = new MutationObserver(function () {
+            if (root.childElementCount > 0) {
+              montada = true
+              obs.disconnect()
+              quitarSplash()
+            }
+          })
+          obs.observe(root, { childList: true })
+        }
+
+        // Red de seguridad: si en 15 s no montó, explica el problema
+        setTimeout(function () {
+          if (!montada) errorDespliegue(ultimoErrorJs || 'La aplicación no terminó de arrancar en 15 segundos.')
+        }, 15000)
+      })();
+    </script>
   </body>
 </html>
