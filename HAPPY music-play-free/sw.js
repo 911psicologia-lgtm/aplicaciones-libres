@@ -1,11 +1,11 @@
-const BUILD = '2026.09.09-r10.10-daily-pending-spotify-video';
-const CACHE = 'mpf-r10.10-daily-pending-spotify-video';
+const BUILD = '2026.09.12-r10.11-yt-native-fullscreen';
+const CACHE = 'mpf-r10.11-yt-native-fullscreen';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.10-daily-pending-spotify-video',
-  './app.js?v=r10.10-daily-pending-spotify-video',
-  './manifest.webmanifest?v=r10.10-daily-pending-spotify-video',
+  './styles.css?v=r10.11-yt-native-fullscreen',
+  './app.js?v=r10.11-yt-native-fullscreen',
+  './manifest.webmanifest?v=r10.11-yt-native-fullscreen',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

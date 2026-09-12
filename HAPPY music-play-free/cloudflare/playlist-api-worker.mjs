@@ -1,14 +1,17 @@
 /**
- * MUSIC PLAY R10 · YouTube playlist metadata helper
- * --------------------------------------------------
- * Route expected by the PWA:
+ * MUSIC PLAY R10.11 · YouTube playlist metadata + native stream helper
+ * ---------------------------------------------------------------------
+ * Routes expected by the PWA:
  *   GET /api/youtube-playlist?list=PLAYLIST_ID
+ *   GET /api/youtube-streams?v=VIDEO_ID
  *
  * Recommended setup:
  *   wrangler secret put YOUTUBE_API_KEY
  *
  * The key stays on Cloudflare. The browser never receives it.
- * This helper only reads public metadata. It does not download media.
+ * /api/youtube-streams resolves direct audio/video stream URLs so the PWA can
+ * play YouTube with the screen locked (native Media Session playback).
+ * It only reads public media, exactly like the YouTube embedded player does.
  */
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/150 Safari/537.36';
@@ -26,6 +29,7 @@ function json(data, status = 200, cache = 180) {
 }
 
 function validPlaylistId(value='') { return /^[A-Za-z0-9_-]{6,120}$/.test(value); }
+function validVideoId(value='') { return /^[A-Za-z0-9_-]{6,20}$/.test(value); }
 function bestThumb(t={}) { return t.maxres?.url || t.standard?.url || t.high?.url || t.medium?.url || t.default?.url || ''; }
 
 async function fetchJson(url) {
@@ -38,6 +42,8 @@ async function fetchJson(url) {
   }
   return data;
 }
+
+/* ---------------- playlist metadata (existing R10 feature) ---------------- */
 
 async function fromDataApi(list, key) {
   let title = '';
@@ -120,12 +126,127 @@ async function handlePlaylist(request, env) {
   }
 }
 
+/* ---------------- R10.11 · native stream resolution ---------------- */
+
+// The player endpoint returns stream URLs for known inner clients. We probe one
+// URL with a Range request to make sure it actually serves bytes (some client
+// configurations answer with URLs that later 403).
+async function innertubePlayer(videoId, client) {
+  const bodies = {
+    ANDROID: {
+      context:{client:{clientName:'ANDROID',clientVersion:'19.09.37',androidSdkVersion:30,hl:'es',gl:'CO'}},
+      videoId, params:'8AEB', contentCheckOk:true, racyCheckOk:true
+    },
+    IOS: {
+      context:{client:{clientName:'IOS',clientVersion:'19.09.3',deviceModel:'iPhone14,3',hl:'es',gl:'CO'}},
+      videoId, params:'8AEB', contentCheckOk:true, racyCheckOk:true
+    }
+  };
+  const uas = {
+    ANDROID:'com.google.android.youtube/19.09.37 (Linux; U; Android 11) gzip',
+    IOS:'com.google.ios.youtube/19.09.3 (iPhone14,3; U; CPU iOS 17_2 like Mac OS X)'
+  };
+  const r = await fetch('https://www.youtube.com/youtubei/v1/player?prettyPrint=false', {
+    method:'POST',
+    headers:{'content-type':'application/json','user-agent':uas[client],'accept-language':'es-CO,es;q=0.9','x-goog-api-format-version':'2'},
+    body: JSON.stringify(bodies[client]),
+    cf:{cacheTtl:60,cacheEverything:true}
+  });
+  if(!r.ok) throw new Error(`player ${client} HTTP ${r.status}`);
+  return r.json();
+}
+
+async function probeUrl(url) {
+  try{
+    const r = await fetch(url, {headers:{range:'bytes=0-127','user-agent':UA}, cf:{cacheTtl:0}});
+    if(r.status===200||r.status===206){ try{await r.body?.cancel?.();}catch{} return true; }
+    return false;
+  }catch{ return false; }
+}
+
+function collectStreams(data) {
+  const sd = data?.streamingData || {};
+  const vd = data?.videoDetails || {};
+  const adaptive = Array.isArray(sd.adaptiveFormats) ? sd.adaptiveFormats : [];
+  const muxed = Array.isArray(sd.formats) ? sd.formats : [];
+  const audioStreams = adaptive
+    .filter(f=>String(f.mimeType||'').startsWith('audio/')&&f.url)
+    .map(f=>({url:f.url, mimeType:String(f.mimeType).split(';')[0], bitrate:f.bitrate||0, contentLength:Number(f.contentLength)||0}))
+    .sort((a,b)=>b.bitrate-a.bitrate);
+  const videoStreams = muxed
+    .filter(f=>String(f.mimeType||'').startsWith('video/')&&f.url)
+    .map(f=>({url:f.url, mimeType:String(f.mimeType).split(';')[0], bitrate:f.bitrate||0, quality:f.qualityLabel||'', itag:f.itag||0}))
+    .sort((a,b)=>(b.bitrate||0)-(a.bitrate||0));
+  const thumbs = vd.thumbnail?.thumbnails || [];
+  const thumbnail = thumbs.length ? thumbs[thumbs.length-1].url : `https://i.ytimg.com/vi/${videoIdOf(data)}/hqdefault.jpg`;
+  return {
+    audioStreams, videoStreams,
+    title: vd.title||'',
+    author: vd.author||'YouTube',
+    duration: Number(vd.lengthSeconds)||0,
+    thumbnail,
+    live: !!(vd.isLiveContent)
+  };
+}
+function videoIdOf(data){ return data?.videoDetails?.videoId||''; }
+
+const INV_INSTANCES = ['https://inv.nadeko.net','https://invidious.nerdvpn.de','https://invidious.f5.si','https://yt.chocolatemoo53.com','https://invidious.tiekoetter.com'];
+
+async function fromInvidious(videoId) {
+  for(const base of INV_INSTANCES){
+    try{
+      const d = await fetchJson(`${base}/api/v1/videos/${encodeURIComponent(videoId)}?local=true`);
+      if(d?.liveNow) break;
+      const adaptive = Array.isArray(d.adaptiveFormats)?d.adaptiveFormats:[];
+      const muxed = Array.isArray(d.formatStreams)?d.formatStreams:[];
+      const audioStreams = adaptive.filter(f=>String(f.type||'').startsWith('audio/')&&f.url)
+        .map(f=>({url:f.url,mimeType:String(f.type).split(';')[0],bitrate:Number(f.bitrate)||0}))
+        .sort((a,b)=>b.bitrate-a.bitrate);
+      const videoStreams = muxed.filter(f=>String(f.type||'').startsWith('video/')&&f.url)
+        .map(f=>({url:f.url,mimeType:String(f.type).split(';')[0],bitrate:Number(f.bitrate)||0,quality:f.resolution||'',itag:Number(f.itag)||0}));
+      if(audioStreams.length){
+        const thumbs=d.videoThumbnails||[];
+        return {audioStreams,videoStreams,title:d.title||'',author:d.author||'YouTube',duration:Number(d.lengthSeconds)||0,thumbnail:d.thumbnailUrl||thumbs.find(t=>t.quality==='hqdefault')?.url||'',live:false,source:'invidious'};
+      }
+    }catch(err){ console.log('invidious', base, err.message); }
+  }
+  return null;
+}
+
+async function handleStreams(request) {
+  const url=new URL(request.url), videoId=(url.searchParams.get('v')||'').trim();
+  if(!validVideoId(videoId)) return json({ok:false,error:'video id inválido'},400,0);
+
+  // 1) InnerTube direct clients with URL probing.
+  for(const client of ['ANDROID','IOS']){
+    try{
+      const data = await innertubePlayer(videoId, client);
+      const status = data?.playabilityStatus?.status || '';
+      if(!['OK','LIVE_STREAM_OFFLINE'].includes(status)) continue;
+      const streams = collectStreams(data);
+      if(streams.live) return json({ok:false,error:'Es una transmisión en vivo',live:true},200,30);
+      if(streams.audioStreams.length && await probeUrl(streams.audioStreams[0].url)){
+        return json({ok:true, videoId, source:`innertube-${client}`, ...streams},200,240);
+      }
+    }catch(err){ console.log('innertube', client, err.message); }
+  }
+
+  // 2) Public mirror instances, fetched from Cloudflare (different network path).
+  const inv = await fromInvidious(videoId);
+  if(inv && inv.audioStreams.length && await probeUrl(inv.audioStreams[0].url)){
+    return json({ok:true, videoId, source:inv.source, ...inv},200,180);
+  }
+
+  return json({ok:false,error:'Sin streams disponibles ahora mismo'},502,30);
+}
+
 export default {
   async fetch(request, env) {
     const url=new URL(request.url);
     if(request.method==='OPTIONS') return new Response(null,{status:204,headers:{'access-control-allow-origin':'*','access-control-allow-methods':'GET,OPTIONS'}});
     if(url.pathname.endsWith('/api/youtube-playlist')) return handlePlaylist(request,env);
+    if(url.pathname.endsWith('/api/youtube-streams')) return handleStreams(request);
     if(env?.ASSETS) return env.ASSETS.fetch(request);
-    return new Response('MUSIC PLAY R10 playlist helper',{status:200});
+    return new Response('MUSIC PLAY R10.11 helper · playlist + streams',{status:200});
   }
 };
