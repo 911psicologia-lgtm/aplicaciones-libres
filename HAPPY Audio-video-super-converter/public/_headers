@@ -1,0 +1,37 @@
+# Cloudflare Pages — cabeceras para servir correctamente el motor FFmpeg (WASM)
+#
+# El binario grande se divide en .part01…part04 y se reconstruye en memoria,
+# así que el Content-Type del servidor no es crítico, pero servimos WASM y
+# JS del motor con los tipos correctos y caché inmutable (los fragmentos no cambian).
+
+/ffmpeg/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/ffmpeg/ffmpeg-core.js
+  Content-Type: text/javascript; charset=utf-8
+
+/ffmpeg/ffmpeg.js
+  Content-Type: text/javascript; charset=utf-8
+
+/ffmpeg/814.ffmpeg.js
+  Content-Type: text/javascript; charset=utf-8
+
+/ffmpeg/ffmpeg-core.wasm.part01
+  Content-Type: application/wasm
+
+/ffmpeg/ffmpeg-core.wasm.part02
+  Content-Type: application/wasm
+
+/ffmpeg/ffmpeg-core.wasm.part03
+  Content-Type: application/wasm
+
+/ffmpeg/ffmpeg-core.wasm.part04
+  Content-Type: application/wasm
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
