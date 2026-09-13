@@ -1,0 +1,31 @@
+// HAPPY Android · módulo app (wrapper mínimo)
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.happy.musicplay'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.happy.musicplay"
+        minSdk 26            // TYPE_APPLICATION_OVERLAY requiere API 26+
+        targetSdk 34
+        versionCode 15
+        versionName "R10.15"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.media:media:1.7.0'   // MediaSessionCompat + MediaStyle
+}

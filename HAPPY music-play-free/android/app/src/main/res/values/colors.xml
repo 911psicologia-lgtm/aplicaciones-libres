@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Identidad visual HAPPY (idéntica a la PWA) -->
+    <color name="happy_bg">#0c0f14</color>
+    <color name="happy_surface">#141922</color>
+    <color name="happy_surface_2">#1b2230</color>
+    <color name="happy_line">#14141933</color>
+    <color name="happy_text">#f3f6fb</color>
+    <color name="happy_text_dim">#9aa4b5</color>
+    <color name="happy_accent">#ff586e</color>
+    <color name="happy_accent_2">#ff9a5f</color>
+</resources>

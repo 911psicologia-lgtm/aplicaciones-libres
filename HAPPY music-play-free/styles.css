@@ -773,3 +773,13 @@ html.mini-float-on,html.mini-float-on body{background:var(--bg)}
 .yt-guide ol{margin:8px 0 10px 18px;display:flex;flex-direction:column;gap:4px;line-height:1.4}
 .yt-guide a{color:var(--accent);word-break:break-all}
 .yt-guide .sheet-btn{margin-top:4px}
+
+/* =============================================================
+   R10.15 · REPRODUCTOR FLOTANTE REAL (capa web)
+   Botón ▣ en la barra superior + botón PiP del dock. Estética
+   idéntica a los controles existentes (oscuro, redondeado).
+   ============================================================= */
+.floating-real-btn{color:var(--accent);font-weight:700}
+.floating-real-btn.is-floating{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.remote-pip-btn{font-size:16px;line-height:1}
+.sheet-title small.ver-chip{margin-left:6px}

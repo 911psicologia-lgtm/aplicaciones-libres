@@ -1,6 +1,13 @@
 {
-  "build": "2026.09.13-r10.14-sp-studio",
-  "version": "R10.14",
-  "label": "SP · Estudio Podcast: grabar con guion, bloques, sonidos, música de biblioteca, publicar en HAPPY y exportar WAV/MP3",
-  "date": "2026-09-13"
+  "version": "R10.15",
+  "build": "2026.09.13-r10.15-floating-real",
+  "date": "2026-09-13",
+  "changes": [
+    "Reproductor flotante REAL en 2 capas: web/PWA (puente + fallback honesto + PiP) y capa Android nativa (overlay TYPE_APPLICATION_OVERLAY + MediaSession + foreground service)",
+    "«Pantalla reducida» renombrada conceptualmente a MINI PLAYER INTERNO (mismo funcionamiento, sin regresiones)",
+    "Botón ▣ FLOTANTE en barra superior y menú ⋯ con detección de capacidades",
+    "PiP web para video nativo compatible + PiP nativo vía capa Android",
+    "Proyecto android/ incluido: WebView + FloatingPlayerService + puente JSON",
+    "Auditoría y verificación de playlists sin regresiones"
+  ]
 }

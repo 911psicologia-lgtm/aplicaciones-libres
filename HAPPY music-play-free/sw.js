@@ -1,13 +1,14 @@
-const BUILD = '2026.09.13-r10.14-sp-studio';
-const CACHE = 'mpf-r10.14-sp-studio';
+const BUILD = '2026.09.13-r10.15-floating-real';
+const CACHE = 'mpf-r10.15-floating-real';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.14-sp',
-  './sp.css?v=r10.14-sp',
-  './app.js?v=r10.14-sp',
-  './sp.js?v=r10.14-sp',
-  './manifest.webmanifest?v=r10.14-sp',
+  './styles.css?v=r10.15-float',
+  './sp.css?v=r10.15-float',
+  './app.js?v=r10.15-float',
+  './sp.js?v=r10.15-float',
+  './floatbridge.js?v=r10.15-float',
+  './manifest.webmanifest?v=r10.15-float',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

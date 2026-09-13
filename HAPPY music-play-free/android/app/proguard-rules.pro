@@ -1,0 +1,2 @@
+-keepclassmembers class com.happy.musicplay.NativeBridge { public *; }
+-keep class com.happy.musicplay.** { *; }

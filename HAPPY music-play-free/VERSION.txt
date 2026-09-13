@@ -1,12 +1,14 @@
-MUSIC PLAY · HAPPY — R10.14 (2026-09-13)
-Novedades:
-- NUEVO MÓDULO SP · ESTUDIO PODCAST junto a Biblioteca en la barra inferior.
-  Grabar con guion a la vista, bloques (INTRO/BLOQUE/CIERRE), marcas, espacios,
-  regrabar bloque o desde un punto, sonidos intro/transición/cierre libres,
-  música de fondo de TU biblioteca con fade y "bajar cuando hablo", escuchar el
-  episodio completo, terminar, publicar en HAPPY y exportar WAV/MP3.
-- Publicar usa el reproductor y la sección Podcasts que ya tenías: progreso,
-  velocidad, Seguir escuchando y favoritos funcionan igual que siempre.
-- Todo lo anterior queda intacto: Inicio, Buscar, Biblioteca, playlists,
-  YouTube, video flotante, Recovery JSON (ahora incluye los proyectos SP).
-- Actualiza el SW: toca ↻ o espera a la actualización automática.
+MUSIC PLAY FREE HAPPY
+Versión estable: R10.15 (BUILD 2026.09.13-r10.15-floating-real)
+Fecha: 2026-09-13
+
+R10.15 · Reproductor Flotante Real en 2 capas:
+- CAPA A web/PWA: floatbridge.js (puente Android, fallback honesto, PiP web).
+- CAPA B Android: carpeta android/ (WebView + overlay TYPE_APPLICATION_OVERLAY
+  + MediaSession + foreground service + PiP + permisos diferidos).
+- «Pantalla reducida» → MINI PLAYER INTERNO (renombrado, mismo funcionamiento).
+- Auditoría de playlists verificada por E2E (arranque en 0:00, avance automático,
+  anterior, dedup). Sin regresiones.
+
+Historial: R10.14 SP Estudio Podcast · R10.13 Motor nativo · R10.12 flotante mini +
+playlists YT · R10.11 motor YT nativo + fix playlists.
