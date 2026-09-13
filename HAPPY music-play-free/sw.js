@@ -1,11 +1,13 @@
-const BUILD = '2026.09.13-r10.13-native-engine-fix';
-const CACHE = 'mpf-r10.13-native-engine-fix';
+const BUILD = '2026.09.13-r10.14-sp-studio';
+const CACHE = 'mpf-r10.14-sp-studio';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.13-native-engine-fix',
-  './app.js?v=r10.13-native-engine-fix',
-  './manifest.webmanifest?v=r10.13-native-engine-fix',
+  './styles.css?v=r10.14-sp',
+  './sp.css?v=r10.14-sp',
+  './app.js?v=r10.14-sp',
+  './sp.js?v=r10.14-sp',
+  './manifest.webmanifest?v=r10.14-sp',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

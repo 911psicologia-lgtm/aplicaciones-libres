@@ -1,0 +1,187 @@
+/* ============================================================
+   R10.14 · SP · ESTUDIO PODCAST — hoja de estilos del módulo
+   ADITIVA: usa exactamente los tokens y el lenguaje visual de
+   MUSIC PLAY · HAPPY (variables --surface/--line/--accent…,
+   radios 16-26px, tarjetas, tipografía y modo claro/oscuro).
+   No sobreescribe ninguna clase existente de styles.css.
+   ============================================================ */
+
+.sp-view{gap:0}
+.sp-root{display:grid;gap:14px;min-width:0}
+
+/* --- arranque --- */
+.sp-boot{display:grid;place-items:center;gap:10px;padding:60px 20px;border:1px solid var(--line);border-radius:26px;background:var(--surface)}
+.sp-boot-mark{width:74px;height:74px;border-radius:24px;display:grid;place-items:center;font-size:32px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 14px 34px rgba(255,90,111,.28)}
+.sp-boot span{color:var(--muted);font-size:13px}
+
+/* --- cabecera de vista --- */
+.sp-head{border:1px solid var(--line);background:rgba(20,25,34,.92);backdrop-filter:blur(20px);box-shadow:var(--shadow);border-radius:22px;padding:16px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+html[data-theme="light"] .sp-head{background:rgba(255,255,255,.92)}
+.sp-head-copy small{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.sp-head-copy h2{margin:2px 0 0;font-size:26px;letter-spacing:-.05em}
+.sp-head-copy p{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.sp-head-actions{display:flex;gap:8px;align-items:center}
+
+/* --- hero nuevo podcast --- */
+.sp-hero{border:1px solid var(--line);border-radius:26px;padding:22px;display:grid;gap:14px;background:linear-gradient(135deg,rgba(255,88,110,.14),rgba(255,154,95,.12)),var(--surface);box-shadow:var(--shadow)}
+.sp-hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sp-hero h1{margin:0;font-size:clamp(22px,4vw,30px);letter-spacing:-.04em}
+.sp-hero p{margin:0;color:var(--muted);font-size:13px;max-width:520px;line-height:1.55}
+.sp-hero-mark{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 12px 30px rgba(255,90,111,.3)}
+.sp-new-btn{display:grid;place-items:center;padding:14px 22px;border-radius:18px;font-weight:900;font-size:15px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 14px 34px rgba(255,90,111,.32)}
+.sp-steps{display:flex;gap:8px;flex-wrap:wrap}
+.sp-step{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);font-size:12px;font-weight:700;color:var(--muted)}
+
+/* --- categorías --- */
+.sp-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sp-tab{display:grid;gap:3px;justify-items:center;padding:13px 8px;border-radius:18px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-weight:800;font-size:12px;color:var(--muted);transition:transform .15s ease,border-color .15s ease}
+.sp-tab b{font-size:16px;color:var(--text)}
+.sp-tab.active{border-color:rgba(255,255,255,.16);background:linear-gradient(135deg,rgba(255,88,110,.16),rgba(255,154,95,.12)),var(--surface);color:var(--text)}
+html[data-theme="light"] .sp-tab.active{border-color:rgba(16,22,32,.16)}
+
+/* --- tarjetas de episodio --- */
+.sp-cards{display:grid;gap:10px}
+.sp-card{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;border-radius:20px;border:1px solid var(--line);background:var(--surface-2);text-align:left;transition:border-color .15s ease}
+.sp-card:hover{border-color:rgba(255,255,255,.16)}
+html[data-theme="light"] .sp-card:hover{border-color:rgba(16,22,32,.18)}
+.sp-card-art{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:24px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));overflow:hidden}
+.sp-card-art img{width:100%;height:100%;object-fit:cover}
+.sp-card-copy{min-width:0;display:grid;gap:3px}
+.sp-card-copy strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-card-copy small{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-card-side{display:flex;align-items:center;gap:8px}
+.sp-status{padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--surface-3);color:var(--muted);white-space:nowrap}
+.sp-status.st-recording{background:rgba(255,154,95,.16);color:var(--accent-2)}
+.sp-status.st-editing{background:rgba(255,255,255,.1);color:var(--text)}
+.sp-status.st-finished{background:rgba(86,217,149,.14);color:var(--good)}
+.sp-status.st-published{background:rgba(255,88,110,.16);color:var(--accent)}
+html[data-theme="light"] .sp-status.st-editing{background:rgba(16,22,32,.08)}
+.sp-kebab{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:var(--surface-3);font-weight:900}
+.sp-empty{border:1px dashed var(--line);border-radius:22px;padding:26px;display:grid;place-items:center;gap:6px;text-align:center;color:var(--muted);font-size:13px}
+
+/* --- estudio --- */
+.sp-back{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-size:18px}
+.sp-studio{display:grid;gap:14px}
+.sp-studio-grid{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+@media(min-width:880px){.sp-studio-grid.with-script{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}}
+
+/* grabador */
+.sp-recorder{border:1px solid var(--line);border-radius:26px;background:var(--surface);box-shadow:var(--shadow);padding:18px;display:grid;gap:14px;text-align:center}
+.sp-rec-title{font-size:20px;font-weight:800;letter-spacing:-.03em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-rec-title small{display:block;font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.sp-timer{font-size:clamp(42px,9vw,58px);font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.sp-timer.rec{color:var(--accent)}
+.sp-meter{height:10px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+.sp-meter i{display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--good),var(--accent-2),var(--accent));transition:width .08s linear}
+.sp-meter.idle i{width:0!important}
+.sp-rec-main{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.sp-rec-btn{display:grid;place-items:center;gap:2px;padding:14px 26px;border-radius:18px;font-weight:900;font-size:15px;border:1px solid var(--line);background:var(--surface-2)}
+.sp-rec-btn .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:8px;vertical-align:middle}
+.sp-rec-btn.recording{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent;box-shadow:0 14px 34px rgba(255,90,111,.32)}
+.sp-rec-btn.stop{background:var(--text);color:var(--bg);border-color:transparent}
+.sp-rec-btn:disabled{opacity:.45;cursor:not-allowed}
+.sp-rec-tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.sp-chip{padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);font-size:13px;font-weight:700;white-space:nowrap}
+.sp-chip.active{background:linear-gradient(135deg,rgba(255,88,110,.22),rgba(255,154,95,.18));border-color:rgba(255,255,255,.14)}
+.sp-rec-status{font-size:12px;color:var(--muted);min-height:16px}
+
+/* guion */
+.sp-script{border:1px solid var(--line);border-radius:26px;background:var(--surface);box-shadow:var(--shadow);padding:14px;display:grid;gap:10px;align-content:start}
+.sp-script-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sp-script-head small{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:700}
+.sp-script textarea{width:100%;min-height:220px;resize:vertical;border:1px solid var(--line);border-radius:16px;background:var(--surface-2);color:var(--text);padding:14px;font:inherit;font-size:14px;line-height:1.7;outline:none}
+.sp-script textarea:focus{border-color:rgba(255,255,255,.2)}
+html[data-theme="light"] .sp-script textarea:focus{border-color:rgba(16,22,32,.22)}
+.sp-script-hint{font-size:11px;color:var(--muted)}
+
+/* bloques */
+.sp-blocks{border:1px solid var(--line);border-radius:26px;background:var(--surface);box-shadow:var(--shadow);padding:14px;display:grid;gap:10px}
+.sp-blocks-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sp-blocks-head small{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:700}
+.sp-blocks-total{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sp-block{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 12px;border-radius:18px;background:var(--surface-2);border:1px solid transparent}
+.sp-block.current{border-color:rgba(255,255,255,.18)}
+html[data-theme="light"] .sp-block.current{border-color:rgba(16,22,32,.2)}
+.sp-block-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:19px;background:var(--surface-3)}
+.sp-block.b-voice .sp-block-icon{background:linear-gradient(135deg,rgba(255,88,110,.3),rgba(255,154,95,.26))}
+.sp-block.b-silence .sp-block-icon{background:var(--surface-3);color:var(--muted)}
+.sp-block.b-sound .sp-block-icon{background:rgba(86,217,149,.18)}
+.sp-block-copy{min-width:0;display:grid;gap:2px}
+.sp-block-copy strong{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-block-copy small{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sp-block-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.sp-mini{padding:9px 11px;border-radius:12px;border:1px solid var(--line);background:var(--surface-3);font-size:12px;font-weight:800;white-space:nowrap}
+.sp-mini.danger{color:var(--accent)}
+.sp-block-fx{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding-top:2px}
+.sp-block-fx .lbl{font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:800}
+.sp-fade{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:11px;font-weight:800}
+.sp-fade.active{background:var(--surface-3);border-color:rgba(255,255,255,.2)}
+html[data-theme="light"] .sp-fade.active{border-color:rgba(16,22,32,.24)}
+.sp-marks{display:flex;gap:6px;flex-wrap:wrap}
+.sp-mark{padding:8px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;font-weight:700;display:grid;gap:1px;text-align:left}
+.sp-mark small{color:var(--muted);font-weight:600}
+
+/* cajones de sonido */
+.sp-drawers{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:700px){.sp-drawers{grid-template-columns:1fr 1fr}}
+.sp-drawer{border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:var(--shadow);padding:12px;display:grid;gap:10px}
+.sp-drawer-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sp-drawer-head strong{font-size:13px}
+.sp-drawer-head button{font-size:12px;color:var(--muted);font-weight:800}
+.sp-drawer-list{display:none;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.sp-drawer.open .sp-drawer-list{display:flex}
+.sp-sound{min-width:130px;max-width:150px;padding:10px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line);display:grid;gap:6px;text-align:left}
+.sp-sound strong{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-sound small{font-size:10px;color:var(--muted)}
+.sp-sound-actions{display:flex;gap:5px}
+.sp-sound-actions button{flex:1;padding:7px 0;border-radius:10px;background:var(--surface-3);font-size:11px;font-weight:800}
+
+/* música */
+.sp-music{border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:var(--shadow);padding:12px;display:grid;gap:10px}
+.sp-music-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sp-music-head small{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:700}
+.sp-music-item{display:grid;gap:8px;padding:11px 12px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line)}
+.sp-music-item strong{font-size:13px}
+.sp-music-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11px;color:var(--muted)}
+.sp-lanes{display:grid;gap:6px;padding:10px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.sp-lane{display:grid;gap:3px}
+.sp-lane small{font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:800}
+.sp-lane .bar{height:12px;border-radius:999px;background:var(--surface-3);position:relative;overflow:hidden}
+.sp-lane .bar i{position:absolute;top:0;bottom:0;border-radius:999px}
+.sp-lane.voice .bar i{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.sp-lane.music .bar i{background:rgba(86,217,149,.5);border:1px solid var(--good)}
+.sp-lane.sounds .bar i{background:rgba(255,255,255,.3)}
+html[data-theme="light"] .sp-lane.sounds .bar i{background:rgba(16,22,32,.3)}
+
+/* acciones de episodio */
+.sp-episode-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.sp-action{padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface-2);font-weight:800;font-size:13px;display:grid;justify-items:center;gap:3px;text-align:center}
+.sp-action small{font-size:10.5px;color:var(--muted);font-weight:600}
+.sp-action.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+.sp-action.primary small{color:rgba(255,255,255,.82)}
+.sp-action.good{background:rgba(86,217,149,.14);border-color:rgba(86,217,149,.3)}
+
+/* hoja de opciones dentro de sheet (usa estilos globales sheet-btn) */
+.sp-sheet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;padding:4px 0 8px}
+.sp-note{font-size:12px;color:var(--muted);line-height:1.6}
+.sp-kbd{font-size:11px;padding:4px 8px;border-radius:8px;background:var(--surface-3);color:var(--muted)}
+
+/* responsive móvil: priorizar GRABAR/PAUSA/TERMINAR/GUION/MARCA */
+@media(max-width:640px){
+  .sp-head{grid-template-columns:auto minmax(0,1fr) auto;padding:12px}
+  .sp-head-copy h2{font-size:21px}
+  .sp-tabs{grid-template-columns:repeat(2,1fr)}
+  .sp-tab{padding:11px 6px}
+  .sp-card{grid-template-columns:48px minmax(0,1fr) auto}
+  .sp-card-art{width:48px;height:48px}
+  .sp-rec-btn{padding:13px 20px}
+  .sp-timer{font-size:40px}
+  .sp-block{grid-template-columns:38px minmax(0,1fr)}
+  .sp-block-icon{width:38px;height:38px;font-size:16px}
+  .sp-block-actions{grid-column:1/-1;justify-content:flex-start}
+  .sp-episode-actions{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:390px){
+  .sp-tab{font-size:11px}
+  .sp-episode-actions{grid-template-columns:1fr 1fr}
+}

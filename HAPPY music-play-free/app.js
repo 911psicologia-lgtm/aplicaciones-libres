@@ -1,8 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.13-r10.13-native-engine-fix';
-const APP_VERSION = 'R10.13';
+const BUILD = '2026.09.13-r10.14-sp-studio';
+const APP_VERSION = 'R10.14';
 const DB_NAME = 'mpf-minimal-db';
 const DB_VERSION = 6;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
@@ -45,7 +45,7 @@ const els = {
   remoteIframeSlot: $('#remoteIframeSlot'), remoteNativeSlot: $('#remoteNativeSlot'), remoteAudioSlot: $('#remoteAudioSlot'),
   ytAudioCard: $('#ytAudioCard'), ytAudioArt: $('#ytAudioArt'), ytAudioTitle: $('#ytAudioTitle'), ytAudioArtist: $('#ytAudioArtist'),
   homeBtn: $('#homeBtn'), installBtn: $('#installBtn'), updateBtn: $('#updateBtn'), moreBtn: $('#moreBtn'),
-  homeView: $('#homeView'), searchView: $('#searchView'), libraryView: $('#libraryView'),
+  homeView: $('#homeView'), searchView: $('#searchView'), libraryView: $('#libraryView'), studioView: $('#studioView'),
   onboardingPanel: $('#onboardingPanel'), matureHome: $('#matureHome'), onboardingInstallBtn: $('#onboardingInstallBtn'), onboardingStep1: $('#onboardingStep1'), onboardingStep2: $('#onboardingStep2'), onboardingStep3: $('#onboardingStep3'),
   onboardingFileBtn: $('#onboardingFileBtn'), onboardingFolderBtn: $('#onboardingFolderBtn'), onboardingLinkBtn: $('#onboardingLinkBtn'), onboardingMusicBtn: $('#onboardingMusicBtn'), onboardingPlayBtn: $('#onboardingPlayBtn'),
   resumeCard: $('#resumeCard'), resumeArtwork: $('#resumeArtwork'), resumeTitle: $('#resumeTitle'), resumeArtist: $('#resumeArtist'), resumePlayIcon: $('#resumePlayIcon'),
@@ -58,7 +58,7 @@ const els = {
   playlistHub: $('#playlistHub'), playlistHubEmpty: $('#playlistHubEmpty'), playlistDetail: $('#playlistDetail'), playlistList: $('#playlistList'), playlistEmpty: $('#playlistEmpty'),
   playlistDetailBack: $('#playlistDetailBack'), playlistDetailTitle: $('#playlistDetailTitle'), playlistDetailMeta: $('#playlistDetailMeta'), playlistMenuBtn: $('#playlistMenuBtn'), playlistSources: $('#playlistSources'), playlistHeroArtwork: $('#playlistHeroArtwork'),
   emptyNewPlaylistBtn: $('#emptyNewPlaylistBtn'), emptyImportPlaylistBtn: $('#emptyImportPlaylistBtn'), openLibraryFromPlaylists: $('#openLibraryFromPlaylists'), addLinkToPlaylistBtn: $('#addLinkToPlaylistBtn'), playPlaylistBtn: $('#playPlaylistBtn'), mixPlaylistBtn: $('#mixPlaylistBtn'),
-  navHome: $('#navHome'), navSearch: $('#navSearch'), navLibrary: $('#navLibrary'), bottomNav: $('#bottomNav'),
+  navHome: $('#navHome'), navSearch: $('#navSearch'), navLibrary: $('#navLibrary'), navStudio: $('#navStudio'), bottomNav: $('#bottomNav'),
   miniPlayer: $('#miniPlayer'), miniOpen: $('#miniOpen'), miniTitle: $('#miniTitle'), miniArtist: $('#miniArtist'), miniFavoriteBtn: $('#miniFavoriteBtn'), miniAddPlaylistBtn: $('#miniAddPlaylistBtn'), miniQueueBtn: $('#miniQueueBtn'), miniQueueCount: $('#miniQueueCount'),
   playBtn: $('#playBtn'), prevBtn: $('#prevBtn'), nextBtn: $('#nextBtn'),
   playerDialog: $('#playerDialog'), fullTitle: $('#fullTitle'), fullArtist: $('#fullArtist'), progressRange: $('#progressRange'), timeNow: $('#timeNow'), timeTotal: $('#timeTotal'),
@@ -526,19 +526,21 @@ function openPlaybackModesSheet({contextIds=null}={}){
 }
 
 function syncBottomNav(){
-  const active=state.activeView==='search'?'search':state.activeView==='library'?'library':'home';
-  [[els.navHome,'home'],[els.navSearch,'search'],[els.navLibrary,'library']].forEach(([btn,name])=>btn?.classList.toggle('active',name===active));
+  // R10.14: 'studio' (SP · Estudio Podcast) añadido de forma aditiva.
+  const active=state.activeView==='search'?'search':state.activeView==='library'?'library':state.activeView==='studio'?'studio':'home';
+  [[els.navHome,'home'],[els.navSearch,'search'],[els.navLibrary,'library'],[els.navStudio,'studio']].forEach(([btn,name])=>btn?.classList.toggle('active',name===active));
 }
 function showView(name){
   if(name==='playlist'){state.libraryTab='playlists';name='library';}
-  if(!['home','search','library'].includes(name))name='home';
+  if(!['home','search','library','studio'].includes(name))name='home'; // R10.14: + studio
   const searchingFromPlaylist=name==='search'&&state.activeView==='library'&&state.libraryTab==='playlists'&&state.playlistDetailOpen&&!state.activeSmartId&&state.activePlaylistId;
   if(name==='search'){if(searchingFromPlaylist)state.searchOriginPlaylistId=state.activePlaylistId;else if(state.activeView!=='search')state.searchOriginPlaylistId='';}
   state.activeView=name;
   if(name!=='library')state.playlistDetailOpen=false;
-  [els.homeView,els.searchView,els.libraryView].forEach(v=>v?.classList.remove('active'));
-  ({home:els.homeView,search:els.searchView,library:els.libraryView})[name]?.classList.add('active');
+  [els.homeView,els.searchView,els.libraryView,els.studioView].forEach(v=>v?.classList.remove('active'));
+  ({home:els.homeView,search:els.searchView,library:els.libraryView,studio:els.studioView})[name]?.classList.add('active');
   syncBottomNav();persistPrefs();render();
+  try{window.dispatchEvent(new CustomEvent('mp:viewchange',{detail:name}));}catch{} // R10.14
   if(name==='search')setTimeout(()=>els.globalSearchInput?.focus(),40);
 }
 function setLibraryTab(tab,{keepDetail=false}={}){
@@ -978,7 +980,7 @@ function renderPlayer(){
   els.volumeRange.value=String(state.volume);updateProgress();const fallback=t.sourceKind==='youtube'?'▶':t.sourceKind==='soundcloud'?'☁':'♪';hydrateArtwork(t,els.miniArtwork,fallback);hydrateArtwork(t,els.playerArtwork,fallback);
   if(state.floatMini)syncFloatMiniMeta();
 }
-function render(){renderSummary();renderPlayer();renderHome();if(state.activeView==='library')renderLibraryShell();if(state.activeView==='search')renderSearch();syncBottomNav();}
+function render(){renderSummary();renderPlayer();renderHome();if(state.activeView==='library')renderLibraryShell();if(state.activeView==='search')renderSearch();if(state.activeView==='studio')window.MP_SP?.refresh?.();syncBottomNav();} // R10.14: + SP hook
 function activeNativeAudio(){return state.currentEngine==='direct'?(els.directAudio||els.audio):els.audio;}
 
 
@@ -2348,7 +2350,7 @@ async function buildRecoveryPayload(reason='manual'){
     const raw=await db.getAll('sources').catch(()=>[]);
     sourceManifest=raw.map(src=>({id:src.id,kind:src.kind||'',opfsName:src.opfsName||'',name:src.name||'',type:src.type||'',lastModified:Number(src.lastModified)||0,size:Number(src.size)||0,portable:false}));
   }
-  return {schema:'music-play-backup',version:5,app:'MUSIC PLAY FREE HAPPY',recovery:'Recovery Vault',build:BUILD,exportedAt:new Date().toISOString(),reason,summary:{tracks:state.tracks.length,playlists:state.playlists.length,history:state.history.length,favorites:state.tracks.filter(t=>t.favorite).length,localTracks:state.tracks.filter(t=>(t.sourceKind||'local')==='local').length},tracks:state.tracks.map(t=>({...normalizeTrack(t),sourceMissing:t.sourceKind==='local'?true:!!t.sourceMissing})),playlists:state.playlists.map(normalizePlaylist),history:state.history.slice(0,2500),prefs:recoveryPrefs(),sourceManifest};
+  return {schema:'music-play-backup',version:5,app:'MUSIC PLAY FREE HAPPY',recovery:'Recovery Vault',build:BUILD,exportedAt:new Date().toISOString(),reason,summary:{tracks:state.tracks.length,playlists:state.playlists.length,history:state.history.length,favorites:state.tracks.filter(t=>t.favorite).length,localTracks:state.tracks.filter(t=>(t.sourceKind||'local')==='local').length},tracks:state.tracks.map(t=>({...normalizeTrack(t),sourceMissing:t.sourceKind==='local'?true:!!t.sourceMissing})),playlists:state.playlists.map(normalizePlaylist),history:state.history.slice(0,2500),prefs:recoveryPrefs(),sourceManifest,spProjects:window.MP_SP?.exportProjects?.()||[]}; // R10.14: + proyectos SP (metadata; blobs en IndexedDB propia)
 }
 function recoveryFileName(payload){
   const stamp=(payload?.exportedAt||new Date().toISOString()).replace(/[:.]/g,'-');
@@ -2407,6 +2409,7 @@ async function restoreBackupData(data){
   for(const evt of (data.history||[]).slice(0,2500)){const clean={...evt};delete clean.id;const hk=`${clean.ts||0}|${clean.type||''}|${clean.trackId||''}|${clean.position||''}`;if(seenHistory.has(hk))continue;seenHistory.add(hk);state.history.push(clean);if(state.storageReady)db.add('history',clean).catch(()=>{});}state.history.sort((a,b)=>(b.ts||0)-(a.ts||0));if(state.history.length>2500)state.history.length=2500;
   if(data.prefs){const p=data.prefs;if(Object.values(PLAY_MODES).includes(p.playbackMode))state.playbackMode=p.playbackMode;if(Object.values(SOUND_MODES).includes(p.soundMode))state.soundMode=p.soundMode;if(PODCAST_RATES.includes(Number(p.podcastRate)))state.podcastRate=Number(p.podcastRate);if(['all','local','youtube','linked'].includes(p.songSource))state.songSource=p.songSource;if(Array.isArray(p.songCategories))state.songCategories=p.songCategories.slice(0,24);if(Number.isFinite(p.volume))state.volume=Math.max(0,Math.min(1,p.volume));if(['dark','light'].includes(p.theme))state.theme=p.theme;if(['playlists','songs','albums'].includes(p.libraryTab))state.libraryTab=p.libraryTab;if(['recent','name','played'].includes(p.librarySort))state.librarySort=p.librarySort;state.firstRunComplete=!!p.firstRunComplete;if(p.activePlaylistId&&state.playlists.some(pl=>pl.id===p.activePlaylistId))state.activePlaylistId=p.activePlaylistId;if(p.activeSmartId)state.activeSmartId=p.activeSmartId;if(Array.isArray(p.queueIds))state.queueIds=p.queueIds.filter(id=>existing.has(id));if(Array.isArray(p.baseQueueIds))state.baseQueueIds=p.baseQueueIds.filter(id=>existing.has(id));if(Array.isArray(p.manualQueueIds))state.manualQueueIds=p.manualQueueIds.filter(id=>existing.has(id));if(p.repeatOneId&&existing.has(p.repeatOneId))state.repeatOneId=p.repeatOneId;if(Number.isInteger(p.queueIndex))state.queueIndex=Math.max(-1,Math.min(p.queueIndex,state.queueIds.length-1));if(p.currentId&&existing.has(p.currentId))state.currentId=p.currentId;if(p.dailyRecommendationDate)state.dailyRecommendationDate=p.dailyRecommendationDate;if(p.dailyRecommendationBand)state.dailyRecommendationBand=p.dailyRecommendationBand;if(Array.isArray(p.dailyRecommendationIds))state.dailyRecommendationIds=p.dailyRecommendationIds.filter(id=>existing.has(id));}
   document.documentElement.dataset.theme=state.theme;els.audio.volume=state.volume;if(els.directAudio)els.directAudio.volume=state.volume;
+  if(Array.isArray(data.spProjects)&&data.spProjects.length&&window.MP_SP?.importProjects){try{await window.MP_SP.importProjects(data.spProjects);}catch{}} // R10.14: restaurar metadata de proyectos SP
   await persistPrefs();hideLoader();render();toast('Recovery restaurado · playlists, favoritos, historial y preferencias recuperados',4200);
 }
 async function restoreBackupFile(file){
@@ -2962,7 +2965,7 @@ async function init(){
   setupMediaSession();
   try{navigator.storage?.persist?.();}catch{}
   checkForUpdates(true);
-  const requestedView=new URLSearchParams(location.search).get('view');if(['home','search','library','playlist'].includes(requestedView))showView(requestedView);
+  const requestedView=new URLSearchParams(location.search).get('view');if(['home','search','library','playlist','studio'].includes(requestedView))showView(requestedView); // R10.14: + studio
   await sleep(2000);
   els.intro.classList.add('hide');
   els.app.classList.remove('is-hidden');
@@ -2970,6 +2973,20 @@ async function init(){
   if(hasRecoveryData())maybeShowInstallCoach();
   else setTimeout(async()=>{if(!els.sheetDialog.open)await maybeOfferInternalRecovery();if(!els.sheetDialog.open)maybeShowInstallCoach();},450);
 }
+// =============================================================
+// R10.14 · PUENTE PARA MÓDULOS ADITIVOS (SP · Estudio Podcast)
+// Expone referencias de solo-lectura/uso controlado a sp.js sin
+// exponer el IIFE. No altera ningún flujo existente.
+// =============================================================
+window.MP = Object.freeze({
+  version: APP_VERSION, build: BUILD, state, db, els,
+  toast, openSheet, closeDialog, showLoader, hideLoader,
+  formatTime, safeText, now, sleep, remoteHash, hashId, safeFileName, downloadText,
+  normalizeTrack, normalizePlaylist, persistPlaylist, persistPrefs,
+  saveTrackAndSource, createPlaylist, addTrackToPlaylist, getTrackFile,
+  playTrack, showView, render, renderHome
+});
+
 init().catch(err=>{console.error(err);els.intro?.classList.add('hide');els.app?.classList.remove('is-hidden');toast('La app abrió en modo seguro');});
 
 })();

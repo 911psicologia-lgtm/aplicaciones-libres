@@ -1,0 +1,104 @@
+R10.14 — IMPLEMENTACIÓN: SP · ESTUDIO PODCAST (módulo aditivo)
+==============================================================
+Fecha: 2026-09-13 · Base: R10.13 (estable, intacta)
+
+ARCHIVOS NUEVOS
+- sp.js            Módulo completo del estudio (1258 líneas). Comunicación
+                   con la app SOLO vía puente window.MP (app.js).
+- sp.css           Estilos del módulo; usa las variables/tokens de styles.css
+                   (dark + light). No sobreescribe ninguna clase existente.
+- R10.14-IMPLEMENTACION.txt (este archivo)
+- assets/podcast/README-ASSETS.txt Estructura reservada para assets propios
+                   (intro/transition/outro/effects). Sin datos aún.
+
+ARCHIVOS MODIFICADOS (cambios mínimos y aditivos)
+- index.html  · botón "Podcast" (🎙) en bottomNav junto a Biblioteca
+              · <section id="studioView"> con contenedor #spRoot
+              · <link sp.css> + <script sp.js> tras app.js
+              · versiones ?v=r10.14-sp
+- app.js      · BUILD/APP_VERSION → r10.14 / R10.14
+              · els: +studioView, +navStudio
+              · showView(): whitelist +toggle +map con 'studio' y evento
+                mp:viewchange (nuevo, try/catch, inofensivo)
+              · syncBottomNav(): +par [navStudio,'studio']
+              · render(): +hook window.MP_SP?.refresh?.() si activeView=studio
+              · init(): + 'studio' en requestedView del querystring
+              · buildRecoveryPayload(): +campo spProjects (metadata SP)
+              · restoreBackupData(): +importación de data.spProjects (no-op si
+                no existe) — SIN tocar el flujo Recovery existente
+              · FINAL: window.MP = puente congelado (state, db, els, helpers,
+                persistencia, playTrack, showView, render…) para módulos
+                aditivos. No altera ningún flujo.
+- styles.css  · bottom-nav grid 3→4 columnas (única línea)
+- sw.js       · CACHE 'mpf-r10.14-sp-studio' + sp.css/sp.js en CORE
+- manifest    · shortcut "Estudio Podcast" (?view=studio)
+- version.json / VERSION.txt
+
+FUNCIONES INCORPORADAS (spec §1-§27)
+1  Pantalla SP: + NUEVO PODCAST + 4 categorías (EN CURSO/TERMINADOS/
+   PUBLICADOS/MIS SERIES) con tarjetas y menú ⋮ (continuar, renombrar,
+   terminar, escuchar publicado, duplicar, eliminar).
+2  Nuevo podcast: título/serie/número/descripción/portada → al estudio.
+3  Grabador: cronómetro grande, ● GRABAR → ⏸ PAUSA/■ TERMINAR, medidor de
+   nivel (AnalyserNode), estado. Permiso de micrófono SOLO al pulsar grabar,
+   con mensajes claros (rechazado / sin mic / no disponible).
+4  Guion: pegar/escribir/editar con autoguardado; escritorio = vista dividida
+   (guion | grabador); móvil = panel plegable sin detener la grabación.
+5  Bloques: cada toma crea bloque (INTRO, BLOQUE n…); línea con tiempos
+   00:00–00:42; regrabar bloque conserva versiones anteriores.
+6  Marcas: ＋ MARCA guarda timestamp + etiqueta (chips sugeridas); se listan
+   en la edición.
+7  Espacios: ＋ ESPACIO 0.5/1/2/3 s y personalizado (bloque de silencio).
+8  Regrabar: REGRABAR BLOQUE (versión anterior conservada) y REGRABAR DESDE
+   AQUÍ (conserva lo anterior; siguientes fuera de línea; ↶ deshace).
+9  Edición simple por bloque: ▶ ✂ cortar (no destructivo, in/out) · ⎇ dividir
+   · volumen 50/100/150% · fade in/out 0/1/2/3s · eliminar · ↶ ↷ undo/redo.
+10 Cajones: 🔊 INTRO/TRANSICIÓN y 🔉 CIERRE horizontales con ▶ preescuchar y
+   ＋ insertar; + 🎵 SONIDO abre la biblioteca completa.
+11 Biblioteca de sonidos: 10 categorías × subtipos INTRO/TRANSICIÓN/
+   INTERMEDIO/CIERRE/EFECTO, sonidos de 1-6 s SINTETIZADOS por SP (cero
+   copyright, sin licencias inventadas); estructura /assets/podcast/ lista
+   para assets propios.
+12 Fade in/out 1s/2s/3s por bloque y por música.
+13 Música de fondo desde la biblioteca REAL de HAPPY (state.tracks +
+   getTrackFile; no duplica biblioteca): fragmento desde/hasta, volumen 5-30%,
+   anclaje (comienzo o inicio de un bloque), fades.
+14 Ducking: "☑ Bajar música cuando hablo" — envelope automático sobre los
+   bloques de voz (baja al 22% con bordes de 0.35 s). Interno, sin parámetros.
+15 Previsualización: ▶ ESCUCHAR EPISODIO COMPLETO mezcla todo en
+   OfflineAudioContext (voz+silencios+sonidos+música+ducking) y reproduce el
+   WAV resultante sin tocar pistas fuente.
+16 Terminar: resumen (título/duración/serie/número/portada/desc/bloques/
+   marcas/música) → GUARDAR COMO TERMINADO o VOLVER A EDITAR; el proyecto
+   editable jamás se elimina.
+17 Publicación en HAPPY: crea track local (genre Podcast, spProjectId) +
+   playlist contentType:'podcast' por serie → aparece en Home/Podcasts,
+   hub de podcasts, búsqueda; reproductor existente con ↶15s/↷30s/velocidad
+   y progreso guardado (Continuar desde X / Escuchado N%).
+18 Publicar/Compartir: PUBLICAR EN HAPPY · EXPORTAR WAV · EXPORTAR MP3
+   (lamejs bajo demanda; fallback WAV offline) · COMPARTIR ARCHIVO (Web
+   Share) · COPIAR ENLACE (deep-link ?view=studio#sp-<id>) · accesos a
+   Spotify for Creators/YouTube/Apple/iVoox/Spreaker (abren la plataforma;
+   sin simulación de publicación automática).
+19 RSS: modelo preparado en p.rss (rssEnabled, guid, episodeUrl,
+   publicationDate, author, category, season, episodeNumber, description,
+   cover) — se rellena al publicar; sin distribución RSS todavía.
+20 Almacenamiento: IndexedDB PROPIA 'mpf-sp-studio' v1 (projects + audio
+   blobs) — mpf-minimal-db y DB_VERSION 6 INTACTOS. Recovery JSON incluye
+   spProjects (metadata/guiones/marcas/bloques/sonidos usados/referencias de
+   música/estados/publicaciones); blobs no viajan en el JSON (referencias).
+21 Responsive: móvil prioriza GRABAR/PAUSA/TERMINAR/GUION/MARCA, secundarios
+   plegados; escritorio vista dividida; sin scroll horizontal.
+22 No regresión: sin migraciones, sin stores nuevos en la DB principal, sin
+   cambios de firma de funciones existentes; SP se activa solo al entrar.
+
+QUÉ QUEDÓ PREPARADO PARA LA SIGUIENTE FASE
+- Carga de assets propios en /assets/podcast/* (patrón ya documentado).
+- RSS real (feed XML) y publicación externa con API/autenticación.
+- Reordenar bloques arrastrando; más efectos; automatizaciones.
+- Ducking por RMS real del mix (hoy usa presencia de bloques de voz, robusto
+  y suficiente).
+
+PRUEBAS DE NO REGRESIÓN
+- node --check OK en app.js / sp.js / sw.js.
+- E2E con navegador real: ver informe de la sesión (R10.14).

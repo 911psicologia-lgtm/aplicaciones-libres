@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.13-r10.13-native-engine-fix",
-  "version": "R10.13",
-  "label": "Motor nativo reparado: helper propio con proxy de bytes, diagnóstico por vías, InnerTube directo y guía de activación en 3 pasos",
+  "build": "2026.09.13-r10.14-sp-studio",
+  "version": "R10.14",
+  "label": "SP · Estudio Podcast: grabar con guion, bloques, sonidos, música de biblioteca, publicar en HAPPY y exportar WAV/MP3",
   "date": "2026-09-13"
 }

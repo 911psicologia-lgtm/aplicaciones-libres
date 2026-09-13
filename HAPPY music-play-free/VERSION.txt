@@ -1,10 +1,12 @@
-MUSIC PLAY · HAPPY — R10.13 (2026-09-13)
+MUSIC PLAY · HAPPY — R10.14 (2026-09-13)
 Novedades:
-- REPARADO el motor nativo de YouTube («Sin respuesta»): el ecosistema público de
-  Invidious/Piped está caído/deshabilitado (comprobado). Ahora el motor usa TU
-  propio Helper en Cloudflare con proxy de bytes (sin 403 por IP).
-- Hoja «Motor de YouTube» nueva: diagnóstico por vías + URL del Helper + guía de
-  activación en 3 pasos con botón «Copiar código del Worker».
-- Nuevas vías automáticas: InnerTube directo desde el navegador, lista dinámica de
-  Piped y fallback latest_version con <audio> (sin CORS).
+- NUEVO MÓDULO SP · ESTUDIO PODCAST junto a Biblioteca en la barra inferior.
+  Grabar con guion a la vista, bloques (INTRO/BLOQUE/CIERRE), marcas, espacios,
+  regrabar bloque o desde un punto, sonidos intro/transición/cierre libres,
+  música de fondo de TU biblioteca con fade y "bajar cuando hablo", escuchar el
+  episodio completo, terminar, publicar en HAPPY y exportar WAV/MP3.
+- Publicar usa el reproductor y la sección Podcasts que ya tenías: progreso,
+  velocidad, Seguir escuchando y favoritos funcionan igual que siempre.
+- Todo lo anterior queda intacto: Inicio, Buscar, Biblioteca, playlists,
+  YouTube, video flotante, Recovery JSON (ahora incluye los proyectos SP).
 - Actualiza el SW: toca ↻ o espera a la actualización automática.

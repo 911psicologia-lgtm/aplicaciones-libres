@@ -12,10 +12,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.13-native-engine-fix" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.14-sp" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.13-native-engine-fix" />
+  <link rel="stylesheet" href="./styles.css?v=r10.14-sp" />
+  <link rel="stylesheet" href="./sp.css?v=r10.14-sp" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -212,6 +213,11 @@
           <div id="albumList" class="album-grid"></div>
         </section>
       </section>
+
+      <!-- R10.14 · SP · ESTUDIO PODCAST (módulo aditivo; la lógica vive en sp.js) -->
+      <section id="studioView" class="view sp-view">
+        <div id="spRoot" class="sp-root"><div class="sp-boot"><div class="sp-boot-mark">🎙</div><strong>Estudio Podcast</strong><span>Cargando…</span></div></div>
+      </section>
     </main>
 
     <div id="remoteDock" class="remote-dock is-hidden" aria-label="Fuente externa">
@@ -240,6 +246,7 @@
       <button id="navHome" class="bottom-nav-item active" data-view="home"><span>⌂</span><small>Inicio</small></button>
       <button id="navSearch" class="bottom-nav-item" data-view="search"><span>⌕</span><small>Buscar</small></button>
       <button id="navLibrary" class="bottom-nav-item" data-view="library"><span>▣</span><small>Biblioteca</small></button>
+      <button id="navStudio" class="bottom-nav-item" data-view="studio"><span>🎙</span><small>Podcast</small></button>
     </nav>
 
     <section id="floatMini" class="float-mini is-hidden-screen" aria-label="Pantalla reducida flotante" role="region">
@@ -289,6 +296,7 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.13-native-engine-fix"></script>
+  <script src="./app.js?v=r10.14-sp"></script>
+  <script src="./sp.js?v=r10.14-sp"></script>
 </body>
 </html>
