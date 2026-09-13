@@ -1,0 +1,62 @@
+════════════════════════════════════════════════════════════
+ MUSIC PLAY · HAPPY — R10.12 "float-mini-fix" (2026-09-12)
+════════════════════════════════════════════════════════════
+
+1) NUEVO · MODO "PANTALLA REDUCIDA FLOTANTE"
+   - Botón discreto ⧉ en la barra superior (junto a ⋯). También en ⋯ →
+     "◱ Pantalla reducida flotante".
+   - Micro ventana flotante: ancho = 30% de la pantalla (mínimo utilizable
+     252px en móviles, tope 460px). Arrastrable por su barra superior;
+     doble toque en la barra = volver a la esquina superior derecha.
+   - VIDEO (motor nativo): el <video> real se traslada DENTRO de la ventana
+     → se ve el video pequeño SIN interrumpir la reproducción.
+   - AUDIO (nativo, local, enlace): carátula con pulso + ecualizador
+     animado mientras suena.
+   - IFRAME (YouTube/SoundCloud del reproductor visible): sigue sonando
+     oculto y la ventana muestra carátula + controles (mover el iframe
+     recargaría el reproductor, por eso se mantiene oculto).
+   - Controles: ⏮ ▶/⏸ ⏭ · barra de progreso arrastrable · tiempos ·
+     posición en la cola (n/total) · ⤢ vuelve a la app completa · × cierra.
+   - ESC también sale del modo. La app completa queda oculta detrás.
+
+2) FIX · PLAYLISTS DE YOUTUBE ("suena la primera y se detiene")
+   Causa raíz: al avanzar de canción, la resolución nativa tardaba ~20s
+   (helper 6.5s + instancias en serie) y fallaba; el iframe tenía 12s para
+   iniciar y un solo intento de playVideo(); al fallar se marcaba la pista
+   como no disponible y la cola entera se quemaba saltando pista tras pista.
+   Solución:
+   - Resolución PARALELA (helper + 7 instancias a la vez, tope 7.5s) y
+     segunda tanda breve; caché negativa de 60s para no re-sondear.
+   - Precarga en reposo de los streams de la SIGUIENTE pista (avance
+     instantáneo).
+   - iframe: 15s de gracia, reintentos de playVideo() cada 1.3s (hasta 6),
+     y no marca fallo si está buffering.
+   - Parada suave: si dos pistas seguidas fallan en un avance automático,
+     se detiene con mensaje "toca Play para reintentar" en vez de quemar
+     la cola.
+   - Último recurso: si la cola propia de una playlist de YouTube falla,
+     se delega al reproductor visible de YouTube (loadPlaylist con índice
+     explícito y startSeconds:0 → las canciones SIEMPRE empiezan completas)
+     y la app se sincroniza con el índice real sin duplicar el avance.
+
+3) FIX · PANTALLA COMPLETA REAL
+   - Antes solo se activaba con la app INSTALADA; por eso "no se percibía".
+   - Ahora en el PRIMER toque también en el navegador (Chrome Android
+     oculta la franja del sistema: cuadrado, círculo y atrás).
+   - Se reafirma automáticamente al volver de segundo plano.
+   - Preferencia "⛶ Completa automática" en ⋯ (activada por defecto).
+
+4) REFUERZO · PANTALLA BLOQUEADA
+   - Si el navegador pausa el video al bloquear la pantalla, se traspasa
+     a la pista de audio en la misma posición (antes solo con
+     visibilitychange; algunos navegadores pausan el video sin evento).
+   - Si la canción termina durante el bloqueo, la cola avanza igual.
+   - La posición se publica en Media Session (pantalla de bloqueo).
+
+5) ACTUALIZACIONES VISIBLES
+   - Versión R10.12 visible en ⋯.
+   - Si hay versión nueva y NADA está sonando, se aplica sola (una vez por
+     sesión) → ya no hace falta adivinar si el caché sirvió la versión vieja.
+
+ARCHIVOS: app.js · index.html · styles.css · sw.js · version.json
+Sin cambios de esquema de base de datos (DB_VERSION 6 intacto).

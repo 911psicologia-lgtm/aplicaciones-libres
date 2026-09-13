@@ -1,11 +1,11 @@
-const BUILD = '2026.09.12-r10.11-yt-native-fullscreen';
-const CACHE = 'mpf-r10.11-yt-native-fullscreen';
+const BUILD = '2026.09.12-r10.12-float-mini-fix';
+const CACHE = 'mpf-r10.12-float-mini-fix';
 const CORE = [
   './',
   './index.html',
-  './styles.css?v=r10.11-yt-native-fullscreen',
-  './app.js?v=r10.11-yt-native-fullscreen',
-  './manifest.webmanifest?v=r10.11-yt-native-fullscreen',
+  './styles.css?v=r10.12-float-mini-fix',
+  './app.js?v=r10.12-float-mini-fix',
+  './manifest.webmanifest?v=r10.12-float-mini-fix',
   './version.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

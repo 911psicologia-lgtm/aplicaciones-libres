@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.12-r10.11-yt-native-fullscreen",
-  "version": "R10.11",
-  "label": "Motor nativo YouTube con pantalla bloqueada · colas de playlist corregidas · pantalla completa real",
+  "build": "2026.09.12-r10.12-float-mini-fix",
+  "version": "R10.12",
+  "label": "Pantalla reducida flotante · avance de playlists reparado · resolución YouTube 3x más rápida · pantalla completa real en navegador",
   "date": "2026-09-12"
 }

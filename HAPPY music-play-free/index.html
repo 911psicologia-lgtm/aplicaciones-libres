@@ -12,10 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.11-yt-native-fullscreen" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.12-float-mini-fix" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.11-yt-native-fullscreen" />
+  <link rel="stylesheet" href="./styles.css?v=r10.12-float-mini-fix" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -42,6 +42,7 @@
       </button>
       <div class="top-actions" aria-label="Acciones de aplicación">
         <button id="updateBtn" class="icon-status-btn update-btn is-hidden" type="button" title="Actualización disponible" aria-label="Actualizar MUSIC PLAY">↻<span class="status-dot" aria-hidden="true"></span></button>
+        <button id="miniFloatBtn" class="icon-status-btn mini-float-btn" type="button" title="Pantalla reducida flotante" aria-label="Activar pantalla reducida flotante">⧉</button>
         <button id="installBtn" class="ghost-btn install-btn" type="button" title="Instalar MUSIC PLAY">⇩ <span>Instalar</span></button>
         <button id="moreBtn" class="icon-status-btn" type="button" title="Más opciones" aria-label="Más opciones">⋯</button>
       </div>
@@ -241,6 +242,25 @@
       <button id="navLibrary" class="bottom-nav-item" data-view="library"><span>▣</span><small>Biblioteca</small></button>
     </nav>
 
+    <section id="floatMini" class="float-mini is-hidden-screen" aria-label="Pantalla reducida flotante" role="region">
+      <div id="fmDrag" class="fm-bar">
+        <span class="fm-handle" aria-hidden="true">⠿</span>
+        <b id="fmLabel" class="fm-label">MINI</b>
+        <span id="fmPos" class="fm-pos"></span>
+        <button id="fmExpand" class="fm-tool" type="button" title="Volver a la app completa" aria-label="Volver a la app completa">⤢</button>
+        <button id="fmClose" class="fm-tool fm-close" type="button" title="Cerrar pantalla reducida" aria-label="Cerrar pantalla reducida">×</button>
+      </div>
+      <div id="fmStage" class="fm-stage"></div>
+      <div class="fm-meta"><strong id="fmTitle">Sin reproducción</strong><span id="fmArtist">—</span></div>
+      <input id="fmProgress" class="fm-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Progreso de la canción" />
+      <div class="fm-times"><span id="fmTimeNow">0:00</span><span id="fmTimeTotal">0:00</span></div>
+      <div class="fm-controls">
+        <button id="fmPrev" class="player-btn" type="button" aria-label="Anterior">⏮</button>
+        <button id="fmPlay" class="play-btn" type="button" aria-label="Reproducir o pausar">▶</button>
+        <button id="fmNext" class="player-btn" type="button" aria-label="Siguiente">⏭</button>
+      </div>
+    </section>
+
     <dialog id="playerDialog" class="dialog player-dialog">
       <form method="dialog" class="dialog-card player-card">
         <button class="close-btn" aria-label="Cerrar">×</button>
@@ -269,6 +289,6 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.11-yt-native-fullscreen"></script>
+  <script src="./app.js?v=r10.12-float-mini-fix"></script>
 </body>
 </html>

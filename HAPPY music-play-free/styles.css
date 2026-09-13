@@ -699,3 +699,61 @@ body{overscroll-behavior-y:none}
 :fullscreen{background:var(--bg)}
 :fullscreen .app{padding-top:max(10px,env(safe-area-inset-top))}
 html[data-shell="app"] body{background:var(--bg)}
+
+/* ════════ R10.12 · MODO "PANTALLA REDUCIDA FLOTANTE" ════════ */
+/* Botón discreto ⧉ en la barra superior */
+.mini-float-btn{color:var(--muted);transition:color .18s ease,transform .18s ease}
+.mini-float-btn:hover,.mini-float-btn:focus-visible{color:var(--accent);transform:translateY(-1px)}
+/* Panel flotante: ~30% del ancho (entre 25% y 30% del área en pantallas normales,
+   con mínimo utilizable en móviles). Arrastrable, siempre sobre el resto. */
+.float-mini{display:none;position:fixed;z-index:96;width:min(max(30vw,252px),460px);max-width:calc(100vw - 12px);max-height:calc(100dvh - 20px);flex-direction:column;gap:8px;padding:8px;border-radius:20px;background:color-mix(in srgb,var(--surface) 96%,transparent);border:1px solid var(--line);box-shadow:0 26px 70px rgba(0,0,0,.5);backdrop-filter:blur(20px);overflow:hidden}
+.mini-float-on .float-mini{display:flex}
+.mini-float-on .screen-wrap,.mini-float-on .bottom-nav,.mini-float-on .mini-player,.mini-float-on .topbar,.mini-float-on .remote-dock{display:none!important}
+html.mini-float-on,html.mini-float-on body{background:var(--bg)}
+.float-mini{opacity:0;transform:translateY(8px) scale(.98);transition:opacity .22s ease,transform .22s ease}
+.mini-float-on .float-mini{opacity:1;transform:none}
+/* barra de arrastre */
+.fm-bar{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:13px;background:var(--surface-2);border:1px solid var(--line);cursor:grab;touch-action:none;user-select:none}
+.fm-bar:active{cursor:grabbing}
+.fm-handle{font-size:13px;color:var(--muted)}
+.fm-label{font-size:9px;font-weight:900;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fm-pos{margin-left:auto;font-size:9px;font-weight:800;color:var(--muted);white-space:nowrap}
+.fm-tool{width:30px;height:30px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;font-size:15px;font-weight:900;color:var(--text);background:var(--surface);border:1px solid var(--line)}
+.fm-tool.fm-close{color:var(--accent)}
+.fm-tool:hover{background:var(--surface-3)}
+/* escenario: video pequeño o carátula */
+.fm-stage{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;background:#000;overflow:hidden;border:1px solid var(--line)}
+.fm-stage:not(.has-video):empty::after{content:"♪";position:absolute;inset:0;display:grid;place-items:center;font-size:34px;color:var(--surface-3)}
+.fm-stage .yt-native-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.fm-artcard{position:absolute;inset:0;display:grid;place-items:center}
+.fm-art{width:min(46%,86px);aspect-ratio:1;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:30px;color:#fff;background-size:cover;background-position:center;box-shadow:0 14px 34px rgba(255,90,111,.3);transition:transform .3s ease}
+.fm-art.is-playing{animation:fmPulse 3.2s ease-in-out infinite}
+@keyframes fmPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.fm-eq{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:4px;height:16px;opacity:0;transition:opacity .2s ease}
+.fm-eq.on{opacity:1}
+.fm-eq i{width:4px;height:100%;border-radius:99px;background:linear-gradient(180deg,var(--accent),var(--accent-2));animation:fmBar 1s ease-in-out infinite}
+.fm-eq i:nth-child(2){animation-delay:.15s}.fm-eq i:nth-child(3){animation-delay:.3s}.fm-eq i:nth-child(4){animation-delay:.45s}
+@keyframes fmBar{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+/* metadatos + progreso + controles */
+.fm-meta{display:grid;gap:2px;padding:0 4px;min-width:0}
+.fm-meta strong{font-size:12.5px;font-weight:800;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fm-meta span{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fm-progress{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--surface-3);outline:none;margin:2px 0 0}
+.fm-progress::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid #fff2;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer}
+.fm-progress::-moz-range-thumb{width:14px;height:14px;border:2px solid #fff2;border-radius:50%;background:var(--accent);cursor:pointer}
+.fm-times{display:flex;justify-content:space-between;padding:0 4px;font-size:9px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.fm-controls{display:flex;align-items:center;justify-content:center;gap:14px;padding:2px 0 4px}
+.fm-controls .player-btn{width:42px;height:42px;border-radius:14px;font-size:17px;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center}
+.fm-controls .play-btn{width:54px;height:54px;border-radius:50%;font-size:20px;background:var(--text);color:var(--bg);display:grid;place-items:center;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.fm-controls .player-btn:active{transform:scale(.94)}
+/* chip de versión en el menú ⋯ */
+.ver-chip{font-size:9px;font-weight:900;letter-spacing:.1em;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 9px;vertical-align:middle;margin-left:6px;text-transform:uppercase}
+@media (max-width:640px){
+  .float-mini{width:min(max(30vw,252px),calc(100vw - 12px))}
+  .fm-controls .play-btn{width:50px;height:50px}
+  .fm-controls .player-btn{width:40px;height:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  .fm-art.is-playing,.fm-eq i{animation:none}
+  .float-mini{transition:none}
+}

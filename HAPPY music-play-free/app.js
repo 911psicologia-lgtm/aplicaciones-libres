@@ -1,7 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.12-r10.11-yt-native-fullscreen';
+const BUILD = '2026.09.12-r10.12-float-mini-fix';
+const APP_VERSION = 'R10.12';
 const DB_NAME = 'mpf-minimal-db';
 const DB_VERSION = 6;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
@@ -64,6 +65,7 @@ const els = {
   fullPlayBtn: $('#fullPlayBtn'), fullPrevBtn: $('#fullPrevBtn'), fullNextBtn: $('#fullNextBtn'), shuffleBtn: $('#shuffleBtn'), favoriteBtn: $('#favoriteBtn'), volumeRange: $('#volumeRange'), addCurrentToPlaylist: $('#addCurrentToPlaylist'), queueManagerBtn: $('#queueManagerBtn'), queueManagerCount: $('#queueManagerCount'), repeatCurrentBtn: $('#repeatCurrentBtn'), soundModeBtn: $('#soundModeBtn'), shareCurrentBtn: $('#shareCurrentBtn'), podcastControls: $('#podcastControls'), podcastBackBtn: $('#podcastBackBtn'), podcastRateBtn: $('#podcastRateBtn'), podcastForwardBtn: $('#podcastForwardBtn'), miniArtwork: $('#miniArtwork'), playerArtwork: $('#playerArtwork'),
   sheetDialog: $('#sheetDialog'), sheetContent: $('#sheetContent'),
   remoteDock: $('#remoteDock'), remoteDockBar: $('#remoteDockBar'), remoteDragHandle: $('#remoteDragHandle'), remoteResizeBtn: $('#remoteResizeBtn'), remoteShareBtn: $('#remoteShareBtn'), remoteCloseBtn: $('#remoteCloseBtn'), remoteStage: $('#remoteStage'), remoteLabel: $('#remoteLabel'), ytProbeHost: $('#ytProbeHost'),
+  miniFloatBtn: $('#miniFloatBtn'), floatMini: $('#floatMini'), fmDrag: $('#fmDrag'), fmLabel: $('#fmLabel'), fmPos: $('#fmPos'), fmExpand: $('#fmExpand'), fmClose: $('#fmClose'), fmStage: $('#fmStage'), fmTitle: $('#fmTitle'), fmArtist: $('#fmArtist'), fmProgress: $('#fmProgress'), fmTimeNow: $('#fmTimeNow'), fmTimeTotal: $('#fmTimeTotal'), fmPrev: $('#fmPrev'), fmPlay: $('#fmPlay'), fmNext: $('#fmNext'),
   dropHint: $('#dropHint'), loader: $('#loader'), loaderTitle: $('#loaderTitle'), loaderText: $('#loaderText'), loaderProgress: $('#loaderProgress'), toast: $('#toast'),
   fileInput: $('#fileInput'), folderInput: $('#folderInput'), backupInput: $('#backupInput'), m3uInput: $('#m3uInput')
 };
@@ -92,6 +94,7 @@ const state = {
   swRegistration: null, updateAvailable: false, remoteBuild: null, lastUpdateCheck: 0, refreshingForUpdate: false,
   currentEngine: 'none', activeSmartId: '', listenSession: null, history: [], renderChunk: 60,
   ytEngine: 'none', ytNativeKind: 'audio', ytMedia: null, ytHandoverPos: 0, ytResumeVideo: false, ytRetryDone: false, ytNativeMode: 'auto', ytCustomApi: '', ytInstCache: null, ytInstAt: 0,
+  ytDelegatedSourceId: '', autoFailStreak: 0, ytDelegated: false, ytPlaylistSourceId: '', autoAdvanceDepth: 0, autoFullscreen: true, floatMini: false, autoFsWasOn: false,
   lastImportIds: [], lastImportLabel: '', lastImportAt: 0, remoteExpectedPlaying: false, installCoachShown: false,
   importJob: null, enrichmentQueue: [], enrichmentRunning: false, fileHandlesSupported: false, firstRunComplete: false,
   pendingImportTargetId: '', pendingImportLabel: '', installPromptSeenAt: 0,
@@ -273,7 +276,7 @@ async function loadStoredData(){
     state.playlists=(await db.getAll('playlists')).map(normalizePlaylist).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
     state.history=(await db.getAll('history')).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,2500);
     const p=await db.get('prefs','ui');
-    if(p){state.currentId=p.currentId||null;state.queueIds=p.queueIds||[];state.baseQueueIds=p.baseQueueIds||p.queueIds||[];state.manualQueueIds=Array.isArray(p.manualQueueIds)?p.manualQueueIds:[];state.repeatOneId=p.repeatOneId||'';state.queueIndex=Number.isInteger(p.queueIndex)?p.queueIndex:-1;state.volume=Number.isFinite(p.volume)?p.volume:.92;state.activePlaylistId=p.activePlaylistId||'';state.activeSmartId=p.activeSmartId||'';state.theme=p.theme||'dark';state.libraryTab=['playlists','songs','albums'].includes(p.libraryTab)?p.libraryTab:'playlists';state.librarySort=['recent','name','played'].includes(p.librarySort)?p.librarySort:'recent';state.firstRunComplete=!!p.firstRunComplete;state.playbackMode=Object.values(PLAY_MODES).includes(p.playbackMode)?p.playbackMode:(p.shuffle?PLAY_MODES.shuffle:PLAY_MODES.normal);state.shuffle=state.playbackMode===PLAY_MODES.shuffle;state.songCategories=Array.isArray(p.songCategories)?p.songCategories.filter(Boolean).slice(0,24):[];state.songSource=['all','local','youtube','linked'].includes(p.songSource)?p.songSource:'all';state.soundMode=Object.values(SOUND_MODES).includes(p.soundMode)?p.soundMode:SOUND_MODES.auto;state.podcastRate=PODCAST_RATES.includes(Number(p.podcastRate))?Number(p.podcastRate):1;state.dailyRecommendationDate=p.dailyRecommendationDate||'';state.dailyRecommendationBand=p.dailyRecommendationBand||'';state.dailyRecommendationIds=Array.isArray(p.dailyRecommendationIds)?p.dailyRecommendationIds:[];state.ytNativeMode=p.ytNativeMode==='iframe'?'iframe':'auto';state.ytCustomApi=typeof p.ytCustomApi==='string'?p.ytCustomApi:'';}
+    if(p){state.currentId=p.currentId||null;state.queueIds=p.queueIds||[];state.baseQueueIds=p.baseQueueIds||p.queueIds||[];state.manualQueueIds=Array.isArray(p.manualQueueIds)?p.manualQueueIds:[];state.repeatOneId=p.repeatOneId||'';state.queueIndex=Number.isInteger(p.queueIndex)?p.queueIndex:-1;state.volume=Number.isFinite(p.volume)?p.volume:.92;state.activePlaylistId=p.activePlaylistId||'';state.activeSmartId=p.activeSmartId||'';state.theme=p.theme||'dark';state.libraryTab=['playlists','songs','albums'].includes(p.libraryTab)?p.libraryTab:'playlists';state.librarySort=['recent','name','played'].includes(p.librarySort)?p.librarySort:'recent';state.firstRunComplete=!!p.firstRunComplete;state.playbackMode=Object.values(PLAY_MODES).includes(p.playbackMode)?p.playbackMode:(p.shuffle?PLAY_MODES.shuffle:PLAY_MODES.normal);state.shuffle=state.playbackMode===PLAY_MODES.shuffle;state.songCategories=Array.isArray(p.songCategories)?p.songCategories.filter(Boolean).slice(0,24):[];state.songSource=['all','local','youtube','linked'].includes(p.songSource)?p.songSource:'all';state.soundMode=Object.values(SOUND_MODES).includes(p.soundMode)?p.soundMode:SOUND_MODES.auto;state.podcastRate=PODCAST_RATES.includes(Number(p.podcastRate))?Number(p.podcastRate):1;state.dailyRecommendationDate=p.dailyRecommendationDate||'';state.dailyRecommendationBand=p.dailyRecommendationBand||'';state.dailyRecommendationIds=Array.isArray(p.dailyRecommendationIds)?p.dailyRecommendationIds:[];state.ytNativeMode=p.ytNativeMode==='iframe'?'iframe':'auto';state.ytCustomApi=typeof p.ytCustomApi==='string'?p.ytCustomApi:'';state.autoFullscreen=p.autoFullscreen!==false;}
     if(p&&p.firstRunComplete===undefined&&state.tracks.length)state.firstRunComplete=true;
     // R8 preserves R7 playCount as legacy starts; it does not pretend those starts were complete/valid listens.
     for(const t of state.tracks){await db.put('tracks',normalizeTrack(t)).catch(()=>{});}
@@ -285,7 +288,7 @@ function ensureBasePlaylist(){
   if(state.playlists.length && !state.playlists.some(p=>p.id===state.activePlaylistId)) state.activePlaylistId=state.playlists[0].id;
   if(!state.playlists.length) state.activePlaylistId='';
 }
-async function persistPrefs(){if(!state.storageReady)return;await db.put('prefs',{key:'ui',currentId:state.currentId,queueIds:state.queueIds,baseQueueIds:state.baseQueueIds,manualQueueIds:state.manualQueueIds,repeatOneId:state.repeatOneId,queueIndex:state.queueIndex,volume:state.volume,activePlaylistId:state.activePlaylistId,activeSmartId:state.activeSmartId,theme:state.theme,libraryTab:state.libraryTab,librarySort:state.librarySort,firstRunComplete:state.firstRunComplete,playbackMode:state.playbackMode,shuffle:state.playbackMode===PLAY_MODES.shuffle,songCategories:state.songCategories,songSource:state.songSource,soundMode:state.soundMode,podcastRate:state.podcastRate,dailyRecommendationDate:state.dailyRecommendationDate,dailyRecommendationBand:state.dailyRecommendationBand,dailyRecommendationIds:state.dailyRecommendationIds,ytNativeMode:state.ytNativeMode,ytCustomApi:state.ytCustomApi}).catch(()=>{});}
+async function persistPrefs(){if(!state.storageReady)return;await db.put('prefs',{key:'ui',currentId:state.currentId,queueIds:state.queueIds,baseQueueIds:state.baseQueueIds,manualQueueIds:state.manualQueueIds,repeatOneId:state.repeatOneId,queueIndex:state.queueIndex,volume:state.volume,activePlaylistId:state.activePlaylistId,activeSmartId:state.activeSmartId,theme:state.theme,libraryTab:state.libraryTab,librarySort:state.librarySort,firstRunComplete:state.firstRunComplete,playbackMode:state.playbackMode,shuffle:state.playbackMode===PLAY_MODES.shuffle,songCategories:state.songCategories,songSource:state.songSource,soundMode:state.soundMode,podcastRate:state.podcastRate,dailyRecommendationDate:state.dailyRecommendationDate,dailyRecommendationBand:state.dailyRecommendationBand,dailyRecommendationIds:state.dailyRecommendationIds,ytNativeMode:state.ytNativeMode,ytCustomApi:state.ytCustomApi,autoFullscreen:state.autoFullscreen!==false}).catch(()=>{});}
 async function persistPlaylist(pl){if(state.storageReady)await db.put('playlists',pl).catch(()=>{});}
 
 function songTrackText(t){
@@ -417,7 +420,7 @@ async function finalizeListenSession(reason='switch'){
   }
   await saveRemoteTrack(track);
 }
-async function handleNaturalEnd(){sampleListenSession(state.listenSession?.duration||0,state.listenSession?.duration||0);await finalizeListenSession('ended');state.playing=false;if(state.repeatOneId&&state.repeatOneId===state.currentId){const id=state.currentId;const ctx=state.queueIds.length?state.queueIds:[id];await playTrack(id,ctx,{skipFinalize:true,preserveBase:true});return;}await nextTrack({skipFinalize:true});}
+async function handleNaturalEnd(){sampleListenSession(state.listenSession?.duration||0,state.listenSession?.duration||0);await finalizeListenSession('ended');state.playing=false;if(state.repeatOneId&&state.repeatOneId===state.currentId){const id=state.currentId;const ctx=state.queueIds.length?state.queueIds:[id];await playTrack(id,ctx,{skipFinalize:true,preserveBase:true});return;}state.autoAdvanceDepth++;try{await nextTrack({skipFinalize:true});}finally{state.autoAdvanceDepth--;}}
 function totalListenedMs(){return state.tracks.reduce((sum,t)=>sum+(Number(t.listenedMs)||0),0);}
 function smartMixOrder(trackIds){
   const pool=[...new Set(trackIds)].map(id=>state.tracks.find(t=>t.id===id)).filter(playable);if(!pool.length)return[];
@@ -973,6 +976,7 @@ function renderPlayer(){
   const modeMeta=PLAY_MODE_META[state.playbackMode]||PLAY_MODE_META.normal;els.shuffleBtn.textContent=modeMeta.icon;els.shuffleBtn.classList.toggle('active',state.playbackMode!==PLAY_MODES.normal);els.shuffleBtn.title=`Modo: ${modeMeta.name}`;els.shuffleBtn.setAttribute('aria-label',`Modo de reproducción: ${modeMeta.name}`);
   if(els.soundModeBtn){els.soundModeBtn.textContent=t.sourceKind==='local'?soundModeLabel():'○ Sonido fuente';els.soundModeBtn.title=t.sourceKind==='local'?'Ajuste de sonido local':'La fuente externa controla su propio sonido';}
   els.volumeRange.value=String(state.volume);updateProgress();const fallback=t.sourceKind==='youtube'?'▶':t.sourceKind==='soundcloud'?'☁':'♪';hydrateArtwork(t,els.miniArtwork,fallback);hydrateArtwork(t,els.playerArtwork,fallback);
+  if(state.floatMini)syncFloatMiniMeta();
 }
 function render(){renderSummary();renderPlayer();renderHome();if(state.activeView==='library')renderLibraryShell();if(state.activeView==='search')renderSearch();syncBottomNav();}
 function activeNativeAudio(){return state.currentEngine==='direct'?(els.directAudio||els.audio):els.audio;}
@@ -1019,10 +1023,105 @@ function bindRemoteDockDrag(){
   els.remoteDragHandle?.addEventListener('dblclick',()=>{try{localStorage.removeItem('mpf-remote-dock-pos');}catch{}defaultRemoteDockPosition();});
   window.addEventListener('resize',()=>{if(!els.remoteDock.classList.contains('is-hidden'))restoreRemoteDockPosition();});
 }
+// ════════ R10.12 · MODO "PANTALLA REDUCIDA FLOTANTE" ════════
+// Una versión mínima de la app en una micro ventana flotante (~30% del ancho).
+// Se abre con el botón discreto ⧉ de la barra superior. Con video muestra el
+// video pequeño; con audio muestra la carátula con animación. Controles:
+// anterior / play-pausa / siguiente, barra de progreso con tiempos, posición en
+// la cola, arrastrable por su barra, ⤢ vuelve a la app completa y × cierra.
+let fmReturnNode=null,fmReturnParent=null;
+function floatMiniStageKind(){
+  if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video'&&els.ytVideo?.src)return 'video';
+  return 'art';
+}
+function restoreFloatMiniMedia(){
+  if(fmReturnNode&&fmReturnParent){fmReturnParent.appendChild(fmReturnNode);fmReturnNode=null;fmReturnParent=null;}
+  if(els.fmStage){els.fmStage.innerHTML='';els.fmStage.classList.remove('has-video');els.fmStage._want='';}
+}
+async function renderFloatMiniStage(){
+  if(!els.fmStage||!state.floatMini)return;
+  const t=getCurrentTrack();
+  const want=`${floatMiniStageKind()}:${t?.id||''}:${state.currentEngine}:${state.ytEngine}:${state.ytNativeKind}:${state.playing?1:0}`;
+  if(els.fmStage._want===want)return;
+  els.fmStage._want=want;
+  if(floatMiniStageKind()==='video'&&els.ytVideo){
+    if(els.ytVideo.parentElement!==els.fmStage){fmReturnNode=els.ytVideo;fmReturnParent=els.remoteNativeSlot;els.fmStage.innerHTML='';els.fmStage.appendChild(els.ytVideo);els.fmStage.classList.add('has-video');}
+    if(state.playing&&els.ytVideo.paused){try{els.ytVideo.play();}catch{}}
+    return;
+  }
+  restoreFloatMiniMedia();
+  els.fmStage.classList.remove('has-video');
+  const ytThumb=(t&&(t.sourceKind==='youtube'||t.sourceKind==='youtube-playlist')&&t.remoteId)?`https://i.ytimg.com/vi/${encodeURIComponent(t.remoteId)}/hqdefault.jpg`:'';
+  els.fmStage.innerHTML=`<div class="fm-artcard"><div class="fm-art${state.playing?' is-playing':''}" id="fmArt">${ytThumb?'':'♪'}</div><div class="fm-eq${state.playing?' on':''}" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>`;
+  const artNode=$('#fmArt',els.fmStage);
+  let url='';try{url=t?await artworkUrlFor(t):'';}catch{}
+  if(!url&&ytThumb)url=ytThumb;
+  if(artNode){if(url){artNode.style.backgroundImage=`url("${url}")`;artNode.textContent='';}else{artNode.style.backgroundImage='';artNode.textContent='♪';}}
+}
+function syncFloatMiniProgress(){
+  if(!els.fmProgress)return;
+  els.fmProgress.value=els.progressRange.value;
+  els.fmTimeNow.textContent=els.timeNow.textContent;
+  els.fmTimeTotal.textContent=els.timeTotal.textContent;
+}
+function syncFloatMiniMeta(){
+  if(!els.floatMini||!state.floatMini)return;
+  renderFloatMiniStage();
+  const t=getCurrentTrack();
+  els.fmTitle.textContent=t?t.title:'Sin reproducción';
+  els.fmArtist.textContent=t?(t.artist||sourceLabel(t)):'—';
+  els.fmLabel.textContent=state.currentEngine==='youtube'?(state.ytEngine==='native'?(state.ytNativeKind==='video'?'YOUTUBE · VIDEO':'YOUTUBE · AUDIO'):(state.ytDelegated?'YOUTUBE · LISTA':'YOUTUBE')):(state.currentEngine==='soundcloud'?'SOUNDCLOUD':state.currentEngine==='direct'?'ENLACE':state.currentEngine==='local'?'LOCAL':'MINI');
+  const ctx=state.queueIds.length?state.queueIds:[];
+  const i=state.currentId?ctx.indexOf(state.currentId):-1;
+  els.fmPos.textContent=(i>=0&&ctx.length>1)?`${i+1}/${ctx.length}`:'';
+  els.fmPlay.textContent=state.playing?'⏸':'▶';
+  syncFloatMiniProgress();
+}
+function restoreFloatMiniPosition(reset=false){
+  if(!els.floatMini)return;
+  let pos=null;if(!reset){try{pos=JSON.parse(localStorage.getItem('mpf-float-mini-pos')||'null');}catch{}}
+  const w=els.floatMini.offsetWidth||300,h=els.floatMini.offsetHeight||260;
+  if(!pos||!Number.isFinite(pos.left)||!Number.isFinite(pos.top)){
+    els.floatMini.style.right='auto';els.floatMini.style.bottom='auto';
+    els.floatMini.style.left=`${Math.max(6,window.innerWidth-w-12)}px`;
+    els.floatMini.style.top='12px';return;
+  }
+  els.floatMini.style.right='auto';els.floatMini.style.bottom='auto';
+  els.floatMini.style.left=`${Math.max(6,Math.min(window.innerWidth-w-6,pos.left))}px`;
+  els.floatMini.style.top=`${Math.max(6,Math.min(window.innerHeight-h-6,pos.top))}px`;
+}
+function bindFloatMiniDrag(){
+  if(!els.fmDrag||els.fmDrag._fmDragBound)return;els.fmDrag._fmDragBound=true;
+  let active=false,dx=0,dy=0;
+  const move=e=>{if(!active)return;const w=els.floatMini.offsetWidth||300,h=els.floatMini.offsetHeight||260;const left=Math.max(6,Math.min(window.innerWidth-w-6,e.clientX-dx)),top=Math.max(6,Math.min(window.innerHeight-h-6,e.clientY-dy));els.floatMini.style.left=`${left}px`;els.floatMini.style.top=`${top}px`;};
+  const end=()=>{if(!active)return;active=false;try{localStorage.setItem('mpf-float-mini-pos',JSON.stringify({left:parseFloat(els.floatMini.style.left)||0,top:parseFloat(els.floatMini.style.top)||0}));}catch{}};
+  els.fmDrag.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;const r=els.floatMini.getBoundingClientRect();active=true;dx=e.clientX-r.left;dy=e.clientY-r.top;try{els.fmDrag.setPointerCapture(e.pointerId);}catch{}e.preventDefault();});
+  els.fmDrag.addEventListener('pointermove',move);
+  els.fmDrag.addEventListener('pointerup',end);els.fmDrag.addEventListener('pointercancel',end);
+  els.fmDrag.addEventListener('dblclick',()=>{try{localStorage.removeItem('mpf-float-mini-pos');}catch{}restoreFloatMiniPosition(true);});
+  window.addEventListener('resize',()=>{if(state.floatMini)restoreFloatMiniPosition();});
+}
+function enterFloatMini(){
+  if(state.floatMini)return;state.floatMini=true;
+  document.documentElement.classList.add('mini-float-on');
+  els.fmStage._want='';
+  requestAnimationFrame(()=>{restoreFloatMiniPosition();renderFloatMiniStage();syncFloatMiniMeta();});
+  toast('Pantalla reducida · arrastra la barra para moverla · ⤢ vuelve a la app',4200);
+}
+function exitFloatMini(){
+  if(!state.floatMini)return;state.floatMini=false;
+  document.documentElement.classList.remove('mini-float-on');
+  restoreFloatMiniMedia();
+  if(state.currentEngine==='youtube')ytShowSlot(state.ytEngine==='native'?(state.ytNativeKind==='video'?'video':'audio'):'iframe');
+  requestAnimationFrame(()=>restoreRemoteDockPosition());
+  renderPlayer();
+}
+function toggleFloatMini(){state.floatMini?exitFloatMini():enterFloatMini();}
+
 function updateProgress(){
   let duration=0,current=0;if(state.currentEngine==='youtube'&&state.ytEngine==='native'){const el=ytNativeElement();duration=el?.duration||0;current=el?.currentTime||0;}
   else if(state.currentEngine==='youtube'&&ytPlayer){try{duration=ytPlayer.getDuration()||0;current=ytPlayer.getCurrentTime()||0;}catch{}}else if(state.currentEngine==='soundcloud'&&getCurrentTrack()){duration=getCurrentTrack().duration||0;}else{const a=activeNativeAudio();duration=a?.duration||0;current=a?.currentTime||0;}
-  sampleListenSession(current,duration);const pct=duration?(current/duration)*100:0;els.progressRange.value=String(pct);els.timeNow.textContent=formatTime(current);els.timeTotal.textContent=formatTime(duration);syncMediaPosition(current,duration);
+  sampleListenSession(current,duration);const pct=duration?(current/duration)*100:0;els.progressRange.value=String(pct);els.timeNow.textContent=formatTime(current);els.timeTotal.textContent=formatTime(duration);syncMediaPosition(current,duration);if(state.floatMini)syncFloatMiniProgress();
 }
 function syncMediaPlaybackState(){if(!('mediaSession'in navigator))return;try{navigator.mediaSession.playbackState=state.playing?'playing':'paused';}catch{}}
 function syncMediaPosition(position,duration){if(!('mediaSession'in navigator)||!navigator.mediaSession.setPositionState||!Number.isFinite(duration)||duration<=0)return;let rate=1;if(state.currentEngine==='local'||state.currentEngine==='direct')rate=activeNativeAudio()?.playbackRate||1;else if(state.currentEngine==='youtube'&&state.ytEngine==='native')rate=ytNativeElement()?.playbackRate||1;try{navigator.mediaSession.setPositionState({duration,position:Math.min(duration,Math.max(0,Number(position)||0)),playbackRate:rate});}catch{}}
@@ -1319,24 +1418,59 @@ async function ytResolveFromHelper(videoId){
   }catch(err){console.debug('helper streams no disponible',err?.message||err);}
   return null;
 }
+const ytNegCache = new Map(); // R10.12: videoId -> {at} · evita re-sondear 20s por cada pista cuando la red bloquea las instancias
+const ytPrefetching = new Set();
+function firstSuccessfulResult(probes){
+  // R10.12: resuelve con la PRIMERA sonda que devuelva streams (todas en paralelo).
+  return new Promise(resolve=>{
+    let pending=probes.length;if(!pending)return resolve(null);
+    let done=false;const finish=v=>{if(done)return;done=true;resolve(v);};
+    probes.forEach(p=>Promise.resolve(p).then(v=>{if(v)finish(v);else if(--pending===0)finish(null);}).catch(()=>{if(--pending===0)finish(null);}));
+  });
+}
 async function resolveYouTubeMedia(videoId,{force=false}={}){
   if(!videoId)return null;
   const cached=ytStreamCache.get(videoId);
   if(!force&&cached&&now()-cached.at<YT_STREAM_TTL)return cached.data;
-  // 0) helper same-origin del despliegue (Cloudflare Worker), si existe
-const helper=await ytResolveFromHelper(videoId);
-  if(helper&&(helper.audioUrl||helper.muxedUrl)){const data={...helper};ytStreamCache.set(videoId,{data,at:now()});return data;}
-  let instances=await ytEngineInstances();
-  // Prioriza instancias que ya funcionaron en esta sesión.
-  instances=[...instances].sort((a,b)=>{const sa=ytInstanceStatus.get(a.base)?.ok?1:0,sb=ytInstanceStatus.get(b.base)?.ok?1:0;return sb-sa;});
-  const deadline=now()+14000;
-  for(let wave=0;wave<instances.length&&now()<deadline;wave+=3){
-    const batch=instances.slice(wave,wave+3);
-    const results=await Promise.all(batch.map(inst=>ytResolveFromInstance(inst,videoId)));
-    const pick=results.find(Boolean);
-    if(pick){const data={...pick};ytStreamCache.set(videoId,{data,at:now()});return data;}
+  // R10.12: caché negativa corta — si hace 60s ninguna instancia respondió para
+  // este video, no repetir el sondeo completo en cada avance automático de cola.
+  const neg=ytNegCache.get(videoId);
+  if(!force&&neg&&now()-neg.at<60000)return null;
+  // R10.12: helper + mejores instancias EN PARALELO con tope total de ~7.5s
+  // (antes eran ~20.5s en serie: 6.5s de helper + oleadas de 14s con sondas de 8s).
+  const instances=(await ytEngineInstances()).sort((a,b)=>{const sa=ytInstanceStatus.get(a.base)?.ok?1:0,sb=ytInstanceStatus.get(b.base)?.ok?1:0;return sb-sa;});
+  const wave=instances.slice(0,7);
+  const deadline=new Promise(resolve=>setTimeout(()=>resolve(null),7500));
+  const pick=await Promise.race([firstSuccessfulResult([ytResolveFromHelper(videoId),...wave.map(inst=>ytResolveFromInstance(inst,videoId))]),deadline]);
+  if(pick&&(pick.audioUrl||pick.muxedUrl)){ytNegCache.delete(videoId);const data={...pick};ytStreamCache.set(videoId,{data,at:now()});return data;}
+  // Segunda oportunidad breve con el resto de instancias (~6s más)
+  const rest=instances.slice(7);
+  if(rest.length){
+    const deadline2=new Promise(resolve=>setTimeout(()=>resolve(null),6000));
+    const pick2=await Promise.race([firstSuccessfulResult(rest.slice(0,6).map(inst=>ytResolveFromInstance(inst,videoId))),deadline2]);
+    if(pick2&&(pick2.audioUrl||pick2.muxedUrl)){ytNegCache.delete(videoId);const data={...pick2};ytStreamCache.set(videoId,{data,at:now()});return data;}
   }
+  ytNegCache.set(videoId,{at:now()});
   return null;
+}
+// R10.12: precarga en reposo los streams de la SIGUIENTE pista de la cola para que
+// el avance automático sea instantáneo (sin esperar resolución al terminar la actual).
+function schedulePrefetchNextYouTube(){
+  try{
+    const mode=state.playbackMode||PLAY_MODES.normal;
+    if(mode!==PLAY_MODES.normal&&mode!==PLAY_MODES.shuffle)return;
+    let upcoming=[];
+    if(state.manualQueueIds.length)upcoming=[state.manualQueueIds[0]];
+    else{
+      const ctx=state.queueIds.length?state.queueIds:state.baseQueueIds;
+      const idx=Math.max(-1,state.currentId?ctx.indexOf(state.currentId):state.queueIndex);
+      upcoming=ctx.slice(idx+1,idx+3);
+    }
+    const next=upcoming.map(id=>state.tracks.find(t=>t.id===id)).find(t=>t&&playable(t)&&t.sourceKind==='youtube'&&t.remoteId&&!ytStreamCache.has(t.remoteId)&&!ytNegCache.has(t.remoteId));
+    if(!next||ytPrefetching.has(next.id))return;
+    ytPrefetching.add(next.id);
+    setTimeout(()=>{idleYield(1500).then(()=>resolveYouTubeMedia(next.remoteId).catch(()=>null)).finally(()=>ytPrefetching.delete(next.id));},2500);
+  }catch{}
 }
 function ytNativeElement(){return state.ytNativeKind==='video'?els.ytVideo:els.ytAudio;}
 function ytShowSlot(which){
@@ -1366,12 +1500,28 @@ function renderYtNativeAudioCard(track){
     els.ytAudioArt.classList.toggle('with-image',!!art);
   }
 }
+// R10.12: reintento con gesto — si el navegador bloquea el play() nativo por
+// falta de activación del usuario (NotAllowedError), se espera UN toque real
+// del usuario y se reintenta en la misma posición, en vez de rendirse al iframe.
+async function ytGesturePlay(el){
+  try{await el.play();return true;}catch(err){
+    if(!err||err.name!=='NotAllowedError')return false;
+    toast('Toca la pantalla una vez para iniciar el audio',4200);
+    return new Promise(resolve=>{
+      let done=false;
+      const cleanup=()=>{document.removeEventListener('pointerdown',retry,true);clearTimeout(timer);};
+      const retry=async()=>{try{await el.play();if(!done){done=true;cleanup();resolve(true);}}catch{}};
+      const timer=setTimeout(()=>{if(!done){done=true;cleanup();resolve(false);}},30000);
+      document.addEventListener('pointerdown',retry,true);
+    });
+  }
+}
 async function playYouTubeNative(track,startAt=0){
   if(!track?.remoteId)return false;
   const res=await resolveYouTubeMedia(track.remoteId);
   if(!res||(!res.audioUrl&&!res.muxedUrl))return false;
   state.ytMedia=res;state.ytRetryDone=false;state.ytResumeVideo=false;state.ytHandoverPos=0;
-  state.currentEngine='youtube';state.ytEngine='native';
+  state.currentEngine='youtube';state.ytEngine='native';state.ytDelegated=false;state.ytDelegatedSourceId='';
   const wantVideo=(track.mediaKind==='video')&&!!res.muxedUrl;
   state.ytNativeKind=wantVideo?'video':'audio';
   els.remoteDock.classList.remove('is-hidden');syncRemoteDockSize();
@@ -1384,7 +1534,15 @@ async function playYouTubeNative(track,startAt=0){
   el.src=wantVideo?res.muxedUrl:res.audioUrl;
   ytPrepareStart(el,track,startAt);
   try{
-    await el.play();
+    const played=await ytGesturePlay(el);
+    if(!played){
+      // R10.12: el navegador exige un toque (autoplay bloqueado). NO caer al iframe
+      // ni saltar de pista: la canción queda cargada y pausa, lista para Play.
+      console.debug('native yt play sin gesto disponible');
+      state.playing=false;renderPlayer();syncMediaPlaybackState();
+      toast('Toca Play para reproducir esta canción',4200);
+      return true;
+    }
   }catch(err){console.debug('native yt play',err);return false;}
   state.playing=true;
   if(track.sourceKind==='youtube'&&(/^YouTube ·/.test(track.title)||!track.artist||track.artist==='YouTube')&&(res.title||res.author)){
@@ -1395,6 +1553,7 @@ async function playYouTubeNative(track,startAt=0){
   }
   renderPlayer();startProgressTimer();setupMediaSession();syncMediaPlaybackState();
   toast(wantVideo?'Video en reproducción nativa · el audio sigue con pantalla bloqueada':'Audio nativo · sigue sonando con la pantalla bloqueada',3400);
+  schedulePrefetchNextYouTube();
   return true;
 }
 async function ytHandleNativeError(){
@@ -1462,13 +1621,19 @@ async function playYouTube(track,startAt=0){
 }
 async function playYouTubeIframe(track,startAt=0){
   try{await loadYouTubeApi();}catch{toast('No se pudo cargar el reproductor de YouTube');return false;}
-  try{els.audio.pause();}catch{}try{els.directAudio?.pause();}catch{}try{els.ytAudio?.pause();}catch{}try{els.ytVideo?.pause();}catch{}clearRemoteStage();state.currentEngine='youtube';state.ytEngine='iframe';els.remoteDock.classList.remove('is-hidden');syncRemoteDockSize();els.remoteLabel.textContent=track.sourceKind==='youtube-playlist'?'YOUTUBE · PLAYLIST':'YOUTUBE';els.remoteIframeSlot.innerHTML='<div id="ytMainPlayer"></div>';ytShowSlot('iframe');requestAnimationFrame(restoreRemoteDockPosition);
+  try{els.audio.pause();}catch{}try{els.directAudio?.pause();}catch{}try{els.ytAudio?.pause();}catch{}try{els.ytVideo?.pause();}catch{}clearRemoteStage();state.currentEngine='youtube';state.ytEngine='iframe';state.ytDelegated=track.sourceKind==='youtube-playlist';if(state.ytDelegated)state.ytDelegatedSourceId=track.id;els.remoteDock.classList.remove('is-hidden');syncRemoteDockSize();els.remoteLabel.textContent=track.sourceKind==='youtube-playlist'?'YOUTUBE · PLAYLIST':'YOUTUBE';els.remoteIframeSlot.innerHTML='<div id="ytMainPlayer"></div>';ytShowSlot('iframe');requestAnimationFrame(restoreRemoteDockPosition);
   return new Promise(resolve=>{
-    let settled=false,timer=null;const finish=ok=>{if(settled)return;settled=true;clearTimeout(timer);resolve(ok);};
-    timer=setTimeout(()=>{if(!settled){console.debug('youtube start timeout',track.remoteId);finish(false);}},12000);
+    let settled=false,timer=null,retryTimer=null,everStarted=false;const finish=ok=>{if(settled)return;settled=true;clearTimeout(timer);clearInterval(retryTimer);resolve(ok);};
+    // R10.12: 15s de gracia (antes 12s) y NO marcar fallo si el reproductor está
+    // cargando/buffering — un fallo prematuro quemaba la cola entera.
+    timer=setTimeout(()=>{if(settled)return;if(everStarted){finish(true);return;}try{const st=ytPlayer?.getPlayerState?.();if(st===YT.PlayerState.BUFFERING||st===YT.PlayerState.PLAYING){finish(true);return;}}catch{}console.debug('youtube start timeout',track.remoteId);finish(false);},15000);
     ytPlayer=new YT.Player('ytMainPlayer',{width:'100%',height:'100%',videoId:track.sourceKind==='youtube'?track.remoteId:undefined,playerVars:{autoplay:0,playsinline:1,controls:1,rel:0,...(location.origin&&location.origin!=='null'?{origin:location.origin}:{})},events:{
-      onReady:async e=>{try{const frame=e.target.getIframe?.();if(frame){frame.setAttribute('allow','autoplay; encrypted-media; picture-in-picture');frame.referrerPolicy='strict-origin-when-cross-origin';}e.target.setVolume(Math.round(state.volume*100));const resumeAt=Math.max(Number(startAt)||0,podcastResumePosition(track));if(isPodcastTrack(track))try{e.target.setPlaybackRate(state.podcastRate);}catch{}if(track.sourceKind==='youtube-playlist')e.target.loadPlaylist({listType:'playlist',list:track.remoteId,index:0,startSeconds:resumeAt||0});else{if(resumeAt)try{e.target.seekTo(resumeAt,true);}catch{}e.target.playVideo();}if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}}catch(err){console.debug('youtube play',err);finish(false);}},
-      onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){state.playing=true;startProgressTimer();syncMediaPlaybackState();renderPlayer();finish(true);}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){state.playing=false;syncMediaPlaybackState();renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;syncMediaPlaybackState();renderPlayer();handleNaturalEnd();}},
+      onReady:async e=>{try{const frame=e.target.getIframe?.();if(frame){frame.setAttribute('allow','autoplay; encrypted-media; picture-in-picture');frame.referrerPolicy='strict-origin-when-cross-origin';}e.target.setVolume(Math.round(state.volume*100));const resumeAt=Math.max(Number(startAt)||0,podcastResumePosition(track));if(isPodcastTrack(track))try{e.target.setPlaybackRate(state.podcastRate);}catch{}if(track.sourceKind==='youtube-playlist')e.target.loadPlaylist({listType:'playlist',list:track.remoteId,index:0,startSeconds:0});else{if(resumeAt)try{e.target.seekTo(resumeAt,true);}catch{}e.target.playVideo();}if(track.sourceKind==='youtube'&&/^YouTube ·/.test(track.title)){const data=e.target.getVideoData?.()||{};if(data.title){track.title=data.title;track.artist=data.author||'YouTube';await saveRemoteTrack(track);render();}}
+      // R10.12: reintentos de playVideo() — Chrome a veces ignora el primer
+      // playVideo() sin gesto reciente; reintentar cada 1.3s hasta 6 veces.
+      let tries=0;retryTimer=setInterval(()=>{if(settled)return clearInterval(retryTimer);try{const st=e.target.getPlayerState();if(st===YT.PlayerState.PLAYING||st===YT.PlayerState.BUFFERING)return clearInterval(retryTimer);if(tries++<6)e.target.playVideo();else clearInterval(retryTimer);}catch{clearInterval(retryTimer);}},1300);}
+      catch(err){console.debug('youtube play',err);finish(false);}},
+      onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){everStarted=true;state.playing=true;startProgressTimer();syncMediaPlaybackState();renderPlayer();finish(true);if(state.ytDelegated)syncDelegatedPlaylistIndex();}else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.CUED){state.playing=false;syncMediaPlaybackState();renderPlayer();}else if(e.data===YT.PlayerState.ENDED){state.playing=false;syncMediaPlaybackState();renderPlayer();if(state.ytDelegated){advanceDelegatedPlaylist();}else{handleNaturalEnd();}}},
       onError:e=>{console.debug('youtube player error',e.data);track.lastPlaybackError=`YouTube ${e.data}`;track.lastPlaybackErrorAt=now();saveRemoteTrack(track);if(settled){handleRuntimePlaybackFailure(track,`YouTube ${e.data}`);}else finish(false);}
     }});
   });
@@ -1483,12 +1648,40 @@ async function playSoundCloud(track,startAt=0){
 
 async function handleRuntimePlaybackFailure(track,reason='No disponible'){
   if(!track||playbackFailureChain.has(track.id))return;if(state.listenSession?.trackId===track.id)await finalizeListenSession('error');playbackFailureChain.add(track.id);track.lastPlaybackError=reason;track.lastPlaybackErrorAt=now();track.playbackFailureCount=(track.playbackFailureCount||0)+1;await saveRemoteTrack(track).catch(()=>{});recordHistory('playback_error',track,{reason});
+  // R10.12 · PARADA SUAVE en avances automáticos: si la pista anterior TAMBIÉN
+  // acabó de fallar encadenada, no quemar la cola completa saltando pista tras
+  // pista (era la causa de "suena la primera y se detiene"). Detener y pedir un toque.
+  const auto=state.autoAdvanceDepth>0;
+  if(auto){state.autoFailStreak++;if(state.autoFailStreak>=2){state.playing=false;renderPlayer();syncMediaPlaybackState();toast('La lista no pudo continuar automáticamente · toca Play para reintentar',5200);return;}}
+  // R10.12 · ÚLTIMO RECURSO para playlists de YouTube: si la cola propia falla
+  // dos veces seguidas, delegar al reproductor visible de YouTube (loadPlaylist),
+  // que es el modo que funcionaba antes. Con índice explícito y startSeconds:0
+  // la canción SIEMPRE empieza completa.
+  if(auto&&state.ytPlaylistSourceId){const plTrack=state.tracks.find(t=>t.id===state.ytPlaylistSourceId);const ctx=uniquePlayableIds(state.queueIds.length?state.queueIds:(state.baseQueueIds.length?state.baseQueueIds:[]));if(plTrack&&plTrack.remoteId&&ctx.length>1){state.ytPlaylistSourceId='';toast('Usando el reproductor de YouTube para la lista…',3200);const ok=await playYouTubeIframe(plTrack,0).catch(()=>false);if(ok)return;}}
   if(!state.queueIds.includes(track.id)&&state.manualQueueIds.length){toast('Pista en cola no disponible · probando la siguiente…',2200);return nextTrack({skipFinalize:true});}
   const context=uniquePlayableIds(state.queueIds.length?state.queueIds:(state.baseQueueIds.length?state.baseQueueIds:currentModeContextIds()));
   if(context.length<=1||playbackFailureChain.size>=context.length){state.playing=false;renderPlayer();return toast('No encontré otra pista disponible en esta cola',4200);}
   let idx=Math.max(-1,context.indexOf(track.id)),next='';for(let step=1;step<=context.length;step++){const candidate=context[(idx+step+context.length)%context.length];if(candidate&&!playbackFailureChain.has(candidate)){next=candidate;break;}}
   if(!next){state.playing=false;renderPlayer();return toast('No quedan pistas reproducibles en esta cola',4200);}
   toast('Pista no disponible · saltando a la siguiente…',2200);await playTrack(next,context,{skipFinalize:true,preserveBase:true});
+}
+
+// R10.12 · Modo delegado (último recurso): YouTube gestiona el avance de SU lista
+// dentro del iframe. La app se sincroniza con el índice real y NO duplica el avance.
+function syncDelegatedPlaylistIndex(){
+  try{
+    if(!state.ytDelegated||!state.ytDelegatedSourceId)return;
+    const i=ytPlayer?.getPlaylistIndex?.();if(!Number.isInteger(i)||i<0)return;
+    const src=state.tracks.find(t=>t.id===state.ytDelegatedSourceId);if(!src)return;
+    const ids=youTubePlaylistQueueIds(src);if(!ids.length)return;
+    const id=ids[Math.min(i,ids.length-1)];
+    if(id&&id!==state.currentId){state.currentId=id;state.queueIndex=state.queueIds.indexOf(id);render();}
+  }catch{}
+}
+function advanceDelegatedPlaylist(){
+  // YouTube ya pasó a la siguiente dentro de su lista: sincronizar cuando el
+  // índice interno se actualice (varios intentos por si el ENDED llega antes).
+  [500,1500,3000,5000].forEach(ms=>setTimeout(()=>syncDelegatedPlaylistIndex(),ms));
 }
 
 function youTubePlaylistQueueIds(virtualTrack){
@@ -1508,15 +1701,19 @@ async function playTrack(id,contextIds=null,{skipFinalize=false,preserveBase=fal
   // avance, metadatos atascados en el nombre de la lista y canciones a medias.
   if(entryTrack?.sourceKind==='youtube-playlist'&&!_ytExpanded){
     const ids=youTubePlaylistQueueIds(entryTrack);
+    state.ytPlaylistSourceId=entryTrack.id;state.ytDelegated=false;state.ytDelegatedSourceId='';
     if(ids.length){const first=ids[0];return playTrack(first,ids,{skipFinalize,preserveBase,fromHistory,resumeAt:0,_ytExpanded:true});}
-  }
+  }else if(entryTrack?.sourceKind!=='youtube'&&entryTrack?.sourceKind!=='youtube-playlist')state.ytPlaylistSourceId='';
+  // R10.12: un toque del usuario SIEMPRE reintenta la resolución completa —
+  // la caché negativa solo evita re-sondeos durante los avances automáticos.
+  if(state.autoAdvanceDepth===0){const t0=state.tracks.find(t=>t.id===id);if(t0?.remoteId)ytNegCache.delete(t0.remoteId);}
   const track=state.tracks.find(t=>t.id===id);if(!track)return;if(!playable(track)){toast(track.sourceMissing?'Vuelve a cargar este archivo local para reactivarlo':'Esta fuente está guardada como referencia, pero aún no tiene reproductor integrado');return;}
   if(state.listenSession&&!skipFinalize)await finalizeListenSession('switch');
   stopAllEngines();const clean=uniquePlayableIds(contextIds&&contextIds.length?contextIds:[id]);if(!preserveBase){state.baseQueueIds=[...clean];state.modePlayedIds=[id];state.queueIds=state.playbackMode===PLAY_MODES.normal?clean:prepareModeQueue(state.playbackMode,clean,id);state.queueIndex=Math.max(0,state.queueIds.indexOf(id));}else if(clean.includes(id)){state.queueIds=clean;state.queueIndex=Math.max(0,state.queueIds.indexOf(id));}else if(!state.queueIds.length){state.queueIds=clean;state.queueIndex=Math.max(-1,state.queueIds.indexOf(id));}state.currentId=id;
   if(!fromHistory){if(state.navHistory[state.navHistory.length-1]!==id)state.navHistory.push(id);if(state.navHistory.length>200)state.navHistory.shift();}
   if(!state.modePlayedIds.includes(id))state.modePlayedIds.push(id);if(state.modePlayedIds.length>500)state.modePlayedIds.shift();
   let ok=false;if(track.sourceKind==='local'||track.sourceKind==='direct')ok=await playLocalOrDirect(track,resumeAt);else if(track.sourceKind==='youtube'||track.sourceKind==='youtube-playlist')ok=await playYouTube(track,resumeAt);else if(track.sourceKind==='soundcloud')ok=await playSoundCloud(track,resumeAt);
-  if(ok){playbackFailureChain.clear();track.lastPlaybackError='';state.firstRunComplete=true;await beginListenSession(track);await persistPrefs();setupMediaSession();render();}
+  if(ok){playbackFailureChain.clear();track.lastPlaybackError='';state.firstRunComplete=true;state.autoFailStreak=0;if(!state.ytDelegated)state.ytDelegatedSourceId='';await beginListenSession(track);await persistPrefs();setupMediaSession();render();}
   else if(['youtube','youtube-playlist','soundcloud','direct'].includes(track.sourceKind)){await handleRuntimePlaybackFailure(track,track.lastPlaybackError||'La fuente no respondió');}
 }
 async function togglePlay(){const t=getCurrentTrack();if(!t){const ids=currentModeContextIds();if(!ids.length)return toast('Primero carga o importa música');const order=prepareModeQueue(state.playbackMode,ids,'');state.baseQueueIds=[...ids];return order[0]?playTrack(order[0],order,{preserveBase:true}):null;}if(state.currentEngine==='none'||(t.sourceKind==='local'&&!els.audio.src)||(t.sourceKind==='direct'&&!els.directAudio?.src)||(t.sourceKind==='youtube'&&state.ytEngine==='native'&&!ytNativeElement()?.src)||(t.sourceKind==='youtube'&&!ytPlayer&&state.ytEngine!=='native')||(t.sourceKind==='soundcloud'&&!scWidget))return playTrack(t.id,state.queueIds.length?state.queueIds:[t.id],{preserveBase:true});if(state.currentEngine==='youtube'&&state.ytEngine==='native'){const el=ytNativeElement();if(el?.paused){try{await el.play();}catch{}}else el?.pause();return;}if(state.currentEngine==='youtube'&&ytPlayer){const st=ytPlayer.getPlayerState();st===YT.PlayerState.PLAYING?ytPlayer.pauseVideo():ytPlayer.playVideo();return;}if(state.currentEngine==='soundcloud'&&scWidget){scWidget.toggle();return;}const a=activeNativeAudio();if(a?.paused){try{await a.play();}catch{}}else a?.pause();}
@@ -1864,10 +2061,10 @@ function openYouTubeEngineSheet(){
     </div>`,root=>{
     $$('[data-ytmode]',root).forEach(b=>b.onclick=async()=>{state.ytNativeMode=b.dataset.ytmode;await persistPrefs();closeDialog(els.sheetDialog);toast(b.dataset.ytmode==='auto'?'Motor nativo activado':'Reproductor visible activado',2400);});
     $('[data-yt-test]',root).onclick=async()=>{const btn=$('[data-yt-test]',root);btn.disabled=true;const label=$('small',btn);if(label)label.textContent='Consultando instancias…';state.ytInstCache=null;state.ytInstAt=0;const t=Date.now();const res=await resolveYouTubeMedia('jNQXAC9IVRw',{force:true}).catch(()=>null);if(label)label.textContent=res?`Disponible · instancia en ${((Date.now()-t)/1000).toFixed(1)}s`:'Sin respuesta · se usará el reproductor visible';btn.disabled=false;};
-    const input=$('#ytCustomApiInput',root);input?.addEventListener('change',async()=>{state.ytCustomApi=ytNormalizeBase(input.value.trim());await persistPrefs();toast(state.ytCustomApi?'Instancia guardada':'Instancia personalizada borrada',2200);});
+    const input=$('#ytCustomApiInput',root);input?.addEventListener('change',async()=>{state.ytCustomApi=ytNormalizeBase(input.value.trim());ytStreamCache.clear();ytNegCache.clear();state.ytInstCache=null;state.ytInstAt=0;await persistPrefs();toast(state.ytCustomApi?'Instancia guardada · reintentando el motor nativo':'Instancia personalizada borrada',2200);});
   });
 }
-function openMoreMenu(){openSheet(`<h2 class="sheet-title">MUSIC PLAY</h2><p class="sheet-copy">Herramientas de biblioteca sin llenar la pantalla principal.</p><div class="sheet-stack"><button class="sheet-btn" data-more="modes">▶ Modos de reproducción<small>Aleatorio, Radio, Redescubrir, Sorpréndeme y Cola Viva</small></button><button class="sheet-btn" data-more="yt">▶ Motor de YouTube<small>Segundo plano, pantalla bloqueada e instancia preferida</small></button><button class="sheet-btn" data-more="sound">◉ Sonido adaptativo<small>Auto por ritmo, Original, Cálido, Potente o Claro</small></button><button class="sheet-btn" data-more="fullscreen">⛶ Pantalla completa<small>Oculta la barra del sistema durante esta sesión</small></button><button class="sheet-btn" data-more="pwa">⇩ PWA · instalación<small>Estado, instalación y pantalla completa</small></button><button class="sheet-btn" data-more="recap">◎ Mi resumen<small>Escuchas, tiempo, repeticiones y favoritos</small></button><button class="sheet-btn" data-more="backup">🛡 Recovery JSON<small>Respaldo portable de playlists, favoritos, historial, cola y preferencias</small></button><button class="sheet-btn" data-more="restore">⇧ Restaurar Recovery<small>Combina una copia con tu biblioteca actual sin borrar lo existente</small></button><button class="sheet-btn" data-more="m3u-export">≡ Exportar M3U8<small>Interoperabilidad con otros reproductores</small></button><button class="sheet-btn" data-more="m3u-import">＋ Importar M3U/M3U8<small>Enlaces y referencias locales</small></button><button class="sheet-btn danger" data-more="clear">⌫ Borrar historial<small>No borra música ni favoritos</small></button></div>`,root=>{$('[data-more="modes"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openPlaybackModesSheet(),40);};$('[data-more="yt"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openYouTubeEngineSheet(),40);};$('[data-more="fullscreen"]',root).onclick=async()=>{await requestImmersive();};$('[data-more="sound"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openSoundModeSheet(),40);};$('[data-more="pwa"]',root).onclick=()=>{closeDialog(els.sheetDialog);openPwaStatusSheet();};$('[data-more="recap"]',root).onclick=()=>{closeDialog(els.sheetDialog);openRecapSheet();};$('[data-more="backup"]',root).onclick=()=>{closeDialog(els.sheetDialog);exportBackup();};$('[data-more="restore"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.backupInput.click();};$('[data-more="m3u-export"]',root).onclick=()=>{closeDialog(els.sheetDialog);openExportM3USheet();};$('[data-more="m3u-import"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.m3uInput.click();};$('[data-more="clear"]',root).onclick=()=>{closeDialog(els.sheetDialog);openClearHistoryConfirm();};});}
+function openMoreMenu(){openSheet(`<h2 class="sheet-title">MUSIC PLAY <small class="ver-chip">${safeText(APP_VERSION)}</small></h2><p class="sheet-copy">Herramientas de biblioteca sin llenar la pantalla principal.</p><div class="sheet-stack"><button class="sheet-btn" data-more="minifloat">◱ Pantalla reducida flotante<small>Ventana mínima con video o carátula + controles · también con ⧉ arriba</small></button><button class="sheet-btn" data-more="modes">▶ Modos de reproducción<small>Aleatorio, Radio, Redescubrir, Sorpréndeme y Cola Viva</small></button><button class="sheet-btn" data-more="yt">▶ Motor de YouTube<small>Segundo plano, pantalla bloqueada e instancia preferida</small></button><button class="sheet-btn" data-more="sound">◉ Sonido adaptativo<small>Auto por ritmo, Original, Cálido, Potente o Claro</small></button><button class="sheet-btn" data-more="fullscreen">⛶ Pantalla completa<small>Oculta la barra del sistema durante esta sesión</small></button><button class="sheet-btn" data-more="fsauto">⛶${state.autoFullscreen!==false?' ✓':' ✗'} Completa automática<small>${state.autoFullscreen!==false?'Se activa sola al abrir y al volver de segundo plano':'Solo cuando la pidas manualmente'}</small></button><button class="sheet-btn" data-more="pwa">⇩ PWA · instalación<small>Estado, instalación y pantalla completa</small></button><button class="sheet-btn" data-more="recap">◎ Mi resumen<small>Escuchas, tiempo, repeticiones y favoritos</small></button><button class="sheet-btn" data-more="backup">🛡 Recovery JSON<small>Respaldo portable de playlists, favoritos, historial, cola y preferencias</small></button><button class="sheet-btn" data-more="restore">⇧ Restaurar Recovery<small>Combina una copia con tu biblioteca actual sin borrar lo existente</small></button><button class="sheet-btn" data-more="m3u-export">≡ Exportar M3U8<small>Interoperabilidad con otros reproductores</small></button><button class="sheet-btn" data-more="m3u-import">＋ Importar M3U/M3U8<small>Enlaces y referencias locales</small></button><button class="sheet-btn danger" data-more="clear">⌫ Borrar historial<small>No borra música ni favoritos</small></button></div>`,root=>{$('[data-more="modes"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openPlaybackModesSheet(),40);};$('[data-more="yt"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openYouTubeEngineSheet(),40);};$('[data-more="minifloat"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(toggleFloatMini,60);};$('[data-more="fsauto"]',root).onclick=async()=>{state.autoFullscreen=!(state.autoFullscreen!==false);await persistPrefs();closeDialog(els.sheetDialog);toast(state.autoFullscreen?'Pantalla completa automática activada':'Pantalla completa automática desactivada',2600);};$('[data-more="fullscreen"]',root).onclick=async()=>{closeDialog(els.sheetDialog);await requestImmersive();};$('[data-more="sound"]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openSoundModeSheet(),40);};$('[data-more="pwa"]',root).onclick=()=>{closeDialog(els.sheetDialog);openPwaStatusSheet();};$('[data-more="recap"]',root).onclick=()=>{closeDialog(els.sheetDialog);openRecapSheet();};$('[data-more="backup"]',root).onclick=()=>{closeDialog(els.sheetDialog);exportBackup();};$('[data-more="restore"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.backupInput.click();};$('[data-more="m3u-export"]',root).onclick=()=>{closeDialog(els.sheetDialog);openExportM3USheet();};$('[data-more="m3u-import"]',root).onclick=()=>{closeDialog(els.sheetDialog);els.m3uInput.click();};$('[data-more="clear"]',root).onclick=()=>{closeDialog(els.sheetDialog);openClearHistoryConfirm();};});}
 
 function setUpdateAvailable(on=true){state.updateAvailable=!!on;if(!els.updateBtn)return;els.updateBtn.classList.toggle('is-hidden',!state.updateAvailable);if(on)els.updateBtn.setAttribute('aria-label','Actualizar MUSIC PLAY: nueva versión disponible');}
 function wireServiceWorker(reg){
@@ -1888,12 +2085,18 @@ async function checkForUpdates(force=false){
     if(res.ok){const info=await res.json();state.remoteBuild=info.build||'';if(state.remoteBuild && state.remoteBuild!==BUILD)setUpdateAvailable(true);}
   }catch(err){console.debug('Version check skipped',err);}
   try{await state.swRegistration?.update();}catch{}
+  // R10.12: si hay versión nueva y NADA está sonando, aplicar la actualización
+  // automáticamente (una vez por sesión). Así el usuario SIEMPRE percibe los cambios.
+  if(state.updateAvailable&&!state.playing&&!state.floatMini&&!els.sheetDialog?.open&&!els.playerDialog?.open){
+    try{if(sessionStorage.getItem('mpf-auto-update-applied')!==BUILD){sessionStorage.setItem('mpf-auto-update-applied',BUILD);setTimeout(()=>{if(!state.playing&&!els.sheetDialog?.open&&!els.playerDialog?.open)applyAvailableUpdate({auto:true}).catch(()=>{});},1500);}}catch{}
+  }
   return state.updateAvailable;
 }
-async function applyAvailableUpdate(){
+async function applyAvailableUpdate(opts={}){
+  const auto=opts&&opts.auto===true;
   if(!navigator.onLine)return toast('Necesitas conexión para actualizar');
-  if(hasRecoveryData()){toast('Creando Recovery antes de actualizar…',2600);await createRecoveryBackup({reason:'before-app-update',download:true,quiet:true});}
-  toast('Actualizando MUSIC PLAY…',3200);
+  if(hasRecoveryData()){await createRecoveryBackup({reason:'before-app-update',download:!auto,quiet:true});}
+  toast(auto?'Actualizando MUSIC PLAY en segundo plano…':'Actualizando MUSIC PLAY…',3200);
   state.refreshingForUpdate=true;
   let reg=state.swRegistration;
   try{if(reg)await reg.update();}catch{}
@@ -2183,17 +2386,23 @@ async function setupMediaSession(){
 
 function isInstalledDisplay(){return !!(window.matchMedia?.('(display-mode: fullscreen)').matches||window.matchMedia?.('(display-mode: standalone)').matches||window.matchMedia?.('(display-mode: minimal-ui)').matches||window.navigator.standalone===true);}
 function syncShellMode(){document.documentElement.dataset.shell=isInstalledDisplay()?'app':'browser';}
-// R10.11: al abrir la app instalada, activa el modo inmersivo real (sin barra
-// del sistema abajo ni arriba) en el primer gesto. Así desaparece la franja
-// blanca con el botón atrás aunque el manifest aún no se haya actualizado.
-let immersiveAutoTried=false;
+// R10.12: pantalla completa REAL también en el navegador, no solo instalada.
+// En Android Chrome requestFullscreen() oculta la franja del sistema (cuadrado,
+// círculo, atrás). Se activa en el primer gesto si la preferencia lo permite,
+// se reafirma al volver de segundo plano y se puede apagar desde ⋯.
+let immersiveAutoTried=false,immersiveToastShown=false;
 function bindAutoImmersive(){
   document.addEventListener('pointerdown',async()=>{
     if(immersiveAutoTried)return;immersiveAutoTried=true;
-    if(!isInstalledDisplay()||document.fullscreenElement||!document.fullscreenEnabled)return;
-    try{await document.documentElement.requestFullscreen({navigationUI:'hide'});syncInstallUI();}catch(err){console.debug('auto fullscreen',err);}
+    if(!state.autoFullscreen||document.fullscreenElement||!document.fullscreenEnabled)return;
+    try{await document.documentElement.requestFullscreen({navigationUI:'hide'});state.autoFsWasOn=true;syncInstallUI();if(!immersiveToastShown){immersiveToastShown=true;toast('Pantalla completa activa · botón ⛶ o ⋯ para salir',3600);}}catch(err){console.debug('auto fullscreen',err);}
   },{once:true,capture:true});
-  document.addEventListener('fullscreenchange',()=>{try{syncInstallUI();}catch{}});
+  document.addEventListener('fullscreenchange',()=>{try{if(document.fullscreenElement)state.autoFsWasOn=true;syncInstallUI();}catch{}});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState!=='visible')return;
+    if(!state.autoFullscreen||!state.autoFsWasOn||document.fullscreenElement||!document.fullscreenEnabled)return;
+    setTimeout(async()=>{if(document.visibilityState==='visible'&&!document.fullscreenElement&&state.autoFullscreen&&document.fullscreenEnabled){try{await document.documentElement.requestFullscreen({navigationUI:'hide'});}catch{}}},350);
+  });
 }
 async function requestImmersive(){
   try{if(document.fullscreenElement){await document.exitFullscreen?.();syncInstallUI();return true;}if(document.fullscreenEnabled){await document.documentElement.requestFullscreen({navigationUI:'hide'});syncInstallUI();return true;}}catch(err){console.debug('Fullscreen',err);}return false;
@@ -2202,9 +2411,6 @@ function syncInstallUI(){
   if(!els.installBtn)return;syncShellMode();const installed=isInstalledDisplay();els.installBtn.classList.remove('is-hidden');els.installBtn.classList.toggle('installed',installed);
   els.installBtn.classList.toggle('fullscreen-action',installed);els.installBtn.innerHTML=installed?'⛶':'⇩ <span>Instalar</span>';els.installBtn.title=installed?'Pantalla completa':'Instalar MUSIC PLAY como aplicación';els.installBtn.setAttribute('aria-label',installed?'Alternar pantalla completa':'Instalar MUSIC PLAY');
   if(els.onboardingInstallBtn){els.onboardingInstallBtn.classList.toggle('is-hidden',installed);els.onboardingInstallBtn.setAttribute('aria-hidden',installed?'true':'false');}
-}
-async function requestImmersive(){
-  try{if(document.fullscreenElement){await document.exitFullscreen?.();return true;}if(document.fullscreenEnabled){await document.documentElement.requestFullscreen({navigationUI:'hide'});return true;}}catch(err){console.debug('Fullscreen',err);}return false;
 }
 function androidChromeIntent(){
   if(!/android/i.test(navigator.userAgent||''))return '';
@@ -2275,7 +2481,7 @@ function bindEvents(){
   els.folderInput.onchange=()=>{const fs=els.folderInput.files,target=state.pendingImportTargetId,label=state.pendingImportLabel||fs?.[0]?.webkitRelativePath?.split('/')?.[0]||'Carpeta importada';state.pendingImportTargetId='';state.pendingImportLabel='';importFiles(fs,{label,targetPlaylistId:target});els.folderInput.value='';};
   els.backupInput.onchange=()=>{const f=els.backupInput.files?.[0];els.backupInput.value='';if(f)restoreBackupFile(f);};els.m3uInput.onchange=()=>{const f=els.m3uInput.files?.[0];els.m3uInput.value='';if(f)importM3UFile(f);};
 
-  els.miniOpen.onclick=()=>{if(els.miniOpen._gestureConsumedUntil&&performance.now()<els.miniOpen._gestureConsumedUntil)return;openDialog(els.playerDialog);};[els.playBtn,els.fullPlayBtn].forEach(b=>b.onclick=togglePlay);[els.prevBtn,els.fullPrevBtn].forEach(b=>b.onclick=prevTrack);[els.nextBtn,els.fullNextBtn].forEach(b=>b.onclick=nextTrack);els.shuffleBtn.onclick=()=>openPlaybackModesSheet();els.favoriteBtn.onclick=()=>toggleFavorite();els.miniFavoriteBtn.onclick=e=>{e.stopPropagation();toggleFavorite();};els.miniAddPlaylistBtn.onclick=e=>{e.stopPropagation();const t=getCurrentTrack();if(t)openPlaylistPickerSheet(t.id);};els.miniQueueBtn.onclick=e=>{e.stopPropagation();openQueueSheet();};els.queueManagerBtn.onclick=()=>openQueueSheet();els.podcastBackBtn.onclick=()=>seekBy(-15);els.podcastForwardBtn.onclick=()=>seekBy(30);els.podcastRateBtn.onclick=cyclePodcastRate;els.remoteResizeBtn.onclick=e=>{e.stopPropagation();toggleRemoteDockSize();};els.remoteShareBtn.onclick=e=>{e.stopPropagation();shareTrack();};els.remoteCloseBtn.onclick=e=>{e.stopPropagation();closeRemoteDockByUser();};els.shareCurrentBtn.onclick=()=>shareTrack();els.soundModeBtn.onclick=()=>openSoundModeSheet();bindRemoteDockDrag();syncRemoteDockSize();els.progressRange.oninput=seekFromRange;els.volumeRange.oninput=()=>{state.volume=Number(els.volumeRange.value)||0;els.audio.volume=state.volume;if(els.directAudio)els.directAudio.volume=state.volume;ytApplyNativeVolume();if(ytPlayer)try{ytPlayer.setVolume(Math.round(state.volume*100));}catch{}if(scWidget)try{scWidget.setVolume(Math.round(state.volume*100));}catch{}persistPrefs();};els.addCurrentToPlaylist.onclick=()=>{const t=getCurrentTrack();if(t)openPlaylistPickerSheet(t.id);};if(els.repeatCurrentBtn)els.repeatCurrentBtn.onclick=()=>{const t=getCurrentTrack();if(t)toggleRepeatOne(t.id);};bindCurrentTrackSwipe(els.miniOpen);bindCurrentTrackSwipe(els.playerArtwork);bindCurrentTrackSwipe(els.resumeCard);
+  els.miniOpen.onclick=()=>{if(els.miniOpen._gestureConsumedUntil&&performance.now()<els.miniOpen._gestureConsumedUntil)return;openDialog(els.playerDialog);};[els.playBtn,els.fullPlayBtn].forEach(b=>b.onclick=togglePlay);[els.prevBtn,els.fullPrevBtn].forEach(b=>b.onclick=prevTrack);[els.nextBtn,els.fullNextBtn].forEach(b=>b.onclick=nextTrack);els.shuffleBtn.onclick=()=>openPlaybackModesSheet();els.favoriteBtn.onclick=()=>toggleFavorite();els.miniFavoriteBtn.onclick=e=>{e.stopPropagation();toggleFavorite();};els.miniAddPlaylistBtn.onclick=e=>{e.stopPropagation();const t=getCurrentTrack();if(t)openPlaylistPickerSheet(t.id);};els.miniQueueBtn.onclick=e=>{e.stopPropagation();openQueueSheet();};els.queueManagerBtn.onclick=()=>openQueueSheet();els.podcastBackBtn.onclick=()=>seekBy(-15);els.podcastForwardBtn.onclick=()=>seekBy(30);els.podcastRateBtn.onclick=cyclePodcastRate;els.remoteResizeBtn.onclick=e=>{e.stopPropagation();toggleRemoteDockSize();};els.remoteShareBtn.onclick=e=>{e.stopPropagation();shareTrack();};els.remoteCloseBtn.onclick=e=>{e.stopPropagation();closeRemoteDockByUser();};els.miniFloatBtn.onclick=toggleFloatMini;els.fmExpand.onclick=exitFloatMini;els.fmClose.onclick=exitFloatMini;els.fmPlay.onclick=togglePlay;els.fmPrev.onclick=prevTrack;els.fmNext.onclick=nextTrack;els.fmProgress.oninput=()=>{els.progressRange.value=els.fmProgress.value;seekFromRange();syncFloatMiniProgress();};bindFloatMiniDrag();els.shareCurrentBtn.onclick=()=>shareTrack();els.soundModeBtn.onclick=()=>openSoundModeSheet();bindRemoteDockDrag();syncRemoteDockSize();els.progressRange.oninput=seekFromRange;els.volumeRange.oninput=()=>{state.volume=Number(els.volumeRange.value)||0;els.audio.volume=state.volume;if(els.directAudio)els.directAudio.volume=state.volume;ytApplyNativeVolume();if(ytPlayer)try{ytPlayer.setVolume(Math.round(state.volume*100));}catch{}if(scWidget)try{scWidget.setVolume(Math.round(state.volume*100));}catch{}persistPrefs();};els.addCurrentToPlaylist.onclick=()=>{const t=getCurrentTrack();if(t)openPlaylistPickerSheet(t.id);};if(els.repeatCurrentBtn)els.repeatCurrentBtn.onclick=()=>{const t=getCurrentTrack();if(t)toggleRepeatOne(t.id);};bindCurrentTrackSwipe(els.miniOpen);bindCurrentTrackSwipe(els.playerArtwork);bindCurrentTrackSwipe(els.resumeCard);
 
   els.audio.addEventListener('timeupdate',updateProgress);els.audio.addEventListener('loadedmetadata',()=>{const t=getCurrentTrack();if(state.currentEngine==='local'&&t&&!t.duration&&Number.isFinite(els.audio.duration)){t.duration=els.audio.duration;saveRemoteTrack(t);}updateProgress();});els.audio.addEventListener('play',()=>{if(state.currentEngine==='local'){state.playing=true;syncMediaPlaybackState();renderPlayer();renderHome();}});els.audio.addEventListener('pause',()=>{if(state.currentEngine==='local'){state.playing=false;syncMediaPlaybackState();renderPlayer();renderHome();}});els.audio.addEventListener('ended',()=>{if(state.currentEngine==='local')handleNaturalEnd();});els.audio.addEventListener('error',()=>{if(state.currentEngine==='local')toast('Este formato no pudo reproducirse en el navegador',3800);});
   if(els.directAudio){els.directAudio.addEventListener('timeupdate',updateProgress);els.directAudio.addEventListener('loadedmetadata',()=>{const t=getCurrentTrack();if(state.currentEngine==='direct'&&t&&!t.duration&&Number.isFinite(els.directAudio.duration)){t.duration=els.directAudio.duration;saveRemoteTrack(t);}updateProgress();});els.directAudio.addEventListener('play',()=>{if(state.currentEngine==='direct'){state.playing=true;syncMediaPlaybackState();renderPlayer();renderHome();}});els.directAudio.addEventListener('pause',()=>{if(state.currentEngine==='direct'){state.playing=false;syncMediaPlaybackState();renderPlayer();renderHome();}});els.directAudio.addEventListener('ended',()=>{if(state.currentEngine==='direct')handleNaturalEnd();});els.directAudio.addEventListener('error',()=>{if(state.currentEngine==='direct'){const t=getCurrentTrack();if(t)handleRuntimePlaybackFailure(t,'Enlace multimedia no disponible');}});}
@@ -2287,14 +2493,18 @@ function bindEvents(){
     els.ytAudio.addEventListener('play',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'){state.playing=true;syncMediaPlaybackState();renderPlayer();}});
     els.ytAudio.addEventListener('playing',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'){state.playing=true;syncMediaPlaybackState();renderPlayer();}});
     els.ytAudio.addEventListener('pause',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&!state.ytResumeVideo){state.playing=false;syncMediaPlaybackState();renderPlayer();}});
-    els.ytAudio.addEventListener('ended',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&!state.ytResumeVideo)handleNaturalEnd();});
+    els.ytAudio.addEventListener('ended',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'){if(state.ytResumeVideo)state.ytResumeVideo=false;handleNaturalEnd();}});
     els.ytAudio.addEventListener('error',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&!state.ytResumeVideo)ytHandleNativeError();});
   }
   if(els.ytVideo){
     els.ytVideo.addEventListener('timeupdate',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video')updateProgress();});
     els.ytVideo.addEventListener('loadedmetadata',()=>{const t=getCurrentTrack();if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&t&&!t.duration&&Number.isFinite(els.ytVideo.duration)){t.duration=els.ytVideo.duration;saveRemoteTrack(t);}updateProgress();});
     els.ytVideo.addEventListener('play',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video'){state.playing=true;syncMediaPlaybackState();renderPlayer();}});
-    els.ytVideo.addEventListener('pause',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video'&&!state.ytResumeVideo){state.playing=false;syncMediaPlaybackState();renderPlayer();}});
+    els.ytVideo.addEventListener('pause',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video'){
+      // R10.12: si el navegador pausa el video al bloquearse la pantalla, traspasar
+      // a la pista de audio en la misma posición para que la música SIGA sonando.
+      if(document.hidden&&!state.ytResumeVideo&&!els.ytVideo.ended){ytSwapToAudioForBackground();return;}
+      if(!state.ytResumeVideo){state.playing=false;syncMediaPlaybackState();renderPlayer();}}});
     els.ytVideo.addEventListener('ended',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video')handleNaturalEnd();});
     els.ytVideo.addEventListener('error',()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='native'&&state.ytNativeKind==='video')ytHandleNativeError();});
   }
@@ -2310,7 +2520,7 @@ function bindEvents(){
     checkForUpdates(false);ytRestoreVideoIfPossible();
     if(state.remoteExpectedPlaying){state.remoteExpectedPlaying=false;setTimeout(()=>{if(state.currentEngine==='youtube'&&state.ytEngine==='iframe'&&ytPlayer&&!state.playing){try{ytPlayer.playVideo();}catch{}setTimeout(()=>{if(!state.playing)toast('YouTube puede pausar al bloquear la pantalla · toca Play para continuar',4200);},900);}else if(state.currentEngine==='soundcloud'&&scWidget&&!state.playing){try{scWidget.play();}catch{}}},150);}
   }});window.addEventListener('online',()=>checkForUpdates(true));
-  document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(e.code==='Space'){e.preventDefault();togglePlay();}else if(e.key.toLowerCase()==='m')startMix(getFilteredTracks().map(t=>t.id));else if(e.key.toLowerCase()==='l')showView('library');else if(e.key==='/'){e.preventDefault();showView('search');}});window.addEventListener('pagehide',()=>{finalizeListenSession('pause');persistPrefs();});window.addEventListener('beforeunload',persistPrefs);
+  document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(e.key==='Escape'&&state.floatMini&&!els.sheetDialog.open&&!els.playerDialog.open){exitFloatMini();return;}if(e.code==='Space'){e.preventDefault();togglePlay();}else if(e.key.toLowerCase()==='m')startMix(getFilteredTracks().map(t=>t.id));else if(e.key.toLowerCase()==='l')showView('library');else if(e.key==='/'){e.preventDefault();showView('search');}});window.addEventListener('pagehide',()=>{finalizeListenSession('pause');persistPrefs();});window.addEventListener('beforeunload',persistPrefs);
 }
 
 async function init(){

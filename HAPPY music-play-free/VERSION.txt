@@ -1,2 +1,8 @@
-MUSIC PLAY FREE HAPPY R10.11
-Build: 2026.09.12-r10.11-yt-native-fullscreen
+MUSIC PLAY · HAPPY — R10.12 (2026-09-12)
+Novedades:
+- NUEVO modo "Pantalla reducida flotante" (botón ⧉ arriba a la derecha).
+- Playlists de YouTube: reparado el avance automático (sonaba la primera y paraba).
+- Motor nativo: resolución de streams 3x más rápida (paralela) + precarga de la siguiente pista.
+- Pantalla completa real también en navegador (no solo instalada), se reafirma al volver.
+- Bloqueo de pantalla: traspaso video→audio también si el navegador pausa el video oculto.
+- Actualizaciones automáticas cuando no hay reproducción en curso.
