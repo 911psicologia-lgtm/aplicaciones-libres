@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.12-r10.12-float-mini-fix",
-  "version": "R10.12",
-  "label": "Pantalla reducida flotante · avance de playlists reparado · resolución YouTube 3x más rápida · pantalla completa real en navegador",
-  "date": "2026-09-12"
+  "build": "2026.09.13-r10.13-native-engine-fix",
+  "version": "R10.13",
+  "label": "Motor nativo reparado: helper propio con proxy de bytes, diagnóstico por vías, InnerTube directo y guía de activación en 3 pasos",
+  "date": "2026-09-13"
 }

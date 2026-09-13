@@ -1,8 +1,10 @@
-MUSIC PLAY · HAPPY — R10.12 (2026-09-12)
+MUSIC PLAY · HAPPY — R10.13 (2026-09-13)
 Novedades:
-- NUEVO modo "Pantalla reducida flotante" (botón ⧉ arriba a la derecha).
-- Playlists de YouTube: reparado el avance automático (sonaba la primera y paraba).
-- Motor nativo: resolución de streams 3x más rápida (paralela) + precarga de la siguiente pista.
-- Pantalla completa real también en navegador (no solo instalada), se reafirma al volver.
-- Bloqueo de pantalla: traspaso video→audio también si el navegador pausa el video oculto.
-- Actualizaciones automáticas cuando no hay reproducción en curso.
+- REPARADO el motor nativo de YouTube («Sin respuesta»): el ecosistema público de
+  Invidious/Piped está caído/deshabilitado (comprobado). Ahora el motor usa TU
+  propio Helper en Cloudflare con proxy de bytes (sin 403 por IP).
+- Hoja «Motor de YouTube» nueva: diagnóstico por vías + URL del Helper + guía de
+  activación en 3 pasos con botón «Copiar código del Worker».
+- Nuevas vías automáticas: InnerTube directo desde el navegador, lista dinámica de
+  Piped y fallback latest_version con <audio> (sin CORS).
+- Actualiza el SW: toca ↻ o espera a la actualización automática.

@@ -1,8 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.12-r10.12-float-mini-fix';
-const APP_VERSION = 'R10.12';
+const BUILD = '2026.09.13-r10.13-native-engine-fix';
+const APP_VERSION = 'R10.13';
 const DB_NAME = 'mpf-minimal-db';
 const DB_VERSION = 6;
 const PLAYABLE_SOURCES = new Set(['local','direct','youtube','soundcloud','youtube-playlist']);
@@ -93,7 +93,7 @@ const state = {
   modePlayedIds: [], navHistory: [], volume: 0.92, search: '', globalSearch: '', librarySort: 'recent', theme: 'dark', objectUrl: null, installPrompt: null, storageReady: false,
   swRegistration: null, updateAvailable: false, remoteBuild: null, lastUpdateCheck: 0, refreshingForUpdate: false,
   currentEngine: 'none', activeSmartId: '', listenSession: null, history: [], renderChunk: 60,
-  ytEngine: 'none', ytNativeKind: 'audio', ytMedia: null, ytHandoverPos: 0, ytResumeVideo: false, ytRetryDone: false, ytNativeMode: 'auto', ytCustomApi: '', ytInstCache: null, ytInstAt: 0,
+  ytEngine: 'none', ytNativeKind: 'audio', ytMedia: null, ytHandoverPos: 0, ytResumeVideo: false, ytRetryDone: false, ytNativeMode: 'auto', ytCustomApi: '', ytHelperUrl: '', ytDiag: null, ytDiagRes: false, ytIframeHintShown: false, ytInstCache: null, ytInstAt: 0,
   ytDelegatedSourceId: '', autoFailStreak: 0, ytDelegated: false, ytPlaylistSourceId: '', autoAdvanceDepth: 0, autoFullscreen: true, floatMini: false, autoFsWasOn: false,
   lastImportIds: [], lastImportLabel: '', lastImportAt: 0, remoteExpectedPlaying: false, installCoachShown: false,
   importJob: null, enrichmentQueue: [], enrichmentRunning: false, fileHandlesSupported: false, firstRunComplete: false,
@@ -276,7 +276,7 @@ async function loadStoredData(){
     state.playlists=(await db.getAll('playlists')).map(normalizePlaylist).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
     state.history=(await db.getAll('history')).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,2500);
     const p=await db.get('prefs','ui');
-    if(p){state.currentId=p.currentId||null;state.queueIds=p.queueIds||[];state.baseQueueIds=p.baseQueueIds||p.queueIds||[];state.manualQueueIds=Array.isArray(p.manualQueueIds)?p.manualQueueIds:[];state.repeatOneId=p.repeatOneId||'';state.queueIndex=Number.isInteger(p.queueIndex)?p.queueIndex:-1;state.volume=Number.isFinite(p.volume)?p.volume:.92;state.activePlaylistId=p.activePlaylistId||'';state.activeSmartId=p.activeSmartId||'';state.theme=p.theme||'dark';state.libraryTab=['playlists','songs','albums'].includes(p.libraryTab)?p.libraryTab:'playlists';state.librarySort=['recent','name','played'].includes(p.librarySort)?p.librarySort:'recent';state.firstRunComplete=!!p.firstRunComplete;state.playbackMode=Object.values(PLAY_MODES).includes(p.playbackMode)?p.playbackMode:(p.shuffle?PLAY_MODES.shuffle:PLAY_MODES.normal);state.shuffle=state.playbackMode===PLAY_MODES.shuffle;state.songCategories=Array.isArray(p.songCategories)?p.songCategories.filter(Boolean).slice(0,24):[];state.songSource=['all','local','youtube','linked'].includes(p.songSource)?p.songSource:'all';state.soundMode=Object.values(SOUND_MODES).includes(p.soundMode)?p.soundMode:SOUND_MODES.auto;state.podcastRate=PODCAST_RATES.includes(Number(p.podcastRate))?Number(p.podcastRate):1;state.dailyRecommendationDate=p.dailyRecommendationDate||'';state.dailyRecommendationBand=p.dailyRecommendationBand||'';state.dailyRecommendationIds=Array.isArray(p.dailyRecommendationIds)?p.dailyRecommendationIds:[];state.ytNativeMode=p.ytNativeMode==='iframe'?'iframe':'auto';state.ytCustomApi=typeof p.ytCustomApi==='string'?p.ytCustomApi:'';state.autoFullscreen=p.autoFullscreen!==false;}
+    if(p){state.currentId=p.currentId||null;state.queueIds=p.queueIds||[];state.baseQueueIds=p.baseQueueIds||p.queueIds||[];state.manualQueueIds=Array.isArray(p.manualQueueIds)?p.manualQueueIds:[];state.repeatOneId=p.repeatOneId||'';state.queueIndex=Number.isInteger(p.queueIndex)?p.queueIndex:-1;state.volume=Number.isFinite(p.volume)?p.volume:.92;state.activePlaylistId=p.activePlaylistId||'';state.activeSmartId=p.activeSmartId||'';state.theme=p.theme||'dark';state.libraryTab=['playlists','songs','albums'].includes(p.libraryTab)?p.libraryTab:'playlists';state.librarySort=['recent','name','played'].includes(p.librarySort)?p.librarySort:'recent';state.firstRunComplete=!!p.firstRunComplete;state.playbackMode=Object.values(PLAY_MODES).includes(p.playbackMode)?p.playbackMode:(p.shuffle?PLAY_MODES.shuffle:PLAY_MODES.normal);state.shuffle=state.playbackMode===PLAY_MODES.shuffle;state.songCategories=Array.isArray(p.songCategories)?p.songCategories.filter(Boolean).slice(0,24):[];state.songSource=['all','local','youtube','linked'].includes(p.songSource)?p.songSource:'all';state.soundMode=Object.values(SOUND_MODES).includes(p.soundMode)?p.soundMode:SOUND_MODES.auto;state.podcastRate=PODCAST_RATES.includes(Number(p.podcastRate))?Number(p.podcastRate):1;state.dailyRecommendationDate=p.dailyRecommendationDate||'';state.dailyRecommendationBand=p.dailyRecommendationBand||'';state.dailyRecommendationIds=Array.isArray(p.dailyRecommendationIds)?p.dailyRecommendationIds:[];state.ytNativeMode=p.ytNativeMode==='iframe'?'iframe':'auto';state.ytCustomApi=typeof p.ytCustomApi==='string'?p.ytCustomApi:'';state.ytHelperUrl=typeof p.ytHelperUrl==='string'?p.ytHelperUrl:'';state.autoFullscreen=p.autoFullscreen!==false;}
     if(p&&p.firstRunComplete===undefined&&state.tracks.length)state.firstRunComplete=true;
     // R8 preserves R7 playCount as legacy starts; it does not pretend those starts were complete/valid listens.
     for(const t of state.tracks){await db.put('tracks',normalizeTrack(t)).catch(()=>{});}
@@ -288,7 +288,7 @@ function ensureBasePlaylist(){
   if(state.playlists.length && !state.playlists.some(p=>p.id===state.activePlaylistId)) state.activePlaylistId=state.playlists[0].id;
   if(!state.playlists.length) state.activePlaylistId='';
 }
-async function persistPrefs(){if(!state.storageReady)return;await db.put('prefs',{key:'ui',currentId:state.currentId,queueIds:state.queueIds,baseQueueIds:state.baseQueueIds,manualQueueIds:state.manualQueueIds,repeatOneId:state.repeatOneId,queueIndex:state.queueIndex,volume:state.volume,activePlaylistId:state.activePlaylistId,activeSmartId:state.activeSmartId,theme:state.theme,libraryTab:state.libraryTab,librarySort:state.librarySort,firstRunComplete:state.firstRunComplete,playbackMode:state.playbackMode,shuffle:state.playbackMode===PLAY_MODES.shuffle,songCategories:state.songCategories,songSource:state.songSource,soundMode:state.soundMode,podcastRate:state.podcastRate,dailyRecommendationDate:state.dailyRecommendationDate,dailyRecommendationBand:state.dailyRecommendationBand,dailyRecommendationIds:state.dailyRecommendationIds,ytNativeMode:state.ytNativeMode,ytCustomApi:state.ytCustomApi,autoFullscreen:state.autoFullscreen!==false}).catch(()=>{});}
+async function persistPrefs(){if(!state.storageReady)return;await db.put('prefs',{key:'ui',currentId:state.currentId,queueIds:state.queueIds,baseQueueIds:state.baseQueueIds,manualQueueIds:state.manualQueueIds,repeatOneId:state.repeatOneId,queueIndex:state.queueIndex,volume:state.volume,activePlaylistId:state.activePlaylistId,activeSmartId:state.activeSmartId,theme:state.theme,libraryTab:state.libraryTab,librarySort:state.librarySort,firstRunComplete:state.firstRunComplete,playbackMode:state.playbackMode,shuffle:state.playbackMode===PLAY_MODES.shuffle,songCategories:state.songCategories,songSource:state.songSource,soundMode:state.soundMode,podcastRate:state.podcastRate,dailyRecommendationDate:state.dailyRecommendationDate,dailyRecommendationBand:state.dailyRecommendationBand,dailyRecommendationIds:state.dailyRecommendationIds,ytNativeMode:state.ytNativeMode,ytCustomApi:state.ytCustomApi,ytHelperUrl:state.ytHelperUrl,autoFullscreen:state.autoFullscreen!==false}).catch(()=>{});}
 async function persistPlaylist(pl){if(state.storageReady)await db.put('playlists',pl).catch(()=>{});}
 
 function songTrackText(t){
@@ -1308,12 +1308,329 @@ async function playLocalOrDirect(track,startAt=0){
 // bloqueo de reproducción de los iframes. Fallback automático al reproductor
 // visible (iframe) si ninguna instancia responde.
 const YT_STREAM_TTL = 90 * 60 * 1000;
-const YT_INSTANCES_TTL = 24 * 60 * 60 * 1000;
+const YT_INSTANCES_TTL = 6 * 60 * 60 * 1000; // R10.13: 24h→6h, la salud de las instancias cambia rápido
 const YT_REGISTRY_URL = 'https://api.invidious.io/instances.json?sort_by=health';
+const YT_PIPED_LIST_URL = 'https://piped-instances.kavin.rocks/';
 const YT_PIPED_STATIC = ['https://pipedapi.kavin.rocks','https://pipedapi.adminforge.de','https://api.piped.private.coffee','https://pipedapi.darkness.services','https://pipedapi.reallyaweso.me','https://pipedapi.leptons.xyz'];
 const YT_INVIDIOUS_STATIC = ['https://inv.nadeko.net','https://invidious.nerdvpn.de','https://invidious.f5.si','https://yt.chocolatemoo53.com','https://invidious.tiekoetter.com','https://invidious.materialio.us'];
 const ytStreamCache = new Map();
 const ytInstanceStatus = new Map();
+const YT_WORKER_CODE = [
+  '/**',
+  ' * MUSIC PLAY R10.13 · Helper de playlists + streams nativos de YouTube (v2)',
+  ' * -------------------------------------------------------------------------',
+  ' * Rutas que consume la PWA:',
+  ' *   GET /api/youtube-playlist?list=PLAYLIST_ID',
+  ' *   GET /api/youtube-streams?v=VIDEO_ID',
+  ' *   GET /api/yt-media?u=URL_GOOGLEVIDEO_CODIFICADA   (NUEVO v2: proxy de bytes)',
+  ' *',
+  ' * Por qué el proxy (importante en v2): las URLs de stream de YouTube quedan',
+  ' * firmadas para la IP que las pidió. Si el Worker pide los streams, solo la IP',
+  ' * del Worker puede descargarlos y tu telefono recibia 403. /api/yt-media',
+  ' * reenvia los bytes (con soporte de Range para poder adelantar/retroceder)',
+  ' * desde TU Worker. Es el mismo mecanismo de proxy que usan Invidious/Piped,',
+  ' * pero corriendo en tu propio Worker, sin depender de terceros caidos.',
+  ' *',
+  ' * Despliegue en 3 pasos (gratis):',
+  ' *   1. Abre https://workers.cloudflare.com -> Start building / Create Worker.',
+  ' *   2. Borra el codigo de ejemplo, pega este archivo COMPLETO y pulsa Deploy.',
+  ' *   3. Copia la URL tipo https://tu-helper.tu-usuario.workers.dev y pegala en',
+  ' *      MUSIC PLAY -> Menu ... -> Motor de YouTube -> Helper propio -> Probar.',
+  ' *',
+  ' * Opcional (playlists con titulos y paginacion estables):',
+  ' *   wrangler secret put YOUTUBE_API_KEY',
+  ' *',
+  ' * El helper NO descarga ni re-distribuye archivos: reenvia los mismos bytes',
+  ' * publicos que entrega el reproductor de YouTube, solo mientras alguien',
+  ' * escucha. No guarda nada.',
+  ' */',
+  '',
+  'var UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/150 Safari/537.36";',
+  'var MAX_ITEMS = 1000;',
+  '',
+  'function corsHeaders() {',
+  '  return {',
+  '    "access-control-allow-origin": "*",',
+  '    "access-control-allow-methods": "GET,OPTIONS",',
+  '    "access-control-allow-headers": "content-type,range",',
+  '    "access-control-expose-headers": "content-type,content-length,content-range,accept-ranges"',
+  '  };',
+  '}',
+  '',
+  'function json(data, status, cache) {',
+  '  var c = cache || 120;',
+  '  var h = Object.assign({',
+  '    "content-type": "application/json; charset=utf-8",',
+  '    "cache-control": "public, max-age=" + Math.min(c, 120) + ", s-maxage=" + c',
+  '  }, corsHeaders());',
+  '  return new Response(JSON.stringify(data), { status: status || 200, headers: h });',
+  '}',
+  '',
+  'function validPlaylistId(value) { return /^[A-Za-z0-9_-]{6,120}$/.test(value || ""); }',
+  'function validVideoId(value) { return /^[A-Za-z0-9_-]{6,20}$/.test(value || ""); }',
+  'function bestThumb(t) {',
+  '  t = t || {};',
+  '  return (t.maxres && t.maxres.url) || (t.standard && t.standard.url) || (t.high && t.high.url) || (t.medium && t.medium.url) || (t.default && t.default.url) || "";',
+  '}',
+  '',
+  'async function fetchJson(url) {',
+  '  var response = await fetch(url, { headers: { accept: "application/json" } });',
+  '  var data = null;',
+  '  try { data = await response.json(); } catch (e) {}',
+  '  if (!response.ok) {',
+  '    var message = (data && data.error && data.error.message) || ("HTTP " + response.status);',
+  '    var err = new Error(message); err.status = response.status; err.data = data; throw err;',
+  '  }',
+  '  return data;',
+  '}',
+  '',
+  '/* ---------------- metadatos de playlist (igual que R10) ---------------- */',
+  '',
+  'async function fromDataApi(list, key) {',
+  '  var title = "";',
+  '  var podcastStatus = "";',
+  '  try {',
+  '    var p = new URL("https://www.googleapis.com/youtube/v3/playlists");',
+  '    p.searchParams.set("part", "snippet,status"); p.searchParams.set("id", list); p.searchParams.set("key", key);',
+  '    var d = await fetchJson(p);',
+  '    title = (d.items && d.items[0] && d.items[0].snippet && d.items[0].snippet.title) || "";',
+  '    podcastStatus = (d.items && d.items[0] && d.items[0].status && d.items[0].status.podcastStatus) || "";',
+  '  } catch (err) {',
+  '    console.log("playlist title lookup", err.message);',
+  '  }',
+  '',
+  '  var items = [];',
+  '  var pageToken = "";',
+  '  do {',
+  '    var u = new URL("https://www.googleapis.com/youtube/v3/playlistItems");',
+  '    u.searchParams.set("part", "snippet");',
+  '    u.searchParams.set("playlistId", list);',
+  '    u.searchParams.set("maxResults", "50");',
+  '    u.searchParams.set("key", key);',
+  '    if (pageToken) u.searchParams.set("pageToken", pageToken);',
+  '    var d2 = await fetchJson(u);',
+  '    var rows = d2.items || [];',
+  '    for (var i = 0; i < rows.length; i++) {',
+  '      var s = rows[i].snippet || {};',
+  '      var videoId = (s.resourceId && s.resourceId.videoId) || "";',
+  '      if (!videoId) continue;',
+  '      var unavailable = /^Deleted video$|^Private video$/i.test(s.title || "");',
+  '      items.push({',
+  '        videoId: videoId,',
+  '        title: s.title || "",',
+  '        author: s.videoOwnerChannelTitle || s.channelTitle || "YouTube",',
+  '        channelTitle: s.videoOwnerChannelTitle || s.channelTitle || "",',
+  '        thumbnail: bestThumb(s.thumbnails),',
+  '        position: Number.isFinite(s.position) ? s.position : items.length,',
+  '        unavailable: unavailable',
+  '      });',
+  '      if (items.length >= MAX_ITEMS) break;',
+  '    }',
+  '    pageToken = items.length < MAX_ITEMS ? (d2.nextPageToken || "") : "";',
+  '  } while (pageToken);',
+  '',
+  '  return { ok: true, playlistId: list, title: title, podcastStatus: podcastStatus, items: items, count: items.length, source: "youtube-data-api" };',
+  '}',
+  '',
+  'function decodeHtml(s) {',
+  '  return String(s || "").replace(/&amp;/g, "&").replace(/&quot;/g, "\\"").replace(/&#39;/g, "\'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");',
+  '}',
+  'function decodeJsonText(s) {',
+  '  try { return JSON.parse("\\"" + String(s || "").replace(/"/g, "\\\\\\"") + "\\""); }',
+  '  catch (e) { return String(s || "").replace(/\\\\u0026/g, "&").replace(/\\\\n/g, " ").replace(/\\\\"/g, "\\""); }',
+  '}',
+  'function extractPublicPage(html) {',
+  '  var items = [], seen = new Set();',
+  '  var add = function (videoId, title, author) {',
+  '    if (!videoId || seen.has(videoId) || items.length >= MAX_ITEMS) return;',
+  '    seen.add(videoId);',
+  '    items.push({ videoId: videoId, title: decodeJsonText(title), author: decodeJsonText(author), thumbnail: "https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg", position: items.length });',
+  '  };',
+  '  var m;',
+  '  var full = /"playlistVideoRenderer":\\{"videoId":"([A-Za-z0-9_-]{6,})"[\\s\\S]{0,2200}?"title":\\{"runs":\\[\\{"text":"((?:\\\\.|[^"\\\\])*)"[\\s\\S]{0,1800}?(?:"shortBylineText":\\{"runs":\\[\\{"text":"((?:\\\\.|[^"\\\\])*)")?/g;',
+  '  while ((m = full.exec(html))) add(m[1], m[2] || "", m[3] || "");',
+  '  var panel = /"playlistPanelVideoRenderer":\\{[\\s\\S]{0,1500}?"videoId":"([A-Za-z0-9_-]{6,})"[\\s\\S]{0,1500}?"title":\\{"runs":\\[\\{"text":"((?:\\\\.|[^"\\\\])*)"/g;',
+  '  while ((m = panel.exec(html))) add(m[1], m[2] || "");',
+  '  return items;',
+  '}',
+  'async function fromPublicPage(list) {',
+  '  var url = "https://www.youtube.com/playlist?list=" + encodeURIComponent(list) + "&hl=es&gl=CO";',
+  '  var r = await fetch(url, { headers: { "user-agent": UA, "accept-language": "es-CO,es;q=0.9,en;q=0.7", "accept": "text/html,application/xhtml+xml" }, cf: { cacheTtl: 180, cacheEverything: true } });',
+  '  if (!r.ok) throw new Error("YouTube HTTP " + r.status);',
+  '  var html = await r.text();',
+  '  var meta = html.match(/<meta\\s+name="title"\\s+content="([^"]*)"/i) || html.match(/<title>([^<]*)<\\/title>/i);',
+  '  var title = meta ? decodeHtml(meta[1]).replace(/\\s*-\\s*YouTube\\s*$/i, "").trim() : "";',
+  '  var items = extractPublicPage(html);',
+  '  return { ok: true, playlistId: list, title: title, podcastStatus: "", items: items, count: items.length, source: "youtube-public-page" };',
+  '}',
+  '',
+  'async function handlePlaylist(request, env) {',
+  '  var url = new URL(request.url), list = (url.searchParams.get("list") || "").trim();',
+  '  if (!validPlaylistId(list)) return json({ ok: false, error: "playlist id invalido" }, 400, 0);',
+  '  try {',
+  '    if (env && env.YOUTUBE_API_KEY) return json(await fromDataApi(list, env.YOUTUBE_API_KEY), 200, 300);',
+  '    var fallback = await fromPublicPage(list);',
+  '    return json(Object.assign({}, fallback, { warning: "Configura YOUTUBE_API_KEY para nombres y paginacion estables." }), 200, 120);',
+  '  } catch (err) {',
+  '    return json({ ok: false, playlistId: list, error: err.message || "No se pudo leer la playlist" }, 502, 0);',
+  '  }',
+  '}',
+  '',
+  '/* ---------------- R10.13 · resolucion de streams + proxy ---------------- */',
+  '',
+  '// Cliente interno de YouTube (InnerTube) desde la red de Cloudflare. Los tres',
+  '// clientes son los que historicamente devuelven URLs directas sin poToken.',
+  'async function innertubePlayer(videoId, client) {',
+  '  var bodies = {',
+  '    ANDROID: {',
+  '      context: { client: { clientName: "ANDROID", clientVersion: "19.09.37", androidSdkVersion: 30, hl: "es", gl: "CO" } },',
+  '      videoId: videoId, params: "8AEB", contentCheckOk: true, racyCheckOk: true',
+  '    },',
+  '    IOS: {',
+  '      context: { client: { clientName: "IOS", clientVersion: "19.09.3", deviceModel: "iPhone14,3", hl: "es", gl: "CO" } },',
+  '      videoId: videoId, params: "8AEB", contentCheckOk: true, racyCheckOk: true',
+  '    },',
+  '    TVEMBEDDED: {',
+  '      context: { client: { clientName: "TVHTML5_SIMPLY_EMBEDDED_PLAYER", clientVersion: "2.0", hl: "es", gl: "CO" }, thirdParty: { embedUrl: "https://www.youtube.com" } },',
+  '      videoId: videoId, contentCheckOk: true, racyCheckOk: true',
+  '    }',
+  '  };',
+  '  var uas = {',
+  '    ANDROID: "com.google.android.youtube/19.09.37 (Linux; U; Android 11) gzip",',
+  '    IOS: "com.google.ios.youtube/19.09.3 (iPhone14,3; U; CPU iOS 17_2 like Mac OS X)",',
+  '    TVEMBEDDED: "Mozilla/5.0 (PlayStation; PlayStation 4/12.00) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15"',
+  '  };',
+  '  var r = await fetch("https://www.youtube.com/youtubei/v1/player?prettyPrint=false", {',
+  '    method: "POST",',
+  '    headers: { "content-type": "application/json", "user-agent": uas[client], "accept-language": "es-CO,es;q=0.9", "x-goog-api-format-version": "2" },',
+  '    body: JSON.stringify(bodies[client]),',
+  '    cf: { cacheTtl: 60, cacheEverything: true }',
+  '  });',
+  '  if (!r.ok) throw new Error("player " + client + " HTTP " + r.status);',
+  '  return r.json();',
+  '}',
+  '',
+  '// Verifica contra googlevideo (mismo origen de red que pidio los streams).',
+  'async function probeUrl(url) {',
+  '  try {',
+  '    var r = await fetch(url, { headers: { range: "bytes=0-127", "user-agent": UA, referer: "https://www.youtube.com/" }, cf: { cacheTtl: 0 } });',
+  '    if (r.status === 200 || r.status === 206) { try { await r.body.cancel(); } catch (e) {} return true; }',
+  '    return false;',
+  '  } catch (e) { return false; }',
+  '}',
+  '',
+  'function collectStreams(data) {',
+  '  var sd = (data && data.streamingData) || {};',
+  '  var vd = (data && data.videoDetails) || {};',
+  '  var adaptive = Array.isArray(sd.adaptiveFormats) ? sd.adaptiveFormats : [];',
+  '  var muxed = Array.isArray(sd.formats) ? sd.formats : [];',
+  '  var audioStreams = adaptive',
+  '    .filter(function (f) { return String(f.mimeType || "").indexOf("audio/") === 0 && f.url; })',
+  '    .map(function (f) { return { url: f.url, mimeType: String(f.mimeType).split(";")[0], bitrate: f.bitrate || 0, contentLength: Number(f.contentLength) || 0 }; })',
+  '    .sort(function (a, b) { return b.bitrate - a.bitrate; });',
+  '  var videoStreams = muxed',
+  '    .filter(function (f) { return String(f.mimeType || "").indexOf("video/") === 0 && f.url; })',
+  '    .map(function (f) { return { url: f.url, mimeType: String(f.mimeType).split(";")[0], bitrate: f.bitrate || 0, quality: f.qualityLabel || "", itag: f.itag || 0 }; })',
+  '    .sort(function (a, b) { return (b.itag === 22 ? 1 : 0) - (a.itag === 22 ? 1 : 0) || (b.bitrate || 0) - (a.bitrate || 0); });',
+  '  var thumbs = vd.thumbnail && vd.thumbnail.thumbnails || [];',
+  '  var thumbnail = thumbs.length ? thumbs[thumbs.length - 1].url : ("https://i.ytimg.com/vi/" + ((vd && vd.videoId) || "") + "/hqdefault.jpg");',
+  '  return {',
+  '    audioStreams: audioStreams, videoStreams: videoStreams,',
+  '    title: vd.title || "",',
+  '    author: vd.author || "YouTube",',
+  '    duration: Number(vd.lengthSeconds) || 0,',
+  '    thumbnail: thumbnail,',
+  '    live: !!(vd.isLiveContent)',
+  '  };',
+  '}',
+  '',
+  '// Reescribe una URL cruda de googlevideo hacia el proxy de este Worker.',
+  'function proxyMedia(request, raw) {',
+  '  return new URL(request.url).origin + "/api/yt-media?u=" + encodeURIComponent(raw);',
+  '}',
+  '',
+  'async function handleStreams(request) {',
+  '  var url = new URL(request.url), videoId = (url.searchParams.get("v") || "").trim();',
+  '  if (!validVideoId(videoId)) return json({ ok: false, error: "video id invalido" }, 400, 0);',
+  '',
+  '  var clients = ["ANDROID", "IOS", "TVEMBEDDED"];',
+  '  for (var ci = 0; ci < clients.length; ci++) {',
+  '    try {',
+  '      var data = await innertubePlayer(videoId, clients[ci]);',
+  '      var status = (data && data.playabilityStatus && data.playabilityStatus.status) || "";',
+  '      if (["OK", "LIVE_STREAM_OFFLINE"].indexOf(status) < 0) continue;',
+  '      var streams = collectStreams(data);',
+  '      if (streams.live) return json({ ok: false, error: "Es una transmision en vivo", live: true }, 200, 30);',
+  '      // Verifica el mejor audio (y hasta 3 candidatos); si la URL caduco, prueba la siguiente.',
+  '      var audioIdx = -1;',
+  '      var limitA = Math.min(3, streams.audioStreams.length);',
+  '      for (var i = 0; i < limitA; i++) {',
+  '        if (await probeUrl(streams.audioStreams[i].url)) { audioIdx = i; break; }',
+  '      }',
+  '      if (audioIdx >= 0) {',
+  '        var out = {',
+  '          ok: true, videoId: videoId, helperVersion: 2, source: "innertube-" + clients[ci],',
+  '          title: streams.title, author: streams.author, duration: streams.duration,',
+  '          thumbnail: streams.thumbnail, live: false, audioStreams: [], videoStreams: []',
+  '        };',
+  '        for (var a = 0; a < streams.audioStreams.length; a++) {',
+  '          var f = streams.audioStreams[a];',
+  '          out.audioStreams.push({ url: proxyMedia(request, f.url), mimeType: f.mimeType, bitrate: f.bitrate, contentLength: f.contentLength, verified: a === audioIdx });',
+  '        }',
+  '        for (var b = 0; b < streams.videoStreams.length; b++) {',
+  '          var g = streams.videoStreams[b];',
+  '          out.videoStreams.push({ url: proxyMedia(request, g.url), mimeType: g.mimeType, bitrate: g.bitrate, quality: g.quality, itag: g.itag });',
+  '        }',
+  '        if (audioIdx > 0) { var best = out.audioStreams.splice(audioIdx, 1)[0]; out.audioStreams.unshift(best); }',
+  '        return json(out, 200, 240);',
+  '      }',
+  '    } catch (err) { console.log("innertube", clients[ci], err && err.message); }',
+  '  }',
+  '  return json({ ok: false, error: "Sin streams disponibles ahora mismo" }, 502, 30);',
+  '}',
+  '',
+  '// Proxy de bytes: reenvia el stream con soporte de Range (adelantar/retroceder).',
+  'async function handleMedia(request) {',
+  '  var url = new URL(request.url);',
+  '  var raw = url.searchParams.get("u") || "";',
+  '  var target = null;',
+  '  try { target = new URL(raw); } catch (e) {}',
+  '  if (!target || !/(^|\\.)googlevideo\\.com$/.test(target.hostname)) {',
+  '    return new Response("url no permitida", { status: 400, headers: corsHeaders() });',
+  '  }',
+  '  var headers = { "user-agent": UA, "referer": "https://www.youtube.com/" };',
+  '  var range = request.headers.get("range");',
+  '  if (range) headers["range"] = range;',
+  '  var r;',
+  '  try {',
+  '    r = await fetch(target.toString(), { headers: headers, cf: { cacheTtl: 0, cacheEverything: false } });',
+  '  } catch (err) {',
+  '    return new Response("upstream error", { status: 502, headers: corsHeaders() });',
+  '  }',
+  '  var h = new Headers();',
+  '  var copy = ["content-type", "content-length", "content-range", "accept-ranges", "last-modified", "etag"];',
+  '  for (var i = 0; i < copy.length; i++) { var v = r.headers.get(copy[i]); if (v) h.set(copy[i], v); }',
+  '  if (!h.has("content-type")) h.set("content-type", "application/octet-stream");',
+  '  if (!h.has("accept-ranges")) h.set("accept-ranges", "bytes");',
+  '  h.set("access-control-allow-origin", "*");',
+  '  h.set("access-control-expose-headers", "content-type,content-length,content-range,accept-ranges");',
+  '  h.set("cache-control", "no-store");',
+  '  return new Response(r.body, { status: r.status, headers: h });',
+  '}',
+  '',
+  'export default {',
+  '  async fetch(request, env) {',
+  '    var url = new URL(request.url);',
+  '    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders() });',
+  '    if (url.pathname.endsWith("/api/youtube-playlist")) return handlePlaylist(request, env);',
+  '    if (url.pathname.endsWith("/api/youtube-streams")) return handleStreams(request);',
+  '    if (url.pathname.endsWith("/api/yt-media")) return handleMedia(request);',
+  '    if (env && env.ASSETS) return env.ASSETS.fetch(request);',
+  '    return new Response("MUSIC PLAY R10.13 helper v2 · playlist + streams + proxy de media", { status: 200, headers: corsHeaders() });',
+  '  }',
+  '};',
+  ''
+].join(String.fromCharCode(10));
 
 function ytNormalizeBase(base=''){
   let s=String(base||'').trim().replace(/\/+$/,'');
@@ -1333,21 +1650,23 @@ async function ytFetchJson(url,timeout=7500){
 async function ytDiscoverInstances(){
   const t=now();
   if(state.ytInstCache&&t-state.ytInstAt<YT_INSTANCES_TTL)return state.ytInstCache;
-  let discovered=[];
-  try{
-    const d=await ytFetchJson(YT_REGISTRY_URL,7000);
-    if(Array.isArray(d)){
-      discovered=d.filter(x=>Array.isArray(x)&&x[1]?.type==='https'&&x[0]&&!/ygg/i.test(x[0])).map(x=>`https://${x[0]}`);
-    }
-  }catch(err){console.debug('registro Invidious no disponible',err?.message||err);}
-  const seen=new Set();
-  const list=[];
-  for(const base of [...discovered,...YT_INVIDIOUS_STATIC]){
-    const b=ytNormalizeBase(base);if(!b||seen.has(b))continue;seen.add(b);list.push({base:b,kind:'invidious'});
+  // R10.13: registro Invidious + lista dinámica de Piped EN PARALELO.
+  const reg=ytFetchJson(YT_REGISTRY_URL,6000).catch(()=>null);
+  const piped=ytFetchJson(YT_PIPED_LIST_URL,5000).catch(()=>null);
+  const [rd,pd]=await Promise.all([reg,piped]);
+  let invGood=[],invBad=[],pipedDyn=[];
+  if(Array.isArray(rd)){
+    const rows=rd.filter(x=>Array.isArray(x)&&x[1]?.type==='https'&&x[0]&&!/ygg/i.test(x[0]));
+    // En 2026 casi todas publican api:false (endpoint deshabilitado): se ordenan
+    // al final y se conservan como último recurso por si alguna la reactiva.
+    invGood=rows.filter(x=>x[1].api!==false).map(x=>`https://${x[0]}`);
+    invBad=rows.filter(x=>x[1].api===false).map(x=>`https://${x[0]}`);
   }
-  for(const base of YT_PIPED_STATIC){
-    const b=ytNormalizeBase(base);if(!b||seen.has(b))continue;seen.add(b);list.push({base:b,kind:'piped'});
-  }
+  if(Array.isArray(pd))pipedDyn=pd.filter(x=>x&&typeof x.api_url==='string'&&/^https:/.test(x.api_url)).map(x=>x.api_url).slice(0,8);
+  const seen=new Set();const list=[];
+  const push=(base,kind)=>{const b=ytNormalizeBase(base);if(!b||seen.has(b))return;seen.add(b);list.push({base:b,kind});};
+  for(const base of [...invGood,...YT_INVIDIOUS_STATIC,...invBad])push(base,'invidious');
+  for(const base of [...pipedDyn,...YT_PIPED_STATIC])push(base,'piped');
   state.ytInstCache=list;state.ytInstAt=t;return list;
 }
 async function ytEngineInstances(){
@@ -1400,23 +1719,89 @@ async function ytResolveFromInstance(inst,videoId){
   }catch(err){ytInstanceStatus.set(inst.base,{ok:false,at:now(),error:err?.message||''});}
   return null;
 }
-async function ytResolveFromHelper(videoId){
-  // R10.11: si el despliegue expone el helper same-origin (Cloudflare Worker con
-  // /api/youtube-streams), es la vía más estable: sin CORS y con red distinta.
-  if(location.protocol==='file:')return null;
-  try{
-    const apiUrl=new URL('./api/youtube-streams',location.href);apiUrl.searchParams.set('v',videoId);
-    const d=await ytFetchJson(apiUrl.href,6500);
-    if(d&&d.ok){
-      const audio=(d.audioStreams||[]).filter(f=>f.url).sort((a,b)=>(b.bitrate||0)-(a.bitrate||0))[0]||null;
-      const video=(d.videoStreams||[]).filter(f=>f.url).sort((a,b)=>(b.bitrate||0)-(a.bitrate||0))[0]||null;
-      if(audio||video){
-        ytInstanceStatus.set('__helper__',{ok:true,at:now()});
-        return {audioUrl:audio?.url||'',muxedUrl:video?.url||'',title:d.title||'',author:d.author||'YouTube',duration:Number(d.duration)||0,thumbnail:d.thumbnail||'',source:'helper'};
+function ytHelperBases(){
+  const bases=[];
+  const custom=ytNormalizeBase(state.ytHelperUrl||'');
+  if(custom)bases.push(custom);
+  if(location.protocol!=='file:')bases.push('');
+  return bases;
+}
+async function ytResolveFromHelper(videoId,{diag=null}={}){
+  // R10.13: helper propio del usuario (Worker en workers.dev) y/o same-origin.
+  // El worker v2 devuelve URLs YA proxeadas por /api/yt-media → sin 403 por IP.
+  if(location.protocol==='file:'&&!ytNormalizeBase(state.ytHelperUrl||''))return null;
+  for(const base of ytHelperBases()){
+    const t0=Date.now();
+    try{
+      const apiUrl=base?`${base}/api/youtube-streams?v=${encodeURIComponent(videoId)}`:`${new URL('./api/youtube-streams',location.href).href}?v=${encodeURIComponent(videoId)}`;
+      const d=await ytFetchJson(apiUrl,6500);
+      if(d&&d.ok){
+        const audio=(d.audioStreams||[]).filter(f=>f&&f.url).sort((a,b)=>(b.bitrate||0)-(a.bitrate||0))[0]||null;
+        const video=(d.videoStreams||[]).filter(f=>f&&f.url).sort((a,b)=>(b.bitrate||0)-(a.bitrate||0))[0]||null;
+        if(audio||video){
+          ytInstanceStatus.set('__helper__',{ok:true,at:now()});
+          if(diag)diag.helper={ok:true,ms:Date.now()-t0,base:base||'mismo origen'};
+          return {audioUrl:audio?.url||'',muxedUrl:video?.url||'',title:d.title||'',author:d.author||'YouTube',duration:Number(d.duration)||0,thumbnail:d.thumbnail||'',source:base?'helper':'helper-local'};
+        }
       }
+      if(diag)diag.helper={ok:false,ms:Date.now()-t0,base:base||'mismo origen',error:(d&&d.error)||'respuesta sin streams'};
+    }catch(err){
+      if(diag)diag.helper={ok:false,ms:Date.now()-t0,base:base||'mismo origen',error:err?.message||'sin respuesta'};
     }
-  }catch(err){console.debug('helper streams no disponible',err?.message||err);}
+  }
   return null;
+}
+async function ytResolveInnertubeDirect(videoId,{diag=null}={}){
+  // R10.13: intento directo desde el navegador con la API interna de YouTube.
+  // Si el navegador la bloquea (CORS) o la red la corta, falla en silencio y el
+  // motor sigue con las demás vías. Si funciona, no hace falta ni helper.
+  if(location.protocol==='file:')return null;
+  const t0=Date.now();
+  const clients=[
+    {name:'ANDROID',body:{context:{client:{clientName:'ANDROID',clientVersion:'19.09.37',androidSdkVersion:30,hl:'es',gl:'CO'}},videoId,contentCheckOk:true,racyCheckOk:true}},
+    {name:'IOS',body:{context:{client:{clientName:'IOS',clientVersion:'19.09.3',deviceModel:'iPhone14,3',hl:'es',gl:'CO'}},videoId,contentCheckOk:true,racyCheckOk:true}}
+  ];
+  for(const c of clients){
+    try{
+      const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),3000);
+      let r;
+      try{r=await fetch('https://youtubei.googleapis.com/youtubei/v1/player?prettyPrint=false',{method:'POST',signal:ctrl.signal,headers:{'content-type':'application/json','x-goog-api-format-version':'2'},body:JSON.stringify(c.body)});}finally{clearTimeout(timer);}
+      if(!r.ok)throw new Error(`HTTP ${r.status}`);
+      const d=await r.json();
+      if((d?.playabilityStatus?.status||'')!=='OK')continue;
+      const sd=d.streamingData||{},vd=d.videoDetails||{};
+      const audios=(sd.adaptiveFormats||[]).filter(f=>String(f.mimeType||'').startsWith('audio/')&&f.url).sort((a,b)=>(b.bitrate||0)-(a.bitrate||0));
+      const muxed=(sd.formats||[]).filter(f=>String(f.mimeType||'').startsWith('video/mp4')&&f.url).sort((a,b)=>(b.itag===22?1:0)-(a.itag===22?1:0)||(b.bitrate||0)-(a.bitrate||0));
+      const audio=audios[0],video=muxed[0];
+      if(audio||video){
+        const thumbs=vd.thumbnail?.thumbnails||[];
+        if(diag)diag.innertube={ok:true,ms:Date.now()-t0};
+        return {audioUrl:audio?.url||'',muxedUrl:video?.url||'',title:vd.title||'',author:vd.author||'YouTube',duration:Number(vd.lengthSeconds)||0,thumbnail:thumbs.length?thumbs[thumbs.length-1].url:'',source:'innertube-direct'};
+      }
+    }catch(err){/* CORS o bloqueo: siguiente cliente */}
+  }
+  if(diag)diag.innertube={ok:false,ms:Date.now()-t0,error:'bloqueada por el navegador o la red'};
+  return null;
+}
+function ytProbeLatestVersion(base,videoId,timeout=6500){
+  // R10.13: último recurso SIN CORS — los elementos <audio> cargan medios
+  // cross-origin sin cabeceras CORS. Si la instancia responde latest_version
+  // con audio real, esa URL sirve de src directo.
+  return new Promise(resolve=>{
+    let settled=false;const a=new Audio();a.preload='metadata';a.muted=true;
+    const finish=ok=>{if(settled)return;settled=true;clearTimeout(timer);try{a.removeAttribute('src');a.load();}catch{}resolve(ok?`${base}/latest_version?id=${encodeURIComponent(videoId)}&itag=140&local=true`:null);};
+    const timer=setTimeout(()=>finish(false),timeout);
+    a.addEventListener('canplay',()=>finish(true),{once:true});
+    a.addEventListener('loadedmetadata',()=>{if(Number.isFinite(a.duration)&&a.duration>0)finish(true);},{once:true});
+    a.addEventListener('error',()=>finish(false),{once:true});
+    a.src=`${base}/latest_version?id=${encodeURIComponent(videoId)}&itag=140&local=true`;
+    a.load();
+  });
+}
+async function raceDeadline(probes,ms){
+  const list=probes.filter(Boolean);
+  if(!list.length)return null;
+  return Promise.race([firstSuccessfulResult(list),new Promise(resolve=>setTimeout(()=>resolve(null),ms))]);
 }
 const ytNegCache = new Map(); // R10.12: videoId -> {at} · evita re-sondear 20s por cada pista cuando la red bloquea las instancias
 const ytPrefetching = new Set();
@@ -1428,27 +1813,42 @@ function firstSuccessfulResult(probes){
     probes.forEach(p=>Promise.resolve(p).then(v=>{if(v)finish(v);else if(--pending===0)finish(null);}).catch(()=>{if(--pending===0)finish(null);}));
   });
 }
-async function resolveYouTubeMedia(videoId,{force=false}={}){
+async function resolveYouTubeMedia(videoId,{force=false,diag=null}={}){
   if(!videoId)return null;
   const cached=ytStreamCache.get(videoId);
   if(!force&&cached&&now()-cached.at<YT_STREAM_TTL)return cached.data;
-  // R10.12: caché negativa corta — si hace 60s ninguna instancia respondió para
+  // R10.12: caché negativa corta — si hace 60s ninguna vía respondió para
   // este video, no repetir el sondeo completo en cada avance automático de cola.
   const neg=ytNegCache.get(videoId);
   if(!force&&neg&&now()-neg.at<60000)return null;
-  // R10.12: helper + mejores instancias EN PARALELO con tope total de ~7.5s
-  // (antes eran ~20.5s en serie: 6.5s de helper + oleadas de 14s con sondas de 8s).
-  const instances=(await ytEngineInstances()).sort((a,b)=>{const sa=ytInstanceStatus.get(a.base)?.ok?1:0,sb=ytInstanceStatus.get(b.base)?.ok?1:0;return sb-sa;});
-  const wave=instances.slice(0,7);
-  const deadline=new Promise(resolve=>setTimeout(()=>resolve(null),7500));
-  const pick=await Promise.race([firstSuccessfulResult([ytResolveFromHelper(videoId),...wave.map(inst=>ytResolveFromInstance(inst,videoId))]),deadline]);
-  if(pick&&(pick.audioUrl||pick.muxedUrl)){ytNegCache.delete(videoId);const data={...pick};ytStreamCache.set(videoId,{data,at:now()});return data;}
-  // Segunda oportunidad breve con el resto de instancias (~6s más)
+  const customBase=ytNormalizeBase(state.ytCustomApi);
+  // R10.13 · OLA 1 (vías fiables en paralelo, tope 6.5s): helper propio +
+  // InnerTube directo desde el navegador + instancia personalizada.
+  const t1=Date.now();
+  const wave1=await raceDeadline([
+    ytResolveFromHelper(videoId,{diag}),
+    ytResolveInnertubeDirect(videoId,{diag}),
+    customBase?ytResolveFromInstance({base:customBase,kind:'invidious'},videoId):null,
+    customBase?ytResolveFromInstance({base:customBase,kind:'piped'},videoId):null
+  ],6500);
+  if(diag)diag.ola1ms=Date.now()-t1;
+  if(wave1&&(wave1.audioUrl||wave1.muxedUrl)){ytNegCache.delete(videoId);const data={...wave1};ytStreamCache.set(videoId,{data,at:now()});return data;}
+  // R10.13 · OLA 2 (instancias públicas, tope 8s): registro + Piped dinámico + estáticas.
+  const instances=(await ytEngineInstances()).sort((a,b)=>{const sa=ytInstanceStatus.get(a.base)?.ok?1:0,sb=ytInstanceStatus.get(b.base)?.ok?1:0;return sb-sa;}).filter(x=>x.base!==customBase);
+  const t2=Date.now();
+  const wave2=await raceDeadline(instances.slice(0,7).map(inst=>ytResolveFromInstance(inst,videoId)),8000);
+  if(diag)diag.instances={ok:!!wave2,ms:Date.now()-t2,error:wave2?'':'ninguna responde (API deshabilitada o caídas)'};
+  if(wave2&&(wave2.audioUrl||wave2.muxedUrl)){ytNegCache.delete(videoId);const data={...wave2};ytStreamCache.set(videoId,{data,at:now()});return data;}
+  // R10.13 · OLA 3 (último recurso, ~6s): latest_version con <audio> (sin CORS).
+  const invBases=instances.filter(x=>x.kind==='invidious').slice(0,3);
+  const t3=Date.now();
+  const lvUrl=await raceDeadline(invBases.map(b=>ytProbeLatestVersion(b.base,videoId)),6000);
+  if(diag)diag.latest={ok:!!lvUrl,ms:Date.now()-t3,error:lvUrl?'':'ninguna sirve audio directo'};
+  if(lvUrl){ytNegCache.delete(videoId);const data={audioUrl:lvUrl,muxedUrl:'',title:'',author:'YouTube',duration:0,thumbnail:'',source:'latest-version'};ytStreamCache.set(videoId,{data,at:now()});return data;}
   const rest=instances.slice(7);
   if(rest.length){
-    const deadline2=new Promise(resolve=>setTimeout(()=>resolve(null),6000));
-    const pick2=await Promise.race([firstSuccessfulResult(rest.slice(0,6).map(inst=>ytResolveFromInstance(inst,videoId))),deadline2]);
-    if(pick2&&(pick2.audioUrl||pick2.muxedUrl)){ytNegCache.delete(videoId);const data={...pick2};ytStreamCache.set(videoId,{data,at:now()});return data;}
+    const wave4=await raceDeadline(rest.slice(0,6).map(inst=>ytResolveFromInstance(inst,videoId)),4000);
+    if(wave4&&(wave4.audioUrl||wave4.muxedUrl)){ytNegCache.delete(videoId);const data={...wave4};ytStreamCache.set(videoId,{data,at:now()});return data;}
   }
   ytNegCache.set(videoId,{at:now()});
   return null;
@@ -1615,7 +2015,8 @@ async function playYouTube(track,startAt=0){
   if((state.ytNativeMode||'auto')!=='iframe'&&track?.remoteId&&track.sourceKind!=='youtube-playlist'){
     const okNative=await playYouTubeNative(track,startAt);
     if(okNative)return true;
-    toast('Motor nativo no disponible · usando reproductor visible',2800);
+    if(!state.ytIframeHintShown){state.ytIframeHintShown=true;toast('Motor nativo no disponible · reproductor visible · actívalo en ⋯ → Motor de YouTube',4200);}
+    else toast('Motor nativo no disponible · usando reproductor visible',2200);
   }
   return playYouTubeIframe(track,startAt);
 }
@@ -2050,17 +2451,41 @@ function openPwaStatusSheet(){
   const mode=isInstalledDisplay()?'app instalada':'navegador',secure=window.isSecureContext?'HTTPS/seguro':'contexto no seguro',sw=navigator.serviceWorker?.controller?'activo':'sin control',prompt=state.installPrompt?'listo':'no disponible aún';
   openSheet(`<h2 class="sheet-title">PWA · estado</h2><p class="sheet-copy">Diagnóstico rápido para instalación y pantalla completa.</p><div class="recap-grid"><div><b>${safeText(mode)}</b><span>modo</span></div><div><b>${safeText(secure)}</b><span>seguridad</span></div><div><b>${safeText(sw)}</b><span>service worker</span></div><div><b>${safeText(prompt)}</b><span>instalador</span></div></div><div class="sheet-stack"><button class="sheet-btn" data-pwa-install>⇩ Instalar / ayuda<small>Abre el flujo correcto para este dispositivo</small></button><button class="sheet-btn" data-pwa-full>⛶ Pantalla completa<small>Solicita modo inmersivo</small></button></div>`,root=>{$('[data-pwa-install]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openInstallSheet(),50);};$('[data-pwa-full]',root).onclick=async()=>{await requestImmersive();closeDialog(els.sheetDialog);};});
 }
+function ytDiagLineHtml(label,st){
+  if(!st)return `<div class="yt-diag-line"><b>${label}</b><span class="muted">no probado</span></div>`;
+  if(st.ok)return `<div class="yt-diag-line"><b>${label}</b><span class="ok">✓ respondió en ${(st.ms/1000).toFixed(1)}s${st.base?` · ${safeText(st.base)}`:''}</span></div>`;
+  return `<div class="yt-diag-line"><b>${label}</b><span class="bad">✗ ${safeText(st.error||'sin respuesta')}</span></div>`;
+}
+function ytDiagHtml(diag,res){
+  let h='';
+  h+=ytDiagLineHtml('Helper propio (Worker)',diag.helper);
+  h+=ytDiagLineHtml('API interna de YouTube',diag.innertube);
+  h+=ytDiagLineHtml('Instancias públicas',diag.instances);
+  h+=ytDiagLineHtml('latest_version (audio)',diag.latest);
+  if(res)h+=`<div class="yt-diag-line total"><b>Resultado</b><span class="ok">✓ Motor nativo disponible vía ${safeText(res.source)}</span></div>`;
+  else h+=`<div class="yt-diag-line total"><b>Resultado</b><span class="bad">✗ Sin respuesta · se usará el reproductor visible</span></div><div class="yt-diag-hint">Comprobado hoy: las instancias públicas de Invidious/Piped tienen la API deshabilitada o están caídas. Para conseguir la pantalla bloqueada de verdad, despliega tu Helper propio (gratis, 3 pasos ↓): es la vía que sí funciona siempre.</div>`;
+  return h;
+}
 function openYouTubeEngineSheet(){
   const mode=state.ytNativeMode||'auto';
-  openSheet(`<h2 class="sheet-title">Motor de YouTube</h2><p class="sheet-copy">El motor nativo reproduce streams directos: el audio sigue con la pantalla bloqueada, usa menos datos y muestra los controles del sistema. Si una canción no está disponible, MUSIC PLAY usa el reproductor visible automáticamente.</p>
+  const diag=state.ytDiag;
+  openSheet(`<h2 class="sheet-title">Motor de YouTube</h2><p class="sheet-copy">El motor nativo reproduce streams directos: el audio sigue con la pantalla bloqueada, usa menos datos y muestra los controles del sistema, como YouTube Premium. Si una canción no está disponible, MUSIC PLAY usa el reproductor visible automáticamente.</p>
     <div class="sheet-stack">
       <button class="sheet-btn sound-choice${mode==='auto'?' selected':''}" data-ytmode="auto">✦ Nativo (recomendado)<small>Pantalla bloqueada · Media Session · menos datos</small></button>
       <button class="sheet-btn sound-choice${mode==='iframe'?' selected':''}" data-ytmode="iframe">◉ Reproductor visible<small>Compatibilidad total, pero se pausa al bloquear la pantalla</small></button>
+      <div class="sheet-field"><label>Helper propio · URL de tu Worker (vía recomendada)</label><input id="ytHelperUrlInput" type="url" inputmode="url" autocomplete="off" placeholder="https://tu-helper.tu-usuario.workers.dev" value="${safeText(state.ytHelperUrl||'')}" /><small>Es la vía que garantiza el motor nativo. Créalo gratis en 3 pasos ↓ y pega aquí su URL.</small></div>
+      <button class="sheet-btn" data-yt-test>↻ Probar motor nativo<small>Comprueba todas las vías ahora</small></button>
+      <div id="ytDiagBox" class="yt-diag">${diag?ytDiagHtml(diag,state.ytDiagRes):'<div class="yt-diag-line muted-center">Pulsa «Probar motor nativo» para ver el estado de cada vía</div>'}</div>
+      <details class="yt-guide"${(!state.ytDiagRes)?' open':''}><summary>⚡ Activar el Helper propio · 3 pasos</summary>
+        <ol><li>Toca «⧉ Copiar código del Worker».</li><li>Abre <a href="https://workers.cloudflare.com/" target="_blank" rel="noopener">workers.cloudflare.com</a> → Create → borra el ejemplo → pega el código → Deploy.</li><li>Copia la URL (…workers.dev), pégala arriba en «Helper propio» y pulsa Probar.</li></ol>
+        <button class="sheet-btn" data-yt-copy-worker>⧉ Copiar código del Worker<small>Archivo completo · también está en cloudflare/playlist-api-worker.mjs del ZIP</small></button>
+      </details>
       <div class="sheet-field"><label>Instancia preferida (opcional)</label><input id="ytCustomApiInput" type="url" placeholder="https://pipedapi.ejemplo.com" value="${safeText(state.ytCustomApi||'')}" /><small>Servidor Piped/Invidious propio para el motor nativo.</small></div>
-      <button class="sheet-btn" data-yt-test>↻ Probar motor nativo<small>Busca una instancia disponible ahora</small></button>
     </div>`,root=>{
     $$('[data-ytmode]',root).forEach(b=>b.onclick=async()=>{state.ytNativeMode=b.dataset.ytmode;await persistPrefs();closeDialog(els.sheetDialog);toast(b.dataset.ytmode==='auto'?'Motor nativo activado':'Reproductor visible activado',2400);});
-    $('[data-yt-test]',root).onclick=async()=>{const btn=$('[data-yt-test]',root);btn.disabled=true;const label=$('small',btn);if(label)label.textContent='Consultando instancias…';state.ytInstCache=null;state.ytInstAt=0;const t=Date.now();const res=await resolveYouTubeMedia('jNQXAC9IVRw',{force:true}).catch(()=>null);if(label)label.textContent=res?`Disponible · instancia en ${((Date.now()-t)/1000).toFixed(1)}s`:'Sin respuesta · se usará el reproductor visible';btn.disabled=false;};
+    $('[data-yt-copy-worker]',root)?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(YT_WORKER_CODE);toast('Código del Worker copiado · pégalo en workers.cloudflare.com',3600);}catch(err){try{const ta=document.createElement('textarea');ta.value=YT_WORKER_CODE;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Código del Worker copiado',3600);}catch(e2){toast('No se pudo copiar · usa cloudflare/playlist-api-worker.mjs del ZIP',4200);}}});
+    $('[data-yt-test]',root).onclick=async()=>{const btn=$('[data-yt-test]',root);btn.disabled=true;const label=$('small',btn);if(label)label.textContent='Consultando todas las vías…';const box=$('#ytDiagBox',root);if(box)box.innerHTML='<div class="yt-diag-line"><b>Sondeando…</b><span class="muted">hasta 25s</span></div>';state.ytInstCache=null;state.ytInstAt=0;ytStreamCache.clear();ytNegCache.clear();const t=Date.now();const diag={};state.ytDiag=diag;const res=await resolveYouTubeMedia('jNQXAC9IVRw',{force:true,diag}).catch(()=>null);state.ytDiagRes=!!res;const secs=((Date.now()-t)/1000).toFixed(1);if(label)label.textContent=res?`Disponible · vía ${res.source} en ${secs}s`:`Sin respuesta en ${secs}s · se usará el reproductor visible`;if(box)box.innerHTML=ytDiagHtml(diag,res);btn.disabled=false;};
+    const helperInput=$('#ytHelperUrlInput',root);helperInput?.addEventListener('change',async()=>{state.ytHelperUrl=ytNormalizeBase(helperInput.value.trim());ytStreamCache.clear();ytNegCache.clear();ytInstanceStatus.clear();state.ytInstCache=null;state.ytInstAt=0;await persistPrefs();toast(state.ytHelperUrl?'Helper guardado · pulsa «Probar motor nativo»':'Helper borrado',2800);});
     const input=$('#ytCustomApiInput',root);input?.addEventListener('change',async()=>{state.ytCustomApi=ytNormalizeBase(input.value.trim());ytStreamCache.clear();ytNegCache.clear();state.ytInstCache=null;state.ytInstAt=0;await persistPrefs();toast(state.ytCustomApi?'Instancia guardada · reintentando el motor nativo':'Instancia personalizada borrada',2200);});
   });
 }
