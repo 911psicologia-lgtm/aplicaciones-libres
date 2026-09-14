@@ -1,3 +1,13 @@
+
+## v0.9.6 · Gestos intuitivos y lectura guiada
+- Pantalla de resultado simplificada: progreso, cofre y regreso principal al bosque.
+- El libro del bosque pulsa si existe un cuento nuevo pendiente.
+- Botón grande “Leer cuento” antes del texto.
+- Lectura guiada palabra por palabra con animación de letras sincronizada.
+- Consignas de sílabas y gemas más breves.
+- Preguntas finales con reintento suave sin reconstruir la pantalla.
+- Microvibración opcional en dispositivos compatibles y respeto por `prefers-reduced-motion`.
+
 ## 0.9.4 · Balance pedagógico
 - Director de variedad para alternar escucha, reconocimiento, trazo, construcción y lectura.
 - Variantes reinsertadas en su posición curricular declarada, evitando que frases aparezcan antes de tiempo.

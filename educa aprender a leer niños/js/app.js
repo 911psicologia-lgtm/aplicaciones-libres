@@ -1,6 +1,7 @@
 (function(){
   let session=null,toastTimer=null,storyContext={listened:false};
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  function haptic(pattern=18){try{if(navigator.vibrate)navigator.vibrate(pattern);}catch(_){}}
   function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('on'),1800);}
   function go(screen){
     EmiliaVoice.stop&&EmiliaVoice.stop();
@@ -25,7 +26,7 @@
     const src=kind==='chest'?ui.chest:kind==='seed'?ui.seed:kind==='medal'?ui.medal:ui.star;
     wrap.className='reward-pop';
     wrap.innerHTML=`${src?`<img class="reward-image" src="${src}" alt="">`:`<div class="reward-symbol">★</div>`}${Array.from({length:18},(_,i)=>`<i style="--i:${i};--a:${(i*137)%360}deg"></i>`).join('')}`;
-    layer.appendChild(wrap);setTimeout(()=>wrap.remove(),760);
+    layer.appendChild(wrap);haptic(kind==='chest'?[18,30,24]:16);setTimeout(()=>wrap.remove(),760);
   }
   function registerSuccess(independent){
     if(!session||!independent)return;
@@ -125,7 +126,7 @@
       if(/_symbol$/.test(q.skill||'')&&!q.say)return `Busca la ${String(q.answer||'').toUpperCase()}.`;
       if(shape.allLetters&&kind==='word'&&heard.length>1)return `¿Con qué letra empieza ${heard.toLocaleUpperCase('es')}? Toca la primera letra.`;
       if(kind==='vowel')return `Escucha la vocal ${heard.toUpperCase()}. Tócala.`;
-      if(kind==='syllable')return `Escucha ${heard.toLocaleLowerCase('es')}. Toca esa sílaba.`;
+      if(kind==='syllable')return `${heard.toLocaleUpperCase('es')}. Toca esa sílaba.`;
       if(kind==='word')return shape.allLetters?`¿Con qué letra empieza ${heard.toLocaleUpperCase('es')}? Toca la primera letra.`:`Escucha ${heard.toLocaleLowerCase('es')}. Toca esa palabra.`;
       if(kind==='letterName')return `Escucha la letra ${heard.toUpperCase()}. Tócala.`;
       return q.prompt||'';
@@ -133,7 +134,7 @@
     if(q.type==='listenPick'){
       const heard=String(q.say||'').trim(),kind=centralAudioKind(q);
       if(kind==='vowel')return `Escucha la vocal ${heard.toUpperCase()}. Tócala.`;
-      if(kind==='syllable')return `Escucha ${heard.toLocaleLowerCase('es')}. Toca esa sílaba.`;
+      if(kind==='syllable')return `${heard.toLocaleUpperCase('es')}. Toca esa sílaba.`;
       if(kind==='word')return `Escucha ${heard.toLocaleLowerCase('es')}. Toca esa palabra.`;
       return `Escucha ${heard}. Toca lo que escuchaste.`;
     }
@@ -144,12 +145,12 @@
     if(q.type==='build')return `Escucha ${q.word||q.say}. Forma la palabra.`;
     if(q.type==='missingPart')return `Escucha ${q.word||q.say}. Completa la palabra.`;
     if(q.type==='gapFill'){if(q.mode==='letter')return `Completa la palabra. Toca la letra que falta.`;if(q.mode==='syllable')return `Completa la palabra. Toca la sílaba que falta.`;return `Completa la frase. Toca la palabra que falta.`;}
-    if(q.type==='soundBubbles')return `Escucha ${q.say}. Atrapa esa sílaba.`;
+    if(q.type==='soundBubbles')return `${String(q.say||'').toLocaleUpperCase('es')}. Toca esa sílaba.`;
     if(q.type==='syllableTrail'){
       const list=joinAudioList(q.items,q.sayPrefix||'');
-      if(q.sayPrefix)return `Escucha una por una: ${list}. Luego toca cada gema.`;
-      const family=(q.items&&q.items[0])?String(q.items[0]).charAt(0).toUpperCase():'';
-      return family?`Escucha y toca las gemas de la ${family}.`:'Escucha y toca cada gema.';
+      const allVowels=(q.items||[]).length>0&&(q.items||[]).every(x=>/^[aeiouáéíóú]$/i.test(String(x)));
+      if(q.sayPrefix)return `Escucha: ${list}. Luego toca cada ${allVowels?'vocal':'sílaba'}.`;
+      return `Escucha y toca cada ${allVowels?'vocal':'sílaba'}.`;
     }
     if(q.type==='trace')return `Une los puntos de la letra ${String(q.letter||'').toUpperCase()}. Puedes hacer cada parte por separado.`;
     if(q.type==='wordReveal')return `Intenta leer ${q.word}. Si necesitas ayuda, toca la nota.`;
@@ -367,9 +368,22 @@
     const btn=document.getElementById('storyListen'),status=document.getElementById('storyListenStatus');
     const panel=document.querySelector(`.story-page-panel[data-page="${pageIndex}"]`)||document.querySelector('.story-page-panel.active');
     const pageText=panel?String(panel.dataset.text||'').trim():String(st.text||'').trim();
-    if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.notePageModel(st.id,pageIndex+1,pageText,st.skill,{audioFocus:st.kind==='audioFocus'});
+    if(!opts.magic&&window.EmiliaReadingAdapt)EmiliaReadingAdapt.notePageModel(st.id,pageIndex+1,pageText,st.skill,{audioFocus:st.kind==='audioFocus'});
     if(btn){btn.disabled=true;btn.classList.add('speaking');}
-    if(st.kind==='audioFocus'||opts.fluent){
+    if(opts.guided){
+      const spans=panel?[...panel.querySelectorAll('.story-word')]:[];
+      if(status)status.textContent='📖 Lumi lee y marca las palabras';
+      for(let i=0;i<spans.length;i++){
+        spans.forEach(x=>x.classList.remove('active'));
+        const current=spans[i];
+        if(current){current.classList.add('active','spoken');current.classList.remove('spoken');void current.offsetWidth;current.classList.add('spoken');}
+        const clean=String(current&&current.textContent||'').replace(/[.,!?¡¿]/g,'').trim();
+        if(clean)await EmiliaVoice.speak(clean,{kind:'word',repeat:false});
+        await wait(80);
+      }
+      spans.forEach(x=>x.classList.remove('active'));
+      if(status)status.textContent='👆 Toca una palabra si quieres escucharla otra vez';
+    }else if(st.kind==='audioFocus'||opts.fluent){
       if(status)status.textContent=opts.fluent?'📖 Lumi lee el cuento…':'👂 Escuchando…';
       const pulse=animateStoryWords(panel,pageText,{fluent:true});
       await EmiliaVoice.speak(pageText,{kind:'story',repeat:false});
@@ -397,17 +411,18 @@
     if(btn){btn.disabled=false;btn.classList.remove('speaking');}
     EmiliaStore.event('story_model',{storyId:st.id,page:pageIndex+1,fluent:!!opts.fluent});
   }
-  function askComprehension(st){
-    const box=document.getElementById('bookFeedback');storyContext.storyId=st.id;
-    box.innerHTML=`<div class="feedback-box coach comp-box"><div class="comp-topline"><button class="comp-mini-btn back" id="compBack" aria-label="Volver al cuento">←</button><div class="comp-step-pills" aria-label="Pregunta final"><span class="comp-step done">1</span><span class="comp-step active">2</span></div><button class="comp-mini-btn ask" id="compListen" aria-label="Escuchar pregunta">?</button></div><div class="comp-prompt-row"><button class="story-main-play compact attention" id="compListenMain" aria-label="Leer la pregunta"><span class="story-main-play-icon">${(EMILIA_CONTENT.ui||{}).listen?`<img class="ui-listen-icon" src="${(EMILIA_CONTENT.ui||{}).listen}" alt="">`:'<span>♪</span>'}</span><span><strong>Escuchar</strong><small>Lumi lee la pregunta</small></span></button><strong class="comp-question adult-readable">${st.comprehension.prompt}</strong></div><div class="comp-options-grid">${st.comprehension.options.map(o=>`<button class="btn btn-secondary comp-opt" data-a="${EmiliaScreens.esc(o)}">${EmiliaScreens.esc(o)}</button>`).join('')}</div></div>`;
-    const sayPrompt=()=>EmiliaVoice.speak(st.comprehension.prompt,{kind:'instruction',repeat:false});
-    const lb=document.getElementById('compListen'),lbMain=document.getElementById('compListenMain');if(lb)lb.onclick=sayPrompt;if(lbMain)lbMain.onclick=sayPrompt;
-    const back=document.getElementById('compBack');if(back)back.onclick=()=>{window.__emiliaStoryResume={id:st.id,page:(window.__emiliaStoryPageIndex||0),fromQuestion:true};EmiliaApp.openStory(st.id);};
-    sayPrompt();
-    document.querySelectorAll('.comp-opt').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.comp-opt').forEach(x=>x.disabled=true);await EmiliaVoice.speak(b.dataset.a,{kind:/^[aeiouáéíóú]$/i.test(String(b.dataset.a))?'vowel':(/^[a-zñ]$/i.test(String(b.dataset.a))?'letterName':'word'),repeat:false});if(b.dataset.a===st.comprehension.answer){EmiliaVoice.tone('ok');box.innerHTML=`<div class="story-finish-panel"><div class="feedback-visual">✓</div><h3 class="story-finish-title">¡Lo hiciste muy bien!</h3><p class="story-finish-copy">Terminaste este cuento. Puedes volver al bosque o seguir a la próxima aventura.</p><div class="story-finish-actions"><button class="story-finish-btn home" id="storyFinishHome" aria-label="Volver al bosque"><img src="${(EMILIA_CONTENT.ui||{}).forest||''}" alt=""></button><button class="story-finish-btn next" id="storyFinishNext" aria-label="Seguir a la próxima aventura">➜</button></div></div>`;EmiliaApp.rewardBurst('star');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',true,storyContext.listened,{story:st.id});EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened});if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteStoryComplete(st.id);const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}const homeBtn=document.getElementById('storyFinishHome'),nextBtn=document.getElementById('storyFinishNext');if(homeBtn)homeBtn.onclick=()=>EmiliaApp.go('home');if(nextBtn)nextBtn.onclick=()=>{const next=EmiliaEngine.recommendedMission();if(next&&EmiliaEngine.isUnlocked(next))EmiliaApp.startMission(next.id);else EmiliaApp.go('home');};setTimeout(()=>EmiliaVoice.speak('Muy bien. Puedes volver al bosque o seguir a la próxima aventura.',{kind:'instruction',repeat:false}),220);}else{EmiliaVoice.tone('bad');EmiliaMastery.record(st.comprehensionSkill||'comprehension_1',false,storyContext.listened,{story:st.id});EmiliaApp.toast('Escucha otra vez y vuelve a intentar.');setTimeout(()=>askComprehension(st),420);}});
+  function completeStory(st){
+    storyContext.storyId=st.id;
+    EmiliaVoice.tone('ok');haptic([18,26,22]);rewardBurst('star');
+    EmiliaStore.event('story_complete',{storyId:st.id,listenedFirst:storyContext.listened,mode:'magic_story'});
+    if(window.EmiliaReadingAdapt)EmiliaReadingAdapt.noteStoryComplete(st.id);
+    const ss=EmiliaStore.get(),count=new Set((ss.history||[]).filter(e=>e.type==='story_complete').map(e=>e.storyId)).size;
+    if(count>=3&&!(ss.achievements||[]).includes('stories_3')){ss.achievements.push('stories_3');EmiliaStore.save();rewardBurst('medal');}
+    setTimeout(()=>EmiliaVoice.speak('¡Qué lindo cuento! Volvamos al bosque.',{kind:'praise',repeat:false}),220);
+    return true;
   }
   function openStory(id){storyContext={listened:false,storyId:id};EmiliaScreens.book(id);}
-  function exportProgress(){const blob=new Blob([EmiliaStore.exportJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='emilia_bosque_v0.9.5_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Copia exportada.');}
+  function exportProgress(){const blob=new Blob([EmiliaStore.exportJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='emilia_bosque_v0.9.7_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Copia exportada.');}
   function importProgress(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{EmiliaStore.importJSON(r.result);toast('Progreso restaurado.');setTimeout(()=>go('adult'),400);}catch(e){toast('No pude importar ese archivo.');}};r.readAsText(file);}
   let deferredInstall=null,swRegistration=null,reloadingForSW=false,installAvailable=false,updateReady=false;
   function setPWAButton(id,show){const b=document.getElementById(id);if(b)b.hidden=!show;}
@@ -439,6 +454,6 @@
   }
   function refreshPWAControls(){bindPWABar();syncPWAControls();}
   function boot(){const s=EmiliaStore.get();setupPWA();if(s.profile.name)go('home');else go('onboarding');}
-  window.EmiliaApp={go,startMission,startPractice,startGapPractice,startWritingPractice,startSentencePractice,resumeSession,continueSession,exitMission,saveAndExitUser,previousActivity,bindActivity,bindSpeechSpeed,toast,playStory,askComprehension,openStory,exportProgress,importProgress,learningAudio,rewardBurst,tryFullscreen,refreshPWAControls};
+  window.EmiliaApp={go,startMission,startPractice,startGapPractice,startWritingPractice,startSentencePractice,resumeSession,continueSession,exitMission,saveAndExitUser,previousActivity,bindActivity,bindSpeechSpeed,toast,playStory,completeStory,openStory,exportProgress,importProgress,learningAudio,rewardBurst,tryFullscreen,refreshPWAControls};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();

@@ -13,7 +13,7 @@
   const STP=ST+'props/';
   const skill=(id,label,group,order,prereqs=[])=>({id,label,group,order,prereqs});
   window.EMILIA_CONTENT={
-    version:9.4,
+    version:9.7,
     title:'Emilia · El Bosque de las Palabras',
     mascot:{
       name:'Lumi',

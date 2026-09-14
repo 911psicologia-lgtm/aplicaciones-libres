@@ -1,0 +1,20 @@
+Emilia · El Bosque de las Palabras · v0.9.6
+
+Mejoras principales:
+- Pantalla final simplificada: progreso, cofre y retorno principal al bosque.
+- Libro del bosque pulsa cuando hay un cuento desbloqueado aún no completado.
+- Botón grande “Leer cuento” antes de las frases; narra todo el cuento.
+- Palabras y letras se realzan mientras Lumi narra.
+- Consignas de sílabas más breves: “SO. Toca esa sílaba.”
+- Gemas: primero escuchar y luego tocar; se usa vocal/sílaba según el contenido.
+- Preguntas de comprensión mantienen la pantalla y reintentan sin reconstrucción brusca.
+- Microvibración compatible como refuerzo táctil, sin depender de ella.
+- Animaciones respetan prefers-reduced-motion.
+
+Validación técnica final:
+- JavaScript: node --check OK en todos los archivos.
+- CSS: llaves balanceadas 1386/1386.
+- Service Worker: 224 referencias, 0 faltantes.
+- Assets existentes: 208; no se añadieron ni modificaron assets gráficos.
+- Manifest start_url: 0.9.6.
+- Cache PWA: v0.9.6.

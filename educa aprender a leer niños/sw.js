@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.9.5-cuentos-intuitivos';
+const CACHE='emilia-bosque-v0.9.7-cuentos-magicos';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

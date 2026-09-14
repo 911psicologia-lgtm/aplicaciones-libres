@@ -1,0 +1,21 @@
+Emilia · El Bosque de las Palabras · v0.9.7 · Cuentos Mágicos
+
+Cambios:
+- Eliminadas las preguntas de comprensión del flujo de cuentos.
+- Eliminadas las microinteracciones obligatorias dentro de cuentos.
+- Un toque en Escuchar cuento inicia narración automática.
+- Avance automático por páginas.
+- Resaltado progresivo de palabras durante la narración.
+- Controles simples: anterior, reproducir/pausar, siguiente.
+- Personajes y palabras siguen siendo tocables solo como ayuda opcional.
+- Final tranquilo: Lumi celebra, repetir cuento o volver al bosque.
+- Los cuentos ya no registran aciertos/errores de comprensión.
+
+Validación técnica:
+- 27 cuentos disponibles; 22 misiones; 105 habilidades.
+- JavaScript: sintaxis correcta.
+- Flujo de cuento sin askComprehension ni botón ?.
+- Service Worker: 224 referencias, 0 faltantes.
+- CSS: llaves balanceadas 1436/1436.
+- manifest start_url: ./index.html?v=0.9.7.
+- La escucha del cuento no se registra como dependencia/adaptación de lectura.
