@@ -8,16 +8,20 @@ const AVATARS = [
   {id:'avatar_4', em:'👧'}, {id:'avatar_5', em:'🧒'}, {id:'avatar_6', em:'👦'},
 ];
 
-/* ── 🛍️ TIENDA DE AVATARES (nuevo en v5 — se compran con monedas) ── */
+/* ── 🛍️ TIENDA DE AVATARES (nuevo en v5 — se compran con monedas; +4 en v7) ── */
 const SHOP_AVATARS = [
   {id:'av_lion',    name:'León Valiente',   price:100},
   {id:'av_panda',   name:'Panda Dulce',     price:100},
   {id:'av_frog',    name:'Rana Saltarina',  price:120},
+  {id:'av_bunny',   name:'Conejito Suave',  price:110},
   {id:'av_fox',     name:'Zorro Astuto',    price:150},
   {id:'av_penguin', name:'Pingüino Polar',  price:150},
+  {id:'av_koala',   name:'Koala Dormilón',  price:180},
   {id:'av_dino',    name:'Dino Bebé',       price:200},
+  {id:'av_owl',     name:'Búho Sabio',      price:220},
   {id:'av_robot',   name:'Robot Amigo',     price:250},
   {id:'av_unicorn', name:'Unicornio Mágico',price:300},
+  {id:'av_dragon',  name:'Dragoncito',      price:350},
 ];
 
 /* ── 🎡 RULETA DIARIA (nuevo en v5) ── */
@@ -154,6 +158,22 @@ const BADGES = [
   {id:'mem10',   icon:'🧩', name:'Cerebro Fotográfico',desc:'Termina 10 Memoramas', c:p=>(p.stats.memGames||0)>=10},
   {id:'listen1', icon:'👂', name:'Oído de Oro',      desc:'Termina un juego de Escucha', c:p=>(p.stats.listenGames||0)>=1},
   {id:'listen10',icon:'🎧', name:'Oído Perfecto',    desc:'Termina 10 juegos de Escucha', c:p=>(p.stats.listenGames||0)>=10},
+  // ★ V7 — voz, intruso, diccionario y diplomas
+  {id:'say1',    icon:'🎤', name:'Primera Voz',       desc:'Practica tu pronunciación en Say It!', c:p=>(p.stats.sayGames||0)>=1},
+  {id:'say10',   icon:'🎙️', name:'Voz de Estrella',   desc:'Completa 10 sesiones de Say It!', c:p=>(p.stats.sayGames||0)>=10},
+  {id:'odd1',    icon:'🕵️', name:'Ojo de Halcón',     desc:'Termina un juego del Intruso', c:p=>(p.stats.oddGames||0)>=1},
+  {id:'odd10',   icon:'🔍', name:'Maestro Detective', desc:'Termina 10 juegos del Intruso', c:p=>(p.stats.oddGames||0)>=10},
+  {id:'dict1',   icon:'📚', name:'Explorador de Palabras', desc:'Abre tu Diccionario de palabras', c:p=>(p.stats.dictVisits||0)>=1},
+  {id:'diploma1',icon:'🎓', name:'Graduado',          desc:'Gana tu primer diploma con 3⭐', c:p=>WORLDS.some(w=>(p.best&&p.best[w.id]||0)>=3)},
+  // ★ V8 — sesión rápida, oraciones, rimas e hitos de dominio
+  {id:'quick1',  icon:'⚡', name:'Sesión Rápida',   desc:'Completa tu primera sesión ⚡ Rápido de 5 minutos', c:p=>(p.stats.quickGames||0)>=1},
+  {id:'quick10', icon:'⚡', name:'Ritmo Perfecto',   desc:'Completa 10 sesiones ⚡ Rápido', c:p=>(p.stats.quickGames||0)>=10},
+  {id:'sent1',   icon:'🧩', name:'Mis Oraciones',    desc:'Arma tu primera oración en inglés', c:p=>(p.stats.sentGames||0)>=1},
+  {id:'sent10',  icon:'📝', name:'Poeta Pequeño',    desc:'Completa 10 juegos de Oraciones', c:p=>(p.stats.sentGames||0)>=10},
+  {id:'rhyme1',  icon:'🔵', name:'Oído de Poeta',    desc:'Completa un juego de Rimas', c:p=>(p.stats.rhymeGames||0)>=1},
+  {id:'mile50',  icon:'🏆', name:'50 Palabras',      desc:'Domina 50 palabras (🏆 en el Diccionario)', c:p=>masteredCountSafe(p)>=50},
+  {id:'mile100', icon:'💎', name:'100 Palabras',     desc:'Domina 100 palabras. ¡Increíble!', c:p=>masteredCountSafe(p)>=100},
+  {id:'mile200', icon:'🌟', name:'200 Palabras',     desc:'Domina 200 palabras. ¡Leyenda!', c:p=>masteredCountSafe(p)>=200},
   // ★ DÍAS
   {id:'days3',  icon:'📅', name:'3 Días jugados', desc:'Juega en 3 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=3},
   {id:'days7',  icon:'🗓️', name:'Semana Heroica', desc:'Juega en 7 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=7},
@@ -173,12 +193,18 @@ const AI_RIVALS = [
 const DAILY_GOAL_MISSIONS = 3;
 const DAILY_GOAL_REWARD = {coins: 15, xp: 25};
 
+/* v8 — hitos de palabras dominadas (álbum) */
+const MILESTONES = [10, 25, 50, 100, 200, 500];
+function masteredCountSafe(p) {
+  try { return Object.values((p && p.mastery) || {}).filter(v => v >= 3).length; } catch (e) { return 0; }
+}
+
 /* Estado por defecto */
 function defaultState() {
   return {
     active: '',
     profiles: {},
-    settings: {langMode:'ENES', voiceEnabled:true, voiceRate:.82, voicePitch:1.15}
+    settings: {langMode:'ENES', voiceEnabled:true, voiceRate:.82, voicePitch:1.15, voiceURI:''}
   };
 }
 /* Asegura los campos nuevos de v4/v5 en perfiles antiguos */
@@ -189,11 +215,15 @@ function migrateProfile(p) {
   if (!p.avatarData) p.avatarData = '';
   if (!p.unlockedAvatars) p.unlockedAvatars = [];
   if (!p.lastSpin) p.lastSpin = '';
+  if (!p.mastery) p.mastery = {}; // v7: veces que acierta cada palabra
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
+  if (!p.stats.missionsByDay) p.stats.missionsByDay = {}; // v7: misiones por día (gráfico)
+  if (!p.milestones) p.milestones = {}; // v8: fechas de hitos logrados
+  if (p.tourDone == null) p.tourDone = false; // v8: tour de bienvenida visto
   if (!p.dailyGoal) p.dailyGoal = {date:'', count:0, claimed:false};
   if (!p.badges) p.badges = [];
   if (!p.best) p.best = {};
@@ -208,7 +238,10 @@ function defaultProfile(name, avatar='avatar_1') {
     badges: [],
     best: {},
     mistakes: {},
-    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, daysPlayed:{}},
+    mastery: {},
+    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, sayGames:0, oddGames:0, dictVisits:0, quickGames:0, sentGames:0, rhymeGames:0, dictOk:0, dictTry:0, daysPlayed:{}, missionsByDay:{}},
+    milestones: {},
+    tourDone: false,
     dailyGoal: {date:'', count:0, claimed:false}
   };
 }

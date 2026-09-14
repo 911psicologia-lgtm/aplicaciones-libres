@@ -80,10 +80,11 @@
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)
 }
 
-/* ★ IMAGEN GRANDE DE PREGUNTA (foto real, altura fluida) ★ */
+/* ★ IMAGEN GRANDE DE PREGUNTA (foto real, SIEMPRE completa: caja cuadrada 1:1) ★ */
 .q-big-img{
   height:clamp(104px,19vh,180px);
-  width:min(62vw,240px);
+  width:auto;             /* v6: ancho = alto → foto cuadrada sin recortes */
+  aspect-ratio:1/1;
   object-fit:cover;
   border-radius:20px;
   display:block;
@@ -94,7 +95,7 @@
   position:relative;z-index:1;
   background:rgba(255,255,255,.06);
 }
-.q-big-img.wide{width:min(74vw,300px)}
+.q-big-img.wide{width:min(74vw,300px);aspect-ratio:auto}
 .q-big-emoji{
   font-size:4.2em;
   display:block;
@@ -203,7 +204,7 @@ span.word-card{display:inline-flex}
   .opts-grid{gap:7px;padding-bottom:calc(var(--botnav-h) + 28px)}
 }
 @media(max-height:620px){
-  .q-big-img{height:clamp(72px,13vh,104px);width:min(44vw,160px)}
+  .q-big-img{height:clamp(72px,13vh,104px);width:auto}
   .ob-img{height:clamp(34px,5.8vh,46px)}
   .opt-btn{min-height:50px;gap:2px;padding:5px}
   .q-big-word{font-size:1.35em}
@@ -214,13 +215,16 @@ span.word-card{display:inline-flex}
 @media(min-width:700px){
   .ob-img{--obsz:clamp(76px,10vh,108px);width:var(--obsz);height:var(--obsz)}
   .ob-img.wide{width:min(100%,240px);height:clamp(60px,8.6vh,84px)}
+  /* ★ Fix v6: en repaso (ob-img.sm) la foto también es cuadrada y completa en PC */
+  .ob-img.sm{width:var(--obsz);height:var(--obsz)}
 }
 /* ── Responsive: PC grande con buena altura → fotos más grandes ── */
 @media(min-width:700px) and (min-height:900px){
-  .q-big-img{height:clamp(170px,24vh,220px);width:min(40vw,300px)}
+  .q-big-img{height:clamp(170px,24vh,220px);width:auto}
   .q-big-img.wide{width:min(46vw,340px)}
   .opts-grid{max-width:680px}
   .ob-img{--obsz:clamp(92px,11vh,124px);width:var(--obsz);height:var(--obsz)}
+  .ob-img.sm{width:var(--obsz);height:var(--obsz)}
   .ob-img.wide{width:min(100%,260px);height:clamp(72px,9vh,96px)}
 }
 span.ob-img.img-fallback{font-size:2em}

@@ -1,0 +1,17 @@
+{
+  "name": "PequeWorld — Inglés para Niños",
+  "short_name": "PequeWorld",
+  "description": "Primeras palabras en inglés con fotos reales, juegos, premios y progreso 100% local.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0518",
+  "theme_color": "#0a0518",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/img/ui/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/ui/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/ui/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

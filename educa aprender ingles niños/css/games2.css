@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════════════════
+   PEQUEWORLD v7 — CSS NUEVAS MEJORAS
+   Zona de juegos ampliada · Say It! · Intruso · Diccionario ·
+   Diplomas imprimibles · Mundo destacado · Gráfico de actividad
+   ═══════════════════════════════════════════════════════════ */
+
+/* ══════════ ZONA DE JUEGOS: 8 tarjetas ══════════ */
+@media(min-width:700px){
+  .gz-row{grid-template-columns:repeat(4,1fr)}
+}
+.gz-say{background:linear-gradient(135deg,rgba(255,107,107,.16),rgba(128,40,40,.1));border-color:rgba(255,107,107,.4)}
+.gz-say:hover{box-shadow:0 8px 24px rgba(255,107,107,.3)}
+.gz-odd{background:linear-gradient(135deg,rgba(46,204,113,.16),rgba(23,102,56,.1));border-color:rgba(46,204,113,.4)}
+.gz-odd:hover{box-shadow:0 8px 24px rgba(46,204,113,.3)}
+.gz-dict{background:linear-gradient(135deg,rgba(125,143,255,.16),rgba(60,70,150,.12));border-color:rgba(125,143,255,.4)}
+.gz-dict:hover{box-shadow:0 8px 24px rgba(125,143,255,.3)}
+
+/* ══════════ ⭐ MUNDO DESTACADO DEL DÍA ══════════ */
+.world-card.featured{border-color:var(--gold);box-shadow:0 0 18px rgba(255,215,0,.35)}
+.wc-feat{
+  position:absolute;top:8px;left:8px;z-index:2;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f3c;
+  font-size:.6em;font-weight:900;border-radius:999px;padding:3px 9px;
+  box-shadow:0 3px 10px rgba(255,160,0,.5);white-space:nowrap;
+  animation:featPulse 1.6s ease-in-out infinite
+}
+@keyframes featPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* ══════════ 🎤 SAY IT! — ESTUDIO DE PRONUNCIACIÓN ══════════ */
+#studioScreen{padding-top:78px;padding-bottom:calc(var(--botnav-h) + 20px);gap:0}
+.studio-top{width:100%;max-width:640px;margin:0 auto 6px;display:flex;align-items:center;gap:12px}
+.studio-prog{flex:1;min-width:0}
+.studio-prog .small{display:block;text-align:right;margin-top:3px}
+#studioScreen .question-card{max-width:640px;width:calc(100% - 24px)}
+.studio-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:4px 0 8px;width:100%}
+/* v7 fix: el botón de avanzar SIEMPRE visible y tocable (nunca bajo la barra inferior) */
+#stNext{position:sticky;bottom:calc(var(--botnav-h) + 10px);z-index:6;margin:2px auto 0}
+.say-img{
+  width:clamp(110px,24vh,180px);aspect-ratio:1/1;object-fit:cover;
+  border-radius:20px;border:3px solid rgba(255,215,0,.35);
+  box-shadow:0 10px 26px rgba(0,0,0,.5);display:block;margin:0 auto 5px;
+  background:rgba(255,255,255,.06);
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1)
+}
+span.say-img.img-fallback{font-size:4em;display:flex;align-items:center;justify-content:center}
+.say-img.say-done{border-color:rgba(46,204,113,.55)}
+#stRec.recording{
+  background:linear-gradient(135deg,#E74C3C,#C0392B)!important;color:#fff;
+  animation:recPulse 1.1s ease-out infinite
+}
+@keyframes recPulse{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,.55)}50%{box-shadow:0 0 0 16px rgba(231,76,60,0)}}
+
+/* ══════════ 🕵️ ODD ONE OUT — ¿CUÁL NO PERTENECE? ══════════ */
+.odd-opts{grid-template-columns:repeat(2,1fr)!important}
+.odd-btn{min-height:clamp(90px,16vh,150px)}
+.ob-odd-img{
+  width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;
+  background:rgba(255,255,255,.06);display:block
+}
+span.ob-odd-img.img-fallback{font-size:2.6em;line-height:1;display:flex;align-items:center;justify-content:center;padding:22px 0}
+.ob-odd-word{display:none;font-size:.92em;font-weight:900;color:var(--gold)}
+.odd-opts.revealed .ob-odd-word{display:block;animation:popIn .35s ease}
+@media(max-height:760px){
+  .odd-btn{min-height:clamp(76px,13vh,110px)}
+}
+@media(min-width:700px){
+  .odd-opts{max-width:640px;margin:0 auto}
+  .ob-odd-img{border-radius:16px}
+}
+
+/* ══════════ 📚 MI DICCIONARIO ══════════ */
+#dictScreen{padding-top:78px;padding-bottom:calc(var(--botnav-h) + 40px);align-items:stretch;max-width:820px;margin:0 auto;width:100%}
+.dict-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.dict-stats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.dict-pill{border-radius:999px;padding:5px 12px;font-size:.72em;font-weight:900;border:1.5px solid;white-space:nowrap}
+.dict-pill.new{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);color:var(--text)}
+.dict-pill.learned{background:rgba(52,152,219,.12);border-color:rgba(52,152,219,.4);color:#85C1E9}
+.dict-pill.mastered{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.45);color:var(--gold)}
+.dict-pill.tot{background:rgba(155,89,182,.12);border-color:rgba(155,89,182,.4);color:#D2B4DE}
+.dict-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.dict-chip{
+  border-radius:999px;padding:7px 13px;font-size:.74em;font-weight:900;
+  font-family:inherit;cursor:pointer;background:rgba(255,255,255,.06);
+  border:2px solid rgba(255,255,255,.12);color:var(--muted);transition:all .18s
+}
+.dict-chip.on{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+.dict-chip:active{transform:scale(.93)}
+.dict-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:9px}
+.dict-tile{
+  position:relative;background:var(--card);border-radius:14px;
+  border:2px solid rgba(255,255,255,.08);padding:7px 6px 8px;
+  text-align:center;cursor:pointer;font-family:inherit;transition:all .18s;
+  display:flex;flex-direction:column;align-items:center;gap:3px
+}
+.dict-tile:active{transform:scale(.93)}
+.dict-tile.pop{animation:bounceOk .3s ease}
+.dict-tile.learned{border-color:rgba(52,152,219,.45)}
+.dict-tile.mastered{border-color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,.2)}
+.dt-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:rgba(255,255,255,.05)}
+span.dt-img.img-fallback{font-size:2em;line-height:1;display:flex;align-items:center;justify-content:center;padding:16px 0}
+.dt-num{
+  width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  font-family:'Baloo 2',cursive;font-size:2.2em;color:var(--gold);
+  background:rgba(255,255,255,.05);border-radius:10px
+}
+.dt-em{
+  width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  font-size:2.2em;background:rgba(255,255,255,.05);border-radius:10px
+}
+.dt-en{font-weight:900;font-size:.78em;color:var(--text);line-height:1.15;word-break:break-word}
+.dt-es{font-size:.62em;color:var(--muted)}
+.dt-tag{position:absolute;top:5px;right:6px;font-size:.78em}
+
+/* ══════════ 🎓 DIPLOMAS ══════════ */
+.diploma-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:520px){.diploma-grid{grid-template-columns:repeat(3,1fr)}}
+.diploma-tile{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dp-btn{margin-top:2px}
+.empty-diploma{
+  text-align:center;background:rgba(255,255,255,.05);
+  border:2px dashed rgba(255,215,0,.3);border-radius:18px;
+  padding:26px 16px;color:var(--muted);font-weight:800;line-height:1.55
+}
+.diploma{
+  background:linear-gradient(160deg,#FFFDF4,#FFF3D6);
+  border-radius:18px;padding:10px;margin:2px auto;max-width:420px;
+  box-shadow:0 16px 40px rgba(0,0,0,.5)
+}
+.dp-inner{border:3px double #C9A227;border-radius:12px;padding:18px 14px;text-align:center;color:#5A450E}
+.dp-ribbon{
+  display:inline-block;background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#4a3b12;border-radius:999px;padding:4px 16px;font-weight:900;
+  font-size:.8em;margin-bottom:8px
+}
+.dp-kicker{font-size:.75em;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#9C7A1D}
+.dp-name{font-family:'Baloo 2',cursive;font-size:2.1em;color:#7A5A00;line-height:1.1;margin:2px 0 8px}
+.dp-av .avatar-img{width:72px;height:72px;border:3px solid #C9A227;margin:0 auto 8px}
+.dp-body{font-size:.85em;font-weight:700}
+.dp-world{font-family:'Baloo 2',cursive;font-size:1.5em;color:#1F1235;margin:4px 0 0}
+.dp-es{font-size:.8em;color:#9C7A1D;font-weight:800;margin-bottom:6px}
+.dp-stars{font-size:1.5em;letter-spacing:6px;margin:4px 0}
+.dp-date{font-size:.72em;font-weight:800;color:#9C7A1D;border-top:1.5px solid #E8D9A8;padding-top:8px;margin-top:8px}
+
+/* Impresión: solo el diploma, fondo claro */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{height:auto!important;overflow:visible!important}
+  body.print-diploma *{visibility:hidden}
+  body.print-diploma #modalOverlay,body.print-diploma #modalOverlay *{visibility:visible}
+  body.print-diploma #modalOverlay{
+    position:absolute!important;inset:0;display:block!important;
+    background:#fff!important;padding:0!important;backdrop-filter:none
+  }
+  body.print-diploma .modal-box{
+    background:#fff!important;box-shadow:none!important;border:none!important;
+    max-width:100%!important;max-height:none!important;overflow:visible!important
+  }
+  body.print-diploma .modal-hd,body.print-diploma .modal-ft{display:none!important}
+  body.print-diploma .modal-body{overflow:visible!important;padding:0!important;display:flex;justify-content:center}
+  body.print-diploma .diploma{box-shadow:none;margin:20px auto;width:100%}
+}
+
+/* ══════════ 📊 GRÁFICO DE ACTIVIDAD ══════════ */
+.act-chart{
+  width:100%;height:auto;display:block;
+  background:rgba(255,255,255,.04);
+  border:1.5px solid rgba(255,255,255,.08);border-radius:12px
+}
+
+/* ══════════ RESPONSIVE EXTRA ══════════ */
+@media(max-width:380px){
+  .dict-grid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:7px}
+  .studio-btns .bigbtn{min-width:118px;padding:9px 14px;font-size:.82em}
+  .dp-name{font-size:1.7em}
+}
+@media(min-width:700px){
+  #studioScreen .question-card{margin-left:auto;margin-right:auto}
+  .studio-top{max-width:640px}
+}

@@ -35,7 +35,7 @@ WORLDS.push(
    ]},
 
   /* ── NUMBERS 21–30 ── */
-  {id:'numbers_21_30', name:'Numbers 21–30', es:'Números 21–30', icon:'🧠', color:'wc-numbers', lvl:3, kind:'numbers',
+  {id:'numbers_21_30', name:'Numbers 21–30', es:'Números 21–30', icon:'🧠', color:'wc-numbers', lvl:3, kind:'numbers', cover:'cover_numbers_2130',
    story:'Desafío final: del 21 al 30. Ya cuentas como un campeón.',
    items:[
     {en:'Twenty-one',  es:'Veintiuno',  num:21},
@@ -125,7 +125,7 @@ WORLDS.push(
     {en:'Bath',   es:'Baño',       img:'bath',     em:'🧼', hint:'Limpio'},
     {en:'Brush',  es:'Cepillo',    img:'brush',    em:'🪥', hint:'Peinar'},
     {en:'Collar', es:'Collar',     img:'leash',    em:'📿', hint:'Cuello'},
-    {en:'Treat',  es:'Premio',     img:'bone',     em:'🦴', hint:'Buen perro'},
+    {en:'Treat',  es:'Premio',     img:'treat',     em:'🦴', hint:'Buen perro'},
     {en:'Adopt',  es:'Adoptar',    img:'house',    em:'🏡', hint:'Nuevo hogar'},
     {en:'Train',  es:'Entrenar',   img:'dog',      em:'🎯', hint:'Aprender'},
     {en:'Walk',   es:'Pasear',     img:'kid_run',  em:'🚶', hint:'Caminar'},

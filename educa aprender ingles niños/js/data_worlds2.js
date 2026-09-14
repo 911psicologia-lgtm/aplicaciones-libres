@@ -19,7 +19,7 @@ WORLDS.push(
    ]},
 
   /* ── NUMBERS 11–20 ── */
-  {id:'numbers_11_20', name:'Numbers 11–20', es:'Números 11–20', icon:'🚀', color:'wc-numbers', lvl:2, kind:'numbers',
+  {id:'numbers_11_20', name:'Numbers 11–20', es:'Números 11–20', icon:'🚀', color:'wc-numbers', lvl:2, kind:'numbers', cover:'cover_numbers_1120',
    story:'Sube al cohete: contamos del 11 al 20, uno por uno.',
    items:[
     {en:'Eleven',   es:'Once',      num:11},

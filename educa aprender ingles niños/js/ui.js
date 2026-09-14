@@ -34,13 +34,30 @@ function loadState() {
   Object.values(STATE.profiles).forEach(p => migrateProfile(p));
   saveState();
 }
-function saveState() { try { localStorage.setItem(LS, JSON.stringify(STATE)); } catch (e) {} }
+function saveState() {
+  try {
+    localStorage.setItem(LS, JSON.stringify(STATE));
+  } catch (e) {
+    // v8 [A4]: guard de cuota — nunca fallar en silencio
+    if (!saveState._warned) {
+      saveState._warned = true;
+      setTimeout(() => { saveState._warned = false; }, 30000);
+      try { notif('⚠️ El guardado se llenó. Ve a Ajustes → Zona de padres y exporta tu progreso', 'var(--red)'); } catch (e2) {}
+    }
+    // último recurso: guarda el progreso sin las fotos base64 (avisa igualmente)
+    try {
+      const slim = JSON.parse(JSON.stringify(STATE));
+      Object.values(slim.profiles).forEach(pp => { pp.avatarData = ''; });
+      localStorage.setItem(LS, JSON.stringify(slim));
+    } catch (e2) {}
+  }
+}
 function activeProfile() { return STATE.profiles[STATE.active] || null; }
 function updateProfile(fn) { const p = activeProfile(); if (!p) return; fn(p); saveState(); }
 
 /* ── NAVEGACIÓN DE PANTALLAS ── */
 let currentScreen = 'login';
-const SCREENS = ['loginScreen', 'mapScreen', 'gameScreen', 'resultScreen', 'trophiesScreen'];
+const SCREENS = ['loginScreen', 'mapScreen', 'gameScreen', 'resultScreen', 'trophiesScreen', 'studioScreen', 'dictScreen'];
 function showScreen(id) {
   SCREENS.forEach(s => $(s).classList.remove('on'));
   $(id).classList.add('on');
@@ -48,6 +65,7 @@ function showScreen(id) {
 }
 function navTo(i) {
   beep(true);
+  if (window.sayStopAll) window.sayStopAll(); // v7: apaga el micrófono al salir del estudio
   document.querySelectorAll('.bnbtn').forEach((b, j) => b.classList.toggle('act', j === i));
   if (i === 0) { renderMap(); showScreen('mapScreen'); }
   else if (i === 1) { if (G.mtype) retryMission(); else navTo(0); }
@@ -227,6 +245,8 @@ function doEnter() {
   navTo(0);
   updateTopbar();
   beep(true);
+  // v8 [A1]: tour de bienvenida la primera vez
+  if (!p.tourDone) setTimeout(() => startTour(false), 800);
 }
 
 /* ═══════════════════════════════════════════
@@ -262,9 +282,11 @@ function renderMap() {
     }
   }
 
-  // Hero banner con la FOTO del niño (v5)
+  // Hero banner con la FOTO del niño (v5) + saludo según la hora (v7)
+  const hr = new Date().getHours();
+  const saludo = hr < 12 ? '¡Buenos días' : hr < 19 ? '¡Buenas tardes' : '¡Buenas noches';
   $('mapAv').innerHTML = avatarHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData);
-  $('mapName').textContent = `¡Hola, ${p.name}!`;
+  $('mapName').textContent = `${saludo}, ${p.name}!`;
   $('mapSub').textContent = `Nivel ${lv} · ${LEVEL_NAMES[lv]}`;
   const xpCur = p.xp || 0; const xpNext = xpForNextLevel(lv); const xpBase = LEVEL_XP[lv] || 0;
   const frac = lv >= 3 ? 1 : clamp((xpCur - xpBase) / (xpNext - xpBase || 1), 0, 1);
@@ -307,16 +329,19 @@ function renderMap() {
     const done = best >= 3;
     card.className = `world-card ${w.color || ''} ${done ? 'done' : 'unlocked'}`;
     const cover = worldCover(w);
+    const feat = (typeof isFeaturedWorld === 'function') && isFeaturedWorld(w.id);
     const coverHTML = cover
       ? `<img class="wc-img" src="${IMG(cover)}" alt="${w.name}" loading="lazy" onerror="this.outerHTML='<span class=\\'wc-emoji\\'>${w.icon}</span>'">`
       : `<span class="wc-emoji">${w.icon}</span>`;
     card.innerHTML = `
       ${coverHTML}
+      ${feat ? '<div class="wc-feat">⭐ Hoy x2 🪙</div>' : ''}
       <div class="wc-name">${w.name}</div>
       <div class="wc-sub">${w.es}</div>
       <div class="wc-stars">${'⭐'.repeat(best)}${'☆'.repeat(3 - best)}</div>
       ${done ? '<div class="wc-done">✓</div>' : ''}
     `;
+    if (feat) card.classList.add('featured');
     card.onclick = () => { startMission(w.id); beep(true); };
     sec.appendChild(card);
   });
@@ -346,12 +371,21 @@ function renderGamesZone(p) {
   row.className = 'gz-row';
 
   const defs = [
+    // ★ v8: sesión rápida de 5 minutos — cero decisiones para el niño
+    {cls: 'gz-quick', ico: '⚡', name: 'Rápido', sub: 'sesión de 5 min', fn: () => startQuickSession()},
     {cls: 'gz-spell', ico: '🔤', name: 'Completa', sub: 'la palabra', fn: () => startSpellMission()},
     {cls: 'gz-match', ico: '🧩', name: 'Empareja', sub: 'foto + palabra', fn: () => startMatchMission()},
     {cls: 'gz-mem',   ico: '🃏', name: 'Memoria', sub: 'encuentra parejas', fn: () => startMemoryMission()},
     {cls: 'gz-listen',ico: '🎧', name: 'Escucha', sub: 'y elige la foto', fn: () => startListenMission()},
+    // ★ v7: tres juegos/estudios nuevos
+    {cls: 'gz-say',   ico: '🎤', name: 'Di la palabra', sub: 'graba tu voz', fn: () => startSayMission()},
+    {cls: 'gz-odd',   ico: '🕵️', name: 'Intruso', sub: '¿cuál no es?', fn: () => startOddMission()},
+    // ★ v8: dos juegos nuevos
+    {cls: 'gz-sent',  ico: '🧩', name: 'Oraciones', sub: 'arma la frase', fn: () => startSentenceMission()},
+    {cls: 'gz-rhyme', ico: '🔵', name: 'Rimas', sub: '¿qué rima?', fn: () => startRhymeMission()},
+    {cls: 'gz-dict',  ico: '📚', name: 'Diccionario', sub: 'todas mis palabras', fn: () => openDictionary()},
     {cls: 'gz-review' + (pend ? '' : ' gz-off'), ico: '🔁', name: 'Repaso',
-     sub: pend ? pend + (pend === 1 ? ' error' : ' errores') : '¡Sin errores!', fn: () => startReviewMission()},
+     sub: pend ? pend + (pend === 1 ? ' error · priorizado' : ' errores · priorizados') : '¡Sin errores!', fn: () => startReviewMission()},
   ];
   defs.forEach(d => {
     const c = document.createElement('div');
@@ -416,7 +450,7 @@ function bumpDailyGoal() {
 let _trophyTab = 0;
 function switchTrophyTab(i) {
   _trophyTab = i;
-  [0, 1, 2, 3, 4].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
+  [0, 1, 2, 3, 4, 5, 6].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
   renderTrophyContent();
 }
 function renderTrophies() { switchTrophyTab(0); }
@@ -490,6 +524,12 @@ function renderTrophyContent() {
   } else if (_trophyTab === 4) {
     // 🛍️ TIENDA DE AVATARES (v5)
     host.innerHTML = renderShopHTML();
+  } else if (_trophyTab === 5) {
+    // 🎓 DIPLOMAS IMPRIMIBLES (v7)
+    if (window.renderDiplomasTab) window.renderDiplomasTab();
+  } else if (_trophyTab === 6) {
+    // 🏆 HITOS DE PALABRAS DOMINADAS (v8)
+    if (window.renderMilestonesTab) window.renderMilestonesTab();
   } else {
     // Ranking con medallas de fotos
     const realPlayers = Object.values(STATE.profiles)
@@ -566,21 +606,52 @@ function openSettings() {
     </div>
     <div class="divider"></div>
     <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🗣️ Voz en inglés (v8)</div>
+      <div class="small">Elige la voz que más le guste a tu peque (las voces dependen de tu dispositivo):</div>
+      <div class="voice-row">
+        <select id="voiceSel" onchange="setVoiceURI(this.value)" aria-label="Voz en inglés"></select>
+        <button class="bigbtn bb-green bb-sm" onclick="previewVoice()">▶️ Probar</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">📈 Actividad reciente (v7)</div>
+      <canvas id="actChart" class="act-chart"></canvas>
+      <div class="small" style="margin-top:4px">Cada barra es un día: cuántas misiones completó tu peque.</div>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">👨‍👩‍👧 Zona de padres</div>
       ${parentsStatsHTML(p)}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="bigbtn bb-green bb-sm" onclick="openParentsReport()">🖨️ Informe imprimible (v8)</button>
         <button class="bigbtn bb-ghost bb-sm" onclick="exportProgress()">⬇️ Exportar progreso</button>
-        <button class="bigbtn bb-ghost bb-sm" onclick="triggerImport()">⬆️ Importar progreso</button>
+        <button class="bigbtn bb-ghost bb-sm" onclick="askAdult('Importar progreso', () => triggerImport())">⬆️ Importar progreso</button>
+        <button class="bigbtn bb-ghost bb-sm" onclick="switchPlayer()">👥 Cambiar de jugador</button>
       </div>
       <input type="file" accept="application/json,.json" id="importInp" style="display:none" onchange="onImportPick(event)">
-      <div class="small" style="margin-top:6px">Copia de seguridad local en un archivo. La app guarda todo en este dispositivo y nunca envía datos a internet.</div>
+      <div class="small" style="margin-top:6px">La app guarda todo en este dispositivo y nunca envía datos a internet.</div>
+      <div class="pr-priv-lock" style="margin-top:10px;background:rgba(46,204,113,.08);border:1.5px solid rgba(46,204,113,.35);border-radius:12px;padding:10px 12px">
+        <div style="font-weight:900;margin-bottom:4px">🔒 Privacidad (v8) — qué se guarda y qué no sale de aquí</div>
+        <div class="small" style="line-height:1.5">
+          • La <b>foto</b>, el <b>nombre</b> y el <b>progreso</b> viven solo en este navegador (localStorage): nunca se envían a internet.<br>
+          • Las <b>grabaciones de voz</b> de «Di la palabra» no se guardan: solo suenan en memoria y desaparecen al salir.<br>
+          • No hay cuentas, anuncios, compras ni análisis de datos.<br>
+          • Puedes <b>exportar</b> una copia, <b>importarla</b> en otro dispositivo o <b>borrar todo</b> abajo. Borrar e importar piden verificación de adulto.
+        </div>
+      </div>
     </div>
     <div class="divider"></div>
     <div>
       <div style="font-weight:900;margin-bottom:8px;color:var(--red)">⚠️ Zona peligrosa</div>
-      <button class="bigbtn bb-ghost bb-sm" onclick="resetProfile()">🔄 Reiniciar mi perfil</button>
+      <button class="bigbtn bb-ghost bb-sm" onclick="askAdult('Reiniciar perfil', () => resetProfile())">🔄 Reiniciar mi perfil</button>
     </div>
   `, `<button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Cerrar</button>`);
+  // v7: dibuja el gráfico de actividad cuando el modal ya está en el DOM
+  requestAnimationFrame(() => { if (window.renderActivityChart) window.renderActivityChart(); });
+  // v8: llena el selector de voz (las voces pueden llegar tarde en algunos navegadores)
+  requestAnimationFrame(() => { if (window.populateVoiceSel) populateVoiceSel(); });
+  setTimeout(() => { if (window.populateVoiceSel) populateVoiceSel(); }, 400);
 }
 window.setLang = (m, btn) => {
   STATE.settings.langMode = m; saveState();
@@ -604,7 +675,8 @@ window.resetProfile = () => {
     fresh.id = p.id;
     Object.keys(fresh).forEach(k => { p[k] = fresh[k]; });
   });
-  closeModal(); notif('🔄 Perfil reiniciado', 'var(--red)');
+  closeModal(); renderMap(); updateTopbar();
+  notif('🔄 Perfil reiniciado', 'var(--red)');
 };
 
 /* ── INSIGNIAS NUEVAS ── */
@@ -759,6 +831,7 @@ window.equipShopAvatar = function (id) {
 function parentsStatsHTML(p) {
   const s = p.stats || {};
   const days = Object.keys(s.daysPlayed || {}).length;
+  const mastered = Object.values(p.mastery || {}).filter(v => v >= 3).length;
   const st = [
     ['✨ XP', (p.xp || 0) + ' · Nivel ' + (p.level || 1)],
     ['✅ Correctas', s.totalCorrect || 0],
@@ -770,6 +843,11 @@ function parentsStatsHTML(p) {
     ['🔁 Errores por repasar', mistakeCount()],
     ['🎮 Juegos v5', `Mem: ${s.memGames || 0} · Esc: ${s.listenGames || 0}`],
     ['🎡 Giros de ruleta', s.spins || 0],
+    // v7
+    ['🎤 Sesiones de voz', s.sayGames || 0],
+    ['🕵️ Intrusos ganados', s.oddGames || 0],
+    ['📚 Palabras dominadas', mastered],
+    ['🎓 Diplomas', (typeof diplomaList === 'function') ? diplomaList(p).length : 0],
   ];
   return `<div class="parent-grid">${st.map(x => `
     <div class="parent-cell"><span class="pc-k">${x[0]}</span><b class="pc-v">${x[1]}</b></div>`).join('')}</div>`;

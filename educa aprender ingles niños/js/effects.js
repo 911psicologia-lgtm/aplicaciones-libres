@@ -14,7 +14,12 @@ function resizeConf() {
 }
 window.addEventListener('resize', resizeConf, {passive: true}); resizeConf();
 
+/* v8 [A3]: si el usuario prefiere menos movimiento, el confeti y las
+   estrellas se suavizan (respetamos prefers-reduced-motion) */
+const REDUCED_MOTION = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
 function burst(n = 60) {
+  if (REDUCED_MOTION) n = Math.min(n, 14);
   const w = innerWidth, h = innerHeight;
   for (let i = 0; i < n; i++) {
     confetti.push({
@@ -26,6 +31,7 @@ function burst(n = 60) {
   }
 }
 function burstAt(x, y, n = 40) {
+  if (REDUCED_MOTION) n = Math.min(n, 12);
   for (let i = 0; i < n; i++) {
     confetti.push({
       x, y,

@@ -2,15 +2,18 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0518">
-<title>🌈 PequeWorld v5 — Inglés para Niños</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900;1000&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%88%3C/text%3E%3C/svg%3E">
+<title>🌈 PequeWorld v8 — Inglés para Niños</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/game.css">
 <link rel="stylesheet" href="css/games.css">
+<link rel="stylesheet" href="css/games2.css">
+<link rel="stylesheet" href="css/games3.css">
 </head>
 <body>
 
@@ -54,8 +57,9 @@
   <div id="profileRow" class="profile-row"></div>
 
   <button class="bigbtn bb-gold" style="margin-top:16px" id="btnEnter">¡Entrar! 🚀</button>
-  <div class="small" style="margin-top:14px;text-align:center">
-    Toca tu nombre y luego ¡Entrar!
+  <button class="bigbtn bb-ghost bb-sm" style="margin-top:10px" onclick="startTour(true)">🧭 ¿Cómo funciona? (tour de 1 minuto)</button>
+  <div class="small" style="margin-top:12px;text-align:center">
+    Toca tu nombre y luego ¡Entrar! · Progreso guardado solo en este dispositivo 🔒
   </div>
 </div>
 
@@ -157,8 +161,48 @@
     <button class="tab-btn" id="tTab2" onclick="switchTrophyTab(2)">🏆 Trofeos</button>
     <button class="tab-btn" id="tTab3" onclick="switchTrophyTab(3)">📊 Ranking</button>
     <button class="tab-btn" id="tTab4" onclick="switchTrophyTab(4)">🛍️ Tienda</button>
+    <button class="tab-btn" id="tTab5" onclick="switchTrophyTab(5)">🎓 Diplomas</button>
+    <button class="tab-btn" id="tTab6" onclick="switchTrophyTab(6)">🏆 Hitos</button>
   </div>
   <div id="trophyContent"></div>
+</div>
+
+<!-- ══ ESTUDIO DE PRONUNCIACIÓN — SAY IT! (v7) ══ -->
+<div id="studioScreen" class="screen">
+  <div class="studio-top">
+    <button class="bigbtn bb-ghost bb-sm" onclick="closeStudio()">⬅ Salir</button>
+    <div class="studio-prog">
+      <div class="game-prog-bar"><div class="game-prog-fill" id="stFill" style="width:0%"></div></div>
+      <span class="small" id="stLabel">Palabra 1/6</span>
+    </div>
+  </div>
+  <div class="question-card">
+    <div class="q-world-badge">🎤 Say It! · Di la palabra</div>
+    <div id="stVisual"></div>
+    <div class="q-big-word" id="stWord">WORD</div>
+    <div class="q-translation" id="stTrans">Traducción</div>
+  </div>
+  <div class="studio-btns">
+    <button class="bigbtn bb-green bb-sm" onclick="sayListen()">🔊 Escuchar</button>
+    <button class="bigbtn bb-purple bb-sm" id="stRec" onclick="sayRecToggle()">🎙️ Grabar mi voz</button>
+    <button class="bigbtn bb-gold bb-sm" id="stPlay" onclick="sayPlayMine()" disabled>▶️ Escucharme</button>
+    <button class="bigbtn bb-blue bb-sm" id="stDict" onclick="sayDictate()">🗣️ Que la app me entienda</button>
+  </div>
+  <div id="stTip" class="cam-err" style="display:none"></div>
+  <button class="bigbtn bb-gold" id="stNext" onclick="sayNext()">Siguiente ➜</button>
+  <div class="small" style="text-align:center;margin-top:8px">1) Escucha 👂 · 2) Grábate 🎙️ · 3) Compárate ▶️</div>
+</div>
+
+<!-- ══ MI DICCIONARIO (v7) ══ -->
+<div id="dictScreen" class="screen">
+  <div class="dict-head">
+    <button class="bigbtn bb-ghost bb-sm" onclick="closeDictionary()">⬅ Volver</button>
+    <div class="section-title" style="margin:0">📚 Mi Diccionario</div>
+  </div>
+  <div class="dict-stats" id="dictStats"></div>
+  <div class="dict-chips" id="dictLevelChips"></div>
+  <div class="dict-chips" id="dictWorldChips"></div>
+  <div class="dict-grid" id="dictGrid"></div>
 </div>
 
 <!-- ══ MODAL ══ -->
@@ -175,12 +219,15 @@
 <script src="js/data_worlds.js"></script>
 <script src="js/data_worlds2.js"></script>
 <script src="js/data_worlds3.js"></script>
+<script src="js/data_worlds4.js"></script>
 <script src="js/data_meta.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/effects.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/game.js"></script>
 <script src="js/games.js"></script>
+<script src="js/games2.js"></script>
+<script src="js/games3.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

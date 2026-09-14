@@ -16,6 +16,12 @@ const TTS = {
 
   _bestVoice(lang) {
     if (!_voices.length) return null;
+    // v8: la familia puede elegir una voz concreta (solo para el inglés)
+    const sel = STATE && STATE.settings && STATE.settings.voiceURI;
+    if (sel && String(lang).toLowerCase().startsWith('en')) {
+      const chosen = _voices.find(v => v.voiceURI === sel);
+      if (chosen) return chosen;
+    }
     const lc = lang.toLowerCase();
     const preferred = _voices.filter(v => v.lang.toLowerCase().startsWith(lc.slice(0, 2)));
     const fem = preferred.find(v => /samantha|zira|karen|moira|tessa|fiona|kate|susan|ava|allison|victoria|helena|monica/i.test(v.name));

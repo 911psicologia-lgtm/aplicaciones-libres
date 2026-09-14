@@ -174,6 +174,10 @@ function renderQuestion() {
     if (w.kind === 'colors') TTS.speak([{ text: 'What color is this?', lang: 'en-US', rate: .82 }]);
     else TTS.sayWord(item.en, item.es, w.kind);
   }, 300);
+
+  // v7: precarga las fotos de la siguiente pregunta (todo fluye sin esperas)
+  const nq = G.questions[G.qi + 1];
+  if (nq && nq.opts) nq.opts.forEach(o => { if (o.img) { const im = new Image(); im.src = IMG(o.img); } });
 }
 
 function speakCurrent() {
@@ -195,6 +199,9 @@ function coreReward(item, evt) {
     p.stats.totalCorrect = (p.stats.totalCorrect || 0) + 1;
     p.coins = (p.coins || 0) + 2;
     p.xp = (p.xp || 0) + 12;
+    // v7: maestría por palabra (alimenta el Diccionario: 🌱 nueva → ✅ aprendida → 🏆 dominada)
+    p.mastery = p.mastery || {};
+    if (item && item.en) p.mastery[item.en] = (p.mastery[item.en] || 0) + 1;
   });
   beep(true);
   TTS.sayFeedback(true);
@@ -288,7 +295,9 @@ function endMission() {
   const pct = Math.round((G.ok / tot) * 100);
   const stars = pct >= 90 ? 3 : pct >= 60 ? 2 : pct >= 30 ? 1 : 0;
   const xpGained = G.ok * 12 + (stars * 30) + (pct === 100 ? 50 : 0);
-  const coinsGained = G.ok * 2 + (stars * 10) + (pct === 100 ? 25 : 0);
+  // ⭐ v7: mundo destacado del día → monedas x2
+  const feat = (typeof isFeaturedWorld === 'function') && isFeaturedWorld(G.mtype);
+  const coinsGained = Math.round((G.ok * 2 + (stars * 10) + (pct === 100 ? 25 : 0)) * (feat ? 2 : 1));
 
   updateProfile(p => {
     p.xp = (p.xp || 0) + xpGained;
@@ -296,10 +305,16 @@ function endMission() {
     if (pct === 100) p.stats.perfect = (p.stats.perfect || 0) + 1;
     p.stats.missions = (p.stats.missions || 0) + 1;
     p.stats.daysPlayed[todayStr()] = true;
+    // v7: misiones por día (gráfico de actividad de la Zona de padres)
+    p.stats.missionsByDay[todayStr()] = (p.stats.missionsByDay[todayStr()] || 0) + 1;
     if (G.mtype === 'spell') p.stats.spellGames = (p.stats.spellGames || 0) + 1;
     if (G.mtype === 'match') p.stats.matchGames = (p.stats.matchGames || 0) + 1;
     if (G.mtype === 'memory') p.stats.memGames = (p.stats.memGames || 0) + 1;
     if (G.mtype === 'listen') p.stats.listenGames = (p.stats.listenGames || 0) + 1;
+    if (G.mtype === 'odd') p.stats.oddGames = (p.stats.oddGames || 0) + 1; // v7
+    if (G.mtype === 'quick') p.stats.quickGames = (p.stats.quickGames || 0) + 1; // v8
+    if (G.mtype === 'sentence') p.stats.sentGames = (p.stats.sentGames || 0) + 1; // v8
+    if (G.mtype === 'rhyme') p.stats.rhymeGames = (p.stats.rhymeGames || 0) + 1; // v8
     if (G.mtype === 'review') {
       p.stats.reviews = (p.stats.reviews || 0) + 1;
       p.stats.learnedWords = (p.stats.learnedWords || 0) + (G.learned || 0);
@@ -383,8 +398,8 @@ function endMission() {
     celebrate({
       icon: pct === 100 ? uiTag('ui_trophy', '🏆', 'cel-img') : uiTag('ui_medal_gold', '🥇', 'cel-img'),
       title: pct === 100 ? '¡PERFECTO!' : '¡Misión completada!',
-      sub: `${G.ok}/${tot} correctas · ${stars} ⭐${streakBonus}`,
-      rewards: [`⭐ +${stars}`, `🪙 +${coinsGained}`, `✨ +${xpGained} XP`, ...(G.streak >= 5 ? [`🔥 Racha x${G.streak} activa!`] : [])],
+      sub: `${G.ok}/${tot} correctas · ${stars} ⭐${streakBonus}${feat ? ' · ⭐ Destacado x2🪙' : ''}`,
+      rewards: [`⭐ +${stars}`, `🪙 +${coinsGained}`, `✨ +${xpGained} XP`, ...(feat ? ['🌟 ¡Mundo destacado: monedas x2!'] : []), ...(G.streak >= 5 ? [`🔥 Racha x${G.streak} activa!`] : [])],
       confetti: stars, dur: 3200
     });
   }
@@ -410,6 +425,7 @@ function endMission() {
   document.querySelectorAll('.bnbtn').forEach((b, j) => b.classList.toggle('act', j === 0));
   updateTopbar();
   checkBadges();
+  if (window.checkMilestones) checkMilestones(); // v8: hitos de palabras dominadas
 }
 
 /* ── COFRE SORPRESA ── */
@@ -457,5 +473,8 @@ function retryMission() {
   if (G.mtype === 'memory') return startMemoryMission();
   if (G.mtype === 'listen') return startListenMission();
   if (G.mtype === 'review') return startReviewMission();
+  if (G.mtype === 'quick') return startQuickSession(); // v8
+  if (G.mtype === 'sentence') return startSentenceMission(); // v8
+  if (G.mtype === 'rhyme') return startRhymeMission(); // v8
   if (G.mtype) startMission(G.mtype);
 }

@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════════════════════
+   PequeWorld — CSS v8
+   Puerta parental · Tour · Sesión rápida · Oraciones · Rimas ·
+   Hitos · Informe imprimible · Accesibilidad (foco + movimiento)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 1) 🔒 PUERTA PARENTAL ── */
+.pgate-overlay{position:fixed;inset:0;background:rgba(5,2,14,.86);backdrop-filter:blur(8px);z-index:12000;display:flex;align-items:center;justify-content:center;padding:18px}
+.pgate-box{background:var(--card);border:2px solid rgba(255,215,0,.35);border-radius:var(--r);padding:22px 20px;max-width:340px;width:100%;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.pgate-ico{font-size:2.4em;margin-bottom:2px}
+.pgate-title{font-family:'Baloo 2',cursive;font-size:1.35em;color:var(--gold);margin-bottom:4px}
+.pgate-sub{font-size:.78em;color:var(--muted);margin-bottom:10px}
+.pgate-q{font-family:'Baloo 2',cursive;font-size:1.5em;background:rgba(255,255,255,.06);border-radius:14px;padding:10px;margin-bottom:12px}
+.pgate-opts{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.pgate-opts .bigbtn{min-width:64px}
+.pgate-opts button.wrong{border-color:var(--red)!important;color:var(--red)!important;animation:pgShake .4s}
+@keyframes pgShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ── 2) 🧭 TOUR ── */
+.tour-overlay{position:fixed;inset:0;background:rgba(5,2,14,.88);backdrop-filter:blur(8px);z-index:11000;display:flex;align-items:center;justify-content:center;padding:18px}
+.tour-box{background:linear-gradient(160deg,var(--card2),var(--card));border:2px solid rgba(255,215,0,.4);border-radius:var(--r);padding:26px 22px 18px;max-width:360px;width:100%;text-align:center;box-shadow:0 18px 60px rgba(0,0,0,.55)}
+.tour-ico{font-size:3em;line-height:1.1;display:block}
+.tour-title{font-family:'Baloo 2',cursive;font-size:1.45em;color:var(--gold);margin:8px 0 8px}
+.tour-text{font-size:.92em;line-height:1.55;color:var(--text);min-height:96px}
+.tour-dots{display:flex;gap:7px;justify-content:center;margin:14px 0}
+.tdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18)}
+.tdot.on{background:var(--gold);transform:scale(1.15)}
+.tour-btns{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.tour-skip{background:none;border:none;color:var(--muted);font-size:.78em;font-weight:800;cursor:pointer;text-decoration:underline;padding:6px}
+
+/* ── 3) ZONA DE JUEGOS: tarjetas nuevas ── */
+.gz-quick{background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(160,110,0,.1));border-color:rgba(255,215,0,.5)}
+.gz-quick:hover{box-shadow:0 8px 24px rgba(255,215,0,.32)}
+.gz-sent{background:linear-gradient(135deg,rgba(52,152,219,.16),rgba(24,70,120,.12));border-color:rgba(52,152,219,.45)}
+.gz-sent:hover{box-shadow:0 8px 24px rgba(52,152,219,.3)}
+.gz-rhyme{background:linear-gradient(135deg,rgba(26,188,156,.16),rgba(15,94,80,.12));border-color:rgba(26,188,156,.45)}
+.gz-rhyme:hover{box-shadow:0 8px 24px rgba(26,188,156,.3)}
+
+/* ── 9) 🧩 SENTENCE BUILDER ── */
+.sent-host{display:flex;flex-direction:column;gap:14px;width:100%;max-width:560px}
+.sent-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;background:rgba(255,255,255,.05);border:2px dashed rgba(255,215,0,.35);border-radius:16px;padding:12px;min-height:58px}
+.sent-slot{display:inline-flex;align-items:center;justify-content:center;min-width:52px;padding:8px 14px;border-radius:12px;font-family:'Baloo 2',cursive;font-size:1.15em;color:var(--muted);background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.12)}
+.sent-slot.filled{color:var(--text);background:rgba(255,215,0,.16);border-color:rgba(255,215,0,.5)}
+.sent-slot.pop{animation:slotPop .3s}
+@keyframes slotPop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+.sent-tokens{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.sent-token{
+  font-family:'Baloo 2',cursive;font-size:1.2em;color:var(--text);
+  background:linear-gradient(135deg,var(--card2),var(--card));
+  border:2.5px solid rgba(52,152,219,.5);border-radius:16px;
+  padding:12px 20px;cursor:pointer;transition:transform .15s,border-color .15s;
+}
+.sent-token:hover{border-color:var(--blue);transform:translateY(-3px)}
+.sent-token:active{transform:scale(.94)}
+.sent-token.used{opacity:.28;pointer-events:none;border-color:rgba(46,204,113,.6)}
+.sent-token.wiggle{animation:tokShake .42s;border-color:var(--orange)!important}
+@keyframes tokShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px) rotate(-3deg)}60%{transform:translateX(7px) rotate(3deg)}}
+
+/* ── 7) 🏆 HITOS ── */
+.ms-progress{height:14px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;max-width:420px;margin:0 auto}
+.ms-fill{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:10px;transition:width .5s}
+.ms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+.ms-card{background:var(--card);border:2px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 10px;text-align:center}
+.ms-card.earned{border-color:rgba(255,215,0,.55);background:linear-gradient(160deg,rgba(255,215,0,.12),var(--card))}
+.ms-card.locked{opacity:.75}
+.ms-ico{font-size:2em}
+.ms-n{font-family:'Baloo 2',cursive;font-size:1.02em;margin:4px 0 2px}
+.ms-date{font-size:.7em;color:var(--muted)}
+.ms-bar{height:8px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;margin:6px 0 4px}
+.ms-bar span{display:block;height:100%;background:var(--blue);border-radius:6px}
+
+/* ── 6) 🖨️ INFORME PARA LA FAMILIA ── */
+.pw-report{background:#fdfcf7;color:#26203a;border-radius:16px;padding:18px 16px;text-align:left;max-height:52vh;overflow-y:auto}
+.pr-head{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #e8dfc8;padding-bottom:8px;margin-bottom:12px}
+.pr-logo{font-family:'Baloo 2',cursive;font-weight:700;font-size:1.2em;color:#7a5b00}
+.pr-date{font-size:.72em;color:#8b829f;font-weight:800}
+.pr-child{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pr-child .avatar-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #e8dfc8}
+.pr-name{font-family:'Baloo 2',cursive;font-size:1.3em}
+.pr-lv{font-size:.78em;color:#8b829f;font-weight:800}
+.pr-table{width:100%;border-collapse:collapse;font-size:.85em;margin-bottom:12px}
+.pr-table td{padding:5px 8px;border-bottom:1px solid #eee5d2}
+.pr-table td:last-child{text-align:right}
+.pr-tips{background:#fff7e0;border:1px solid #f0e2b6;border-radius:12px;padding:10px 12px;font-size:.76em;line-height:1.5;margin-bottom:10px}
+.pr-tips-t{font-weight:900;margin-bottom:4px}
+.pr-tips ul{margin:4px 0 0 16px}
+.pr-priv{font-size:.68em;color:#6d6484;line-height:1.45}
+
+/* impresión: solo el informe (mismo patrón que los diplomas) */
+@media print{
+  body.print-report *{visibility:hidden}
+  body.print-report #modalOverlay,body.print-report #modalOverlay *{visibility:visible}
+  body.print-report #modalOverlay{position:absolute;inset:0;background:#fff;display:block;overflow:visible}
+  body.print-report .modal-box{box-shadow:none;background:#fff;max-width:100%;width:100%;margin:0;border-radius:0}
+  body.print-report .modal-hd,body.print-report .modal-ft{display:none!important}
+  body.print-report .modal-body{overflow:visible!important;padding:0!important;max-height:none!important}
+  body.print-report .pw-report{max-height:none;background:#fff;padding:10px 4px;border-radius:0}
+}
+
+/* ── ACESSIBILIDAD [A3] ── */
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:10px}
+#voiceSel{width:100%;margin-top:8px;background:var(--card2);color:var(--text);border:1.5px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9em}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .star-dot{animation:none!important;opacity:.22}
+}
+/* selector de voz dentro de ajustes: fila con preview */
+.voice-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.voice-row #voiceSel{flex:1}
+
+/* botón azul (dictado en Say It!) */
+.bb-blue{background:linear-gradient(135deg,#3498DB,#2471A3);color:#fff;border-color:rgba(52,152,219,.6)}
+.bb-blue:hover{box-shadow:0 8px 24px rgba(52,152,219,.35)}

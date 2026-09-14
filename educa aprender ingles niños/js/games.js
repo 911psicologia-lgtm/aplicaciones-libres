@@ -330,10 +330,11 @@ function ogSelEl(sel, idx) {
 window.startReviewMission = function () {
   beep(true);
   const p = activeProfile();
-  const list = Object.entries(p.mistakes || {});
+  // v8 [B2]: priorización con repetición espaciada simple
+  // primero las más falladas (×2) y las más antiguas (×3 por día, tope 7)
+  const list = (window.prioritizedMistakes ? prioritizedMistakes() : Object.entries(p.mistakes || {}));
   if (!list.length) { notif('🎉 ¡No tienes errores que repasar! ¡Sigue así!', 'var(--green)'); return; }
 
-  list.sort((a, b) => (b[1].count - a[1].count) || ((b[1].last || 0) - (a[1].last || 0)));
   const qs = [];
   list.slice(0, 8).forEach(([key, m], i) => {
     const w = WORLDS.find(x => x.id === m.worldId);
@@ -749,7 +750,16 @@ function renderMemoryBoard() {
 
 window.memFlip = function (el) {
   const m = G.mem;
-  if (!G.active || m.lock || el.classList.contains('open') || el.classList.contains('done')) return;
+  if (!G.active || m.lock || el.classList.contains('done')) return;
+  // Ya abierta: si es la única boca arriba, se puede cerrar tocándola otra vez
+  if (el.classList.contains('open')) {
+    if (m.open.length === 1 && m.open[0] === el) {
+      el.classList.remove('open');
+      m.open = [];
+      beep(false);
+    }
+    return;
+  }
   el.classList.add('open');
   m.open.push(el);
   beep(true);
@@ -763,13 +773,13 @@ window.memFlip = function (el) {
     const it = G.questions[+a.dataset.id].item;
     const firstTry = (m.attempts - m.matched) === 1;
     setTimeout(() => {
-      a.classList.add('done'); b.classList.add('done');
-      a.classList.remove('open'); b.classList.remove('open');
+      // ★ Fix v6: la pareja queda DESTAPADA para siempre (open + done)
+      a.classList.add('done', 'open'); b.classList.add('done', 'open');
+      a.classList.remove('wrong'); b.classList.remove('wrong');
       TTS.sayWord(it.en, it.es, 'words');
       G.qi = m.matched;
       if (firstTry) {
-        G.ok++;
-        coreReward(it, null);
+        coreReward(it, null); // ya suma G.ok (evita doble conteo 12/6)
         showFeedback(true, '¡De primera! 🌟', `${it.en} = ${it.es}`);
       } else {
         G.streak = 0;

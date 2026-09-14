@@ -84,7 +84,14 @@
 
 /* Opción con palabra grande (repaso tipo recall) */
 .ob-word-lg{font-size:1.15em;font-weight:900;color:var(--gold)}
-.ob-img.sm{width:100%;height:clamp(38px,6vh,54px)}
+.ob-img.sm{width:100%;height:clamp(48px,7.8vh,72px)}
+/* ★ Fix v6: en tablet/PC la foto del repaso es cuadrada y COMPLETA (sin recortes) */
+@media(min-width:700px){
+  .ob-img.sm{width:var(--obsz,96px);height:var(--obsz,96px)}
+}
+@media(min-width:700px) and (min-height:900px){
+  .ob-img.sm{width:var(--obsz,110px);height:var(--obsz,110px)}
+}
 
 /* ══════════ EMPAREJA ══════════ */
 .match-host{display:flex;flex-direction:column;gap:12px}
@@ -286,7 +293,7 @@ span.mt-img.img-fallback{font-size:2em;line-height:1;aspect-ratio:auto;width:100
   padding-bottom:calc(var(--botnav-h) + 64px)
 }
 .mem-card{
-  aspect-ratio:3/4;border-radius:14px;
+  aspect-ratio:1/1;border-radius:14px;
   border:3px solid rgba(255,255,255,.14);
   background:linear-gradient(135deg,rgba(26,188,156,.25),rgba(13,94,78,.35));
   cursor:pointer;position:relative;
@@ -305,7 +312,11 @@ span.mt-img.img-fallback{font-size:2em;line-height:1;aspect-ratio:auto;width:100
 .mem-card.open .mem-back{display:none}
 .mem-card.open .mem-front{display:flex;align-items:center;justify-content:center}
 .mem-card.open{border-color:var(--gold);background:rgba(255,255,255,.08)}
-.mem-card.done{border-color:var(--green);opacity:.85;pointer-events:none;animation:bounceOk .35s ease}
+.mem-card.done{border-color:var(--green);opacity:.9;pointer-events:none;animation:bounceOk .35s ease}
+/* ★ Fix v6: las parejas encontradas quedan DESTAPADAS para siempre */
+.mem-card.done .mem-back{display:none}
+.mem-card.done .mem-front{display:flex;align-items:center;justify-content:center}
+.mem-card.done.open{border-color:var(--green);background:rgba(46,204,113,.18)}
 .mem-card.wrong{border-color:var(--red);animation:shakeWrong .32s ease}
 .mem-face{width:100%;height:100%;object-fit:cover;display:block}
 span.mem-face.img-fallback{font-size:2em}

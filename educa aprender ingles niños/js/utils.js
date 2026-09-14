@@ -13,11 +13,11 @@ const AV_IMG = k => 'assets/img/avatars/' + k + '.jpg';
 
 /* Etiqueta <img> con fallback a emoji si falta el asset */
 function imgTag(key, emoji, cls, alt) {
-  if (key) return `<img class="${cls}" src="${IMG(key)}" alt="${alt || ''}" loading="lazy"
+  if (key) return `<img class="${cls}" src="${IMG(key)}" alt="${alt || emoji || 'palabra'}" loading="lazy"
     onerror="this.outerHTML='<span class=&quot;${cls} img-fallback&quot;>${emoji || '✨'}</span>'">`;
   return `<span class="${cls} img-fallback">${emoji || '✨'}</span>`;
 }
 function uiTag(key, emoji, cls, alt) {
-  return `<img class="${cls}" src="${UI_IMG(key)}" alt="${alt || ''}" loading="lazy"
+  return `<img class="${cls}" src="${UI_IMG(key)}" alt="${alt || emoji || ''}" loading="lazy"
     onerror="this.outerHTML='<span class=&quot;${cls} img-fallback&quot;>${emoji || ''}</span>'">`;
 }
