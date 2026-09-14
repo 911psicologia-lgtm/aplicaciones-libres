@@ -1,0 +1,27 @@
+{
+  "name": "Audio y Video Super Converter",
+  "short_name": "Super Converter",
+  "description": "Convierte, edita, graba y limpia audio y video sin subir nada a internet: privado, gratis y sin límites de servicio.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b211d",
+  "theme_color": "#0b211d",
+  "categories": ["utilities", "multimedia", "productivity"],
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

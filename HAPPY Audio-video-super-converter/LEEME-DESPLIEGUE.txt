@@ -74,3 +74,26 @@ VERIFICACIÓN RÁPIDA TRAS DESPLEGAR
      "Motor en espera" a "Motor listo" y descargas el resultado.
   Si algo falla, la propia página ahora muestra un panel con el motivo
   exacto y la solución (ya no hay pantalla en blanco silenciosa).
+
+────────────────────────────────────────────────────────────────────
+NOVEDAD (auditoría DSEBI): PWA y archivos nuevos imprescindibles
+────────────────────────────────────────────────────────────────────
+  Esta versión incluye:
+    - manifest.webmanifest  → permite "Instalar aplicación" en el
+      navegador y el modo sin conexión.
+    - sw.js                 → service worker que guarda la app y el
+      motor local tras la primera visita.
+
+  ⚠️ Sube TAMBIÉN estos dos archivos junto a index.html (ya vienen en
+  el ZIP, no los borres). Si falta sw.js la app funciona igual, pero
+  pierde la instalación y el modo offline.
+
+────────────────────────────────────────────────────────────────────
+SI LA DESCARGA DEL MOTOR FALLA (novedad)
+────────────────────────────────────────────────────────────────────
+La aplicación reintenta sola cada fragmento del motor hasta 3 veces y
+aborta si el servidor no envía datos en 30 s. Si aun así ves el error,
+revisa tu conexión y recarga: los trozos ya descargados quedan en la
+caché del navegador (con el service worker activo, normalmente ni se
+vuelven a pedir). Un HTTP 404 de un fragmento sigue significando que
+falta ffmpeg/ en el despliegue: vuelve a subir dist/ completo.
