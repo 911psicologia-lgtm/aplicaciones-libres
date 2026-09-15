@@ -1,9 +1,9 @@
-PWA AUDIT v2.15.19
-
+SWARM//RIFT v2.15.19 — PWA AUDIT
+================================
 Service Worker cache: swarm-rift-v2.15.19
-Recursos referenciados por PWA: 560
-Recursos faltantes: 0
-index.html:
-- css/game.css?v=21519
-- js/game.js?v=21519
-Resultado: PASS
+Precache entries: 560
+Missing precache resources: 0
+index.html cache bust: css/game.css?v=21519 / js/game.js?v=21519
+Fresh-network paths preserved for game.js and mutable boss/CH2 asset groups.
+Offline fallback to index.html preserved.
+Result: PASS

@@ -1,14 +1,14 @@
-AUTOAUDIT v2.15.19 — PASS
-
-- PWA manifest/resources: 560 referencias, 0 faltantes.
-- Manifest CH2 fuente: 230.
-- Assets CH2 runtime presentes/verificados: 210/210.
-- Hash mismatches CH2: 0.
-- Omitidos esperados: 20 PNG masters de backgrounds; WEBP runtime preservados.
-- Assets runtime comparados contra v2.15.18: 551.
-- Assets runtime cambiados o faltantes: 0.
-- Marcadores Adaptive Hive: PASS.
-- Garantía Shadow-only: PASS.
-- Migración v2.15.18→v2.15.19: PASS.
-- Cache bust v2.15.19: PASS.
-- Sistemas core preservados: PASS.
+SWARM//RIFT v2.15.19 — AUTOAUDIT
+=================================
+Feature/runtime: 66/66 PASS
+Mobile profile matrix: 5/5 PASS
+PWA resources: 560 / missing 0
+CH2 distributed hashes: 210/210 PASS
+Original preservation: 735/738 bit-identical; changed intentionally 3; missing 0
+Adaptive Hive: SHADOW / intervention=false
+Adaptive telemetry: localStorage only / max 40 fights
+Network calls inside Adaptive Hive block: 0
+Direct gameplay mutator calls inside Adaptive Hive block: 0
+HTTP smoke: 12/12 PASS
+Physical phone/tablet session: NOT PERFORMED / NOT CLAIMED
+Result: PASS

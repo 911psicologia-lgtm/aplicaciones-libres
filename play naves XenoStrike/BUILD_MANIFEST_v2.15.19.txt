@@ -1,28 +1,21 @@
-SWARM//RIFT v2.15.19 — BUILD MANIFEST
-Nombre: ADAPTIVE HIVE BOSS DIRECTOR · SHADOW MODE
-Base exclusiva: v2.15.18 MOBILE COMBAT ERGONOMICS
-
-Código modificado:
-- js/game.js
-- index.html
-- sw.js
-
-Herramientas nuevas:
-- tools/feature_test_v21519.js
-- tools/audit_v21519.py
-
-Documentación nueva:
-- CHANGELOG_v2.15.19.txt
-- ADAPTIVE_HIVE_SHADOW_v2.15.19.txt
-- FEATURE_TEST_v2.15.19.json/.txt
-- AUTOAUDIT_v2.15.19.json/.txt
-- REGRESSION_v2.15.18_ON_v2.15.19.txt
-- ASSET_AUDIT_v2.15.19.txt
-- PWA_AUDIT_v2.15.19.txt
-- NODE_CHECK_v2.15.19.txt
-- VALIDACION_v2.15.19.txt
-- HTTP_SMOKE_v2.15.19.txt
-- CONTENT_SHA256_v2.15.19.txt
-
-Assets runtime modificados: 0.
-Modo adaptativo aplicado al gameplay: 0 intervenciones (Shadow Mode).
+SWARM//RIFT — Insecta Siege
+Version: 2.15.19
+Build: ADAPTIVE_HIVE_SHADOW
+Base: 2.15.18 MOBILE_COMBAT_ERGONOMICS
+Worlds: 20
+Bosses: 20
+Adaptive Hive Boss Director: SHADOW MODE
+Director sampling: 1.0 s
+Effective DPS window: 20 s
+Telemetry: local only, last 40 boss fights
+Gameplay intervention by new Director: disabled
+Migration: v2.15.18 -> v2.15.19 explicit
+Control: direct Pointer Events touch + mouse; no joystick; no DASH
+PWA resources: 560 / missing 0
+CH2 distributed SHA verified: 210/210
+Original preservation: 735/738 bit-identical; 3 intentional source changes
+Feature/runtime checks: 66/66
+Mobile profile matrix: 5/5
+HTTP smoke: 12/12
+Projected final files in package: 752
+Created: 2026-09-15

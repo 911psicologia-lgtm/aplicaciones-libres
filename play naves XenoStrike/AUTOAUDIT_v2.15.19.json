@@ -1,45 +1,50 @@
 {
-  "ok": true,
-  "checks": {
-    "pwa_manifest_parsed": true,
-    "pwa_assets_present": true,
-    "ch2_present_210": true,
-    "ch2_hashes_ok": true,
-    "ch2_expected_20_masters_omitted": true,
-    "all_runtime_assets_preserved": true,
-    "hive_markers": true,
-    "shadow_only": true,
-    "migration_21518": true,
-    "cache_bust_21519": true,
-    "preserve_core": true
+  "version": "2.15.19",
+  "build": "ADAPTIVE_HIVE_SHADOW",
+  "input_sha256": "f45f02eb088dc554aab192704a649223815cbb3430ed67e54073e99efcbf8dc1",
+  "preservation": {
+    "original_files": 738,
+    "bit_identical": 735,
+    "changed_original": [
+      "js/game.js",
+      "sw.js",
+      "index.html"
+    ],
+    "missing_original": []
   },
-  "pwaAssetCount": 560,
-  "pwaMissing": [],
-  "ch2ManifestCount": 230,
-  "ch2Present": 210,
-  "ch2Mismatch": [],
-  "ch2Omitted": [
-    "assets_ch2/backgrounds/w11_antechamber.png",
-    "assets_ch2/backgrounds/w11_boss.png",
-    "assets_ch2/backgrounds/w12_antechamber.png",
-    "assets_ch2/backgrounds/w12_boss.png",
-    "assets_ch2/backgrounds/w13_antechamber.png",
-    "assets_ch2/backgrounds/w13_boss.png",
-    "assets_ch2/backgrounds/w14_antechamber.png",
-    "assets_ch2/backgrounds/w14_boss.png",
-    "assets_ch2/backgrounds/w15_antechamber.png",
-    "assets_ch2/backgrounds/w15_boss.png",
-    "assets_ch2/backgrounds/w16_antechamber.png",
-    "assets_ch2/backgrounds/w16_boss.png",
-    "assets_ch2/backgrounds/w17_antechamber.png",
-    "assets_ch2/backgrounds/w17_boss.png",
-    "assets_ch2/backgrounds/w18_antechamber.png",
-    "assets_ch2/backgrounds/w18_boss.png",
-    "assets_ch2/backgrounds/w19_antechamber.png",
-    "assets_ch2/backgrounds/w19_boss.png",
-    "assets_ch2/backgrounds/w20_antechamber.png",
-    "assets_ch2/backgrounds/w20_boss.png"
-  ],
-  "runtimeAssetCountCompared": 551,
-  "runtimeAssetDiff": []
+  "feature_test": {
+    "ok": true,
+    "passed": 66,
+    "total": 66
+  },
+  "mobile_matrix": {
+    "ok": true,
+    "profiles": 5
+  },
+  "pwa": {
+    "resources": 560,
+    "missing": []
+  },
+  "chapter2": {
+    "manifest_assets": 230,
+    "verified": 210,
+    "expected_omitted_background_png": 20,
+    "hash_mismatches": []
+  },
+  "adaptive_hive": {
+    "mode": "SHADOW",
+    "sample_interval_s": 1,
+    "damage_window_s": 20,
+    "telemetry_limit": 40,
+    "external_network_tokens": [],
+    "direct_shadow_mutator_tokens": [],
+    "hooks": [
+      "__SWARM_HIVE_DIRECTOR_STATUS",
+      "__SWARM_HIVE_DIRECTOR_SELFTEST",
+      "__SWARM_HIVE_TELEMETRY_SUMMARY",
+      "__SWARM_V21519_STATUS"
+    ]
+  },
+  "http_smoke": "12/12 PASS",
+  "physical_device_tested": false
 }

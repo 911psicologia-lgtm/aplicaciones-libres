@@ -1,14 +1,17 @@
-ASSET AUDIT v2.15.19
+SWARM//RIFT v2.15.19 — ASSET AUDIT
+=====================================
+Input canonical ZIP SHA-256: f45f02eb088dc554aab192704a649223815cbb3430ed67e54073e99efcbf8dc1
+Original files inspected: 738
+Original files bit-identical: 735
+Original files intentionally changed: 3
+Changed original files: js/game.js, sw.js, index.html
+Missing original files: 0
 
-Base comparada: SWARM//RIFT v2.15.18 MOBILE COMBAT ERGONOMICS.
-Assets runtime comparados byte-a-byte mediante CRC/tamaño: 551.
-Cambios/faltantes: 0.
+Chapter II manifest assets: 230
+Distributed CH2 assets SHA-256 verified: 210
+Expected omitted PNG background masters: 20
+Unexpected CH2 missing: 0
+CH2 hash mismatches: 0
+Result: PASS
 
-CH2:
-- manifest fuente: 230 recursos;
-- runtime: 210 recursos verificados;
-- SHA-256 mismatches: 0;
-- 20 PNG masters de backgrounds siguen omitidos intencionalmente;
-- sus WEBP runtime permanecen presentes.
-
-La v2.15.19 no reemplaza assets reales ni introduce placeholders.
+Note: the 20 missing manifest entries are the same background PNG masters already documented as intentionally omitted in v2.15.18; no CH2 distributed asset was removed or modified by v2.15.19.

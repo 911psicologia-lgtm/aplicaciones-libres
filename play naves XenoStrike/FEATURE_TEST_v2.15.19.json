@@ -1,174 +1,128 @@
 {
   "ok": true,
   "summary": {
-    "passed": 40,
-    "total": 40
+    "passed": 66,
+    "total": 66
   },
   "checks": {
-    "version": true,
-    "worlds": true,
-    "shadow": true,
-    "windows": true,
-    "sample20": true,
-    "hysteresis": true,
-    "powerIndexMultiInput": true,
-    "A1": true,
-    "A2": true,
-    "A3": true,
-    "A0": true,
-    "contextHelp": true,
-    "armorLimited": true,
-    "suppressionPlanned": true,
-    "rebirthPlanned": true,
-    "priorDps": true,
-    "sessionShadow": true,
-    "liveTtk": true,
-    "hysteresisTransition": true,
-    "telemetry": true,
-    "localStored": true,
+    "worlds20": true,
+    "desktop": true,
+    "desktopBounds": true,
+    "mobileLandscape": true,
+    "safeAreaBounds": true,
+    "edgeClamp": true,
+    "actionRailValid": true,
+    "actionRailExcluded": true,
+    "railRouting": true,
+    "safeHudCenter": true,
+    "ergoContract": true,
+    "combatFocus": true,
+    "lastChanceHighest": true,
+    "compactDraw": true,
     "saveMigration": true,
+    "version": true,
     "statusHook": true,
-    "spawnHook": true,
-    "damageHook": true,
-    "incomingHook": true,
-    "updateHook": true,
-    "victoryHook": true,
-    "defeatHook": true,
     "cssBust": true,
     "jsBust": true,
     "swCache": true,
-    "noNetworkInHive": true,
-    "noAppliedArmor": true,
-    "preserveMicro": true,
-    "preserveRift": true,
-    "preserveLastChance": true,
-    "preserveBossRush": true,
-    "preserveCommander": true,
-    "preservePwa": true
+    "safeProbe": true,
+    "touchTargetCss": true,
+    "secondaryGuard": true,
+    "coalescedInput": true,
+    "visibilityCancel": true,
+    "orientationCancel": true,
+    "debouncedViewport": true,
+    "dynamicPlayerBounds": true,
+    "directTouchPreserved": true,
+    "noDashInput": true,
+    "microSwarmPreserved": true,
+    "riftAllyPreserved": true,
+    "lastChancePreserved": true,
+    "hudPreserved": true,
+    "mobileErgonomicsPreserved": true,
+    "performancePreserved": true,
+    "hiveSelfTest": true,
+    "hiveStates": true,
+    "hiveHysteresis": true,
+    "hiveCadence": true,
+    "hiveTargetWindows": true,
+    "a1Silent": true,
+    "a3Shadow": true,
+    "dpsRolling": true,
+    "telemetryRuntime": true,
+    "telemetryCap": true,
+    "localOnly": true,
+    "shadowContract": true,
+    "hiveStatusHooks": true,
+    "ttkFormula": true,
+    "explicitMigration": true,
+    "twentyBosses": true,
+    "familyCombatPreserved": true,
+    "bossIdentityPreserved": true,
+    "waveChoreographerPreserved": true,
+    "preBossPreserved": true,
+    "arenaPresentationPreserved": true,
+    "aftermathPreserved": true,
+    "hangarPreserved": true,
+    "commanderConvergencePreserved": true,
+    "waveObjectivesPreserved": true,
+    "bossRushPreserved": true,
+    "chasePreserved": true,
+    "rewardLedgerPreserved": true,
+    "checkpointsPreserved": true,
+    "audioPreserved": true
   },
-  "strong": {
-    "index": 160.7,
-    "observedDps": 260,
-    "expectedDps": 111.11,
-    "activePowers": 4,
-    "offensiveQuality": 7.36,
-    "survivalQuality": 0,
-    "rankSum": 16,
-    "combos": 1,
-    "cadence": 2.36,
-    "shotInterval": 0.081,
-    "projectiles": 7,
-    "volley": 7,
-    "allies": 1.21,
-    "permanentOffense": 0.44,
-    "permanentSurvival": 0,
-    "hpRatio": 1,
-    "shieldRatio": 1,
-    "survival": 0.892,
-    "performance": 1,
-    "critical": {
-      "available": false,
-      "value": 0,
-      "reason": "el motor actual no expone un stat crítico dedicado; reservado sin inventar datos"
-    }
-  },
-  "prior": 186.04651162790697,
-  "session": {
-    "state": "A3",
-    "initialTtk": 103.49,
-    "predictedDps": 115.96
-  },
-  "record": {
-    "schema": 1,
+  "ergonomics": {
     "version": "2.15.19",
-    "mode": "shadow",
-    "world": 20,
-    "boss": "Apis Imperia",
-    "gameMode": "campaign",
-    "difficulty": "normal",
-    "startedUtc": "2026-09-11T13:46:22.841Z",
-    "dpsPrior": 186.05,
-    "ttkInitialEstimated": 103.49,
-    "ttkReal": 12,
-    "stateInitial": "A1",
-    "stateAdaptiveMax": "A3",
-    "powerIndexInitial": 71.7,
-    "powerIndexMax": 101.6,
-    "bossDamage": 4000,
-    "damageEvents": 8,
-    "helpsDelivered": 0,
-    "reactiveArmorActivated": false,
-    "suppressions": 0,
-    "resurrection": false,
-    "durationReal": 12,
-    "playerDamageReceived": 37,
-    "result": "victory",
-    "lastDps": 479.04,
-    "lastTtk": 16.7,
-    "plannedResponses": [
-      {
-        "t": 0,
-        "state": "A1",
-        "wouldApply": {
-          "state": "A1",
-          "action": "none",
-          "label": "SILENCIO ADAPTATIVO",
-          "reason": "build dentro del rango esperado"
-        }
-      },
-      {
-        "t": 11,
-        "state": "A3",
-        "wouldApply": {
-          "state": "A3",
-          "action": "boss-adaptation",
-          "label": "RESPUESTA EVOLUTIVA MÁXIMA",
-          "damageReceived": 0.68,
-          "minDamageReceived": 0.68,
-          "signaturePriority": 1.35,
-          "defensiveMobility": true,
-          "tacticalSummons": true,
-          "softPhaseGate": {
-            "brief": true,
-            "mandatorySignature": true
-          },
-          "suppression": {
-            "label": "RIFT DISRUPTION",
-            "seconds": 4.2,
-            "telegraph": true,
-            "avoidable": true,
-            "secondaryOnly": true
-          },
-          "rebirth": {
-            "enabled": true,
-            "once": true,
-            "hpRatio": 0.48,
-            "chance": 0.72,
-            "alternatePattern": true
-          }
-        }
-      }
-    ],
-    "stateTimeline": [
-      {
-        "t": 0,
-        "state": "A1",
-        "ttk": 103.49,
-        "powerIndex": 71.7
-      },
-      {
-        "t": 11,
-        "state": "A3",
-        "ttk": 14.7,
-        "powerIndex": 101.6
-      }
-    ],
-    "shadowGuarantee": {
-      "gameplayInterventionsApplied": 0,
-      "damageMultiplierApplied": 1,
-      "powersSuppressed": false,
-      "bossResurrected": false,
-      "externalTransmission": false
+    "profile": "MOBILE_LANDSCAPE",
+    "coarse": true,
+    "safeArea": {
+      "top": 0,
+      "right": 47,
+      "bottom": 21,
+      "left": 47
+    },
+    "playerBounds": {
+      "left": 73,
+      "right": 771,
+      "top": 44,
+      "bottom": 341
+    },
+    "actionRail": {
+      "left": 577,
+      "top": 0,
+      "right": 844,
+      "bottom": 58
+    },
+    "effectiveTapTarget": 44,
+    "directTouch": true,
+    "singlePrimaryTouch": true,
+    "secondaryTouchIgnored": true,
+    "coalescedPointerMoves": true,
+    "viewportDebounce": true,
+    "stats": {
+      "excludedStarts": 0,
+      "ignoredSecondary": 0,
+      "coalescedMoves": 0,
+      "cancels": 0,
+      "viewportStabilizations": 0,
+      "lastCancel": ""
     }
+  },
+  "bounds": {
+    "left": 73,
+    "right": 771,
+    "top": 44,
+    "bottom": 341
+  },
+  "rail": {
+    "left": 577,
+    "top": 0,
+    "right": 844,
+    "bottom": 58
+  },
+  "routed": {
+    "x": 771,
+    "y": 66
   }
 }

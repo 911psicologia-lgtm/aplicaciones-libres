@@ -1,27 +1,51 @@
-VALIDACIÓN v2.15.19 — ADAPTIVE HIVE BOSS DIRECTOR · SHADOW MODE
+SWARM//RIFT v2.15.19 — VALIDACIÓN
+===================================
+Base: v2.15.18 MOBILE_COMBAT_ERGONOMICS
+Build: ADAPTIVE_HIVE_SHADOW
 
-PASS:
-- node --check js/game.js
-- node --check sw.js
-- Feature Test v2.15.19: 40/40
-- Autoaudit: PASS
+1. Syntax
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+2. Adaptive Hive Boss Director
+- Shadow Mode: PASS (gameplayIntervention=false)
+- A0/A1/A2/A3: PASS
+- Hysteresis: PASS (3 samples)
+- Min state time: 4 s
+- State cooldown: 3 s
+- Sampling: 1 s
+- DPS smoothing: 20 s rolling
+- TTK: current HP / effective DPS; projected total also tracked
+- A1 no intervention: PASS
+- Telemetry actual runtime write: PASS
+- Storage cap: 40 fights PASS
+- External telemetry/network from Director: NONE
+
+3. Migration
+- VERSION 2.15.19: PASS
+- KEY_META v21519 + explicit v21518 fallback: PASS
+- KEY_RUN v21519 + explicit v21518 fallback: PASS
+- index cache bust 21519: PASS
+- SW cache v2.15.19: PASS
+- automated save migration v2.15.18 -> v2.15.19: PASS
+
+4. Regression / preservation
+- Feature/runtime checks: 66/66 PASS
+- Mobile profile matrix: 5/5 PASS
+- Original files: 735/738 bit-identical
+- Modified originals only: js/game.js, sw.js, index.html
+- Original files missing: 0
+- 20 worlds / 20 bosses: PASS
+- Existing Director, objectives, CH2 choreography, boss identities, signatures, arena/aftermath, Micro-Swarm, RIFT ALLY, Last Chance, Boss Rush/Grand Boss Rush, CHASE, Hangar, combos, checkpoints, performance and mobile ergonomics: preserved by runtime/static regression checks.
+
+5. PWA / assets
+- Service Worker resources: 560, missing 0
+- CH2 distributed assets: 210/210 SHA-256 PASS
+- CH2 hash mismatches: 0
+- Expected omitted CH2 PNG background masters: 20/20 (same canonical condition as v2.15.18)
 - HTTP smoke: 12/12 HTTP 200
-- PWA: 560 recursos / 0 faltantes
-- CH2: 210/210 recursos runtime con hash correcto
-- Assets runtime contra v2.15.18: 551 comparados / 0 cambios
-- Mobile Ergonomics heredado: 5/5 perfiles PASS
-- Regresión v2.15.18: 31/31 checks funcionales preservados; 4 checks de versión/cache fallan deliberadamente por incremento de versión.
 
-GARANTÍA SHADOW
-- reducción adaptativa de daño aplicada: NO
-- drops adaptativos entregados: NO
-- powers suprimidos: NO
-- boss resucitado: NO
-- HP inflado por el Director: NO
-- transmisión externa de telemetría: NO
-
-LIMITACIONES HONESTAS
-- No sustituye una sesión humana prolongada en PC/teléfono/tablet físicos.
-- Los umbrales A0–A3 son iniciales; necesitan calibrarse con telemetría Shadow de partidas reales.
-- La estadística dedicada de crítico no existe en el motor v2.15.18; se dejó reservada sin fabricar datos.
-- Las respuestas A0/A2/A3 que aparecen en telemetría son recomendaciones hipotéticas, no comportamiento activo en v2.15.19.
+6. Scope honesty
+- No physical phone/tablet gameplay session performed.
+- No claim of real-device thermal, latency, notch or long-session validation.
+- Shadow Mode automated tests verify non-intervention contracts; human balance judgement still requires play sessions with real builds.

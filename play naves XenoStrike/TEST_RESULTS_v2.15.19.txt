@@ -1,0 +1,25 @@
+SWARM//RIFT v2.15.19 — TEST RESULTS
+====================================
+node --check js/game.js: PASS
+node --check sw.js: PASS
+Feature/runtime including Adaptive Hive: 66/66 PASS
+Adaptive state self-test A0/A1/A2/A3: PASS
+Hysteresis 3-sample contract: PASS
+DPS rolling-window test: PASS
+TTK formula/source contract: PASS
+A1 silent/no intervention: PASS
+A3 Shadow response/no application: PASS
+Telemetry runtime record: PASS
+Telemetry retention cap 40: PASS
+Director network isolation: PASS
+Migration v2.15.18 -> v2.15.19: PASS
+20 worlds / 20 bosses regression: PASS
+Family Combat / Boss Identity / CH2 Wave Choreographer / Pre-Boss / Arena / Aftermath: PASS
+Hangar / combos / branches / Boss Rush / Grand Boss Rush / CHASE / Reward Ledger / checkpoints: PASS
+Mobile ergonomics matrix: 5/5 PASS
+PWA resources: 560/560 present
+CH2 distributed assets: 210/210 SHA-256 PASS
+HTTP smoke: 12/12 HTTP 200
+Input ZIP SHA matches supplied .sha256: PASS (f45f02eb088dc554aab192704a649223815cbb3430ed67e54073e99efcbf8dc1)
+
+No physical phone/tablet gameplay session was performed; no such test is claimed.
