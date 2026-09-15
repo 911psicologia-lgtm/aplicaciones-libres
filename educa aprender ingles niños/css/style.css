@@ -32,6 +32,22 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 .star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) var(--dl,0s) infinite alternate}
 @keyframes twinkle{from{opacity:.05;transform:scale(.6)}to{opacity:.85;transform:scale(1.1)}}
 
+/* ── v11: ESTRELLA FUGAZ (decorativa, nunca interactiva) ── */
+.shooting-star{
+  position:absolute;width:120px;height:2.5px;border-radius:3px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,240,200,.95),#fff);
+  transform:rotate(28deg);transform-origin:left center;
+  filter:drop-shadow(0 0 6px rgba(255,235,180,.8));
+  animation:shoot 1.8s ease-out forwards;pointer-events:none;
+}
+@keyframes shoot{
+  0%{opacity:0;transform:rotate(28deg) translateX(-40px) scaleX(.3)}
+  12%{opacity:1}
+  70%{opacity:.9}
+  100%{opacity:0;transform:rotate(28deg) translateX(46vw) scaleX(1.15)}
+}
+@media (prefers-reduced-motion: reduce){.shooting-star{display:none}}
+
 #confCanvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
 
 /* ── PANTALLAS ── */
@@ -175,6 +191,30 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 .dg-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:20px;transition:width .5s}
 .dg-reward{font-size:.72em;color:var(--muted);font-weight:800;white-space:nowrap}
 .dg-claimed{font-size:.8em;color:var(--green);font-weight:900}
+
+/* ── v11: PALABRA DEL DÍA ── */
+.wotd-card{
+  background:linear-gradient(135deg,rgba(255,215,0,.13),rgba(255,140,66,.10));
+  border:1.5px solid rgba(255,215,0,.38);border-radius:16px;
+  padding:10px 14px;margin-bottom:12px
+}
+.wotd-row{display:flex;align-items:center;gap:12px}
+.wotd-img-wrap{
+  flex-shrink:0;width:64px;height:64px;border-radius:14px;overflow:hidden;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,215,0,.45)
+}
+.wotd-img{width:100%;height:100%;object-fit:contain;display:block}
+.wotd-info{flex:1;min-width:0}
+.wotd-kicker{font-size:.68em;font-weight:900;color:var(--gold);letter-spacing:.4px}
+.wotd-word{font-family:'Baloo 2',cursive;font-size:1.5em;color:var(--text);line-height:1.15;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wotd-es{font-size:.78em;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wotd-play{
+  flex-shrink:0;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+  font-size:1.5em;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0f3c;
+  box-shadow:0 4px 16px rgba(255,215,0,.4);transition:transform .15s;
+  display:flex;align-items:center;justify-content:center;font-family:inherit
+}
+.wotd-play:active{transform:scale(.9)}
 
 /* ── TABS DE NIVEL ── */
 .lvl-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}

@@ -178,6 +178,9 @@ const BADGES = [
   {id:'days3',  icon:'📅', name:'3 Días jugados', desc:'Juega en 3 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=3},
   {id:'days7',  icon:'🗓️', name:'Semana Heroica', desc:'Juega en 7 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=7},
   {id:'days14', icon:'📆', name:'2 Semanas',      desc:'Juega en 14 días distintos', c:p=>Object.keys(p.stats.daysPlayed||{}).length>=14},
+  // ★ V11 — palabra del día
+  {id:'wotd1', icon:'📆', name:'Palabra del Día',   desc:'Escucha tu primera Palabra del día en el mapa', c:p=>Object.keys((p.stats&&p.stats.wotdDays)||{}).length>=1},
+  {id:'wotd7', icon:'🌟', name:'Semana de Palabras', desc:'Escucha la Palabra del día en 7 días distintos', c:p=>Object.keys((p.stats&&p.stats.wotdDays)||{}).length>=7},
 ];
 
 /* Rivales IA para el ranking */
@@ -222,6 +225,10 @@ function migrateProfile(p) {
   });
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
   if (!p.stats.missionsByDay) p.stats.missionsByDay = {}; // v7: misiones por día (gráfico)
+  if (!p.stats.wotdDays) p.stats.wotdDays = {}; // v11: días en que escuchó la Palabra del día
+  if (!p.stats.screenTime) p.stats.screenTime = {date:'', mins:0}; // v11: minutos de uso por día (local)
+  if (!p.stats.breakShown) p.stats.breakShown = {date:''}; // v11: avisos de descanso ya mostrados hoy
+  if (p.wotd === undefined) p.wotd = null; // v11: recompensa diaria de la palabra del día
   if (!p.milestones) p.milestones = {}; // v8: fechas de hitos logrados
   if (p.tourDone == null) p.tourDone = false; // v8: tour de bienvenida visto
   if (!p.dailyGoal) p.dailyGoal = {date:'', count:0, claimed:false};

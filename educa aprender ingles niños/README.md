@@ -1,4 +1,4 @@
-# 🌈 PequeWorld v10 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v11 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
 **fotos reales**, **79 mundos / 782 palabras**, **11 juegos y estudios**
@@ -9,6 +9,29 @@ palabras dominadas**, **🖨️ informe de padres imprimible con consejos AAP**,
 **🔊 selector de voz en inglés**, **PWA instalable sin conexión**, avatar con
 tu propia foto, Tienda de 12 avatares, Ruleta diaria, ⭐ Mundo destacado y
 🎓 Diplomas imprimibles.
+
+> ✨ **Novedades v11 (ajustes geniales — vía libre, sin tocar lo que funciona):**
+> 1. 📆 **Palabra del Día**: cada día una palabra con foto real espera en el
+>    mapa (determinista por fecha local — cambia a medianoche, no a las 19:00).
+>    Tocar 🔊 la pronuncia despacio y, la primera vez del día, regala
+>    **+5 XP +3 monedas**. 2 insignias nuevas («Palabra del Día» y
+>    «Semana de Palabras»), estadística para padres y ✅ visual al completarla.
+> 2. ⏰ **Descanso amigable**: a los 30 y 60 minutos de juego el búho sugiere
+>    estirarse, mirar lejos y tomar agua (consejo AAP). **Nunca interrumpe una
+>    misión** — espera a que el juego esté libre — y se puede apagar en
+>    Ajustes. Los minutos se cuentan 100% local (visible en Zona de padres:
+>    «Minutos hoy») y la pestaña en segundo plano no cuenta.
+> 3. 🌠 **Estrellas fugaces mágicas**: cada 9–26 segundos una estrella cruza
+>    el cielo nocturno del mapa. Pura decoración (no roba toques), respeta
+>    `prefers-reduced-motion` y desaparece sola.
+> 4. 🎺 **Fanfarria de JACKPOT**: el cofre con premio gordo ahora suena con
+>    un arpegio brillante y acorde final (además del confeti).
+> 5. 📳 **Vibración háptica**: un toque suave al acertar y un patrón
+>    «inténtalo otra vez» al fallar (solo móviles que lo soportan; apagable
+>    en Ajustes). En PC queda silenciosa.
+> 6. 🏅 **92 insignias** (2 nuevas) y migración automática de perfiles
+>    antiguos sin perder nada. Caché PWA `pequeworld-v11` (el botón azul de
+>    actualización avisa a las instalaciones previas).
 
 > 🛡 **Novedades v10 (fotos siempre completas + botones PWA discretos):**
 > 1. 🖼 **FIN DEL RECORTE DE FOTOS (crítico pedagógico)**: la piña del
@@ -24,11 +47,14 @@ tu propia foto, Tienda de 12 avatares, Ruleta diaria, ⭐ Mundo destacado y
 >    https o localhost), icono dorado con latido suave, esquina inferior
 >    derecha sobre la barra; con `prefers-reduced-motion` se queda estático.
 >    En file:// nunca molesta (queda oculto). Una sola oferta por visita.
+>    Ambos botones miden 40px, son translúcidos y **se atenúan solos tras
+>    unos segundos sin toques** (vuelven al primer toque): discreción total
+>    durante el juego.
 > 3. 🔄 **Botón de ACTUALIZACIÓN DISPONIBLE** (discreto, animado, sin
 >    texto): cuando se publica una versión nueva, el SW la descarga en
 >    segundo plano y el icono azul **cabecea y gira lentamente**; al tocar
 >    recarga y estrena versión. Comprueba novedades al volver a la app y
->    cada hora (nunca interrumpe un juego). Caché `pequeworld-v10`.
+>    cada hora (nunca interrumpe un juego). Caché `pequeworld-v11`.
 > 4. 🛠 Endurecido el futuro: las 11 cajas de foto ahora son `contain` —
 >    aunque mañana se añada una foto no cuadrada, **jamás se recortará**;
 >    los avatares circulares mantienen su recorte decorativo intencional.

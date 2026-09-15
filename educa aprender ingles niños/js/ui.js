@@ -317,6 +317,9 @@ function renderMap() {
   // Meta diaria
   renderDailyGoal(p);
 
+  // v11: Palabra del día (foto + audio + recompensa diaria)
+  renderWordOfDay(p);
+
   // Ruleta diaria (v5)
   renderSpinBanner(p);
 
@@ -465,6 +468,109 @@ function bumpDailyGoal() {
   p.dailyGoal.count = (p.dailyGoal.count || 0) + 1;
   saveState();
 }
+
+/* ── v11: PALABRA DEL DÍA ──
+   Una palabra con foto distinta cada día (determinista por fecha local,
+   sin UTC para no cambiar a las 19:00 como en v9 [C-2]). Al escucharla
+   por primera vez en el día: +5 XP +3 monedas (una sola vez al día). */
+function wordOfTheDay() {
+  const d = new Date();
+  const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  const pool = [];
+  WORLDS.forEach(w => w.items.forEach(it => { if (it.img && it.en) pool.push({it, w}); }));
+  return pool[seed % pool.length];
+}
+function renderWordOfDay(p) {
+  const anchor = $('dailyGoal'); if (!anchor) return;
+  let host = $('wotdCard');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'wotdCard'; host.className = 'wotd-card';
+    anchor.parentNode.insertBefore(host, anchor);
+  }
+  const {it, w} = wordOfTheDay();
+  const done = p.wotd && p.wotd.date === todayStr() && p.wotd.done;
+  host.innerHTML = `
+    <div class="wotd-row">
+      <div class="wotd-img-wrap">${imgTag(it.img, it.em || '✨', 'wotd-img', it.en)}</div>
+      <div class="wotd-info">
+        <div class="wotd-kicker">📆 Palabra del día${done ? ' · ✅ ¡ya la escuchaste!' : ' · toca 🔊 y gana +5 XP'}</div>
+        <div class="wotd-word">${it.en}</div>
+        <div class="wotd-es">${it.es}${w ? ' · ' + w.name : ''}</div>
+      </div>
+      <button class="wotd-play" onclick="playWOTD()" aria-label="Escuchar la palabra del día">🔊</button>
+    </div>`;
+}
+window.playWOTD = function () {
+  const p = activeProfile(); if (!p) return;
+  const {it} = wordOfTheDay();
+  TTS.sayWord(it.en, it.es);
+  beep(true);
+  burst(16);
+  const t = todayStr();
+  if (!(p.wotd && p.wotd.date === t && p.wotd.done)) {
+    updateProfile(pp => {
+      pp.wotd = {date: t, done: true};
+      pp.xp = (pp.xp || 0) + 5;
+      pp.coins = (pp.coins || 0) + 3;
+      pp.stats.wotdDays = pp.stats.wotdDays || {};
+      pp.stats.wotdDays[t] = true;
+    });
+    notif('📆 ¡+5 XP por escuchar la palabra del día!', 'var(--gold)');
+    updateTopbar(); checkBadges();
+    const p2 = activeProfile(); if (p2) renderWordOfDay(p2); // muestra el check ✅
+  }
+};
+
+/* ── v11: ⏰ DESCANSO AMIGABLE ──
+   Cuenta minutos de uso por día (100% local). A los 30 y 60 min el búho
+   sugiere estirarse. NUNCA interrumpe una misión: espera a que el juego
+   esté libre. Se puede apagar en Ajustes. Basado en la guía AAP de
+   calidad de tiempo en pantalla (v8 B3). */
+const BREAK_AT = [30, 60];
+(function () {
+  function todayMins(p) {
+    const t = todayStr();
+    if (!p.stats.screenTime || p.stats.screenTime.date !== t) return 0;
+    return p.stats.screenTime.mins || 0;
+  }
+  function addMinute() {
+    if (document.hidden) return; // la pestaña en segundo plano no cuenta
+    const p = activeProfile(); if (!p) return;
+    const t = todayStr();
+    if (!p.stats.screenTime || p.stats.screenTime.date !== t) p.stats.screenTime = {date: t, mins: 0};
+    p.stats.screenTime.mins = (p.stats.screenTime.mins || 0) + 1;
+    saveState();
+    maybeRemind();
+  }
+  function maybeRemind() {
+    const p = activeProfile(); if (!p) return;
+    if (STATE.settings.breakReminders === false) return;         // apagado en Ajustes
+    if (typeof G !== 'undefined' && G.active) return;            // nunca en mitad de una misión
+    if (document.querySelector('.modal-overlay.on')) return;     // ni sobre otro modal
+    const mins = todayMins(p), t = todayStr();
+    p.stats.breakShown = p.stats.breakShown || {};
+    if (p.stats.breakShown.date !== t) p.stats.breakShown = {date: t};
+    const hit = BREAK_AT.find(m => mins >= m && !p.stats.breakShown['m' + m]);
+    if (!hit) return;
+    p.stats.breakShown['m' + hit] = true; saveState();
+    openModal('👀 ¡Descanso de ojos!', `
+      <div style="text-align:center;padding:6px 4px">
+        <img src="assets/img/ui/mascot.jpg" alt="Búho de PequeWorld" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,215,0,.5)">
+        <div style="font-weight:900;font-size:1.15em;margin:10px 0 6px">¡Llevas ${hit} minutos jugando! 🌟</div>
+        <div class="small">Estira los brazos 🙆 · mira por la ventana 👀 · toma un poco de agua 💧<br>¡Tus ojos y tu cerebro lo agradecen! Vuelve cuando quieras.</div>
+      </div>
+    `, `<button class="bigbtn bb-green bb-sm" onclick="closeModal()">¡OK, me estiro! 🙆</button>`);
+    beep(true);
+  }
+  setInterval(addMinute, 60000);
+  /* ganchos de prueba/evidencia (no alteran la UI normal) */
+  window.PW_BREAK = {
+    tick: addMinute,
+    remind: maybeRemind,
+    state: () => { const p = activeProfile(); return p ? {mins: todayMins(p), shown: p.stats.breakShown || {}} : null; }
+  };
+})();
 
 /* ═══════════════════════════════════════════
    PREMIOS (insignias, medallas, trofeos, ranking)
@@ -628,6 +734,18 @@ function openSettings() {
     </div>
     <div class="divider"></div>
     <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">⏰ Recordatorios de descanso (nuevo)</div>
+      <div class="small">A los 30 y 60 minutos de juego, el búho sugiere estirarse y descansar los ojos. Nunca interrumpe una misión.</div>
+      <button class="bigbtn bb-sm ${s.breakReminders === false ? 'bb-ghost' : 'bb-green'}" id="breakToggleBtn" onclick="toggleBreak(this)" style="margin-top:8px">${s.breakReminders === false ? '⏰ Apagados' : '✅ Activados'}</button>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">📳 Vibración (nuevo)</div>
+      <div class="small">Un pequeño toque háptico al acertar o fallar (solo en móviles que lo soportan).</div>
+      <button class="bigbtn bb-sm ${s.haptics === false ? 'bb-ghost' : 'bb-green'}" id="hapticsToggleBtn" onclick="toggleHaptics(this)" style="margin-top:8px">${s.haptics === false ? '📳 Apagada' : '✅ Activada'}</button>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">🗣️ Voz en inglés (v8)</div>
       <div class="small">Elige la voz que más le guste a tu peque (las voces dependen de tu dispositivo):</div>
       <div class="voice-row">
@@ -689,6 +807,24 @@ window.toggleVoice = (btn) => {
   STATE.settings.voiceEnabled = !STATE.settings.voiceEnabled; saveState();
   btn.textContent = STATE.settings.voiceEnabled ? '🔊 Activada' : '🔇 Silenciada';
   btn.className = btn.className.replace(STATE.settings.voiceEnabled ? 'bb-ghost' : 'bb-green', STATE.settings.voiceEnabled ? 'bb-green' : 'bb-ghost');
+};
+/* v11: recordatorios de descanso (por defecto activados) */
+window.toggleBreak = (btn) => {
+  STATE.settings.breakReminders = STATE.settings.breakReminders === false; // false→true, true/undefined→false
+  saveState();
+  const on = STATE.settings.breakReminders !== false;
+  btn.textContent = on ? '✅ Activados' : '⏰ Apagados';
+  btn.className = btn.className.replace(on ? 'bb-ghost' : 'bb-green', on ? 'bb-green' : 'bb-ghost');
+  notif(on ? '⏰ Recordatorios de descanso activados' : '⏰ Recordatorios de descanso apagados', 'var(--blue)');
+};
+/* v11: vibración háptica (por defecto activada) */
+window.toggleHaptics = (btn) => {
+  STATE.settings.haptics = STATE.settings.haptics === false; // false→true, true/undefined→false
+  saveState();
+  const on = STATE.settings.haptics !== false;
+  btn.textContent = on ? '✅ Activada' : '📳 Apagada';
+  btn.className = btn.className.replace(on ? 'bb-ghost' : 'bb-green', on ? 'bb-green' : 'bb-ghost');
+  notif(on ? '📳 Vibración activada' : '📳 Vibración apagada', 'var(--blue)');
 };
 window.resetProfile = () => {
   if (!confirm('¿Seguro? Se borrarán todos los premios de este perfil.')) return;
@@ -870,6 +1006,9 @@ function parentsStatsHTML(p) {
     ['🕵️ Intrusos ganados', s.oddGames || 0],
     ['📚 Palabras dominadas', mastered],
     ['🎓 Diplomas', (typeof diplomaList === 'function') ? diplomaList(p).length : 0],
+    // v11
+    ['⏱️ Minutos hoy', (s.screenTime && s.screenTime.date === todayStr()) ? (s.screenTime.mins || 0) : 0],
+    ['📆 Palabras del día', Object.keys(s.wotdDays || {}).length],
   ];
   return `<div class="parent-grid">${st.map(x => `
     <div class="parent-cell"><span class="pc-k">${x[0]}</span><b class="pc-v">${x[1]}</b></div>`).join('')}</div>`;

@@ -1,14 +1,14 @@
 /* ═══════════════════════════════════════════════════════════
-   PequeWorld — Service Worker (v10)
+   PequeWorld — Service Worker (v11)
    Sin conexión también funciona: cache-first para todo lo local.
    Solo se registra en http/https (localhost o servidor); el uso
    con doble clic (file://) sigue funcionando como siempre.
-   v10: bump de caché (pequeworld-v10) + escucha SKIP_WAITING para
-   el botón discreto de «actualización disponible» de la página.
+   v11: bump de caché (pequeworld-v11) — nueva versión con Palabra
+   del día, descanso amigable, estrellas fugaces y fanfarria.
    ⚠️ Importante: subir CACHE en CADA versión — así el navegador
    detecta el sw.js nuevo y dispara el aviso de actualización.
    ═══════════════════════════════════════════════════════════ */
-const CACHE = 'pequeworld-v10';
+const CACHE = 'pequeworld-v11';
 const CORE = [
   './', 'index.html', 'manifest.webmanifest',
   'css/fonts.css', 'css/style.css', 'css/game.css', 'css/games.css', 'css/games2.css', 'css/games3.css',

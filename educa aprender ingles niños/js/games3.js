@@ -608,6 +608,21 @@ window.switchPlayer = function () {
   function showUpdate() { if (btnU) { btnU.hidden = false; btnU.classList.add('show'); } }
   if (btnU) btnU.addEventListener('click', () => { location.reload(); });
 
+  /* ── Discreción extra: tras ~7s sin toques se atenúan solos (vuelven al primer toque) ── */
+  const FABS = [btnI, btnU];
+  let idleT = null;
+  function wakeFabs() {
+    FABS.forEach(b => { if (b) b.classList.remove('idle'); });
+    clearTimeout(idleT);
+    idleT = setTimeout(() => {
+      FABS.forEach(b => { if (b && b.classList.contains('show')) b.classList.add('idle'); });
+    }, 7000);
+  }
+  document.addEventListener('pointerdown', wakeFabs, { passive: true });
+  document.addEventListener('keydown', wakeFabs);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) wakeFabs(); });
+  wakeFabs();
+
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
     /* detectar cambio de controlador aunque ocurra antes del load */
     let hadController = !!navigator.serviceWorker.controller;
@@ -637,6 +652,7 @@ window.switchPlayer = function () {
     state: () => ({
       install: !!(btnI && btnI.classList.contains('show')),
       update: !!(btnU && btnU.classList.contains('show')),
+      idle: !!(btnI && btnI.classList.contains('idle')) || !!(btnU && btnU.classList.contains('idle')),
       prompt: !!deferredPrompt
     })
   };

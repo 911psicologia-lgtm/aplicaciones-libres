@@ -143,3 +143,27 @@ function beepChest() {
     });
   } catch (e) {}
 }
+
+/* v11: fanfarria de JACKPOT — arpegio brillante + acorde final sostenido.
+   Suena 260ms después de abrir un cofre con premio gordo. */
+function beepJackpot() {
+  try {
+    if (!_AC) _AC = new (window.AudioContext || window.webkitAudioContext)();
+    if (_AC.state === 'suspended') _AC.resume();
+    const t = _AC.currentTime;
+    [523, 659, 784, 1047, 1319].forEach((f, i) => {
+      const o = _AC.createOscillator(), g = _AC.createGain();
+      o.type = 'square'; o.frequency.value = f;
+      g.gain.setValueAtTime(.085, t + i * .11); g.gain.exponentialRampToValueAtTime(.001, t + i * .11 + .3);
+      o.connect(g); g.connect(_AC.destination);
+      o.start(t + i * .11); o.stop(t + i * .11 + .32);
+    });
+    [1047, 1319, 1568].forEach((f) => {
+      const o = _AC.createOscillator(), g = _AC.createGain();
+      o.type = 'triangle'; o.frequency.value = f;
+      g.gain.setValueAtTime(.075, t + .62); g.gain.exponentialRampToValueAtTime(.001, t + 1.15);
+      o.connect(g); g.connect(_AC.destination);
+      o.start(t + .62); o.stop(t + 1.2);
+    });
+  } catch (e) {}
+}

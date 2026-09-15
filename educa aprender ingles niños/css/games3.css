@@ -119,7 +119,7 @@
   pointer-events:none; /* solo los botones reciben toques */
 }
 .pwa-fab{
-  pointer-events:auto;width:44px;height:44px;border-radius:50%;
+  pointer-events:auto;width:40px;height:40px;border-radius:50%;
   border:1.5px solid rgba(255,255,255,.28);cursor:pointer;padding:0;
   display:flex;align-items:center;justify-content:center;color:#fff;
   opacity:0;transform:translateY(10px) scale(.6);visibility:hidden;
@@ -127,7 +127,9 @@
   box-shadow:0 6px 18px rgba(0,0,0,.35);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
 }
-.pwa-fab.show{opacity:.88;transform:none;visibility:visible}
+.pwa-fab.show{opacity:.72;transform:none;visibility:visible}
+/* v10.1: auto-atenuación tras ~7s sin toques (vuelve al primer toque/hover) */
+.pwa-fab.show.idle{opacity:.42}
 .pwa-fab.show:hover{opacity:1;transform:scale(1.08)}
 .pwa-fab.show:active{transform:scale(.9)}
 .pwa-fab:focus-visible{outline:3px solid rgba(255,215,0,.7);outline-offset:2px}
@@ -151,4 +153,4 @@
 /* nunca salen en el informe impreso */
 @media print{#pwaFabs{display:none}}
 /* en pantallas bajas no tapan contenido del juego */
-@media(max-height:640px){#pwaFabs{bottom:calc(var(--botnav-h) + 6px);gap:7px}.pwa-fab{width:38px;height:38px}}
+@media(max-height:640px){#pwaFabs{bottom:calc(var(--botnav-h) + 6px);gap:7px}.pwa-fab{width:36px;height:36px}}

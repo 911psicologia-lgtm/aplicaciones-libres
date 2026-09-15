@@ -204,6 +204,7 @@ function coreReward(item, evt) {
     if (item && item.en) p.mastery[item.en] = (p.mastery[item.en] || 0) + 1;
   });
   beep(true);
+  buzz(35); // v11: vibración suave de acierto (móviles)
   TTS.sayFeedback(true);
   if (evt) floatXP('+12 XP', evt.clientX, evt.clientY);
   updateProfile(pp => { pp.streak = G.streak; if (G.streak > (pp.maxStreak || 0)) pp.maxStreak = G.streak; });
@@ -226,6 +227,7 @@ function coreFail(q) {
   G.streak = 0; G.lives--;
   updateProfile(pp => { pp.streak = 0; });
   beep(false);
+  buzz([60, 50, 60]); // v11: patrón de «inténtalo otra vez» (móviles)
   TTS.sayFeedback(false);
   if (G.lives <= 0) {
     showFeedback(false, '💔 Sin vidas', `Era: ${q.item.en} = ${q.item.es}`);
@@ -455,6 +457,7 @@ window.openChest = function (stars) {
     updateProfile(p => { p.coins = (p.coins || 0) + 30; p.stars = (p.stars || 0) + 1; });
     reward = '🎉 ¡JACKPOT! +30 Monedas +1 Estrella';
     icon = uiTag('ui_chest_open', '🎁', 'chest-open-img');
+    setTimeout(beepJackpot, 260); // v11: fanfarria extra del premio gordo
   }
   updateProfile(p => { p.stats.chests = (p.stats.chests || 0) + 1; });
   saveState();

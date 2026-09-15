@@ -85,3 +85,24 @@ function initStars() {
     c.appendChild(s);
   }
 }
+
+/* ── v11: ESTRELLAS FUGACES mágicas ──
+   Cada 9–26s una estrella cruza el cielo nocturno (solo decorativa:
+   vive en #starsBg, que ya es pointer-events:none). Respeta
+   prefers-reduced-motion y no aparece con la pestaña oculta. */
+function spawnShootingStar() {
+  if (REDUCED_MOTION || document.hidden) return;
+  const c = $('starsBg'); if (!c) return;
+  const s = document.createElement('div');
+  s.className = 'shooting-star';
+  const x = 6 + Math.random() * 66;  // % desde la izquierda
+  const y = 3 + Math.random() * 24;  // % desde arriba
+  s.style.cssText = `left:${x}%;top:${y}%;`;
+  c.appendChild(s);
+  setTimeout(() => s.remove(), 2000);
+}
+(function scheduleShooting() {
+  setTimeout(() => { spawnShootingStar(); scheduleShooting(); }, 9000 + Math.random() * 17000);
+})();
+/* gancho de prueba/evidencia (no altera la UI normal) */
+window.PW_SKY = { spawn: spawnShootingStar };

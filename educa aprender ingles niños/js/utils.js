@@ -11,6 +11,14 @@ function esc(s) {
 function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [b[i], b[j]] = [b[j], b[i]]; } return b; }
 function now() { return Date.now(); }
 
+/* v11: vibración háptica suave al acertar/fallar (solo móviles que la
+   soportan; se puede apagar en Ajustes). Silenciosa donde no existe. */
+function buzz(pat) {
+  try {
+    if (STATE && STATE.settings && STATE.settings.haptics !== false && navigator.vibrate) navigator.vibrate(pat);
+  } catch (e) {}
+}
+
 /* Rutas de imágenes */
 const IMG = k => 'assets/img/words/' + k + '.jpg';
 const UI_IMG = k => 'assets/img/ui/' + k + '.jpg';
