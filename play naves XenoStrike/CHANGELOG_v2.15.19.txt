@@ -1,95 +1,32 @@
-SWARM//RIFT — INSECTA SIEGE
-v2.15.19 — ADAPTIVE HIVE BOSS DIRECTOR · SHADOW MODE
-Base exclusiva: v2.15.18 — MOBILE COMBAT ERGONOMICS
+SWARM//RIFT — Insecta Siege v2.15.19
+Build: ADAPTIVE_HIVE_SHADOW
+Base canónica: v2.15.18 — MOBILE COMBAT ERGONOMICS
 
-OBJETIVO
-Introducir de forma segura la primera capa del sistema “ADAPTIVE HIVE BOSS DIRECTOR / RESPUESTA EVOLUTIVA DE LA COLMENA” para detectar extremos reales de potencia durante bosses sin alterar todavía el resultado del combate.
+IMPLEMENTADO
+- Adaptive Hive Boss Director en SHADOW MODE: observación y propuesta, sin intervención real.
+- DPS efectivo con ventana móvil de 20 s y buckets circulares de 1 s.
+- TTK restante y TTK total proyectado.
+- Índice de potencia compuesto con datos reales del runtime/build.
+- Estados A0 / A1 / A2 / A3 con 3 muestras de hysteresis, 4 s mínimos por estado y cooldown de 3 s.
+- Ventanas orientativas por progresión 45–75 / 55–90 / 70–110 / 90–130 s.
+- Propuestas Shadow para ayuda A0, armadura reactiva, signatures, movilidad defensiva, soft gates, RIFT DISRUPTION y RIFT REBIRTH.
+- A1 permanece explícitamente silencioso.
+- Telemetría exclusivamente local, limitada a las últimas 40 peleas.
+- Hooks de inspección y self-test del Director.
+- Medición de ttkReal al impacto letal, excluyendo animación de muerte.
+- Reinicio del runtime del Director también al cargar checkpoint, evitando DPS residual de otra sesión.
 
-CAMBIOS
-1. Director adaptativo en modo SHADOW/ANÁLISIS.
-   - No aplica reducción de daño al boss.
-   - No entrega ayudas.
-   - No suprime poderes.
-   - No resucita bosses.
-   - No altera HP, daño, cadencia, drops ni progresión.
-
-2. Índice de potencia real multi-entrada.
-   Considera, entre otros:
-   - DPS efectivo reciente medido sobre pérdida real de HP;
-   - calidad/rango de poderes activos;
-   - combos y fusiones;
-   - cadencia real de disparo;
-   - número de proyectiles/volley;
-   - aliados, drone y RIFT ALLY;
-   - escudo, HP y supervivencia;
-   - mejoras permanentes ofensivas y defensivas;
-   - desempeño reciente y combo;
-   - daño efectivo observado en ventana móvil de 20 s.
-
-3. Crítico.
-   El motor estable v2.15.18 no expone un stat dedicado de crítico. Se dejó un hook explícito critical.available=false/value=0. No se inventa una estadística inexistente.
-
-4. TTK dinámico.
-   - Estimación inicial al aparecer el boss.
-   - Revisión aproximadamente cada 1 s durante combate activo.
-   - Fórmula base: HP actual / DPS efectivo observado.
-
-5. Estados adaptativos.
-   - A0 · ASISTENCIA
-   - A1 · EQUILIBRIO
-   - A2 · SOBREPOTENCIA
-   - A3 · DOMINACIÓN
-   Incluye hysteresis de 3 s y cooldown mínimo de cambio de estado de 5 s para evitar oscilaciones.
-
-6. Ventanas de duración objetivo (solo diagnóstico en esta versión).
-   - Mundos 1–5: 45–75 s
-   - Mundos 6–10: 55–90 s
-   - Mundos 11–19: 70–110 s
-   - Mundo 20: 90–130 s
-
-7. Respuestas hipotéticas registradas, NO ejecutadas.
-   A0:
-   - soporte contextual coleccionable y limitado según carencia detectada.
-   A1:
-   - silencio adaptativo.
-   A2/A3:
-   - armadura reactiva moderada planeada (aprox. 88% / 78% / mínimo 68% del daño recibido por boss);
-   - mayor prioridad signature;
-   - movilidad defensiva;
-   - invocaciones tácticas existentes;
-   - puertas blandas de fase;
-   - en bosses avanzados, supresión telegráfica 3–5 s como ataque evitable;
-   - posible RIFT REBIRTH una sola vez en extremos avanzados/finales, 35–50% HP.
-
-8. Telemetría local por boss.
-   Registra localmente:
-   - DPS previo;
-   - TTK inicial estimado;
-   - TTK real en victoria;
-   - estado inicial/máximo;
-   - índice de potencia inicial/máximo;
-   - daño efectivo al boss y eventos;
-   - ayudas entregadas (0 en Shadow);
-   - armadura reactiva activada (false en Shadow);
-   - supresiones (0 en Shadow);
-   - resurrección (false en Shadow);
-   - duración real;
-   - daño recibido por jugador;
-   - resultado;
-   - historial de estados y respuestas que el sistema habría aplicado.
-   Se conserva hasta un máximo de 120 registros en localStorage. No se envían datos externamente.
-
-9. Integración de ciclo de combate.
-   - inicio de sesión adaptativa al spawn del boss;
-   - captura de daño saliente efectivo;
-   - captura de daño recibido real HP+shield;
-   - finalización en victoria, derrota o abandono;
-   - DPS pre-boss alimentado por daño real durante el sector.
-
-10. Migración/PWA.
-   - saves v2.15.19 con fallback explícito desde v2.15.18;
-   - cache bust CSS/JS 21519;
-   - Service Worker swarm-rift-v2.15.19.
+MIGRACIÓN / PWA
+- VERSION 2.15.19.
+- meta/run keys v21519 con fallback explícito inmediato a v21518 y anteriores.
+- nueva key local de telemetría v21519.
+- cache bust index -> 21519.
+- Service Worker cache -> swarm-rift-v2.15.19.
+- Saves v2.15.18 preservados y migrables.
 
 PRESERVACIÓN
-No se modificaron assets reales ni se reconstruyeron mundos. Se preservaron los 20 mundos, 20 bosses, enemigos, poderes, combos, Hangar, checkpoints, Boss Rush/Grand Boss Rush, Commander Convergence, Combat Director, Wave Objectives, CHASE, Micro-Swarm, RIFT ALLY, Last Chance, audio, assets, PWA, responsive, progresión, Device Profiler, Performance Governor, Frame Pacer, Asset Streamer y Mobile Combat Ergonomics.
+- 20 mundos / 20 bosses y sistemas preexistentes conservados.
+- 735/738 archivos originales bit-identical.
+- Únicos originales modificados: js/game.js, index.html, sw.js.
+- Assets CH2 distribuidos: 210/210 hashes preservados.
+- Sin mundos 21–30.
