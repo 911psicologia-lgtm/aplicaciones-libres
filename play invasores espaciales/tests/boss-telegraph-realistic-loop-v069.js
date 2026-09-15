@@ -1,0 +1,15 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..'); const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox); vm.runInContext(read('js/config.js'),sandbox);
+const C=sandbox.window.SF.config, game=read('js/game.js'), assets=read('js/assets.js');
+const ok=(v,m)=>{if(!v)throw new Error(m)};
+ok(C.VERSION==='0.6.9','wrong version');
+ok(Array.isArray(C.combatFlow.bossSignatureTelegraphMs)&&C.combatFlow.bossSignatureTelegraphMs.length===3,'boss telegraph timing missing');
+ok(/signaturePending/.test(game)&&/signatureWindupUntil/.test(game),'two-stage signature telegraph missing');
+ok(/id==='lancer'/.test(game)&&/id==='gravity'/.test(game)&&/id==='brood'/.test(game)&&/id==='phoenix'/.test(game),'boss-specific telegraph geometries missing');
+ok(/const primaryRealistic=!!\(wbg && C\.worldFamilies\?\.realisticPrimary\)/.test(game),'realistic background still restricted to initial sectors');
+ok(/normalizedFamilyWorldId\(G\.sector\)/.test(game),'normalized visual world mapping missing');
+ok(/normalizeWorldSector/.test(assets)&&/cycleBeyondIntegrated/.test(assets),'asset world loop missing');
+ok(/homeStrength/.test(game)&&/turnRate/.test(game)&&/waveAmp/.test(game)&&/accel/.test(game),'projectile identity behaviors missing');
+ok(/vulnerable/.test(game)&&/REG/.test(game)&&/MOTOR/.test(game),'weakpoint readability upgrade missing');
+console.log('BOSS TELEGRAPH + REALISTIC LOOP v0.6.9 PASS');

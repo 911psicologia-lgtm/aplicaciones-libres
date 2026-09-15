@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..');
 const ctx={window:{SF:{}},console}; ctx.window.window=ctx.window; vm.createContext(ctx);
 for(const f of ['config.js','world_content.js']) vm.runInContext(fs.readFileSync(path.join(root,'js',f),'utf8'),ctx,{filename:f});
 const C=ctx.window.SF.config,W=ctx.window.SF.worldContent;
-if(C.VERSION!=='0.6.7') throw new Error('Wrong version');
+if(C.VERSION!=='0.6.9') throw new Error('Wrong version');
 if(C.progression.wavesPerSector!==4||C.progression.bossWave!==4||C.progression.miniBossWave!==3) throw new Error('Expected 3 waves + boss progression');
 if(!W||W.worlds.length!==5) throw new Error('Expected 5 integrated worlds');
 let runtimeFiles=0;

@@ -13,4 +13,4 @@ ok(/loadBatch/.test(assets)&&/timeoutMs/.test(assets)&&/retryFailed/.test(assets
 ok(/normalizeGame/.test(storage)&&/normalizeRanking/.test(storage),'storage normalization missing');
 ok(/build=0670/.test(main)&&/starfall-shell-v0\.6\.7/.test(sw),'PWA versioning not synchronized');
 ok(/visibilitychange/.test(main)&&/e\.key==='Escape'/.test(main),'pause/dialog keyboard robustness missing');
-console.log('DSEBI F4 v0.6.7 PASS');
+console.log('DSEBI F4 v0.6.9 PASS');

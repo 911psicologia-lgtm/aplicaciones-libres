@@ -69,7 +69,7 @@ for(const id of ['splashPilot','newGameBtn','continueBtn','rankingBtn','hangarBt
 for(const rel of ['assets/backgrounds/nebula.webp','assets/ships/vanguard.png','assets/enemies/swarm_shell.png','assets/obstacles/meteor_defender_a.png']) if(!fs.existsSync(path.join(root,rel))) throw new Error(`missing asset ${rel}`);
 
 // v0.4.5 structural systems
-if(C.VERSION!=='0.6.7') throw new Error('responsive test wrong version');
+if(C.VERSION!=='0.6.9') throw new Error('responsive test wrong version');
 if(C.combatDirector.gunnerTelegraphMsMobile<=C.combatDirector.gunnerTelegraphMsDesktop) throw new Error('mobile telegraph should be longer');
 if(C.rewards.mobileMagnetRadius<C.rewards.desktopMagnetRadius) throw new Error('mobile magnet should not be weaker');
 if(!C.enemyEcology||!C.weaponEvolution||!C.bossCore) throw new Error('v0.4.5 systems config missing');

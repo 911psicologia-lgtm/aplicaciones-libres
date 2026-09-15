@@ -5,7 +5,7 @@ window.SF.config = {
   SHIP_KEY: 'sf3_ship',
   PROFILE_KEY: 'sf3_profile_v1',
   MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
-  VERSION: '0.6.7',
+  VERSION: '0.6.9',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -64,6 +64,7 @@ window.SF.config = {
   worldFamilies: {
     enabled: true,
     maxIntegratedWorld: 5,
+    cycleBeyondIntegrated: true,
     // v0.5.7: los assets realistas W01–05 pasan a ser arte principal, no simples overlays.
     realisticPrimary: true,
     currentRatioByWave: {1:.62,2:.72,3:.82,4:.78},
@@ -488,6 +489,8 @@ window.SF.config = {
     enabled: true,
     bossPhaseSignatureDelayMs: [1250,950,720],
     bossPhaseSignatureCooldownMs: [6200,5400,4600],
+    bossSignatureTelegraphMs: [980,840,720],
+    bossSignatureSafeRadius: [44,52,60],
     rebootSignatureDelayMs: 1750,
     subbossOpeningSignatureDelayMs: 950,
     subbossPhase2SignatureDelayMs: 720,

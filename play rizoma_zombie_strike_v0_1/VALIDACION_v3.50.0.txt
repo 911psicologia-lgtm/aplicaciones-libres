@@ -1,0 +1,20 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.50.0
+
+VERSIÓN: v3.50.0 — Boss Identity Overdrive + Asset Audit M11–M20
+
+COMPROBACIONES
+- js/game.js: actualizado a 3.50.0
+- index.html: actualizado a 3.50.0
+- manifest.json: actualizado a 3.50.0
+- sw.js/cache: actualizado a 3.50.0
+- Sintaxis JS: OK (`node --check js/game.js`)
+- Assets auditados/corregidos: 178 PNG recortados
+
+FOCO DE VALIDACIÓN FUNCIONAL
+1. Bosses M11–M20 deben exhibir deriva adicional, cambios de sentido y seguimiento menos lineal.
+2. Los acentos de patrón deben disparar en varios sentidos (frontal, lateral y contraángulos) según variante.
+3. Mundos 19 y 20 deben conservar sus patrones especiales y sumar acento adicional.
+4. Los sprites tardíos deben verse más presentes por el recorte de transparencia excesiva.
+
+OBSERVACIÓN
+Se recomienda prueba manual prioritaria en mundos 11, 15, 17, 19 y 20 para calibrar lectura visual y presión táctica.

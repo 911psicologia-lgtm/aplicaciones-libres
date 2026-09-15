@@ -39,9 +39,18 @@ window.SF = window.SF || {};
     async function worker(){ while(cursor<queue.length){ const i=cursor++; await load(queue[i]); } }
     await Promise.all(Array.from({length:Math.min(limit,queue.length||1)},worker));
   }
+  function normalizeWorldSector(sector){
+    const list=NS.worldContent?.worlds||[];
+    if(!Number.isFinite(sector) || sector<1 || !list.length) return 0;
+    const maxIntegrated=Math.min(NS.config?.worldFamilies?.maxIntegratedWorld||list.length,list.length);
+    if(sector<=maxIntegrated) return sector;
+    if(NS.config?.worldFamilies?.cycleBeyondIntegrated===false) return 0;
+    return ((sector-1)%maxIntegrated)+1;
+  }
   function world(sector){
     const list=NS.worldContent?.worlds||[];
-    return list.find(w=>w.id===sector)||null;
+    const normalized=normalizeWorldSector(sector);
+    return list.find(w=>w.id===normalized)||null;
   }
   function collectWorldUrls(w){
     if(!w) return [];
@@ -56,19 +65,21 @@ window.SF = window.SF || {};
     return [...new Set(urls.filter(Boolean))];
   }
   async function loadWorld(sector){
-    const w=world(sector); if(!w) return null;
-    if(worldLoaded.has(sector)) return w;
+    const normalized=normalizeWorldSector(sector);
+    const w=world(normalized); if(!w) return null;
+    if(worldLoaded.has(normalized)) return w;
     await loadBatch(collectWorldUrls(w),(typeof innerWidth!=='undefined'&&innerWidth<=700)?4:7);
-    worldLoaded.add(sector);
+    worldLoaded.add(normalized);
     return w;
   }
   function unloadWorld(sector){
-    const w=world(sector); if(!w) return 0;
+    const normalized=normalizeWorldSector(sector);
+    const w=world(normalized); if(!w) return 0;
     let removed=0;
     for(const src of collectWorldUrls(w)){
       if(cache.delete(src)) removed++;
     }
-    worldLoaded.delete(sector);
+    worldLoaded.delete(normalized);
     return removed;
   }
   function trimWorldCache(keepSectors=[]){
@@ -116,7 +127,7 @@ window.SF = window.SF || {};
   function health(){ const expected=loadHealth.attempted.size,failed=[...loadHealth.failed],timeouts=[...loadHealth.timeouts]; return {expected,loaded:Math.max(0,expected-failed.length),failed,timeouts,pending:pending.size}; }
   async function retryFailed(){ const list=[...loadHealth.failed]; if(!list.length) return health(); await loadBatch(list,(typeof innerWidth!=='undefined'&&innerWidth<=700)?3:5); return health(); }
   NS.assets={
-    manifest,cache,loadAll,loadWorld,world,hasWorld:sector=>!!world(sector),health,retryFailed,
+    manifest,cache,loadAll,loadWorld,world,normalizeWorldSector,hasWorld:sector=>!!world(sector),health,retryFailed,
     getShip:id=>cache.get(manifest.ships[id]),
     getEnemy:kind=>cache.get(manifest.enemies[kind]),
     getObstacle:i=>cache.get(manifest.obstacles[i%manifest.obstacles.length]),

@@ -1,0 +1,16 @@
+STARFALL FRONTIER v0.6.8 — VALIDATION
+======================================
+
+Checks realizados:
+
+[OK] Sintaxis verificada con `node --check` en todos los archivos JS.
+[OK] `config.js` actualizado a versión 0.6.8.
+[OK] Loop de familias visuales realistas habilitado más allá del máximo integrado.
+[OK] `assets.js` normaliza sectores a mundos reales válidos.
+[OK] `game.js` usa world ids normalizados para selección de familia y táctica.
+[OK] Bosses y subbosses tienen motion identity diferenciada.
+[OK] Proyectiles enemigos admiten aceleración, frenado, curvatura, homing y deriva ondulante.
+
+Notas:
+- No se añadieron nuevos bitmaps para mundos >5; en su lugar se corrigió el runtime para reutilizar de forma controlada los mundos realistas ya integrados.
+- La coherencia visual posterior al mundo 10 depende ahora del mapeo cíclico seguro, no de assets inexistentes.

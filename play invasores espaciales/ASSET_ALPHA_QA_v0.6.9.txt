@@ -1,0 +1,10 @@
+STARFALL FRONTIER v0.6.9 — ASSET ALPHA QA
+=========================================
+Runtime sprites audited: 225
+Sprites with <5% transparent pixels: 0
+Sprites occupying full canvas bounding box: 0
+Min transparent-pixel ratio: 0.3093
+Max transparent-pixel ratio: 0.9382
+
+RESULT: PASS — no audited runtime sprite is flattened into an opaque rectangular canvas.
+NOTE: This validates alpha/cutout integrity, not artistic subject identity. Runtime mapping now guarantees only integrated realistic families are used in long campaigns.

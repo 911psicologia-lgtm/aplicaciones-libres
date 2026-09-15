@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..');
 const sandbox={window:{SF:{}},console,Image:function(){}}; vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.6.7') throw new Error('wrong version');
+if(C.VERSION!=='0.6.9') throw new Error('wrong version');
 if(!C.bossHardpoints?.enabled) throw new Error('boss hardpoints disabled');
 if(C.bossHardpoints.countBySector.length<5) throw new Error('hardpoint curve incomplete');
 if(C.bossHardpoints.hpRatio<.04) throw new Error('hardpoints too weak');

@@ -1,4 +1,4 @@
-# STARFALL FRONTIER v0.6.7
+# STARFALL FRONTIER v0.6.9
 
 Build completa derivada de v0.6.5, con énfasis en libertad de movimiento, Hangar, economía táctica, supervivencia, loot y aliado de jefe.
 
@@ -15,6 +15,13 @@ Abrir `index.html` desde servidor web / GitHub Pages / Cloudflare Pages. La PWA 
 ## Sistemas preservados
 Assets realistas W01–05, audio quiet, economía y XP, Boss Supply, Boss Fortress, Reactor Reboot, hardpoints, módulos orbitales, Family Tactics, Micro-Swarm, Mission Director, Reactive Matrix Phase 2, streaming de assets, checkpoints y PWA.
 
+
+## v0.6.9 — Boss Telegraph + Realistic Continuity
+- Ventana telegráfica previa para ataques Signature de boss, con geometría visual distinta por identidad.
+- Puntos débiles y hardpoints más legibles cuando están vulnerables.
+- Corrección de fondos y opacidad de familias realistas en campañas largas (> mundo 10).
+- Movimiento de boss/subboss conserva continuidad al entrar en su patrón, sin saltos iniciales.
+- Los assets realistas integrados se reutilizan mediante mapeo normalizado en sectores posteriores.
 
 ## v0.6.7 — Tactical Belt + Drone Command
 - Cinturón táctico 1–6 para usar consumibles sin abrir la tienda.

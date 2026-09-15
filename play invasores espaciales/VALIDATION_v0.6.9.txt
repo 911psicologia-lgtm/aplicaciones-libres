@@ -1,0 +1,6 @@
+VALIDATION v0.6.9 PASS
+asset_audio_tree_sha256 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy_js_sha256 cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+pwa_manifest STARFALL FRONTIER fullscreen
+node_tests PASS=33 FAIL=0
+runtime_sprite_alpha_qa PASS=225

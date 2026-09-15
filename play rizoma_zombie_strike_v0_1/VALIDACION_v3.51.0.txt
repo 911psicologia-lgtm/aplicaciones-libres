@@ -1,0 +1,37 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.51.0
+
+VERSIÓN
+- js/game.js: OK
+- index.html: OK
+- manifest.json: OK
+- sw.js/cache: OK
+
+ESTRUCTURA
+- Assets totales: 842
+- Referencias literales auditadas: 801
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- PNG M11-M20 verificados: 200
+- PNG inválidos: 0
+
+MEJORAS v3.51
+- Perfil de acentos M11-M20: OK
+- Identidad de movimiento: OK
+- Orientación homing por trayectoria: OK
+- Composición M14: OK
+- Composición M16: OK
+- Composición M17: OK
+- Composición M19: OK
+- Composición M20: OK
+
+RESULTADO
+- Manifest JSON: OK
+- Sintaxis JS: validar externamente con node --check
+- Assets tardíos: OK
+- Referencias: OK
+- IDs: OK
+
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest parse: OK

@@ -1,4 +1,4 @@
-const CACHE='starfall-shell-v0.6.7';
+const CACHE='starfall-shell-v0.6.9';
 const SHELL=[
   './','./index.html','./css/main.css','./manifest.webmanifest','./pwa-icon-192.png','./pwa-icon-512.png',
   './js/config.js','./js/world_content.js','./js/assets.js','./js/storage.js','./js/economy.js','./js/reactive_matrix.js','./js/audio.js','./js/ui.js','./js/game.js','./js/main.js'
