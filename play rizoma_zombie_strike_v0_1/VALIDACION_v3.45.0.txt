@@ -1,0 +1,20 @@
+VALIDACION v3.45.0
+=====================
+node --check js/game.js: OK
+node --check sw.js: OK
+manifest.json: OK
+Mundos en curva: 20 / 20
+ship_meta.json: 6 / 6
+Assets heredados: 840; modificados: 0; faltantes: 0
+Referencias literales assets: 799; faltantes: 0
+IDs HTML: 226; duplicados: 0
+Resurrección única al 50%: PRESENTE
+Antesala universal con microhordas: PRESENTE
+Continuity micro-swarms: PRESENTE
+Adaptive Boss Director Shadow: PRESENTE
+M1 HP base 11200 -> HP efectivo Normal aprox 15008 (x1.340)
+M5 HP base 19500 -> HP efectivo Normal aprox 26869 (x1.378)
+M10 HP base 38900 -> HP efectivo Normal aprox 55443 (x1.425)
+M15 HP base 77800 -> HP efectivo Normal aprox 114571 (x1.473)
+M20 HP base 155500 -> HP efectivo Normal aprox 236360 (x1.520)
+Prueba visual Android/iOS real: NO EJECUTADA

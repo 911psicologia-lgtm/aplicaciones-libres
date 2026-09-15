@@ -84,7 +84,8 @@
 
 /* Opción con palabra grande (repaso tipo recall) */
 .ob-word-lg{font-size:1.15em;font-weight:900;color:var(--gold)}
-.ob-img.sm{width:100%;height:clamp(48px,7.8vh,72px)}
+/* v10: .sm hereda la caja cuadrada contain de .ob-img (antes recortaba en móviles) */
+.ob-img.sm{object-fit:contain}
 /* ★ Fix v6: en tablet/PC la foto del repaso es cuadrada y COMPLETA (sin recortes) */
 @media(min-width:700px){
   .ob-img.sm{width:var(--obsz,96px);height:var(--obsz,96px)}
@@ -133,7 +134,7 @@
 }
 .match-tile.wiggle{animation:shakeWrong .32s ease}
 .mt-img{
-  width:100%;aspect-ratio:1/1;object-fit:cover;
+  width:100%;aspect-ratio:1/1;object-fit:contain;
   border-radius:10px;background:rgba(255,255,255,.06);
   display:block
 }
@@ -318,7 +319,7 @@ span.mt-img.img-fallback{font-size:2em;line-height:1;aspect-ratio:auto;width:100
 .mem-card.done .mem-front{display:flex;align-items:center;justify-content:center}
 .mem-card.done.open{border-color:var(--green);background:rgba(46,204,113,.18)}
 .mem-card.wrong{border-color:var(--red);animation:shakeWrong .32s ease}
-.mem-face{width:100%;height:100%;object-fit:cover;display:block}
+.mem-face{width:100%;height:100%;object-fit:contain;display:block}
 span.mem-face.img-fallback{font-size:2em}
 .mem-word{
   font-weight:900;font-size:clamp(.8em,3.4vw,1.05em);

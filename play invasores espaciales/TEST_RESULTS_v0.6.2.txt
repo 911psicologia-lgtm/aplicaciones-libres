@@ -1,0 +1,197 @@
+== asteroid-director-v051.js ==
+ASTEROID DIRECTOR v0.5.1 OK
+PASS
+== audio-pack-integration-v044.js ==
+QUIET AUDIO v0.5.1 OK { archiveOgGs: 449, activeSoundFamily: 'player weapons only' }
+PASS
+== balance-v048.js ==
+BALANCE v0.4.8 OK [
+  { world: 1, hp: 0.9, boss: 1.55, fire: 1.1 },
+  { world: 2, hp: 0.98, boss: 1.8, fire: 1.04 },
+  { world: 3, hp: 1.06, boss: 2.1, fire: 1 },
+  { world: 4, hp: 1.14, boss: 2.45, fire: 0.96 },
+  { world: 5, hp: 1.22, boss: 2.8, fire: 0.92 }
+]
+BOSS FORTRESS CONFIG OK {
+  initialShieldRatio: 0.66,
+  phaseRechargeRatio: [ 0, 0.34, 0.44 ],
+  pulseRechargeRatio: [ 0.07, 0.1, 0.13 ],
+  armorByPhase: [ 0.62, 0.56, 0.5 ],
+  maxDamagePerHitRatio: 0.014,
+  breakExposeMs: 2200,
+  powerCooldownMs: [ 7000, 5300, 3900 ],
+  pulseProjectileCount: [ 8, 11, 14 ],
+  phaseGateMs: 760,
+  adaptationWindowMs: 1050,
+  adaptationThresholdRatio: 0.05,
+  adaptationDamageMul: 0.48,
+  adaptationMs: 1050,
+  quickRebootThresholdSecBySector: [ 42, 48, 55, 65, 75 ],
+  quickRebootHpRatio: 0.5,
+  quickRebootFortressRatio: 0.46,
+  quickRebootMoveMul: 1.16,
+  quickRebootFireCdMul: 0.78
+}
+PASS
+== boss-anatomy-streaming-v055.js ==
+PASS boss anatomy + streaming v0.5.5
+PASS
+== boss-fortress-v049.js ==
+BOSS FORTRESS v0.5.1 OK [
+  { sector: 1, hp: 473, fort: 312, total: 785 },
+  { sector: 2, hp: 702, fort: 463, total: 1165 },
+  { sector: 3, hp: 998, fort: 659, total: 1657 },
+  { sector: 4, hp: 1372, fort: 906, total: 2278 },
+  { sector: 5, hp: 1806, fort: 1192, total: 2998 }
+]
+PASS
+== boss-power-identity-v0391.js ==
+BOSS POWER IDENTITY v0.4.5 OK {
+  subbosses: [ 'RED DE CAZA', 'DOBLE SINGULARIDAD', 'BATERÍA TRIDENTE' ],
+  bosses: [
+    'CORONA HELIOS',
+    'JUICIO AXIAL',
+    'SEMILLA DEVORADORA',
+    'HORIZONTE ROTO',
+    'ALAS DE RENACIMIENTO'
+  ],
+  assets: 7
+}
+PASS
+== boss-reboot-adrenaline-v062.js ==
+BOSS REBOOT + ADRENALINE PRELUDE v0.6.2 OK
+PASS
+== boss-subboss-endurance-v058.js ==
+BOSS + SUBBOSS ENDURANCE v0.5.8 OK [
+  { s: 1, hp: 830, fort: 548, mods: 232, hard: 158, raw: 1768 },
+  { s: 2, hp: 1224, fort: 808, mods: 342, hard: 348, raw: 2722 },
+  { s: 3, hp: 1733, fort: 1144, mods: 729, hard: 495, raw: 4101 },
+  { s: 4, hp: 2377, fort: 1569, mods: 999, hard: 904, raw: 5849 },
+  { s: 5, hp: 3122, fort: 2061, mods: 1311, hard: 1188, raw: 7682 }
+]
+PASS
+== boss-transition-regression.js ==
+BOSS TRANSITION REGRESSION OK {
+  sector: 2,
+  wave: 1,
+  phase: 'wave',
+  relics: {
+    spread: 1,
+    shield: 1,
+    chain: 0,
+    missile: 0,
+    overdrive: 1,
+    heal: 0,
+    life: 0,
+    drone: 0
+  },
+  recoveryCount: 0
+}
+PASS
+== boss-transition-watchdog.js ==
+BOSS WATCHDOG OK { sector: 4, wave: 1, rewardPending: false }
+PASS
+== combat-depth-v052.js ==
+COMBAT DEPTH v0.5.2 OK
+PASS
+== ecology-smoke.js ==
+ECOLOGY SMOKE OK {
+  pattern: 'split',
+  kinds: [ 'sentinel', 'breeder', 'reanimator' ],
+  enemies: 62,
+  eBul: 22
+}
+PASS
+== economy-shop-v060.js ==
+ECONOMY SHOP v0.6.0 PASS { level: 2, coins: 565, bestStreak: 0 }
+PASS
+== endurance-director-v059.js ==
+ENDURANCE DIRECTOR v0.6.0 OK { bossScale: '1.480', subbossScale: '1.312' }
+PASS
+== family-tactics-v054.js ==
+PASS family tactics v0.5.4
+PASS
+== mission-director-v056.js ==
+MISSION DIRECTOR v0.6.2 OK {
+  phase: 'boss',
+  objective: 'bosspart',
+  boss: 'Xenomorfo Escarlata',
+  formations: 0
+}
+PASS
+== reactive-matrix-shadow-v061.js ==
+REACTIVE MATRIX SHADOW v0.6.1 PASS { state: 'M3', ttk: '3.9', logs: 1 }
+PASS
+== realistic-primary-render-v057.js ==
+realistic-primary-render-v057 PASS
+PASS
+== responsive-smoke.js ==
+320x568 -> 10x5, enemy 25.9, width 281.6/320
+360x740 -> 10x5, enemy 29.4, width 316.8/360
+360x800 -> 10x6, enemy 29.4, width 316.8/360
+390x844 -> 10x6, enemy 32.1, width 343.2/390
+412x915 -> 10x6, enemy 34.0, width 362.6/412
+430x932 -> 10x6, enemy 35.6, width 378.4/430
+768x1024 -> 13x6, enemy 45.0, width 633.0/768
+1024x768 -> 15x6, enemy 50.0, width 813.0/1024
+1366x768 -> 18x6, enemy 58.1, width 1147.4/1366
+1720x864 -> 18x6, enemy 66.0, width 1290.0/1720
+1920x1080 -> 20x6, enemy 70.2, width 1536.0/1920
+stable 360x800: bounces=121, y=144.0 max=144.0
+stable 768x1024: bounces=32, y=144.0 max=184.3
+stable 1720x864: bounces=15, y=103.0 max=159.8
+diver mobile returns home; maxY=448.0
+diver desktop returns home; maxY=520.0
+v0.4.5 director/ecology/evolution config: PASS
+responsive smoke: PASS
+PASS
+== runtime-assets-w01-05-v045.js ==
+W01-05 HYBRID CONTENT v0.4.5 OK {
+  worlds: 5,
+  runtimeFiles: 240,
+  progression: '3+boss',
+  firstBoss: 'Xenomorfo Escarlata',
+  lastBoss: 'Leviathan Omega'
+}
+PASS
+== runtime-smoke.js ==
+RUNTIME SMOKE OK {
+  enemies: 34,
+  formationY: 115.6,
+  maxY: 146,
+  pBul: 8,
+  eBul: 5,
+  combo: 31
+}
+PASS
+== ship-evolution-v053.js ==
+PASS ship evolution v0.5.3
+PASS
+== smoke-node.js ==
+SMOKE OK {
+  version: '0.6.2',
+  assets: 17,
+  formation: '10x6',
+  desktopCols: 18,
+  restartLives: 3,
+  maxLives: 6,
+  maxObstacles: 2
+}
+PASS
+== systems-runtime-v038.js ==
+V0.3.8 RUNTIME SYSTEMS OK {
+  objective: 'combo',
+  fusion: 'nova',
+  droneLastShot: 432,
+  mutator: 'clear'
+}
+PASS
+== systems-v038-smoke.js ==
+V0.3.9.1 SYSTEMS SMOKE OK { mutators: 5, elites: 3, objectives: 4, fusions: 3 }
+PASS
+VALIDATION v0.6.2 PASS
+asset_audio_tree_sha256 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy_js_sha256 f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441
+pwa_manifest STARFALL FRONTIER fullscreen
+== validate == PASS
+SUMMARY 26/26 PASS; FAIL=0

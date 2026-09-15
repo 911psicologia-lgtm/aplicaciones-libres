@@ -1,0 +1,23 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox);
+vm.runInContext(read('js/config.js'),sandbox); const C=sandbox.window.SF.config;
+function ok(v,m){if(!v)throw new Error(m)}
+const game=read('js/game.js'),ui=read('js/ui.js'),html=read('index.html'),css=read('css/main.css'),eco=read('js/economy.js');
+ok(C.VERSION==='0.6.7','wrong version');
+ok(C.progression.maxLives>=9&&C.progression.restartLives>=4,'life economy not expanded');
+ok(C.powers.magnet,'magnet power missing');
+ok(C.economy.catalog.some(x=>x.kind==='revive'),'revive shop item missing');
+ok(C.economy.catalog.some(x=>x.upgrade==='dronebay'&&x.max===3),'drone bay ladder missing');
+ok(C.economy.catalog.some(x=>x.upgrade==='armor')&&C.economy.catalog.some(x=>x.upgrade==='thruster'),'ship upgrades incomplete');
+ok(C.playerSurvival?.bossDamageMul<1,'boss survival tuning missing');
+ok(C.bossAlly?.durationMs===10000&&C.bossAlly?.cooldownMs>10000,'boss ally timings missing');
+for(const token of ['spawnGem','updateGemDrops','renderGemDrops','activateBossAlly','renderBossAlly','highestDefeatedBoss','RESURRECCIÓN DE EMERGENCIA','powerAssetKey']) ok(game.includes(token),'missing '+token); ok(C.powers.magnet.label==='IMÁN TOTAL','magnet label wrong');
+ok(/topFree/.test(game)&&!/G\.h\*\(G\.layout\?\.portrait\?\.52/.test(game),'vertical movement still constrained');
+ok(/id="bossAllyBtn"/.test(html)&&/id="hangarUpgrades"/.test(html),'new controls missing');
+ok(/hangar-upgrade/.test(css)&&/ship-grid\.compact/.test(css),'compact hangar CSS missing');
+ok(/data-hangar-buy/.test(ui),'hangar upgrade buttons missing');
+ok(/maxInventory/.test(eco),'revive inventory cap missing');
+ok(/getWorldPowerup/.test(game),'original runtime power art not used');
+console.log('HANGAR + SURVIVAL + LOOT v0.6.7 PASS');

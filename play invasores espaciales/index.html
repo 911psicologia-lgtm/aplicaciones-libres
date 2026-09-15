@@ -2,18 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#08111c">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Starfall Frontier v0.6.1</title>
+  <title>Starfall Frontier v0.6.7</title>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <div id="app">
-  <canvas id="game"></canvas>
+  <canvas id="game" role="img" aria-describedby="gameInstructions">STARFALL FRONTIER requiere soporte de canvas para mostrar el combate.</canvas>
+  <p id="gameInstructions" class="sr-only">Juego de disparos vertical. En teclado usa flechas o WASD para mover la nave por todo el campo, B para invocar al jefe aliado, 1–6 para usar el cinturón táctico, P para pausar, F para pantalla completa y Escape para cerrar diálogos o pausar. En pantalla táctil arrastra la nave.</p>
+  <div id="srLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-  <div class="hud" id="hud" aria-live="polite">
+  <div class="hud" id="hud" aria-live="off">
     <div class="hud-row top">
       <span id="hudPilot">PILOTO</span>
       <span id="hudStage">SECTOR 1 · OLEADA 1</span>
@@ -22,7 +24,7 @@
     <div class="hud-row bottom">
       <div class="life-wrap">
         <span id="hudLives" class="lives"></span>
-        <div class="hpbar"><div id="hpFill"></div></div>
+        <div class="hpbar" id="hpBar" role="progressbar" aria-label="Integridad del casco" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div id="hpFill"></div></div>
       </div>
       <span id="hudPower">—</span>
       <span id="hudCombo" class="combo-badge">—</span>
@@ -37,12 +39,23 @@
     </div>
   </div>
 
-  <div class="center-msg" id="centerMsg"></div>
+  <div class="center-msg" id="centerMsg" role="status" aria-live="polite" aria-atomic="true"></div>
   <div class="controls-tag" id="controlsTag">ARRASTRA / ← → · AUTO-FUEGO · P PAUSA</div>
   <button class="pause-btn" id="pauseBtn">PAUSA</button>
   <div class="top-tools" id="topTools">
     <button class="shop-btn" id="shopBtn" title="Tienda y arsenal" aria-label="Abrir tienda">🛒</button>
+    <button class="boss-ally-btn" id="bossAllyBtn" title="Invocar jefe aliado" aria-label="Invocar jefe aliado" disabled>JEFE —</button>
+    <button class="help-btn" id="helpBtn" title="Ayuda" aria-label="Abrir ayuda">?</button>
     <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa" aria-label="Pantalla completa">[ ]</button>
+  </div>
+
+  <div class="tactical-belt" id="tacticalBelt" aria-label="Cinturón táctico de consumibles">
+    <button data-quick-power="heal" data-key="1" title="1 · Reparación"><span>✚</span><b>0</b></button>
+    <button data-quick-power="shield" data-key="2" title="2 · Escudo"><span>◉</span><b>0</b></button>
+    <button data-quick-power="missile" data-key="3" title="3 · Misiles"><span>▲</span><b>0</b></button>
+    <button data-quick-power="drone" data-key="4" title="4 · Drones"><span>◆</span><b>0</b></button>
+    <button data-quick-power="magnet" data-key="5" title="5 · Imán total"><span>◎</span><b>0</b></button>
+    <button data-quick-power="life" data-key="6" title="6 · Vida"><span>♥</span><b>0</b></button>
   </div>
 
   <section class="screen active simple-home" id="splash">
@@ -50,7 +63,7 @@
       <div class="compact-brand">
         <div class="compact-kicker">DEEP SPACE DEFENSE</div>
         <div class="compact-title">STARFALL <strong>FRONTIER</strong></div>
-        <div class="compact-version">v0.6.1 · REACTIVE MATRIX SHADOW · ECONOMÍA INTACTA</div>
+        <div class="compact-version">v0.6.7 · TACTICAL BELT + DRONE COMMAND</div>
       </div>
 
       <label class="pilot-label" for="splashPilot">Piloto</label>
@@ -64,17 +77,20 @@
 
       <div class="menu-line" id="menuSaveHint">Sin partida guardada</div>
       <button id="hangarBtn" class="quiet-action">NAVE · <span id="menuShipLabel">VANGUARD</span></button>
+      <button id="menuHelpBtn" class="quiet-action">AYUDA · CONTROLES · OBJETIVO</button>
       <div class="menu-status" id="assetStatus">Cargando...</div>
     </div>
   </section>
 
 
   <section class="screen" id="hangar">
-    <div class="panel wide">
-      <div class="section-title">Hangar de combate</div>
-      <p class="small">Tres naves iniciales. El chasis cambia velocidad, cadencia, vida base y daño.</p>
-      <div class="ship-grid" id="shipGrid"></div>
-      <div class="row"><button data-back="splash">Volver</button></div>
+    <div class="panel wide hangar-panel">
+      <div class="hangar-head"><div class="section-title">HANGAR</div><div id="hangarBalance" class="hangar-balance"></div></div>
+      <div class="ship-grid compact" id="shipGrid"></div>
+      <div class="hangar-loadout" id="hangarLoadout"></div>
+      <div class="hangar-subtitle">MEJORAS DE NAVE</div>
+      <div class="hangar-upgrades" id="hangarUpgrades"></div>
+      <div class="row hangar-footer"><button data-back="splash">VOLVER</button><button id="hangarShopBtn">🛒 ARSENAL</button></div>
     </div>
   </section>
 
@@ -101,12 +117,12 @@
     </div>
   </section>
 
-  <div class="shop-overlay" id="shopOverlay" aria-hidden="true">
-    <div class="shop-panel">
+  <div class="shop-overlay" id="shopOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
+    <div class="shop-panel" tabindex="-1">
       <div class="shop-head">
         <div>
           <div class="shop-kicker">ARSENAL // ECONOMÍA</div>
-          <h2>TIENDA DE COMBATE</h2>
+          <h2 id="shopTitle">TIENDA DE COMBATE</h2>
         </div>
         <button id="shopCloseBtn" class="shop-close" aria-label="Cerrar tienda">×</button>
       </div>
@@ -117,10 +133,29 @@
     </div>
   </div>
 
-  <div class="gameover-overlay" id="gameOverOverlay">
+  <div class="help-overlay" id="helpOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="help-panel" tabindex="-1">
+      <div class="shop-head">
+        <div>
+          <div class="shop-kicker">MANUAL RÁPIDO // STARFALL</div>
+          <h2 id="helpTitle">MISIÓN Y CONTROLES</h2>
+        </div>
+        <button id="helpCloseBtn" class="shop-close" aria-label="Cerrar ayuda">×</button>
+      </div>
+      <div class="help-grid">
+        <section><h3>Objetivo</h3><p>Supera 3 oleadas y derrota al jefe del mundo. Los jefes tienen Fortaleza, módulos, sistemas destructibles y fases.</p></section>
+        <section><h3>Movimiento</h3><p><strong>PC:</strong> flechas/WASD o arrastre. <strong>Móvil:</strong> arrastra libremente. <strong>B:</strong> jefe aliado. <strong>1–6:</strong> cinturón táctico. Fuego automático.</p></section>
+        <section><h3>Poderes y suministros</h3><p>Recoge pods y poderes físicamente. Los jefes derrotados pueden heredarte poderes. La tienda usa XP, monedas e inventario persistente.</p></section>
+        <section><h3>Teclas</h3><p><strong>1–6</strong> consumibles · <strong>P</strong> pausa · <strong>F</strong> pantalla completa · <strong>Esc</strong> cierra tienda/ayuda o pausa el combate.</p></section>
+      </div>
+      <p class="help-note">Consejo: rompe módulos y sistemas del jefe para abrir ventanas de núcleo vulnerable. Mejorar tu nave conserva una ventaja real.</p>
+    </div>
+  </div>
+
+  <div class="gameover-overlay" id="gameOverOverlay" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle">
     <div class="gameover-box">
       <div class="gameover-kicker">MISIÓN INTERRUMPIDA</div>
-      <h2>GAME OVER</h2>
+      <h2 id="gameOverTitle">GAME OVER</h2>
       <div class="gameover-stats" id="gameOverStats"></div>
       <p class="small">El checkpoint conserva el inicio de la oleada actual. Al reintentar recuperas el paquete inicial de vidas y vuelves a ese punto.</p>
       <div class="row">
@@ -130,9 +165,9 @@
     </div>
   </div>
 
-  <div class="pause-overlay" id="pauseOverlay">
+  <div class="pause-overlay" id="pauseOverlay" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
     <div class="pause-box">
-      <h2>Pausa</h2>
+      <h2 id="pauseTitle">Pausa</h2>
       <div class="pause-stats" id="pauseStats"></div>
       <div class="row">
         <button id="resumeBtn">Continuar</button>

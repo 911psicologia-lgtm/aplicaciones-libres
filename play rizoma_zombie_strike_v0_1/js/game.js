@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.44.0';
+  const VERSION = '3.49.0';
   // v3.29.0: rebalance global 1–20 por composición/ritmo, RIFT ALLY aleatorio 10s y Última Oportunidad manual de 5s.
   // v3.31.0: pulido UX móvil, cierre universal de overlays, carriles táctiles robustos y legibilidad de combate.
   // v3.33.0: identidad legible de Naves Rizoma, telegráfico de especial con assets reales y lectura de build ampliada.
@@ -11,7 +11,11 @@
   // v3.39.0: telemetría local de balance por intento/mundo: tiempo activo y de jefe, daño, eventos letales, poderes y picos de densidad. No transmite datos.
   // v3.42.0: Comparador de Playtests + detección de variabilidad. Diagnóstico contextual por nave, dificultad y dispersión; no altera combate, HP, daño ni spawns.
   // v3.43.0: perfiles comparables de build para Playtest Guiado + aislamiento completo de estadísticas/preferencias persistentes; registra contexto inicial reproducible.
-  // v3.44.0: RIZOMA ADAPTIVE BOSS DIRECTOR · SHADOW MODE. Calcula potencia efectiva, DPS y TTK A0–A3 sin alterar HP, daño, spawns ni patrones.
+  // v3.45.0: GUARDIAN RESILIENCE + RESURRECCIÓN + ANTESALA ADRENALINA. Refuerza bosses, revive único al 50% ante TTK extremo y llena vacíos con microhordas.
+  // v3.46.0: ADAPTIVE DIRECTOR LIVE-LITE + RESURRECCIÓN MUTANTE + FORMACIONES DE ANTESALA. Mitigación suave A2/A3, ayuda limitada A0, segunda vida protegida y microhordas en frente/pinza/abanico.
+  // v3.47.0: DSEBI HARDENING. Corrige ReferenceError de antesala, sincroniza PWA/caché, alinea telemetría LIVE-LITE y refuerza accesibilidad del panel de ajustes.
+  // v3.48.0: GUÍA TÁCTICA + AUTODIAGNÓSTICO. Explica sistemas avanzados sin autor y añade monitor local de errores/comprobaciones de integración sin alterar combate.
+  // v3.49.0: COMBAT FLOW ORCHESTRATOR. Coordina adrenalina, amenazas frontales, eventos raros y microenjambres; añade respiración anti-saturación y rescate anti-vacío sin inflar HP.
   // Conserva tractor progresivo, Taller RIZOMA, RIFT ALLY, Última Oportunidad, 20 mundos y assets existentes.
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
   // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
@@ -24,6 +28,15 @@
   const rand = (a = 1, b = 0) => Math.random() * (a - b) + b;
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
   const now = () => performance.now();
+
+  const runtimeDiagnostics = { errors: [], lastReport: null, startedAt: new Date().toISOString() };
+  const rememberRuntimeIssue = (kind, message, source='', line=0, col=0) => {
+    const text=String(message||'Error desconocido').slice(0,360);
+    runtimeDiagnostics.errors.push({at:new Date().toISOString(),kind:String(kind||'error'),message:text,source:String(source||'').split('/').slice(-2).join('/'),line:Number(line)||0,col:Number(col)||0});
+    runtimeDiagnostics.errors=runtimeDiagnostics.errors.slice(-12);
+  };
+  window.addEventListener('error', e => rememberRuntimeIssue('error', e.message, e.filename, e.lineno, e.colno));
+  window.addEventListener('unhandledrejection', e => rememberRuntimeIssue('promise', e.reason?.message||e.reason||'Promesa rechazada'));
 
   const DIFFICULTY_MODES = {
     normal: { id:'normal', name:'Normal', target:1, waveDuration:1, enemyHp:1, enemySpeed:1, incomingDamage:1, bossHp:1, bossShield:1, bossCadence:1, enemyFirePace:1, hordePace:1, hazardPace:1, eventPace:1, spawnPace:1, score:1, xp:1, coins:1, dropChance:1, powerDuration:1, powerEffect:1, hordeRewardBonus:0 },
@@ -2537,6 +2550,7 @@
       this.bossActive = null;
       this.bossIntroduced = false;
       this.bossFight = { active: false, charge: 0, minionTimer: 0, phaseNotified: 1, addsKilled: 0 };
+      this.bossApproach = {active:false,time:0,max:0,swarmTimer:0,waves:0};
       this.player = null;
       this.enemies = [];
       this.bullets = [];
@@ -2560,6 +2574,7 @@
       this.lastRiftAllyWorld = 0;
       this.lastChance = {active:false,time:0,max:5,shopOpen:false,wasPaused:false};
       this.frontThreatDirector = { cooldown:3.6, budget:2.4, budgetMax:2.4, budgetTimer:11.5, spawned:0, nearMisses:0 };
+      this.flowOrchestrator = { quiet:0, overload:0, breather:0, pulse:0, serial:0, lastMode:'equilibrio', deadZoneRescues:0, breathers:0, maxPressure:0 };
       this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], earnedPowerIds:[], frontSkillKills:0, nearMissRewards:0, skillHorde:null, masteryCapsules:0, backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
@@ -2827,12 +2842,13 @@
         this.maybeSpawnBossCritical(remain);
         els.hudBossApproach.title = `${bossName}: ${remain}% restante`;
       } else {
-        els.hudBossApproach.classList.toggle('boss-ready', pct >= 80);
+        const approach=this.bossApproach?.active?this.bossApproach:null;
+        els.hudBossApproach.classList.toggle('boss-ready', !!approach || pct >= 80);
         els.hudBossApproach.classList.remove('boss-live','boss-critical');
-        els.hudBossPercent.textContent = `${pct}%`;
+        els.hudBossPercent.textContent = approach?`⚠ ${Math.ceil(approach.time)}s`:`${pct}%`;
         this.lastBossRemain=null;
         els.hudBossPercent.classList.remove('boss-damage-pop','boss-heavy-hit');
-        els.hudBossApproach.title = `${bossName}: ${pct}% de aproximación`;
+        els.hudBossApproach.title = approach?`${bossName}: antesala activa · ${Math.ceil(approach.time)}s`:`${bossName}: ${pct}% de aproximación`;
       }
     }
 
@@ -2898,8 +2914,7 @@
       if (this.replayMode?.active && !this.replayMode?.fullWorld && this.worldStage.level === this.replayMode.level && this.worldStage.level < this.worldStage.bossLevel) { this.finishReplayLevel(); return; }
       this.worldStage.kills = 0;
       if (this.worldStage.level >= this.worldStage.bossLevel) {
-        if (this.mapIndex === 0) this.beginWorldOneBossPrelude();
-        else this.spawnBoss();
+        this.beginBossApproach();
         return;
       }
       this.worldStage.level += 1;
@@ -2978,34 +2993,14 @@
       this.toast('⚠️ CAPITÁN DE FAMILIA', e.name);
     }
 
-    beginWorldOneBossPrelude() {
-      const w1 = this.worldOneState;
-      if (!w1 || w1.bossPreludeStarted || this.bossIntroduced) return;
-      w1.bossPreludeStarted = true;
-      w1.bossPreludeMax = 4.8;
-      w1.bossPrelude = w1.bossPreludeMax;
-      this.ensureWorldOneBossLoadout();
-      this.enemies = this.enemies.filter(e => e.boss);
-      this.bullets.length = 0;
-      this.pickups = this.pickups.filter(p => p.type === 'power');
-      this.meteors.length = 0;
-      this.frontThreats.length = 0;
-      this.flash = .85;
-      this.shake = 8;
-      AudioFX.tone(82, .7, 'sawtooth', .035, -26);
-      this.toast('☠️ APERTURA DE LA ARENA', 'El horizonte está colapsando');
-    }
+    beginWorldOneBossPrelude() { this.beginBossApproach(); }
 
     updateWorldOneDirector(dt) {
       if (this.mapIndex !== 0 || this.bossActive || this.run?.mapComplete) return false;
       const w1 = this.worldOneState;
       if (!w1) return false;
       this.updateWorldOneSkillHorde(dt);
-      if (w1.bossPrelude > 0) {
-        w1.bossPrelude = Math.max(0, w1.bossPrelude - dt);
-        if (w1.bossPrelude <= 0 && !this.bossIntroduced) this.spawnBoss();
-        return true;
-      }
+      if (this.bossApproach?.active) return false;
       if (this.wave === 5) {
         w1.captainTimer = (w1.captainTimer || 0) - dt;
         const captainAlive = this.enemies.some(e => e.worldCaptain);
@@ -3062,31 +3057,13 @@
       AudioFX.world2Pulse();
     }
 
-    beginWorldTwoBossPrelude() {
-      const w2=this.worldTwoState;
-      if (!w2 || w2.bossPreludeStarted || this.bossIntroduced) return;
-      w2.bossPreludeStarted=true; w2.bossPreludeMax=5.3; w2.bossPrelude=w2.bossPreludeMax;
-      this.enemies=this.enemies.filter(e=>e.boss);
-      this.bullets.length=0;
-      this.pickups=this.pickups.filter(p=>p.type==='power');
-      this.zones.length=0;
-      this.spawnOrbitalWreck(this.w >= 1100 ? 3 : 2, false);
-      this.spawnMeteorRain(3, false);
-      if (Math.random() < .9) this.spawnPlanetObstacle(1);
-      this.flash=.82; this.shake=11;
-      AudioFX.world2BossCue();
-      this.toast('APERTURA DEL NEXO','El Patriarca Bacilo Omega despierta');
-    }
+    beginWorldTwoBossPrelude() { this.beginBossApproach(); }
 
     updateWorldTwoDirector(dt) {
       if (this.mapIndex!==1 || this.bossActive || this.run?.mapComplete) return false;
       const w2=this.worldTwoState;
       if (!w2) return false;
-      if (w2.bossPrelude>0) {
-        w2.bossPrelude=Math.max(0,w2.bossPrelude-dt);
-        if (w2.bossPrelude<=0 && !this.bossIntroduced) this.spawnBoss();
-        return true;
-      }
+      if (this.bossApproach?.active) return false;
       if (this.wave===5) {
         w2.level5Elapsed=(w2.level5Elapsed||0)+dt;
         w2.captainTimer=(w2.captainTimer||0)-dt;
@@ -3263,6 +3240,7 @@
       this.bossActive = null;
       this.bossIntroduced = false;
       this.bossFight = { active: false, charge: 0, minionTimer: 0, phaseNotified: 1, addsKilled: 0 };
+      this.bossApproach = {active:false,time:0,max:0,swarmTimer:0,waves:0};
       this.enemies = [];
       this.bullets = [];
       this.particles = [];
@@ -3279,6 +3257,7 @@
       this.lastRiftAllyWorld = Number(save?.lastRiftAllyWorld||0)||0;
       this.lastChance = {active:false,time:0,max:5,shopOpen:false,wasPaused:false};
       this.frontThreatDirector = { cooldown:3.6, budget:2.4, budgetMax:2.4, budgetTimer:11.5, spawned:0, nearMisses:0 };
+      this.flowOrchestrator = { quiet:0, overload:0, breather:0, pulse:0, serial:0, lastMode:'equilibrio', deadZoneRescues:0, breathers:0, maxPressure:0 };
       this.worldOneState = { meteorTimer: 4.6, insectTimer: 3.0, mirrorCount: 0, rainTimer: 8.0, burstTimer: 2.8, bombTimer: 6.0, planetTimer: 10.0, hunterTimer: 3.8, rewardSteps: [], earnedPowerIds:[], frontSkillKills:0, nearMissRewards:0, skillHorde:null, masteryCapsules:0, backgroundPhase: 0, eventTimer: 5.4, hordeTimer: 9.6, hordeSeen: 0, actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 2.4, bossPrelude: 0, bossPreludeMax: 4.8, bossPreludeStarted: false };
       this.worldTwoState = { sporeTimer: 3.8, fogTimer: 7.2, splitTimer: 5.0, rewardSteps: [], backgroundPhase: 0, labPulse: 0, colonyTimer: 8.2, toxicZoneTimer: 7.0, junkTimer: 4.8, meteorTimer: 5.8, planetTimer: 10.8, chaosTimer: 8.6, rewardTimer: 7.0, eventTimer: 8.5, hordeTimer: 13.2, hordeSeen: 0, formationIndex: 0, enemyHistory: [], actSeen: 0, captainsSpawned: 0, captainsKilled: 0, captainTimer: 1.0, level5Elapsed: 0, bossPrelude: 0, bossPreludeMax: 5.3, bossPreludeStarted: false };
       this.worldThreeState={rewardSteps:[],eventTimer:7.5,rewardTimer:8.5,hordeTimer:13.5,hazardTimer:6.5,speedBurst:0,hordeSeen:0,enemyHistory:[]};
@@ -3315,6 +3294,7 @@
       if (save?.worldEighteenState && this.mapIndex === 17) this.worldEighteenState = { ...this.worldEighteenState, ...save.worldEighteenState };
       if (save?.worldNineteenState && this.mapIndex === 18) this.worldNineteenState = { ...this.worldNineteenState, ...save.worldNineteenState };
       if (save?.worldTwentyState && this.mapIndex === 19) this.worldTwentyState = { ...this.worldTwentyState, ...save.worldTwentyState };
+      if(save?.bossApproach?.active&&!this.bossIntroduced)this.bossApproach={...this.bossApproach,...save.bossApproach,active:true};
       if (save?.futureSpecialCombat && (this.mapIndex === 8 || this.mapIndex === 9)) this.futureSpecialCombat = { ...save.futureSpecialCombat };
       this.powerLevels = save?.powerLevels || {};
       this.powerActivity = save?.powerActivity || {};
@@ -3576,6 +3556,7 @@
       this.updatePowerActivity(dt);
       this.updateBossLootPhase(dt);
       this.updateAdaptiveCombatFlow(dt);
+      this.updateCombatFlowOrchestrator(dt);
       this.ensureProgressFlow(dt);
       this.ensureTacticalPowerSupport(dt);
       this.updateRareEvents(dt);
@@ -3619,6 +3600,7 @@
       this.updateFutureSpecialCombat(dt);
       this.updateAdrenalineDirector(dt);
       this.updateCombatMastery(dt);
+      this.updateBossApproach(dt);
       if (this.updateWorldOneDirector(dt) || this.updateWorldTwoDirector(dt) || this.updateWorldThreeDirector(dt)) {
         this.updateDrones(dt);
         this.updateParticles(dt);
@@ -3654,22 +3636,22 @@
 
     createBalanceTelemetrySession(resumed=false) {
       const mode=this.trainingMode?.active?'training':(this.replayMode?.guidedPlaytest?'playtest':(this.replayMode?.active?'replay':'campaign'));
-      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0},adaptiveBoss:{schema:1,mode:'shadow',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,evaluations:[]},startBuild:null,endBuild:null,finalized:false};
+      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0,resurrections:0},adaptiveBoss:{schema:2,mode:'live-lite',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,liveMitigation:0,mitigatedDamage:0,assistanceDrops:0,resurrectionTriggered:false,evaluations:[]},startBuild:null,endBuild:null,flow:{breathers:0,deadZoneRescues:0,maxPressure:0},finalized:false};
     }
 
     restoreBalanceTelemetry(saved={}) {
       const fresh=this.createBalanceTelemetrySession(true),t={...fresh,...saved};
       t.schema=2;t.world=this.mapIndex+1;t.mapIndex=this.mapIndex;t.difficulty=this.difficulty||t.difficulty||'normal';t.resumed=true;t.finalized=false;
-      t.powers={...(saved.powers||{})};t.density={...fresh.density,...(saved.density||{})};t.boss={...fresh.boss,...(saved.boss||{})};t.adaptiveBoss={...fresh.adaptiveBoss,...(saved.adaptiveBoss||{}),evaluations:Array.isArray(saved.adaptiveBoss?.evaluations)?saved.adaptiveBoss.evaluations.slice(-80):[]};t.sampleTimer=0;
+      t.powers={...(saved.powers||{})};t.density={...fresh.density,...(saved.density||{})};t.boss={...fresh.boss,...(saved.boss||{})};t.adaptiveBoss={...fresh.adaptiveBoss,...(saved.adaptiveBoss||{}),schema:2,mode:'live-lite',evaluations:Array.isArray(saved.adaptiveBoss?.evaluations)?saved.adaptiveBoss.evaluations.slice(-80):[]};t.sampleTimer=0;
       return t;
     }
 
     createAdaptiveBossShadowState() {
-      return {schema:1,mode:'shadow',enabled:true,damageBuckets:[],bossDamageBuckets:[],sampleTimer:0,lastEvalAt:0,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,effectiveDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,evaluations:[],bossStarted:false,lastStateNotice:null};
+      return {schema:2,mode:'live-lite',enabled:true,damageBuckets:[],bossDamageBuckets:[],sampleTimer:0,lastEvalAt:0,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,effectiveDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,evaluations:[],bossStarted:false,lastStateNotice:null,liveMitigation:0,mitigatedDamage:0,assistCount:0,assistCooldown:0,resurrectionTriggered:false};
     }
 
     ensureAdaptiveBossShadow() {
-      if(!this.adaptiveBossShadow||this.adaptiveBossShadow.schema!==1)this.adaptiveBossShadow=this.createAdaptiveBossShadowState();
+      if(!this.adaptiveBossShadow||this.adaptiveBossShadow.schema!==2)this.adaptiveBossShadow=this.createAdaptiveBossShadowState();
       return this.adaptiveBossShadow;
     }
 
@@ -3705,9 +3687,36 @@
     adaptiveBossResponse(state,world=this.mapIndex+1) {
       const w=clamp(Number(world)||1,1,20);
       if(state==='A0')return {label:'ASISTENCIA',summary:'Habría ofrecido 1–2 recursos contextuales según la carencia dominante.',assistanceDrops:2,mitigation:0,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:0};
-      if(state==='A2')return {label:'SOBREPOTENCIA',summary:'Habría activado amortiguación moderada, prioridad signature y puertas blandas de fase.',assistanceDrops:0,mitigation:.18,phaseGate:true,signaturePriority:true,suppressionSeconds:0,resurrectionHp:0};
-      if(state==='A3')return {label:'DOMINACIÓN',summary:`Habría activado amortiguación fuerte, interferencia temporal y ${w>=11?'posible resurrección única':'respuesta defensiva máxima'}.`,assistanceDrops:0,mitigation:.30,phaseGate:true,signaturePriority:true,suppressionSeconds:4,resurrectionHp:w>=11?.42:0};
+      if(state==='A2')return {label:'SOBREPOTENCIA',summary:'LIVE-LITE aplica amortiguación suave del 8% para preservar fases sin neutralizar la build.',assistanceDrops:0,mitigation:.08,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:0};
+      if(state==='A3')return {label:'DOMINACIÓN',summary:'LIVE-LITE aplica amortiguación del 14%; si el primer derribo es extremadamente rápido puede activarse una resurrección única al 50%.',assistanceDrops:0,mitigation:.14,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:.50};
       return {label:'EQUILIBRIO',summary:'Sin intervención: el Guardián permanecería en su comportamiento normal.',assistanceDrops:0,mitigation:0,phaseGate:false,signaturePriority:false,suppressionSeconds:0,resurrectionHp:0};
+    }
+
+    adaptiveBossLiveProfile(e=this.bossActive) {
+      const a=this.ensureAdaptiveBossShadow();
+      if(!e?.boss||this.trainingMode?.active||!this.bossFight?.active)return {mitigation:0,label:'OFF'};
+      const elapsed=Math.max(0,Number(this.bossFight?.elapsed)||0);
+      if(elapsed<4.0)return {mitigation:0,label:'LECTURA'};
+      let mitigation=a.state==='A3'?.14:(a.state==='A2'?.08:0);
+      if((e.resurrectionCount||0)>0)mitigation=Math.min(mitigation,.08);
+      return {mitigation,label:a.state||'A1'};
+    }
+
+    updateAdaptiveBossAssistance(dt=0) {
+      const a=this.ensureAdaptiveBossShadow();
+      a.assistCooldown=Math.max(0,(a.assistCooldown||0)-dt);
+      if(!this.bossActive||this.trainingMode?.active||a.state!=='A0'||a.assistCooldown>0||(a.assistCount||0)>=2)return;
+      const elapsed=Math.max(0,Number(this.bossFight?.elapsed)||0);if(elapsed<12)return;
+      const p=this.player;if(!p)return;
+      const hpRatio=(p.hp||0)/Math.max(1,p.hpMax||p.maxHp||100),shieldRatio=(p.shield||0)/Math.max(1,p.shieldMax||p.maxShield||80);
+      let type='power',value=1,label='⚡ ADAPTACIÓN';
+      if(hpRatio<.46){type='life';value=18;label='♡ REPARACIÓN ADAPTATIVA';}
+      else if(shieldRatio<.34){type='shield';value=24;label='◇ ESCUDO ADAPTATIVO';}
+      const cb=this.getCombatBounds(),x=clamp(p.x+rand(90,-90),cb.left+38,cb.right-38),y=clamp(p.y-120,cb.top+42,cb.bottom-42);
+      this.spawnPickup(x,y,type,value,{rewardGlow:true,label,life:16,autoDelay:999,adaptiveAid:true});
+      a.assistCount=(a.assistCount||0)+1;a.assistCooldown=14;
+      if(this.telemetrySession?.adaptiveBoss)this.telemetrySession.adaptiveBoss.assistanceDrops=(this.telemetrySession.adaptiveBoss.assistanceDrops||0)+1;
+      this.toast('✦ RESPUESTA RIZOMA','Asistencia contextual limitada · todavía debes recogerla y sobrevivir');
     }
 
     evaluateAdaptiveBossShadow(force=false) {
@@ -3723,12 +3732,12 @@
       if(a.initialTtk==null&&bossStarted)a.initialTtk=ttk;if(a.minTtk==null||ttk<a.minTtk)a.minTtk=ttk;
       const stamp=Number((this.telemetrySession?.bossSeconds||0).toFixed(1)),last=a.evaluations[a.evaluations.length-1];
       if(force||!last||Math.abs((last.t||0)-stamp)>=1.8||last.state!==state){a.evaluations.push({t:stamp,state,powerIndex,ttk:Number(ttk.toFixed(2)),preBossDps:Number(pre.dps.toFixed(2)),bossDps:Number(boss.dps.toFixed(2)),effectiveDps:Number(effectiveDps.toFixed(2)),build:{stage:build.stage,levels:build.levels,active:build.active,combos:build.combos,mastery:Number(build.mastery.toFixed(3)),allies:build.allies},wouldDo:a.wouldDo});a.evaluations=a.evaluations.slice(-80);}
-      const t=this.telemetrySession;if(t&&!t.finalized)t.adaptiveBoss={schema:1,mode:'shadow',enabled:true,state:a.state,maxState:a.maxState,powerIndex:a.powerIndex,preBossDps:Number(a.preBossDps.toFixed(2)),bossDps:Number(a.bossDps.toFixed(2)),effectiveDps:Number(a.effectiveDps.toFixed(2)),initialTtk:a.initialTtk==null?null:Number(a.initialTtk.toFixed(2)),currentTtk:Number(a.currentTtk.toFixed(2)),minTtk:a.minTtk==null?null:Number(a.minTtk.toFixed(2)),targetWindow:a.targetWindow,wouldDo:a.wouldDo,evaluations:a.evaluations.slice()};
+      const t=this.telemetrySession;if(t&&!t.finalized)t.adaptiveBoss={schema:2,mode:'live-lite',enabled:true,state:a.state,maxState:a.maxState,powerIndex:a.powerIndex,preBossDps:Number(a.preBossDps.toFixed(2)),bossDps:Number(a.bossDps.toFixed(2)),effectiveDps:Number(a.effectiveDps.toFixed(2)),initialTtk:a.initialTtk==null?null:Number(a.initialTtk.toFixed(2)),currentTtk:Number(a.currentTtk.toFixed(2)),minTtk:a.minTtk==null?null:Number(a.minTtk.toFixed(2)),targetWindow:a.targetWindow,wouldDo:a.wouldDo,liveMitigation:Number(a.liveMitigation||0),mitigatedDamage:Number((a.mitigatedDamage||0).toFixed(2)),assistanceDrops:Number(a.assistCount||0),resurrectionTriggered:!!a.resurrectionTriggered,evaluations:a.evaluations.slice()};
       return a;
     }
 
     updateAdaptiveBossShadow(dt) {
-      const a=this.ensureAdaptiveBossShadow();a.sampleTimer=(a.sampleTimer||0)-dt;if(a.sampleTimer>0)return;a.sampleTimer=this.bossActive?.hp>0?.5:1.25;this.evaluateAdaptiveBossShadow(false);
+      const a=this.ensureAdaptiveBossShadow();a.sampleTimer=(a.sampleTimer||0)-dt;this.updateAdaptiveBossAssistance(dt);if(a.sampleTimer>0)return;a.sampleTimer=this.bossActive?.hp>0?.5:1.25;this.evaluateAdaptiveBossShadow(false);if(this.bossActive){const live=this.adaptiveBossLiveProfile(this.bossActive);a.liveMitigation=live.mitigation;}else a.liveMitigation=0;
     }
 
     updateBalanceTelemetry(dt) {
@@ -5160,6 +5169,10 @@
       const p = this.player;
       const f = this.bossFight;
       const b = this.bossActive;
+      let supportScale=this.trainingMode?.active?1:(b.enduranceProfile?.support||1);
+      f.resurrectionFrenzy=Math.max(0,(f.resurrectionFrenzy||0)-dt);b.resurrectionGuard=Math.max(0,(b.resurrectionGuard||0)-dt);b.resurrectionMutation=Math.max(0,(b.resurrectionMutation||0)-dt);
+      if(f.resurrectionFrenzy>0)supportScale*=.78;
+      f.elapsed=(f.elapsed||0)+dt;
       f.minionTimer -= dt;
       if (f.minionTimer <= 0) {
         const nonBoss = this.enemies.filter(e => !e.boss).length;
@@ -5175,27 +5188,27 @@
           }
         }
         const baseMinionTimer=this.mapIndex === 0 ? Math.max(1.9, 3.7 - b.phase * .34) : (this.mapIndex === 1 ? Math.max(2.15,4.2-b.phase*.32) : Math.max(2.8, 5.1 - b.phase * .42 - this.mapIndex * .06));
-        f.minionTimer=baseMinionTimer*.82;
+        f.minionTimer=baseMinionTimer*.82*supportScale;
       }
       f.escortTimer = (f.escortTimer || 0) - dt;
       if (f.escortTimer <= 0) {
         if (this.mapIndex === 0) {
           const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
           if(escorts<2)this.spawnEnemy('nave_espejo',true);
-          f.escortTimer=Math.max(3.0,4.9-b.phase*.4);
+          f.escortTimer=Math.max(2.5,(4.9-b.phase*.4)*supportScale);
         } else if (this.mapIndex === 1) {
           const fam=WORLD_TWO_MINION_FAMILIES[(f.addsKilled+b.phase)%3];
           this.spawnEnemy(pick(fam),true);
-          f.escortTimer=Math.max(3.4,5.6-b.phase*.38);
+          f.escortTimer=Math.max(2.8,(5.6-b.phase*.38)*supportScale);
         } else if(this.mapIndex>=10){
           const fams=b.minionFamilies||[],signature=guardianPhaseEvolution(this.mapIndex+1,b.phase||1);
           const escorts=this.enemies.filter(e=>!e.boss&&e.bossEscort).length;
           if(fams.length&&escorts<1+Math.floor((b.phase+1)/2)){const phaseFam=fams[signature.familyIndex%fams.length];this.spawnEnemy(pick(phaseFam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.hp*=1.18;e.baseHp=e.hp;}}
-          f.escortTimer=Math.max(3.8,6.2-b.phase*.58-this.mapIndex*.08);
+          f.escortTimer=Math.max(3.0,(6.2-b.phase*.58-this.mapIndex*.08)*supportScale);
         } else {
           const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
           if(escorts<1+Math.floor((b.phase+1)/2))this.spawnEnemy('nave_espejo',true);
-          f.escortTimer=Math.max(4.2,6.7-b.phase*.62-this.mapIndex*.09);
+          f.escortTimer=Math.max(3.2,(6.7-b.phase*.62-this.mapIndex*.09)*supportScale);
         }
       }
       f.hazardTimer = (f.hazardTimer || 0) - dt;
@@ -5222,7 +5235,7 @@
             this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
           }
         }
-        f.hazardTimer = Math.max(4.0, 6.2 - b.phase * .5 - this.mapIndex * .05);
+        f.hazardTimer = Math.max(3.25, (6.2 - b.phase * .5 - this.mapIndex * .05)*supportScale);
       }
       if (this.mapIndex === 0 || this.mapIndex === 1 || this.mapIndex === 6 || this.mapIndex === 8 || this.mapIndex === 9) {
         const guardians=this.enemies.filter(e=>!e.boss).length;
@@ -6653,7 +6666,7 @@
       }
       d.cooldown-=dt*(this.getDifficulty().hazardPace||1);
       const preludeBlocked=world===1&&w1?.bossPrelude>0;
-      if(!preludeBlocked&&d.cooldown<=0&&(this.frontThreats?.length||0)<this.frontThreatLimit()){
+      if(!preludeBlocked&&!this.isCombatBreatherActive()&&d.cooldown<=0&&(this.frontThreats?.length||0)<this.frontThreatLimit()){
         const type=this.pickFrontThreatType(),spec=FRONT_THREAT_TYPES[type],cost=spec?.cost||1;
         if(d.budget>=cost||type==='fragment'){
           const groupChance=(organic||neural||glacial||manga||zhyr||necro)?0:(tier===0?(this.wave>=3?.16:.05):(tier===1?.30:.42));
@@ -8168,10 +8181,83 @@
       return this.enemies.filter(e=>e&&!e.boss&&e.hp>0&&e.x>=cb.left-pad&&e.x<=cb.right+pad&&e.y>=cb.top-pad&&e.y<=cb.bottom+pad).length;
     }
 
+
+    beginBossApproach() {
+      if(this.bossIntroduced||this.bossActive||this.run?.mapComplete||this.bossApproach?.active)return;
+      const world=this.mapIndex+1;
+      const max=Math.min(11.5,8.2+(world-1)*.16);
+      this.bossApproach={active:true,time:max,max,swarmTimer:.30,waves:0,lastFormation:null};
+      if(world===1){this.ensureWorldOneBossLoadout();this.worldOneState.bossPreludeStarted=true;this.worldOneState.bossPreludeMax=max;this.worldOneState.bossPrelude=max;}
+      if(world===2){this.worldTwoState.bossPreludeStarted=true;this.worldTwoState.bossPreludeMax=max;this.worldTwoState.bossPrelude=max;}
+      this.bullets=this.bullets.filter(b=>!b.enemy);
+      this.flash=.9;this.shake=Math.max(this.shake,10);
+      AudioFX.tone(74+world*1.5,.72,'sawtooth',.035,-25);
+      this.toast('⚠ ANTESALA DEL GUARDIÁN',`${MAPS[this.mapIndex].boss} se aproxima · la zona entra en frenesí`);
+    }
+
+    updateBossApproach(dt) {
+      const a=this.bossApproach;
+      const world=this.mapIndex+1;
+      if(!a?.active||this.bossIntroduced||this.bossActive)return false;
+      a.time=Math.max(0,a.time-dt);a.swarmTimer=(a.swarmTimer||0)-dt;
+      if(this.mapIndex===0){this.worldOneState.bossPrelude=a.time;this.worldOneState.bossPreludeMax=a.max;}
+      if(this.mapIndex===1){this.worldTwoState.bossPrelude=a.time;this.worldTwoState.bossPreludeMax=a.max;}
+      if(a.swarmTimer<=0){
+        const phone=!!(this.mobileLandscape||this.mobilePortrait),late=this.mapIndex>=10;
+        const alive=this.enemies.filter(e=>!e.boss&&e.hp>0).length,cap=phone?(late?6:5):(late?9:8);
+        if(alive<cap){
+          const count=phone?(late?3:2):(late?4:3),styles=['fan','pincer','spear','scatter'];
+          const formation=styles[((a.waves||0)+world-1)%styles.length];
+          const spawned=this.spawnContinuityMicroSwarm(Math.min(count,cap-alive),false,formation);
+          if(spawned>0){a.waves=(a.waves||0)+1;a.lastFormation=formation;const names={fan:'ABANICO',pincer:'PINZA',spear:'LANZA',scatter:'DISPERSIÓN'};if(a.waves===1||a.waves===4||a.waves===7)this.toast(`⚡ ${names[formation]||'MICROHORDA'}`,`Oleada ${a.waves} · la presión aumenta antes del Guardián`);}
+        }
+        const progress=1-a.time/Math.max(.1,a.max);a.swarmTimer=Math.max(.68,1.30-this.mapIndex*.014-progress*.20)+rand(.14,-.09);
+      }
+      if(a.time<=0){
+        a.active=false;
+        if(this.mapIndex===0)this.worldOneState.bossPrelude=0;
+        if(this.mapIndex===1)this.worldTwoState.bossPrelude=0;
+        this.flash=1.1;this.shake=Math.max(this.shake,14);
+        this.spawnBoss();
+      }
+      return true;
+    }
+
+    getBossEnduranceProfile(world=this.mapIndex+1){
+      const w=clamp(Number(world)||1,1,20),t=(w-1)/19;
+      return {hp:1.34+.18*t,shield:1.22+.16*t,speed:1.05+.07*t,cadence:.93-.08*t,support:.91-.10*t,damage:1.08+.10*t};
+    }
+
+    shouldAutoResurrectBoss(e){
+      if(!e?.boss||this.trainingMode?.active||e.resurrectionCount>=1)return false;
+      const elapsed=Math.max(0,Number(this.bossFight?.elapsed)||Number(this.telemetrySession?.bossSeconds)||0),window=this.adaptiveBossTargetWindow(this.mapIndex+1);
+      const threshold=Math.max(28,(window?.min||55)*.72);
+      return elapsed>0&&elapsed<threshold;
+    }
+
+    resurrectBoss(e){
+      if(!e)return false;
+      e.resurrectionCount=(e.resurrectionCount||0)+1;
+      e.hp=Math.max(1,e.baseHp*.50);
+      e.shield=Math.max(0,(e.shieldMax||0)*.35);
+      e.phase=Math.max(3,e.phase||1);e.vulnerable=0;e.alpha=1;e.resurrectionGuard=1.15;e.resurrectionMutation=8.0;
+      e.attack=Math.max(.42,(e.attack||1)*.84);e.specialCd=Math.max(.95,(e.specialCd||3)*.72);e.speed=(e.speed||60)*1.08;
+      if(this.bossFight){this.bossFight.cinematic=Math.max(this.bossFight.cinematic||0,1.05);this.bossFight.phaseNotified=e.phase;this.bossFight.minionTimer=.42;this.bossFight.supportTimer=.58;this.bossFight.hazardTimer=.92;this.bossFight.resurrectionFrenzy=8.0;}
+      this.bullets=this.bullets.filter(b=>!b.enemy);
+      this.flash=1.8;this.shake=Math.max(this.shake,20);
+      this.particles.push({type:'ring',x:e.x,y:e.y,r:18,maxR:Math.max(180,e.r*5.4),life:.9,max:.9,color:'#ff667d'});
+      this.emit(e.x,e.y,'#ff667d',42,230,1.0);
+      if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.resurrections=(this.telemetrySession.boss.resurrections||0)+1;this.telemetrySession.adaptiveBoss.resurrectionTriggered=true;const aa=this.ensureAdaptiveBossShadow();aa.resurrectionTriggered=true;}
+      this.toast('☠️ PROTOCOLO DE RESURRECCIÓN','50% de vida · mutación ofensiva 8s · núcleo estabilizándose');
+      AudioFX.boss();AudioFX.setBossPhase?.(e.family||'zombie',e.phase,true);
+      this.updateBossUi();
+      return true;
+    }
+
     continuityEnemyFloor(){
       const phone=!!(this.mobileLandscape||this.mobilePortrait),tablet=!phone&&this.w<1180;
-      if(this.bossActive)return phone?1:(tablet?1:2);
-      let floor=phone?2:(tablet?3:4);
+      if(this.bossActive)return phone?2:(tablet?2:3);
+      let floor=phone?3:(tablet?4:5);
       if((this.wave||1)>=4&&!phone)floor+=1;
       return floor;
     }
@@ -8188,7 +8274,7 @@
       return ranked.slice(0,take).map(x=>x.id);
     }
 
-    spawnContinuityMicroSwarm(count=2,bossSupport=false){
+    spawnContinuityMicroSwarm(count=2,bossSupport=false,formation='scatter'){
       if(!this.player||this.run?.mapComplete||this.trainingMode?.active)return 0;
       const pool=this.continuityLightPool(),cb=this.getCombatBounds(),phone=!!(this.mobileLandscape||this.mobilePortrait);
       let spawned=0;
@@ -8196,14 +8282,17 @@
       count=Math.max(1,Math.min(maxBurst,count));
       for(let i=0;i<count;i++){
         const spread=count===1?0:(i-(count-1)/2)*(phone?.58:.48);
-        const baseAngle=-Math.PI/2+spread+rand(.15,-.15);
-        const distance=phone?rand(220,160):rand(330,220);
+        let baseAngle=-Math.PI/2+spread+rand(.15,-.15);
+        if(formation==='spear')baseAngle=-Math.PI/2+spread*.18+rand(.06,-.06);
+        else if(formation==='fan')baseAngle=-Math.PI/2+spread*.95+rand(.08,-.08);
+        else if(formation==='pincer'){const side=i%2===0?-1:1;baseAngle=-Math.PI/2+side*(.62+Math.floor(i/2)*.13)+rand(.05,-.05);}
+        const distance=formation==='spear'?(phone?rand(205,150):rand(300,205)):(phone?rand(220,160):rand(330,220));
         const id=pick(pool);
         const cfg=ENEMY_TYPES.find(x=>x.id===id);
         const before=this.enemies.length;
         const e=this.spawnEnemyNearPlayer(id,baseAngle,distance,true,bossSupport?.90:.96);
         if(!e||this.enemies.length===before||e.boss)continue;
-        e.continuityMicro=true;e.ambientMicro=true;e.hard=false;e.evade=false;e.eliteKind=null;e.dashCd=99;
+        e.continuityMicro=true;e.ambientMicro=true;e.approachFormation=formation;e.hard=false;e.evade=false;e.eliteKind=null;e.dashCd=99;
         const hpBase=(cfg?.hp||Math.max(12,e.hp))*this.getDifficulty().enemyHp*COMBAT_DURABILITY.minion;
         e.hp=Math.max(7,Math.min(e.hp,hpBase*(bossSupport?.34:.44)));e.baseHp=e.hp;
         e.r*=bossSupport?.66:.72;e.visualScale=(e.visualScale||1)*(bossSupport?.78:.84);
@@ -8225,23 +8314,24 @@
     updateContinuityEnemyDirector(dt){
       if(!this.running||this.run?.mapComplete||this.trainingMode?.active||this.cardPause||this.paused)return;
       if((this.bossFight?.cinematic||0)>0)return;
-      if((this.worldOneState?.bossPrelude||0)>0||(this.worldTwoState?.bossPrelude||0)>0)return;
+      if(this.bossApproach?.active||(this.worldOneState?.bossPrelude||0)>0||(this.worldTwoState?.bossPrelude||0)>0)return;
       this.continuityEnemyTimer=(this.continuityEnemyTimer??.30)-dt;
       if(this.continuityEnemyTimer>0)return;
-      const floor=this.continuityEnemyFloor(),visible=this.continuityVisibleEnemyCount();
+      const baseFloor=this.continuityEnemyFloor(),visible=this.continuityVisibleEnemyCount();
+      const floor=this.isCombatBreatherActive()?Math.min(baseFloor,this.isSmallScreen?1:2):baseFloor;
       const ambientAlive=this.enemies.filter(e=>e?.continuityMicro&&e.hp>0).length;
       if(visible<floor){
         const missing=floor-visible;
-        const ambientCap=this.bossActive?(this.isSmallScreen?2:3):(this.isSmallScreen?4:6);
+        const ambientCap=this.bossActive?(this.isSmallScreen?3:5):(this.isSmallScreen?6:8);
         const allowed=Math.max(0,ambientCap-ambientAlive);
         if(allowed>0)this.spawnContinuityMicroSwarm(Math.min(missing,allowed),!!this.bossActive);
       }
       // Revisión frecuente: el objetivo es evitar pantallas vacías, no crear otra horda permanente.
-      this.continuityEnemyTimer=this.bossActive?rand(1.05,.78):rand(.72,.48);
+      this.continuityEnemyTimer=this.bossActive?rand(.92,.66):rand(.58,.38);
     }
 
     ensureProgressFlow(dt) {
-      if(this.mapIndex>=MAPS.length||this.bossActive||this.bossIntroduced||this.run?.mapComplete||!this.worldStage)return;
+      if(this.mapIndex>=MAPS.length||this.bossActive||this.bossIntroduced||this.bossApproach?.active||this.run?.mapComplete||!this.worldStage)return;
       const level=this.worldStage.level||this.wave||1,kills=this.worldStage.kills||0,need=Math.max(1,this.getWorldStageTarget(level));
       this.progressWatch=this.progressWatch||{level,kills,stagnant:0,rescues:0};
       const w=this.progressWatch;
@@ -8309,6 +8399,57 @@
       }
     }
 
+    combatFlowSnapshot(){
+      const cb=this.getCombatBounds(),phone=!!(this.mobileLandscape||this.mobilePortrait);
+      const visible=this.continuityVisibleEnemyCount();
+      const enemyBullets=(this.bullets||[]).filter(b=>b?.enemy&&b.x>=cb.left-50&&b.x<=cb.right+50&&b.y>=cb.top-50&&b.y<=cb.bottom+50).length;
+      const hazards=(this.meteors?.length||0)+(this.zones?.length||0)+(this.frontThreats?.length||0);
+      const particles=this.particles?.length||0;
+      const eventWeight=this.adrenalineState?0.22:0;
+      const bossWeight=this.bossActive?0.10:0;
+      const mutationWeight=(this.bossActive?.resurrectionMutation||0)>0?0.12:0;
+      const visibleNorm=clamp(visible/(phone?9:15),0,1),bulletNorm=clamp(enemyBullets/(phone?14:25),0,1),hazardNorm=clamp(hazards/(phone?6:10),0,1),particleNorm=clamp(particles/(phone?82:125),0,1);
+      const stress=clamp(this.combatFlow?.stress||0,0,1);
+      const pressure=clamp(visibleNorm*.31+bulletNorm*.29+hazardNorm*.20+particleNorm*.05+stress*.12+eventWeight+bossWeight+mutationWeight,0,1);
+      return {visible,enemyBullets,hazards,particles,stress,pressure,phone};
+    }
+
+    isCombatBreatherActive(){ return (this.flowOrchestrator?.breather||0)>0; }
+
+    updateCombatFlowOrchestrator(dt){
+      if(!this.running||!this.player||this.run?.mapComplete||this.trainingMode?.active)return;
+      const o=this.flowOrchestrator||(this.flowOrchestrator={quiet:0,overload:0,breather:0,pulse:0,serial:0,lastMode:'equilibrio',deadZoneRescues:0,breathers:0,maxPressure:0});
+      const snap=this.combatFlowSnapshot();
+      o.maxPressure=Math.max(o.maxPressure||0,snap.pressure);o.pulse=Math.max(0,(o.pulse||0)-dt);o.breather=Math.max(0,(o.breather||0)-dt);
+      if(this.telemetrySession&&!this.telemetrySession.finalized){const f=this.telemetrySession.flow||(this.telemetrySession.flow={breathers:0,deadZoneRescues:0,maxPressure:0});f.maxPressure=Math.max(f.maxPressure||0,snap.pressure);}
+      const protectedWindow=!!(this.bossApproach?.active||(this.bossFight?.cinematic||0)>0||this.cardPause||this.paused||this.lastChance?.active);
+      if(snap.pressure>.82&&!protectedWindow)o.overload=(o.overload||0)+dt;else o.overload=Math.max(0,(o.overload||0)-dt*1.5);
+      if((o.overload||0)>1.85&&o.breather<=0){
+        o.breather=snap.pressure>.92?3.4:2.6;o.overload=0;o.breathers=(o.breathers||0)+1;o.lastMode='respiracion';
+        if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.flow.breathers=(this.telemetrySession.flow.breathers||0)+1;
+        // No limpia amenazas ya presentes: solo impide que varios directores lancen presión nueva a la vez.
+        this.continuityEnemyTimer=Math.max(this.continuityEnemyTimer||0,o.breather*.58);
+        this.rareEventTimer=Math.max(this.rareEventTimer||0,o.breather+2.2);
+        if(!this.adrenalineState)this.adrenalineTimer=Math.max(this.adrenalineTimer||0,o.breather+1.4);
+      }
+      const canMeasureQuiet=!this.bossActive&&!this.bossApproach?.active&&!this.adrenalineState&&!protectedWindow;
+      const trulyQuiet=snap.visible===0&&snap.enemyBullets<2&&snap.hazards<2;
+      o.quiet=(canMeasureQuiet&&trulyQuiet)?(o.quiet||0)+dt:Math.max(0,(o.quiet||0)-dt*2.4);
+      if(o.quiet>1.25&&o.pulse<=0){
+        const cap=snap.phone?3:4,count=Math.min(cap,this.mapIndex>=10?(snap.phone?3:4):(snap.phone?2:3));
+        const forms=['fan','pincer','spear','scatter'],formation=forms[(o.serial||0)%forms.length];
+        const made=this.spawnContinuityMicroSwarm(count,false,formation);
+        if(made>0){
+          o.serial=(o.serial||0)+1;o.deadZoneRescues=(o.deadZoneRescues||0)+1;o.quiet=0;o.pulse=2.25;o.lastMode='reactivacion';
+          if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.flow.deadZoneRescues=(this.telemetrySession.flow.deadZoneRescues||0)+1;
+          // Señal mínima: no toast continuo, solo cada cuatro rescates de vacío.
+          if(o.deadZoneRescues%4===1)this.particles.push({type:'ring',x:this.player.x,y:clamp(this.player.y-105,this.getCombatBounds().top+24,this.getCombatBounds().bottom-24),r:8,maxR:snap.phone?54:76,life:.26,max:.26,color:'#74dfff'});
+          this.continuityEnemyTimer=1.1;
+        }
+      }
+      if(o.breather>0)o.lastMode='respiracion';else if(snap.pressure>.68)o.lastMode='presion';else if(o.quiet>.55)o.lastMode='reactivacion';else o.lastMode='equilibrio';
+    }
+
     resolveAdrenalineContract(st){
       if(!st||st.resolved)return false;st.resolved=true;
       const kills=st.kills||0,target=Math.max(1,st.targetKills||1),damage=st.damageTaken||0,limit=Math.max(10,st.damageLimit||18),success=kills>=target,clean=success&&damage<=limit;
@@ -8347,6 +8488,7 @@
       if(!this.running||this.run?.mapComplete||this.bossActive||this.trainingMode?.active)return;
       const bossWave=this.mapIndex===9?7:5;if(this.wave>=bossWave)return;
       const flow=this.combatFlowProfile(),st=this.adrenalineState;
+      if(!st&&this.isCombatBreatherActive()){this.adrenalineTimer=Math.max(this.adrenalineTimer??3,2.4);return;}
       if(st){
         st.life-=dt;st.spawnTimer-=dt;st.rewardTimer-=dt;st.elapsed=(st.elapsed||0)+dt;
         if(st.spawnTimer<=0){
@@ -8398,7 +8540,7 @@
       if(visible<targetVisible){
         let choice;
         const p=this.player,shieldLow=p.shield<p.maxShield*.34,hpLow=p.hp<p.maxHp*.48,hostileBullets=this.bullets.filter(b=>b?.enemy).length;
-        if(flow.stress>.70){choice=shieldLow||hpLow?'stasis':(hostileBullets>(phone?12:20)?'nuke':'afterburner');}
+        if(this.isCombatBreatherActive()||flow.stress>.70){choice=shieldLow||hpLow?'stasis':(hostileBullets>(phone?12:20)?'nuke':'afterburner');}
         else if(this.mapIndex<=1){const seq=['afterburner','stasis',this.wave>=3?'nuke':'afterburner','wingman'];choice=seq[(Math.floor(this.waveTime/8)+this.mapIndex)%seq.length];}
         else {const seq=['afterburner','stasis',this.wave>=2?'nuke':'afterburner','wingman','phase'];choice=seq[(Math.floor(this.waveTime/8)+this.mapIndex)%seq.length];}
         // Evita llenar la pantalla con el mismo poder si ya está activo y existe una alternativa útil.
@@ -8595,7 +8737,7 @@
     }
 
     spawnLogic(dt) {
-      if (this.bossActive || this.run?.mapComplete) return;
+      if (this.bossActive || this.run?.mapComplete || this.bossApproach?.active) return;
       this.spawnTime -= dt*(this.getDifficulty().spawnPace||1);
       if (this.mapIndex === 0) {
         const phase = clamp(this.wave, 1, 5);
@@ -9029,11 +9171,12 @@
       const map = MAPS[this.mapIndex];
       const p = currentProfile();
       const balance=this.getWorldBalance(),mode=DIFFICULTY_MODES[this.difficulty]||DIFFICULTY_MODES.normal;
-      let hp = balance.bossHp*(mode.bossHp||1);
+      const endurance=this.getBossEnduranceProfile(this.mapIndex+1);
+      let hp = balance.bossHp*(mode.bossHp||1)*(this.trainingMode?.active?1:endurance.hp);
       if(this.trainingMode?.active)hp*=.58;
       const x = this.w / 2;
       const y = -80;
-      const shieldBase = balance.bossShield*(mode.bossShield||1)*(this.trainingMode?.active ? .58 : 1);
+      const shieldBase = balance.bossShield*(mode.bossShield||1)*(this.trainingMode?.active ? .58 : endurance.shield);
       this.bossActive = {
         id: 'boss_' + map.id,
         name: map.boss,
@@ -9048,7 +9191,7 @@
         targetY: this.mobileLandscape ? this.h * .17 : this.h * ([.18,.22,.20,.21,.22,.20,.21,.20,.19,.18,.20][this.mapIndex] || .18),
         hp,
         baseHp: hp,
-        speed: (([33,34,40,43,46,48,50,52,55,58,60][this.mapIndex] || 60) + this.mapIndex * 1.5)*(balance.bossSpeed||1),
+        speed: (([33,34,40,43,46,48,50,52,55,58,60][this.mapIndex] || 60) + this.mapIndex * 1.5)*(balance.bossSpeed||1)*(this.trainingMode?.active?1:endurance.speed),
         // En móvil el hitbox se compacta; la presencia épica queda en aura, patrón y audio, no en ocupar el lienzo.
         r: ([36,62,58,62,68,70,72,74,76,80,82,84,86][this.mapIndex] || 86) * (this.mobileLandscape ? (.84*.88) : (this.mobilePortrait ? .70 : 1)),
         displayScale: ({1:1.12,10:.92,11:.90,12:.93,13:.91,14:.96,15:.98,16:1.00,17:.98,18:.96,19:.98}[this.mapIndex] ?? 1),
@@ -9066,11 +9209,12 @@
         boss: true,
         minionFamilies:this.mapIndex===0?WORLD_ONE_MINION_FAMILIES:(this.mapIndex===1?WORLD_TWO_MINION_FAMILIES:(this.mapIndex===2?WORLD_THREE_MINION_FAMILIES:(this.mapIndex===3?WORLD_FOUR_MINION_FAMILIES:(this.mapIndex===4?WORLD_FIVE_MINION_FAMILIES:(this.mapIndex===5?WORLD_SIX_MINION_FAMILIES:(this.mapIndex===6?WORLD_SEVEN_MINION_FAMILIES:(this.mapIndex===7?WORLD_EIGHT_MINION_FAMILIES:(this.mapIndex===8?WORLD_NINE_MINION_FAMILIES:(this.mapIndex===9?WORLD_TEN_MINION_FAMILIES:(this.mapIndex===10?WORLD_ELEVEN_MINION_FAMILIES:(this.mapIndex===11?WORLD_TWELVE_MINION_FAMILIES:(this.mapIndex===12?WORLD_THIRTEEN_MINION_FAMILIES:(this.mapIndex===13?WORLD_FOURTEEN_MINION_FAMILIES:(this.mapIndex===14?WORLD_FIFTEEN_MINION_FAMILIES:(this.mapIndex===15?WORLD_SIXTEEN_MINION_FAMILIES:(this.mapIndex===16?WORLD_SEVENTEEN_MINION_FAMILIES:(this.mapIndex===17?WORLD_EIGHTEEN_MINION_FAMILIES:(this.mapIndex===18?WORLD_NINETEEN_MINION_FAMILIES:(this.mapIndex===19?WORLD_TWENTY_MINION_FAMILIES:[])))))))))))))))))))
       };
-      this.bossActive.attack *= this.getDifficulty().bossCadence || 1;
-      this.bossActive.specialCd *= this.getDifficulty().bossCadence || 1;
-      this.bossFight = { active: true, charge: 0, minionTimer: this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: this.mapIndex === 0 ? 2.2 : 1.9, escortTimer: this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9), hazardTimer: this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0 };
+      this.bossActive.attack *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
+      this.bossActive.specialCd *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
+      this.bossActive.resurrectionCount=0;this.bossActive.enduranceProfile=endurance;
+      this.bossFight = { active: true, elapsed:0, charge: 0, minionTimer: (this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15))*(this.trainingMode?.active?1:endurance.support), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: (this.mapIndex === 0 ? 2.2 : 1.9)*(this.trainingMode?.active?1:endurance.support), escortTimer: (this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9))*(this.trainingMode?.active?1:endurance.support), hazardTimer: (this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2))*(this.trainingMode?.active?1:endurance.support), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0 };
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.started=true;this.telemetrySession.boss.phasesReached=Math.max(1,this.telemetrySession.boss.phasesReached||0);}
-      const adaptive=this.ensureAdaptiveBossShadow();adaptive.bossDamageBuckets=[];adaptive.initialTtk=null;adaptive.minTtk=null;adaptive.maxState='A1';adaptive.evaluations=[];this.evaluateAdaptiveBossShadow(true);
+      const adaptive=this.ensureAdaptiveBossShadow();adaptive.bossDamageBuckets=[];adaptive.initialTtk=null;adaptive.minTtk=null;adaptive.maxState='A1';adaptive.evaluations=[];adaptive.liveMitigation=0;adaptive.mitigatedDamage=0;adaptive.assistCount=0;adaptive.assistCooldown=0;adaptive.resurrectionTriggered=false;this.evaluateAdaptiveBossShadow(true);
       this.enemies.push(this.bossActive);
       this.bossIntroduced = true;
       this.applyCombatMasteryBossPrep();
@@ -9531,6 +9675,7 @@
 
     updateRareEvents(dt) {
       if(this.bossActive||this.bossLootPhase?.active||this.cardPause||this.paused)return;
+      if(this.isCombatBreatherActive()){this.rareEventTimer=Math.max(this.rareEventTimer??4,3.5);return;}
       this.rareEventTimer=(this.rareEventTimer??rand(34,24))-dt;
       if(this.rareEventTimer>0)return;
       const cb=this.getCombatBounds(),hard=this.isHardMode(),roll=Math.random();
@@ -9804,7 +9949,8 @@
       const enemyCount = this.bullets.filter(b => b.enemy).length;
       if (enemyCount > Math.floor((this.maxBullets || 180) * .35)) return;
       const boss=this.bossActive,bossOrigin=options.bossVisual??!!(boss&&Math.hypot(x-boss.x,y-boss.y)<=Math.max(76,(boss.r||38)*2.2));
-      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail||bossOrigin, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, spriteKey:options.spriteKey||null, spriteScale:options.spriteScale||null, visualScale:bossOrigin?1.40:1, age:0 });
+      const finalDamage=damage*(bossOrigin&&!this.trainingMode?.active?(boss?.enduranceProfile?.damage||1):1);
+      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage:finalDamage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail||bossOrigin, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, spriteKey:options.spriteKey||null, spriteScale:options.spriteScale||null, visualScale:bossOrigin?1.40:1, age:0 });
     }
 
     destroyHazard(m) {
@@ -10009,6 +10155,12 @@
         const cap=meta.criticalBurst ? Math.max(normalCap,criticalCap) : normalCap;
         amount=Math.min(amount,cap);
       }
+      if(e.boss&&this.bossActive===e){
+        const rawBeforeLive=amount,live=this.adaptiveBossLiveProfile(e);
+        if((e.resurrectionGuard||0)>0)amount*=.18;
+        else if(live.mitigation>0)amount*=1-live.mitigation;
+        const mitigated=Math.max(0,rawBeforeLive-amount);if(mitigated>0){const a=this.ensureAdaptiveBossShadow();a.mitigatedDamage=(a.mitigatedDamage||0)+mitigated;a.liveMitigation=live.mitigation;}
+      }
       if (e.boss && this.bossActive === e && (e.shield || 0) > 0 && (e.vulnerable || 0) <= 0) {
         const shieldFactor=meta.criticalBurst?(this.mapIndex===6?.48:.78):(this.mapIndex===6?.50:(this.mapIndex===0?.40:(this.mapIndex===1?.48:.58)));
         e.shield=Math.max(0,e.shield-amount*shieldFactor);
@@ -10097,6 +10249,7 @@
     }
 
     killEnemy(e, index) {
+      if(e?.boss&&this.shouldAutoResurrectBoss(e)){this.resurrectBoss(e);return;}
       this.enemies.splice(index, 1);
       this.emit(e.x, e.y, e.color, e.boss ? 28 : 8, e.boss ? 160 : 70, e.boss ? 1.2 : .55);
       AudioFX.death();
@@ -11261,6 +11414,7 @@
         fusions:this.fusions,
         run: this.run,
         telemetrySession: this.telemetrySession ? JSON.parse(JSON.stringify(this.telemetrySession)) : null,
+        bossApproach: this.bossApproach?.active ? {...this.bossApproach} : null,
         worldStage: this.worldStage,
         worldOneState: this.mapIndex === 0 ? this.worldOneState : null,
         worldTwoState:this.mapIndex===1?this.worldTwoState:null,
@@ -12506,6 +12660,10 @@
             for (let j=0;j<Math.min(8,sides);j++) { const a = (Math.PI*2/sides)*j + e.t*.4; ctx.beginPath(); ctx.moveTo(Math.cos(a)*e.r*.45, Math.sin(a)*e.r*.45); ctx.lineTo(Math.cos(a)*(e.r*1.35), Math.sin(a)*(e.r*1.35)); ctx.stroke(); }
           }
           this.drawBossDamageOverlay(ctx,e,hp);
+          if((e.resurrectionMutation||0)>0){
+            const pulse=.92+.08*Math.sin(now()*.018),life=clamp((e.resurrectionMutation||0)/8,0,1);
+            ctx.save();ctx.globalAlpha=.34+.26*life;ctx.strokeStyle='#ff667d';ctx.shadowBlur=26;ctx.shadowColor='#ff667d';ctx.lineWidth=2.4;ctx.setLineDash([10,7]);ctx.lineDashOffset=-now()*.04;ctx.beginPath();ctx.arc(0,0,e.r*(2.05+.22*pulse),0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=.88;ctx.fillStyle='#ffd3db';ctx.font='800 10px system-ui';ctx.textAlign='center';ctx.fillText('MUTACIÓN',0,-e.r*2.45);ctx.restore();
+          }
         } else if(e.echoBoss){
           const sprite=this.getAsset(e.echoAssetKey);
           if(sprite){
@@ -14263,6 +14421,7 @@
     if (els.toggleHaptics) els.toggleHaptics.checked = !!state.settings.haptics;
     if (els.toggleLowPerformance) els.toggleLowPerformance.checked = !!state.settings.lowPerformance;
     renderBalanceTelemetryStatus();
+    renderRuntimeDiagnosticReport();
     syncQuickMusicButton();
   }
 
@@ -14593,13 +14752,102 @@ ${JSON.stringify(snapshot, null, 2)}`;
     else if(!lab.flagged.length)lines.push(lab.enough?'No aparecen señales fuertes con la muestra disponible. Mantener balance y seguir recolectando datos.':'Todavía no hay suficiente repetición por mundo para diagnosticar balance.');
     else for(const r of lab.flagged)lines.push(`M${r.world} · ${r.name} · ${r.attempts} intentos (${r.source}) · victorias ${Math.round(r.winRate*100)}% · duración ${fmtBalanceTime(r.avgActiveSeconds)} · jefe ${fmtBalanceTime(r.avgBossSeconds)} · casco ${Math.round(r.avgHpDamage)} · amenaza ${Math.round(r.maxThreat)} · variabilidad ${r.context.variabilityLabel} · REVISAR: ${r.signals.join(', ')}.`);
     for(const r of lab.variable.filter(r=>!r.signals.length))lines.push(`M${r.world} · ${r.name} · NO REBALANCEAR AÚN · ${r.variabilitySignals.join(', ')} · naves ${r.context.ships.join('/')||'—'} · flota ${r.context.fleets.join('/')||'—'} · guardianes ${r.context.guardians.join('/')||'—'} · dificultad ${r.context.difficulties.join('/')||'—'} · CV tiempo ${Math.round(r.context.activeCV*100)}% · CV casco ${Math.round(r.context.hpCV*100)}%.`);
-    const shadowRuns=(currentProfile()?.balanceTelemetry?.runs||[]).filter(r=>r?.adaptiveBoss?.enabled&&r.mode!=='training');if(shadowRuns.length){const counts={A0:0,A1:0,A2:0,A3:0};for(const run of shadowRuns)counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']=(counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']||0)+1;const ttks=shadowRuns.map(r=>Number(r.adaptiveBoss.initialTtk)).filter(Number.isFinite);lines.push('',`ADAPTIVE BOSS DIRECTOR · SHADOW MODE: ${shadowRuns.length} encuentro(s) · A0 ${counts.A0} · A1 ${counts.A1} · A2 ${counts.A2} · A3 ${counts.A3}${ttks.length?` · TTK inicial mediano ${Math.round(balanceMedian(ttks))}s`:''}.`,'El Director solo observó y registró qué habría hecho; no modificó HP, daño, fases, spawns ni economía.');}
+    const flowRuns=(currentProfile()?.balanceTelemetry?.runs||[]).filter(r=>r?.flow&&r.mode!=='training');if(flowRuns.length){const breaths=flowRuns.reduce((n,r)=>n+(r.flow?.breathers||0),0),rescues=flowRuns.reduce((n,r)=>n+(r.flow?.deadZoneRescues||0),0),peaks=flowRuns.map(r=>Number(r.flow?.maxPressure)).filter(Number.isFinite);lines.push('',`COMBAT FLOW ORCHESTRATOR: ${flowRuns.length} intento(s) · ${breaths} respiración(es) anti-saturación · ${rescues} rescate(s) anti-vacío${peaks.length?` · presión máxima mediana ${Math.round(balanceMedian(peaks)*100)}%`:''}.`);}
+    const shadowRuns=(currentProfile()?.balanceTelemetry?.runs||[]).filter(r=>r?.adaptiveBoss?.enabled&&r.mode!=='training');if(shadowRuns.length){const counts={A0:0,A1:0,A2:0,A3:0};for(const run of shadowRuns)counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']=(counts[run.adaptiveBoss.maxState||run.adaptiveBoss.state||'A1']||0)+1;const ttks=shadowRuns.map(r=>Number(r.adaptiveBoss.initialTtk)).filter(Number.isFinite);lines.push('',`ADAPTIVE BOSS DIRECTOR · LIVE-LITE: ${shadowRuns.length} encuentro(s) · A0 ${counts.A0} · A1 ${counts.A1} · A2 ${counts.A2} · A3 ${counts.A3}${ttks.length?` · TTK inicial mediano ${Math.round(balanceMedian(ttks))}s`:''}.`,'El Director aplica amortiguación suave en A2/A3 y hasta 2 ayudas contextuales en A0; registra TTK y mantiene límites estrictos para no anular la build.');}
     lines.push('','Nota: estas señales son heurísticas locales y no prueban causalidad. Antes de cambiar HP/daño/spawns conviene revisar varias partidas y contexto de build, dificultad y habilidad del jugador.');
     return lines.join('\n');
   }
 
   async function copyBalanceLabReport(){
     const text=buildBalanceLabReport();try{await navigator.clipboard.writeText(text);alert('Informe del Laboratorio de Balance copiado.');}catch(_){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();alert('Informe copiado.');}
+  }
+
+  function diagnosticCheck(status,label,detail='') { return {status,label,detail}; }
+
+  function runtimeDiagnosticCoreIds() {
+    return ['gameCanvas','hud','bossBar','lastChanceOverlay','btnDomain','btnFleet','btnGuardianInvoke','btnRiftAlly','btnTacticalCart','settingsDrawer','bossIntroOverlay','powerDock'];
+  }
+
+  function renderRuntimeDiagnosticReport(report=runtimeDiagnostics.lastReport) {
+    if(!els.runtimeDiagnosticResults)return;
+    els.runtimeDiagnosticResults.textContent='';
+    if(!report){
+      const empty=document.createElement('span');empty.className='runtime-diagnostic-empty';empty.textContent='Aún no se ha ejecutado el autodiagnóstico.';els.runtimeDiagnosticResults.appendChild(empty);return;
+    }
+    for(const check of report.checks){
+      const row=document.createElement('div');row.className=`runtime-diagnostic-row status-${check.status}`;
+      const mark=document.createElement('b');mark.textContent=check.status==='ok'?'✓':check.status==='warn'?'!':'×';
+      const copy=document.createElement('div');const title=document.createElement('strong');title.textContent=check.label;copy.appendChild(title);
+      if(check.detail){const small=document.createElement('small');small.textContent=check.detail;copy.appendChild(small);} row.append(mark,copy);els.runtimeDiagnosticResults.appendChild(row);
+    }
+    if(els.runtimeDiagnosticStatus){const fail=report.checks.filter(c=>c.status==='fail').length,warn=report.checks.filter(c=>c.status==='warn').length;els.runtimeDiagnosticStatus.textContent=fail?`${fail} fallo(s) · ${warn} aviso(s)`:warn?`Sin fallos · ${warn} aviso(s)`:'Todo correcto en las comprobaciones disponibles';}
+  }
+
+  async function runRuntimeDiagnostics() {
+    const checks=[];
+    const script=[...document.scripts].find(x=>/js\/game\.js/i.test(x.getAttribute('src')||''));
+    const css=[...document.querySelectorAll('link[rel="stylesheet"]')].find(x=>/css\/styles\.css/i.test(x.getAttribute('href')||''));
+    const manifest=document.querySelector('link[rel="manifest"]');
+    const scriptVersion=script?.src?new URL(script.src,location.href).searchParams.get('v'):null;
+    const cssVersion=css?.href?new URL(css.href,location.href).searchParams.get('v'):null;
+    const manifestVersion=manifest?.href?new URL(manifest.href,location.href).searchParams.get('v'):null;
+    const versions=[scriptVersion,cssVersion,manifestVersion].filter(Boolean);
+    checks.push(diagnosticCheck(versions.length===3&&versions.every(v=>v===VERSION)?'ok':'fail','Versionado web sincronizado',`App ${VERSION} · JS ${scriptVersion||'—'} · CSS ${cssVersion||'—'} · manifest ${manifestVersion||'—'}`));
+
+    const missing=runtimeDiagnosticCoreIds().filter(id=>!document.getElementById(id));
+    checks.push(diagnosticCheck(missing.length?'fail':'ok','DOM crítico del juego',missing.length?`Faltan: ${missing.join(', ')}`:`${runtimeDiagnosticCoreIds().length} elementos esenciales presentes`));
+
+    const fnNames=['spawnBoss','damageEnemy','updateBossApproach','updateContinuityEnemyDirector','evaluateAdaptiveBossShadow','shouldAutoResurrectBoss','resurrectBoss','openTacticalShop','openDomainSelector'];
+    const absent=fnNames.filter(name=>typeof game?.[name]!=='function');
+    checks.push(diagnosticCheck(absent.length?'fail':'ok','Funciones críticas disponibles',absent.length?`No disponibles: ${absent.join(', ')}`:`${fnNames.length}/${fnNames.length} funciones localizadas`));
+
+    const arraysOk=Array.isArray(MAPS)&&MAPS.length===20&&Array.isArray(WORLD_DIFFICULTY_CURVE)&&WORLD_DIFFICULTY_CURVE.length===20;
+    checks.push(diagnosticCheck(arraysOk?'ok':'fail','Campaña M1–M20',`MAPS ${MAPS?.length||0} · curva ${WORLD_DIFFICULTY_CURVE?.length||0}`));
+
+    try{
+      const key=`__rz_diag_${Date.now()}`;localStorage.setItem(key,'ok');const ok=localStorage.getItem(key)==='ok';localStorage.removeItem(key);checks.push(diagnosticCheck(ok?'ok':'fail','Persistencia local','Escritura/lectura temporal en localStorage'));
+    }catch(err){checks.push(diagnosticCheck('fail','Persistencia local',String(err?.message||err)));}
+
+    try{
+      JSON.stringify({profile:currentProfile(),settings:state.settings});
+      checks.push(diagnosticCheck('ok','Serialización de perfil/ajustes','El estado actual puede convertirse a JSON'));
+    }catch(err){checks.push(diagnosticCheck('fail','Serialización de perfil/ajustes',String(err?.message||err)));}
+
+    if(location.protocol==='file:'){
+      checks.push(diagnosticCheck('warn','PWA / Service Worker','file:// no permite validar Service Worker; usar servidor web/Cloudflare'));
+    }else if(!('serviceWorker' in navigator)){
+      checks.push(diagnosticCheck('warn','PWA / Service Worker','Este navegador no expone Service Worker'));
+    }else{
+      const ctrl=!!navigator.serviceWorker.controller;
+      let reg=false;try{reg=!!(await Promise.race([navigator.serviceWorker.getRegistration(),new Promise(r=>setTimeout(()=>r(null),900))]));}catch(_){reg=false;}
+      checks.push(diagnosticCheck(reg?(ctrl?'ok':'warn'):'warn','PWA / Service Worker',reg?(ctrl?'Registrado y controlando esta página':'Registrado; puede requerir una recarga para controlar la página'):'No se confirmó registro activo'));
+    }
+
+    if('caches' in window && location.protocol!=='file:'){
+      try{const names=await caches.keys();const own=names.filter(n=>n.includes('rizoma-'));checks.push(diagnosticCheck(own.length?'ok':'warn','Cachés PWA',own.length?own.join(' · '):'Aún no aparecen cachés Rizoma'));}catch(err){checks.push(diagnosticCheck('warn','Cachés PWA',String(err?.message||err)));}
+    }
+
+    const runtimeErrors=runtimeDiagnostics.errors.slice(-6);
+    checks.push(diagnosticCheck(runtimeErrors.length?'warn':'ok','Errores de runtime desde la carga',runtimeErrors.length?`${runtimeErrors.length} registrado(s); revisar detalle en informe`:'No se han capturado errores JS/promesas'));
+
+    const approachShape=!!game?.bossApproach&&['active','time','max','swarmTimer','waves'].every(k=>k in game.bossApproach);
+    checks.push(diagnosticCheck(approachShape?'ok':'warn','Antesala del Guardián',approachShape?'Estado estructural completo':'La instancia aún no expone toda la estructura esperada'));
+
+    const report={app:'Rizoma Zombie Strike',version:VERSION,createdAt:new Date().toISOString(),protocol:location.protocol,screen:`${innerWidth}x${innerHeight}`,userAgent:navigator.userAgent,checks,runtimeErrors};
+    runtimeDiagnostics.lastReport=report;renderRuntimeDiagnosticReport(report);return report;
+  }
+
+  function runtimeDiagnosticText(report=runtimeDiagnostics.lastReport) {
+    if(!report)return `RIZOMA ZOMBIE STRIKE v${VERSION}\nAutodiagnóstico aún no ejecutado.`;
+    const lines=[`RIZOMA ZOMBIE STRIKE v${report.version} · AUTODIAGNÓSTICO`,`Fecha: ${report.createdAt}`,`Entorno: ${report.protocol} · ${report.screen}`,''];
+    for(const c of report.checks)lines.push(`${c.status==='ok'?'OK':c.status==='warn'?'AVISO':'FALLO'} · ${c.label}${c.detail?` — ${c.detail}`:''}`);
+    if(report.runtimeErrors?.length){lines.push('','ERRORES CAPTURADOS');for(const e of report.runtimeErrors)lines.push(`- ${e.kind}: ${e.message}${e.source?` · ${e.source}:${e.line||0}`:''}`);}
+    lines.push('','Nota: este autodiagnóstico comprueba integración/runtime disponible; no sustituye una partida física M1–M20.');return lines.join('\n');
+  }
+
+  async function copyRuntimeDiagnosticReport(){
+    const report=runtimeDiagnostics.lastReport||await runRuntimeDiagnostics();const text=runtimeDiagnosticText(report);
+    try{await navigator.clipboard.writeText(text);alert('Autodiagnóstico copiado.');}catch(_){const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();alert('Autodiagnóstico copiado.');}
   }
 
   async function installPWA() {
@@ -14613,11 +14861,47 @@ ${JSON.stringify(snapshot, null, 2)}`;
     if (els.btnInstallPWA) els.btnInstallPWA.classList.add('hidden');
   }
 
+  let settingsReturnFocus = null;
+
+  function openSettingsDrawer() {
+    if (!els.settingsDrawer) return;
+    settingsReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    renderBalanceTelemetryStatus();
+    renderBalanceLab();
+    renderRuntimeDiagnosticReport();
+    els.settingsDrawer.classList.remove('hidden');
+    els.settingsDrawer.setAttribute('aria-hidden','false');
+    requestAnimationFrame(() => els.btnCloseSettings?.focus({preventScroll:true}));
+  }
+
+  function closeSettingsDrawer({restoreFocus=true} = {}) {
+    if (!els.settingsDrawer || els.settingsDrawer.classList.contains('hidden')) return;
+    els.settingsDrawer.classList.add('hidden');
+    els.settingsDrawer.setAttribute('aria-hidden','true');
+    if (restoreFocus && settingsReturnFocus?.focus) settingsReturnFocus.focus({preventScroll:true});
+    settingsReturnFocus = null;
+  }
+
+  function trapSettingsFocus(e) {
+    if (e.key !== 'Tab' || !els.settingsDrawer || els.settingsDrawer.classList.contains('hidden')) return;
+    const nodes=[...els.settingsDrawer.querySelectorAll('button,input,summary,[href],[tabindex]:not([tabindex="-1"])')].filter(n=>!n.disabled && n.offsetParent!==null);
+    if (!nodes.length) return;
+    const first=nodes[0], last=nodes[nodes.length-1];
+    if (e.shiftKey && document.activeElement===first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement===last) { e.preventDefault(); first.focus(); }
+  }
+
   function wire() {
     document.querySelectorAll('[data-screen]').forEach(b => b.addEventListener('click', () => showScreen(b.dataset.screen)));
     els.btnHome.addEventListener('click', () => showScreen('screenPortal'));
-    els.btnSettings.addEventListener('click', () => { renderBalanceTelemetryStatus(); renderBalanceLab(); els.settingsDrawer.classList.remove('hidden'); });
-    els.btnCloseSettings.addEventListener('click', () => els.settingsDrawer.classList.add('hidden'));
+    els.btnSettings.addEventListener('click', openSettingsDrawer);
+    els.btnCloseSettings.addEventListener('click', () => closeSettingsDrawer());
+    els.settingsDrawer?.addEventListener('pointerdown', e => { if (e.target === els.settingsDrawer) closeSettingsDrawer(); });
+    document.addEventListener('keydown', e => {
+      if (!els.settingsDrawer || els.settingsDrawer.classList.contains('hidden')) return;
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeSettingsDrawer(); return; }
+      trapSettingsFocus(e);
+    }, true);
     els.btnOpenPortal?.addEventListener('click', () => { requestLandscapeExperience({userGesture:true,source:'intro'}); showScreen('screenPortal'); });
     els.btnManageProfiles?.addEventListener('click', () => showScreen('screenProfiles'));
     els.btnSaveProfileName.addEventListener('click', () => {
@@ -14807,7 +15091,7 @@ ${JSON.stringify(snapshot, null, 2)}`;
       if(game.resultMode==='training_victory'){
         hideOverlays();game.running=false;game.trainingMode=null;document.body.classList.remove('training-mode');showScreen('screenTraining');
       } else if (game.resultMode === 'replay_victory' && game.replayMode?.guidedPlaytest) {
-        hideOverlays(); game.running=false; game.replayMode=null; showScreen('screenIntro'); setTimeout(()=>{els.settingsDrawer?.classList.remove('hidden');renderBalanceTelemetryStatus();renderBalanceLab();},80);
+        hideOverlays(); game.running=false; game.replayMode=null; showScreen('screenIntro'); setTimeout(()=>openSettingsDrawer(),80);
       } else if (game.resultMode === 'replay_victory') {
         hideOverlays(); game.running=false; game.replayMode=null; showScreen('screenReplay');
       } else if (game.resultMode === 'victory') {
@@ -14899,6 +15183,8 @@ ${JSON.stringify(snapshot, null, 2)}`;
     els.btnStartGuidedPlaytest?.addEventListener('click', startRecommendedGuidedPlaytest);
     els.btnCopyPlaytestProtocol?.addEventListener('click', copyGuidedPlaytestProtocol);
     els.btnCopyAIPrompt?.addEventListener('click', copyAIPrompt);
+    els.btnRunRuntimeDiagnostic?.addEventListener('click', async()=>{if(els.runtimeDiagnosticStatus)els.runtimeDiagnosticStatus.textContent='Ejecutando comprobaciones…';await runRuntimeDiagnostics();});
+    els.btnCopyRuntimeDiagnostic?.addEventListener('click', copyRuntimeDiagnosticReport);
     els.btnInstallPWA?.addEventListener('click', installPWA);
     els.backupInput.addEventListener('change', e => importBackup(e.target.files[0]));
     els.btnResetData.addEventListener('click', () => {

@@ -13,12 +13,14 @@ SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'});
 SF.game.init(canvas); SF.game.startNew('MISSION','vanguard'); const G=SF.game.state;
 G.checkpoint={sector:1,wave:4,score:0,nextLifeAt:9000}; SF.game.restartCheckpoint();
-const bosses=G.enemies.filter(e=>e.alive&&e.role==='boss');
-const formations=G.enemies.filter(e=>e.alive&&e.role==='formation');
-if(bosses.length!==1) throw new Error('boss arena should spawn exactly one boss');
+let bosses=G.enemies.filter(e=>e.alive&&e.role==='boss');
+let formations=G.enemies.filter(e=>e.alive&&e.role==='formation');
+if(G.phase!=='preboss') throw new Error('boss wave must enter adrenaline prelude first');
 if(formations.length!==0) throw new Error('boss wave should not spawn a fourth formation');
-if(G.phase!=='boss') throw new Error('boss arena must enter boss phase directly');
 if(!G.objective || !['bosspart','meteor'].includes(G.objective.id)) throw new Error('boss objective missing');
+for(let i=0;i<1600 && G.phase!=='boss';i++){ now+=16; SF.game.loop(now); }
+bosses=G.enemies.filter(e=>e.alive&&e.role==='boss');
+if(bosses.length!==1 || G.phase!=='boss') throw new Error('prelude did not transition to exactly one boss');
 if(!(bosses[0].introUntil>now)) throw new Error('boss intro protection missing');
 if((SF.config.enemyEcology.breederFromWave||99)>3) throw new Error('breeder must remain reachable within three pre-boss waves');
-console.log('MISSION DIRECTOR v0.5.6 OK',{phase:G.phase,objective:G.objective.id,boss:bosses[0].identity?.name,formations:formations.length});
+console.log('MISSION DIRECTOR v0.6.7 OK',{phase:G.phase,objective:G.objective.id,boss:bosses[0].identity?.name,formations:formations.length});

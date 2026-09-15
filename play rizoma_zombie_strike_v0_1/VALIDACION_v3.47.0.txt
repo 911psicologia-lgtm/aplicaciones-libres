@@ -1,0 +1,99 @@
+VALIDACION v3.47.0 — DSEBI HARDENING
+=====================================
+
+BASE
+- Base exclusiva: v3.46.0 Adaptive Director Live-Lite + Resurrección Mutante + Formaciones de Antesala
+
+VERSIONES
+- game.js VERSION: 3.47.0
+- index/title/marca: 3.47.0
+- script query: game.js?v=3.47.0
+- CSS query: styles.css?v=3.47.0
+- manifest link/query: 3.47.0
+- manifest.version: 3.47.0
+- manifest.start_url: 3.47.0
+- service worker/cache: 3.47.0
+
+DSEBI — CRÍTICOS CORREGIDOS
+- updateBossApproach() define world local antes de usarlo: OK
+- versionado web/PWA sincronizado: OK
+
+DSEBI — ALTOS IMPLEMENTADOS
+- service worker con shell precache: PRESENTE
+- navegación network-first + fallback index cacheado: PRESENTE
+- runtime cache recursos visitados: PRESENTE
+- solicitudes Range excluidas del intercept para no romper streaming: PRESENTE
+- icono PWA 192 PNG: PRESENTE
+- icono PWA 512 PNG: PRESENTE
+- apple-touch-icon: PRESENTE
+- texto campaña 20 mundos: CORREGIDO
+- Director identificado como LIVE-LITE: CORREGIDO
+- respuesta informada A2 = 8%: ALINEADA
+- respuesta informada A3 = 14%: ALINEADA
+- resurrección informada = 50%: ALINEADA
+- panel Ajustes role=dialog/aria-modal: PRESENTE
+- foco inicial/restauración: PRESENTE
+- Escape cierra Ajustes: PRESENTE
+- click fondo cierra Ajustes: PRESENTE
+- trampa Tab/Shift+Tab: PRESENTE
+- newProfileName con etiqueta accesible: PRESENTE
+- botones sin type: 0
+
+CAMPAÑA / COMBATE
+- WORLD_BALANCE: 20 entradas (preservado)
+- Mundo 21 jugable: NO
+- M1 bossHp base: 11200
+- M5 bossHp base: 19500
+- M10 bossHp base: 38900
+- M15 bossHp base: 77800
+- M20 bossHp base: 155500
+
+FUNCIONES CRÍTICAS IDÉNTICAS BYTE A BYTE RESPECTO A v3.46
+- bossPattern()
+- boss2Pattern()
+- boss2Special()
+- triggerBossSpecial()
+- applyBossVolleyAccent()
+- addEnemyBullet()
+- spawnBoss()
+- damageEnemy()
+- updateAdvancedEnemyIdentity()
+- advancedEnemyAim()
+- updateContinuityEnemyDirector()
+
+ASSETS
+- assets heredados v3.46: 840
+- assets heredados modificados: 0
+- assets heredados faltantes: 0
+- assets nuevos: 2 (icon-192.png, icon-512.png)
+- total assets v3.47: 842
+- referencias literales auditadas: 801
+- referencias faltantes: 0
+
+HTML
+- IDs: 226
+- IDs duplicados: 0
+- botones sin type: 0
+- inputs visibles sin label/aria-label: 0
+
+PWA CORE
+- index.html: PRESENTE
+- css/styles.css: PRESENTE
+- js/game.js: PRESENTE
+- manifest.json: PRESENTE
+- icon.svg: PRESENTE
+- icon-192.png: PRESENTE
+- icon-512.png: PRESENTE
+- intro poster desktop/mobile: PRESENTES
+- prueba HTTP local de core: 200 OK en index, JS, CSS, manifest, SW e icono PNG
+
+SINTAXIS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parse: OK
+
+LIMITACIONES / ANTIALUCINACIÓN
+- Chromium headless del entorno no produjo DOM y agotó timeout por DBus/UPower; NO se declara smoke test visual aprobado.
+- No se declara prueba física Android/iOS.
+- No se declara campaña M1–M20 completa jugada en dispositivo real.
+- La PWA NO precarga los ~229 MB completos: cachea shell y recursos visitados para mejorar resiliencia sin forzar almacenamiento/datos masivos.

@@ -1,7 +1,7 @@
 {
   "name": "STARFALL FRONTIER",
   "short_name": "STARFALL",
-  "description": "Arcade vertical shooter con progresión, economía y bosses adaptativos.",
+  "description": "Arcade vertical shooter con progresión, economía, jefes adaptativos y campaña por mundos.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

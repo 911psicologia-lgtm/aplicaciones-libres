@@ -7,16 +7,37 @@ window.SF = window.SF || {};
     backgrounds:['assets/backgrounds/nebula.webp','assets/backgrounds/orbit.webp','assets/backgrounds/anomaly.webp']
   };
   const cache=new Map();
+  const pending=new Map();
   const worldLoaded=new Set();
-  function load(src){
-    if(!src) return Promise.resolve(null);
-    if(cache.has(src)) return Promise.resolve(cache.get(src));
+  const loadHealth={attempted:new Set(),failed:new Set(),timeouts:new Set()};
+  function loadOnce(src,timeoutMs=14000){
     return new Promise(resolve=>{
-      const img=new Image(); img.decoding='async';
-      img.onload=()=>{cache.set(src,img);resolve(img)};
-      img.onerror=()=>resolve(null);
-      img.src=src;
+      const img=new Image(); img.decoding='async'; let done=false;
+      const finish=(value,timeout=false)=>{ if(done) return; done=true; clearTimeout(timer); img.onload=null; img.onerror=null; if(timeout) loadHealth.timeouts.add(src); resolve(value); };
+      const timer=setTimeout(()=>finish(null,true),timeoutMs);
+      img.onload=()=>finish(img,false); img.onerror=()=>finish(null,false); img.src=src;
     });
+  }
+  async function load(src,opts={}){
+    if(!src) return null;
+    if(cache.has(src)) return cache.get(src);
+    if(pending.has(src)) return pending.get(src);
+    loadHealth.attempted.add(src);
+    const task=(async()=>{
+      const retries=Math.max(0,Number(opts.retries??1)); const timeoutMs=Math.max(4000,Number(opts.timeoutMs??14000));
+      let img=null;
+      for(let attempt=0;attempt<=retries && !img;attempt++) img=await loadOnce(src,timeoutMs+(attempt*4000));
+      if(img){ cache.set(src,img); loadHealth.failed.delete(src); loadHealth.timeouts.delete(src); }
+      else loadHealth.failed.add(src);
+      pending.delete(src); return img;
+    })();
+    pending.set(src,task); return task;
+  }
+  async function loadBatch(urls,concurrency){
+    const queue=[...new Set((urls||[]).filter(Boolean))];
+    const limit=Math.max(2,Math.min(10,concurrency||6)); let cursor=0;
+    async function worker(){ while(cursor<queue.length){ const i=cursor++; await load(queue[i]); } }
+    await Promise.all(Array.from({length:Math.min(limit,queue.length||1)},worker));
   }
   function world(sector){
     const list=NS.worldContent?.worlds||[];
@@ -37,7 +58,7 @@ window.SF = window.SF || {};
   async function loadWorld(sector){
     const w=world(sector); if(!w) return null;
     if(worldLoaded.has(sector)) return w;
-    await Promise.all(collectWorldUrls(w).map(load));
+    await loadBatch(collectWorldUrls(w),(typeof innerWidth!=='undefined'&&innerWidth<=700)?4:7);
     worldLoaded.add(sector);
     return w;
   }
@@ -60,7 +81,7 @@ window.SF = window.SF || {};
   }
   async function loadAll(){
     const urls=[...new Set([...Object.values(manifest.ships),...Object.values(manifest.enemies),...manifest.obstacles,...manifest.backgrounds])];
-    await Promise.all(urls.map(load));
+    await loadBatch(urls,(typeof innerWidth!=='undefined'&&innerWidth<=700)?4:7);
     // Solo precarga el primer mundo. Los demás se cargan al entrar para mantener la app ligera.
     await loadWorld(1);
   }
@@ -92,8 +113,10 @@ window.SF = window.SF || {};
   function worldPowerup(sector,key){
     const w=world(sector), src=w?.powerups?.[key]; return src?cache.get(src)||null:null;
   }
+  function health(){ const expected=loadHealth.attempted.size,failed=[...loadHealth.failed],timeouts=[...loadHealth.timeouts]; return {expected,loaded:Math.max(0,expected-failed.length),failed,timeouts,pending:pending.size}; }
+  async function retryFailed(){ const list=[...loadHealth.failed]; if(!list.length) return health(); await loadBatch(list,(typeof innerWidth!=='undefined'&&innerWidth<=700)?3:5); return health(); }
   NS.assets={
-    manifest,cache,loadAll,loadWorld,world,hasWorld:sector=>!!world(sector),
+    manifest,cache,loadAll,loadWorld,world,hasWorld:sector=>!!world(sector),health,retryFailed,
     getShip:id=>cache.get(manifest.ships[id]),
     getEnemy:kind=>cache.get(manifest.enemies[kind]),
     getObstacle:i=>cache.get(manifest.obstacles[i%manifest.obstacles.length]),

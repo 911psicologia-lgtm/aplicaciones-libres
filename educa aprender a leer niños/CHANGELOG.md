@@ -38,3 +38,9 @@
 - R/RR incorpora contraste PERO/PERRO y CARO/CARRO.
 - CE/CI compara CA·CO·CU con CE·CI; GE/GI compara GA·GO·GU con GE·GI.
 - PWA y exportación de progreso actualizadas a 0.9.2.
+
+## 0.9.8 · Gestos y Espacio
+- Mecánicas visualmente diferenciadas mediante pistas gestuales discretas.
+- Arrastre opcional para construir palabras y ordenar frases, conservando toque como alternativa.
+- Mejoras responsive de espacio, tarjetas y destinos.
+- Sin cambios de currículo ni assets.

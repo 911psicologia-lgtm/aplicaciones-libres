@@ -111,3 +111,44 @@
 /* botón azul (dictado en Say It!) */
 .bb-blue{background:linear-gradient(135deg,#3498DB,#2471A3);color:#fff;border-color:rgba(52,152,219,.6)}
 .bb-blue:hover{box-shadow:0 8px 24px rgba(52,152,219,.35)}
+
+/* ══════════ v10: FABs PWA — instalar / actualizar (discretos, animados, SIN texto) ══════════ */
+#pwaFabs{
+  position:fixed;right:12px;bottom:calc(var(--botnav-h) + 12px);
+  display:flex;flex-direction:column;gap:10px;z-index:640;
+  pointer-events:none; /* solo los botones reciben toques */
+}
+.pwa-fab{
+  pointer-events:auto;width:44px;height:44px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.28);cursor:pointer;padding:0;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  opacity:0;transform:translateY(10px) scale(.6);visibility:hidden;
+  transition:opacity .35s ease,transform .35s cubic-bezier(.34,1.56,.64,1),visibility .35s;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.pwa-fab.show{opacity:.88;transform:none;visibility:visible}
+.pwa-fab.show:hover{opacity:1;transform:scale(1.08)}
+.pwa-fab.show:active{transform:scale(.9)}
+.pwa-fab:focus-visible{outline:3px solid rgba(255,215,0,.7);outline-offset:2px}
+.pwa-install{background:linear-gradient(135deg,rgba(241,166,30,.88),rgba(214,120,22,.88))}
+.pwa-update{background:linear-gradient(135deg,rgba(52,152,219,.88),rgba(36,113,163,.88))}
+/* animación discreta en reposo: latido suave (instalar) / cabeceo + giro lento (actualizar) */
+.pwa-install.show{animation:fabBreathe 2.8s ease-in-out .8s infinite}
+.pwa-update.show{animation:fabNudge 2.6s ease-in-out .8s infinite}
+.pwa-update.show svg{animation:fabSpin 5.2s linear infinite}
+@keyframes fabBreathe{
+  0%,100%{box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 0 0 rgba(241,166,30,.45)}
+  50%{box-shadow:0 6px 18px rgba(0,0,0,.35),0 0 0 10px rgba(241,166,30,0)}
+}
+@keyframes fabNudge{0%,100%{transform:none}12%{transform:rotate(-9deg) scale(1.06)}24%{transform:rotate(9deg) scale(1.06)}36%{transform:none}}
+@keyframes fabSpin{to{transform:rotate(360deg)}}
+/* respeto total a usuarios con movimiento reducido */
+@media(prefers-reduced-motion:reduce){
+  .pwa-fab.show{animation:none}
+  .pwa-update.show svg{animation:none}
+}
+/* nunca salen en el informe impreso */
+@media print{#pwaFabs{display:none}}
+/* en pantallas bajas no tapan contenido del juego */
+@media(max-height:640px){#pwaFabs{bottom:calc(var(--botnav-h) + 6px);gap:7px}.pwa-fab{width:38px;height:38px}}

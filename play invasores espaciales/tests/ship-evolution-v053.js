@@ -5,7 +5,7 @@ const game=fs.readFileSync(path.join(ROOT,'js/game.js'),'utf8');
 const sandbox={window:{SF:{}},console,performance:{now:()=>0},setTimeout:()=>0,requestAnimationFrame:()=>0};
 vm.createContext(sandbox); vm.runInContext(cfg,sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.6.1') throw new Error('wrong version');
+if(C.VERSION!=='0.6.7') throw new Error('wrong version');
 if(!C.shipEvolution) throw new Error('missing shipEvolution');
 if(JSON.stringify(C.shipEvolution.stageThresholds)!=='[0,2,5,8,12]') throw new Error('wrong thresholds');
 for(const token of ['function totalRelics()','function chassisStage()','function renderChassisEvolution','renderChassisEvolution(ctx,now,ph)','engineTrailMul']) if(!game.includes(token)) throw new Error('missing '+token);

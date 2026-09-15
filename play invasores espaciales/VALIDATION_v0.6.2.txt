@@ -1,0 +1,29 @@
+STARFALL FRONTIER v0.6.2 — VALIDATION
+
+RESULTADO: PASS
+
+Sintaxis JS/SW: PASS
+Suite de pruebas: 26/26 PASS
+PWA manifest: PASS
+Service Worker cache key: starfall-shell-v0.6.2
+Reactive Matrix: SHADOW (se conserva)
+Economía: sin modificaciones
+Assets/audio: sin modificaciones
+
+ASSET+AUDIOTREE SHA-256
+5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+
+ECONOMY.JS SHA-256
+f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441
+
+Cambios funcionales validados:
+- bosses reforzados
+- subjefes reforzados
+- Reactor Reboot al 50% por muerte rápida
+- una sola resurrección rápida
+- fase post-reboot más agresiva
+- antesala de boss 12–16 s
+- hordas pequeñas de esbirros en la antesala
+- micro-enjambres desde oleada 1
+- micro-enjambres mantienen continuidad hasta cerrar oleada
+- hotfix PWA conservado

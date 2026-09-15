@@ -1,0 +1,13 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..'); const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox); const C=sandbox.window.SF.config;
+const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
+if(C.VERSION!=='0.6.7') throw new Error('wrong version');
+if(!C.combatFlow?.enabled) throw new Error('combatFlow disabled');
+if((C.bossPrelude.durationMsBySector?.[0]||0)<13000) throw new Error('prelude must remain substantial');
+if((C.bossPrelude.maxContextSupplies||0)<2) throw new Error('context supplies missing');
+if((C.combatFlow.bossPhaseSignatureDelayMs||[]).length!==3) throw new Error('boss signature schedule missing');
+if((C.combatFlow.bossEscortFloorByPhase||[])[2]<1) throw new Error('phase 3 escort floor missing');
+for(const token of ['preludeSupplyKind','spawnPreludeSupply','triggerBossSignature','subPhaseSignatureAt','nextSignatureAt','PINZA DE ESCOLTA','LLUVIA DE INTERCEPTORES']) if(!game.includes(token)) throw new Error('missing '+token);
+if(!game.includes("['bossSupply','bossArenaPod','preludeSupply','matrixSupport']")) throw new Error('prelude supply telemetry/use tracking missing');
+console.log('COMBAT FLOW + BOSS CHOREOGRAPHY v0.6.7 OK');

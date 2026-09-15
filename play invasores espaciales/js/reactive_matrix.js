@@ -67,15 +67,15 @@ window.SF = window.SF || {};
   function start(meta={},now=nowMs()){
     const build=buildSummary(meta.build||{}), staticPower=calcStaticPower({...meta.build},meta.sector||1), [targetLow,targetHigh]=targetWindow(meta.sector||1);
     encounter={
-      schema:'reactive_matrix_shadow_v1', mode:'shadow', version:NS.config?.VERSION||'', id:`rm_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+      schema:'reactive_matrix_assist_v2', mode:C().mode||'assist', version:NS.config?.VERSION||'', id:`rm_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
       startedAtPerf:now,startedAtIso:new Date().toISOString(),sector:meta.sector||1,bossName:meta.bossName||'BOSS',baseBossHp:round(meta.bossHp||0,2),
       targetWindowSec:[targetLow,targetHigh],build,staticPower:{...staticPower},samples:[],state:'M1',candidateState:'M1',candidateSince:now,lastTransitionAt:now,
       latest:{dps:staticPower.theoreticalDps,powerIndex:staticPower.powerIndex,estimatedTtk:(meta.bossHp||0)/Math.max(.1,staticPower.theoreticalDps),structuralTtk:null,response:'NO ACTION'},
-      stateTransitions:[{t:0,state:'M1',reason:'SHADOW START'}],maxDps:0,minEstimatedTtk:null,maxPowerIndex:staticPower.powerIndex,
-      suppliesOffered:[],suppliesUsed:[],damageReceived:0,nativeResurrection:false,matrixMitigationApplied:0,matrixJamActivated:false,matrixRebootActivated:false,
+      stateTransitions:[{t:0,state:'M1',reason:'MATRIX START'}],maxDps:0,minEstimatedTtk:null,maxPowerIndex:staticPower.powerIndex,
+      suppliesOffered:[],suppliesUsed:[],damageReceived:0,nativeResurrection:false,quickRebootActivated:false,matrixMitigationApplied:0,matrixJamActivated:false,matrixRebootActivated:false,matrixActions:[],matrixSupportDrops:0,
       recommendationsSeen:[],lastUpdateAt:0,outcome:'active'
     };
-    if(C().debugConsole) console.info('[Reactive Matrix] SHADOW start',encounter);
+    if(C().debugConsole) console.info('[Reactive Matrix] start',encounter);
     return status();
   }
   function noteDamage(amount,channel='hull',now=nowMs()){
@@ -87,6 +87,7 @@ window.SF = window.SF || {};
   function noteSupplyOffered(kind,source='bossSupply'){ if(encounter) encounter.suppliesOffered.push({t:round((nowMs()-encounter.startedAtPerf)/1000,2),kind,source}); }
   function noteSupplyUsed(kind,source='bossSupply'){ if(encounter) encounter.suppliesUsed.push({t:round((nowMs()-encounter.startedAtPerf)/1000,2),kind,source}); }
   function noteNativeResurrection(){ if(encounter) encounter.nativeResurrection=true; }
+  function noteQuickReboot(){ if(encounter) encounter.quickRebootActivated=true; }
   function shift(delta){
     if(!encounter||!delta||delta<1) return;
     encounter.startedAtPerf+=delta; encounter.candidateSince+=delta; encounter.lastTransitionAt+=delta; encounter.lastUpdateAt+=delta;
@@ -118,7 +119,7 @@ window.SF = window.SF || {};
       const response=responseFor(proposed,meta);
       encounter.stateTransitions.push({t:round(elapsed/1000,2),state:proposed,ttk:round(estimatedTtk,2),dps:round(effectiveDps,2),response});
       if(!encounter.recommendationsSeen.includes(response)) encounter.recommendationsSeen.push(response);
-      if(C().debugConsole) console.info('[Reactive Matrix] SHADOW state',proposed,{estimatedTtk,effectiveDps,response});
+      if(C().debugConsole) console.info('[Reactive Matrix] state',proposed,{estimatedTtk,effectiveDps,response});
     }
     const response=responseFor(encounter.state,meta);
     encounter.latest={dps:effectiveDps,recentDps,powerIndex:livePower,estimatedTtk,structuralTtk,response,hasSample};
@@ -130,7 +131,16 @@ window.SF = window.SF || {};
   function status(){
     if(!encounter) return {active:false,mode:C().mode||'shadow',state:'M1',label:'NOMINAL'};
     const names={M0:'SUPPORT',M1:'NOMINAL',M2:'OVERDRIVE',M3:'DOMINANCE'};
-    return {active:true,mode:'shadow',state:encounter.state,label:names[encounter.state]||encounter.state,dps:encounter.latest.dps||0,powerIndex:encounter.latest.powerIndex||0,estimatedTtk:encounter.latest.estimatedTtk||0,structuralTtk:encounter.latest.structuralTtk||0,response:encounter.latest.response||'NO ACTION'};
+    return {active:true,mode:C().mode||'assist',state:encounter.state,label:names[encounter.state]||encounter.state,dps:encounter.latest.dps||0,powerIndex:encounter.latest.powerIndex||0,estimatedTtk:encounter.latest.estimatedTtk||0,structuralTtk:encounter.latest.structuralTtk||0,response:encounter.latest.response||'NO ACTION',matrixMitigationApplied:encounter.matrixMitigationApplied||0,matrixSupportDrops:encounter.matrixSupportDrops||0};
+  }
+  function noteIntervention(type,value=0,meta={}){
+    if(!encounter) return;
+    const t=round((nowMs()-encounter.startedAtPerf)/1000,2);
+    encounter.matrixActions.push({t,type,value:round(value,3),meta:{...meta}});
+    if(type==='mitigation') encounter.matrixMitigationApplied=Math.max(encounter.matrixMitigationApplied||0,Number(value)||0);
+    if(type==='support') encounter.matrixSupportDrops=(encounter.matrixSupportDrops||0)+1;
+    if(type==='jam') encounter.matrixJamActivated=true;
+    if(type==='reboot') encounter.matrixRebootActivated=true;
   }
   function finalize(outcome='victory',meta={},now=nowMs()){
     if(!encounter) return null;
@@ -140,12 +150,11 @@ window.SF = window.SF || {};
     out.outcome=outcome; out.victory=outcome==='victory'; out.endedAtIso=new Date().toISOString(); out.durationSec=round((now-encounter.startedAtPerf)/1000,2);
     out.realTtkSec=out.durationSec; out.maxDps=round(out.maxDps,2); out.minEstimatedTtk=round(out.minEstimatedTtk,2); out.maxPowerIndex=round(out.maxPowerIndex,3);
     out.damageReceived=round(out.damageReceived,2); out.finalState=encounter.state; out.finalDps=round(encounter.latest.dps,2); out.finalEstimatedTtk=round(encounter.latest.estimatedTtk,2);
-    out.matrixMitigationApplied=0; out.matrixJamActivated=false; out.matrixRebootActivated=false;
     S()?.appendMatrixTelemetry?.(out,C().telemetryMaxEntries||60);
-    if(C().debugConsole) console.info('[Reactive Matrix] SHADOW finalize',out);
+    if(C().debugConsole) console.info('[Reactive Matrix] finalize',out);
     encounter=null; return out;
   }
   function exportTelemetry(){ return S()?.loadMatrixTelemetry?.()||[]; }
   function clearTelemetry(){ S()?.clearMatrixTelemetry?.(); }
-  NS.reactiveMatrix={start,update,noteDamage,notePlayerDamage,noteSupplyOffered,noteSupplyUsed,noteNativeResurrection,shift,finalize,status,exportTelemetry,clearTelemetry,targetWindow,calcStaticPower};
+  NS.reactiveMatrix={start,update,noteDamage,notePlayerDamage,noteSupplyOffered,noteSupplyUsed,noteNativeResurrection,noteQuickReboot,noteIntervention,shift,finalize,status,exportTelemetry,clearTelemetry,targetWindow,calcStaticPower};
 })(window.SF);

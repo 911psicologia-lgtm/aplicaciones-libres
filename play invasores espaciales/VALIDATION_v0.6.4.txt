@@ -1,0 +1,8 @@
+VALIDATION v0.6.4 PASS
+asset_audio_tree_sha256 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy_js_sha256 f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441
+pwa_manifest STARFALL FRONTIER fullscreen
+runtime_worlds 5
+asset_files 273
+audio_files 451
+js_tests 28

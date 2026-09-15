@@ -1,0 +1,15 @@
+STARFALL FRONTIER v0.6.3 — VALIDATION
+
+Base: v0.6.2 BOSS REBOOT + ADRENALINE FULL
+Node syntax: PASS
+Automated JS tests: PASS
+PWA manifest/fullscreen: PASS
+Service Worker cache: starfall-shell-v0.6.3
+Assets/audio unchanged: PASS
+assets+audio tree SHA-256: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy.js unchanged: PASS
+economy.js SHA-256: f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441
+Reactive Matrix mode: SHADOW
+Combat Flow test: PASS
+Boss transition/watchdog: PASS
+Responsive smoke: PASS

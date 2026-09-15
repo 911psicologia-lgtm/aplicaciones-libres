@@ -259,7 +259,10 @@ window.chooseOddAnswer = function (el, q, evt) {
 };
 
 /* ══════════ 3) 📚 MI DICCIONARIO ══════════ */
-const DICT = { lvl: 0, world: '' };
+/* v9 [A-e]: en tablets modestas renderizar las 782 fichas de golpe provoca
+   una pausa de 1-2 s. Se muestran por lotes con botón «Ver más». */
+const DICT = { lvl: 0, world: '', shown: 350 };
+const DICT_CHUNK = 350;
 
 function dictMastery(en) {
   const p = activeProfile();
@@ -270,6 +273,7 @@ window.openDictionary = function () {
   beep(true);
   DICT.lvl = currentLevel || 0;
   DICT.world = '';
+  DICT.shown = DICT_CHUNK; // v9: reinicia el lote al abrir
   renderDictionary();
   showScreen('dictScreen');
   document.querySelectorAll('.bnbtn').forEach((b, j) => b.classList.toggle('act', j === 0));
@@ -278,8 +282,9 @@ window.openDictionary = function () {
 };
 
 window.closeDictionary = function () { navTo(0); };
-window.dictSetLevel = function (l) { DICT.lvl = l; DICT.world = ''; renderDictionary(); beep(true); };
-window.dictSetWorld = function (id) { DICT.world = id; renderDictionary(); beep(true); };
+window.dictSetLevel = function (l) { DICT.lvl = l; DICT.world = ''; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
+window.dictSetWorld = function (id) { DICT.world = id; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
+window.dictMore = function () { DICT.shown += DICT_CHUNK; renderDictionary(); beep(true); }; // v9
 
 window.speakDictItem = function (en, es, el) {
   TTS.sayWord(en, es, 'words');
@@ -315,7 +320,8 @@ function renderDictionary() {
   const wsrc = DICT.world ? WORLDS.filter(w => w.id === DICT.world) : worlds;
   const list = [];
   wsrc.forEach(w => w.items.forEach(it => list.push({ w, it })));
-  $('dictGrid').innerHTML = list.map(({ w, it }) => {
+  const shown = list.slice(0, DICT.shown); // v9 [A-e]: render por lotes
+  $('dictGrid').innerHTML = shown.map(({ w, it }) => {
     const m = dictMastery(it.en);
     const cls = m >= 3 ? 'mastered' : m >= 1 ? 'learned' : 'new';
     const tag = m >= 3 ? '🏆' : m >= 1 ? '✅' : '🌱';
@@ -329,7 +335,10 @@ function renderDictionary() {
     return `<button class="dict-tile ${cls}" onclick="speakDictItem('${en}','${es}',this)">
       ${vis}<span class="dt-en">${it.en}</span><span class="dt-es">${it.es || ''}</span><span class="dt-tag">${tag}</span>
     </button>`;
-  }).join('');
+  }).join('') +
+  (list.length > shown.length
+    ? `<button class="dict-tile dict-more" onclick="dictMore()" aria-label="Mostrar más palabras"><span class="dt-em">➕</span><span class="dt-en">Ver más</span><span class="dt-es">quedan ${list.length - shown.length}</span></button>`
+    : '');
 }
 
 /* ══════════ 4) 🎓 DIPLOMAS IMPRIMIBLES ══════════ */
@@ -382,7 +391,7 @@ window.openDiploma = function (i) {
       <div class="dp-inner">
         <div class="dp-ribbon">🌈 PequeWorld</div>
         <div class="dp-kicker">certifica que</div>
-        <div class="dp-name">${p.name}</div>
+        <div class="dp-name">${esc(p.name)}</div>
         <div class="dp-av">${avatarHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData)}</div>
         <div class="dp-body">ha dominado ${isW ? 'el mundo de' : 'el nivel'}</div>
         <div class="dp-world">${tName}</div>
@@ -413,7 +422,7 @@ window.renderActivityChart = function () {
   const mbd = (p.stats && p.stats.missionsByDay) || {};
   const days = [];
   for (let i = 13; i >= 0; i--) days.push(new Date(Date.now() - i * 864e5));
-  const vals = days.map(d => mbd[d.toISOString().slice(0, 10)] || 0);
+  const vals = days.map(d => mbd[localDayStr(d)] || 0); // v9 [C-2]: día local
   const W = 672, H = 210;
   cv.width = W; cv.height = H;
   const ctx = cv.getContext('2d');

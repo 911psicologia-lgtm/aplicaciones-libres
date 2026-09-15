@@ -245,4 +245,12 @@ function defaultProfile(name, avatar='avatar_1') {
     dailyGoal: {date:'', count:0, claimed:false}
   };
 }
-function todayStr(){ return new Date().toISOString().slice(0,10); }
+/* v9 [C-2]: fecha LOCAL, no UTC. Antes toISOString() usaba el día UTC y en
+   Colombia (UTC-5) la meta diaria, la ruleta y los hitos se reiniciaban a las
+   19:00 — el niño podía girar la ruleta 2 veces en una misma tarde y el
+   gráfico de actividad movía las misiones nocturnas al día siguiente. */
+function localDayStr(d) {
+  d = d || new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function todayStr() { return localDayStr(); }

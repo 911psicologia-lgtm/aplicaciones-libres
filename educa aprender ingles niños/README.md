@@ -1,4 +1,4 @@
-# 🌈 PequeWorld v8 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v10 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
 **fotos reales**, **79 mundos / 782 palabras**, **11 juegos y estudios**
@@ -9,6 +9,61 @@ palabras dominadas**, **🖨️ informe de padres imprimible con consejos AAP**,
 **🔊 selector de voz en inglés**, **PWA instalable sin conexión**, avatar con
 tu propia foto, Tienda de 12 avatares, Ruleta diaria, ⭐ Mundo destacado y
 🎓 Diplomas imprimibles.
+
+> 🛡 **Novedades v10 (fotos siempre completas + botones PWA discretos):**
+> 1. 🖼 **FIN DEL RECORTE DE FOTOS (crítico pedagógico)**: la piña del
+>    intro solo dejaba ver su corona y hasta el **49%** de una portada
+>    quedaba fuera. Causa real medida (evidencia antes/después con
+>    Playwright): fotos cuadradas 512×512 dentro de cajas anchas-bajas con
+>    `object-fit:cover` (portadas de mundo 86px, tarjetas de intro 70px,
+>    opciones en móvil). Ahora **toda** foto de aprendizaje usa caja
+>    cuadrada + `contain` — **recorte medido: 0% en las 36 superficies**.
+>    Verificado también en Sesión Rápida, portadas y memorama.
+> 2. ⬇️ **Botón de INSTALAR PWA** (discreto, animado, **sin texto**): aparece
+>    solo cuando el navegador ofrece la instalación (Chrome/Edge/Samsung en
+>    https o localhost), icono dorado con latido suave, esquina inferior
+>    derecha sobre la barra; con `prefers-reduced-motion` se queda estático.
+>    En file:// nunca molesta (queda oculto). Una sola oferta por visita.
+> 3. 🔄 **Botón de ACTUALIZACIÓN DISPONIBLE** (discreto, animado, sin
+>    texto): cuando se publica una versión nueva, el SW la descarga en
+>    segundo plano y el icono azul **cabecea y gira lentamente**; al tocar
+>    recarga y estrena versión. Comprueba novedades al volver a la app y
+>    cada hora (nunca interrumpe un juego). Caché `pequeworld-v10`.
+> 4. 🛠 Endurecido el futuro: las 11 cajas de foto ahora son `contain` —
+>    aunque mañana se añada una foto no cuadrada, **jamás se recortará**;
+>    los avatares circulares mantienen su recorte decorativo intencional.
+
+> 🛡 **Novedades v9 (auditoría DSEBI TRIPLE A1/A2/A3 — correcciones dirigidas):**
+> 1. 🔵 **Rimas corregidas (CRÍTICO)**: en v8 el juego podía mostrar preguntas
+>    con **dos respuestas válidas** (Pear/Ear/Square/New Year con «bear–chair»,
+>    Monkey con «bee–tree», Airplane con «train–rain») — el niño acertaba y se
+>    le marcaba mal. Nuevo filtro **fonético de rimas**: 0 colisiones
+>    verificado con una sonda sobre los 782 datos reales, en 15 misiones E2E.
+> 2. 📅 **El «día» de la app ahora es TU día (CRÍTICO)**: antes usaba fecha UTC
+>    y en Colombia la meta diaria, la ruleta y los hitos se reiniciaban a las
+>    **19:00** (un niño podía girar la ruleta 2 veces en una tarde y el gráfico
+>    movía las misiones nocturnas al día siguiente). Ahora todo usa la fecha
+>    local del dispositivo.
+> 3. 📶 **PWA offline completa (CRÍTICO)**: el Service Worker ahora incluye en
+>    su núcleo las **fuentes Baloo 2/Nunito, los 18 avatares y los premios**
+>    (trofeo, medallas, cofre) — el primer uso sin conexión ya no pierde la
+>    identidad visual. Caché `pequeworld-v9` (llega a las instalaciones viejas).
+> 4. 🛟 **Rescate de progreso (ALTO)**: el estado se respalda en una **copia
+>    rotativa** (máx. 1/min). Si el guardado principal se corrompe (p. ej.
+>    pestaña cerrada al escribir), la app **recupera la última copia** y avisa
+>    — antes se perdía TODO en silencio. Verificado con JSON truncado en E2E.
+> 5. 🧼 **Nombres seguros (ALTO)**: el nombre del perfil se **escapa** antes de
+>    mostrarse (login, ranking, diploma, informe) — un nombre como
+>    «<u>x</u>&Co» ya no puede romper la interfaz.
+> 6. 👥 **Cambiar de jugador aborta la partida (ALTO)**: antes, si cambiabas de
+>    jugador en mitad de una misión, las respuestas siguientes acreditaban XP,
+>    monedas e insignias **al perfil nuevo** (injusticia entre hermanos).
+> 7. 🔊 **Selector de voz auto-refrescado (ALTO)**: en Chrome/Android las voces
+>    tardan segundos en llegar — ahora el selector se rellena solo cuando
+>    están listas (antes había que reabrir Ajustes).
+> 8. 📚 **Diccionario por lotes (ALTO)**: muestra 350 fichas + botón «➕ Ver
+>    más» — las 782 de golpe provocaban una pausa de 1-2 s en tablets
+>    modestas.
 
 > 🛠 **Novedades v8 (auditoría DSEBI — A+B+C aprobadas):**
 > 1. 🧭 **Tour de bienvenida**: 3 pasos la primera vez (mapa → juegos →

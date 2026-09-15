@@ -3,6 +3,11 @@
    ═══════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+/* v9 [A-b]: escapa texto de usuario (nombre del perfil) antes de interpolarse
+   en innerHTML — evita que un nombre como «<img src=x>» rompa la interfaz */
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
 function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [b[i], b[j]] = [b[j], b[i]]; } return b; }
 function now() { return Date.now(); }
 

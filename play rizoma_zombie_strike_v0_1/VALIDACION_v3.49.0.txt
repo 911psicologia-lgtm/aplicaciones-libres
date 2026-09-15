@@ -1,0 +1,81 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.49.0
+==========================================
+
+BASE: v3.48.0 — Guía Táctica + Autodiagnóstico
+VERSIÓN: v3.49.0 — Combat Flow Orchestrator
+
+SINTAXIS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parseable: OK
+
+VERSIONADO WEB
+- js/game.js: 3.49.0
+- index.html: 3.49.0
+- manifest.json: 3.49.0
+- sw.js/cache: 3.49.0
+
+HTTP SHELL
+- index.html: 200
+- js/game.js: 200
+- css/styles.css: 200
+- manifest.json: 200
+- sw.js: 200
+
+ASSETS
+- Assets heredados v3.48: 842
+- Assets v3.49: 842
+- Modificados: 0
+- Faltantes: 0
+- Añadidos: 0
+- Referencias literales auditadas: 799
+- Referencias faltantes: 0
+
+HTML
+- IDs: 230
+- IDs duplicados: 0
+
+CONTINUIDAD DE COMBATE — funciones idénticas a v3.48
+- spawnBoss(): OK
+- damageEnemy(): OK
+- shouldAutoResurrectBoss(): OK
+- resurrectBoss(): OK
+- bossPattern(): OK
+- boss2Pattern(): OK
+- boss2Special(): OK
+- triggerBossSpecial(): OK
+- updateBossApproach(): OK
+- spawnContinuityMicroSwarm(): OK
+- updateAdvancedEnemyIdentity(): OK
+- advancedEnemyAim(): OK
+
+PRUEBA SINTÉTICA DEL ORQUESTADOR
+- Presión artificialmente alta sostenida -> respiración activada: OK
+- Telemetría de respiración incrementada: OK
+- Pantalla realmente vacía > umbral -> microhorda ligera activada: OK
+- Telemetría anti-vacío incrementada: OK
+- Formación rotativa inicial detectada: fan/abanico: OK
+
+CAMBIOS DELIBERADOS
+- updateFrontThreatDirector(): no lanza nueva amenaza durante respiración.
+- updateRareEvents(): aplaza evento nuevo durante respiración.
+- updateAdrenalineDirector(): aplaza contrato nuevo durante respiración.
+- updateContinuityEnemyDirector(): reduce piso durante respiración, conserva actividad mínima.
+- ensureTacticalPowerSupport(): prioriza soporte defensivo/contextual durante respiración.
+- updateCombatFlowOrchestrator(): NUEVO.
+
+NO MODIFICADO
+- HP base de Guardianes
+- multiplicadores de resistencia de v3.45/v3.46
+- resurrección al 50%
+- daño de proyectiles de Guardianes
+- curva M1–M20
+- economía
+- Naves Rizoma
+- Flota / Guardián Vinculado / RIFT
+- Tractor / Taller / DOMINIO / Última Oportunidad
+
+LIMITACIONES
+- No se declara campaña M1→M20 jugada físicamente.
+- No se declara prueba física Android/iOS.
+- La validación visual completa debe confirmarse en dispositivo/navegador real.

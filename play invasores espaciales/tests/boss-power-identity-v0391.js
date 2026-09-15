@@ -5,7 +5,7 @@ const root = path.resolve(__dirname,'..');
 const ctx = {window:{},console}; vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),ctx);
 const C = ctx.window.SF.config;
-if(C.VERSION!=='0.6.1') throw new Error('Wrong v0.4.5 version');
+if(C.VERSION!=='0.6.7') throw new Error('Wrong v0.4.5 version');
 const subs=C.subBossIdentity.patterns;
 const bosses=C.bossIdentity.patterns;
 if(subs.length!==3 || subs.some(x=>!x.signature)) throw new Error('Subboss signatures missing');

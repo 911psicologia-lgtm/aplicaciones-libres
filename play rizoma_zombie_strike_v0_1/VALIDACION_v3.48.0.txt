@@ -1,0 +1,93 @@
+VALIDACION v3.48.0 — GUÍA TÁCTICA + AUTODIAGNÓSTICO
+=====================================================
+
+BASE
+- Base exclusiva: v3.47.0 DSEBI Hardening
+- Cambio incremental; no se reconstruye combate ni assets.
+
+VERSIONES
+- game.js VERSION: 3.48.0
+- index/title/marca: 3.48.0
+- script query: game.js?v=3.48.0
+- CSS query: styles.css?v=3.48.0
+- manifest link/query: 3.48.0
+- manifest.version: 3.48.0
+- manifest.start_url: 3.48.0
+- service worker/cache: 3.48.0
+
+NUEVA IMPLEMENTACIÓN
+- Guía Táctica plegable: PRESENTE
+- DOMINIO explicado: PRESENTE
+- Guardián Vinculado explicado: PRESENTE
+- RIFT explicado: PRESENTE
+- Maestría explicada: PRESENTE
+- Director A0–A3 explicado: PRESENTE
+- Última Oportunidad explicada: PRESENTE
+- Tractor explicado: PRESENTE
+- Playtest explicado: PRESENTE
+- Panel AUTODIAGNÓSTICO: PRESENTE
+- Botón Ejecutar: PRESENTE
+- Botón Copiar informe: PRESENTE
+- Monitor local de error/unhandledrejection: PRESENTE
+- Máximo errores en memoria de sesión: 12
+- Transmisión externa añadida por diagnóstico: NO
+
+AUTODIAGNÓSTICO — COMPROBACIONES PROGRAMADAS
+- sincronización JS/CSS/manifest;
+- DOM crítico;
+- funciones críticas disponibles;
+- campaña y curva M1–M20;
+- localStorage round-trip;
+- serialización de perfil/ajustes;
+- Service Worker/registro cuando el entorno lo permite;
+- cachés PWA;
+- errores JS/promesas capturados;
+- estructura de Antesala del Guardián.
+
+CAMPAÑA / COMBATE
+- WORLD/MAPS: 20 mundos preservados
+- Mundo 21 jugable: NO
+- Adaptive Director LIVE-LITE: PRESERVADO
+- Resurrección automática: PRESERVADA
+- Antesala/microhordas: PRESERVADAS
+
+FUNCIONES CRÍTICAS IDÉNTICAS BYTE A BYTE RESPECTO A v3.47
+- bossPattern()
+- boss2Pattern()
+- boss2Special()
+- triggerBossSpecial()
+- applyBossVolleyAccent()
+- addEnemyBullet()
+- spawnBoss()
+- damageEnemy()
+- updateAdvancedEnemyIdentity()
+- advancedEnemyAim()
+- updateContinuityEnemyDirector()
+- updateBossApproach()
+- shouldAutoResurrectBoss()
+- resurrectBoss()
+
+ASSETS
+- assets heredados v3.47: 842
+- assets añadidos en v3.48: 0
+- referencias literales únicas auditadas: 799
+- referencias faltantes: 0
+
+HTML / ACCESIBILIDAD
+- IDs: 230
+- IDs duplicados: 0
+- botones: 71
+- botones sin type: 0
+- inputs visibles sin label/aria-label: 0
+- resultados de diagnóstico con aria-live: PRESENTE
+
+SINTAXIS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parse: OK
+
+LIMITACIONES / ANTIALUCINACIÓN
+- No se declara prueba física Android/iOS.
+- No se declara campaña M1–M20 completa jugada en dispositivo real.
+- El nuevo autodiagnóstico está implementado y validado estáticamente, pero sus comprobaciones de Service Worker/cachés dependen del navegador y protocolo donde se ejecute.
+- El autodiagnóstico complementa, no sustituye, un playtest real.

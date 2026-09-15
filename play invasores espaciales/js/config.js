@@ -5,7 +5,7 @@ window.SF.config = {
   SHIP_KEY: 'sf3_ship',
   PROFILE_KEY: 'sf3_profile_v1',
   MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
-  VERSION: '0.6.1',
+  VERSION: '0.6.7',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -20,7 +20,8 @@ window.SF.config = {
     heal: { label: 'REPARACIÓN', color: '#7cff88', icon: 'heal' },
     overdrive: { label: 'OVERDRIVE', color: '#fff16a', icon: 'overdrive' },
     life: { label: 'VIDA', color: '#ff7588', icon: 'life' },
-    drone: { label: 'DRON ALIADO', color: '#7fffd4', icon: 'drone' }
+    drone: { label: 'DRON ALIADO', color: '#7fffd4', icon: 'drone' },
+    magnet: { label: 'IMÁN TOTAL', color: '#ffe66a', icon: 'magnet' }
   },
 
   economy: {
@@ -30,20 +31,26 @@ window.SF.config = {
       20:{xp:65,coins:42,label:'RACHA 20'},
       30:{xp:110,coins:70,label:'RACHA 30'}
     },
-    bossSupply: { enabled:true, firstMs:4200, intervalMs:[9500,12500], maxPerFight:3 },
+    bossSupply: { enabled:true, firstMs:3200, intervalMs:[6800,9000], maxPerFight:5 },
     catalog: [
-      {id:'repair',kind:'heal',type:'consumable',label:'KIT DE REPARACIÓN',desc:'+4 HP al usar',cost:55,level:1},
-      {id:'shield',kind:'shield',type:'consumable',label:'CARGA DE ESCUDO',desc:'escudo temporal',cost:70,level:1},
-      {id:'missile',kind:'missile',type:'consumable',label:'SALVA DE MISILES',desc:'misiles temporales',cost:90,level:2},
-      {id:'chain',kind:'chain',type:'consumable',label:'ARCO DE CADENA',desc:'daño encadenado',cost:105,level:2},
-      {id:'overdrive',kind:'overdrive',type:'consumable',label:'OVERDRIVE',desc:'movilidad y cadencia',cost:115,level:2},
-      {id:'drone',kind:'drone',type:'consumable',label:'DRON DE APOYO',desc:'aliado autónomo',cost:135,level:3},
-      {id:'emp',kind:'emp',type:'consumable',label:'PULSO EMP',desc:'limpia amenazas menores',cost:155,level:4},
-      {id:'life',kind:'life',type:'consumable',label:'NÚCLEO DE VIDA',desc:'+1 vida',cost:240,level:5},
-      {id:'hull',upgrade:'hull',type:'upgrade',label:'BLINDAJE DE CASCO',desc:'+1 HP máximo permanente',cost:320,step:170,level:3,max:5},
-      {id:'magnet',upgrade:'magnet',type:'upgrade',label:'TRACTOR MAGNÉTICO',desc:'+12% alcance de recogida',cost:280,step:150,level:3,max:5},
-      {id:'power',upgrade:'power',type:'upgrade',label:'CELDA DE PODER',desc:'+9% duración de poderes',cost:310,step:170,level:4,max:5},
-      {id:'weapon',upgrade:'weapon',type:'upgrade',label:'CALIBRACIÓN DE ARMAS',desc:'+3.5% daño permanente',cost:380,step:210,level:5,max:5}
+      {id:'repair',kind:'heal',type:'consumable',label:'REPARAR',desc:'+5 HP',cost:45,level:1,icon:'✚'},
+      {id:'shield',kind:'shield',type:'consumable',label:'ESCUDO',desc:'protección temporal',cost:60,level:1,icon:'◉'},
+      {id:'magnet_charge',kind:'magnet',type:'consumable',label:'IMÁN TOTAL',desc:'recoge todo',cost:75,level:1,icon:'◎'},
+      {id:'drone',kind:'drone',type:'consumable',label:'DRONES',desc:'activa bahía',cost:95,level:1,icon:'◆'},
+      {id:'missile',kind:'missile',type:'consumable',label:'MISILES',desc:'salva temporal',cost:85,level:2,icon:'▲'},
+      {id:'chain',kind:'chain',type:'consumable',label:'CADENA',desc:'arco encadenado',cost:95,level:2,icon:'ϟ'},
+      {id:'overdrive',kind:'overdrive',type:'consumable',label:'OVERDRIVE',desc:'velocidad + cadencia',cost:105,level:2,icon:'»'},
+      {id:'life',kind:'life',type:'consumable',label:'VIDA +1',desc:'acumula una vida',cost:150,level:2,icon:'♥'},
+      {id:'revive',kind:'revive',type:'consumable',label:'RESURRECCIÓN',desc:'retorno automático x1',cost:260,level:3,icon:'✦',maxInventory:1},
+      {id:'emp',kind:'emp',type:'consumable',label:'EMP',desc:'limpia amenazas menores',cost:145,level:3,icon:'◌'},
+      {id:'hull',upgrade:'hull',type:'upgrade',label:'CASCO',desc:'+1 HP permanente',cost:180,step:115,level:1,max:8,icon:'▣'},
+      {id:'thruster',upgrade:'thruster',type:'upgrade',label:'MOTORES',desc:'+4% velocidad',cost:200,step:120,level:1,max:5,icon:'↑'},
+      {id:'armor',upgrade:'armor',type:'upgrade',label:'ARMADURA',desc:'-5% daño recibido',cost:240,step:145,level:2,max:5,icon:'⬡'},
+      {id:'firerate',upgrade:'firerate',type:'upgrade',label:'CADENCIA',desc:'+3% velocidad de fuego',cost:270,step:160,level:2,max:5,icon:'≋'},
+      {id:'dronebay',upgrade:'dronebay',type:'upgrade',label:'BAHÍA DRON',desc:'sube de 1 a 4 drones',cost:220,step:190,level:2,max:3,icon:'◇'},
+      {id:'magnet',upgrade:'magnet',type:'upgrade',label:'TRACTOR',desc:'+14% recogida',cost:230,step:135,level:2,max:6,icon:'⊙'},
+      {id:'power',upgrade:'power',type:'upgrade',label:'CELDA',desc:'+10% duración',cost:260,step:150,level:2,max:6,icon:'⌁'},
+      {id:'weapon',upgrade:'weapon',type:'upgrade',label:'ARMAS',desc:'+3.5% daño',cost:330,step:185,level:3,max:6,icon:'✹'}
     ]
   },
   sectors: [
@@ -114,11 +121,11 @@ window.SF.config = {
     wavesPerSector: 4,
     miniBossWave: 3,
     bossWave: 4,
-    extraLifeEvery: 9000,
+    extraLifeEvery: 7500,
     checkpointEveryWave: true,
-    restartLives: 3,
+    restartLives: 4,
     lifeLostPauseMs: 1150,
-    maxLives: 6
+    maxLives: 9
   },
   responsive: {
     mobilePortrait:   { maxWidth: 520,  cols: 10, rows: 5, targetWidth: .88, enemyMin: 22, enemyMax: 38, gapX: 2.5, gapY: 3.5, playerH: 60 },
@@ -156,11 +163,11 @@ window.SF.config = {
   difficultyCurve: {
     // Curva W01–05: inicia accesible, escala de forma visible y reserva la mayor presión para W04–05.
     worlds: [
-      {hp:.90,speed:.92,fireCd:1.10,subbossHp:1.42,bossHp:1.34,bossFireCd:1.02,eliteChance:.72},
-      {hp:.98,speed:.98,fireCd:1.04,subbossHp:1.58,bossHp:1.50,bossFireCd:.96,eliteChance:.88},
-      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:1.78,bossHp:1.70,bossFireCd:.90,eliteChance:1.00},
-      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:2.00,bossHp:1.94,bossFireCd:.84,eliteChance:1.12},
-      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:2.24,bossHp:2.20,bossFireCd:.78,eliteChance:1.24}
+      {hp:.90,speed:.92,fireCd:1.10,subbossHp:1.58,bossHp:1.55,bossFireCd:.98,eliteChance:.72},
+      {hp:.98,speed:.98,fireCd:1.04,subbossHp:1.78,bossHp:1.80,bossFireCd:.91,eliteChance:.88},
+      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:2.02,bossHp:2.10,bossFireCd:.84,eliteChance:1.00},
+      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:2.32,bossHp:2.45,bossFireCd:.77,eliteChance:1.12},
+      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:2.62,bossHp:2.80,bossFireCd:.70,eliteChance:1.24}
     ],
     waves: {
       1:{hp:.88,speed:.92,fireCd:1.12,eliteMul:.70},
@@ -177,8 +184,11 @@ window.SF.config = {
   rewards: {
     mobileMagnetRadius: 120,
     desktopMagnetRadius: 96,
-    powerMaxExtensionMs: 14000,
-    healDropLowHpBonus: .12
+    powerMaxExtensionMs: 16000,
+    healDropLowHpBonus: .24,
+    lifeDropChance: .035,
+    eliteLifeDropChance: .16,
+    gemDropChance: .18
   },
 
   subBossIdentity: {
@@ -240,20 +250,20 @@ window.SF.config = {
 
   microSwarm: {
     enabled: true,
-    fromWave: 2,
-    intervalMs: [5200,7600],
-    maxBurstsByWave: {2:1,3:2,4:1},
-    triggerAliveRatio: .42,
-    mobileCount: [3,5],
-    desktopCount: [4,7],
+    fromWave: 1,
+    intervalMs: [3800,5600],
+    maxBurstsByWave: {1:1,2:2,3:3,4:0},
+    triggerAliveRatio: .62,
+    mobileCount: [4,6],
+    desktopCount: [6,9],
     hpBase: 1,
-    durationMs: [2300,3200],
-    shotChance: .58
+    durationMs: [2600,3600],
+    shotChance: .54
   },
   bossModules: {
     enabled: true,
     countBySector: [2,2,3,3,3],
-    hpRatio: .11,
+    hpRatio: .14,
     orbitRadiusX: .58,
     orbitRadiusY: .42,
     orbitSpeed: .00115,
@@ -267,7 +277,7 @@ window.SF.config = {
   bossHardpoints: {
     enabled: true,
     countBySector: [2,3,3,4,4],
-    hpRatio: .075,
+    hpRatio: .095,
     shieldedDamageMul: .42,
     weaponCooldownPenalty: .24,
     driveMovementMul: .62,
@@ -287,21 +297,21 @@ window.SF.config = {
 
   subbossFortress: {
     enabled: true,
-    initialShieldRatio: .44,
+    initialShieldRatio: .50,
     armorMul: .72,
-    exposedDamageMul: 1.38,
-    maxDamagePerHitRatio: .045,
+    exposedDamageMul: 1.42,
+    maxDamagePerHitRatio: .035,
     phaseThreshold: .50,
-    phaseRechargeRatio: .28,
-    breakExposeMs: 1450,
-    phaseGateMs: 480,
-    rageFireCdMul: .78,
-    rageMoveMul: 1.16
+    phaseRechargeRatio: .35,
+    breakExposeMs: 1600,
+    phaseGateMs: 620,
+    rageFireCdMul: .72,
+    rageMoveMul: 1.20
   },
 
   reactiveMatrix: {
     enabled: true,
-    mode: 'shadow',
+    mode: 'assist',
     showHud: true,
     debugConsole: false,
     telemetryMaxEntries: 60,
@@ -310,6 +320,12 @@ window.SF.config = {
     minDpsSampleMs: 1500,
     hysteresisMs: 1800,
     stateCooldownMs: 3500,
+    supportSupplyCooldownMs: 8500,
+    supportSupplyMaxPerFight: 2,
+    overdriveMitigation: .88,
+    overdriveMoveMul: 1.07,
+    overdriveSignatureLeadMs: 1250,
+    dominanceUsesOverdriveFloor: true,
     expectedDpsBase: 8.4,
     expectedDpsGrowth: .12,
     supportTtkMul: 1.22,
@@ -331,11 +347,11 @@ window.SF.config = {
     bossRelicHpPer: .025,
     bossChassisHpPer: .045,
     bossDamageAugmentWeight: .70,
-    bossMaxPowerScale: 1.55,
+    bossMaxPowerScale: 1.70,
     subbossRelicHpPer: .016,
     subbossChassisHpPer: .030,
     subbossDamageAugmentWeight: .45,
-    subbossMaxPowerScale: 1.32,
+    subbossMaxPowerScale: 1.42,
     fortressRelicBonus: .008,
     fortressChassisBonus: .015,
     fortressMaxBonus: .16,
@@ -353,19 +369,24 @@ window.SF.config = {
   },
 
   bossFortress: {
-    initialShieldRatio: .52,
-    phaseRechargeRatio: [0,.28,.36],
-    pulseRechargeRatio: [.05,.075,.10],
-    armorByPhase: [.68,.62,.56],
-    maxDamagePerHitRatio: .018,
-    breakExposeMs: 2050,
-    powerCooldownMs: [7600,5900,4400],
-    pulseProjectileCount: [7,9,12],
-    phaseGateMs: 620,
-    adaptationWindowMs: 1100,
-    adaptationThresholdRatio: .065,
-    adaptationDamageMul: .55,
-    adaptationMs: 900
+    initialShieldRatio: .64,
+    phaseRechargeRatio: [0,.34,.44],
+    pulseRechargeRatio: [.07,.10,.13],
+    armorByPhase: [.66,.60,.54],
+    maxDamagePerHitRatio: .015,
+    breakExposeMs: 2200,
+    powerCooldownMs: [7000,5300,3900],
+    pulseProjectileCount: [8,11,14],
+    phaseGateMs: 760,
+    adaptationWindowMs: 1050,
+    adaptationThresholdRatio: .050,
+    adaptationDamageMul: .48,
+    adaptationMs: 1050,
+    quickRebootThresholdSecBySector: [42,48,55,65,75],
+    quickRebootHpRatio: .50,
+    quickRebootFortressRatio: .44,
+    quickRebootMoveMul: 1.16,
+    quickRebootFireCdMul: .78
   },
 
   bossCore: {
@@ -442,9 +463,37 @@ window.SF.config = {
     }
   },
   bossArena: {
-    introInvulnerabilityMs: 1050,
-    introMessageMs: 950,
+    introInvulnerabilityMs: 1800,
+    introMessageMs: 1200,
     bossOnlyWave: true
+  },
+  bossPrelude: {
+    enabled: true,
+    durationMsBySector: [13000,14000,15000,16000,17000],
+    burstIntervalMs: [1850,2550],
+    firstBurstDelayMs: 320,
+    mobileCount: [5,8],
+    desktopCount: [8,13],
+    maxAliveMobile: 18,
+    maxAliveDesktop: 28,
+    hpBase: 1,
+    hpSectorStep: .35,
+    speedMul: 1.12,
+    shotChance: .50,
+    midpointSupplyRatio: .53,
+    finalSupplyBeforeMs: 3200,
+    maxContextSupplies: 2
+  },
+  combatFlow: {
+    enabled: true,
+    bossPhaseSignatureDelayMs: [1250,950,720],
+    bossPhaseSignatureCooldownMs: [6200,5400,4600],
+    rebootSignatureDelayMs: 1750,
+    subbossOpeningSignatureDelayMs: 950,
+    subbossPhase2SignatureDelayMs: 720,
+    bossEscortRefillCooldownMs: [7200,6200,5200],
+    bossEscortFloorByPhase: [0,1,1],
+    supplyLowHpRatio: .48
   },
   fusion: {
     durationMs: 5200,
@@ -457,11 +506,32 @@ window.SF.config = {
     ]
   },
   allyDrone: {
-    durationMs: 10000,
-    shotMs: 430,
+    durationMs: 15000,
+    shotMs: 410,
     orbitRadiusMobile: 34,
     orbitRadiusDesktop: 48,
-    damage: .82
+    damage: .82,
+    maxPurchased:4,
+    interceptMinBay:2,
+    interceptRadius:92,
+    interceptCooldownMs:1150,
+    interceptsAtMax:2
+  },
+  bossAlly: {
+    enabled:true,
+    durationMs:10000,
+    cooldownMs:40000,
+    shotMs:480,
+    damage:1.15,
+    signatureAtMs:[250,5200],
+    signatureDamage:1.55
+  },
+  playerSurvival: {
+    bossDamageMul:.78,
+    subbossDamageMul:.86,
+    bossInvulnMs:1120,
+    normalInvulnMs:940,
+    reviveInvulnMs:2800
   },
 
   tutorial: {

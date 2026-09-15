@@ -1,31 +1,26 @@
-# STARFALL FRONTIER v0.6.1 — REACTIVE MATRIX SHADOW
+# STARFALL FRONTIER v0.6.7
 
-Build completa basada **exclusivamente** en `v0.6.0 — ECONOMY + BOSS SUPPLY FULL`.
+Build completa derivada de v0.6.5, con énfasis en libertad de movimiento, Hangar, economía táctica, supervivencia, loot y aliado de jefe.
 
-## Cambio principal
-Se incorpora **REACTIVE BOSS MATRIX / ADAPTIVE COMBAT MATRIX** en su primera fase: **SHADOW MODE**. La matriz calcula potencia real, DPS reciente, TTK proyectado y estado M0–M3 durante cada boss, pero no modifica todavía el combate.
+## Inicio
+Abrir `index.html` desde servidor web / GitHub Pages / Cloudflare Pages. La PWA usa `manifest.webmanifest` y `sw.js`.
 
-## Conservado sin regresión
-- economía, XP, monedas, tienda y precios;
-- Boss Supply y poderes heredados;
-- naves, enemigos, assets realistas W01–05 y audio;
-- Boss Fortress, Boss Anatomy, Endurance Director y Family Tactics;
-- Asteroid Director, Mission Director, evolución de nave y Micro-Swarm;
-- responsive, fullscreen, checkpoints, ranking y guardado.
+## Controles
+- Flechas / WASD / arrastre: movimiento libre por el campo.
+- P: pausa.
+- F: pantalla completa.
+- B: invocar jefe aliado cuando esté listo.
+- 🛒: tienda.
 
-Los árboles `assets/` y `audio/` y el archivo `js/economy.js` se verifican por SHA-256 contra la base v0.6.0.
+## Sistemas preservados
+Assets realistas W01–05, audio quiet, economía y XP, Boss Supply, Boss Fortress, Reactor Reboot, hardpoints, módulos orbitales, Family Tactics, Micro-Swarm, Mission Director, Reactive Matrix Phase 2, streaming de assets, checkpoints y PWA.
 
-## Telemetría local
-La Matrix conserva hasta 60 encuentros localmente. No transmite información fuera del juego.
 
-Desde consola:
-- `SF.reactiveMatrix.exportTelemetry()`
-- `SF.reactiveMatrix.clearTelemetry()`
-
-## PWA
-Se incluye shell PWA ligero (`manifest.webmanifest` + `sw.js`) con `display: fullscreen`. Solo se cachea el shell HTML/CSS/JS e iconos; los assets pesados permanecen bajo el streaming existente.
-
-## Iniciar
-Abre `index.html`. En `file://` el juego funciona normalmente y el Service Worker no intenta registrarse. Para instalación PWA, servir la carpeta por HTTP/HTTPS.
-
-Consulta `REACTIVE_MATRIX_SHADOW_IMPLEMENTATION.md` para la especificación completa.
+## v0.6.7 — Tactical Belt + Drone Command
+- Cinturón táctico 1–6 para usar consumibles sin abrir la tienda.
+- Hangar muestra estadísticas efectivas después de mejoras.
+- Drones avanzados interceptan proyectiles con bahías superiores.
+- Jefe aliado incorpora dos ráfagas signature por invocación y barra de recarga visual.
+- Pausar congela correctamente duración y cooldown del jefe aliado.
+- Power-ups prioritarios (vida, imán, dron y supplies especiales) tienen baliza visual adicional.
+- Assets/audio y economía central permanecen sin cambios.

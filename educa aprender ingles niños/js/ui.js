@@ -4,13 +4,24 @@
 
 /* ── STORAGE ── */
 const LS = 'pequeworld_v2';
+const LS_BAK = 'pequeworld_v2_bak'; // v9 [A-a]: copia de seguridad rotativa
 let STATE = null;
+let _lastBak = 0;
+function parseStateBlob(raw) {
+  try { const o = JSON.parse(raw); if (o && o.profiles && typeof o.profiles === 'object') return o; } catch (e) {}
+  return null;
+}
 function loadState() {
-  try {
-    const r = localStorage.getItem(LS);
-    if (r) { STATE = JSON.parse(r); }
-  } catch (e) {}
+  let rescued = false;
+  try { STATE = parseStateBlob(localStorage.getItem(LS) || ''); } catch (e) {}
   if (!STATE) {
+    // v9 [A-a]: el guardado principal falta o está dañado → prueba la copia.
+    // (Un JSON truncado no se puede reparsear: por eso existe la copia
+    //  _bak, escrita ANTES de la corrupción, sí recuperable.)
+    const bak = parseStateBlob(localStorage.getItem(LS_BAK) || '');
+    if (bak) { STATE = bak; rescued = true; }
+  }
+  if (!STATE || !STATE.profiles || typeof STATE.profiles !== 'object') {
     STATE = defaultState();
     // migra datos de v1 si existen
     try {
@@ -30,13 +41,24 @@ function loadState() {
       }
     } catch (e) {}
   }
+  if (!STATE.settings) STATE.settings = defaultState().settings;
   // migra perfiles antiguos a los campos nuevos de v4
   Object.values(STATE.profiles).forEach(p => migrateProfile(p));
+  if (STATE.active && !STATE.profiles[STATE.active]) STATE.active = Object.keys(STATE.profiles)[0] || '';
   saveState();
+  if (rescued) setTimeout(() => {
+    try { notif('🛟 El guardado estaba dañado: rescaté tu última copia. Exporta una nueva en Ajustes → Zona de padres.', 'var(--orange)'); } catch (e) {}
+  }, 1200);
 }
 function saveState() {
   try {
     localStorage.setItem(LS, JSON.stringify(STATE));
+    // v9 [A-a]: respaldo rotativo (máx. 1 por minuto) — si el guardado
+    // principal se corrompe algún día, hay de dónde recuperar.
+    if (Date.now() - _lastBak > 60000) {
+      _lastBak = Date.now();
+      try { localStorage.setItem(LS_BAK, JSON.stringify(STATE)); } catch (e2) {}
+    }
   } catch (e) {
     // v8 [A4]: guard de cuota — nunca fallar en silencio
     if (!saveState._warned) {
@@ -157,7 +179,7 @@ function renderLogin() {
     const totalStars = p.stars || 0;
     tile.innerHTML = `
       ${avatarHTML(p.avatar || 'avatar_1', p.avatarData)}
-      <div class="pt-name">${p.name || 'Niño'}</div>
+      <div class="pt-name">${esc(p.name || 'Niño')}</div>
       <div class="pt-stars">${'⭐'.repeat(Math.min(totalStars, 5)) || '☆☆☆'}</div>
     `;
     tile.onclick = () => {
@@ -551,7 +573,7 @@ function renderTrophyContent() {
         <div class="rank-pos-wrap">${pos}</div>
         <div class="rank-av">${r.isAI ? r.av : avatarHTML(r.av, r.avData)}</div>
         <div style="flex:1;min-width:0">
-          <div class="rank-name">${isMe ? '👉 ' : ''}${r.name}${r.isAI ? ` <span style="font-size:.65em;color:var(--purple);background:rgba(155,89,182,.2);padding:1px 6px;border-radius:8px">${r.title}</span>` : ''}</div>
+          <div class="rank-name">${isMe ? '👉 ' : ''}${esc(r.name)}${r.isAI ? ` <span style="font-size:.65em;color:var(--purple);background:rgba(155,89,182,.2);padding:1px 6px;border-radius:8px">${r.title}</span>` : ''}</div>
           <div style="font-size:.68em;color:var(--muted);margin-top:1px">⭐ ${r.stars} · 🪙 ${r.coins}</div>
         </div>
         <div class="rank-xp" style="${r.isAI ? 'color:var(--purple)' : isMe ? 'color:var(--gold)' : ''}">${r.xp} XP</div>

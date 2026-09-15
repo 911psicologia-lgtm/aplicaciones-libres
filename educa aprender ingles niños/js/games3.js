@@ -99,6 +99,19 @@ window.populateVoiceSel = function () {
   sel.innerHTML = '<option value="">⭐ Automática (recomendada)</option>' +
     vs.map(v => `<option value="${(v.voiceURI || '').replace(/"/g, '&quot;')}" ${STATE.settings.voiceURI === v.voiceURI ? 'selected' : ''}>${v.name} (${v.lang})</option>`).join('');
 };
+/* v9 [A-d]: en Chrome/Android la lista de voces llega varios segundos tarde.
+   Antes el selector quedaba en «Voz del sistema» hasta reabrir Ajustes;
+   ahora se refresca solo cuando las voces están listas. */
+if (window.speechSynthesis && !window.__voiceHooked) {
+  window.__voiceHooked = true;
+  try {
+    window.speechSynthesis.addEventListener('voiceschanged', () => {
+      if (typeof TTS !== 'undefined') TTS.init();
+      const sel = $('voiceSel');
+      if (sel && $('modalOverlay') && $('modalOverlay').classList.contains('on')) populateVoiceSel();
+    });
+  } catch (e) {}
+}
 window.setVoiceURI = function (v) {
   STATE.settings.voiceURI = v || ''; saveState();
   window.previewVoice();
@@ -308,6 +321,22 @@ const RHYME_PAIRS = [
   ['cat', 'hat'], ['dog', 'frog'], ['bear', 'chair'], ['star', 'car'],
   ['bee', 'tree'], ['goat', 'boat'], ['king', 'ring'], ['train', 'rain'], ['whale', 'snail'],
 ];
+/* v9 [C-1]: clave de rima FONÉTICA. En v8 el filtro solo comparaba las últimas
+   2 letras, y la sonda sobre los datos reales encontró preguntas con DOS
+   respuestas válidas: Pear/Ear/Square/New Year con bear-chair, Monkey con
+   bee-tree y Airplane con train-rain (el niño acertaba y se le marcaba mal).
+   Agrupamos terminaciones que suenan igual → 0 colisiones verificadas. */
+const RIME_ENDINGS = [
+  [/^(.*)(air|are|ear)$/, 'AIR'], [/^(.*)(ail|ale)$/, 'AIL'], [/^(.*)(ain|ane)$/, 'AIN'],
+  [/^(.*)ee$/, 'EE'], [/^(.*)ea$/, 'EE'], [/^(.*)ey$/, 'EE'],
+  [/^(.*)(oat|ote)$/, 'OAT'], [/^(.*)ing$/, 'ING'], [/^(.*)ar$/, 'AR'], [/^(.*)og$/, 'OG'],
+  [/^(.*)at$/, 'AT'],
+];
+function rimeKey(en) {
+  const w = (en || '').toLowerCase();
+  for (const [re, k] of RIME_ENDINGS) { if (re.test(w)) return k; }
+  return w.slice(-2);
+}
 function itemByEn(en) {
   for (const w of WORLDS) { const it = w.items.find(x => x.en.toLowerCase() === en.toLowerCase() && x.img); if (it) return { w, it }; }
   return null;
@@ -319,7 +348,7 @@ window.startRhymeMission = function () {
   pairs.forEach(([a, b]) => {
     const A = itemByEn(a), B = itemByEn(b);
     if (!A || !B) return;
-    // distractores: palabras que NO riman con a/b
+    // distractores: palabras que NO riman con a NI con b (v9: clave fonética)
     const dis = [];
     let guard = 0;
     while (dis.length < 2 && guard++ < 200) {
@@ -330,6 +359,7 @@ window.startRhymeMission = function () {
       if (en === a || en === b) continue;
       if (RHYME_PAIRS.some(p => p.includes(en))) continue;
       if (dis.some(d => d.it.en === it.en)) continue;
+      if (rimeKey(en) === rimeKey(a) || rimeKey(en) === rimeKey(b)) continue; // v9 [C-1]
       if (en.slice(-2) === b.toLowerCase().slice(-2)) continue;
       dis.push({ w, it });
     }
@@ -442,7 +472,7 @@ window.openParentsReport = function () {
       <div class="pr-head"><span class="pr-logo">🌈 PequeWorld</span><span class="pr-date">${new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</span></div>
       <div class="pr-child">
         ${avatarHTML(p.avatar === 'custom' ? 'custom' : p.avatar, p.avatarData)}
-        <div><div class="pr-name">${p.name}</div><div class="pr-lv">Nivel ${lv} · ${LEVEL_NAMES[lv]}</div></div>
+        <div><div class="pr-name">${esc(p.name)}</div><div class="pr-lv">Nivel ${lv} · ${LEVEL_NAMES[lv]}</div></div>
       </div>
       <table class="pr-table">
         ${row('✨ XP', p.xp || 0)}
@@ -539,6 +569,11 @@ window.sayDictate = function () {
 /* ══════════ 10) 👥 CAMBIAR DE JUGADOR ══════════ */
 window.switchPlayer = function () {
   beep(true);
+  // v9 [A-c]: aborta cualquier partida activa — antes, si cambiabas de jugador
+  // en mitad de una misión y tocaban «Jugar», las respuestas acreditaban XP,
+  // monedas e insignias al perfil NUEVO (injusticia entre hermanos).
+  try { G.active = false; G.questions = []; G.mtype = ''; } catch (e) {}
+  try { if (window.sayStopAll) window.sayStopAll(); } catch (e) {}
   closeModal();
   renderLogin();
   showScreen('loginScreen');
@@ -546,9 +581,63 @@ window.switchPlayer = function () {
   notif('👥 Elige tu perfil y toca «¡Entrar!»', 'var(--blue)');
 };
 
-/* ══════════ 12) 📶 PWA: registrar service worker si hay contexto seguro ══════════ */
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+/* ══════════ 12) 📶 PWA: SW + botones discretos (instalar ⬇ / actualizar 🔄, sin texto) ══════════ */
+(function () {
+  const btnI = document.getElementById('btnPwInstall');
+  const btnU = document.getElementById('btnPwUpdate');
+  let deferredPrompt = null;
+
+  /* ── Botón INSTALAR: solo aparece cuando el navegador ofrece la instalación ── */
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (btnI) { btnI.hidden = false; btnI.classList.add('show'); }
   });
-}
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    if (btnI) btnI.classList.remove('show');
+  });
+  if (btnI) btnI.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    btnI.classList.remove('show');
+    try { deferredPrompt.prompt(); await deferredPrompt.userChoice; } catch (e) {}
+    deferredPrompt = null; /* una sola oferta por visita (discreto, nada insistente) */
+  });
+
+  /* ── Botón ACTUALIZAR: aparece solo cuando hay una versión nueva ya descargada ── */
+  function showUpdate() { if (btnU) { btnU.hidden = false; btnU.classList.add('show'); } }
+  if (btnU) btnU.addEventListener('click', () => { location.reload(); });
+
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    /* detectar cambio de controlador aunque ocurra antes del load */
+    let hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hadController) showUpdate(); else hadController = true;
+    });
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        /* buscar novedades: al volver a la app y cada hora (nunca interrumpe el juego) */
+        const check = () => { try { reg.update(); } catch (e) {} };
+        setInterval(check, 60 * 60 * 1000);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing; if (!nw) return;
+          nw.addEventListener('statechange', () => {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdate();
+          });
+        });
+      }).catch(() => {});
+    });
+  }
+
+  /* ganchos internos de prueba/evidencia (no alteran la UI normal) */
+  window.PW_PWA = {
+    showInstall: () => { if (btnI) { btnI.hidden = false; btnI.classList.add('show'); } },
+    showUpdate,
+    state: () => ({
+      install: !!(btnI && btnI.classList.contains('show')),
+      update: !!(btnU && btnU.classList.contains('show')),
+      prompt: !!deferredPrompt
+    })
+  };
+})();

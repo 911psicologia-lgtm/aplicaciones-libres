@@ -1,0 +1,16 @@
+STARFALL FRONTIER v0.6.5 — VALIDATION
+
+Syntax JS: PASS
+Regression JS tests: 28/28 PASS
+Python integral validation: PASS
+PWA manifest/fullscreen: PASS
+Service Worker shell: v0.6.5
+Reactive Matrix mode: ASSIST
+M0 physical support: PASS
+M2 conservative mitigation: PASS
+M3 Jam: DISABLED by design
+Matrix reboot: DISABLED by design
+Assets/audio unchanged: PASS
+Assets/audio tree SHA-256: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+Economy unchanged: PASS
+economy.js SHA-256: f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441

@@ -1,40 +1,24 @@
-# STARFALL FRONTIER v0.6.1 — REACTIVE MATRIX · SHADOW MODE
+# STARFALL FRONTIER v0.6.7
 
-## Base
-Derivación directa de **v0.6.0 — ECONOMY + BOSS SUPPLY FULL**. No se reconstruyó el proyecto ni se sustituyeron assets.
+## Tactical Belt + Drone Command
+- Barra rápida de consumibles con teclado 1–6 y soporte táctil.
+- Estadísticas efectivas del Hangar.
+- Intercepción defensiva para drones de bahía avanzada.
+- Signature bursts y progreso de recarga para el jefe aliado.
+- Fix de reloj de pausa para aliado de jefe.
+- Balizas visuales de loot prioritario.
 
-## Reactive Boss Matrix
-- PLAYER COMBAT POWER INDEX a partir de DPS teórico, DPS efectivo reciente, build, upgrades, powers, survivabilidad y desempeño.
-- ESTIMATED TTK continuo basado en HP actual del boss / DPS efectivo.
-- TTK estructural adicional para observación de Fortaleza, módulos y hardpoints.
-- Estados: M0 SUPPORT, M1 NOMINAL, M2 OVERDRIVE y M3 DOMINANCE.
-- Hysteresis de 1,8 s y cooldown de 3,5 s entre cambios.
-- Ventanas objetivo por etapa: 45–75, 55–90, 70–110 y 90–130 s.
 
-## Shadow Mode
-- No modifica HP, daño, cadencia, economía, precios, inventario ni Boss Supply.
-- No ejecuta System Jam.
-- No ejecuta reboot adaptativo.
-- No aplica mitigación adaptativa.
-- Solo registra qué respuesta habría propuesto.
-
-## Telemetría local
-- Build, upgrades, poderes, DPS, power index, TTK estimado/real.
-- Estado M0–M3 y transiciones.
-- Boss Supply ofrecido/usado.
-- Daño recibido, resurrección nativa, duración y resultado.
-- Máximo 60 encuentros bajo `sf3_reactive_matrix_telemetry_v1`.
-
-## HUD
-Línea de diagnóstico durante boss: `REACTIVE MATRIX · SHADOW · Mx · DPS · TTK`.
-
-## PWA
-- `manifest.webmanifest` fullscreen.
-- `sw.js` cachea solo shell ligero; no precarga los assets pesados.
-- Registro solo bajo HTTP/HTTPS.
-
-## Validación
-- Sintaxis JS + Service Worker.
-- Referencias de index, runtime assets y PWA.
-- Suite completa histórica + nueva prueba Shadow Matrix.
-- Integridad SHA-256 de assets/audio y economía frente a v0.6.0.
+## HANGAR + SURVIVAL + LOOT + BOSS ALLY
+- Nave con libertad vertical casi completa.
+- Hangar compacto y panel de mejoras.
+- Tienda ampliada y más opciones de mejora de nave.
+- 1–4 drones según Bahía Dron.
+- Gemas físicas convertibles en monedas.
+- Drops de vida y máximo de 9 vidas.
+- Resurrección de emergencia comprable (1 carga almacenada).
+- Power-ups renderizados con arte runtime original cuando existe.
+- Poder IMÁN TOTAL.
+- Jefe derrotado invocable como aliado 10 s, cooldown visible.
+- Más Boss Supply y mejor supervivencia durante jefes.
+- Fortaleza/Reboot/Reactive Matrix conservados.

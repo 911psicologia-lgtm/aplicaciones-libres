@@ -5,8 +5,8 @@ window.SF = window.SF || {};
   const defaults=()=>({
     xp:0,coins:120,level:1,totalKills:0,bossKills:0,subbossKills:0,bestStreak:0,
     totalEarnedCoins:120,purchases:0,
-    inventory:{heal:0,shield:0,missile:0,chain:0,overdrive:0,drone:0,emp:0,life:0},
-    upgrades:{hull:0,magnet:0,power:0,weapon:0},bossPowers:{},bossesDefeated:{}
+    inventory:{heal:0,shield:0,missile:0,chain:0,overdrive:0,drone:0,emp:0,life:0,magnet:0,revive:0},
+    upgrades:{hull:0,magnet:0,power:0,weapon:0,thruster:0,armor:0,firerate:0,dronebay:0},bossPowers:{},bossesDefeated:{}
   });
   function xpForNext(level){ const l=Math.max(1,level|0); return Math.round(120 + (l-1)*72 + Math.pow(l-1,1.28)*28); }
   function normalize(raw){
@@ -53,14 +53,16 @@ window.SF = window.SF || {};
   function inventoryCount(kind){ return Math.max(0,Number(P.inventory[kind])||0); }
   function priceOf(item){ return item.type==='upgrade' ? item.cost + upgradeLevel(item.upgrade)*(item.step||0) : item.cost; }
   function catalog(){ return (C.economy?.catalog||[]).map(item=>{
-    const levelOk=P.level>=item.level, maxed=item.type==='upgrade' && upgradeLevel(item.upgrade)>=item.max;
+    const levelOk=P.level>=item.level, inventoryFull=item.type==='consumable'&&item.maxInventory&&inventoryCount(item.kind)>=item.maxInventory;
+    const maxed=(item.type==='upgrade' && upgradeLevel(item.upgrade)>=item.max)||!!inventoryFull;
     const price=priceOf(item), affordable=levelOk&&!maxed&&P.coins>=price;
-    return {...item,price,levelOk,maxed,affordable,owned:item.type==='consumable'?inventoryCount(item.kind):upgradeLevel(item.upgrade)};
+    return {...item,price,levelOk,maxed,inventoryFull,affordable,owned:item.type==='consumable'?inventoryCount(item.kind):upgradeLevel(item.upgrade)};
   }); }
   function buy(id){
     const item=(C.economy?.catalog||[]).find(x=>x.id===id); if(!item) return {ok:false,reason:'NO EXISTE'};
     const price=priceOf(item); if(P.level<item.level) return {ok:false,reason:`NIVEL ${item.level}`};
     if(item.type==='upgrade' && upgradeLevel(item.upgrade)>=item.max) return {ok:false,reason:'MÁXIMO'};
+    if(item.type==='consumable' && item.maxInventory && inventoryCount(item.kind)>=item.maxInventory) return {ok:false,reason:'INVENTARIO LLENO'};
     if(P.coins<price) return {ok:false,reason:'MONEDAS INSUFICIENTES'};
     P.coins-=price; P.purchases++;
     if(item.type==='upgrade') P.upgrades[item.upgrade]=upgradeLevel(item.upgrade)+1;
@@ -68,9 +70,10 @@ window.SF = window.SF || {};
     save(); return {ok:true,item:{...item,price},profile:state()};
   }
   function consume(kind){ if(inventoryCount(kind)<=0) return false; P.inventory[kind]--; save(); return true; }
+  function addGemCoins(amount=1){ return add(0,Math.max(1,Math.round(amount))); }
   function state(){
     P=normalize(P); const spent=P.xp; let rem=spent; for(let l=1;l<P.level;l++) rem-=xpForNext(l);
     const need=xpForNext(P.level); return JSON.parse(JSON.stringify({...P,xpIntoLevel:Math.max(0,rem),xpToNext:need}));
   }
-  NS.economy={state,catalog,buy,consume,add,rewardKill,rewardStreak,rewardWave,rewardSector,grantBossPowers,bossPowerPool,upgradeLevel,inventoryCount,xpForNext};
+  NS.economy={state,catalog,buy,consume,add,rewardKill,rewardStreak,rewardWave,rewardSector,grantBossPowers,bossPowerPool,upgradeLevel,inventoryCount,xpForNext,addGemCoins};
 })(window.SF);

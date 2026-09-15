@@ -1,0 +1,23 @@
+Emilia · El Bosque de las Palabras · v0.9.8 · Gestos y Espacio
+
+OBJETIVO
+Mejorar la comprensión intuitiva de las mecánicas sin añadir nuevas letras ni sobrecargar con texto.
+
+CAMBIOS
+- Pista gestual visual discreta por tipo de actividad: tocar, mover/arrastrar o escribir.
+- Construcción de palabras: las sílabas pueden tocarse o arrastrarse a la bandeja de construcción.
+- Orden de frases: las palabras pueden tocarse o arrastrarse al espacio de la frase.
+- Compatibilidad de arrastre con mouse, touch y lápiz; el toque sigue siendo alternativa completa.
+- Destinos de construcción y frase se iluminan cuando reciben una pieza.
+- Animación breve al colocar sílabas/palabras y al completar una construcción correcta.
+- Huecos de completar palabra/frase destacan suavemente mientras están vacíos.
+- Mayor separación entre opciones y tarjetas para reducir apeñuscamiento en móvil/tablet.
+- Picture Pick en móvil pasa a dos columnas; una tercera opción impar se centra sola.
+- Controles de escritura reciben más espacio y separación.
+
+VALIDACIÓN
+- JavaScript: sintaxis comprobada en todos los archivos.
+- CSS: llaves balanceadas.
+- Service Worker: 224 referencias, 0 faltantes.
+- Assets: 208 comparados contra v0.9.7; 0 añadidos, 0 eliminados, 0 modificados.
+- Manifest: start_url v0.9.8.

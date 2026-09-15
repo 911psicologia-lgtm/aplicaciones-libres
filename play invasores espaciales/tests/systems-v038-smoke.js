@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..');
 const sandbox={window:{SF:{}},performance:{now:()=>0},console}; sandbox.window.window=sandbox.window;
 vm.createContext(sandbox); vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.6.1') throw new Error('wrong version');
+if(C.VERSION!=='0.6.7') throw new Error('wrong version');
 if(!C.sectorMutators?.sequence?.length || C.sectorMutators.sequence.length<5) throw new Error('sector mutators missing');
 if(!C.eliteVariants?.classes?.length || C.eliteVariants.classes.length<3) throw new Error('elite variants missing');
 if(!C.tacticalObjectives?.pools || Object.keys(C.tacticalObjectives.pools).length<4) throw new Error('objective pools missing');

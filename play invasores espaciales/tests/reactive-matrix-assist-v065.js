@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const store=new Map();
+const localStorage={getItem:k=>store.has(k)?store.get(k):null,setItem:(k,v)=>store.set(k,String(v)),removeItem:k=>store.delete(k)};
+let clock=0;
+const sandbox={window:null,localStorage,console,Date,JSON,Math,performance:{now:()=>clock}}; sandbox.window=sandbox; sandbox.window.SF={};
+vm.createContext(sandbox);
+for(const f of ['config.js','storage.js','reactive_matrix.js']) vm.runInContext(fs.readFileSync(path.join(root,'js',f),'utf8'),sandbox,{filename:f});
+const C=sandbox.window.SF.config,R=sandbox.window.SF.reactiveMatrix,S=sandbox.window.SF.storage;
+if(C.VERSION!=='0.6.7') throw new Error('wrong version');
+if(!C.reactiveMatrix?.enabled||C.reactiveMatrix.mode!=='assist') throw new Error('assist mode not enabled');
+if(C.reactiveMatrix.overdriveMitigation<.85||C.reactiveMatrix.overdriveMitigation>.92) throw new Error('mitigation outside conservative range');
+R.start({sector:3,bossName:'TEST',bossHp:800,build:{shipId:'specter',shipName:'Specter',primaryDamage:2.8,fireInterval:.07,projectileFactor:2.3,secondaryFactor:1.7,speed:505,maxHp:12,lives:4,shieldActive:true,combo:15,activePowers:{missile:true,chain:true,drone:true},upgrades:{weapon:5},bossAugments:{damage:.2},relicLevels:{missile:3},bossPowers:['missile']}},0);
+for(let t=500;t<=7000;t+=500){ clock=t; R.noteDamage(45,'hull',t); R.update({bossHp:Math.max(250,800-t/20),defenseHp:80,hpRatio:.8,mobilityIndex:1.17,hasUsefulSecondary:true,combo:18,damageReceivedRatio:.08},t); }
+const st=R.status();
+if(!['M2','M3'].includes(st.state)) throw new Error('high DPS not recognized: '+st.state);
+R.noteIntervention('mitigation',.12,{state:st.state});
+R.noteSupplyOffered('shield','matrixSupport'); R.noteSupplyUsed('shield','matrixSupport'); R.noteIntervention('support',1,{kind:'shield'});
+clock=8000; R.finalize('victory',{bossHp:0,defenseHp:0,hpRatio:.6,mobilityIndex:1.17,hasUsefulSecondary:true,combo:20,damageReceivedRatio:.2},8000);
+const logs=S.loadMatrixTelemetry(); if(logs.length!==1) throw new Error('telemetry not stored');
+const e=logs[0];
+if(e.matrixMitigationApplied<.119||e.matrixJamActivated!==false||e.matrixRebootActivated!==false) throw new Error('assist intervention telemetry invalid');
+if(e.matrixSupportDrops<1||!e.suppliesUsed.length||!Array.isArray(e.matrixActions)||e.matrixActions.length<2) throw new Error('assist telemetry fields incomplete');
+const game=fs.readFileSync(path.join(root,'js','game.js'),'utf8'),html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+for(const token of ['maybeMatrixSupport','applyMatrixBossResponse',"spawnPowerDrop(x,y,kind,'matrixSupport')",'REACTIVE ARMOR · CONTRAMEDIDAS']) if(!game.includes(token)) throw new Error('missing game hook '+token);
+if(game.includes('SYSTEM JAM')||game.includes('SIGNAL BLACKOUT')) throw new Error('jam should not be activated in phase 2');
+if(!html.includes('js/reactive_matrix.js')) throw new Error('matrix script not referenced');
+console.log('REACTIVE MATRIX ASSIST v0.6.7 PASS',{state:st.state,ttk:st.estimatedTtk.toFixed(1),actions:e.matrixActions.length});

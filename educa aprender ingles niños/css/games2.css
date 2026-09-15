@@ -36,7 +36,7 @@
 /* v7 fix: el botón de avanzar SIEMPRE visible y tocable (nunca bajo la barra inferior) */
 #stNext{position:sticky;bottom:calc(var(--botnav-h) + 10px);z-index:6;margin:2px auto 0}
 .say-img{
-  width:clamp(110px,24vh,180px);aspect-ratio:1/1;object-fit:cover;
+  width:clamp(110px,24vh,180px);aspect-ratio:1/1;object-fit:contain;
   border-radius:20px;border:3px solid rgba(255,215,0,.35);
   box-shadow:0 10px 26px rgba(0,0,0,.5);display:block;margin:0 auto 5px;
   background:rgba(255,255,255,.06);
@@ -54,7 +54,7 @@ span.say-img.img-fallback{font-size:4em;display:flex;align-items:center;justify-
 .odd-opts{grid-template-columns:repeat(2,1fr)!important}
 .odd-btn{min-height:clamp(90px,16vh,150px)}
 .ob-odd-img{
-  width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;
+  width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:14px;
   background:rgba(255,255,255,.06);display:block
 }
 span.ob-odd-img.img-fallback{font-size:2.6em;line-height:1;display:flex;align-items:center;justify-content:center;padding:22px 0}
@@ -96,7 +96,7 @@ span.ob-odd-img.img-fallback{font-size:2.6em;line-height:1;display:flex;align-it
 .dict-tile.pop{animation:bounceOk .3s ease}
 .dict-tile.learned{border-color:rgba(52,152,219,.45)}
 .dict-tile.mastered{border-color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,.2)}
-.dt-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:rgba(255,255,255,.05)}
+.dt-img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:10px;background:rgba(255,255,255,.05)}
 span.dt-img.img-fallback{font-size:2em;line-height:1;display:flex;align-items:center;justify-content:center;padding:16px 0}
 .dt-num{
   width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
@@ -177,3 +177,11 @@ span.dt-img.img-fallback{font-size:2em;line-height:1;display:flex;align-items:ce
   #studioScreen .question-card{margin-left:auto;margin-right:auto}
   .studio-top{max-width:640px}
 }
+
+/* v9 [A-e]: botón «Ver más» del diccionario por lotes */
+.dict-tile.dict-more{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  border:2px dashed rgba(255,215,0,.45);background:rgba(255,215,0,.06);cursor:pointer;
+}
+.dict-tile.dict-more:active{transform:scale(.96)}
+.dict-tile.dict-more .dt-en{color:var(--gold);font-weight:900}

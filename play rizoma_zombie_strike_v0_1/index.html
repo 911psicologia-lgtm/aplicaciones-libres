@@ -1,590 +1,582 @@
 <!DOCTYPE html>
 <html lang="es" translate="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#02070a" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Zombie Strike" />
-  <script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.41.0";document.head.appendChild(m);}</script>
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <title>Rizoma Zombie Strike — Saga II completa · v3.44.0</title>
-  <link rel="preload" as="image" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w1.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w2.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w3.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w4.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w5.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w9.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w10.svg" />
-  <link rel="preload" as="image" href="assets/boss2/sigil_w15.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=3.16.0" />
-  <link rel="preload" as="image" href="assets/story/episode_01_protocol_zstrike.webp" fetchpriority="high" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="#02070a" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="Zombie Strike" name="apple-mobile-web-app-title"/>
+<script>if(location.protocol !== "file:"){const m=document.createElement("link");m.rel="manifest";m.href="manifest.json?v=3.49.0";document.head.appendChild(m);}</script>
+<link href="assets/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="assets/icon-192.png" rel="apple-touch-icon"/>
+<title>Rizoma Zombie Strike — Saga II completa · v3.49.0</title>
+<link as="image" fetchpriority="high" href="assets/ui/intro_poster_mobile.webp" media="(max-width: 1200px)" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w1.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w2.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w3.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w4.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w5.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w9.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w10.svg" rel="preload"/>
+<link as="image" href="assets/boss2/sigil_w15.svg" rel="preload"/>
+<link href="css/styles.css?v=3.49.0" rel="stylesheet"/>
+<link as="image" fetchpriority="high" href="assets/story/episode_01_protocol_zstrike.webp" rel="preload"/>
 </head>
 <body>
-  <div id="orientationGate" class="orientation-gate hidden" aria-hidden="true"></div>
-  <div id="app" class="app-shell">
-    <div class="ambient ambient-a"></div>
-    <div class="ambient ambient-b"></div>
+<div aria-hidden="true" class="orientation-gate hidden" id="orientationGate"></div>
+<div class="app-shell" id="app">
+<div class="ambient ambient-a"></div>
+<div class="ambient ambient-b"></div>
+<header class="topbar">
+<button aria-label="Inicio" class="icon-btn" id="btnHome" title="Inicio" type="button">⌂</button>
+<div class="brand">
+<span class="brand-mark">⬢</span>
+<div>
+<strong>Rizoma Zombie Strike</strong>
+<small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.49.0</small>
+</div>
+</div>
+<button aria-label="Ajustes" class="icon-btn" id="btnSettings" title="Ajustes" type="button">⚙</button>
+</header>
+<main>
+<section class="screen active intro-screen" id="screenIntro">
+<div class="intro-poster-wrap">
+<picture class="intro-poster-picture">
+<source media="(max-width: 1200px)" srcset="assets/ui/intro_poster_mobile.webp"/>
+<img alt="Presentación de Zombie Strike" class="intro-poster-img" decoding="async" fetchpriority="high" loading="eager" src="assets/ui/intro_poster.webp"/>
+</picture>
+<div class="intro-overlay-panel">
+<p class="eyebrow">Shmup apocalíptico espacial</p>
+<h1 class="intro-title-hidden">Zombie Strike</h1>
+<p class="subcopy">Sobrevive a la caída estelar, enfrenta Guardianes de todos los frentes y conquista veinte mundos.</p>
+<button class="primary-btn wide neon" id="btnOpenPortal" type="button">Iniciar misión</button>
+</div>
+</div>
+</section>
+<section class="screen portal-screen simple-start-screen" id="screenPortal">
+<div class="start-card glass start-card-minimal redesigned-menu">
+<div class="menu-hero-concept">
+<img alt="Concepto del menú Zombie Strike" src="assets/ui/menu_concept.webp"/>
+</div>
+<p class="eyebrow">Centro de mando</p>
+<p class="subcopy" id="startGreeting">Escribe tu nombre para entrar.</p>
+<div class="command-main-row">
+<div class="start-name-box">
+<label for="playerNameInput">Nickname</label>
+<div class="compact-form start-name-form">
+<input autocomplete="off" id="playerNameInput" maxlength="18" placeholder="Tu nickname"/>
+</div>
+</div>
+<div aria-label="Dificultad" class="difficulty-select">
+<div class="difficulty-buttons">
+<button class="difficulty-btn active" data-difficulty="normal" type="button"><strong>Normal</strong><small>Equilibrado</small></button>
+<button class="difficulty-btn hard" data-difficulty="hard" type="button"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
+</div>
+<small class="difficulty-hint" id="difficultyHint">Experiencia equilibrada actual</small>
+</div>
+<button class="primary-btn command-launch" id="btnSaveProfileName" type="button">INICIAR MISIÓN</button>
+</div>
+<div class="command-sub-row">
+<div aria-label="Modo de juego" class="play-mode-select">
+<div class="play-mode-buttons">
+<button class="play-mode-btn active" data-play-mode="story" type="button"><strong>CAMPAÑA</strong><small>Combate continuo · historia estática desactivada</small></button>
+<button class="play-mode-btn" data-play-mode="direct" hidden="" type="button"><strong>ASALTO</strong><small>Directo al combate</small></button>
+</div>
+<small class="play-mode-hint" id="playModeHint">Cinemáticas Saga I / II en preparación · serán opcionales y saltables</small>
+</div>
+<div class="start-actions-main minimal">
+<button class="soft-btn wide" id="btnContinue" type="button">Cargar partida</button>
+<button class="soft-btn wide" data-screen="screenRanking" type="button">RANKING</button>
+</div>
+</div>
+<div aria-label="Accesos de progreso" class="command-tools-row">
+<button class="soft-btn command-tool" data-screen="screenHangar" type="button"><strong>🛠 HANGAR TÁCTICO</strong><small>Compara naves, resonancias, presets y prepara la próxima salida</small></button>
+<button class="soft-btn command-tool" data-screen="screenReplay" type="button"><strong>🗺 ARCHIVO DE MUNDOS</strong><small>Repite cualquier nivel superado y equipa naves capturadas</small></button>
+<button class="soft-btn command-tool" data-screen="screenTraining" type="button"><strong>🎯 ENTRENAMIENTO</strong><small>Simulador de jefe sin alterar tu campaña</small></button>
+</div>
+<div class="saved-games-list hidden" id="savedGamesList"></div>
+<div class="portal-ranking-preview" id="portalRankingPreview"></div>
+<small class="start-hint" id="simpleStartHint">Progreso local guardado en este dispositivo.</small>
+</div>
+</section>
+<section class="screen tactical-hangar-screen" id="screenHangar">
+<div class="panel glass tactical-hangar-shell">
+<div class="section-head tactical-hangar-head">
+<div>
+<p class="eyebrow">Preparación de misión</p>
+<h2>Hangar táctico Rizoma</h2>
+<small>Compara cascos, resonancias, Guardianes y presets. Todo cambio de nave se aplica de forma segura en la próxima salida.</small>
+</div>
+<div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay" type="button">Archivo</button><button class="soft-btn" data-screen="screenPortal" type="button">Volver</button></div>
+</div>
+<div class="tactical-hangar-grid">
+<section class="hangar-bay-panel">
+<div class="hangar-bay-topline"><span class="tag" id="hangarTierLabel">TÁCTICO</span><span class="hangar-mission-context" id="hangarMissionContext">Próxima misión</span></div>
+<div class="hangar-ship-preview tactical-preview" id="hangarShipPreview"></div>
+<div class="hangar-copy tactical-copy"><h3 id="hangarShipName">Nave preparada</h3><p class="muted" id="hangarShipSummary"></p></div>
+<div class="hangar-comparison" id="hangarComparison"></div>
+</section>
+<aside class="hangar-command-panel">
+<div class="hangar-recommendation" id="hangarRecommendation"></div>
+<div class="hangar-subhead"><div><p class="eyebrow">Presets</p><h3>Doctrinas de carga</h3></div><small>Guarda tu nave + flota + Guardián</small></div>
+<div class="hangar-preset-grid" id="hangarPresetGrid"></div>
+<div class="hangar-subhead"><div><p class="eyebrow">Módulos permanentes</p><h3>Estado estructural</h3></div><small>No consume recursos aquí</small></div>
+<div class="hangar-parts-grid tactical-parts" id="hangarPartsGrid"></div>
+<div class="hangar-detail" id="hangarDetail"></div>
+</aside>
+</div>
+<div class="hangar-loadout-section">
+<div class="hangar-subhead"><div><p class="eyebrow">Línea propia</p><h3>Naves Rizoma</h3></div><small>El casco seleccionado también determina la resonancia de la Flota de Conquista</small></div>
+<div class="hangar-choice-grid" id="hangarRizomaGrid"></div>
+</div>
+<div class="hangar-loadout-section">
+<div class="hangar-subhead"><div><p class="eyebrow">Guardianes conquistados</p><h3>Flota de Conquista</h3></div><small>10 cascos especializados · cada uno conserva ventaja y renuncia propias</small></div>
+<div class="hangar-choice-grid fleet" id="hangarFleetGrid"></div>
+</div>
+<div class="hangar-loadout-section guardian-loadout-section">
+<div class="hangar-subhead"><div><p class="eyebrow">Apoyo temporal</p><h3>Guardián invocable</h3></div><small>Selecciona el recurso de emergencia de la próxima salida</small></div>
+<div class="hangar-guardian-strip" id="hangarGuardianGrid"></div>
+</div>
+<div class="hangar-history" id="hangarHistory"></div>
+</div>
+</section>
+<section class="screen" id="screenProfiles">
+<div class="panel glass narrow">
+<div class="section-head">
+<div>
+<p class="eyebrow">Usuarios locales</p>
+<h2>Perfiles</h2>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="list-stack" id="profileList"></div>
+<div class="compact-form mt">
+<input aria-label="Nombre del nuevo jugador" autocomplete="off" id="newProfileName" maxlength="18" placeholder="Nuevo jugador"/>
+<button class="primary-btn small" id="btnCreateProfile" type="button">Crear</button>
+</div>
+</div>
+</section>
+<section class="screen" id="screenAvatar">
+<div class="panel glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Identidad jugable</p>
+<h2>Elige avatar</h2>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="card-grid avatars" id="avatarGrid"></div>
+</div>
+</section>
+<section class="screen" id="screenShop">
+<div class="panel glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Meta-progresión</p>
+<h2>Tienda de mejoras</h2>
+<small id="shopCoinsLabel">Fragmentos: 0</small>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="card-grid shop" id="shopGrid"></div>
+</div>
+</section>
+<section class="screen" id="screenRanking">
+<div class="panel glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Tablero local</p>
+<h2>Ranking multinivel</h2>
+</div>
+<div class="section-actions">
+<button class="soft-btn small" id="btnExportRanking" type="button">Exportar ranking</button>
+<button class="soft-btn small" data-screen="screenPortal" type="button">Volver</button>
+</div>
+</div>
+<div class="ranking-list" id="rankingList"></div>
+</div>
+</section>
+<section class="screen" id="screenAchievements">
+<div class="panel glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Premios animados</p>
+<h2>Logros</h2>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="card-grid achievements" id="achievementGrid"></div>
+</div>
+</section>
+<section class="screen" id="screenCollection">
+<div class="panel glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Memoria de progreso</p>
+<h2>Colección</h2>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="collection-grid" id="collectionGrid"></div>
+<div class="collection-codex-section mastery-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Telemetría local</p><h3>Maestría del arsenal</h3></div><small>Uso real · sin bonos de combate ni conexión externa</small></div>
+<div class="mastery-summary-grid" id="collectionMasterySummary"></div>
+<div class="mastery-top-list" id="collectionMasteryTop"></div>
+</div>
+<div class="collection-codex-section doctrine-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Preferencia de construcción</p><h3>Doctrinas tácticas</h3></div><small>Orientan una opción · no añaden daño, duración ni rareza</small></div>
+<div class="doctrine-status" id="collectionDoctrineStatus"></div>
+<div class="doctrine-grid" id="collectionDoctrineGrid"></div>
+<p class="doctrine-rule">La doctrina solo puede influir en una de las tres cápsulas de una subida de nivel y únicamente en el 65% de las ofertas. Recompensas de mundo, botín de Guardianes, hordas, Entrenamiento y tienda no cambian.</p>
+</div>
+<div class="collection-codex-section synergy-map-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Cartografía de construcción</p><h3>Rutas de sinergia</h3></div><small>Descubrimientos por doctrina · sin revelar fusiones no encontradas</small></div>
+<div class="synergy-map-grid" id="collectionSynergyMap"></div>
+<p class="doctrine-rule">La cartografía es informativa. Resume poderes y fusiones ya registrados; no modifica probabilidades, daño, duración ni recompensas.</p>
+</div>
+<div class="collection-codex-section expedition-memory-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Bitácora local</p><h3>Memoria de expediciones</h3></div><small>Builds finalizadas · comparación histórica · sin bonos</small></div>
+<div class="expedition-summary-grid" id="collectionExpeditionSummary"></div>
+<div class="expedition-pinned-wrap" id="collectionExpeditionPinned"></div>
+<div class="expedition-list" id="collectionExpeditionList"></div>
+<p class="doctrine-rule">Se guardan localmente las últimas 18 expediciones finalizadas. Fijar una referencia solo habilita comparaciones visuales; no altera doctrina, cápsulas, daño, rareza ni recompensas.</p>
+</div>
+<div class="collection-codex-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Códice táctico</p><h3>Arsenal descubierto</h3></div><small>Rol · duración · función · rareza · maestría</small></div>
+<div class="arsenal-codex-grid" id="collectionPowerCodex"></div>
+</div>
+<div class="collection-codex-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Sinergias</p><h3>Fusiones evolutivas</h3></div><small>Solo se revelan después de activarlas</small></div>
+<div class="fusion-codex-list" id="collectionFusionCodex"></div>
+</div>
+<div class="collection-codex-section">
+<div class="collection-codex-head"><div><p class="eyebrow">Intervenciones</p><h3>Críticos y combos críticos</h3></div><small>Memoria de firmas encontradas en combate</small></div>
+<div class="critical-codex-grid" id="collectionCriticalCodex"></div>
+</div>
+</div>
+</section>
+<section class="screen" id="screenReplay">
+<div class="panel glass progress-hub">
+<div class="section-head">
+<div>
+<p class="eyebrow">Memoria de campaña</p>
+<h2>Archivo de mundos</h2>
+<small>Todo mundo superado queda disponible para repetición. Tu progreso principal no se modifica.</small>
+</div>
+<button class="soft-btn" data-screen="screenPortal" type="button">Volver</button>
+</div>
+<div class="progress-summary-row">
+<article class="progress-summary-card"><strong id="archiveWorldCount">0/11</strong><small>Mundos superados</small></article>
+<article class="progress-summary-card"><strong id="archiveShipCount">0/20</strong><small>Formas DOMINIO capturadas</small></article>
+<article class="progress-summary-card"><strong id="archiveActiveShip">RIZOMA</strong><small>Nave activa</small></article>
+</div>
+<h3 class="archive-heading">Formas DOMINIO</h3>
+<div class="boss-ship-inventory" id="bossShipInventory"></div>
+<h3 class="archive-heading">Naves Rizoma · Línea propia</h3>
+<small class="archive-system-note">Seis cascos originales desbloqueados por hitos M1/M4/M8/M12/M16/M20. Cada uno conserva una habilidad propia y no se mezcla con DOMINIO.</small>
+<div class="boss-ship-inventory rizoma-ship-inventory" id="rizomaShipInventory"></div>
+<h3 class="archive-heading">Flota de Conquista</h3>
+<small class="archive-system-note">Diez naves conquistadas inspiradas en Guardianes. Seleccionar una reemplaza temporalmente el casco Rizoma en la siguiente salida, sin borrar tu nave propia elegida.</small>
+<div class="boss-ship-inventory conquest-fleet-inventory" id="conquestFleetInventory"></div>
+<h3 class="archive-heading">Invocación de Guardianes</h3>
+<small class="archive-system-note">Todo Guardián derrotado puede seleccionarse como apoyo temporal de emergencia.</small>
+<div class="boss-ship-inventory guardian-invocation-inventory" id="guardianInvocationInventory"></div>
+<h3 class="archive-heading">Niveles disponibles</h3>
+<div class="replay-world-grid" id="replayWorldGrid"></div>
+<article class="saga-preview-card saga-closure-card" id="sagaClosureCard">
+<img alt="Archivo de la Saga II" src="assets/story/episode_10_afterfall.webp"/>
+<div><p class="eyebrow" id="sagaClosureEyebrow">SAGA II · RUTA ACTIVA</p><h3 id="sagaClosureTitle">0/10 mundos de Saga II superados</h3><p id="sagaClosureText">Desierto · abismo pelágico · magma · estrella moribunda · gusano colosal · cerebros · tundra · biblioteca anime · grises · necroescama.</p></div>
+</article>
+<div aria-label="Mundos de Saga II 11 a 20" class="saga-two-grid" id="sagaTwoGrid"></div>
+</div>
+</section>
+<section class="screen" id="screenTraining">
+<div class="panel glass progress-hub training-hub">
+<div class="section-head">
+<div>
+<p class="eyebrow">Simulador Rizoma</p>
+<h2>Modo entrenamiento</h2>
+<small>Elige un Guardián ya derrotado. Practica, recoge premios y vuelve a tu campaña sin modificarla.</small>
+</div>
+<div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay" type="button">🗺 Archivo</button><button class="soft-btn" data-screen="screenPortal" type="button">Volver</button></div>
+</div>
+<div class="training-preview">
+<img alt="Campo de entrenamiento Rizoma" src="assets/training/bg_training_field.webp"/>
+<div class="training-preview-copy"><strong>CAMPO HOLOGRÁFICO</strong><span>Boss real · vida reducida · sin pérdida de progreso</span></div>
+</div>
+<div class="training-boss-grid" id="trainingBossGrid"></div>
+</div>
+</section>
+<div aria-live="polite" class="boss-intro-overlay hidden" id="bossIntroOverlay">
+<div class="boss-intro-card glass">
+<p class="eyebrow" id="bossIntroFamily">Familia</p>
+<div class="boss-intro-icon" id="bossIntroIcon"></div>
+<h2 id="bossIntroName">Jefe</h2>
+<p class="muted" id="bossIntroText">Entrada cinemática</p>
+</div>
+</div>
+<div aria-live="polite" class="relic-overlay hidden" id="relicOverlay">
+<div class="relic-sigil" id="relicSigil"></div>
+<p>RELIQUIA CONQUISTADA</p>
+<h2 id="relicName">Poder del jefe</h2>
+<small id="relicDesc"></small>
+</div>
+<div aria-live="polite" class="game-intro-overlay hidden" id="gameIntroOverlay">
+<video class="game-intro-video" id="gameIntroVideo" playsinline="" preload="auto" src="assets/video/intro_general.mp4"></video>
+<button class="game-intro-skip" id="btnGameIntroSkip" type="button">SALTAR ›</button>
+</div>
+<div aria-live="polite" aria-modal="true" class="story-overlay hidden" id="storyOverlay" role="dialog">
+<div class="story-stage">
+<img alt="Episodio 1 · Protocolo Z-Strike" class="story-image" id="storyImage" src="assets/story/episode_01_protocol_zstrike.webp"/>
+<div class="story-veil"></div>
+<div class="story-copy">
+<div aria-hidden="true" class="story-transmission-head">
+<span class="story-signal"><i></i></span>
+<p class="story-kicker" id="storyKicker">TRANSMISIÓN Z-STRIKE // 01</p>
+<span class="story-live">ENLACE</span>
+</div>
+<h2 class="story-title" id="storyTitle">MUNDO 1 · PROTOCOLO Z-STRIKE</h2>
+<p class="story-caption" id="storyCaption">ASTERION cayó.</p>
+<div aria-hidden="true" class="story-dots" id="storyDots"></div>
+<div class="story-controls">
+<button aria-label="Salir de la historia" class="story-exit" id="btnStorySkip" type="button">
+<span aria-hidden="true" class="story-exit-icon"></span><span>SALIR</span>
+</button>
+<button class="story-next" id="btnStoryNext" type="button">CONTINUAR <span aria-hidden="true">›</span></button>
+</div>
+</div>
+</div>
+</div>
+<section class="screen game-screen" id="screenGame">
+<canvas aria-label="Zona de juego" height="720" id="gameCanvas" width="1280"></canvas>
+<div class="game-vignette"></div>
+<div aria-live="assertive" class="last-chance-overlay hidden" id="lastChanceOverlay">
+<div class="last-chance-copy"><strong>⚠ VAS A MORIR</strong><span><b id="lastChanceTimer">5.0</b>s</span><small>Rescate manual: usa una Vida Extra. No hay compra automática.</small><button class="last-chance-rescue-btn" id="btnLastChanceRescue" type="button">🛒 ABRIR RESCATE</button></div>
+</div>
+<div class="hud" id="hud">
+<div class="hud-pill danger"><span>❤️</span><strong id="hudHp">0</strong></div>
+<div class="hud-pill shield"><span>🛡️</span><strong id="hudShield">0</strong></div>
+<div class="hud-pill"><span>🌊</span><strong id="hudWave">1</strong></div>
+<div class="hud-pill"><span>🗺️</span><strong id="hudMap">1</strong></div>
+<div class="hud-pill score-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
+<div class="hud-pill coins-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
+<div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span class="hud-boss-sigil" id="hudBossSigil"></span><strong id="hudBossPercent">0%</strong></div>
+<div class="hud-pill mastery-pill" id="hudMastery" title="Maestría Rizomática"><span>⚡</span><strong id="hudMasteryValue">0%</strong></div>
+<div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
+</div>
+<div aria-label="Acciones rápidas de combate" class="hud-actions">
+<button aria-label="Abrir Protocolo DOMINIO" class="domain-btn hidden" id="btnDomain" title="Protocolo DOMINIO" type="button"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
+<button aria-label="Abrir Flota de Conquista" class="fleet-quick-btn hidden" id="btnFleet" title="Flota de Conquista" type="button"><span class="fleet-glyph">✦</span><strong>FLOTA</strong><small id="fleetQuickStatus">BASE</small></button>
+<button aria-label="Invocar Guardián seleccionado. Mantén pulsado para cambiar." class="guardian-invoke-btn hidden" id="btnGuardianInvoke" title="Invocar Guardián" type="button"><span class="guardian-glyph">◆</span><strong>GUARDIÁN</strong><small id="guardianInvokeStatus">LISTO</small></button>
+<button aria-label="Invocar aleatoriamente un boss derrotado durante 10 segundos" class="rift-ally-btn hidden" id="btnRiftAlly" title="RIFT ALLY" type="button"><span class="rift-glyph">☣</span><strong>RIFT</strong><small id="riftAllyStatus">LISTO</small></button>
+<button aria-label="Abrir Taller RIZOMA" class="tactical-cart" id="btnTacticalCart" title="Taller RIZOMA" type="button"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
+<button aria-label="Pantalla completa" aria-pressed="false" class="hud-icon-btn" id="btnFullscreen" title="Pantalla completa" type="button">⛶</button>
+<button aria-label="Silenciar música de fondo" aria-pressed="true" class="music-quick-btn" id="btnMusicQuick" title="Silenciar música de fondo" type="button"><span aria-hidden="true" class="music-note-glyph">♫</span></button>
+<button aria-label="Pausar juego" class="pause-btn" id="btnPause" title="Pausa" type="button">⏸</button>
+</div>
+<div aria-hidden="true" aria-live="polite" class="rizoma-tactic-badge hidden" id="rizomaTacticBadge" role="status">
+<span class="rizoma-tactic-code" id="rizomaTacticCode">RZ-1</span><div><strong id="rizomaTacticRole">FRONTAL</strong><small id="rizomaTacticStage">E1 · PERFORAR</small></div><b id="rizomaTacticStatus">LISTO</b><i aria-hidden="true"></i>
+</div>
+<div aria-live="polite" class="ally-tactic-badge hidden" id="allyTacticBadge" role="status">
+<span class="ally-tactic-source" id="allyTacticSource">GUARDIÁN</span><strong id="allyTacticRole">CAZADOR</strong><small id="allyTacticTime">10s</small><i aria-hidden="true"></i>
+</div>
+<div class="boss-bar hidden" id="bossBar">
+<span id="bossName">Jefe</span>
+<div class="boss-meter hp"><i id="bossHpFill"></i></div>
+<div class="boss-meter shield"><i id="bossShieldFill"></i></div>
+<div class="boss-meta">
+<small id="bossPhaseLabel">Fase 1</small>
+<small id="bossShieldLabel">Escudo 0</small>
+<small id="bossAddsLabel">Séquito 0</small>
+<small id="bossVulnLabel">Estable</small>
+</div>
+</div>
+<div class="xp-wrap" id="xpWrap"><i id="xpFill"></i><span id="xpLabel">Nivel 1</span></div>
+<div class="power-dock" id="powerDock"></div>
+<div class="toast-stack" id="toastStack"></div>
+<button class="pending-badge hidden" id="pendingBadge" title="Mejoras pendientes" type="button">
+<span class="pending-icon">✦</span>
+<strong id="pendingBadgeCount">0</strong>
+</button>
+<div aria-live="polite" class="power-offer-layer hidden" id="cardOverlay">
+<div class="power-offer-head glass">
+<span class="offer-chip-title">Subiste de nivel</span>
+<small id="offerHint">Elige una mejora sin pausar la misión</small>
+</div>
+<div class="card-offer-row" id="cardChoices"></div>
+</div>
+<div aria-hidden="true" class="tactical-prep-prompt hidden" id="tacticalPrepPrompt">
+<div class="tactical-prep-copy">
+<strong>🛒 ¿Preparar nave?</strong>
+<small id="tacticalPrepSummary">Compra Exprés opcional</small>
+</div>
+<div class="tactical-prep-actions">
+<button class="tactical-mini primary" id="btnOpenTacticalShop" type="button">Comprar</button>
+<button class="tactical-mini" id="btnSkipTacticalShop" type="button">Continuar</button>
+</div>
+</div>
+<div aria-live="polite" class="tactical-shop-overlay hidden" id="tacticalShopOverlay">
+<div aria-label="Taller RIZOMA" aria-modal="true" class="tactical-shop-panel" role="dialog">
+<div class="tactical-shop-head">
+<div>
+<p class="eyebrow">TALLER RIZOMA · JUEGO EN PAUSA</p>
+<h3 id="tacticalShopTitle">Taller de combate</h3>
+<small id="tacticalShopLimit">0/0 compras</small>
+</div>
+<button aria-label="Cerrar" class="tactical-close" id="btnTacticalClose" type="button">×</button>
+</div>
+<div class="tactical-wallet" id="tacticalWallet"></div>
+<div class="tactical-advisor" id="tacticalAdvisor"></div>
+<div class="tactical-shop-rail">
+<button aria-label="Opciones anteriores" class="tactical-rail-arrow tactical-rail-prev" id="btnTacticalPrev" type="button">‹</button>
+<div class="tactical-shop-grid" id="tacticalShopGrid"></div>
+<button aria-label="Más opciones" class="tactical-rail-arrow tactical-rail-next" id="btnTacticalNext" type="button">›</button>
+</div>
+<div class="tactical-shop-footer">
+<small>Reajustes directos y suministros. El combate permanece pausado hasta cerrar.</small>
+<button class="primary-btn tactical-start" id="btnTacticalContinue" type="button">Cerrar compras</button>
+</div>
+</div>
+</div>
+<div aria-live="polite" class="domain-overlay hidden" id="domainOverlay">
+<div aria-label="Protocolo DOMINIO" aria-modal="true" class="domain-panel" role="dialog">
+<div class="domain-panel-head">
+<div><p class="eyebrow">PROTOCOLO DOMINIO</p><h3>Nave / forma de combate</h3></div>
+<button aria-label="Cerrar DOMINIO" class="domain-close" id="btnDomainClose" type="button">×</button>
+</div>
+<div class="domain-form-list" id="domainFormList"></div>
+<small class="domain-hint" id="domainHint">Desliza para elegir nave Rizoma o forma de Guardián. Vida, escudo y poderes se conservan.</small>
+</div>
+</div>
+<div aria-live="polite" class="fleet-overlay hidden" id="fleetOverlay">
+<div aria-label="Flota de Conquista" aria-modal="true" class="fleet-panel" role="dialog">
+<div class="fleet-panel-head">
+<div><p class="eyebrow">FLOTA DE CONQUISTA</p><h3>Preparar nave para la próxima salida</h3></div>
+<button aria-label="Cerrar Flota" class="fleet-close" id="btnFleetClose" type="button">×</button>
+</div>
+<div class="fleet-quick-list" id="fleetQuickList"></div>
+<small class="fleet-hint">La nave de la misión actual no cambia. El casco elegido se aplica al iniciar o reiniciar una salida con RIZOMA.</small>
+</div>
+</div>
+<div class="tactical-countdown hidden" id="tacticalCountdown">3</div>
+<div class="modal-layer pause-layer-minimal hidden" id="pauseOverlay">
+<div aria-label="Pausa" aria-modal="true" class="pause-menu-minimal" role="dialog">
+<div class="pause-mini-head">
+<strong>PAUSA</strong>
+<small id="pauseMiniContext">Mundo 1 · Nivel 1</small>
+</div>
+<div class="pause-build-readout" id="pauseBuildReadout"></div>
+<div class="pause-actions-minimal">
+<button class="pause-action primary" id="btnResume" type="button">▶ Continuar</button>
+<button class="pause-action" id="btnSaveRun" type="button">💾 Guardar</button>
+<button class="pause-action" id="btnRestartMap" type="button">↻ Reiniciar mundo</button>
+<button class="pause-action" id="btnWorldArchive" type="button">🗺 Archivo de mundos</button>
+<button class="pause-action danger" id="btnExitRun" type="button">⌂ Salir al inicio</button>
+</div>
+</div>
+</div>
+<div class="modal-layer hidden" id="resultOverlay">
+<div class="modal-card glass result-card compact-result">
+<p class="eyebrow" id="resultEyebrow">Resultado</p>
+<h2 id="resultTitle">Misión terminada</h2>
+<p id="resultText"></p>
+<div class="reward-row" id="resultRewards"></div>
+<div class="result-build-summary" id="resultBuildSummary"></div>
+<div class="result-telemetry-summary" id="resultTelemetrySummary"></div>
+<div class="result-expedition-memory" id="resultExpeditionMemory"></div>
+<div class="life-shop hidden" id="lifeShop">
+<strong>Comprar 1 vida</strong>
+<small>Elige el recurso con el que quieres pagar la reactivación. En M1 la vida recupera seguridad y los poderes realmente obtenidos, sin regalar una build ofensiva nueva.</small>
+<div class="life-shop-grid">
+<button class="life-buy" data-life-currency="coins" id="btnBuyLifeCoins" type="button"><span>🪙 Monedas</span><b id="lifeCostCoins">150</b></button>
+<button class="life-buy" data-life-currency="score" id="btnBuyLifeScore" type="button"><span>⭐ Puntos</span><b id="lifeCostScore">1000</b></button>
+<button class="life-buy" data-life-currency="xp" id="btnBuyLifeXp" type="button"><span>✦ Experiencia</span><b id="lifeCostXp">180</b></button>
+</div>
+</div>
+<div class="modal-actions">
+<button class="primary-btn" id="btnResultContinue" type="button">Continuar</button>
+<button class="soft-btn" id="btnResultHome" type="button">Inicio</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div aria-hidden="true" aria-label="Ajustes y diagnóstico" aria-modal="true" class="drawer hidden" id="settingsDrawer" role="dialog">
+<div class="drawer-card glass">
+<div class="section-head">
+<div>
+<p class="eyebrow">Ajustes</p>
+<h2>Preferencias</h2>
+</div>
+<button aria-label="Cerrar ajustes" class="icon-btn" id="btnCloseSettings" type="button">×</button>
+</div>
+<label class="switch-row"><span>Sonido</span><input id="toggleSound" type="checkbox"/></label>
+<label class="switch-row"><span>Música</span><input id="toggleMusic" type="checkbox"/></label>
+<label class="switch-row"><span>Vibración visual</span><input id="toggleShake" type="checkbox"/></label>
+<label class="switch-row"><span>Reducir animaciones</span><input id="toggleReduced" type="checkbox"/></label>
+<label class="switch-row"><span>Respuesta háptica <small>móvil compatible</small></span><input id="toggleHaptics" type="checkbox"/></label>
+<label class="switch-row"><span>Modo bajo rendimiento <small>reduce FX, no dificultad</small></span><input id="toggleLowPerformance" type="checkbox"/></label>
+<button class="soft-btn wide" id="btnExportBackup" type="button">Exportar backup JSON</button>
+<button class="soft-btn wide" id="btnExportRankingSettings" type="button">Exportar ranking JSON</button>
+<div aria-label="Telemetría local de balance" class="telemetry-settings">
+<small>TELEMETRÍA LOCAL · BALANCE</small>
+<strong id="telemetryStatus">Aún sin intentos registrados</strong>
+<small>🧪 ADAPTIVE BOSS DIRECTOR · LIVE-LITE activo: estima potencia, DPS y TTK; en A2/A3 aplica amortiguación suave y en A0 puede ofrecer ayuda contextual limitada.</small>
+<span>Duración, jefe, daño, eventos letales, poderes y picos de densidad. Se guarda solo en este dispositivo.</span>
+<div class="telemetry-actions"><button class="soft-btn" id="btnExportTelemetry" type="button">Exportar JSON</button><button class="soft-btn" id="btnClearTelemetry" type="button">Reiniciar</button></div>
+</div>
+<details aria-label="Laboratorio de Balance Local" class="balance-lab">
+<summary><span>LABORATORIO DE BALANCE LOCAL</span><small>diagnóstico + perfiles comparables por mundo</small></summary>
+<div class="balance-lab-body">
+<strong id="balanceLabStatus">Sin datos todavía</strong>
+<p>Compara los mundos con tu propia telemetría, detecta variabilidad y propone un perfil reproducible de Nave Rizoma, Flota, dificultad y etapa para repetir pruebas sin mezclar configuraciones.</p>
+<div class="balance-lab-actions"><button class="soft-btn" id="btnExportBalanceCSV" type="button">Exportar CSV</button><button class="soft-btn" id="btnCopyBalanceReport" type="button">Copiar informe</button></div>
+<section aria-label="Playtest Guiado" class="playtest-guide">
+<small>PLAYTEST GUIADO · SIGUIENTE PRUEBA</small>
+<strong id="playtestGuideTarget">Calculando mundo recomendado…</strong>
+<span id="playtestGuideBuild">PERFIL COMPARABLE · calculando…</span>
+<span id="playtestGuideMeta">Sin muestra</span>
+<p id="playtestGuideReason">El laboratorio elegirá una prueba según cobertura, incertidumbre y señales pendientes.</p>
+<div class="playtest-guide-actions"><button class="primary-btn small" id="btnStartGuidedPlaytest" type="button">Probar mundo completo</button><button class="soft-btn" id="btnCopyPlaytestProtocol" type="button">Copiar protocolo</button></div>
+</section>
+<div class="balance-lab-legend"><span>INT.</span><span>VICT.</span><span>TIEMPO</span><span>JEFE</span><span>CASCO</span><span>AMENAZA</span></div>
+<div class="balance-lab-rows" id="balanceLabRows"></div>
+</div>
+</details>
 
-    <header class="topbar">
-      <button id="btnHome" class="icon-btn" title="Inicio" aria-label="Inicio">⌂</button>
-      <div class="brand">
-        <span class="brand-mark">⬢</span>
-        <div>
-          <strong>Rizoma Zombie Strike</strong>
-          <small>Mundos 1–20 · Hangar táctico · 6 Naves Rizoma · Flota de Conquista · Saga II consolidada · v3.44.0</small>
-        </div>
-      </div>
-      <button id="btnSettings" class="icon-btn" title="Ajustes" aria-label="Ajustes">⚙</button>
-    </header>
-
-    <main>
-      <section id="screenIntro" class="screen active intro-screen">
-        <div class="intro-poster-wrap">
-          <picture class="intro-poster-picture">
-            <source media="(max-width: 1200px)" srcset="assets/ui/intro_poster_mobile.webp" />
-            <img class="intro-poster-img" src="assets/ui/intro_poster.webp" alt="Presentación de Zombie Strike" loading="eager" fetchpriority="high" decoding="async" />
-          </picture>
-          <div class="intro-overlay-panel">
-            <p class="eyebrow">Shmup apocalíptico espacial</p>
-            <h1 class="intro-title-hidden">Zombie Strike</h1>
-            <p class="subcopy">Sobrevive a la caída estelar, enfrenta Guardianes de todos los frentes y conquista quince mundos.</p>
-            <button id="btnOpenPortal" class="primary-btn wide neon">Iniciar misión</button>
-          </div>
-        </div>
-      </section>
-
-      <section id="screenPortal" class="screen portal-screen simple-start-screen">
-        <div class="start-card glass start-card-minimal redesigned-menu">
-          <div class="menu-hero-concept">
-            <img src="assets/ui/menu_concept.webp" alt="Concepto del menú Zombie Strike" />
-          </div>
-          <p class="eyebrow">Centro de mando</p>
-          <p id="startGreeting" class="subcopy">Escribe tu nombre para entrar.</p>
-
-          <div class="command-main-row">
-            <div class="start-name-box">
-              <label for="playerNameInput">Nickname</label>
-              <div class="compact-form start-name-form">
-                <input id="playerNameInput" maxlength="18" placeholder="Tu nickname" autocomplete="off" />
-              </div>
-            </div>
-
-            <div class="difficulty-select" aria-label="Dificultad">
-              <div class="difficulty-buttons">
-                <button type="button" class="difficulty-btn active" data-difficulty="normal"><strong>Normal</strong><small>Equilibrado</small></button>
-                <button type="button" class="difficulty-btn hard" data-difficulty="hard"><strong>Difícil</strong><small>Más riesgo · más botín</small></button>
-              </div>
-              <small id="difficultyHint" class="difficulty-hint">Experiencia equilibrada actual</small>
-            </div>
-
-            <button id="btnSaveProfileName" class="primary-btn command-launch">INICIAR MISIÓN</button>
-          </div>
-
-          <div class="command-sub-row">
-            <div class="play-mode-select" aria-label="Modo de juego">
-              <div class="play-mode-buttons">
-                <button type="button" class="play-mode-btn active" data-play-mode="story"><strong>CAMPAÑA</strong><small>Combate continuo · historia estática desactivada</small></button>
-                <button type="button" class="play-mode-btn" data-play-mode="direct" hidden><strong>ASALTO</strong><small>Directo al combate</small></button>
-              </div>
-              <small id="playModeHint" class="play-mode-hint">Cinemáticas Saga I / II en preparación · serán opcionales y saltables</small>
-            </div>
-
-            <div class="start-actions-main minimal">
-              <button id="btnContinue" class="soft-btn wide">Cargar partida</button>
-              <button class="soft-btn wide" data-screen="screenRanking">RANKING</button>
-            </div>
-          </div>
-          <div class="command-tools-row" aria-label="Accesos de progreso">
-            <button class="soft-btn command-tool" data-screen="screenHangar"><strong>🛠 HANGAR TÁCTICO</strong><small>Compara naves, resonancias, presets y prepara la próxima salida</small></button>
-            <button class="soft-btn command-tool" data-screen="screenReplay"><strong>🗺 ARCHIVO DE MUNDOS</strong><small>Repite cualquier nivel superado y equipa naves capturadas</small></button>
-            <button class="soft-btn command-tool" data-screen="screenTraining"><strong>🎯 ENTRENAMIENTO</strong><small>Simulador de jefe sin alterar tu campaña</small></button>
-          </div>
-          <div id="savedGamesList" class="saved-games-list hidden"></div>
-          <div id="portalRankingPreview" class="portal-ranking-preview"></div>
-          <small id="simpleStartHint" class="start-hint">Progreso local guardado en este dispositivo.</small>
-        </div>
-      </section>
-
-      <section id="screenHangar" class="screen tactical-hangar-screen">
-        <div class="panel glass tactical-hangar-shell">
-          <div class="section-head tactical-hangar-head">
-            <div>
-              <p class="eyebrow">Preparación de misión</p>
-              <h2>Hangar táctico Rizoma</h2>
-              <small>Compara cascos, resonancias, Guardianes y presets. Todo cambio de nave se aplica de forma segura en la próxima salida.</small>
-            </div>
-            <div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay">Archivo</button><button class="soft-btn" data-screen="screenPortal">Volver</button></div>
-          </div>
-
-          <div class="tactical-hangar-grid">
-            <section class="hangar-bay-panel">
-              <div class="hangar-bay-topline"><span id="hangarTierLabel" class="tag">TÁCTICO</span><span id="hangarMissionContext" class="hangar-mission-context">Próxima misión</span></div>
-              <div id="hangarShipPreview" class="hangar-ship-preview tactical-preview"></div>
-              <div class="hangar-copy tactical-copy"><h3 id="hangarShipName">Nave preparada</h3><p id="hangarShipSummary" class="muted"></p></div>
-              <div id="hangarComparison" class="hangar-comparison"></div>
-            </section>
-
-            <aside class="hangar-command-panel">
-              <div id="hangarRecommendation" class="hangar-recommendation"></div>
-              <div class="hangar-subhead"><div><p class="eyebrow">Presets</p><h3>Doctrinas de carga</h3></div><small>Guarda tu nave + flota + Guardián</small></div>
-              <div id="hangarPresetGrid" class="hangar-preset-grid"></div>
-              <div class="hangar-subhead"><div><p class="eyebrow">Módulos permanentes</p><h3>Estado estructural</h3></div><small>No consume recursos aquí</small></div>
-              <div id="hangarPartsGrid" class="hangar-parts-grid tactical-parts"></div>
-              <div id="hangarDetail" class="hangar-detail"></div>
-            </aside>
-          </div>
-
-          <div class="hangar-loadout-section">
-            <div class="hangar-subhead"><div><p class="eyebrow">Línea propia</p><h3>Naves Rizoma</h3></div><small>El casco seleccionado también determina la resonancia de la Flota de Conquista</small></div>
-            <div id="hangarRizomaGrid" class="hangar-choice-grid"></div>
-          </div>
-
-          <div class="hangar-loadout-section">
-            <div class="hangar-subhead"><div><p class="eyebrow">Guardianes conquistados</p><h3>Flota de Conquista</h3></div><small>10 cascos especializados · cada uno conserva ventaja y renuncia propias</small></div>
-            <div id="hangarFleetGrid" class="hangar-choice-grid fleet"></div>
-          </div>
-
-          <div class="hangar-loadout-section guardian-loadout-section">
-            <div class="hangar-subhead"><div><p class="eyebrow">Apoyo temporal</p><h3>Guardián invocable</h3></div><small>Selecciona el recurso de emergencia de la próxima salida</small></div>
-            <div id="hangarGuardianGrid" class="hangar-guardian-strip"></div>
-          </div>
-          <div id="hangarHistory" class="hangar-history"></div>
-        </div>
-      </section>
-
-      <section id="screenProfiles" class="screen">
-        <div class="panel glass narrow">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Usuarios locales</p>
-              <h2>Perfiles</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="profileList" class="list-stack"></div>
-          <div class="compact-form mt">
-            <input id="newProfileName" maxlength="18" placeholder="Nuevo jugador" />
-            <button id="btnCreateProfile" class="primary-btn small">Crear</button>
-          </div>
-        </div>
-      </section>
-
-      <section id="screenAvatar" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Identidad jugable</p>
-              <h2>Elige avatar</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="avatarGrid" class="card-grid avatars"></div>
-        </div>
-      </section>
-
-      <section id="screenShop" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Meta-progresión</p>
-              <h2>Tienda de mejoras</h2>
-              <small id="shopCoinsLabel">Fragmentos: 0</small>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="shopGrid" class="card-grid shop"></div>
-        </div>
-      </section>
-
-      <section id="screenRanking" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Tablero local</p>
-              <h2>Ranking multinivel</h2>
-            </div>
-            <div class="section-actions">
-              <button id="btnExportRanking" class="soft-btn small">Exportar ranking</button>
-              <button class="soft-btn small" data-screen="screenPortal">Volver</button>
-            </div>
-          </div>
-          <div id="rankingList" class="ranking-list"></div>
-        </div>
-      </section>
-
-      <section id="screenAchievements" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Premios animados</p>
-              <h2>Logros</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="achievementGrid" class="card-grid achievements"></div>
-        </div>
-      </section>
-
-      <section id="screenCollection" class="screen">
-        <div class="panel glass">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Memoria de progreso</p>
-              <h2>Colección</h2>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div id="collectionGrid" class="collection-grid"></div>
-          <div class="collection-codex-section mastery-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Telemetría local</p><h3>Maestría del arsenal</h3></div><small>Uso real · sin bonos de combate ni conexión externa</small></div>
-            <div id="collectionMasterySummary" class="mastery-summary-grid"></div>
-            <div id="collectionMasteryTop" class="mastery-top-list"></div>
-          </div>
-          <div class="collection-codex-section doctrine-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Preferencia de construcción</p><h3>Doctrinas tácticas</h3></div><small>Orientan una opción · no añaden daño, duración ni rareza</small></div>
-            <div id="collectionDoctrineStatus" class="doctrine-status"></div>
-            <div id="collectionDoctrineGrid" class="doctrine-grid"></div>
-            <p class="doctrine-rule">La doctrina solo puede influir en una de las tres cápsulas de una subida de nivel y únicamente en el 65% de las ofertas. Recompensas de mundo, botín de Guardianes, hordas, Entrenamiento y tienda no cambian.</p>
-          </div>
-          <div class="collection-codex-section synergy-map-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Cartografía de construcción</p><h3>Rutas de sinergia</h3></div><small>Descubrimientos por doctrina · sin revelar fusiones no encontradas</small></div>
-            <div id="collectionSynergyMap" class="synergy-map-grid"></div>
-            <p class="doctrine-rule">La cartografía es informativa. Resume poderes y fusiones ya registrados; no modifica probabilidades, daño, duración ni recompensas.</p>
-          </div>
-          <div class="collection-codex-section expedition-memory-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Bitácora local</p><h3>Memoria de expediciones</h3></div><small>Builds finalizadas · comparación histórica · sin bonos</small></div>
-            <div id="collectionExpeditionSummary" class="expedition-summary-grid"></div>
-            <div id="collectionExpeditionPinned" class="expedition-pinned-wrap"></div>
-            <div id="collectionExpeditionList" class="expedition-list"></div>
-            <p class="doctrine-rule">Se guardan localmente las últimas 18 expediciones finalizadas. Fijar una referencia solo habilita comparaciones visuales; no altera doctrina, cápsulas, daño, rareza ni recompensas.</p>
-          </div>
-          <div class="collection-codex-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Códice táctico</p><h3>Arsenal descubierto</h3></div><small>Rol · duración · función · rareza · maestría</small></div>
-            <div id="collectionPowerCodex" class="arsenal-codex-grid"></div>
-          </div>
-          <div class="collection-codex-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Sinergias</p><h3>Fusiones evolutivas</h3></div><small>Solo se revelan después de activarlas</small></div>
-            <div id="collectionFusionCodex" class="fusion-codex-list"></div>
-          </div>
-          <div class="collection-codex-section">
-            <div class="collection-codex-head"><div><p class="eyebrow">Intervenciones</p><h3>Críticos y combos críticos</h3></div><small>Memoria de firmas encontradas en combate</small></div>
-            <div id="collectionCriticalCodex" class="critical-codex-grid"></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="screenReplay" class="screen">
-        <div class="panel glass progress-hub">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Memoria de campaña</p>
-              <h2>Archivo de mundos</h2>
-              <small>Todo mundo superado queda disponible para repetición. Tu progreso principal no se modifica.</small>
-            </div>
-            <button class="soft-btn" data-screen="screenPortal">Volver</button>
-          </div>
-          <div class="progress-summary-row">
-            <article class="progress-summary-card"><strong id="archiveWorldCount">0/11</strong><small>Mundos superados</small></article>
-            <article class="progress-summary-card"><strong id="archiveShipCount">0/20</strong><small>Formas DOMINIO capturadas</small></article>
-            <article class="progress-summary-card"><strong id="archiveActiveShip">RIZOMA</strong><small>Nave activa</small></article>
-          </div>
-          <h3 class="archive-heading">Formas DOMINIO</h3>
-          <div id="bossShipInventory" class="boss-ship-inventory"></div>
-          <h3 class="archive-heading">Naves Rizoma · Línea propia</h3>
-          <small class="archive-system-note">Seis cascos originales desbloqueados por hitos M1/M4/M8/M12/M16/M20. Cada uno conserva una habilidad propia y no se mezcla con DOMINIO.</small>
-          <div id="rizomaShipInventory" class="boss-ship-inventory rizoma-ship-inventory"></div>
-          <h3 class="archive-heading">Flota de Conquista</h3>
-          <small class="archive-system-note">Diez naves conquistadas inspiradas en Guardianes. Seleccionar una reemplaza temporalmente el casco Rizoma en la siguiente salida, sin borrar tu nave propia elegida.</small>
-          <div id="conquestFleetInventory" class="boss-ship-inventory conquest-fleet-inventory"></div>
-          <h3 class="archive-heading">Invocación de Guardianes</h3>
-          <small class="archive-system-note">Todo Guardián derrotado puede seleccionarse como apoyo temporal de emergencia.</small>
-          <div id="guardianInvocationInventory" class="boss-ship-inventory guardian-invocation-inventory"></div>
-          <h3 class="archive-heading">Niveles disponibles</h3>
-          <div id="replayWorldGrid" class="replay-world-grid"></div>
-          <article id="sagaClosureCard" class="saga-preview-card saga-closure-card">
-            <img src="assets/story/episode_10_afterfall.webp" alt="Archivo de la Saga II" />
-            <div><p id="sagaClosureEyebrow" class="eyebrow">SAGA II · RUTA ACTIVA</p><h3 id="sagaClosureTitle">0/10 mundos de Saga II superados</h3><p id="sagaClosureText">Desierto · abismo pelágico · magma · estrella moribunda · gusano colosal · cerebros · tundra · biblioteca anime · grises · necroescama.</p></div>
-          </article>
-          <div id="sagaTwoGrid" class="saga-two-grid" aria-label="Mundos de Saga II 11 a 20"></div>
-        </div>
-      </section>
-
-      <section id="screenTraining" class="screen">
-        <div class="panel glass progress-hub training-hub">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Simulador Rizoma</p>
-              <h2>Modo entrenamiento</h2>
-              <small>Elige un Guardián ya derrotado. Practica, recoge premios y vuelve a tu campaña sin modificarla.</small>
-            </div>
-            <div class="section-head-actions"><button class="soft-btn" data-screen="screenReplay">🗺 Archivo</button><button class="soft-btn" data-screen="screenPortal">Volver</button></div>
-          </div>
-          <div class="training-preview">
-            <img src="assets/training/bg_training_field.webp" alt="Campo de entrenamiento Rizoma" />
-            <div class="training-preview-copy"><strong>CAMPO HOLOGRÁFICO</strong><span>Boss real · vida reducida · sin pérdida de progreso</span></div>
-          </div>
-          <div id="trainingBossGrid" class="training-boss-grid"></div>
-        </div>
-      </section>
-
-
-    <div id="bossIntroOverlay" class="boss-intro-overlay hidden" aria-live="polite">
-      <div class="boss-intro-card glass">
-        <p class="eyebrow" id="bossIntroFamily">Familia</p>
-        <div class="boss-intro-icon" id="bossIntroIcon"></div>
-        <h2 id="bossIntroName">Jefe</h2>
-        <p class="muted" id="bossIntroText">Entrada cinemática</p>
-      </div>
-    </div>
-
-    <div id="relicOverlay" class="relic-overlay hidden" aria-live="polite">
-      <div id="relicSigil" class="relic-sigil"></div>
-      <p>RELIQUIA CONQUISTADA</p>
-      <h2 id="relicName">Poder del jefe</h2>
-      <small id="relicDesc"></small>
-    </div>
-
-
-
-    <div id="gameIntroOverlay" class="game-intro-overlay hidden" aria-live="polite">
-      <video id="gameIntroVideo" class="game-intro-video" preload="auto" playsinline src="assets/video/intro_general.mp4"></video>
-      <button id="btnGameIntroSkip" class="game-intro-skip" type="button">SALTAR ›</button>
-    </div>
-    <div id="storyOverlay" class="story-overlay hidden" aria-live="polite" aria-modal="true" role="dialog">
-      <div class="story-stage">
-        <img id="storyImage" class="story-image" src="assets/story/episode_01_protocol_zstrike.webp" alt="Episodio 1 · Protocolo Z-Strike" />
-        <div class="story-veil"></div>
-        <div class="story-copy">
-          <div class="story-transmission-head" aria-hidden="true">
-            <span class="story-signal"><i></i></span>
-            <p id="storyKicker" class="story-kicker">TRANSMISIÓN Z-STRIKE // 01</p>
-            <span class="story-live">ENLACE</span>
-          </div>
-          <h2 id="storyTitle" class="story-title">MUNDO 1 · PROTOCOLO Z-STRIKE</h2>
-          <p id="storyCaption" class="story-caption">ASTERION cayó.</p>
-          <div id="storyDots" class="story-dots" aria-hidden="true"></div>
-          <div class="story-controls">
-            <button id="btnStorySkip" class="story-exit" type="button" aria-label="Salir de la historia">
-              <span class="story-exit-icon" aria-hidden="true"></span><span>SALIR</span>
-            </button>
-            <button id="btnStoryNext" class="story-next" type="button">CONTINUAR <span aria-hidden="true">›</span></button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-      <section id="screenGame" class="screen game-screen">
-        <canvas id="gameCanvas" width="1280" height="720" aria-label="Zona de juego"></canvas>
-        <div class="game-vignette"></div>
-        <div id="lastChanceOverlay" class="last-chance-overlay hidden" aria-live="assertive">
-          <div class="last-chance-copy"><strong>⚠ VAS A MORIR</strong><span><b id="lastChanceTimer">5.0</b>s</span><small>Rescate manual: usa una Vida Extra. No hay compra automática.</small><button id="btnLastChanceRescue" class="last-chance-rescue-btn" type="button">🛒 ABRIR RESCATE</button></div>
-        </div>
-        <div id="hud" class="hud">
-          <div class="hud-pill danger"><span>❤️</span><strong id="hudHp">0</strong></div>
-          <div class="hud-pill shield"><span>🛡️</span><strong id="hudShield">0</strong></div>
-          <div class="hud-pill"><span>🌊</span><strong id="hudWave">1</strong></div>
-          <div class="hud-pill"><span>🗺️</span><strong id="hudMap">1</strong></div>
-          <div class="hud-pill score-pill"><span>⭐</span><strong id="hudScore">0</strong></div>
-          <div class="hud-pill coins-pill"><span>🪙</span><strong id="hudCoins">0</strong></div>
-          <div class="hud-pill boss-approach" id="hudBossApproach" title="Progreso hacia el jefe"><span id="hudBossSigil" class="hud-boss-sigil"></span><strong id="hudBossPercent">0%</strong></div>
-          <div class="hud-pill mastery-pill" id="hudMastery" title="Maestría Rizomática"><span>⚡</span><strong id="hudMasteryValue">0%</strong></div>
-          <div class="hud-pill lives-pill" title="Vidas disponibles"><span>❤️</span><strong id="hudLives">0</strong></div>
-        </div>
-        <div class="hud-actions" aria-label="Acciones rápidas de combate">
-          <button id="btnDomain" class="domain-btn hidden" type="button" title="Protocolo DOMINIO" aria-label="Abrir Protocolo DOMINIO"><span class="domain-glyph">◇</span><strong class="domain-label">DOMINIO</strong><small id="domainCount">0</small></button>
-          <button id="btnFleet" class="fleet-quick-btn hidden" type="button" title="Flota de Conquista" aria-label="Abrir Flota de Conquista"><span class="fleet-glyph">✦</span><strong>FLOTA</strong><small id="fleetQuickStatus">BASE</small></button>
-          <button id="btnGuardianInvoke" class="guardian-invoke-btn hidden" type="button" title="Invocar Guardián" aria-label="Invocar Guardián seleccionado. Mantén pulsado para cambiar."><span class="guardian-glyph">◆</span><strong>GUARDIÁN</strong><small id="guardianInvokeStatus">LISTO</small></button>
-          <button id="btnRiftAlly" class="rift-ally-btn hidden" type="button" title="RIFT ALLY" aria-label="Invocar aleatoriamente un boss derrotado durante 10 segundos"><span class="rift-glyph">☣</span><strong>RIFT</strong><small id="riftAllyStatus">LISTO</small></button>
-          <button id="btnTacticalCart" class="tactical-cart" type="button" title="Taller RIZOMA" aria-label="Abrir Taller RIZOMA"><span class="cart-glyph">🛒</span><strong id="tacticalCartCount">0</strong></button>
-          <button id="btnFullscreen" class="hud-icon-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa" aria-pressed="false">⛶</button>
-          <button id="btnMusicQuick" class="music-quick-btn" type="button" title="Silenciar música de fondo" aria-label="Silenciar música de fondo" aria-pressed="true"><span class="music-note-glyph" aria-hidden="true">♫</span></button>
-          <button id="btnPause" class="pause-btn" type="button" title="Pausa" aria-label="Pausar juego">⏸</button>
-        </div>
-        <div id="rizomaTacticBadge" class="rizoma-tactic-badge hidden" role="status" aria-live="polite" aria-hidden="true">
-          <span id="rizomaTacticCode" class="rizoma-tactic-code">RZ-1</span><div><strong id="rizomaTacticRole">FRONTAL</strong><small id="rizomaTacticStage">E1 · PERFORAR</small></div><b id="rizomaTacticStatus">LISTO</b><i aria-hidden="true"></i>
-        </div>
-        <div id="allyTacticBadge" class="ally-tactic-badge hidden" role="status" aria-live="polite">
-          <span id="allyTacticSource" class="ally-tactic-source">GUARDIÁN</span><strong id="allyTacticRole">CAZADOR</strong><small id="allyTacticTime">10s</small><i aria-hidden="true"></i>
-        </div>
-        <div id="bossBar" class="boss-bar hidden">
-          <span id="bossName">Jefe</span>
-          <div class="boss-meter hp"><i id="bossHpFill"></i></div>
-          <div class="boss-meter shield"><i id="bossShieldFill"></i></div>
-          <div class="boss-meta">
-            <small id="bossPhaseLabel">Fase 1</small>
-            <small id="bossShieldLabel">Escudo 0</small>
-            <small id="bossAddsLabel">Séquito 0</small>
-            <small id="bossVulnLabel">Estable</small>
-          </div>
-        </div>
-        <div id="xpWrap" class="xp-wrap"><i id="xpFill"></i><span id="xpLabel">Nivel 1</span></div>
-        <div id="powerDock" class="power-dock"></div>
-        <div id="toastStack" class="toast-stack"></div>
-        <button id="pendingBadge" class="pending-badge hidden" title="Mejoras pendientes">
-          <span class="pending-icon">✦</span>
-          <strong id="pendingBadgeCount">0</strong>
-        </button>
-        <div id="cardOverlay" class="power-offer-layer hidden" aria-live="polite">
-          <div class="power-offer-head glass">
-            <span class="offer-chip-title">Subiste de nivel</span>
-            <small id="offerHint">Elige una mejora sin pausar la misión</small>
-          </div>
-          <div id="cardChoices" class="card-offer-row"></div>
-        </div>
-
-        <div id="tacticalPrepPrompt" class="tactical-prep-prompt hidden" aria-hidden="true">
-          <div class="tactical-prep-copy">
-            <strong>🛒 ¿Preparar nave?</strong>
-            <small id="tacticalPrepSummary">Compra Exprés opcional</small>
-          </div>
-          <div class="tactical-prep-actions">
-            <button id="btnOpenTacticalShop" class="tactical-mini primary">Comprar</button>
-            <button id="btnSkipTacticalShop" class="tactical-mini">Continuar</button>
-          </div>
-        </div>
-        <div id="tacticalShopOverlay" class="tactical-shop-overlay hidden" aria-live="polite">
-          <div class="tactical-shop-panel" role="dialog" aria-modal="true" aria-label="Taller RIZOMA">
-            <div class="tactical-shop-head">
-              <div>
-                <p class="eyebrow">TALLER RIZOMA · JUEGO EN PAUSA</p>
-                <h3 id="tacticalShopTitle">Taller de combate</h3>
-                <small id="tacticalShopLimit">0/0 compras</small>
-              </div>
-              <button id="btnTacticalClose" class="tactical-close" aria-label="Cerrar">×</button>
-            </div>
-            <div id="tacticalWallet" class="tactical-wallet"></div>
-            <div id="tacticalAdvisor" class="tactical-advisor"></div>
-            <div class="tactical-shop-rail">
-              <button id="btnTacticalPrev" class="tactical-rail-arrow tactical-rail-prev" type="button" aria-label="Opciones anteriores">‹</button>
-              <div id="tacticalShopGrid" class="tactical-shop-grid"></div>
-              <button id="btnTacticalNext" class="tactical-rail-arrow tactical-rail-next" type="button" aria-label="Más opciones">›</button>
-            </div>
-            <div class="tactical-shop-footer">
-              <small>Reajustes directos y suministros. El combate permanece pausado hasta cerrar.</small>
-              <button id="btnTacticalContinue" class="primary-btn tactical-start">Cerrar compras</button>
-            </div>
-          </div>
-        </div>
-        <div id="domainOverlay" class="domain-overlay hidden" aria-live="polite">
-          <div class="domain-panel" role="dialog" aria-modal="true" aria-label="Protocolo DOMINIO">
-            <div class="domain-panel-head">
-              <div><p class="eyebrow">PROTOCOLO DOMINIO</p><h3>Nave / forma de combate</h3></div>
-              <button id="btnDomainClose" class="domain-close" aria-label="Cerrar DOMINIO">×</button>
-            </div>
-            <div id="domainFormList" class="domain-form-list"></div>
-            <small id="domainHint" class="domain-hint">Desliza para elegir nave Rizoma o forma de Guardián. Vida, escudo y poderes se conservan.</small>
-          </div>
-        </div>
-        <div id="fleetOverlay" class="fleet-overlay hidden" aria-live="polite">
-          <div class="fleet-panel" role="dialog" aria-modal="true" aria-label="Flota de Conquista">
-            <div class="fleet-panel-head">
-              <div><p class="eyebrow">FLOTA DE CONQUISTA</p><h3>Preparar nave para la próxima salida</h3></div>
-              <button id="btnFleetClose" class="fleet-close" aria-label="Cerrar Flota">×</button>
-            </div>
-            <div id="fleetQuickList" class="fleet-quick-list"></div>
-            <small class="fleet-hint">La nave de la misión actual no cambia. El casco elegido se aplica al iniciar o reiniciar una salida con RIZOMA.</small>
-          </div>
-        </div>
-
-        <div id="tacticalCountdown" class="tactical-countdown hidden">3</div>
-        <div id="pauseOverlay" class="modal-layer pause-layer-minimal hidden">
-          <div class="pause-menu-minimal" role="dialog" aria-modal="true" aria-label="Pausa">
-            <div class="pause-mini-head">
-              <strong>PAUSA</strong>
-              <small id="pauseMiniContext">Mundo 1 · Nivel 1</small>
-            </div>
-            <div id="pauseBuildReadout" class="pause-build-readout"></div>
-            <div class="pause-actions-minimal">
-              <button id="btnResume" class="pause-action primary">▶ Continuar</button>
-              <button id="btnSaveRun" class="pause-action">💾 Guardar</button>
-              <button id="btnRestartMap" class="pause-action">↻ Reiniciar mundo</button>
-              <button id="btnWorldArchive" class="pause-action">🗺 Archivo de mundos</button>
-              <button id="btnExitRun" class="pause-action danger">⌂ Salir al inicio</button>
-            </div>
-          </div>
-        </div>
-        <div id="resultOverlay" class="modal-layer hidden">
-          <div class="modal-card glass result-card compact-result">
-            <p class="eyebrow" id="resultEyebrow">Resultado</p>
-            <h2 id="resultTitle">Misión terminada</h2>
-            <p id="resultText"></p>
-            <div id="resultRewards" class="reward-row"></div>
-            <div id="resultBuildSummary" class="result-build-summary"></div>
-            <div id="resultTelemetrySummary" class="result-telemetry-summary"></div>
-            <div id="resultExpeditionMemory" class="result-expedition-memory"></div>
-            <div id="lifeShop" class="life-shop hidden">
-              <strong>Comprar 1 vida</strong>
-              <small>Elige el recurso con el que quieres pagar la reactivación. En M1 la vida recupera seguridad y los poderes realmente obtenidos, sin regalar una build ofensiva nueva.</small>
-              <div class="life-shop-grid">
-                <button id="btnBuyLifeCoins" class="life-buy" data-life-currency="coins"><span>🪙 Monedas</span><b id="lifeCostCoins">150</b></button>
-                <button id="btnBuyLifeScore" class="life-buy" data-life-currency="score"><span>⭐ Puntos</span><b id="lifeCostScore">1000</b></button>
-                <button id="btnBuyLifeXp" class="life-buy" data-life-currency="xp"><span>✦ Experiencia</span><b id="lifeCostXp">180</b></button>
-              </div>
-            </div>
-            <div class="modal-actions">
-              <button id="btnResultContinue" class="primary-btn">Continuar</button>
-              <button id="btnResultHome" class="soft-btn">Inicio</button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <div id="settingsDrawer" class="drawer hidden">
-      <div class="drawer-card glass">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Ajustes</p>
-            <h2>Preferencias</h2>
-          </div>
-          <button id="btnCloseSettings" class="icon-btn" type="button" aria-label="Cerrar ajustes">×</button>
-        </div>
-        <label class="switch-row"><span>Sonido</span><input id="toggleSound" type="checkbox" /></label>
-        <label class="switch-row"><span>Música</span><input id="toggleMusic" type="checkbox" /></label>
-        <label class="switch-row"><span>Vibración visual</span><input id="toggleShake" type="checkbox" /></label>
-        <label class="switch-row"><span>Reducir animaciones</span><input id="toggleReduced" type="checkbox" /></label>
-        <label class="switch-row"><span>Respuesta háptica <small>móvil compatible</small></span><input id="toggleHaptics" type="checkbox" /></label>
-        <label class="switch-row"><span>Modo bajo rendimiento <small>reduce FX, no dificultad</small></span><input id="toggleLowPerformance" type="checkbox" /></label>
-        <button id="btnExportBackup" class="soft-btn wide">Exportar backup JSON</button>
-        <button id="btnExportRankingSettings" class="soft-btn wide">Exportar ranking JSON</button>
-        <div class="telemetry-settings" aria-label="Telemetría local de balance">
-          <small>TELEMETRÍA LOCAL · BALANCE</small>
-          <strong id="telemetryStatus">Aún sin intentos registrados</strong>
-          <small>🧪 ADAPTIVE BOSS DIRECTOR · SHADOW MODE activo: estima potencia, DPS y TTK sin modificar el combate.</small>
-          <span>Duración, jefe, daño, eventos letales, poderes y picos de densidad. Se guarda solo en este dispositivo.</span>
-          <div class="telemetry-actions"><button id="btnExportTelemetry" class="soft-btn" type="button">Exportar JSON</button><button id="btnClearTelemetry" class="soft-btn" type="button">Reiniciar</button></div>
-        </div>
-        <details class="balance-lab" aria-label="Laboratorio de Balance Local">
-          <summary><span>LABORATORIO DE BALANCE LOCAL</span><small>diagnóstico + perfiles comparables por mundo</small></summary>
-          <div class="balance-lab-body">
-            <strong id="balanceLabStatus">Sin datos todavía</strong>
-            <p>Compara los mundos con tu propia telemetría, detecta variabilidad y propone un perfil reproducible de Nave Rizoma, Flota, dificultad y etapa para repetir pruebas sin mezclar configuraciones.</p>
-            <div class="balance-lab-actions"><button id="btnExportBalanceCSV" class="soft-btn" type="button">Exportar CSV</button><button id="btnCopyBalanceReport" class="soft-btn" type="button">Copiar informe</button></div>
-            <section class="playtest-guide" aria-label="Playtest Guiado">
-              <small>PLAYTEST GUIADO · SIGUIENTE PRUEBA</small>
-              <strong id="playtestGuideTarget">Calculando mundo recomendado…</strong>
-              <span id="playtestGuideBuild">PERFIL COMPARABLE · calculando…</span>
-              <span id="playtestGuideMeta">Sin muestra</span>
-              <p id="playtestGuideReason">El laboratorio elegirá una prueba según cobertura, incertidumbre y señales pendientes.</p>
-              <div class="playtest-guide-actions"><button id="btnStartGuidedPlaytest" class="primary-btn small" type="button">Probar mundo completo</button><button id="btnCopyPlaytestProtocol" class="soft-btn" type="button">Copiar protocolo</button></div>
-            </section>
-            <div class="balance-lab-legend"><span>INT.</span><span>VICT.</span><span>TIEMPO</span><span>JEFE</span><span>CASCO</span><span>AMENAZA</span></div>
-            <div id="balanceLabRows" class="balance-lab-rows"></div>
-          </div>
-        </details>
-        <button id="btnCopyAIPrompt" class="soft-btn wide">Copiar prompt para analizar partida con IA</button>
-        <button id="btnInstallPWA" class="soft-btn wide hidden">Instalar app</button>
-        <label class="soft-btn wide file-label">Importar backup JSON<input id="backupInput" type="file" accept="application/json" hidden /></label>
-        <button id="btnResetData" class="danger-btn wide">Borrar datos locales</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/game.js?v=3.44.0"></script>
+<details aria-label="Guía táctica de sistemas avanzados" class="tactical-guide">
+<summary><span>GUÍA TÁCTICA</span><small>sistemas avanzados en lenguaje breve</small></summary>
+<div class="tactical-guide-body">
+<div class="guide-chip"><b>◇ DOMINIO</b><span>Cambia entre Nave Rizoma y formas Guardián desbloqueadas. En Playtest Guiado puede quedar bloqueado para conservar comparabilidad.</span></div>
+<div class="guide-chip"><b>◆ GUARDIÁN</b><span>Invoca el Guardián Vinculado seleccionado durante ~12 s. Actúa de forma autónoma y puede interceptar amenazas.</span></div>
+<div class="guide-chip"><b>☣ RIFT</b><span>Invoca aleatoriamente un boss derrotado durante ~10 s. Tiene cooldown propio y conserva su identidad de jefe.</span></div>
+<div class="guide-chip"><b>⚡ MAESTRÍA</b><span>Premia juego limpio, cadenas de bajas y near-miss. Recibir daño la reduce; jugar bien te prepara mejor para el Guardián.</span></div>
+<div class="guide-chip"><b>↯ FLUJO</b><span>Coordina microenjambres, adrenalina y amenazas: si hay saturación abre una respiración breve; si hay un vacío real reactiva enemigos ligeros sin convertirlos en farming.</span></div>
+<div class="guide-chip"><b>🧪 DIRECTOR A0–A3</b><span>A0 ayuda si llegas débil; A1 no interviene; A2/A3 amortiguan de forma limitada una build extrema. Una muerte demasiado rápida puede activar una resurrección única al 50%.</span></div>
+<div class="guide-chip"><b>⚠ ÚLTIMA OPORTUNIDAD</b><span>Un golpe mortal abre 5 s de rescate manual. Nunca compra ni consume una vida automáticamente.</span></div>
+<div class="guide-chip"><b>◌ TRACTOR</b><span>Atrae pickups progresivamente por alcance y prioridad. Los objetos que requieren decisión no deben recogerse solos.</span></div>
+<div class="guide-chip"><b>🧭 PLAYTEST</b><span>Prueba un mundo completo sin contaminar campaña, ranking o economía persistente. Sirve para comparar balance con builds equivalentes.</span></div>
+</div>
+</details>
+<details aria-label="Autodiagnóstico de integración y runtime" class="runtime-diagnostic">
+<summary><span>AUTODIAGNÓSTICO</span><small>integración · PWA · errores locales</small></summary>
+<div class="runtime-diagnostic-body">
+<strong id="runtimeDiagnosticStatus">Aún no ejecutado</strong>
+<p>Comprueba versión, DOM crítico, funciones centrales, persistencia, Service Worker/cachés y errores JavaScript capturados desde que se abrió la app. No altera la partida.</p>
+<div class="runtime-diagnostic-actions"><button class="primary-btn small" id="btnRunRuntimeDiagnostic" type="button">Ejecutar</button><button class="soft-btn" id="btnCopyRuntimeDiagnostic" type="button">Copiar informe</button></div>
+<div aria-live="polite" class="runtime-diagnostic-results" id="runtimeDiagnosticResults"></div>
+</div>
+</details>
+<button class="soft-btn wide" id="btnCopyAIPrompt" type="button">Copiar prompt para analizar partida con IA</button>
+<button class="soft-btn wide hidden" id="btnInstallPWA" type="button">Instalar app</button>
+<label class="soft-btn wide file-label">Importar backup JSON<input accept="application/json" hidden="" id="backupInput" type="file"/></label>
+<button class="danger-btn wide" id="btnResetData" type="button">Borrar datos locales</button>
+</div>
+</div>
+</div>
+<script src="js/game.js?v=3.49.0"></script>
 </body>
 </html>

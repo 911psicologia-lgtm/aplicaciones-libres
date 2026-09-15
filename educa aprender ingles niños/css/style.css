@@ -203,8 +203,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',
 .world-card.unlocked:hover{border-color:rgba(255,215,0,.5);transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,215,0,.2)}
 .world-card.done{border-color:var(--green);box-shadow:0 0 0 2px rgba(46,204,113,.2)}
 .world-card.locked{opacity:.4;cursor:not-allowed}
+/* v10: portada de mundo SIEMPRE completa (antes: caja 86px que recortaba hasta 49%) */
 .wc-img{
-  width:100%;height:86px;object-fit:cover;
+  width:100%;aspect-ratio:1/1;object-fit:contain;
   border-radius:14px;display:block;margin-bottom:8px;
   background:rgba(255,255,255,.05)
 }

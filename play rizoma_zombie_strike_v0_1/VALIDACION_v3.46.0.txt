@@ -1,0 +1,73 @@
+VALIDACION v3.46.0
+==================
+
+BASE
+- Base exclusiva: v3.45.0 Guardian Resilience + Resurrection + Adrenaline Prelude
+
+VERSIONES
+- game.js: 3.46.0
+- manifest.json: 3.46.0
+- index.html: 3.46.0
+- service worker cache: v3-46-0
+
+CAMPAÑA
+- WORLD_BALANCE: 20 entradas
+- Mundo 21 jugable: NO
+- M1 bossHp base: 11200
+- M5 bossHp base: 19500
+- M10 bossHp base: 38900
+- M15 bossHp base: 77800
+- M20 bossHp base: 155500
+
+NAVES / ASSETS
+- ship_meta.json encontrados: 6
+- ship_meta.json válidos: 6
+- assets heredados v3.45: 840
+- assets presentes v3.46: 840
+- assets faltantes: 0
+- assets añadidos: 0
+- assets modificados byte a byte: 0
+- referencias literales assets auditadas: 799
+- referencias faltantes: 0
+
+HTML
+- IDs: 226
+- IDs duplicados: 0
+
+NUEVOS SISTEMAS
+- Adaptive Boss Director live-lite: PRESENTE
+- A2 mitigación suave ~8%: PRESENTE
+- A3 mitigación suave ~14%: PRESENTE
+- techo post-resurrección ~8%: PRESENTE
+- ayuda A0 limitada (máx. 2): PRESENTE
+- resurrección única 50% HP: PRESENTE
+- estabilización post-resurrección ~1,15 s: PRESENTE
+- mutación ofensiva 8 s: PRESENTE
+- formaciones antesala fan/pincer/spear/scatter: PRESENTES
+- continuidad de microenjambres: PRESENTE
+
+FUNCIONES CRÍTICAS SIN CAMBIOS RESPECTO A v3.45
+- bossPattern(): idéntica
+- boss2Pattern(): idéntica
+- boss2Special(): idéntica
+- triggerBossSpecial(): idéntica
+- applyBossVolleyAccent(): idéntica
+- addEnemyBullet(): idéntica
+- updateAdvancedEnemyIdentity(): idéntica
+- advancedEnemyAim(): idéntica
+
+FUNCIONES MODIFICADAS DE FORMA INTENCIONAL
+- updateBossFight(): presión temporal post-resurrección
+- spawnContinuityMicroSwarm(): soporte de formaciones de entrada
+- damageEnemy(): intervención live-lite y estabilización breve de resurrección
+- telemetría Adaptive Boss Director
+
+SINTAXIS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json parse: OK
+
+LIMITACIONES
+- No se declara prueba física Android/iOS.
+- No se declara campaña M1–M20 completa jugada en dispositivo real.
+- El ajuste live-lite debe calibrarse con telemetría real antes de aumentar sus porcentajes.

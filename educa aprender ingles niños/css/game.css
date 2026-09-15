@@ -85,7 +85,7 @@
   height:clamp(104px,19vh,180px);
   width:auto;             /* v6: ancho = alto → foto cuadrada sin recortes */
   aspect-ratio:1/1;
-  object-fit:cover;
+  object-fit:contain;     /* v10: contain — la foto se ve ENTERA, jamás recortada */
   border-radius:20px;
   display:block;
   margin:0 auto 6px;
@@ -129,7 +129,7 @@ span.q-big-img.img-fallback{font-size:3.6em}
   display:flex;flex-wrap:wrap;justify-content:center;gap:4px;
   max-width:300px;margin:6px auto 4px;
 }
-.count-star{width:30px;height:30px;object-fit:cover;border-radius:8px;animation:popIn .3s both}
+.count-star{width:30px;height:30px;object-fit:contain;border-radius:8px;animation:popIn .3s both}
 .count-star.sm{width:22px;height:22px;border-radius:6px}
 span.count-star.img-fallback{font-size:1.4em}
 
@@ -179,9 +179,10 @@ span.word-card{display:inline-flex}
 }
 .opt-btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
 .opt-btn:active{transform:scale(.93)}
+/* v10: la foto de la opción SIEMPRE completa (cuadrada + contain, jamás recortada) */
 .ob-img{
-  width:100%;height:clamp(48px,7.8vh,72px);
-  object-fit:cover;border-radius:12px;
+  width:100%;max-width:124px;aspect-ratio:1/1;object-fit:contain;
+  margin:0 auto;display:block;border-radius:12px;
   background:rgba(255,255,255,.06);
 }
 
@@ -225,7 +226,7 @@ span.word-card{display:inline-flex}
   .opts-grid{max-width:680px}
   .ob-img{--obsz:clamp(92px,11vh,124px);width:var(--obsz);height:var(--obsz)}
   .ob-img.sm{width:var(--obsz);height:var(--obsz)}
-  .ob-img.wide{width:min(100%,260px);height:clamp(72px,9vh,96px)}
+  .ob-img.wide{width:min(100%,260px);aspect-ratio:16/10;object-fit:contain;margin:0 auto}
 }
 span.ob-img.img-fallback{font-size:2em}
 .opt-btn .ob-emoji{font-size:2em;display:block;line-height:1.1}
@@ -272,12 +273,13 @@ span.ob-img.img-fallback{font-size:2em}
   text-align:center;cursor:pointer;transition:all .18s;
 }
 .intro-card:active{transform:scale(.92);border-color:var(--gold)}
+/* v10: tarjeta-intro con foto ENTERA (antes: caja 70px que recortaba la piña, etc.) */
 .intro-img{
-  width:100%;height:70px;object-fit:cover;
+  width:100%;aspect-ratio:1/1;object-fit:contain;
   border-radius:10px;display:block;margin-bottom:5px;
   background:rgba(255,255,255,.06);
 }
-span.intro-img.img-fallback{font-size:2em}
+span.intro-img.img-fallback{font-size:2em;display:flex;align-items:center;justify-content:center}
 .intro-img.num-preview{
   display:flex;align-items:center;justify-content:center;
   font-family:'Baloo 2',cursive;font-size:2em;color:var(--gold);
@@ -291,7 +293,7 @@ span.intro-img.img-fallback{font-size:2em}
 #resultScreen{justify-content:flex-start;padding-top:64px;padding-bottom:90px}
 .result-trophy{display:block;text-align:center}
 .result-img{
-  width:96px;height:96px;object-fit:cover;
+  width:96px;height:96px;object-fit:contain;
   border-radius:50%;display:block;margin:0 auto;
   border:4px solid rgba(255,215,0,.5);
   box-shadow:0 0 40px rgba(255,215,0,.4),0 14px 34px rgba(0,0,0,.5);
@@ -306,7 +308,7 @@ span.result-img.img-fallback{font-size:3.8em;line-height:96px}
 .star-anim:nth-child(2){animation-delay:.22s}
 .star-anim:nth-child(3){animation-delay:.36s}
 @keyframes starPop{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.star-img{width:46px;height:46px;object-fit:cover;border-radius:10px}
+.star-img{width:46px;height:46px;object-fit:contain;border-radius:10px}
 span.star-img.img-fallback{font-size:2.4em;line-height:46px}
 .star-off{font-size:2.4em;color:rgba(255,255,255,.18);line-height:46px}
 
@@ -320,9 +322,9 @@ span.star-img.img-fallback{font-size:2.4em;line-height:46px}
 }
 @keyframes celPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
 .chest-wrap:active{transform:scale(.92)}
-.chest-img{width:92px;height:92px;object-fit:cover;border-radius:16px}
+.chest-img{width:92px;height:92px;object-fit:contain;border-radius:16px}
 span.chest-img.img-fallback{font-size:3.4em;line-height:92px}
-.chest-open-img{width:92px;height:92px;object-fit:cover;border-radius:16px;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
+.chest-open-img{width:92px;height:92px;object-fit:contain;border-radius:16px;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
 span.chest-open-img.img-fallback{font-size:3.4em;line-height:92px}
 .chest-hint{font-size:.8em;font-weight:900;color:var(--gold)}
 .chest-hint.gold{

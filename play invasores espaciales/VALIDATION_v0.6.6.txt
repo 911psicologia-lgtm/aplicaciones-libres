@@ -1,0 +1,38 @@
+PASS JS syntax
+PASS index ref manifest.webmanifest
+PASS index ref css/main.css
+PASS index ref js/config.js
+PASS index ref js/world_content.js
+PASS index ref js/assets.js
+PASS index ref js/storage.js
+PASS index ref js/economy.js
+PASS index ref js/reactive_matrix.js
+PASS index ref js/audio.js
+PASS index ref js/ui.js
+PASS index ref js/game.js
+PASS index ref js/main.js
+PASS PWA fullscreen manifest
+PASS version 0.6.6
+PASS PWA version sync
+PASS assets/audio unchanged from stable trunk
+PASS game feature spawnGem
+PASS game feature updateGemDrops
+PASS game feature activateBossAlly
+PASS game feature renderBossAlly
+PASS game feature RESURRECCIÓN DE EMERGENCIA
+PASS game feature powerAssetKey
+PASS game feature profileArmorMul
+PASS game feature droneCount
+PASS UI control hangarUpgrades
+PASS UI control bossAllyBtn
+PASS hangar upgrade actions
+PASS magnet power
+PASS revive shop item
+PASS life rebalance
+PASS boss player survival tuning
+PASS boss ally timing
+PASS js/assets.js runtime refs
+PASS js/world_content.js runtime refs
+PASS 31/31 JS tests
+asset_audio_tree_sha256 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy_js_sha256 cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd

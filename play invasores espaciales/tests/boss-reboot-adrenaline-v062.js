@@ -1,0 +1,18 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.resolve(__dirname,'..'); const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox); const C=sandbox.window.SF.config;
+const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
+if(C.VERSION!=='0.6.7') throw new Error('wrong version');
+if(!C.bossPrelude?.enabled) throw new Error('boss prelude missing');
+if((C.bossPrelude.durationMsBySector?.[0]||0)<10000) throw new Error('boss prelude too short');
+if(C.microSwarm.fromWave!==1) throw new Error('micro swarm must start at wave 1');
+if((C.microSwarm.maxBurstsByWave?.[3]||0)<3) throw new Error('wave 3 micro swarms insufficient');
+if(C.bossFortress.initialShieldRatio<.64) throw new Error('boss fortress too weak');
+if(C.bossFortress.maxDamagePerHitRatio>.015) throw new Error('boss damage cap too permissive');
+if((C.bossFortress.quickRebootHpRatio||0)!==.50) throw new Error('quick reboot must restore 50%');
+if(!Array.isArray(C.bossFortress.quickRebootThresholdSecBySector)||C.bossFortress.quickRebootThresholdSecBySector.length<5) throw new Error('quick reboot thresholds missing');
+if(C.subbossFortress.initialShieldRatio<.5) throw new Error('subboss shield too weak');
+for(const token of ['startBossPrelude','spawnBossPreludeBurst','updateBossPrelude','REACTOR REBOOT · 50%','quickRebootUsed','noteQuickReboot']) if(!game.includes(token)) throw new Error('missing '+token);
+const worlds=C.difficultyCurve.worlds; if(worlds[0].bossHp<1.5||worlds[4].bossHp<2.7) throw new Error('boss HP curve insufficient');
+if(worlds[0].subbossHp<1.5||worlds[4].subbossHp<2.5) throw new Error('subboss HP curve insufficient');
+console.log('BOSS REBOOT + ADRENALINE PRELUDE v0.6.7 OK');
