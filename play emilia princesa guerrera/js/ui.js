@@ -318,36 +318,51 @@ const UI = {
         const state = Game.state;
         this.el.hangarCoins.textContent = state.coins.toLocaleString();
         let html = '';
-        for (let up of Hangar.upgrades) {
-            const level = state.upgrades[up.id] || 0;
-            const maxed = level >= up.maxLevel;
-            const cost = Hangar.getCost(up, level);
-            const canBuy = !maxed && state.coins >= cost;
-            const classes = ['hangar-card'];
-            if (maxed) classes.push('maxed');
-            else if (!canBuy) classes.push('locked');
-            html += `<div class="${classes.join(' ')}" data-id="${up.id}">
-                <canvas width="60" height="60"></canvas>
-                <div class="hc-name">${up.name}</div>
-                <div class="hc-desc">${up.desc}</div>
-                <div class="hc-level">Nivel ${level} / ${up.maxLevel}</div>
-                <div class="hc-cost ${canBuy ? '' : 'cant'}">${maxed ? 'MÁXIMO' : `<span class="coin-icon"></span> ${cost}`}</div>
-            </div>`;
+        // Renderizar por categorías
+        for (let cat of Hangar.categories) {
+            const upgrades = Hangar.upgrades.filter(u => u.category === cat.id);
+            if (upgrades.length === 0) continue;
+            html += `<div class="hangar-category" style="border-color: ${cat.color};">`;
+            html += `<div class="hangar-cat-title" style="color: ${cat.color};">${cat.name}</div>`;
+            html += '<div class="hangar-cat-grid">';
+            for (let up of upgrades) {
+                const level = state.upgrades[up.id] || 0;
+                const maxed = level >= up.maxLevel;
+                const cost = Hangar.getCost(up, level);
+                const canBuy = !maxed && state.coins >= cost;
+                const classes = ['hangar-card'];
+                if (maxed) classes.push('maxed');
+                else if (!canBuy) classes.push('locked');
+                const pct = (level / up.maxLevel) * 100;
+                html += `<div class="${classes.join(' ')}" data-id="${up.id}" style="border-color: ${maxed ? '#FFD700' : (canBuy ? cat.color : 'rgba(255,255,255,0.2)')};">
+                    <canvas width="60" height="60"></canvas>
+                    <div class="hc-name">${up.name}</div>
+                    <div class="hc-desc">${up.desc}</div>
+                    <div class="hc-progress"><div class="hc-progress-fill" style="width: ${pct}%; background: ${cat.color};"></div></div>
+                    <div class="hc-level">Nivel ${level} / ${up.maxLevel}</div>
+                    <div class="hc-cost ${canBuy ? '' : 'cant'}">${maxed ? 'MÁXIMO' : `<span class="coin-icon"></span> ${cost}`}</div>
+                </div>`;
+            }
+            html += '</div></div>';
         }
         this.el.hangarGrid.innerHTML = html;
         // Dibujar iconos
-        this.el.hangarGrid.querySelectorAll('.hangar-card').forEach((card, idx) => {
+        this.el.hangarGrid.querySelectorAll('.hangar-card').forEach(card => {
             const canvas = card.querySelector('canvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 60, 60);
             ctx.save();
             ctx.translate(30, 30);
-            const up = Hangar.upgrades[idx];
-            up.draw(ctx);
+            const up = Hangar.upgrades.find(u => u.id === card.dataset.id);
+            if (up) up.draw(ctx);
             ctx.restore();
             // Click
             card.addEventListener('click', () => {
                 Hangar.buy(card.dataset.id);
+            });
+            // Hover
+            card.addEventListener('mouseenter', () => {
+                AudioEngine.uiHover();
             });
         });
     },

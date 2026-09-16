@@ -655,7 +655,7 @@ canvas#gameCanvas {
 .hidden { display: none !important; }
 
 /* ============================== HANGAR ============================== */
-.hangar-inner { max-width: 640px; }
+.hangar-inner { max-width: 720px; }
 .hangar-desc {
     color: rgba(255,255,255,0.7);
     font-size: 0.8rem;
@@ -674,48 +674,84 @@ canvas#gameCanvas {
     margin-bottom: 14px;
 }
 .hangar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    display: block;
     gap: 10px;
     margin-bottom: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.hangar-category {
+    background: rgba(0,0,0,0.3);
+    border-left: 4px solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.hangar-cat-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px currentColor;
+}
+.hangar-cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
 }
 .hangar-card {
     background: rgba(0,0,0,0.5);
     border: 2px solid rgba(255,255,255,0.2);
-    border-radius: 14px;
-    padding: 10px;
+    border-radius: 12px;
+    padding: 8px;
     text-align: center;
-    transition: border-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.15s ease;
     cursor: pointer;
 }
 .hangar-card:hover {
-    border-color: #ff00cc;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 18px rgba(255, 0, 204, 0.4);
 }
-.hangar-card.locked { opacity: 0.55; cursor: not-allowed; }
-.hangar-card.maxed { border-color: #FFD700; background: rgba(255,215,0,0.1); }
+.hangar-card.locked { opacity: 0.6; }
+.hangar-card.maxed {
+    background: rgba(255,215,0,0.15);
+    box-shadow: 0 0 14px rgba(255,215,0,0.4);
+}
 .hangar-card canvas {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 6px;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 4px;
     display: block;
 }
 .hangar-card .hc-name {
     color: #ff9ed6;
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     letter-spacing: 1px;
 }
 .hangar-card .hc-desc {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.7rem;
-    margin: 4px 0;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.68rem;
+    margin: 3px 0;
     line-height: 1.3;
-    min-height: 28px;
+    min-height: 24px;
+}
+.hangar-card .hc-progress {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 4px 0;
+}
+.hangar-card .hc-progress-fill {
+    height: 100%;
+    transition: width 0.3s;
+    box-shadow: 0 0 6px currentColor;
 }
 .hangar-card .hc-level {
     color: #6ef0ff;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: bold;
     margin-bottom: 4px;
 }
@@ -726,15 +762,19 @@ canvas#gameCanvas {
     background: rgba(255,215,0,0.2);
     border: 1px solid #FFD700;
     color: #FFD700;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
     font-weight: bold;
 }
 .hangar-card .hc-cost.cant {
     color: #ff3366;
     border-color: #ff3366;
     background: rgba(255,51,102,0.2);
+}
+.hangar-card.maxed .hc-cost {
+    color: #FFD700;
+    border-color: #FFD700;
 }
 
 /* ============================== REWARD BOX ============================== */

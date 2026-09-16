@@ -130,6 +130,7 @@ const Game = {
         this.loadLevel(0);
         AudioEngine.levelStart();
         PopupSystem.special(pDef.name, this.state.canvasW / 2, this.state.canvasH / 2);
+        this._loopRunning = true;
         this.loop();
     },
 
@@ -181,6 +182,7 @@ const Game = {
         UI.hideAllScreens();
         this.loadLevel(this.state.levelIdx);
         AudioEngine.levelStart();
+        this._loopRunning = true;
         this.loop();
     },
 
@@ -211,11 +213,22 @@ const Game = {
         UI.hideAllScreens();
         this.loadLevel(next);
         AudioEngine.levelStart();
+        // Reactivar el juego
+        this.state.active = true;
+        this.state.paused = false;
+        // Reiniciar loop si no está corriendo
+        if (!this._loopRunning) {
+            this._loopRunning = true;
+            this.loop();
+        }
     },
 
     /* ============ LOOP PRINCIPAL ============ */
     loop() {
-        if (!this.state.active) return;
+        if (!this.state.active) {
+            this._loopRunning = false;
+            return;
+        }
         if (this.state.paused) {
             requestAnimationFrame(() => this.loop());
             return;
@@ -393,23 +406,31 @@ const Game = {
         AudioEngine.bossDie();
         ParticleFactory.shockwave(state.particles, state.boss.x, state.boss.y, '#FFD700');
         ParticleFactory.sparkle(state.particles, state.boss.x, state.boss.y, '#FFD700', 30);
+        ParticleFactory.ring(state.particles, state.boss.x, state.boss.y, '#ff00cc', 32);
         state.score += 1000 + state.levelIdx * 200;
         UI.hideBossUI();
 
-        // Recompensas
-        const rewards = Prizes.calculateRewards(state);
-        Prizes.applyRewards(state, rewards);
-        UI.showRewards(rewards);
-        UI.showScreen('levelClear');
-        AudioEngine.levelClear();
+        // Limpiar entidades enemigas tras matar al jefe
+        state.entities = state.entities.filter(e => !(e instanceof Enemy) && !(e instanceof Bullet && e.isEnemy));
+        state.obstacles = [];
 
+        // Pausar el juego para mostrar la pantalla de recompensas
+        state.active = false;
         state.boss = null;
         state.bossActive = false;
 
         // Si es el último nivel, victoria
         if (state.levelIdx >= LEVELS.length - 1) {
-            setTimeout(() => this.victory(), 100);
+            setTimeout(() => this.victory(), 500);
+            return;
         }
+
+        // Mostrar recompensas
+        const rewards = Prizes.calculateRewards(state);
+        Prizes.applyRewards(state, rewards);
+        UI.showRewards(rewards);
+        UI.showScreen('levelClear');
+        AudioEngine.levelClear();
     },
 
     /* ============ COLISIONES ============ */

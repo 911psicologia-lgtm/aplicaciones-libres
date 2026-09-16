@@ -361,10 +361,7 @@ const Assets = {
         ctx.restore();
     },
 
-    /* ============ ENEMIGOS - FAMILIAS PROPIAS ============
-       Cada tipo tiene su sprite canvas único.
-       Familias: babosas, abejas, duendes, fantasmas, demonios, esbirros, brujas, etc.
-    */
+    /* ============ ENEMIGOS - FAMILIAS PROPIAS con animación mejorada ============ */
     drawEnemy(ctx, x, y, type, size, t = 0, hpRatio = 1) {
         ctx.save();
         ctx.translate(x, y);
@@ -374,13 +371,37 @@ const Assets = {
         ctx.ellipse(0, size * 0.45, size * 0.4, size * 0.1, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        const drawer = this._enemyFamilies[type] || this._enemyFamilies.slime;
+        // Glow temático
+        const glowColors = {
+            slimeMinor: '#88ff99', slimeMedium: '#3366aa', slimeMajor: '#aa0033',
+            goblinMinor: '#55aa33', goblinMedium: '#779944',
+            impMinor: '#cc2222', impMajor: '#ff6600',
+            ghostMinor: '#aaaaff', ghostMajor: '#aaaaff',
+            witchMinor: '#88ff00', witchMajor: '#88ff00',
+            darklingMinor: '#ff0033', darklingMajor: '#ff0033',
+            robotMinor: '#ff0066', robotMajor: '#ff0033',
+            skeletonMinor: '#ffffff',
+            alienMinor: '#88ff66',
+            beeMinor: '#FFD700',
+            dragonMinor: '#33aa33',
+            iceGolemMinor: '#6ef0ff',
+            wormMinor: '#cc9966',
+            tigerMinor: '#ffaa33'
+        };
+        const glow = glowColors[type];
+        if (glow) {
+            ctx.shadowColor = glow;
+            ctx.shadowBlur = 8;
+        }
+
+        const drawer = this._enemyFamilies[type] || this._enemyFamilies.slimeMinor;
         drawer.call(this, ctx, size, t);
 
         // Barra de vida
         if (hpRatio < 1) {
+            ctx.shadowBlur = 0;
             const w = size * 0.7;
-            ctx.fillStyle = 'rgba(0,0,0,0.6)';
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
             ctx.fillRect(-w / 2, -size * 0.6, w, 4);
             ctx.fillStyle = hpRatio > 0.5 ? '#00ff66' : (hpRatio > 0.25 ? '#ffaa00' : '#ff0033');
             ctx.fillRect(-w / 2, -size * 0.6, w * hpRatio, 4);
