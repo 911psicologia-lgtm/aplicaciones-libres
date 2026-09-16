@@ -1,0 +1,21 @@
+SWARM//RIFT v2.15.25 — ADAPTIVE HIVE FEINT BRANCHING
+Base: v2.15.24 ADAPTIVE HIVE COEVOLUTION SEQUENCES
+Primary modified runtime files:
+- js/game.js
+- index.html
+- sw.js
+New audit/documentation files:
+- CHANGELOG_v2.15.25.txt
+- VALIDACION_v2.15.25.txt
+- AUTOAUDIT_v2.15.25.txt
+- ADAPTIVE_HIVE_FEINT_BRANCHING_v2.15.25.md
+- TEST_RESULTS_v2.15.25.json
+- NODE_CHECK_v2.15.25.txt
+- PWA_AUDIT_v2.15.25.txt
+- ASSET_AUDIT_v2.15.25.txt
+- PRESERVATION_AUDIT_v2.15.25.json
+- HTTP_SMOKE_v2.15.25.txt
+- CONTENT_SHA256_v2.15.25.txt
+Telemetry schema: 7
+Save keys: v21525 with explicit fallback to v21524 and earlier
+PWA cache: swarm-rift-v2.15.25

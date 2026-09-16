@@ -1,0 +1,27 @@
+VALIDACIÓN — v2.15.23 ADAPTIVE HIVE COUNTER-EVOLUTION
+
+PASS node --check js/game.js
+PASS node --check sw.js
+PASS feature/runtime: 107/107
+PASS mobile ergonomics regression: 5/5 profiles
+PASS Counter-Evolution runtime worlds 11–20
+PASS 30/30 identity counter-responses traversed
+PASS trial -> measure -> learned flow
+PASS failed response -> retired flow
+PASS learned response reuse flow
+PASS tactical-neutral guard
+PASS fairness abort contract
+PASS max 2 new trials per phase
+PASS max 2 learned reuses per tactic
+PASS no boss HP/damage/cadence mutation by Counter-Evolution
+PASS no player build/rank/power mutation by Counter-Evolution
+PASS geometry remains inside v2.15.21 tactical bounds
+PASS arena safe corridor remains 1 of 4 valid lanes
+PASS PWA resource presence: 560/560
+PASS inherited assets: 551/551 byte-identical
+PASS inherited file integrity: 784 unchanged, 3 intentional modifications (js/game.js, index.html, sw.js), 0 missing
+PASS HTTP smoke: 10/10
+PASS explicit migration from v2.15.22
+PASS telemetry schema 5 local-only
+
+No se afirma una prueba física prolongada en teléfono/tablet real ni una validación humana de balance a largo plazo.

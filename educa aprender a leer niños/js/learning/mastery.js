@@ -23,6 +23,7 @@
     return m;
   }
   function status(id){const m=skill(id);if(!m.total)return 'new';if(m.score>=80&&m.total>=3)return 'consolidated';if(m.score>=55)return 'developing';return 'practice';}
+  function confidence(id){const m=skill(id);let key='new';if(m.total>=3&&m.score>=80)key='confident';else if(m.total>=2&&m.score>=55)key='growing';else if(m.total>0)key='support';return {key,score:m.score,total:m.total,strength:m.strength||0};}
   function summary(){return EMILIA_CONTENT.skills.map(d=>{const m=skill(d.id);return {id:d.id,label:d.label,group:d.group,score:m.score,total:m.total,status:status(d.id),dueSession:m.dueSession};});}
   function missionScore(mission){const rows=mission.skillIds.map(id=>skill(id)).filter(m=>m.total>0);if(!rows.length)return 0;return Math.round(rows.reduce((a,m)=>a+m.score,0)/rows.length);}
   function prereqsMet(reqs){return (reqs||[]).every(r=>{
@@ -31,5 +32,5 @@
     return true;
   });}
   function skillDef(id){return EMILIA_CONTENT.skills.find(x=>x.id===id);}
-  window.EmiliaMastery={skill,record,status,summary,missionScore,prereqsMet,skillDef};
+  window.EmiliaMastery={skill,record,status,confidence,summary,missionScore,prereqsMet,skillDef};
 })();

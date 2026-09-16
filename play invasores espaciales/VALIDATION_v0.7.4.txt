@@ -1,0 +1,53 @@
+STARFALL FRONTIER v0.7.4 — PHASE CONSEQUENCE
+
+STATUS: PASS
+
+Core validation
+- JavaScript regression tests: 39/39 PASS
+- Python validation suites: 9/9 PASS
+- New phase-consequence-v074.js simulation: PASS
+- New validate-v074.py structural validation: PASS
+- js/config.js syntax: PASS
+- js/game.js syntax: PASS
+
+New v0.7.4 systems validated
+- phaseConsequences config enabled
+- supportSynergy config enabled
+- Functional hardpoint scar classification: PASS
+- AUXILIARY_HUNT response: PASS
+- ANCHOR_FIELD response: PASS
+- REACTOR_FLARE response: PASS
+- CRITICAL_COLLAPSE reward opening: PASS
+- Frozen scar-response target: PASS
+- Threat arbitration with major boss systems: PASS
+- Support partner spatial lookup: PASS
+- Sentinel + Reanimator reinforced revival: PASS
+- Sentinel + Breeder armored offspring: PASS
+- Reanimator + Breeder accelerated spawn cycle: PASS
+- Support-link visual runtime hooks: PASS
+- Pause clock shifting for scar timers: PASS
+- Reactor Reboot scar-state cleanup: PASS
+
+Preservation checks
+- assets/audio tree identical to v0.7.3: PASS
+  SHA-256: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+- js/economy.js identical to v0.7.3: PASS
+  SHA-256: cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+- Existing Encounter Evolution systems: PASS
+- Existing Battle Rhythm systems: PASS
+- Existing Hunter Doctrine systems: PASS
+- Existing Tactical Ecosystem systems: PASS
+- Reactive Matrix regression: PASS
+- Boss Fortress / Reactor Reboot regression: PASS
+- Responsive regression: PASS
+- Hangar / survival / loot regression: PASS
+- PWA / Service Worker regression: PASS
+
+PWA
+- app version: 0.7.4
+- cache: starfall-shell-v0.7.4
+- service worker build: 0740
+- home label: v0.7.4 · PHASE CONSEQUENCE
+
+Conclusion
+v0.7.4 adds causal phase consequences and support-node synergies without changing the stable audiovisual tree or economy module. Major threat systems remain arbitrated so telegraphed events do not stack unfairly.

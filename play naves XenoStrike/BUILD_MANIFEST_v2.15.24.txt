@@ -1,0 +1,21 @@
+BUILD MANIFEST — v2.15.24
+
+Project: SWARM//RIFT — Insecta Siege
+Build: ADAPTIVE_HIVE_COEVOLUTION_SEQUENCES
+Version: 2.15.24
+Files before CONTENT_SHA256: 805
+assets/: 340
+assets_ch2/: 211
+PWA resources declared: 560
+Feature/runtime checks: 115/115
+Mobile profiles: 5/5
+HTTP smoke: 10/10
+Inherited v2.15.23 files: 796
+Inherited unchanged: 793
+Inherited changed intentionally: 3 (js/game.js, index.html, sw.js)
+Inherited missing: 0
+Inherited assets byte-identical: 551/551
+Telemetry schema: 6
+Previous telemetry key: swarm_rift_hive_telemetry_v21523
+
+Heavy adaptive countermeasures remain shadow-only.

@@ -1,3 +1,45 @@
+# v1.5.0 · Tinta Mágica + Palabra Secreta + Gemas Lingüísticas
+
+- Añade Tinta Mágica para grafemas ya conquistados, con mayúscula/minúscula y máscara de tinta dorada dentro de la letra.
+- Añade Palabra Secreta de Lumi con pista visual y ortografía constructiva no punitiva.
+- Añade Gemas Lingüísticas en Mis tesoros con contenido legible y audio categorizado.
+- Mantiene íntegros los sistemas y datos de progreso previos.
+
+## v1.4.0 · Lectoescritura productiva inicial
+- Nueva actividad **mayúscula ↔ minúscula** para letras simples ya enseñadas, sin adelantar grafemas futuros.
+- Frases Vivas añade una quinta fase productiva cuando existe un objetivo apto: escribir con el dedo una frase corta de 2–3 palabras.
+- Se incorporan 7 objetivos iniciales de escritura de frase, todos ligados a mundos ya aprendidos.
+- El trazado de frase admite ayuda visual opcional, registra uso de ayuda y exige evidencia motriz mínima antes de permitir completar; no puntúa “bonita/fea” la letra.
+- Frases modeladas y leídas muestran inicio en mayúscula y punto final para introducir estructura gráfica de oración sin explicación gramatical extensa.
+- Gemas de vocales/sílabas por sendero: diamante claro, rubí, esmeralda y amatista; la vocal/sílaba pasa a ser el elemento visual dominante.
+- Responsive específico para el lienzo de frase: área amplia en tablet y compactación controlada en celular.
+- Se conserva el esquema de progreso y no se añaden mundos, historias ni grafemas nuevos.
+
+## v1.3.0 · Álbum por senderos y vocales visibles
+- El mundo de Vocales deja de aparecer como una sola ficha A·E·I·O·U: A, E, I, O y U se muestran como cinco conquistas independientes, reutilizando los cinco assets existentes.
+- El Álbum se organiza visualmente por los cuatro senderos para que el progreso tenga continuidad espacial con el mapa.
+- La última letra o patrón conquistado recibe un destello breve; `prefers-reduced-motion` lo desactiva.
+- El patrón del tercer sendero se rotula R·RR en el Álbum para reflejar el contraste curricular ya existente.
+- Se preservan mundos, misiones, habilidades, historias, Rescate adaptativo, progreso local y assets aprobados.
+- Sin cambios de esquema de estado ni migración: los perfiles v1.2.0 continúan cargando con la misma clave local.
+
+## v1.2.0 · Rescate adaptativo y Álbum de letras
+- Nuevo modo **Rescate de palabras**: 3 actividades de habilidades ya aprendidas que conviene recuperar, priorizando variedad de mecánica y debilidad real.
+- Si las 3 se resuelven con independencia, la racha abre un cofre usando el sistema de tesoros existente.
+- Ajuste de ayuda por confianza: en repasos consolidados se retiran pistas gestuales y ciertas consignas dejan de reproducirse automáticamente; el oído permanece disponible.
+- Nuevo **Álbum de letras conquistadas** dentro de Mis tesoros: letras/patrones completados encendidos y pendientes dormidos, sin porcentajes complejos.
+- Las estrellas de tesoro ahora producen destellos dorados crecientes en el bosque: la recompensa modifica visualmente el mapa.
+- Acceso rápido al Rescate desde el bosque y desde Práctica inteligente cuando hay contenido suficiente.
+- Sin nuevas letras ni assets; se preservan cuentos mágicos, progresión y contenido existente.
+
+
+## 0.9.9 · Orientación Infantil
+- Árbol de salida siempre visible en la barra superior del cuento.
+- Al terminar el cuento, el árbol se resalta y aparece una pista gestual animada.
+- Se elimina el botón de bosque del final inferior: la salida se enseña arriba de forma consistente.
+- Mundos terminados reciben check grande, aro verde y estado visual persistente; el último completado se anima al volver.
+- Al terminar una misión, el mapa regresa al mismo sendero donde se completó.
+- Consignas de vocales y sílabas reducidas a una única instrucción corta: escuchar y tocar.
 
 ## v0.9.6 · Gestos intuitivos y lectura guiada
 - Pantalla de resultado simplificada: progreso, cofre y regreso principal al bosque.

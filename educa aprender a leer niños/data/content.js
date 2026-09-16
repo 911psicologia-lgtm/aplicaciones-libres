@@ -13,7 +13,7 @@
   const STP=ST+'props/';
   const skill=(id,label,group,order,prereqs=[])=>({id,label,group,order,prereqs});
   window.EMILIA_CONTENT={
-    version:9.7,
+    version:13.0,
     title:'Emilia · El Bosque de las Palabras',
     mascot:{
       name:'Lumi',
@@ -28,7 +28,8 @@
     chapterMapArt:{
       1:W+'fondo_bosque_principal.webp',
       2:W+'fondo_gran_jardin_lector.webp',
-      3:W+'fondo_bosque_secretos.webp'
+      3:W+'fondo_bosque_secretos.webp',
+      4:W+'fondo_bosque_principal.webp'
     },
     ui:{
       listen:X+'icono_escuchar.webp',
@@ -63,7 +64,7 @@
       'mamá':C+'mama.webp','papá':C+'papa.webp','puma':AN+'puma.webp','sapo':AN+'sapo.webp','sopa':O+'sopa.webp',
       'mimi':STC+'mimi.webp','susi':STC+'susi.webp','lola':STC+'lola.webp','nana':STC+'nana.webp','tito':STC+'tito.webp','paloma':STC+'paloma.webp','pan':STP+'pan.webp','limonada':STP+'limonada.webp',
       'lupa':O+'lupa.webp','mano':STP+'mano.webp','mono':AN+'mono.webp','nido':O+'nido.webp','pato':AN+'pato.webp','dado':O+'dado.webp',
-      'dedo':O+'dedo.webp','pelota':O+'pelota.webp','luna':O+'luna.webp','taza':O+'taza.webp','mapa':O+'mapa.webp',
+      'dedo':O+'dedo.webp','pelota':O+'pelota.webp','luna':O+'luna.webp','taza':O+'taza.webp','hoja':O+'hoja.webp','mapa':O+'mapa.webp',
       'pipa':O+'pipa.webp','tito':C+'tito.webp','nana':C+'nana.webp','dami':C+'dami.webp','nene':C+'nene.webp',
       'sol':O+'sol.webp','flor':O+'flor.webp','libro':O+'libro.webp','rana':AN+'rana.webp','cama':O+'cama.webp','brote':O+'brote.webp',
       'niño':C+'nino.webp','niña':C+'nina.webp','rama':O+'rama.webp','casa':O+'casa.webp','coco':O+'coco.webp','cuna':O+'cuna.webp',
@@ -178,7 +179,26 @@
       skill('sentence_gegi','Lee frases con GE · GI','Lectura',90.5,[{skill:'word_gema',score:40}]),
       skill('secret_words','Distingue patrones especiales','Palabras',91,[{skill:'word_gema',score:40},{skill:'word_perro',score:40}]),
       skill('secret_sentence','Ordena frases con patrones especiales','Lectura',92,[{skill:'secret_words',score:40}]),
-      skill('secret_comprehension','Comprende historias con patrones especiales','Comprensión',93,[{skill:'secret_sentence',score:35}])
+      skill('secret_comprehension','Comprende historias con patrones especiales','Comprensión',93,[{skill:'secret_sentence',score:35}]),
+      skill('j_symbol','Reconoce J','Letras',94,[{skill:'secret_words',score:30}]),
+      skill('j_family','JA · JE · JI · JO · JU','Sílabas',95,[{skill:'j_symbol',score:40}]),
+      skill('word_jugo','Lee palabras con J','Palabras',96,[{skill:'j_family',score:42}]),
+      skill('sentence_j','Lee frases con J','Lectura',96.5,[{skill:'word_jugo',score:40}]),
+      skill('h_pattern','Reconoce H silenciosa','Patrones',97,[{skill:'word_jugo',score:38}]),
+      skill('word_hola','Lee palabras con H','Palabras',98,[{skill:'h_pattern',score:42}]),
+      skill('sentence_h','Lee frases con H','Lectura',98.5,[{skill:'word_hola',score:40}]),
+      skill('v_symbol','Reconoce V','Letras',99,[{skill:'word_hola',score:38},{skill:'b_symbol',score:40}]),
+      skill('v_family','VA · VE · VI · VO · VU','Sílabas',100,[{skill:'v_symbol',score:40}]),
+      skill('word_vela','Lee palabras con V','Palabras',101,[{skill:'v_family',score:42}]),
+      skill('sentence_v','Lee frases con V','Lectura',101.5,[{skill:'word_vela',score:40}]),
+      skill('y_pattern','Reconoce Y al inicio','Patrones',102,[{skill:'word_vela',score:38}]),
+      skill('word_yema','Lee palabras con Y','Palabras',103,[{skill:'y_pattern',score:42}]),
+      skill('sentence_y','Lee frases con Y','Lectura',103.5,[{skill:'word_yema',score:40}]),
+      skill('z_pattern','Reconoce ZA · ZO · ZU','Patrones',104,[{skill:'word_yema',score:38},{skill:'s_family',score:40}]),
+      skill('word_taza_z','Lee palabras con Z','Palabras',105,[{skill:'z_pattern',score:42}]),
+      skill('sentence_z','Lee frases con Z','Lectura',105.5,[{skill:'word_taza_z',score:40}]),
+      skill('new_letters_words','Integra J · H · V · Y · Z','Palabras',106,[{skill:'word_taza_z',score:40},{skill:'word_hola',score:35},{skill:'word_vela',score:35}]),
+      skill('new_letters_sentence','Lee frases con nuevas letras','Lectura',107,[{skill:'new_letters_words',score:40}])
     ],
     worlds:[
       {id:'forest_vowels',chapter:1,letter:'A·E·I·O·U',name:'Claro de las Vocales',short:'Vocales',x:50,y:88,art:W+'fondo_sendero_vocales.webp'},
@@ -202,7 +222,13 @@
       {id:'forest_rr',chapter:3,letter:'RR',name:'Carrera de RR',short:'RR',x:72,y:40,art:W+'fondo_sendero_rr.webp',stone:O+'piedra_d.webp'},
       {id:'forest_ceci',chapter:3,letter:'CE·CI',name:'Claro de CE · CI',short:'CE·CI',x:28,y:28,art:W+'fondo_sendero_ceci.webp',stone:O+'piedra_s.webp'},
       {id:'forest_gegi',chapter:3,letter:'GE·GI',name:'Gruta de GE · GI',short:'GE·GI',x:72,y:17,art:W+'fondo_sendero_gegi.webp',stone:O+'piedra_d.webp'},
-      {id:'forest_secrets',chapter:3,letter:'★',name:'Bosque de Secretos',short:'Secretos',x:48,y:7,art:W+'fondo_bosque_secretos.webp'}
+      {id:'forest_secrets',chapter:3,letter:'★',name:'Bosque de Secretos',short:'Secretos',x:48,y:7,art:W+'fondo_bosque_secretos.webp'},
+      {id:'forest_j',chapter:4,letter:'J',name:'Jardín de la J',short:'J',x:24,y:80,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_d.webp'},
+      {id:'forest_h',chapter:4,letter:'H',name:'Hojitas de la H',short:'H',x:72,y:66,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_l.webp'},
+      {id:'forest_v',chapter:4,letter:'V',name:'Valle de la V',short:'V',x:28,y:50,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_n.webp'},
+      {id:'forest_y',chapter:4,letter:'Y',name:'Yedra de la Y',short:'Y',x:72,y:34,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_t.webp'},
+      {id:'forest_z',chapter:4,letter:'Z',name:'Zona de la Z',short:'Z',x:30,y:18,art:W+'fondo_bosque_principal.webp',stone:O+'piedra_s.webp'},
+      {id:'forest_new_letters',chapter:4,letter:'★',name:'Claro de Nuevas Letras',short:'Nuevas',x:70,y:8,art:W+'fondo_bosque_principal.webp'}
     ],
     missions:[
       {
@@ -319,7 +345,7 @@
         id:'forest_t',order:7,world:'Bosque de los Ecos',title:'La torre de la T',subtitle:'Juega con TA·TE·TI·TO·TU y lee TINA, TOMA, PATO y LATA.',letter:'T',masteryTarget:60,requires:[{mission:'forest_n'},{skill:'n_family',score:48}],
         skillIds:['hear_t','t_symbol','t_family','blend_t','word_taza'],
         activities:[
-          {id:'t_hunt',type:'picturePick',skill:'hear_t',prompt:'Busca una palabra que empiece con T',voicePrompt:'Busca una palabra que empiece con T.',targetLetter:'T',options:[{value:'taza',src:O+'taza.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'papá',src:C+'papa.webp'}],answer:'taza',coach:'TAZA empieza con T.'},
+          {id:'t_hunt',type:'picturePick',skill:'hear_t',prompt:'Busca una palabra que empiece con T',voicePrompt:'Busca una palabra que empiece con T.',targetLetter:'T',options:[{value:'Tito',src:C+'tito.webp'},{value:'sapo',src:AN+'sapo.webp'},{value:'papá',src:C+'papa.webp'}],answer:'Tito',coach:'TITO empieza con T.'},
           {id:'t_hear',type:'symbolPick',skill:'hear_t',prompt:'Escucha TINA. ¿Con qué letra empieza?',voicePrompt:'Escucha tina. Toca la primera letra.',say:'tina',audioKind:'word',options:['t','n','p'],answer:'t',coach:'TINA empieza con T.'},
           {id:'t_symbol',type:'symbolPick',skill:'t_symbol',prompt:'Busca la T',voicePrompt:'Busca la T.',say:'tina',audioKind:'word',options:['t','n','p'],answer:'t',coach:'Esta es la T.'},
           {id:'t_trace',type:'trace',assess:false,skill:'t_symbol',letter:'t',prompt:'Sigue la T con tu dedo',say:'Esta es la T, como en tina.',audioKind:'instruction'},
@@ -647,6 +673,95 @@
           {id:'secret_sentence_gema',type:'gapFill',mode:'word',skill:'secret_sentence',prompt:'Completa la frase',introPrompt:'Completa la frase. Toca el oído si necesitas escucharla.',voicePrompt:'Escucha: Lola toma la gema.',autoSpeak:false,trackAudioHelp:true,say:'Lola toma la gema.',display:['lola','toma','la','__'],options:['gema','leche','queso'],answer:'gema',completeSay:'Lola toma la gema.',completeAudioKind:'sentence',coach:'Lola toma la gema.'},
           {id:'secret_count',type:'symbolPick',skill:'secret_comprehension',prompt:'¿Cuántas palabras escuchas?',voicePrompt:'Escucha: La niña come queso. ¿Cuántas palabras tiene la frase?',say:'La niña come queso.',audioKind:'sentence',options:['3','4','5'],answer:'4',coach:'LA · NIÑA · COME · QUESO: cuatro palabras.'}
         ]
+      },
+      {
+        id:'forest_j',order:23,world:'Bosque de Nuevas Letras',title:'El jardín de la J',subtitle:'Descubre JA · JE · JI · JO · JU y forma palabras con J.',letter:'J',masteryTarget:58,requires:[{mission:'forest_secrets'}],
+        skillIds:['j_symbol','j_family','word_jugo','sentence_j'],
+        activities:[
+          {id:'j_symbol',type:'symbolPick',skill:'j_symbol',prompt:'¿Con qué letra empieza JUGO?',voicePrompt:'¿Con qué letra empieza JUGO? Toca la primera letra.',say:'jugo',audioKind:'word',options:['j','g','h'],answer:'j',coach:'JUGO empieza con J.'},
+          {id:'j_trace',type:'trace',assess:false,skill:'j_symbol',letter:'j',prompt:'Sigue la J con tu dedo',say:'Esta es la J.',audioKind:'instruction'},
+          {id:'j_trail',type:'syllableTrail',assess:false,skill:'j_family',prompt:'Escucha y toca las sílabas de J',items:['ja','je','ji','jo','ju']},
+          {id:'j_family',type:'soundBubbles',audioKind:'syllable',skill:'j_family',prompt:'Toca JO',voicePrompt:'JO. Toca esa sílaba.',say:'jo',options:['ja','ji','jo','ju'],answer:'jo',coach:'Esta es JO.'},
+          {id:'j_jugo',type:'build',skill:'word_jugo',prompt:'Arma JUGO',say:'jugo',parts:['ju','go'],answerParts:['ju','go'],word:'jugo',coach:'JU y después GO.'},
+          {id:'j_jota',type:'build',variant:true,skill:'word_jugo',prompt:'Arma JOTA',say:'jota',parts:['jo','ta'],answerParts:['jo','ta'],word:'jota',coach:'JO y después TA.'},
+          {id:'j_gap',type:'gapFill',mode:'letter',skill:'word_jugo',prompt:'Completa JUGO',voicePrompt:'Completa JUGO. Toca la letra que falta.',display:['__','u','g','o'],options:['j','g','h'],answer:'j',completeSay:'jugo',coach:'JUGO empieza con J.'},
+          {id:'j_sentence_gap',type:'gapFill',mode:'word',skill:'sentence_j',prompt:'Completa la frase',introPrompt:'Completa la frase.',voicePrompt:'Tito toma jugo.',autoSpeak:false,trackAudioHelp:true,say:'Tito toma jugo.',display:['tito','toma','__'],options:['jugo','queso','sopa'],answer:'jugo',completeSay:'Tito toma jugo.',completeAudioKind:'sentence',coach:'Tito toma jugo.'}
+        ]
+      },
+      {
+        id:'forest_h',order:24,world:'Bosque de Nuevas Letras',title:'Las hojitas de la H',subtitle:'La H se escribe, pero no tiene sonido propio.',letter:'H',masteryTarget:58,requires:[{mission:'forest_j'},{skill:'word_jugo',score:38}],
+        skillIds:['h_pattern','word_hola','sentence_h'],
+        activities:[
+          {id:'h_intro',type:'patternIntro',assess:false,skill:'h_pattern',pattern:'H',prompt:'La H es silenciosa',voicePrompt:'La H se escribe, pero no tiene sonido propio. Mira HOLA, HILO y HUMO.',examples:[{label:'hola',say:'hola'},{label:'hilo',say:'hilo'},{label:'humo',say:'humo'}]},
+          {id:'h_symbol',type:'symbolPick',skill:'h_pattern',prompt:'¿Dónde está la H?',voicePrompt:'Busca la H.',options:['h','j','n'],answer:'h',coach:'Esta es la H.'},
+          {id:'h_trace',type:'trace',assess:false,skill:'h_pattern',letter:'h',prompt:'Sigue la H con tu dedo',say:'Esta es la H silenciosa.',audioKind:'instruction'},
+          {id:'h_hola',type:'build',skill:'word_hola',prompt:'Arma HOLA',say:'hola',parts:['ho','la'],answerParts:['ho','la'],word:'hola',coach:'HO y después LA.'},
+          {id:'h_humo',type:'build',variant:true,skill:'word_hola',prompt:'Arma HUMO',say:'humo',parts:['hu','mo'],answerParts:['hu','mo'],word:'humo',coach:'HU y después MO.'},
+          {id:'h_hoja',type:'build',variant:true,skill:'word_hola',prompt:'Arma HOJA',say:'hoja',parts:['ho','ja'],answerParts:['ho','ja'],word:'hoja',coach:'HO y después JA.'},
+          {id:'h_gap',type:'gapFill',mode:'letter',skill:'word_hola',prompt:'Completa HOLA',voicePrompt:'Completa HOLA. Toca la letra que falta.',display:['__','o','l','a'],options:['h','j','m'],answer:'h',completeSay:'hola',coach:'HOLA empieza con H.'},
+          {id:'h_sentence',type:'sentenceBuild',skill:'sentence_h',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Hugo mira la hoja.',autoSpeak:false,trackAudioHelp:true,say:'Hugo mira la hoja.',parts:['hoja','la','mira','hugo'],answerParts:['hugo','mira','la','hoja'],coach:'Hugo mira la hoja.'}
+        ]
+      },
+      {
+        id:'forest_v',order:25,world:'Bosque de Nuevas Letras',title:'El valle de la V',subtitle:'Reconoce V y forma VA · VE · VI · VO · VU.',letter:'V',masteryTarget:58,requires:[{mission:'forest_h'},{skill:'word_hola',score:38}],
+        skillIds:['v_symbol','v_family','word_vela','sentence_v'],
+        activities:[
+          {id:'v_letter_intro',type:'patternIntro',assess:false,skill:'v_symbol',pattern:'B · V',prompt:'B y V pueden sonar igual',voicePrompt:'En nuestras palabras, B y V pueden sonar igual. Mira bien cuál letra está escrita.',examples:[{label:'bota',say:'bota',src:O+'bota.webp'},{label:'vela',say:'vela'}]},
+          {id:'v_symbol',type:'symbolPick',skill:'v_symbol',prompt:'¿Con qué letra empieza VELA?',voicePrompt:'Mira VELA. Toca la primera letra.',say:'vela',audioKind:'word',options:['v','b','f'],answer:'v',coach:'VELA empieza con V.'},
+          {id:'v_trace',type:'trace',assess:false,skill:'v_symbol',letter:'v',prompt:'Sigue la V con tu dedo',say:'Esta es la V.',audioKind:'instruction'},
+          {id:'v_trail',type:'syllableTrail',assess:false,skill:'v_family',prompt:'Escucha y toca las sílabas de V',items:['va','ve','vi','vo','vu']},
+          {id:'v_family',type:'soundBubbles',audioKind:'syllable',skill:'v_family',prompt:'Toca VE',voicePrompt:'VE. Toca esa sílaba.',say:'ve',options:['va','ve','vi','vo'],answer:'ve',coach:'Esta es VE.'},
+          {id:'v_vela',type:'build',skill:'word_vela',prompt:'Arma VELA',say:'vela',parts:['ve','la'],answerParts:['ve','la'],word:'vela',coach:'VE y después LA.'},
+          {id:'v_vaso',type:'build',variant:true,skill:'word_vela',prompt:'Arma VASO',say:'vaso',parts:['va','so'],answerParts:['va','so'],word:'vaso',coach:'VA y después SO.'},
+          {id:'v_vino',type:'build',variant:true,skill:'word_vela',prompt:'Arma VINO',say:'vino',parts:['vi','no'],answerParts:['vi','no'],word:'vino',coach:'VI y después NO.'},
+          {id:'v_gap',type:'gapFill',mode:'letter',skill:'word_vela',prompt:'Completa VELA',voicePrompt:'Completa VELA. Toca la letra que falta.',display:['__','e','l','a'],options:['v','b','f'],answer:'v',completeSay:'vela',coach:'VELA empieza con V.'},
+          {id:'v_sentence',type:'sentenceBuild',skill:'sentence_v',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Vera ve la vela.',autoSpeak:false,trackAudioHelp:true,say:'Vera ve la vela.',parts:['vela','la','ve','vera'],answerParts:['vera','ve','la','vela'],coach:'Vera ve la vela.'}
+        ]
+      },
+      {
+        id:'forest_y',order:26,world:'Bosque de Nuevas Letras',title:'La yedra de la Y',subtitle:'Descubre YA · YE · YO en palabras sencillas.',letter:'Y',masteryTarget:58,requires:[{mission:'forest_v'},{skill:'word_vela',score:38}],
+        skillIds:['y_pattern','word_yema','sentence_y'],
+        activities:[
+          {id:'y_intro',type:'patternIntro',assess:false,skill:'y_pattern',pattern:'YA · YE · YO',prompt:'La Y abre nuevos sonidos',voicePrompt:'Escucha YA, YE y YO. Hoy jugaremos con esas sílabas.',examples:[{label:'ya',say:'ya'},{label:'yema',say:'yema'},{label:'yo',say:'yo'}]},
+          {id:'y_symbol',type:'symbolPick',skill:'y_pattern',prompt:'¿Con qué letra empieza YEMA?',voicePrompt:'Mira YEMA. Toca la primera letra.',say:'yema',audioKind:'word',options:['y','v','j'],answer:'y',coach:'YEMA empieza con Y.'},
+          {id:'y_trace',type:'trace',assess:false,skill:'y_pattern',letter:'y',prompt:'Sigue la Y con tu dedo',say:'Esta es la Y.',audioKind:'instruction'},
+          {id:'y_trail',type:'syllableTrail',assess:false,skill:'y_pattern',prompt:'Escucha y toca YA · YE · YO',items:['ya','ye','yo']},
+          {id:'y_yema',type:'build',skill:'word_yema',prompt:'Arma YEMA',say:'yema',parts:['ye','ma'],answerParts:['ye','ma'],word:'yema',coach:'YE y después MA.'},
+          {id:'y_yate',type:'build',variant:true,skill:'word_yema',prompt:'Arma YATE',say:'yate',parts:['ya','te'],answerParts:['ya','te'],word:'yate',coach:'YA y después TE.'},
+          {id:'y_yoyo',type:'build',variant:true,skill:'word_yema',prompt:'Arma YOYO',say:'yoyo',parts:['yo','yo'],answerParts:['yo','yo'],word:'yoyo',coach:'YO y después YO.'},
+          {id:'y_gap',type:'gapFill',mode:'letter',skill:'word_yema',prompt:'Completa YEMA',voicePrompt:'Completa YEMA. Toca la letra que falta.',display:['__','e','m','a'],options:['y','v','j'],answer:'y',completeSay:'yema',coach:'YEMA empieza con Y.'},
+          {id:'y_sentence',type:'sentenceBuild',skill:'sentence_y',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Yoli mira la yema.',autoSpeak:false,trackAudioHelp:true,say:'Yoli mira la yema.',parts:['yema','la','mira','yoli'],answerParts:['yoli','mira','la','yema'],coach:'Yoli mira la yema.'}
+        ]
+      },
+      {
+        id:'forest_z',order:27,world:'Bosque de Nuevas Letras',title:'La zona de la Z',subtitle:'En Colombia la Z suena como S; aprendemos a reconocer cómo se escribe.',letter:'Z',masteryTarget:58,requires:[{mission:'forest_y'},{skill:'word_yema',score:38}],
+        skillIds:['z_pattern','word_taza_z','sentence_z'],
+        activities:[
+          {id:'z_intro',type:'patternIntro',assess:false,skill:'z_pattern',pattern:'ZA · ZO · ZU',prompt:'La Z se parece al sonido de S',voicePrompt:'En Colombia, la Z suele sonar como S. Mira cómo se escribe en TAZA, LAZO y ZONA.',examples:[{label:'taza',say:'taza',src:O+'taza.webp'},{label:'lazo',say:'lazo'},{label:'zona',say:'zona'}]},
+          {id:'z_symbol',type:'symbolPick',skill:'z_pattern',prompt:'¿Qué letra falta en TAZA?',voicePrompt:'Mira TAZA. Toca la Z.',options:['z','s','c'],answer:'z',coach:'TAZA lleva Z.'},
+          {id:'z_trace',type:'trace',assess:false,skill:'z_pattern',letter:'z',prompt:'Sigue la Z con tu dedo',say:'Esta es la Z.',audioKind:'instruction'},
+          {id:'z_trail',type:'syllableTrail',assess:false,skill:'z_pattern',prompt:'Escucha y toca ZA · ZO · ZU',items:['za','zo','zu']},
+          {id:'z_taza',type:'build',skill:'word_taza_z',prompt:'Arma TAZA',say:'taza',parts:['ta','za'],answerParts:['ta','za'],word:'taza',coach:'TA y después ZA.'},
+          {id:'z_lazo',type:'build',variant:true,skill:'word_taza_z',prompt:'Arma LAZO',say:'lazo',parts:['la','zo'],answerParts:['la','zo'],word:'lazo',coach:'LA y después ZO.'},
+          {id:'z_zona',type:'build',variant:true,skill:'word_taza_z',prompt:'Arma ZONA',say:'zona',parts:['zo','na'],answerParts:['zo','na'],word:'zona',coach:'ZO y después NA.'},
+          {id:'z_gap',type:'gapFill',mode:'letter',skill:'word_taza_z',prompt:'Completa TAZA',voicePrompt:'Completa TAZA. Toca la letra que falta.',display:['t','a','__','a'],options:['z','s','c'],answer:'z',completeSay:'taza',coach:'TAZA se completa con Z.'},
+          {id:'z_sentence',type:'sentenceBuild',skill:'sentence_z',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Tito toma la taza.',autoSpeak:false,trackAudioHelp:true,say:'Tito toma la taza.',parts:['taza','la','toma','tito'],answerParts:['tito','toma','la','taza'],coach:'Tito toma la taza.'}
+        ]
+      },
+      {
+        id:'forest_new_letters',order:28,world:'Bosque de Nuevas Letras',title:'El claro de las nuevas letras',subtitle:'J, H, V, Y y Z se encuentran en una última aventura.',letter:'★',masteryTarget:60,requires:[{mission:'forest_z'},{skill:'word_taza_z',score:38}],
+        skillIds:['new_letters_words','new_letters_sentence'],
+        activities:[
+          {id:'new_letters_intro',type:'patternIntro',assess:false,skill:'new_letters_words',pattern:'J · H · V · Y · Z',prompt:'Cinco letras nuevas viven en el bosque',voicePrompt:'Ya conoces J, H, V, Y y Z. Vamos a mezclarlas.',examples:[{label:'jugo',say:'jugo'},{label:'hoja',say:'hoja',src:O+'hoja.webp'},{label:'vela',say:'vela'},{label:'yema',say:'yema'},{label:'taza',say:'taza',src:O+'taza.webp'}]},
+          {id:'new_jugo',type:'listenPick',skill:'new_letters_words',prompt:'Busca JUGO',voicePrompt:'JUGO. Toca esa palabra.',say:'jugo',audioKind:'word',options:['jugo','hugo','yugo'],answer:'jugo',coach:'JUGO empieza con J.'},
+          {id:'new_hola',type:'gapFill',mode:'letter',skill:'new_letters_words',prompt:'Completa HOLA',voicePrompt:'Completa HOLA.',display:['__','o','l','a'],options:['h','j','v'],answer:'h',completeSay:'hola',coach:'HOLA empieza con H.'},
+          {id:'new_vela',type:'gapFill',mode:'letter',skill:'new_letters_words',prompt:'Completa VELA',voicePrompt:'Completa VELA.',display:['__','e','l','a'],options:['v','b','y'],answer:'v',completeSay:'vela',coach:'VELA empieza con V.'},
+          {id:'new_yema',type:'gapFill',mode:'letter',skill:'new_letters_words',prompt:'Completa YEMA',voicePrompt:'Completa YEMA.',display:['__','e','m','a'],options:['y','v','j'],answer:'y',completeSay:'yema',coach:'YEMA empieza con Y.'},
+          {id:'new_taza',type:'gapFill',mode:'letter',skill:'new_letters_words',prompt:'Completa TAZA',voicePrompt:'Completa TAZA.',display:['t','a','__','a'],options:['z','s','c'],answer:'z',completeSay:'taza',coach:'TAZA lleva Z.'},
+          {id:'new_sentence_1',type:'sentenceBuild',skill:'new_letters_sentence',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Hugo toma jugo.',autoSpeak:false,trackAudioHelp:true,say:'Hugo toma jugo.',parts:['jugo','toma','hugo'],answerParts:['hugo','toma','jugo'],coach:'Hugo toma jugo.'},
+          {id:'new_sentence_2',type:'sentenceBuild',variant:true,skill:'new_letters_sentence',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Vera mira la vela.',autoSpeak:false,trackAudioHelp:true,say:'Vera mira la vela.',parts:['vela','la','mira','vera'],answerParts:['vera','mira','la','vela'],coach:'Vera mira la vela.'},
+          {id:'new_sentence_3',type:'sentenceBuild',variant:true,skill:'new_letters_sentence',prompt:'Ordena la frase',introPrompt:'Ordena las palabras.',voicePrompt:'Yoli toma la taza.',autoSpeak:false,trackAudioHelp:true,say:'Yoli toma la taza.',parts:['taza','la','toma','yoli'],answerParts:['yoli','toma','la','taza'],coach:'Yoli toma la taza.'}
+        ]
       }
 
 
@@ -672,7 +787,22 @@
       {id:'write_queso',mission:'forest_qu',word:'queso',parts:['que','so'],skill:'word_queso',sentenceSkill:'sentence_qu',gap:{display:['__','so'],options:['que','qui','ca'],answer:'que',mode:'pattern'},sentence:'la niña come queso',sentenceDisplay:['la','niña','come','__'],sentenceOptions:['queso','leche','sopa'],sentenceAnswer:'queso'},
       {id:'write_perro',mission:'forest_rr',word:'perro',parts:['pe','rro'],skill:'word_perro',sentenceSkill:'sentence_rr',gap:{display:['pe','__','o'],options:['rr','r','l'],answer:'rr',mode:'pattern'},sentence:'el perro toca el carro',sentenceDisplay:['el','perro','toca','el','__'],sentenceOptions:['carro','perro','dado'],sentenceAnswer:'carro'},
       {id:'write_cine',mission:'forest_ceci',word:'cine',parts:['ci','ne'],skill:'word_cine',sentenceSkill:'sentence_ceci',gap:{display:['__','ne'],options:['ci','ca','cu'],answer:'ci',mode:'pattern'},sentence:'tito sale del cine',sentenceDisplay:['tito','sale','del','__'],sentenceOptions:['cine','nido','dado'],sentenceAnswer:'cine'},
-      {id:'write_gema',mission:'forest_gegi',word:'gema',parts:['ge','ma'],skill:'word_gema',sentenceSkill:'sentence_gegi',gap:{display:['__','ma'],options:['ge','ga','go'],answer:'ge',mode:'pattern'},sentence:'lola toma la gema',sentenceDisplay:['lola','toma','la','__'],sentenceOptions:['gema','foto','sopa'],sentenceAnswer:'gema'}
+      {id:'write_gema',mission:'forest_gegi',word:'gema',parts:['ge','ma'],skill:'word_gema',sentenceSkill:'sentence_gegi',gap:{display:['__','ma'],options:['ge','ga','go'],answer:'ge',mode:'pattern'},sentence:'lola toma la gema',sentenceDisplay:['lola','toma','la','__'],sentenceOptions:['gema','foto','sopa'],sentenceAnswer:'gema'},
+      {id:'write_jugo',mission:'forest_j',word:'jugo',parts:['ju','go'],skill:'word_jugo',sentenceSkill:'sentence_j',gap:{display:['__','u','g','o'],options:['j','g','h'],answer:'j'},sentence:'tito toma jugo',sentenceDisplay:['tito','toma','__'],sentenceOptions:['jugo','queso','sopa'],sentenceAnswer:'jugo'},
+      {id:'write_hola',mission:'forest_h',word:'hola',parts:['ho','la'],skill:'word_hola',sentenceSkill:'sentence_h',gap:{display:['__','o','l','a'],options:['h','j','m'],answer:'h'},sentence:'hugo mira la hoja',sentenceDisplay:['hugo','mira','la','__'],sentenceOptions:['hoja','luna','cama'],sentenceAnswer:'hoja'},
+      {id:'write_vela',mission:'forest_v',word:'vela',parts:['ve','la'],skill:'word_vela',sentenceSkill:'sentence_v',gap:{display:['__','e','l','a'],options:['v','b','f'],answer:'v'},sentence:'vera ve la vela',sentenceDisplay:['vera','ve','la','__'],sentenceOptions:['vela','cama','foto'],sentenceAnswer:'vela'},
+      {id:'write_yema',mission:'forest_y',word:'yema',parts:['ye','ma'],skill:'word_yema',sentenceSkill:'sentence_y',gap:{display:['__','e','m','a'],options:['y','v','j'],answer:'y'},sentence:'yoli mira la yema',sentenceDisplay:['yoli','mira','la','__'],sentenceOptions:['yema','gema','cama'],sentenceAnswer:'yema'},
+      {id:'write_taza_z',mission:'forest_z',word:'taza',parts:['ta','za'],skill:'word_taza_z',sentenceSkill:'sentence_z',gap:{display:['t','a','__','a'],options:['z','s','c'],answer:'z'},sentence:'tito toma la taza',sentenceDisplay:['tito','toma','la','__'],sentenceOptions:['taza','sopa','cama'],sentenceAnswer:'taza'}
+    ],
+
+    sentenceWritingTargets:[
+      {id:'write_sentence_mama',mission:'forest_m',sentence:'Mamá mima.',skill:'sentence_mp'},
+      {id:'write_sentence_papa',mission:'forest_p',sentence:'Papá mima.',skill:'sentence_mp'},
+      {id:'write_sentence_susi',mission:'forest_s',sentence:'Susi amasa masa.',skill:'sentence_mp'},
+      {id:'write_sentence_tito_sopa',mission:'forest_t',sentence:'Tito toma sopa.',skill:'sentence_ntd'},
+      {id:'write_sentence_rana',mission:'forest_r',sentence:'La rana salta.',skill:'sentence_r'},
+      {id:'write_sentence_nina',mission:'forest_enye',sentence:'La niña lee.',skill:'sentence_enye'},
+      {id:'write_sentence_jugo',mission:'forest_j',sentence:'Tito toma jugo.',skill:'sentence_j'},
     ],
 
     sentenceLadders:[
@@ -693,7 +823,12 @@
       {id:'sentence_queso',mission:'forest_qu',sentence:'la niña come queso',skill:'sentence_qu',gapDisplay:['la','niña','come','__'],gapOptions:['queso','leche','sopa'],gapAnswer:'queso',background:W+'fondo_sendero_qu.webp',scene:[C+'nina.webp',O+'queso.webp'],sceneSay:['niña','queso']},
       {id:'sentence_perro',mission:'forest_rr',sentence:'el perro toca el carro',skill:'sentence_rr',gapDisplay:['el','perro','toca','el','__'],gapOptions:['carro','perro','dado'],gapAnswer:'carro',background:W+'fondo_sendero_rr.webp',scene:[AN+'perro.webp',O+'carro.webp'],sceneSay:['perro','carro']},
       {id:'sentence_cine',mission:'forest_ceci',sentence:'tito sale del cine',skill:'sentence_ceci',gapDisplay:['tito','sale','del','__'],gapOptions:['cine','nido','dado'],gapAnswer:'cine',background:W+'fondo_sendero_ceci.webp',scene:[STC+'tito.webp',O+'cine.webp'],sceneSay:['Tito','cine']},
-      {id:'sentence_gema',mission:'forest_gegi',sentence:'lola toma la gema',skill:'sentence_gegi',gapDisplay:['lola','toma','la','__'],gapOptions:['gema','foto','sopa'],gapAnswer:'gema',background:W+'fondo_sendero_gegi.webp',scene:[STC+'lola.webp',O+'gema.webp'],sceneSay:['Lola','gema']}
+      {id:'sentence_gema',mission:'forest_gegi',sentence:'lola toma la gema',skill:'sentence_gegi',gapDisplay:['lola','toma','la','__'],gapOptions:['gema','foto','sopa'],gapAnswer:'gema',background:W+'fondo_sendero_gegi.webp',scene:[STC+'lola.webp',O+'gema.webp'],sceneSay:['Lola','gema']},
+      {id:'sentence_jugo',mission:'forest_j',sentence:'tito toma jugo',skill:'sentence_j',gapDisplay:['tito','toma','__'],gapOptions:['jugo','queso','sopa'],gapAnswer:'jugo',background:W+'fondo_bosque_principal.webp',scene:[STC+'tito.webp'],sceneSay:['Tito']},
+      {id:'sentence_hoja',mission:'forest_h',sentence:'hugo mira la hoja',skill:'sentence_h',gapDisplay:['hugo','mira','la','__'],gapOptions:['hoja','luna','cama'],gapAnswer:'hoja',background:W+'fondo_bosque_principal.webp',scene:[O+'hoja.webp'],sceneSay:['hoja']},
+      {id:'sentence_vela',mission:'forest_v',sentence:'vera ve la vela',skill:'sentence_v',gapDisplay:['vera','ve','la','__'],gapOptions:['vela','cama','foto'],gapAnswer:'vela',background:W+'fondo_bosque_principal.webp',scene:[C+'nina.webp'],sceneSay:['Vera']},
+      {id:'sentence_yema',mission:'forest_y',sentence:'yoli mira la yema',skill:'sentence_y',gapDisplay:['yoli','mira','la','__'],gapOptions:['yema','gema','cama'],gapAnswer:'yema',background:W+'fondo_bosque_principal.webp',scene:[C+'nina.webp'],sceneSay:['Yoli']},
+      {id:'sentence_taza_z',mission:'forest_z',sentence:'tito toma la taza',skill:'sentence_z',gapDisplay:['tito','toma','la','__'],gapOptions:['taza','sopa','cama'],gapAnswer:'taza',background:W+'fondo_bosque_principal.webp',scene:[STC+'tito.webp',O+'taza.webp'],sceneSay:['Tito','taza']}
     ],
     reviewActivities:[
       {id:'rv_a',type:'listenPick',audioKind:'vowel',skill:'hear_vowels',prompt:'Una luciérnaga vuelve: ¿qué vocal escuchas?',say:'e',options:['a','e','o'],answer:'e',coach:'Escucha la E otra vez.'},
@@ -739,7 +874,12 @@
       {id:'rv_rr_sentence',type:'gapFill',mode:'word',skill:'sentence_rr',prompt:'Una frase con RR vuelve',introPrompt:'Completa la frase. Toca el oído si necesitas ayuda.',voicePrompt:'Escucha: El perro toca el carro.',autoSpeak:false,trackAudioHelp:true,say:'El perro toca el carro.',display:['el','perro','toca','el','__'],options:['carro','perro','dado'],answer:'carro',completeSay:'El perro toca el carro.',completeAudioKind:'sentence',coach:'El perro toca el carro.'},
       {id:'rv_ceci_sentence',type:'gapFill',mode:'word',skill:'sentence_ceci',prompt:'Una frase con CE o CI vuelve',introPrompt:'Completa la frase. Toca el oído si necesitas ayuda.',voicePrompt:'Escucha: Tito sale del cine.',autoSpeak:false,trackAudioHelp:true,say:'Tito sale del cine.',display:['tito','sale','del','__'],options:['cine','nido','dado'],answer:'cine',completeSay:'Tito sale del cine.',completeAudioKind:'sentence',coach:'Tito sale del cine.'},
       {id:'rv_gegi_sentence',type:'gapFill',mode:'word',skill:'sentence_gegi',prompt:'Una frase con GE o GI vuelve',introPrompt:'Completa la frase. Toca el oído si necesitas ayuda.',voicePrompt:'Escucha: Lola toma la gema.',autoSpeak:false,trackAudioHelp:true,say:'Lola toma la gema.',display:['lola','toma','la','__'],options:['gema','foto','sopa'],answer:'gema',completeSay:'Lola toma la gema.',completeAudioKind:'sentence',coach:'Lola toma la gema.'},
-      {id:'rv_secret',type:'missingPart',skill:'secret_words',prompt:'Un secreto vuelve',say:'leche',word:'leche',display:['le','__'],options:['che','cha','cho'],answer:'che',coach:'LECHE termina en CHE.'}
+      {id:'rv_secret',type:'missingPart',skill:'secret_words',prompt:'Un secreto vuelve',say:'leche',word:'leche',display:['le','__'],options:['che','cha','cho'],answer:'che',coach:'LECHE termina en CHE.'},
+      {id:'rv_j_new',type:'gapFill',mode:'letter',skill:'word_jugo',prompt:'Completa JUGO',voicePrompt:'Completa JUGO.',display:['__','u','g','o'],options:['j','g','h'],answer:'j',completeSay:'jugo',coach:'JUGO empieza con J.'},
+      {id:'rv_h_new',type:'gapFill',mode:'letter',skill:'word_hola',prompt:'Completa HOLA',voicePrompt:'Completa HOLA.',display:['__','o','l','a'],options:['h','j','m'],answer:'h',completeSay:'hola',coach:'HOLA empieza con H.'},
+      {id:'rv_v_new',type:'gapFill',mode:'letter',skill:'word_vela',prompt:'Completa VELA',voicePrompt:'Completa VELA.',display:['__','e','l','a'],options:['v','b','f'],answer:'v',completeSay:'vela',coach:'VELA empieza con V.'},
+      {id:'rv_y_new',type:'gapFill',mode:'letter',skill:'word_yema',prompt:'Completa YEMA',voicePrompt:'Completa YEMA.',display:['__','e','m','a'],options:['y','v','j'],answer:'y',completeSay:'yema',coach:'YEMA empieza con Y.'},
+      {id:'rv_z_new',type:'gapFill',mode:'letter',skill:'word_taza_z',prompt:'Completa TAZA',voicePrompt:'Completa TAZA.',display:['t','a','__','a'],options:['z','s','c'],answer:'z',completeSay:'taza',coach:'TAZA lleva Z.'}
     ],
     achievements:[
       {id:'first_path',icon:'🌱',art:O+'brote.webp',name:'Primer brote'},
@@ -757,7 +897,9 @@
       {id:'enye_done',icon:'Ñ',art:X+'estrella_confite.webp',name:'Amigo de la Ñ'},
       {id:'patterns_3',icon:'✦',art:X+'cofre_palabras.webp',name:'Tres secretos descubiertos'},
       {id:'secret_forest',icon:'★',art:X+'insignia_sendero_secretos.webp',name:'Guardián de los secretos'},
-      {id:'stories_10',icon:'📚',art:X+'medalla_patrones.webp',name:'Diez historias leídas'}
+      {id:'stories_10',icon:'📚',art:X+'medalla_patrones.webp',name:'Diez historias leídas'},
+      {id:'new_forest_5',icon:'JHZ',art:X+'estrella_logro.webp',name:'Nuevas letras del bosque'}
+
     ],
     stories:[
       {id:'story_enye_world',kind:'decodable',stage:'enye',title:'La niña y la luna',requires:[{mission:'forest_enye'}],background:W+'fondo_sendero_enye.webp',scene:[C+'nina.webp',C+'nino.webp',O+'luna.webp'],sceneSay:['niña','niño','luna'],microInteractions:[{type:'tap',target:'niña',prompt:'Toca a la niña.'},{type:'tap',target:'luna',prompt:'Toca la luna.'}],art:C+'nina.webp',art2:O+'luna.webp',text:'La niña mira la luna. El niño toma sopa.',words:['La','niña','mira','la','luna.','El','niño','toma','sopa.'],skill:'sentence_enye',comprehensionSkill:'sentence_enye',allowed:['a','e','i','o','u','m','p','s','l','n','t','d','r','c','b','f','g','ñ'],comprehension:{prompt:'¿Qué mira la niña?',options:['La luna','La sopa','El dado'],answer:'La luna'}},
@@ -786,7 +928,8 @@
       {id:'story_gran_jardin',kind:'decodable',stage:'expand',title:'El gran jardín lector',requires:[{mission:'forest_expand'}],background:W+'fondo_gran_jardin_lector.webp',scene:[AN+'rana.webp',O+'cama.webp',O+'foto.webp',AN+'gato.webp'],sceneSay:['rana','cama','foto','gato'],microInteractions:[{type:'tap',target:'cama',prompt:'Busca la cama.'},{type:'tap',target:'foto',prompt:'Toca la foto.'},{type:'tap',target:'gato',prompt:'Toca el gato.'}],art:W+'fondo_gran_jardin_lector.webp',text:'La rana salta a la cama. Tito toma la foto. El gato mira la rana.',words:['La','rana','salta','a','la','cama.','Tito','toma','la','foto.','El','gato','mira','la','rana.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',allowed:['a','e','i','o','u','m','p','s','l','n','t','d','r','c','b','f','g'],comprehension:{prompt:'¿Qué toma Tito?',options:['La foto','La cama','La bota'],answer:'La foto'}},
       {id:'story_noche',title:'La noche',requires:[{skill:'word_leche',score:35},{skill:'secret_sentence',score:25}],art:O+'luna.webp',text:'La noche es linda. Tito sale.',words:['La','noche','es','linda.','Tito','sale.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Cómo es la noche?',options:['Linda','Una sopa','Un dado'],answer:'Linda'}},
       {id:'story_rana_cama',title:'La rana y la cama',requires:[{skill:'word_rana',score:35},{skill:'word_cama',score:35}],art:SC+'rana_en_cama.webp',text:'La rana salta a la cama.',words:['La','rana','salta','a','la','cama.'],skill:'advanced_sentence',comprehensionSkill:'advanced_comprehension',comprehension:{prompt:'¿A dónde salta la rana?',options:['A la cama','Al cine','Al carro'],answer:'A la cama'}},
-      {id:'story_nina_lee',title:'La niña lee',requires:[{skill:'word_nino',score:35},{skill:'secret_sentence',score:20}],art:SC+'nina_lee.webp',text:'La niña lee.',words:['La','niña','lee.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué hace la niña?',options:['Lee','Salta','Toma sopa'],answer:'Lee'}}
+      {id:'story_nina_lee',title:'La niña lee',requires:[{skill:'word_nino',score:35},{skill:'secret_sentence',score:20}],art:SC+'nina_lee.webp',text:'La niña lee.',words:['La','niña','lee.'],skill:'secret_sentence',comprehensionSkill:'secret_comprehension',comprehension:{prompt:'¿Qué hace la niña?',options:['Lee','Salta','Toma sopa'],answer:'Lee'}},
+      {id:'story_nuevas_letras',kind:'decodable',stage:'newletters',title:'El paseo de las nuevas letras',requires:[{mission:'forest_new_letters'}],background:W+'fondo_bosque_principal.webp',scene:[],sceneSay:[],art:W+'fondo_bosque_principal.webp',text:'Hugo toma jugo. Vera mira la vela. Yoli toma la taza.',words:['Hugo','toma','jugo.','Vera','mira','la','vela.','Yoli','toma','la','taza.'],skill:'new_letters_sentence',allowed:['a','e','i','o','u','m','p','s','l','n','t','d','r','c','b','f','g','ñ','j','h','v','y','z']}
     ]
   };
 })();

@@ -11,7 +11,7 @@ SF.ui={...nopProxy,showHud:noop,hideScreens:noop,renderGameOver:noop,flashMsg:no
 SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,clearGame:noop}; SF.audio=nopProxy; SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle:()=>null};
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'}); SF.game.init(canvas); SF.game.startNew('TEST','vanguard');
 const G=SF.game.state, D=SF.game._debug; const ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.2','wrong version'); ok(C.encounterEvolution.hunterDoctrine.enabled,'hunter doctrine disabled'); ok(C.encounterEvolution.formationCoordination.enabled,'formation coordination disabled'); ok(C.encounterEvolution.escortDoctrine.enabled,'escort doctrine disabled');
+ok(C.VERSION==='0.7.5','wrong version'); ok(C.encounterEvolution.hunterDoctrine.enabled,'hunter doctrine disabled'); ok(C.encounterEvolution.formationCoordination.enabled,'formation coordination disabled'); ok(C.encounterEvolution.escortDoctrine.enabled,'escort doctrine disabled');
 // Simula camping lateral y comprueba que la lectura se basa en historial, no en un frame aislado.
 G.px=G.w*.16; for(let i=0;i<11;i++){ now+=310; D.combatPatternSnapshot(now); }
 const snap=D.combatPatternSnapshot(now+310); ok(snap.ready&&snap.camped&&snap.side===-1,'left-side camping not detected');
@@ -23,4 +23,4 @@ now=boss.huntWindupUntil+1; const bulletsBefore=G.enemyBullets.length; D.updateB
 // Coordinated formation fire should arm multiple front shooters with locked targets.
 G.wave=2; G.phase='wave'; G.subphase=0; G.engageAfter=0; G.formation.coordinationNextAt=0; G.formation.desperationTriggered=false; D.coordinateFormationStrike(now+1000);
 const armed=G.enemies.filter(e=>e.alive&&e.role==='formation'&&e.coordinatedShotUntil); ok(armed.length>=2,'formation coordination did not arm multiple shooters'); ok(armed.every(e=>Number.isFinite(e.chargeTargetX)&&e.chargeUntil===e.coordinatedShotUntil),'coordinated telegraph targets not locked');
-console.log('HUNTER DOCTRINE v0.7.2 PASS',{campSide:snap.side,lockedTarget:Math.round(locked),counterBullets:G.enemyBullets.length,coordinatedShooters:armed.length});
+console.log('HUNTER DOCTRINE v0.7.5 PASS',{campSide:snap.side,lockedTarget:Math.round(locked),counterBullets:G.enemyBullets.length,coordinatedShooters:armed.length});

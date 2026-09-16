@@ -1,0 +1,76 @@
+VALIDACIÓN TÉCNICA · EMILIA · EL BOSQUE DE LAS PALABRAS
+v1.5.0 · TINTA MÁGICA + PALABRA SECRETA + GEMAS LINGÜÍSTICAS
+Fecha: 2026-09-16
+
+BASE
+- Continuidad incremental desde v1.4.0 Lectoescritura Productiva.
+- No se reconstruyó el proyecto.
+- data/content.js permanece byte a byte idéntico a v1.4.0.
+- js/state/store.js permanece byte a byte idéntico a v1.4.0: no cambia el esquema de progreso/perfiles.
+- js/learning/mastery.js permanece byte a byte idéntico.
+- 208/208 assets preservados: mismas rutas y mismos SHA-256 que v1.4.0.
+
+IMPLEMENTACIÓN v1.5.0
+1. Tinta Mágica de Lumi
+   - Motor Canvas adicional; no sustituye trazado por puntos.
+   - Máscara de glifo + composición destination-in: la tinta visible queda recortada dentro de la letra.
+   - Mayúscula/minúscula según práctica.
+   - Solo grafemas individuales ya conquistados.
+   - Con recorrido completo actual: 23 grafemas disponibles (A,E,I,O,U + 18 consonantes existentes).
+   - No habilita X/K/W.
+
+2. Palabra Secreta de Lumi
+   - Imagen-pista aprobada + construcción por unidades ortográficas.
+   - Solo palabras de Escaleras de escritura cuya misión ya fue superada y con asset visual existente.
+   - Con recorrido completo actual: 20 palabras disponibles.
+   - Conserva acentos aprendidos: MAMÁ, PAPÁ.
+   - Conserva patrones ya enseñados: LECHE=L·E·CH·E; QUESO=QUE·S·O; PERRO=P·E·RR·O; CINE=CI·N·E; GEMA=GE·M·A.
+   - Sin vidas, pérdida, ahorcado ni castigo.
+   - Tras errores repetidos se ilumina la siguiente pieza.
+   - Al completar se pronuncia la palabra completa.
+
+3. Gemas Lingüísticas
+   - Sección en Mis tesoros para letras/patrones, sílabas y palabras conquistadas.
+   - Texto lingüístico visualmente dominante sobre la gema.
+   - Diamante / rubí / esmeralda / amatista por sendero.
+   - Audio categorizado: vocal, nombre de letra, sílaba, palabra o instrucción para patrones complejos.
+   - CH, QU, R/RR, CE/CI y GE/GI no se tratan como letras simples.
+
+AUDITORÍA CURRICULAR/ESTRUCTURAL
+- 28 mundos.
+- 28 misiones.
+- 124 habilidades.
+- 365 actividades declaradas dentro de las misiones, sin modificar el currículo base.
+- 48 actividades de refuerzo.
+- 24 Escaleras de escritura.
+- 23 Frases Vivas.
+- 28 cuentos.
+- 0 IDs de actividad duplicados.
+- 0 referencias de habilidades rotas.
+- Sesiones dinámicas nuevas verificadas: Tinta Mágica y Palabra Secreta.
+- En 40 rotaciones de prueba de Palabra Secreta: todas las unidades objetivo estaban disponibles en las opciones, sin opciones duplicadas y con assets visuales existentes.
+
+AUDITORÍA TÉCNICA
+- 11 archivos JS/data verificados con node --check: 0 errores.
+- CSS: balance de llaves correcto en tokens.css, base.css, screens.css y animations.css.
+- prefers-reduced-motion contemplado para las nuevas transiciones/animaciones.
+- Service Worker: 224 referencias únicas; 0 archivos faltantes.
+- El conjunto completo de assets es idéntico al de v1.4.0.
+- index.html y manifest.webmanifest actualizados a v1.5.0.
+- Caché PWA incrementada a emilia-bosque-v1.5.0-tinta-palabra-gemas.
+
+AUDIO LOCAL
+- assets/audio/manifest.json sigue declarando 19 clips opcionales.
+- Los 19 clips reales no están en el paquete; se conserva deliberadamente el fallback TTS, como en la base estable.
+
+PRUEBA VISUAL
+- Se intentó ejecutar Chromium headless sobre el proyecto local.
+- El binario del entorno quedó bloqueado por errores DBus/UPower y finalizó por timeout; por tanto NO se afirma validación visual real en navegador.
+- Sí se realizaron pruebas estructurales, sintácticas, de disponibilidad curricular, referencias, assets y sesiones dinámicas.
+
+SIGUIENTES FRENTES PRESERVADOS PARA OTRA VERSIÓN
+- Rompecabezas lingüísticos 4/9/12 piezas.
+- Unir con puntos diferenciado por objetivo.
+- Retos de fin de semana no punitivos.
+- Lectura autónoma con retirada gradual del TTS automático.
+- Escritura de frase responsive palabra por palabra en celular.

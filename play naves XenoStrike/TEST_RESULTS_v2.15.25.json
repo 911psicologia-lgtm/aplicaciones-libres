@@ -1,0 +1,272 @@
+{
+  "version": "2.15.25",
+  "branch_unit": {
+    "passed": 18,
+    "total": 18,
+    "pass": true,
+    "tests": [
+      {
+        "name": "plan_created",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "two_distinct_candidates",
+        "pass": true,
+        "detail": "A/B"
+      },
+      {
+        "name": "telegraph_started",
+        "pass": true,
+        "detail": "TELEGRAPH"
+      },
+      {
+        "name": "branch_started_count",
+        "pass": true,
+        "detail": "1"
+      },
+      {
+        "name": "dual_visual_particles",
+        "pass": true,
+        "detail": "4"
+      },
+      {
+        "name": "commit_after_telegraph",
+        "pass": true,
+        "detail": "COMMIT"
+      },
+      {
+        "name": "up_reaction_routes_B",
+        "pass": true,
+        "detail": "UP/B"
+      },
+      {
+        "name": "commit_count",
+        "pass": true,
+        "detail": "1"
+      },
+      {
+        "name": "no_effect_before_commit_delay",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "effect_after_commit_delay",
+        "pass": true,
+        "detail": "B"
+      },
+      {
+        "name": "frozen_after_commit",
+        "pass": true,
+        "detail": "B/B"
+      },
+      {
+        "name": "max_one_branch_per_phase",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "source_has_decode_grace",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "source_no_branch_hp_mutation",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "source_no_extra_bullets",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "schema_7",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "migration_21524",
+        "pass": true,
+        "detail": ""
+      },
+      {
+        "name": "status_hook",
+        "pass": true,
+        "detail": ""
+      }
+    ]
+  },
+  "identity_matrix": {
+    "passed": 32,
+    "total": 32,
+    "pass": true,
+    "tests": [
+      {
+        "name": "ten_counter_identities",
+        "pass": true,
+        "detail": "10"
+      },
+      {
+        "name": "ten_sequence_identities",
+        "pass": true,
+        "detail": "10"
+      },
+      {
+        "name": "KHEPRI_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "KHEPRI_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "KHEPRI_unique_responses",
+        "pass": true,
+        "detail": "GRAVITY_CROSSCUT,PERIAPSIS_SHIFT,ORBITAL_FEINT"
+      },
+      {
+        "name": "VESPERA_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "VESPERA_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "VESPERA_unique_responses",
+        "pass": true,
+        "detail": "LANCER_CROSSVECTOR,NEEDLE_OFFSET,RUNWAY_REVERSAL"
+      },
+      {
+        "name": "REGENT_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "REGENT_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "REGENT_unique_responses",
+        "pass": true,
+        "detail": "MANDIBLE_CROSSLOCK,PINCER_DELAY,REGENT_FEINT"
+      },
+      {
+        "name": "PYROLUX_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "PYROLUX_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "PYROLUX_unique_responses",
+        "pass": true,
+        "detail": "BEACON_PHASEBREAK,FIGURE8_REVERSAL,LUMEN_CROSS"
+      },
+      {
+        "name": "CAUSTIC_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "CAUSTIC_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "CAUSTIC_unique_responses",
+        "pass": true,
+        "detail": "ACID_CROSSFLOW,DISTILLATE_OFFSET,CAUSTIC_FEINT"
+      },
+      {
+        "name": "ATLAS_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "ATLAS_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "ATLAS_unique_responses",
+        "pass": true,
+        "detail": "VEIL_CROSSING,ATLAS_PARALLAX,VEIL_REVERSAL"
+      },
+      {
+        "name": "MIRAGE_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "MIRAGE_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "MIRAGE_unique_responses",
+        "pass": true,
+        "detail": "MIRROR_COUNTERPOSE,PHASMID_PARALLAX,FALSE_GAP"
+      },
+      {
+        "name": "PIT_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "PIT_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "PIT_unique_responses",
+        "pass": true,
+        "detail": "AMBUSH_CROSSCUT,PIT_DELAY,CHANNEL_REVERSAL"
+      },
+      {
+        "name": "AURICULUS_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "AURICULUS_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "AURICULUS_unique_responses",
+        "pass": true,
+        "detail": "PRISMATIC_LEAD,TAIL_CROSS,AURICULAR_FEINT"
+      },
+      {
+        "name": "APIS_three_responses",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "APIS_three_steps",
+        "pass": true,
+        "detail": "3"
+      },
+      {
+        "name": "APIS_unique_responses",
+        "pass": true,
+        "detail": "ROYAL_CROSSPRESSURE,CELL_ROTATION,IMPERIAL_FEINT"
+      }
+    ]
+  },
+  "totals": {
+    "passed": 50,
+    "total": 50,
+    "pass": true
+  }
+}

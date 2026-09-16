@@ -7,7 +7,7 @@ const sandbox={window:null,localStorage,console,Date,JSON,Math,performance:{now:
 vm.createContext(sandbox);
 for(const f of ['config.js','storage.js','reactive_matrix.js']) vm.runInContext(fs.readFileSync(path.join(root,'js',f),'utf8'),sandbox,{filename:f});
 const C=sandbox.window.SF.config,R=sandbox.window.SF.reactiveMatrix,S=sandbox.window.SF.storage;
-if(C.VERSION!=='0.7.2') throw new Error('wrong version');
+if(C.VERSION!=='0.7.5') throw new Error('wrong version');
 if(!C.reactiveMatrix?.enabled||C.reactiveMatrix.mode!=='assist') throw new Error('assist mode not enabled');
 if(C.reactiveMatrix.overdriveMitigation<.85||C.reactiveMatrix.overdriveMitigation>.92) throw new Error('mitigation outside conservative range');
 R.start({sector:3,bossName:'TEST',bossHp:800,build:{shipId:'specter',shipName:'Specter',primaryDamage:2.8,fireInterval:.07,projectileFactor:2.3,secondaryFactor:1.7,speed:505,maxHp:12,lives:4,shieldActive:true,combo:15,activePowers:{missile:true,chain:true,drone:true},upgrades:{weapon:5},bossAugments:{damage:.2},relicLevels:{missile:3},bossPowers:['missile']}},0);
@@ -25,4 +25,4 @@ const game=fs.readFileSync(path.join(root,'js','game.js'),'utf8'),html=fs.readFi
 for(const token of ['maybeMatrixSupport','applyMatrixBossResponse',"spawnPowerDrop(x,y,kind,'matrixSupport')",'REACTIVE ARMOR · CONTRAMEDIDAS']) if(!game.includes(token)) throw new Error('missing game hook '+token);
 if(game.includes('SYSTEM JAM')||game.includes('SIGNAL BLACKOUT')) throw new Error('jam should not be activated in phase 2');
 if(!html.includes('js/reactive_matrix.js')) throw new Error('matrix script not referenced');
-console.log('REACTIVE MATRIX ASSIST v0.7.2 PASS',{state:st.state,ttk:st.estimatedTtk.toFixed(1),actions:e.matrixActions.length});
+console.log('REACTIVE MATRIX ASSIST v0.7.5 PASS',{state:st.state,ttk:st.estimatedTtk.toFixed(1),actions:e.matrixActions.length});

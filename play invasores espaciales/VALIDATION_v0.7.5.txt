@@ -1,0 +1,40 @@
+STARFALL FRONTIER v0.7.5 — TACTICAL INTENT
+============================================================
+
+RELEASE IDENTITY
+PASS  CONFIG.VERSION = 0.7.5
+PASS  index.html = v0.7.5 · TACTICAL INTENT
+PASS  Service Worker cache = starfall-shell-v0.7.5
+PASS  Service Worker build = build=0750
+
+SYNTAX
+PASS  node --check js/game.js
+PASS  node --check js/config.js
+
+REGRESSION
+PASS  JavaScript tests: 40 / 40
+PASS  Python validators: 10 / 10
+PASS  tactical-intent-v075.js
+PASS  validate-v075.py
+
+TACTICAL INTENT SCENARIO
+PASS  boss telegraph uses frozen target
+PASS  linked escort deployment
+PASS  escort quota can interrupt intent
+PASS  SYSTEM BREAK/module/hardpoint hooks can break intent
+PASS  successful break opens core and staggers boss
+PASS  unbroken intent executes follow-up
+PASS  threat arbitration prevents major-stack overlap
+PASS  subboss recovery damage can trigger imbalance
+PASS  imbalance delays next signature
+PASS  imbalance extends exposure and is limited to one per recovery
+
+PRESERVATION VS v0.7.4
+PASS  assets/ byte-identical
+PASS  audio/ byte-identical
+PASS  js/economy.js unchanged
+SHA256 economy.js: cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+
+FINAL STATUS
+PASS  v0.7.5 TACTICAL INTENT ready for packaging
+============================================================

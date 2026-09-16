@@ -25,19 +25,19 @@
     const t=String(a&&a.type||'');
     if(['patternIntro','wordReveal','wordModel','sentenceModel'].includes(t))return 'model';
     if(['listenPick','syllableTrail','soundBubbles'].includes(t))return 'listen';
-    if(['picturePick','symbolPick','imageWordPick','memoryMatch'].includes(t))return 'recognize';
-    if(['trace','wordWrite'].includes(t))return 'motor';
-    if(['build','missingPart','gapFill'].includes(t))return 'construct';
+    if(['picturePick','symbolPick','imageWordPick','memoryMatch','caseMatch'].includes(t))return 'recognize';
+    if(['trace','magicTrace','wordWrite','sentenceWrite'].includes(t))return 'motor';
+    if(['build','missingPart','gapFill','secretWord'].includes(t))return 'construct';
     if(['sentenceBuild','sentenceSceneRead'].includes(t))return 'read';
     return t||'other';
   }
   function activityPhase(a){
     const t=String(a&&a.type||'');
     if(t==='patternIntro')return 0;
-    if(['picturePick','listenPick','symbolPick'].includes(t))return 1;
-    if(['trace','syllableTrail','soundBubbles'].includes(t))return 2;
-    if(['build','missingPart','gapFill','imageWordPick','memoryMatch'].includes(t))return 3;
-    if(['sentenceBuild','sentenceSceneRead','wordReveal'].includes(t))return 4;
+    if(['picturePick','listenPick','symbolPick','caseMatch'].includes(t))return 1;
+    if(['trace','magicTrace','syllableTrail','soundBubbles'].includes(t))return 2;
+    if(['build','missingPart','gapFill','imageWordPick','memoryMatch','secretWord'].includes(t))return 3;
+    if(['sentenceBuild','sentenceSceneRead','wordReveal','sentenceWrite'].includes(t))return 4;
     return 3;
   }
   function weaveReviews(core,reviews){
@@ -114,6 +114,18 @@
     return {families:fam,maxFamilyRun,maxTypeRun,mix:[...new Set(fam)].length};
   }
 
+
+  function tuneByConfidence(activity){
+    const a=Object.assign({},activity),c=(a.skill&&EmiliaMastery.confidence)?EmiliaMastery.confidence(a.skill):{key:'new',score:0,total:0};
+    a.confidenceMode=c.key;a.confidenceScore=c.score;
+    // En repasos ya dominados se retira una capa de ayuda: la consigna sigue disponible en el oído,
+    // pero no se reproduce sola. Las tareas puramente auditivas conservan siempre su modelo sonoro.
+    const needsSound=['listenPick','soundBubbles','syllableTrail'].includes(String(a.type||''));
+    if(a.review&&c.key==='confident'&&!needsSound)a.autoSpeak=false;
+    if(c.key==='support')a.supportMode=true;
+    return a;
+  }
+
   function recentWordRank(){
     const h=(EmiliaStore.get().history||[]),rank=new Map();let n=0;
     for(let i=h.length-1;i>=0&&n<30;i--){
@@ -141,6 +153,38 @@
     return chosen;
   }
 
+  function caseMatchActivity(mission){
+    if(!mission)return null;
+    const raw=String(mission.letter||'').trim();
+    let target='';
+    if(mission.id==='forest_vowels')target='a';
+    else if(/^[a-zñ]$/i.test(raw))target=raw.toLocaleLowerCase('es');
+    else return null;
+    const missions=EMILIA_CONTENT.missions.slice().sort((a,b)=>a.order-b.order);
+    const known=['a','e','i','o','u'];
+    for(const m of missions){
+      if(Number(m.order||0)>Number(mission.order||0))break;
+      const l=String(m.letter||'').trim();
+      if(/^[a-zñ]$/i.test(l)){const low=l.toLocaleLowerCase('es');if(!known.includes(low))known.push(low);}
+    }
+    const distractors=known.filter(x=>x!==target);
+    const offset=Math.max(0,Number(mission.order||1)-1)%Math.max(1,distractors.length);
+    const picked=[target];
+    for(let i=0;i<distractors.length&&picked.length<3;i++){
+      const d=distractors[(offset+i)%distractors.length];if(!picked.includes(d))picked.push(d);
+    }
+    const options=picked.sort((a,b)=>((a.charCodeAt(0)+mission.order*7)%11)-((b.charCodeAt(0)+mission.order*7)%11));
+    const symbolSkill=(mission.skillIds||[]).find(id=>/_symbol$/.test(id))||(mission.id==='forest_vowels'?'vowel_symbols':(mission.skillIds||[])[0]);
+    return {id:`${mission.id}_case_match`,type:'caseMatch',skill:symbolSkill,prompt:'Une mayúscula y minúscula',voicePrompt:`Esta es la ${target.toLocaleUpperCase('es')} mayúscula. Toca la ${target} minúscula.`,target:target.toLocaleUpperCase('es'),options,answer:target,coach:`${target.toLocaleUpperCase('es')} y ${target} son la misma letra.`};
+  }
+  function injectCaseAwareness(core,mission){
+    const q=caseMatchActivity(mission);if(!q)return core;
+    const a=(core||[]).slice(),traceIndex=a.findIndex(x=>x.type==='trace');
+    const symbolIndex=a.findIndex(x=>x.type==='symbolPick'&&/_symbol$/.test(String(x.skill||'')));
+    const at=traceIndex>=0?traceIndex+1:(symbolIndex>=0?symbolIndex+1:Math.min(2,a.length));
+    a.splice(at,0,q);return a;
+  }
+
   function buildSession(mission){
     const reviews=EmiliaScheduler.injectReviews(mission,2),all=mission.activities.map(a=>Object.assign({},a));
     const fixed=all.filter(a=>!a.variant),variants=all.filter(a=>a.variant);let core=fixed;
@@ -150,7 +194,8 @@
       // juntas tras un pivote y una frase podía aparecer demasiado pronto.
       core=all.filter(a=>!a.variant||chosenIds.has(a.id));
     }
-    const acts=weaveReviews(balanceActivities(core),reviews),sequence=sequenceStats(acts);
+    core=injectCaseAwareness(core,mission);
+    const acts=weaveReviews(balanceActivities(core),reviews).map(tuneByConfidence),sequence=sequenceStats(acts);
     // Ritmo infantil: las misiones largas se recorren en microtramos. No se pierde progreso si se guarda en una pausa.
     const pacingBreakpoints=acts.length>=12?[4,8]:(acts.length>=8?[4]:[]);
     return {kind:'mission',missionId:mission.id,title:mission.title,activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:reviews.length,minAssessed:mission.minAssessed||5,maxAssessed:mission.maxAssessed||8,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,pacingBreakpoints,pauseSeen:[],sequence};
@@ -158,13 +203,29 @@
   function buildPracticeSession(){
     const acts=EmiliaScheduler.practiceActivities(5);
     if(!acts.length)return buildSession(missionById('forest_vowels'));
-    const balanced=balanceActivities(acts);
+    const balanced=balanceActivities(acts).map(tuneByConfidence);
     return {kind:'practice',practiceMode:'review',missionId:null,title:'Semillas que vuelven',activities:balanced,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:balanced.length,minAssessed:3,maxAssessed:5,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sequence:sequenceStats(balanced)};
   }
+
+  function buildFlashPracticeSession(){
+    const acts=EmiliaScheduler.quickChallengeActivities(3);
+    if(!acts.length)return buildPracticeSession();
+    const balanced=balanceActivities(acts).map(tuneByConfidence);
+    return {kind:'practice',practiceMode:'flash',flashChallenge:true,forceFullSequence:true,missionId:null,title:'Reto sorpresa de Lumi',activities:balanced,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:balanced.length,minAssessed:balanced.length,maxAssessed:balanced.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sequence:sequenceStats(balanced)};
+  }
+
+
+  function buildRescuePracticeSession(){
+    const acts=EmiliaScheduler.rescueWordActivities?EmiliaScheduler.rescueWordActivities(3):[];
+    if(!acts.length)return buildPracticeSession();
+    const balanced=balanceActivities(acts).map(tuneByConfidence),targets=[...new Set(balanced.map(a=>a.sourceWord||a.rescueWord||a.word||a.say||a.answer).filter(Boolean))];
+    return {kind:'practice',practiceMode:'rescue',rescueChallenge:true,forceFullSequence:true,missionId:null,title:'Rescate de palabras',activities:balanced,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:balanced.length,minAssessed:balanced.length,maxAssessed:balanced.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,rescueTargets:targets,sequence:sequenceStats(balanced)};
+  }
+
   function buildGapPracticeSession(){
     const acts=EmiliaScheduler.gapPracticeActivities(5);
     if(!acts.length)return buildPracticeSession();
-    return {kind:'practice',practiceMode:'gaps',missionId:null,title:'Palabras escondidas',activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,acts.length),maxAssessed:Math.min(5,acts.length),endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
+    return {kind:'practice',practiceMode:'gaps',missionId:null,title:'Palabras escondidas',activities:acts.map(tuneByConfidence),index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,acts.length),maxAssessed:Math.min(5,acts.length),endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
   }
 
 
@@ -178,19 +239,37 @@
     return (EMILIA_CONTENT.sentenceLadders||[]).filter(x=>done.has(x.mission));
   }
   function sentenceLadderCount(){return availableSentenceLadders().length;}
+  function availableSentenceWritingTargets(){
+    const s=EmiliaStore.get(),done=new Set(s.completedMissions||[]);
+    return (EMILIA_CONTENT.sentenceWritingTargets||[]).filter(x=>done.has(x.mission));
+  }
+  function sentenceWritingTargetCount(){return availableSentenceWritingTargets().length;}
+  function sentenceCase(text){
+    const raw=String(text||'').trim();if(!raw)return '';
+    const out=raw.charAt(0).toLocaleUpperCase('es')+raw.slice(1);
+    return /[.!?]$/.test(out)?out:`${out}.`;
+  }
+
   function buildSentencePracticeSession(){
     const available=availableSentenceLadders();
     if(!available.length)return buildPracticeSession();
     const s=EmiliaStore.get(),pool=available.slice(-Math.min(4,available.length)),ladder=pool[(s.sessions||0)%pool.length];
     const parts=String(ladder.sentence||'').trim().split(/\s+/).filter(Boolean);
     const scrambled=parts.length>2?[parts[parts.length-1],...parts.slice(1,-1),parts[0]]:parts.slice().reverse();
+    const writingPool=availableSentenceWritingTargets(),writingTarget=writingPool.length?writingPool[(s.sessions||0)%writingPool.length]:null;
+    const displaySentence=sentenceCase(ladder.sentence);
     const acts=[
-      {id:`${ladder.id}_model`,type:'sentenceModel',assess:false,skill:ladder.skill,say:ladder.sentence,parts:parts,prompt:'Mira y escucha la frase',voicePrompt:`Escucha: ${ladder.sentence}. Toca cada palabra de izquierda a derecha.`},
-      {id:`${ladder.id}_gap`,type:'gapFill',mode:'word',skill:ladder.skill,prompt:'Completa la frase',introPrompt:'Completa la frase. Si necesitas escucharla, toca el oído.',voicePrompt:`Escucha: ${ladder.sentence}`,autoSpeak:false,trackAudioHelp:true,say:ladder.sentence,display:ladder.gapDisplay.slice(),options:ladder.gapOptions.slice(),answer:ladder.gapAnswer,completeSay:ladder.sentence,completeAudioKind:'sentence',coach:ladder.sentence},
-      {id:`${ladder.id}_build`,type:'sentenceBuild',skill:ladder.skill,prompt:'Pon la frase en orden',introPrompt:'Pon las palabras en orden. Si necesitas escuchar la frase, toca el oído.',voicePrompt:`Escucha: ${ladder.sentence}`,autoSpeak:false,trackAudioHelp:true,say:ladder.sentence,parts:scrambled,answerParts:parts,coach:ladder.sentence},
-      {id:`${ladder.id}_scene`,type:'sentenceSceneRead',assess:false,skill:ladder.skill,say:ladder.sentence,parts:parts,prompt:'Ahora léela en la escena',voicePrompt:'Lee la frase. Si necesitas ayuda, toca una palabra o el oído.',background:ladder.background,scene:(ladder.scene||[]).slice(),sceneSay:(ladder.sceneSay||[]).slice()}
+      {id:`${ladder.id}_model`,type:'sentenceModel',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:'Mira y escucha la frase',voicePrompt:`Escucha: ${displaySentence} Toca cada palabra de izquierda a derecha.`},
+      {id:`${ladder.id}_gap`,type:'gapFill',mode:'word',skill:ladder.skill,prompt:'Completa la frase',introPrompt:'Completa la frase. Si necesitas escucharla, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,say:displaySentence,display:ladder.gapDisplay.slice(),options:ladder.gapOptions.slice(),answer:ladder.gapAnswer,completeSay:displaySentence,completeAudioKind:'sentence',coach:displaySentence},
+      {id:`${ladder.id}_build`,type:'sentenceBuild',skill:ladder.skill,prompt:'Pon la frase en orden',introPrompt:'Pon las palabras en orden. Si necesitas escuchar la frase, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,say:displaySentence,parts:scrambled,answerParts:parts,coach:displaySentence},
+      {id:`${ladder.id}_scene`,type:'sentenceSceneRead',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:'Ahora léela en la escena',voicePrompt:'Lee la frase. Si necesitas ayuda, toca una palabra o el oído.',background:ladder.background,scene:(ladder.scene||[]).slice(),sceneSay:(ladder.sceneSay||[]).slice()}
     ];
-    return {kind:'practice',practiceMode:'sentences',forceFullSequence:true,missionId:null,title:`Frases vivas · ${ladder.sentence}`,activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:2,maxAssessed:2,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sentenceLadder:ladder.id};
+    if(writingTarget){
+      const phrase=sentenceCase(writingTarget.sentence);
+      acts.push({id:`${writingTarget.id}_finger`,type:'sentenceWrite',skill:writingTarget.skill,sentence:phrase,say:phrase,prompt:'Ahora escribe una frase corta',voicePrompt:`Escucha: ${phrase} Escríbela con tu dedo. Empieza con mayúscula. Si necesitas ayuda, toca el ojo.`});
+    }
+    const assessed=acts.filter(a=>a.assess!==false).length;
+    return {kind:'practice',practiceMode:'sentences',forceFullSequence:true,missionId:null,title:'Frases vivas · leer y escribir',activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,assessed),maxAssessed:assessed,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sentenceLadder:ladder.id,sentenceWritingTarget:writingTarget&&writingTarget.id};
   }
   function buildWritingPracticeSession(){
     const available=availableWritingLadders();
@@ -206,6 +285,67 @@
     ];
     if(done.has('forest_mix')&&ladder.sentence){acts.push({id:`${ladder.id}_sentence`,type:'gapFill',mode:'word',skill:ladder.sentenceSkill||'sentence_build',prompt:'Completa la frase',voicePrompt:`Escucha: ${ladder.sentence}. Toca la palabra que falta.`,say:ladder.sentence,display:ladder.sentenceDisplay.slice(),options:ladder.sentenceOptions.slice(),answer:ladder.sentenceAnswer,completeSay:ladder.sentence,completeAudioKind:'sentence',coach:ladder.sentence});}
     return {kind:'practice',practiceMode:'writing',missionId:null,title:`Escalera de escritura · ${ladder.word}`,activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,acts.filter(a=>a.assess!==false).length),maxAssessed:acts.filter(a=>a.assess!==false).length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,writingLadder:ladder.id};
+  }
+
+
+  function availableMagicLetters(){
+    const s=EmiliaStore.get(),done=new Set(s.completedMissions||[]),out=[];
+    if(done.has('forest_vowels'))for(const v of ['a','e','i','o','u'])out.push({letter:v,mission:'forest_vowels',skill:'vowel_symbols',chapter:1});
+    const worlds=(EMILIA_CONTENT.worlds||[]).slice().sort((a,b)=>(a.order||0)-(b.order||0));
+    for(const w of worlds){
+      if(!done.has(w.id))continue;const raw=String(w.letter||'').trim();if(!/^[a-zñ]$/i.test(raw))continue;
+      const m=missionById(w.id),skill=(m.skillIds||[]).find(x=>/_symbol$/.test(x))||(m.skillIds||[]).find(x=>/_pattern$/.test(x))||(m.skillIds||[])[0]||'';
+      out.push({letter:raw.toLocaleLowerCase('es'),mission:w.id,skill,chapter:Number(w.chapter||1)});
+    }
+    return out.filter((x,i,a)=>a.findIndex(y=>y.letter===x.letter)===i);
+  }
+  function magicTraceCount(){return availableMagicLetters().length;}
+  function buildMagicTracePracticeSession(){
+    const available=availableMagicLetters();if(!available.length)return buildPracticeSession();
+    const s=EmiliaStore.get(),latest=available.slice(-3),seed=Number(s.sessions||0),acts=[];
+    if(latest.length===1){for(const c of ['upper','lower','upper'])acts.push({item:latest[0],caseMode:c});}
+    else{
+      latest.forEach((item,i)=>acts.push({item,caseMode:(seed+i)%2?'lower':'upper'}));
+      if(acts.length<3)acts.push({item:latest[latest.length-1],caseMode:acts[0].caseMode==='upper'?'lower':'upper'});
+    }
+    const activities=acts.slice(0,3).map((x,i)=>{const shown=x.caseMode==='lower'?x.item.letter:x.item.letter.toLocaleUpperCase('es');return{id:`magic_${x.item.letter}_${x.caseMode}_${i}`,type:'magicTrace',skill:x.item.skill,letter:x.item.letter,caseMode:x.caseMode,chapter:x.item.chapter,prompt:`Pinta la ${shown} con tinta mágica`,voicePrompt:`Pinta la ${shown} con tu dedo. La tinta dorada solo queda dentro de la letra.`};});
+    return{kind:'practice',practiceMode:'magicTrace',forceFullSequence:true,missionId:null,title:'Tinta Mágica de Lumi',activities,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:activities.length,minAssessed:activities.length,maxAssessed:activities.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
+  }
+  function availableSecretWords(){
+    const s=EmiliaStore.get(),done=new Set(s.completedMissions||[]),art=EMILIA_CONTENT.wordArt||{};
+    return (EMILIA_CONTENT.writingLadders||[]).filter(x=>done.has(x.mission)&&art[x.word]&&/^[a-záéíóúñ]{3,8}$/i.test(String(x.word||'')));
+  }
+  function secretWordCount(){return availableSecretWords().length;}
+  function knownLetters(){return availableMagicLetters().map(x=>x.letter);}
+  function secretUnits(word){
+    const src=String(word||'').toLocaleLowerCase('es'),out=[];let i=0;
+    while(i<src.length){
+      const rest=src.slice(i);
+      const m=rest.match(/^(que|qui|ch|rr|ce|ci|ge|gi)/);
+      if(m){out.push(m[1]);i+=m[1].length;}else{out.push(src[i]);i++;}
+    }
+    return out;
+  }
+  function knownSecretUnits(){
+    const s=EmiliaStore.get(),done=new Set(s.completedMissions||[]),out=knownLetters().slice();
+    if(done.has('forest_ch'))out.push('ch');
+    if(done.has('forest_qu'))out.push('que','qui');
+    if(done.has('forest_rr'))out.push('rr');
+    if(done.has('forest_ceci'))out.push('ce','ci');
+    if(done.has('forest_gegi'))out.push('ge','gi');
+    return [...new Set(out)];
+  }
+  function rotate(arr,n){if(!arr.length)return arr;const k=((n%arr.length)+arr.length)%arr.length;return arr.slice(k).concat(arr.slice(0,k));}
+  function buildSecretWordPracticeSession(){
+    const available=availableSecretWords();if(!available.length)return buildPracticeSession();
+    const s=EmiliaStore.get(),count=Math.min(3,available.length),pool=rotate(available.slice(),Number(s.sessions||0)%available.length).slice(0,count),known=knownSecretUnits();
+    const activities=pool.map((item,i)=>{
+      const units=secretUnits(item.word),unique=[...new Set(units)],distractors=known.filter(x=>!unique.includes(x));
+      const options=[...unique,...rotate(distractors,i+Number(s.sessions||0)).slice(0,Math.max(2,Math.min(4,7-unique.length)))];
+      const mixed=rotate(options,(i*2+Number(s.sessions||0))%Math.max(1,options.length));
+      return{id:`secret_${item.id}_${i}`,type:'secretWord',skill:item.skill,word:item.word,units,src:(EMILIA_CONTENT.wordArt||{})[item.word],options:mixed,prompt:'Mira la pista. Forma la palabra.',voicePrompt:'Mira la pista. Toca las piezas en orden para formar la palabra.',coach:'Mira la imagen y busca la siguiente pieza.'};
+    });
+    return{kind:'practice',practiceMode:'secretWord',forceFullSequence:true,missionId:null,title:'Palabra secreta de Lumi',activities,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:activities.length,minAssessed:activities.length,maxAssessed:activities.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
   }
 
   function assessedSoFar(session){return session.activities.slice(0,session.index+1).filter(a=>a.assess!==false).length;}
@@ -239,7 +379,7 @@
       ['first_path',done>=1],['vowels_done',(s.completedMissions||[]).includes('forest_vowels')],['builder_5',built>=5],['reader_5',read>=5],['forest_5',done>=5],['forest_8',done>=8],
       ['streak_3',best>=3],['forest_mix',(s.completedMissions||[]).includes('forest_mix')],['stories_3',uniqueStories>=3],
       ['new_letters_5',(s.completedMissions||[]).includes('forest_g')],['forest_expand',(s.completedMissions||[]).includes('forest_expand')],['stories_6',uniqueStories>=6],
-      ['enye_done',(s.completedMissions||[]).includes('forest_enye')],['patterns_3',(s.completedMissions||[]).includes('forest_rr')],['secret_forest',(s.completedMissions||[]).includes('forest_secrets')],['stories_10',uniqueStories>=10]
+      ['enye_done',(s.completedMissions||[]).includes('forest_enye')],['patterns_3',(s.completedMissions||[]).includes('forest_rr')],['secret_forest',(s.completedMissions||[]).includes('forest_secrets')],['stories_10',uniqueStories>=10],['new_forest_5',(s.completedMissions||[]).includes('forest_new_letters')]
     ],out=[];
     for(const [id,ok] of tests){if(ok&&!s.achievements.includes(id)){s.achievements.push(id);const def=(EMILIA_CONTENT.achievements||[]).find(x=>x.id===id);if(def)out.push(def);}}
     return out;
@@ -252,11 +392,13 @@
     const growth=s.growth||(s.growth={stage:0,plants:0,fireflies:0});growth.plants=Math.max(growth.plants||0,s.seeds||0);growth.fireflies=Math.min(18,Math.floor((s.seeds||0)/2));growth.stage=Math.min(4,Math.floor((s.seeds||0)/5));
     const newAchievements=checkAchievements(s,session);
     const storyUnlocked=session.kind==='mission'&&session.missionId?(EMILIA_CONTENT.stories||[]).find(st=>(st.requires||[]).some(r=>r.mission===session.missionId)&&EmiliaMastery.prereqsMet(st.requires||[]))||null:null;
+    const rescueSuccess=session.practiceMode==='rescue'&&assessed>0&&session.independentHits>=assessed&&session.errors===0;
+    if(session.practiceMode==='rescue')EmiliaStore.event('rescue_words',{success:rescueSuccess,targets:(session.rescueTargets||[]).slice(),hits:session.independentHits,total:assessed});
     EmiliaStore.event('session_end',{kind:session.kind,practiceMode:session.practiceMode||null,missionId:session.missionId,pct,seeds,errors:session.errors,reviews:session.reviewCount||0,adaptive:!!session.endedAdaptively,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0,storyUnlocked:storyUnlocked&&storyUnlocked.id});
     EmiliaStore.save();
-    return {kind:session.kind,practiceMode:session.practiceMode||null,missionId:session.missionId,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission(),newAchievements,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0,storyUnlocked};
+    return {kind:session.kind,practiceMode:session.practiceMode||null,missionId:session.missionId,pct,seeds,total:assessed,hits:session.independentHits,elapsed:Math.round((Date.now()-session.startedAt)/1000),reviewCount:session.reviewCount||0,adaptive:!!session.endedAdaptively,next:recommendedMission(),newAchievements,bestStreak:session.bestStreak||0,bonusStars:session.bonusStars||0,storyUnlocked,rescueSuccess:!!rescueSuccess,rescueTargets:(session.rescueTargets||[]).slice()};
   }
   function unlockedStories(){return EMILIA_CONTENT.stories.filter(st=>EmiliaMastery.prereqsMet(st.requires||[]));}
   function recommendedStory(){const arr=unlockedStories();return arr[arr.length-1]||null;}
-  window.EmiliaEngine={missionById,isUnlocked,status,worldState,recommendedMission,buildSession,buildPracticeSession,buildGapPracticeSession,buildWritingPracticeSession,buildSentencePracticeSession,writingLadderCount,availableWritingLadders,sentenceLadderCount,availableSentenceLadders,activityFamily,balanceActivities,sequenceStats,assessedSoFar,shouldPause,shouldEnd,finish,unlockedStories,recommendedStory};
+  window.EmiliaEngine={missionById,isUnlocked,status,worldState,recommendedMission,buildSession,buildPracticeSession,buildFlashPracticeSession,buildRescuePracticeSession,buildGapPracticeSession,buildWritingPracticeSession,buildSentencePracticeSession,buildMagicTracePracticeSession,buildSecretWordPracticeSession,magicTraceCount,secretWordCount,availableMagicLetters,availableSecretWords,writingLadderCount,availableWritingLadders,sentenceLadderCount,availableSentenceLadders,sentenceWritingTargetCount,availableSentenceWritingTargets,activityFamily,balanceActivities,sequenceStats,assessedSoFar,shouldPause,shouldEnd,finish,unlockedStories,recommendedStory};
 })();

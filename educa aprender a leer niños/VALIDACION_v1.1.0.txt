@@ -1,0 +1,9 @@
+Emilia · El Bosque de las Palabras · v1.1.0
+
+Novedades:
+- Reto sorpresa de Lumi: 3 actividades ultracortas tomadas solo de mundos ya completados.
+- Mezcla adaptativa: prioriza una recuperación útil, una habilidad reciente y una mecánica diferente.
+- Cofre sorpresa: una racha perfecta de 3 respuestas independientes activa el bonus de tesoro ya existente.
+- Acceso directo desde el bosque y desde Práctica inteligente.
+- Andamiaje que se retira: los gestos ☝ ↗ ✍ dejan de aparecer cuando una habilidad tiene práctica suficiente y dominio >=75%.
+- No introduce letras futuras ni modifica assets.

@@ -1,0 +1,30 @@
+Emilia · El Bosque de las Palabras · v0.9.9 · Orientación Infantil
+
+IMPLEMENTADO
+- Cuentos: el control de salida ahora es un árbol visible en la barra superior.
+- Barra superior de cuento fija/sticky durante el desplazamiento.
+- Al terminar el cuento, el árbol se ilumina, pulsa y aparece una mano gestual señalándolo.
+- Se elimina el botón de bosque situado al final inferior; el patrón de salida es siempre el mismo: árbol arriba.
+- Al finalizar un cuento se desplaza suavemente arriba y Lumi dice: “Fin del cuento. Toca el árbol de arriba.”
+- Repetir cuento conserva un botón pequeño y devuelve el árbol a estado normal.
+
+MAPA / NIVELES
+- Todos los mundos terminados muestran un check grande, aro verde y cápsula verde persistente.
+- El último mundo terminado recibe una animación breve de confirmación.
+- Al volver desde la pantalla final, se abre el mismo sendero/capítulo que acaba de completarse.
+- Las huellas completadas continúan verdes.
+
+AUDIO / CONSIGNAS
+- Vocal individual: “Escucha y toca la A/E/I/O/U.”
+- Recorrido de vocales: una sola consigna: “Escucha y toca cada vocal.”
+- Recorrido de sílabas: una sola consigna: “Escucha y toca cada sílaba.”
+- Sílabas auditivas: “Escucha y toca SO/MA/etc.”
+- Se elimina la lectura inicial de la lista completa de vocales/sílabas antes de permitir la interacción.
+- La pregunta de sonido inicial se conserva en forma breve: “¿Con qué letra empieza SAPO? Toca la primera letra.”
+
+VALIDACIÓN TÉCNICA
+- JavaScript: validado con node --check.
+- CSS: 1536 aperturas / 1536 cierres.
+- Service Worker: 224 referencias / 0 faltantes.
+- Assets: no se modificaron imágenes ni sonidos existentes.
+- Versión PWA: 0.9.9.

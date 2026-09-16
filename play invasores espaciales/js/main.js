@@ -52,11 +52,11 @@ window.SF = window.SF || {};
       const regs=await navigator.serviceWorker.getRegistrations();
       // Hotfix: retirar únicamente workers antiguos que controlen ESTA carpeta del juego.
       for(const reg of regs){
-        if(reg.scope===wantedScope && reg.active && !reg.active.scriptURL.includes('build=0720')){
+        if(reg.scope===wantedScope && reg.active && !reg.active.scriptURL.includes('build=0750')){
           await reg.unregister();
         }
       }
-      const reg=await navigator.serviceWorker.register('./sw.js?build=0720',{scope:'./',updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?build=0750',{scope:'./',updateViaCache:'none'});
       await reg.update().catch(()=>{});
     }catch(err){ console.warn('STARFALL PWA hotfix',err); }
   }

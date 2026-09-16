@@ -2,7 +2,7 @@ const fs=require('fs'),vm=require('vm'),path=require('path');
 const root=path.resolve(__dirname,'..'); const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox); const C=sandbox.window.SF.config;
 const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
-if(C.VERSION!=='0.7.2') throw new Error('wrong version');
+if(C.VERSION!=='0.7.5') throw new Error('wrong version');
 if(!C.bossPrelude?.enabled) throw new Error('boss prelude missing');
 if((C.bossPrelude.durationMsBySector?.[0]||0)<10000) throw new Error('boss prelude too short');
 if(C.microSwarm.fromWave!==1) throw new Error('micro swarm must start at wave 1');
@@ -15,4 +15,4 @@ if(C.subbossFortress.initialShieldRatio<.5) throw new Error('subboss shield too 
 for(const token of ['startBossPrelude','spawnBossPreludeBurst','updateBossPrelude','REACTOR REBOOT · 50%','quickRebootUsed','noteQuickReboot']) if(!game.includes(token)) throw new Error('missing '+token);
 const worlds=C.difficultyCurve.worlds; if(worlds[0].bossHp<1.5||worlds[4].bossHp<2.7) throw new Error('boss HP curve insufficient');
 if(worlds[0].subbossHp<1.5||worlds[4].subbossHp<2.5) throw new Error('subboss HP curve insufficient');
-console.log('BOSS REBOOT + ADRENALINE PRELUDE v0.7.2 OK');
+console.log('BOSS REBOOT + ADRENALINE PRELUDE v0.7.5 OK');

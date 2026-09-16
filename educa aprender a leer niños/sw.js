@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v0.9.8-gestos-espacio';
+const CACHE='emilia-bosque-v1.5.0-tinta-palabra-gemas';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

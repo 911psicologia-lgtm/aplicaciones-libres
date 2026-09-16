@@ -1,0 +1,29 @@
+AUTOAUDIT — v2.15.23
+
+ALCANCE
+Implementación incremental sobre v2.15.22. No se reconstruyó el proyecto.
+
+RIESGO PRINCIPAL CONTROLADO
+Una memoria adaptativa podía convertirse en aim-bot, castigo acumulativo o perfil persistente del jugador. Se evitó mediante memoria intra-combate, respuestas geométricas acotadas, ventanas de ensayo, presupuesto por fase, cooldown, neutral recovery y retiro explícito de respuestas fallidas.
+
+MUTACIONES EN VIVO PERMITIDAS
+- Signature Priority Pilot: cooldown de signature bajo contrato previo.
+- Tactical Identity: geometría/locomoción acotada.
+- Arena Morphology: reorganización del hazard existente tras telegraph.
+- Counter-Evolution: modulación acotada de los mismos parámetros geométricos ya autorizados (aim lead, offset, spread/ring phase y sesgo de corredor de ±1 banda).
+
+NO ACTIVADO
+- Reactive Armor.
+- Symbiotic Assist.
+- RIFT Disruption.
+- RIFT Rebirth.
+- Extra soft gates.
+
+MEMORIA Y PRIVACIDAD
+- La memoria táctica es solo de la pelea actual.
+- No crea perfil persistente del jugador.
+- La telemetría sigue siendo localStorage, limitada a las últimas N peleas.
+- No se añadieron fetch/XHR/beacon/WebSocket al Director.
+
+INTEGRIDAD
+Los 551 assets heredados permanecen byte-identical. De 787 archivos heredados, 784 permanecen idénticos; solo game.js, index.html y sw.js cambian intencionalmente. No hay archivos heredados perdidos.

@@ -1,0 +1,33 @@
+Emilia · El Bosque de las Palabras · v1.2.0
+RESCATE ADAPTATIVO + ÁLBUM DE LETRAS
+
+IMPLEMENTADO
+- Rescate de palabras de 3 retos sobre contenido ya aprendido y débil/due.
+- Selección con variedad de familias: reconocimiento, escucha y construcción cuando existe contenido.
+- Ajuste de ayuda por confianza: pistas gestuales se retiran en habilidades consolidadas; en repasos confiados ciertas consignas dejan de sonar automáticamente, pero el botón de audio sigue disponible.
+- Álbum visual de letras/patrones conquistados en Mis tesoros.
+- Recompensa ambiental: las estrellas de tesoro añaden destellos al bosque por niveles.
+- Acceso rápido al Rescate en bosque y Práctica inteligente.
+- Resultado especial de rescate y repetición del mismo modo.
+
+ESTADO CURRICULAR
+- 28 mundos.
+- 28 misiones.
+- 124 habilidades.
+- 365 actividades declaradas en misiones.
+- 48 actividades de refuerzo.
+- 24 Escaleras de escritura.
+- 23 Frases Vivas.
+- 28 cuentos mágicos.
+
+VALIDACIÓN
+- JavaScript: OK.
+- IDs de actividades duplicados: 0.
+- Referencias a habilidades inexistentes: 0.
+- Service Worker: 224 referencias, 0 faltantes.
+- CSS screens.css: 1630 aperturas / 1630 cierres.
+- Rescate simulado: 3 actividades, familias variadas cuando el banco lo permite.
+- No se añadieron ni modificaron assets gráficos.
+
+NOTA
+No se declara prueba visual de navegador automatizada. La validación visual final debe hacerse en celular/tablet real, como se viene realizando en el proyecto.

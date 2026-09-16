@@ -1,0 +1,58 @@
+Emilia · El Bosque de las Palabras · v1.3.0
+ÁLBUM POR SENDEROS + VOCALES VISIBLES
+
+BASE VERIFICADA
+- ZIP fuente v1.2.0 validado contra su SHA-256 adjunto.
+- SHA-256 fuente: b52443babb5064871c51a7a11a010ace93b618f48ab0fdceff37c17b33e3ad37.
+- La implementación se realizó sobre copia directa de esa base; no se reconstruyó el proyecto.
+
+IMPLEMENTADO
+- Álbum de letras reorganizado por los 4 senderos ya existentes.
+- A, E, I, O y U aparecen como 5 conquistas independientes dentro del Álbum, reutilizando los assets aprobados vocal_a.webp ... vocal_u.webp.
+- El patrón del tercer sendero se rotula R·RR en el Álbum para reflejar el contraste curricular existente.
+- La última letra/patrón conquistado recibe un destello breve; se desactiva con prefers-reduced-motion.
+- Las fichas futuras permanecen dormidas/desaturadas.
+- No se añadieron mundos, misiones, habilidades, cuentos, actividades ni assets.
+- No se cambió el esquema de progreso ni la clave local del Store; perfiles previos siguen siendo compatibles.
+- Se actualizó versión PWA, cache, exportación y prompt maestro de continuidad a v1.3.0.
+
+ESTADO CURRICULAR PRESERVADO
+- 28 mundos.
+- 28 misiones.
+- 124 habilidades.
+- 365 actividades declaradas dentro de misiones.
+- 48 actividades de refuerzo.
+- 24 Escaleras de escritura.
+- 23 Frases Vivas.
+- 28 cuentos mágicos.
+
+VALIDACIÓN TÉCNICA
+- JavaScript: 11 archivos comprobados con node --check, 0 errores.
+- IDs de actividades de misión duplicados: 0.
+- IDs de habilidades duplicados: 0.
+- IDs de misiones duplicados: 0.
+- IDs de cuentos duplicados: 0.
+- IDs de refuerzos duplicados: 0.
+- Referencias a habilidades inexistentes: 0.
+- Mundos sin misión: 0.
+- Misiones sin mundo: 0.
+- manifest.webmanifest: JSON válido.
+- Service Worker: 224 referencias, 0 faltantes.
+- Assets resueltos desde EMILIA_CONTENT: 153 referencias, 0 faltantes.
+- CSS: tokens.css 1/1; base.css 31/31; animations.css 16/16; screens.css 1653/1653 llaves balanceadas.
+
+PRUEBA ESTRUCTURAL DEL NUEVO ÁLBUM
+- 28 unidades visuales de aprendizaje.
+- Sendero 1: 12 unidades (5 vocales + M, P, S, L, N, T, D).
+- Sendero 2: 5 unidades.
+- Sendero 3: 6 unidades.
+- Sendero 4: 5 unidades.
+- Render sintético del componente: 28 fichas, 4 grupos, 5 assets de vocales presentes, 1 marcador de última conquista y rótulo R·RR presente.
+
+COMPATIBILIDAD
+- js/state/store.js permanece sin cambios respecto de v1.2.0.
+- Lumi y sus assets aprobados permanecen sin cambios.
+- Rescate adaptativo, Reto sorpresa, cuentos, microtramos, práctica inteligente y progresión existente permanecen intactos.
+
+NOTA DE PRUEBA VISUAL
+- No se declara prueba visual real en navegador/dispositivo. El entorno de ejecución bloqueó la navegación local del navegador automatizado, por lo que se realizó validación estructural y de render sintético, pero la comprobación visual final debe hacerse en celular/tablet real.

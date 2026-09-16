@@ -1,88 +1,202 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Emilia Princesa Guerrera · Reinos Celestiales v2.0</title>
-<meta name="theme-color" content="#130022">
-<link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Emilia: La Saga de los 20 Reinos</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
 </head>
 <body>
-<div id="gc">
-  <canvas id="c"></canvas>
-  <div id="hud">
-    <div class="panel"><div id="level-txt">NIVEL 1</div><div id="score-txt">0</div></div>
-    <div class="panel" style="text-align:right"><div id="name-txt" style="font-size:0.68rem;color:#aaa;margin-bottom:2px">EMILIA</div><div id="lives-txt">❤️❤️❤️❤️❤️</div></div>
-  </div>
-  <div id="combo-box"><div id="combo-txt">×1</div></div>
-  <div id="prog-wrap"><div id="prog-bg"><div id="prog-fill"></div></div></div>
-  <div id="power-shelf"></div>
-  <div id="msg"></div>
-  <div id="boss-wrap"><div id="boss-lbl">JEFE</div><div id="boss-bg"><div id="boss-bar"></div></div></div>
-  <div id="award">
-    <span id="ach-ico">🏆</span>
-    <div>
-      <div id="ach-ttl">LOGRO</div>
-      <div id="ach-dsc">desc</div>
+    <!-- CAPA DE FONDO DINÁMICO -->
+    <div id="bg-layer">
+        <canvas id="bg-canvas"></canvas>
     </div>
-    <div id="award-progress"></div>
-  </div>
-  <div id="prize-pop" aria-hidden="true" style="display:none"></div>
-  <div id="lvlup" role="button" aria-label="Pantalla de nivel y premios">
-    <div class="lvlcard">
-      <div id="lvlup-txt">¡PASASTE DE NIVEL!</div>
-      <div id="lvlup-sub">REINO</div>
-      <div class="lvlfx">✨✨✨</div>
-      <div class="lvlwins">GANASTE:</div>
-      <div id="lvlwins-row" class="lvlwins-row">
-        <span class="winico" id="prize-ico">👑</span>
-        <span class="winico" id="prize-ico2" style="display:none">🎁</span>
-        <span class="winico" id="prize-ico3" style="display:none">✨</span>
-      </div>
-      <div id="prize-nm" class="lvlprz">Premio</div>
-      <div id="prize-pts" class="lvlpts">+1000</div>
-      <div class="lvltap">TOCA PARA CONTINUAR</div>
-      <div id="lvlup-countdown-wrap"><div id="lvlup-countdown-bar"></div></div>
+
+    <!-- CANVAS PRINCIPAL DEL JUEGO -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- ============================== HUD ============================== -->
+    <div id="ui-layer">
+        <div class="hud-main">
+            <div class="glass-panel hud-left">
+                <div class="hud-levelname" id="hud-levelname">REINO DE CRISTAL</div>
+                <div class="hud-sub" id="hud-levelstory">...</div>
+                <div class="score-val" id="hud-score">0</div>
+                <div class="combo-badge hidden" id="combo-badge">
+                    <span class="combo-x">x</span><span id="combo-count">0</span>
+                    <div class="combo-label" id="combo-label">COMBO</div>
+                </div>
+            </div>
+            <div class="glass-panel hud-right">
+                <div id="hud-nick">EMILIA</div>
+                <div class="lives-row">
+                    <span class="lives-val" id="hud-lives">5</span>
+                    <span class="lives-icon" id="lives-icons"></span>
+                </div>
+                <div class="coins-row">
+                    <span class="coin-icon"></span>
+                    <span class="coins-val" id="hud-coins">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="level-progress-bar">
+            <div class="progress-fill" id="prog-fill"></div>
+            <div class="progress-label" id="prog-label">0 / 5000</div>
+        </div>
+
+        <div id="power-shelf"></div>
+        <div id="motivation-text">¡INCREÍBLE!</div>
+
+        <!-- BARRA DE VIDA DEL JEFE -->
+        <div id="boss-ui" class="hidden">
+            <div class="boss-name-row">
+                <span class="boss-title" id="boss-title">JEFE</span>
+                <span class="boss-special" id="boss-special">Poder Especial</span>
+            </div>
+            <div class="boss-hp-bar">
+                <div class="boss-hp-fill" id="boss-hp"></div>
+                <div class="boss-hp-shimmer"></div>
+            </div>
+            <div class="boss-cast" id="boss-cast"></div>
+        </div>
+
+        <!-- CONTROLES -->
+        <div class="controls">
+            <button class="btn-magic" id="btn-sound" title="Sonido"></button>
+            <button class="btn-magic" id="btn-pause" title="Pausa"></button>
+            <button class="btn-magic" id="btn-hangar" title="Hangar"></button>
+        </div>
+
+        <!-- INDICADOR DE COMBOS ACTIVOS -->
+        <div id="combo-stack"></div>
     </div>
-  </div>
-  <div id="btns"><button class="btn-r" id="btn-mus">🎵</button><button class="btn-r" id="btn-pau">⏸️</button></div>
-  <div id="btn-nova">💥</div>
-  <!-- SCREENS -->
-  <div id="s-start" class="screen">
-    <div class="stitle">La Princesa Emilia</div>
-    <div class="ssub">Y LOS 30 REINOS ✨</div>
-    <input class="pname" id="p-name" value="EMILIA" maxlength="12">
-    <div style="font-size:0.6rem;color:rgba(255,255,255,0.35);letter-spacing:3px;margin-bottom:7px">ELIGE TU HEROÍNA</div>
-    <div class="ship-row">
-      <div class="sopt sel princess-opt" id="h0" title="Emilia princesa guerrera"><img id="princess-prev" class="hero-thumb" alt="Emilia princesa guerrera" /></div>
-      <div class="sopt" id="h1">🧙‍♀️</div>
-      <div class="sopt" id="h2">🧚‍♀️</div>
-      <div class="sopt" id="h3">⚔️</div>
-      <div class="sopt" id="h4">🧜‍♀️</div>
-      <div class="sopt" id="h5">🐉</div>
-      <div class="sopt" id="h6">🐱</div>
-      <div class="sopt" id="h7">🐈</div>
-      <div class="sopt" id="h8" style="position:relative;overflow:hidden;padding:0;background:rgba(255,255,255,0.06)"><img id="custom-cat-prev" alt="Gatita personalizada" style="display:block;width:48px;height:48px;object-fit:contain" /></div>
+
+    <!-- ============================== PANTALLA SELECCIÓN PRINCESA ============================== -->
+    <div id="select-screen" class="screen hidden">
+        <div class="screen-inner select-inner">
+            <h2 class="title-section gold">ELIGE TU PRINCESA</h2>
+            <p class="select-desc">Cada princesa tiene un poder inicial único y un pasivo especial.</p>
+            <div class="princess-grid" id="princess-grid"></div>
+            <div class="princess-info" id="princess-info">
+                <div class="pi-name" id="pi-name">---</div>
+                <div class="pi-title" id="pi-title">---</div>
+                <div class="pi-desc" id="pi-desc">Selecciona una princesa</div>
+                <div class="pi-passive" id="pi-passive">---</div>
+            </div>
+            <div class="btn-row">
+                <button class="btn-large btn-secondary" id="btn-select-back">VOLVER</button>
+                <button class="btn-large btn-primary" id="btn-select-confirm">¡EMPEZAR AVENTURA!</button>
+            </div>
+        </div>
     </div>
-    <button class="btn" id="btn-new">✨ NUEVA AVENTURA</button>
-    <button class="btn btn-b" id="btn-load" style="display:none">📂 CARGAR</button>
-    <div class="rank-box" id="rank-start"></div>
-  </div>
-  <div id="s-pause" class="screen hidden">
-    <div class="stitle">PAUSA</div>
-    <button class="btn" id="btn-cont">▶️ CONTINUAR</button>
-    <button class="btn btn-b" id="btn-save">💾 GUARDAR</button>
-    <button class="btn btn-r2" id="btn-exit">🚪 SALIR</button>
-  </div>
-  <div id="s-over" class="screen hidden">
-    <div class="stitle" style="color:#ff3366;text-shadow:none">FIN DEL JUEGO</div>
-    <div id="over-score" style="color:#FFD700;font-size:1.6rem;font-weight:bold;margin:10px 0"></div>
-    <div id="over-info" style="color:#aaa;font-size:0.7rem;letter-spacing:2px;margin-bottom:5px"></div>
-    <div id="over-achs" style="font-size:1.2rem;margin-bottom:12px"></div>
-    <div class="rank-box" id="rank-end"></div>
-    <button class="btn" id="btn-retry">🔄 REINTENTAR</button>
-  </div>
-</div>
-<script src="js/game.js"></script>
+
+    <!-- ============================== PANTALLA INICIO ============================== -->
+    <div id="start-screen" class="screen">
+        <div class="screen-inner">
+            <h1 class="title-main">EMILIA</h1>
+            <p class="title-sub">La Saga de los 20 Reinos</p>
+            <div class="title-flavor">
+                Una princesa guerrera debe reunir los 20 Sellos Estelares
+                para enfrentar a la Emperatriz Oscura que devora los reinos.
+            </div>
+            <div class="name-input-row">
+                <label for="p-name">Nombre de la heroína</label>
+                <input type="text" id="p-name" value="EMILIA" maxlength="12">
+            </div>
+            <div class="ranking-table" id="rank-start"></div>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-new">NUEVA PARTIDA</button>
+                <button class="btn-large btn-secondary hidden" id="btn-resume">CONTINUAR</button>
+                <button class="btn-large btn-tertiary" id="btn-hangar-start">HANGAR</button>
+            </div>
+            <div class="credits-line">v2.0 · Saga Maestra · Sin emojis, todo dibujado a mano</div>
+        </div>
+    </div>
+
+    <!-- ============================== PANTALLA HANGAR ============================== -->
+    <div id="hangar-screen" class="screen hidden">
+        <div class="screen-inner hangar-inner">
+            <h2 class="title-section">HANGAR MÁGICO</h2>
+            <p class="hangar-desc">Mejora a Emilia con monedas estelares. Las mejoras son permanentes.</p>
+            <div class="hangar-coins">
+                <span class="coin-icon"></span>
+                <span id="hangar-coins-val">0</span>
+                monedas estelares
+            </div>
+            <div class="hangar-grid" id="hangar-grid"></div>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-hangar-close">VOLVER A LA BATALLA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== PANTALLA PAUSA ============================== -->
+    <div id="pause-screen" class="screen hidden">
+        <div class="screen-inner">
+            <h2 class="title-section cyan">PAUSA</h2>
+            <p>Tu progreso se guarda automáticamente.</p>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-resume-game">CONTINUAR</button>
+                <button class="btn-large btn-secondary" id="btn-to-hangar">HANGAR</button>
+                <button class="btn-large btn-danger" id="btn-quit">SALIR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== PANTALLA FIN NIVEL ============================== -->
+    <div id="level-clear-screen" class="screen hidden">
+        <div class="screen-inner">
+            <h2 class="title-section gold">REINO CONQUISTADO</h2>
+            <div class="reward-box" id="reward-box"></div>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-next-level">SIGUIENTE REINO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== PANTALLA GAME OVER ============================== -->
+    <div id="game-over" class="screen hidden">
+        <div class="screen-inner">
+            <h2 class="title-section red">FIN DE LA SAGA</h2>
+            <div class="ranking-table" id="rank-end"></div>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-retry">REINTENTAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== PANTALLA VICTORIA ============================== -->
+    <div id="victory-screen" class="screen hidden">
+        <div class="screen-inner">
+            <h2 class="title-section gold">VICTORIA ESTELAR</h2>
+            <p>Has derrotado a la Emperatriz Oscura y restaurado los 20 Reinos.</p>
+            <div class="ranking-table" id="rank-victory"></div>
+            <div class="btn-row">
+                <button class="btn-large btn-primary" id="btn-victory-restart">NUEVA AVENTURA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================== ARCHIVOS JS (orden de carga) ============================== -->
+    <script src="js/storage.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/imageloader.js"></script>
+    <script src="js/assets.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/popups.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/princesses.js"></script>
+    <script src="js/bosses.js"></script>
+    <script src="js/obstacles.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/combos.js"></script>
+    <script src="js/powers.js"></script>
+    <script src="js/hangar.js"></script>
+    <script src="js/prizes.js"></script>
+    <script src="js/hero.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
 </body>
 </html>

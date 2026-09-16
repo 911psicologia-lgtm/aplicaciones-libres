@@ -1,0 +1,28 @@
+SWARM//RIFT — INSECTA SIEGE
+VERSION: 2.15.23
+BUILD: ADAPTIVE_HIVE_COUNTER_EVOLUTION
+BASE: v2.15.22 ADAPTIVE_HIVE_ARENA_MORPHOLOGY
+
+PRIMARY MODIFIED FILES
+- js/game.js
+- index.html
+- sw.js
+
+NEW VALIDATION/DOCUMENTATION
+- tools/feature_test_v21523.js
+- CHANGELOG_v2.15.23.txt
+- VALIDACION_v2.15.23.txt
+- AUTOAUDIT_v2.15.23.txt
+- ADAPTIVE_HIVE_COUNTER_EVOLUTION_v2.15.23.md
+- TEST_RESULTS_v2.15.23.json
+- HTTP_SMOKE_v2.15.23.txt
+- BUILD_MANIFEST_v2.15.23.txt
+- CONTENT_SHA256_v2.15.23.txt
+
+FEATURE CONTRACT
+- Session-only Tactical Memory.
+- Trial -> measure -> learn/retire.
+- 30 identity-specific counter-responses.
+- Geometry-only intervention; no stat inflation.
+- Fairness abort and neutral recovery preserved.
+- Telemetry local-only schema 5.

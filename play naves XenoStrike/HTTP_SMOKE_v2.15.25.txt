@@ -1,0 +1,13 @@
+HTTP smoke executed with local Python HTTP server.
+10/10 selected resources returned HTTP 200:
+/
+/index.html
+/js/game.js
+/css/game.css
+/sw.js
+/manifest.json
+/assets_ch2/bosses/scarab_imperator/base.png
+/assets_ch2/bosses/apis_imperia/base.png
+/assets/music/boss_01_nucleo_meteorico.mp3
+/assets/generated/ship_01.png
+Result: PASS

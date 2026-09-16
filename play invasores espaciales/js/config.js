@@ -5,7 +5,7 @@ window.SF.config = {
   SHIP_KEY: 'sf3_ship',
   PROFILE_KEY: 'sf3_profile_v1',
   MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
-  VERSION: '0.7.2',
+  VERSION: '0.7.5',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -534,7 +534,7 @@ window.SF.config = {
       survivorHpBonus: 1,
       survivorShotLeadMs: [180,620]
     },
-    // v0.7.2 — el boss observa hábitos espaciales sin apuntado tramposo:
+    // v0.7.3 — el boss observa hábitos espaciales sin apuntado tramposo:
     // la zona se bloquea durante el telegraph y el jugador puede escapar de ella.
     hunterDoctrine: {
       enabled: true,
@@ -576,6 +576,97 @@ window.SF.config = {
       hunterTrackPxPerSec: 92,
       interceptorSpreadPx: 72,
       orbiterWaveAmp: 26
+    },
+    // v0.7.3 — memoria táctica: el jefe aprende de esquivas limpias repetidas,
+    // pero toda respuesta adicional queda fijada y telegráfica para conservar equidad.
+    adaptiveMemory: {
+      enabled: true,
+      fromPhase: 1,
+      cleanDodgesToArm: 2,
+      echoLeadMs: 180,
+      echoTelegraphMsByPhase: [720,650,580],
+      echoLaneOffsetRatio: [.18,.22,.25],
+      echoProjectileSpeedByPhase: [330,365,405],
+      echoRewardScore: 110,
+      echoEscapeDistanceRatio: .16,
+      echoRecoveryMs: 520
+    },
+    // Una ventana de núcleo bien aprovechada puede romper temporalmente los sistemas
+    // del boss. Premia concentración de daño, no el disparo indiscriminado.
+    systemBreak: {
+      enabled: true,
+      thresholdHpRatioByPhase: [.032,.038,.044],
+      extendCoreMsByPhase: [760,680,600],
+      staggerMsByPhase: [620,560,500],
+      fortressStripRatioByPhase: [.055,.050,.045],
+      scoreByPhase: [120,170,230]
+    },
+    // Las unidades de soporte forman una red local. Destruir un nodo especial
+    // descoordina a sus vecinos y crea una breve oportunidad ofensiva.
+    supportNetwork: {
+      enabled: true,
+      fromWave: 2,
+      disruptionRadiusPx: 150,
+      disruptionMs: 980,
+      maxAffected: 5,
+      scorePerAffected: 16,
+      cancelCoordinatedShots: true,
+      nextShotDelayMs: 760
+    },
+    // v0.7.4 — sinergias locales entre nodos de soporte. No añaden enemigos gratis:
+    // modifican la calidad de reanimación/cría y desaparecen al romper la red.
+    supportSynergy: {
+      enabled: true,
+      linkRadiusPx: 215,
+      reviveHpMulWithSentinel: 1.22,
+      breederHpBonusWithSentinel: 1,
+      breederIntervalMulWithReanimator: .72,
+      linkPulseMs: 420
+    },
+    // v0.7.4 — cicatrices funcionales: los hardpoints destruidos cambian la doctrina
+    // de fase del boss. Toda represalia queda anunciada y con objetivo congelado.
+    phaseConsequences: {
+      enabled: true,
+      fromPhase: 1,
+      phaseCoreGraceMs: 180,
+      telegraphMsByPhase: [0,860,740],
+      auxiliaryRoleByIdentity: {nova:'gunner',lancer:'interceptor',brood:'hunter',gravity:'orbiter',phoenix:'gunner'},
+      anchorCountByPhase: [0,4,6],
+      anchorSpreadPx: 82,
+      anchorSpeedByPhase: [0,255,292],
+      reactorFlareCountByPhase: [0,5,7],
+      reactorFlareSpeedByPhase: [0,285,325],
+      criticalCoreMsByPhase: [0,1500,1280],
+      criticalStaggerMsByPhase: [0,760,660],
+      criticalScoreByPhase: [0,190,270]
+    },
+    // v0.7.5 — intención táctica: el boss anuncia una maniobra, moviliza una escolta
+    // y prepara un remate. El jugador puede romper la intención antes del remate.
+    combatIntent: {
+      enabled: true,
+      fromPhase: 1,
+      firstDelayMsByPhase: [0,3600,3000],
+      intervalMsByPhase: [[0,0],[6200,8200],[5000,7000]],
+      telegraphMsByPhase: [0,760,640],
+      activeMsByPhase: [0,2600,2250],
+      breakWindowMsByPhase: [0,2200,1950],
+      escortQuotaDesktopByPhase: [0,1,2],
+      escortQuotaMobile: 1,
+      breakCoreExposeMsByPhase: [0,820,980],
+      breakStaggerMsByPhase: [0,620,760],
+      breakScoreByPhase: [0,140,220],
+      safeCooldownAfterBreakMs: 1250,
+      intentProjectileSpeedByPhase: [0,340,382]
+    },
+    // El subjefe puede ser interrumpido si el jugador aprovecha de verdad la
+    // recuperación posterior a una firma. Una interrupción por recuperación.
+    subbossInterruption: {
+      enabled: true,
+      thresholdHpRatioByPhase: [.040,.045,.050],
+      extendExposeMsByPhase: [360,420,480],
+      staggerMsByPhase: [340,400,460],
+      nextSignatureDelayMsByPhase: [1150,1350,1550],
+      scoreByPhase: [55,85,125]
     }
   },
 

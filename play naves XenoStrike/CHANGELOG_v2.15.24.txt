@@ -1,0 +1,30 @@
+CHANGELOG — SWARM//RIFT v2.15.24
+ADAPTIVE HIVE COEVOLUTION SEQUENCES
+
+BASE
+- Continuación incremental directa de v2.15.23 ADAPTIVE HIVE COUNTER-EVOLUTION.
+- No se reconstruye el proyecto.
+- Se preservan los 20 mundos, 20 bosses y todos los sistemas heredados.
+
+NUEVO
+- COEVOLUTION MICROSEQUENCES para bosses 11–20.
+- Una respuesta Counter-Evolution ya aprendida puede convertirse en una secuencia táctica de tres actos: OPEN → PRESS → CLOSE.
+- Matriz de 10 identidades de secuencia, una por boss del Capítulo II.
+- Cada acto modula solo geometría autorizada: aim lead, offsets, spread, ring phase y sesgo espacial acotado.
+- Una secuencia aprendida se limita a máximo 1 por fase.
+- Si el jugador descifra la secuencia durante 2 lecturas consecutivas, el cierre muta una sola vez usando una respuesta alternativa disponible.
+- Si vuelve a ser descifrada después de mutar, la secuencia se abandona y queda retirada para esa táctica durante la pelea.
+- Arena Morphology no puede iniciarse durante una microsecuencia.
+- Signature Priority Pilot no puede programarse encima de una microsecuencia.
+- Cooldown específico posterior a microsecuencia: 8 s.
+- Telemetría local schema 6 con secuencias iniciadas, completadas, mutadas, abandonadas y uso por fase.
+- Nuevo hook __SWARM_V21524_STATUS().
+
+NO CAMBIA
+- HP de bosses.
+- daño base.
+- cadencia base.
+- número de proyectiles.
+- powers/ranks/upgrades del jugador.
+- builds guardadas.
+- Reactive Armor, Symbiotic Assist, RIFT Disruption, RIFT Rebirth y extra soft gates siguen sin activarse.

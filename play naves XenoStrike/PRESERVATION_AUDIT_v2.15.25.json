@@ -1,0 +1,16 @@
+{
+  "baseline": "v2.15.24",
+  "inherited_files": 807,
+  "identical": 804,
+  "modified": [
+    "index.html",
+    "sw.js",
+    "js/game.js"
+  ],
+  "missing": [],
+  "assets": {
+    "count": 551,
+    "changed": [],
+    "missing": []
+  }
+}

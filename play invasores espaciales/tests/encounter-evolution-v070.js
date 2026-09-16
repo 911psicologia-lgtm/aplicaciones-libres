@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..'), read=f=>fs.readFileSync(path.join(root,
 const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox); vm.runInContext(read('js/config.js'),sandbox);
 const C=sandbox.window.SF.config, game=read('js/game.js');
 const ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.2','wrong version');
+ok(C.VERSION==='0.7.5','wrong version');
 ok(C.encounterEvolution?.enabled,'encounter evolution disabled');
 ok((C.encounterEvolution.bossHpMulBySector||[]).length===5,'boss encounter curve missing');
 ok((C.encounterEvolution.kamikaze?.diveChanceByWave||[]).length===4,'kamikaze dive curve missing');
@@ -21,4 +21,4 @@ ok(/bossSurgeTargetX/.test(game)&&/MANIOBRA DE CAZA/.test(game),'boss surge move
 ok(/function applySpecialEnemyDamage/.test(game),'special damage routing missing');
 ok(!/damagePlayer\(2, 'COLISIÓN'\); e\.alive=false/.test(game),'legacy universal collision kill still present');
 ok(/FURIA FINAL/.test(game)&&/finalFireCdMul/.test(read('js/config.js')),'subboss final phase missing');
-console.log('ENCOUNTER EVOLUTION v0.7.2 PASS');
+console.log('ENCOUNTER EVOLUTION v0.7.5 PASS');

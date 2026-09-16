@@ -1,0 +1,12 @@
+HTTP SMOKE — v2.15.23
+PASS / 200
+PASS /index.html 200
+PASS /js/game.js 200
+PASS /css/game.css 200
+PASS /manifest.json 200
+PASS /sw.js 200
+PASS /assets/icon.svg 200
+PASS /assets/player_ship.webp 200
+PASS /assets_ch2/bosses/scarab_imperator/idle.png?av=2157 200
+PASS /assets_ch2/enemies/w20/major.png?av=2157 200
+SUMMARY 10/10

@@ -2,7 +2,7 @@ from pathlib import Path
 import hashlib,json,re,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1]
 EXPECTED_ASSET_AUDIO='5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847'
-EXPECTED_ECONOMY='f6af1f548aa105f21b7544092dd73bf189bb442226a26d327b1e18f7db217441'
+EXPECTED_ECONOMY='cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd'
 
 def tree_hash():
     h=hashlib.sha256()
@@ -34,7 +34,7 @@ manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 assert_(manifest.get('display')=='fullscreen','manifest display must be fullscreen')
 for icon in manifest.get('icons',[]): assert_((ROOT/icon['src'].lstrip('./')).exists(),f'missing PWA icon {icon["src"]}')
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert_('starfall-shell-v0.6.5' in sw,'wrong service worker cache version')
+assert_('starfall-shell-v0.7.5' in sw,'wrong service worker cache version')
 assert_('js/reactive_matrix.js' in sw,'reactive matrix missing from PWA shell')
 
 # Runtime asset references
@@ -45,8 +45,8 @@ for jsname in ('js/assets.js','js/world_content.js'):
     assert_(not missing,f'{jsname} missing refs: {missing[:5]}')
 
 # Critical no-regression hashes
-assert_(tree_hash()==EXPECTED_ASSET_AUDIO,'assets/audio tree changed from stable v0.6.0')
-assert_(hashlib.sha256((ROOT/'js/economy.js').read_bytes()).hexdigest()==EXPECTED_ECONOMY,'economy.js changed from stable v0.6.0')
+assert_(tree_hash()==EXPECTED_ASSET_AUDIO,'assets/audio tree changed from stable integrated trunk')
+assert_(hashlib.sha256((ROOT/'js/economy.js').read_bytes()).hexdigest()==EXPECTED_ECONOMY,'economy.js changed from stable integrated trunk')
 
 # Shadow semantics
 cfg=(ROOT/'js/config.js').read_text(encoding='utf-8')
@@ -54,7 +54,7 @@ mx=(ROOT/'js/reactive_matrix.js').read_text(encoding='utf-8')
 assert_("mode: 'assist'" in cfg,'Reactive Matrix not in assist mode')
 assert_('noteIntervention' in mx and 'matrixJamActivated:false' in mx and 'matrixRebootActivated:false' in mx,'Assist telemetry guarantees missing')
 
-print('VALIDATION v0.6.5 PASS')
+print('VALIDATION v0.7.5 PASS')
 print('asset_audio_tree_sha256',tree_hash())
 print('economy_js_sha256',hashlib.sha256((ROOT/'js/economy.js').read_bytes()).hexdigest())
 print('pwa_manifest',manifest['name'],manifest['display'])

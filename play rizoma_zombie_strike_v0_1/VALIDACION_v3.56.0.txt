@@ -1,0 +1,36 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.56.0
+
+VERSIÓN: v3.56.0 — Rizoma Flow + Perfect Dodge Resonance
+
+COMPROBACIONES ESTÁTICAS
+- js/game.js: sintaxis OK
+- sw.js: sintaxis OK
+- manifest.json: válido
+- versionado index/JS/SW/manifest: 3.56.0
+- assets: 842
+- assets modificados respecto a v3.55.0: 0
+- referencias literales de assets: 800
+- referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+
+MECÁNICAS NUEVAS
+- Registro de casi-impactos: presente
+- Rizoma Flow: presente
+- Duelo Rizoma: presente
+- Bonificación de Flow sobre Núcleo Expuesto: presente
+- Riposta con disipación de proyectiles: presente
+- Telemetría perfectDodges/flowBursts/duelWindows/duelWins: presente
+
+CRITERIOS DE SEGURIDAD
+- Un proyectil solo cuenta una vez como esquiva perfecta.
+- La esquiva se registra al salir del radio de colisión, no mientras la bala todavía entra.
+- Flow no altera HP base del Guardián.
+- Duelo no se superpone con ruptura de fase, Cerco, Enlace, Anclas, Último Asalto ni telegráfico especial.
+- Resurrección y ruptura limpian el estado de Duelo pendiente.
+
+PRUEBA MANUAL RECOMENDADA
+- M11–M20, especialmente M16–M20.
+- Forzar esquivas cercanas a proyectiles signature y comprobar activación de Flow.
+- Confirmar que el Duelo reduce relleno y ejecuta una firma directa.
+- Confirmar Riposta con Flow y limpieza de proyectiles cercanos.

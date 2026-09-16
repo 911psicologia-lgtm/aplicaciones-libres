@@ -1,0 +1,16 @@
+VALIDACIÓN v2.15.25 — ADAPTIVE HIVE FEINT BRANCHING
+
+PASS node --check js/game.js
+PASS node --check sw.js
+PASS targeted branch unit tests: 18/18
+PASS boss identity/sequence matrix tests: 32/32
+PASS combined targeted tests: 50/50
+PASS PWA precache integrity: 560/560
+PASS HTTP smoke: 10/10
+PASS inherited asset preservation: 551/551 unchanged
+PASS inherited file preservation: 804/807 byte-identical; only index.html, sw.js and js/game.js modified
+PASS save fallback includes v2.15.24
+PASS telemetry migration from v2.15.24 to schema 7
+PASS no external network API usage inside Adaptive Hive Director block
+
+Not claimed: prolonged physical playtest on a real phone/tablet, subjective human balance validation, thermal/battery profiling.

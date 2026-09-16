@@ -1,0 +1,20 @@
+AUTOAUDIT v2.15.25
+
+Baseline: v2.15.24 ADAPTIVE HIVE COEVOLUTION SEQUENCES
+Inherited files: 807
+Bit-identical inherited files: 804
+Modified inherited files: index.html, sw.js, js/game.js
+Missing inherited files: 0
+Inherited assets: 551
+Changed/missing assets: 0/0
+PWA resources present: 560/560
+Targeted tests: 50/50 PASS
+Adaptive block external-network tokens: {'fetch(': 0, 'XMLHttpRequest': 0, 'sendBeacon': 0, 'WebSocket': 0, 'navigator.sendBeacon': 0}
+
+Scope audit:
+- No HP/maxHP mutation in Feint Branching functions.
+- No projectile spawning in Feint Branching functions.
+- No damage/cadence/build mutation in Feint Branching functions.
+- Branch is committed once and then frozen.
+- Decode grace prevents reaction-to-telegraph from being immediately classified as sequence decoding.
+- Heavy countermeasures remain Shadow-only.

@@ -1,0 +1,81 @@
+STARFALL FRONTIER v0.7.3 — TACTICAL ECOSYSTEM
+
+STATUS: PASS
+
+Automated regression
+- JavaScript tests passed: 38
+- Python structural validation: PASS
+- New tactical ecosystem simulation: PASS
+- Syntax check: all js/*.js + sw.js PASS
+
+New v0.7.3 systems validated
+- Adaptive Memory / ECO ADAPTATIVO enabled
+- Echo target freezes before telegraph and does not retarget
+- Echo resolves as a separate three-vector threat
+- SYSTEM BREAK only charges while boss core is actually open
+- SYSTEM BREAK extends the core window and staggers the boss
+- Support Network collapse disrupts only nearby formation units
+- Coordinated shots are cancelled on local network collapse
+- Disrupted units are temporarily excluded from coordinated fire and dives
+- Threat arbitration includes ECO ADAPTATIVO
+- New clocks survive pause shifting and reset on phase/Reactor Reboot
+
+Continuity
+- PWA cache: starfall-shell-v0.7.3
+- Service worker registration build: 0730
+- Assets/audio tree unchanged from stable trunk
+- Assets/audio SHA-256 tree: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+- economy.js unchanged from stable trunk
+- economy.js SHA-256: cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+- game.js SHA-256: fb0d57b091e358ca4a1aea4704dc0bf64025f61c5ea9d50da357e9824182a517
+- config.js SHA-256: 53eab000bcff02b2ac11eab546110bdeb9396b2f9c31417b2f506daae9b15a2f
+
+Preserved systems
+Encounter Evolution, Battle Rhythm, Hunter Doctrine, Reactive Matrix, Boss Fortress,
+Reactor Reboot, boss modules, hardpoints, escorts, family tactics, micro-swarms,
+Mission Director, Hangar, economy, checkpoints, responsive layout and PWA.
+
+Test inventory
+- PASS: asteroid-director-v051.js :: ASTEROID DIRECTOR v0.5.1 OK
+- PASS: audio-pack-integration-v044.js :: QUIET AUDIO v0.5.1 OK { archiveOgGs: 449, activeSoundFamily: 'player weapons only' }
+- PASS: balance-v048.js :: }
+- PASS: battle-rhythm-v071.js :: BATTLE RHYTHM v0.7.3 PASS
+- PASS: boss-anatomy-streaming-v055.js :: PASS boss anatomy + streaming v0.5.5
+- PASS: boss-fortress-v049.js :: ]
+- PASS: boss-power-identity-v0391.js :: }
+- PASS: boss-reboot-adrenaline-v062.js :: BOSS REBOOT + ADRENALINE PRELUDE v0.7.3 OK
+- PASS: boss-reboot-adrenaline-v066.js :: BOSS REBOOT + ADRENALINE PRELUDE v0.7.3 OK
+- PASS: boss-subboss-endurance-v058.js :: ]
+- PASS: boss-telegraph-realistic-loop-v069.js :: BOSS TELEGRAPH + REALISTIC LOOP v0.7.3 PASS
+- PASS: boss-telegraph-realistic-loop-v070.js :: BOSS TELEGRAPH + REALISTIC LOOP v0.7.3 PASS
+- PASS: boss-transition-regression.js :: }
+- PASS: boss-transition-watchdog.js :: BOSS WATCHDOG OK { sector: 4, wave: 1, rewardPending: false }
+- PASS: combat-depth-v052.js :: COMBAT DEPTH v0.5.2 OK
+- PASS: combat-flow-v063.js :: COMBAT FLOW + BOSS CHOREOGRAPHY v0.7.3 OK
+- PASS: dsebi-f4-v064.js :: DSEBI F4 v0.7.3 PASS
+- PASS: dsebi-f4-v066.js :: DSEBI F4 v0.7.3 PASS
+- PASS: ecology-smoke.js :: }
+- PASS: economy-shop-v060.js :: ECONOMY SHOP v0.6.0 PASS { level: 2, coins: 575, bestStreak: 0 }
+- PASS: encounter-evolution-v070.js :: ENCOUNTER EVOLUTION v0.7.3 PASS
+- PASS: endurance-director-v059.js :: ENDURANCE DIRECTOR v0.6.0 OK { bossScale: '1.480', subbossScale: '1.312' }
+- PASS: family-tactics-v054.js :: PASS family tactics v0.5.4
+- PASS: hangar-survival-loot-v066.js :: HANGAR + SURVIVAL + LOOT v0.7.3 PASS
+- PASS: hunter-doctrine-v072.js :: }
+- PASS: mission-director-v056.js :: }
+- PASS: reactive-matrix-assist-v065.js :: REACTIVE MATRIX ASSIST v0.7.3 PASS { state: 'M3', ttk: '3.9', actions: 2 }
+- PASS: realistic-primary-render-v057.js :: realistic-primary-render-v057 PASS
+- PASS: responsive-smoke.js :: responsive smoke: PASS
+- PASS: runtime-assets-w01-05-v045.js :: }
+- PASS: runtime-smoke.js :: }
+- PASS: ship-evolution-v053.js :: PASS ship evolution v0.5.3
+- PASS: smoke-node.js :: }
+- PASS: storage-hardening-v064.js :: STORAGE HARDENING v0.7.3 PASS
+- PASS: systems-runtime-v038.js :: }
+- PASS: systems-v038-smoke.js :: V0.3.9.1 SYSTEMS SMOKE OK { mutators: 5, elites: 3, objectives: 4, fusions: 3 }
+- PASS: tactical-belt-drone-command-v067.js :: TACTICAL BELT + DRONE COMMAND v0.7.3 PASS
+- PASS: tactical-ecosystem-v073.js :: }
+
+VALIDATION v0.7.3 PASS
+asset_audio_tree_sha256 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+economy_js_sha256 cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+pwa_manifest STARFALL FRONTIER fullscreen

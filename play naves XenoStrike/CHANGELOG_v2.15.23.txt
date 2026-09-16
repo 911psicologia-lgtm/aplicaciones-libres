@@ -1,0 +1,31 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.23
+ADAPTIVE HIVE — TACTICAL MEMORY + COUNTER-EVOLUTION
+
+NUEVO
+- Boss Tactical Memory intra-combate para mundos 11–20.
+- Detección de táctica repetida mediante lecturas espaciales ya existentes: EDGE_ANCHOR, VERTICAL_WEAVE, CENTER_HOLD, LANE_ANCHOR, EVASIVE, MOBILE_MIX y SUSTAINED_PRESSURE.
+- Counter-Evolution Pilot: ensayo breve -> medición -> aprendizaje o retiro de respuesta.
+- 30 contrarespuestas identitarias: 3 por cada boss de Capítulo II.
+- Una respuesta se considera útil si cambia la táctica observada o reduce de forma mensurable la presión ofensiva durante la ventana de prueba.
+- Las respuestas fallidas se retiran para esa pelea; no se repiten mecánicamente.
+- Las respuestas aprendidas pueden reutilizarse como máximo 2 veces, con cooldown.
+- Máximo 2 ensayos nuevos por fase.
+- Coordinación con Tactical Identity: un ensayo solo empieza cuando el piloto táctico está realmente activo y reserva su ventana de evaluación.
+- Fairness abort: cualquier transición, signature/telegraph, charge, Last Chance o recovery invalida/aborta el ensayo sin marcarlo como fracaso.
+- Telemetría local schema 5: trials, reuses, learned, retired, aborted y eventos de Counter-Evolution.
+- Migración explícita desde meta/run/telemetría v2.15.22.
+
+NO CAMBIA
+- HP del boss.
+- daño base.
+- cadencia base.
+- cantidad de proyectiles.
+- ranks/powers/build del jugador.
+- identidad base, telegraphs o reglas de fase.
+
+SE CONSERVA
+- 20 mundos / 20 bosses.
+- Adaptive Hive Shadow, Predictive Pilot, Tactical Identity y Arena Morphology.
+- Signature Priority Pilot.
+- Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, poderes, combos, PWA, responsive y guardados.
+- Reactive Armor, Symbiotic Assist, RIFT Disruption, RIFT Rebirth y extra soft gates siguen en Shadow.

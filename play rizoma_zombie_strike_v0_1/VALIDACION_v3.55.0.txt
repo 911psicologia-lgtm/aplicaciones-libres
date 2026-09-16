@@ -1,0 +1,42 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.55.0
+
+VERSIÓN: v3.55.0 — Rizoma Riposte + Phase Objectives + Power Pattern Counters
+
+COMPROBACIONES PRINCIPALES
+- Sintaxis `js/game.js`: OK
+- Sintaxis `sw.js`: OK
+- Versionado index/manifest/SW/game: 3.55.0
+- Assets heredados: 842 / 842 idénticos byte a byte a v3.54
+- Referencias literales auditadas: 800 / 0 faltantes
+- IDs HTML: 230 / 0 duplicados
+- Sin nuevos assets
+- HP base no modificado por esta versión
+
+CASOS A PROBAR
+1. Obtener NÚCLEO EXPUESTO y producir suficiente daño: debe aparecer RIPOSTA RIZOMA una sola vez por ventana.
+2. Fase 2–4: deben aparecer Anclas de Fase; destruirlas debe abrir NÚCLEO EXPUESTO.
+3. Dejar expirar las Anclas: debe adelantarse la próxima firma, sin sumar HP.
+4. Repetir un mismo poder tres veces en ventana corta: debe aparecer CONTRAMEDIDA ADAPTATIVA y cambiar geometría, sin bloquear el poder.
+5. Resurrección/cambio de fase: debe limpiar anclas y estados pendientes.
+
+VALIDACIÓN ESTRUCTURAL FINAL
+- Asset tree SHA-256: 48f94b671a22a872e7214f9b78e6b07ed14e98e703b7ec2a1690db277469044e
+- manifest.json: JSON válido
+- `node --check js/game.js`: OK
+- `node --check sw.js`: OK
+
+RESULTADOS FINALES
+- Assets v3.54 → v3.55: 842 / 842 idénticos byte a byte
+- Asset tree SHA-256: 48f94b671a22a872e7214f9b78e6b07ed14e98e703b7ec2a1690db277469044e
+- Referencias literales: 800 / 0 faltantes
+- IDs HTML: 230 / 0 duplicados
+- Curva de Guardianes: 20 entradas
+- Hitos HP: M1=11200 · M5=19500 · M10=38900 · M15=77800 · M20=155500
+- `releaseBossCounterStrike`: presente
+- `startBossPhaseObjective`: presente
+- `updateBossPhaseObjective`: presente
+- `recordBossPowerPattern`: presente
+- `updateBossPowerAdaptation`: presente
+- `node --check js/game.js`: OK
+- `node --check sw.js`: OK
+- manifest.json: válido

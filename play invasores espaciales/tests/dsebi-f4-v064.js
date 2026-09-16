@@ -11,6 +11,6 @@ ok(/ship-preview-img/.test(css)&&/assets\/ships\/\$\{esc\(s.id\)\}/.test(read('j
 ok(/focus-visible/.test(css)&&/prefers-reduced-motion/.test(css),'focus/reduced-motion missing');
 ok(/loadBatch/.test(assets)&&/timeoutMs/.test(assets)&&/retryFailed/.test(assets),'adaptive asset loading missing');
 ok(/normalizeGame/.test(storage)&&/normalizeRanking/.test(storage),'storage normalization missing');
-ok(/build=0720/.test(main)&&/starfall-shell-v0\.7\.2/.test(sw),'PWA versioning not synchronized');
+ok(/build=0750/.test(main)&&/starfall-shell-v0\.7\.5/.test(sw),'PWA versioning not synchronized');
 ok(/visibilitychange/.test(main)&&/e\.key==='Escape'/.test(main),'pause/dialog keyboard robustness missing');
-console.log('DSEBI F4 v0.7.2 PASS');
+console.log('DSEBI F4 v0.7.5 PASS');

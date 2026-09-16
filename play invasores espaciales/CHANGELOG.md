@@ -1,3 +1,40 @@
+# v0.7.5 — TACTICAL INTENT
+
+- Nuevo Boss Combat Intent con cuatro doctrinas visibles y objetivo congelado.
+- Remates de intención interrumpibles mediante escolta, SYSTEM BREAK, módulos o hardpoints.
+- Recompensa DOMINIO TÁCTICO: núcleo abierto, stagger y puntuación; la dificultad no se compensa de forma oculta.
+- Escoltas de intención enlazadas visualmente al boss y contabilizadas en HUD.
+- Nuevo Subboss Interruption: concentración de daño durante recuperación retrasa la firma siguiente.
+- Threat Arbitration ampliado para evitar superposición de amenazas mayores.
+- PWA actualizado a cache `starfall-shell-v0.7.5` y registro `build=0750`.
+
+# v0.7.4 — PHASE CONSEQUENCE
+
+- Hardpoints convertidos en cicatrices funcionales con consecuencias doctrinales entre fases.
+- Armamento principal destruido reduce la cadencia directa existente y activa apoyo auxiliar telegráfico en fases avanzadas.
+- Propulsión destruida mantiene la penalización de movilidad y puede activar CAMPO DE ANCLAJE con objetivo congelado.
+- Regulador destruido impide recarga de fortaleza y puede activar REACTOR INESTABLE como represalia de fase.
+- Destruir todos los hardpoints produce COLAPSO SISTÉMICO: stagger, núcleo abierto y bonificación, sin compensación tramposa.
+- Threat arbitration ampliado para que las respuestas de cicatriz no se superpongan con signatures, Hunter Doctrine, Fortress Pulse o summons.
+- Support Synergy: Sentinel + Reanimator mejora la reanimación; Sentinel + Breeder blinda crías; Reanimator + Breeder acelera el ciclo de cría.
+- Enlaces de soporte visibles y cancelables al destruir un nodo; Support Network sigue generando descoordinación local.
+- Nuevos relojes sobreviven pausa/reanudación y Reactor Reboot limpia correctamente estados de cicatriz.
+- PWA actualizado a cache `starfall-shell-v0.7.4` y registro `build=0740`.
+
+# v0.7.3 — TACTICAL ECOSYSTEM
+
+- Adaptive Memory: bosses acumulan memoria de esquivas limpias y pueden armar un ECO ADAPTATIVO después de lecturas repetidas.
+- El ECO ADAPTATIVO usa objetivo congelado, telegraph independiente y recompensa por una segunda evasión correcta; nunca retargetea durante el aviso.
+- SYSTEM BREAK: daño concentrado durante una ventana real de núcleo puede extender la apertura, escalonar temporalmente al boss y erosionar fortaleza.
+- El SYSTEM BREAK solo puede activarse una vez por fase para evitar explotación por DPS continuo.
+- Support Network: Sentinel, Reanimator y Breeder se convierten en nodos tácticos; al destruirlos descoordinan enemigos cercanos.
+- La caída de un nodo cancela fuego cruzado/cargas locales, retrasa el siguiente ataque y crea una ventana de ofensiva legible.
+- Unidades descoordinadas quedan temporalmente fuera de nuevos ataques coordinados y de nuevas inmersiones.
+- Threat arbitration ampliado: Eco Adaptativo bloquea signatures, summons, fortress pulses y fuego básico mientras se resuelve.
+- Los nuevos relojes sobreviven correctamente a pausa/reanudación y se limpian en cambios de fase/Reactor Reboot.
+- PWA actualizado a cache `starfall-shell-v0.7.3` y registro `build=0730`.
+- 38 pruebas JavaScript + validación Python; assets/audio y economía permanecen byte-identical al trunk estable.
+
 # v0.7.2 — HUNTER DOCTRINE
 
 - Boss Hunter Doctrine: lectura temporal de camping lateral y hábitos de evasión repetitivos.

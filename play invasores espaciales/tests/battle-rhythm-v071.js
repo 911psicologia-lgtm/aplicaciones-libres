@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..'), read=f=>fs.readFileSync(path.join(root,
 const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox); vm.runInContext(read('js/config.js'),sandbox);
 const C=sandbox.window.SF.config, game=read('js/game.js');
 const ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.2','wrong version');
+ok(C.VERSION==='0.7.5','wrong version');
 ok(C.encounterEvolution?.battleRhythm?.enabled,'battle rhythm disabled');
 ok(C.encounterEvolution?.subbossRhythm?.enabled,'subboss rhythm disabled');
 ok(C.encounterEvolution?.desperation?.enabled,'desperation director disabled');
@@ -23,4 +23,4 @@ ok(/DETONACIÓN TÁCTICA/.test(game),'kamikaze chain cue missing');
 ok(/now>=\(e\.recoveryUntil\|\|0\) && !e\.signaturePending/.test(game),'boss basic fire is not paused during recovery/windup');
 ok(/subSignatureNextAt/.test(game)&&/subRecoveryUntil/.test(game),'subboss rhythm timers missing');
 ok(/counterOpenAt/.test(game)&&/recoveryUntil/.test(game),'boss rhythm timers missing');
-console.log('BATTLE RHYTHM v0.7.2 PASS');
+console.log('BATTLE RHYTHM v0.7.5 PASS');

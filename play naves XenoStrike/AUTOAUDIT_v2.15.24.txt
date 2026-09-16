@@ -1,0 +1,31 @@
+AUTOAUDIT — v2.15.24
+
+ALCANCE
+Implementación incremental sobre v2.15.23. No se reconstruyó el proyecto.
+
+RIESGO PRINCIPAL CONTROLADO
+Una secuencia adaptativa podía convertirse en una cadena inevitable o en apilamiento de patrones. Se controla mediante: máximo 1 microsecuencia por fase, tres actos breves, Tactical Neutral Recovery heredado, bloqueo de Arena Morphology y Signature Priority durante la secuencia, detector de descifrado, una sola mutación de cierre y abandono posterior.
+
+MUTACIONES EN VIVO PERMITIDAS
+- Signature Priority Pilot: cooldown de signature bajo contrato heredado.
+- Tactical Identity: geometría/locomoción acotada.
+- Arena Morphology: reorganización del hazard existente tras telegraph.
+- Counter-Evolution: geometría acotada y memoria intra-combate.
+- Coevolution Microsequences: composición temporal de esas mismas modulaciones geométricas; no crea ataques ni densidad adicional.
+
+NO ACTIVADO
+- Reactive Armor.
+- Symbiotic Assist.
+- RIFT Disruption.
+- RIFT Rebirth.
+- Extra soft gates.
+
+MEMORIA Y PRIVACIDAD
+- Memoria táctica y secuencias aprendidas son solo de la pelea actual.
+- No existe perfil persistente de conducta del jugador.
+- Telemetría localStorage schema 6, limitada a las últimas N peleas.
+- No se añadieron fetch/XHR/beacon/WebSocket al Director.
+
+INTEGRIDAD
+- 551/551 assets heredados byte-identical.
+- De 796 archivos heredados de v2.15.23: 793 idénticos, 3 modificados intencionalmente (js/game.js, index.html, sw.js), 0 perdidos.

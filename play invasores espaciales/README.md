@@ -1,12 +1,29 @@
-# STARFALL FRONTIER v0.7.2
+# STARFALL FRONTIER v0.7.5
 
 Build completa derivada de v0.6.5, con énfasis en libertad de movimiento, Hangar, economía táctica, supervivencia, loot y aliado de jefe.
 
 
+
+## v0.7.5 — Tactical Intent
+
+- Boss Combat Intent: CAZA VECTORIAL, CERCO DE FUEGO, CONTROL DE ESPACIO y REORGANIZACIÓN DE ESCOLTA.
+- Cada intención se anuncia, fija su objetivo y prepara un remate interrumpible.
+- Destruir la escolta vinculada, provocar SYSTEM BREAK o romper módulos/sistemas durante la intención concede DOMINIO TÁCTICO y una microventana de núcleo.
+- Subboss Interruption: daño concentrado durante la recuperación de una firma puede desequilibrar al subjefe y retrasar su siguiente firma.
+- Arbitraje ampliado para impedir solapamientos injustos entre firmas, Hunter Doctrine, Adaptive Echo, cicatrices e intención.
+
+## v0.7.4 — Phase Consequence
+
+Esta iteración convierte los hardpoints en **cicatrices funcionales**. El boss no solo pierde HP o una bonificación: la destrucción de armamento, propulsión o regulador modifica su doctrina en las fases siguientes mediante respuestas telegráficas y con objetivo congelado. Armamento principal destruido desplaza presión hacia apoyo auxiliar; propulsión dañada cambia movilidad por control de área; regulador roto elimina recarga de fortaleza pero puede detonar una respuesta de reactor inestable; desarticular todos los sistemas produce un **COLAPSO SISTÉMICO** que recompensa al jugador con una apertura real del núcleo. Sentinel, Reanimator y Breeder incorporan además **sinergias locales de soporte** que se rompen al destruir la red. Se preservan Tactical Ecosystem, Hunter Doctrine, Battle Rhythm, Encounter Evolution, Reactive Matrix, economía, assets, audio, PWA y progresión.
+
+
+## v0.7.3 — Tactical Ecosystem
+
+Esta iteración conecta los sistemas de combate existentes para que las acciones del jugador tengan consecuencias posteriores. Los bosses desarrollan **memoria táctica**: dos esquivas limpias pueden armar un **ECO ADAPTATIVO**, un segundo ataque con objetivo congelado y telegraph propio que nunca persigue al jugador después del aviso. Las ventanas de núcleo incorporan **SYSTEM BREAK**: concentrar suficiente daño durante una apertura extiende brevemente la vulnerabilidad, escalona al boss y erosiona parte de su fortaleza. Las unidades Sentinel, Reanimator y Breeder funcionan además como nodos de una **red de soporte**; destruirlas descoordina temporalmente a los esbirros cercanos, cancela fuego sincronizado y retrasa su siguiente acción. Se preservan Hunter Doctrine, Battle Rhythm, Encounter Evolution, Reactive Matrix, economía, assets, audio, PWA y progresión.
+
 ## v0.7.2 — Hunter Doctrine
 
-Esta iteración añade inteligencia espacial justa y coordinación enemiga. Los bosses pueden detectar permanencia lateral o evasiones repetitivas y preparar contrapatrones telegráficos cuyo objetivo queda bloqueado antes del disparo. Las formaciones incorporan fuego cruzado sincronizado y las escoltas del boss se especializan como hunters, interceptors, orbiters, gunners o rammers. Durante un contrap Patrón se arbitran otras amenazas fuertes para preservar lectura y evitar dificultad basada en saturación. Una evasión limpia puede conceder **LECTURA TÁCTICA**.
-
+Introduce lectura espacial justa del comportamiento del jugador, contrapatrones con objetivo fijado durante el telegraph, fuego coordinado de formación y escoltas especializadas como hunters, interceptors, orbiters, gunners y rammers. Durante un contrap Patrón se arbitran otras amenazas fuertes para mantener legibilidad y una evasión limpia puede conceder **LECTURA TÁCTICA**.
 
 ## v0.7.1 — Battle Rhythm
 

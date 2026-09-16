@@ -1,0 +1,19 @@
+/* ============================================================
+   EMILIA SAGA - TEMAS POR NIVEL
+   Cada tema define el fondo del canvas de fondo y los colores
+   ============================================================ */
+
+.theme-bg-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* Variables de tema usadas por el JS de fondo */
+:root {
+    --bg-deep: #050010;
+    --bg-mid: #1a0030;
+    --bg-accent: #ff00cc;
+    --bg-secondary: #6ef0ff;
+    --bg-star: #ffffff;
+}

@@ -1,0 +1,5 @@
+PWA precache resources listed: 560
+Present: 560
+Missing: 0
+Cache: swarm-rift-v2.15.25
+Result: PASS

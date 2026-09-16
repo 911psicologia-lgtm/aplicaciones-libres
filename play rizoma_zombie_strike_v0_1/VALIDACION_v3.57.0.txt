@@ -1,0 +1,35 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.57.0
+
+VERSIÓN: v3.57.0 — Contravector Rizoma + Ruptura de Patrón
+
+VALIDACIONES REQUERIDAS
+- js/game.js: sintaxis OK
+- sw.js: sintaxis OK
+- manifest.json: JSON válido
+- 20 mundos preservados
+- Referencias de assets: 0 faltantes
+- Assets: idénticos a v3.56.0
+- IDs HTML: 0 duplicados
+- ZIP: unzip -t sin errores
+
+CASOS DE PRUEBA MANUAL PRIORITARIA
+1. Encadenar evasiones signature hasta generar un Contravector y observar que el proyectil vuelve físicamente al boss.
+2. Lograr dos Contravectores en una misma fase y comprobar Ruptura de Patrón.
+3. Repetir durante Último Asalto y verificar que este no se cancela.
+4. Provocar Ruptura mientras existen Anclas de Fase y confirmar que no queden nodos huérfanos.
+5. Comprobar orientación del sprite reflejado durante homing.
+
+No se afirma prueba física Android/iOS ni campaña completa M1–M20.
+
+RESULTADOS ESTÁTICOS OBTENIDOS
+- Assets actuales: 842
+- Assets base v3.56: 842
+- Assets modificados: 0
+- Assets faltantes: 0
+- Referencias literales auditadas: 800
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- Versionado index/game/manifest/SW: 3.57.0 sincronizado
+- Funciones base sin cambios: bossPattern, boss2Pattern, boss2Special, triggerBossSpecial, updateBossMotion, updateBossApproach, updateContinuityEnemyDirector, evaluateAdaptiveBossShadow, shouldAutoResurrectBoss, resurrectBoss.
+- spawnBoss modificado únicamente para inicializar el estado vectorial de la nueva mecánica.

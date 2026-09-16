@@ -1,0 +1,217 @@
+{
+  "ok": true,
+  "profiles": [
+    {
+      "name": "iphone-landscape-notch",
+      "w": 844,
+      "h": 390,
+      "c": true,
+      "s": [
+        0,
+        47,
+        21,
+        47
+      ],
+      "expect": "MOBILE_LANDSCAPE",
+      "bounds": {
+        "left": 73,
+        "right": 771,
+        "top": 44,
+        "bottom": 341
+      },
+      "rail": {
+        "left": 577,
+        "top": 0,
+        "right": 844,
+        "bottom": 58
+      },
+      "checks": {
+        "profile": true,
+        "bounds": true,
+        "usableW": true,
+        "usableH": true,
+        "clampA": true,
+        "clampZ": true,
+        "railSane": true,
+        "center": true
+      }
+    },
+    {
+      "name": "compact-landscape-notch",
+      "w": 667,
+      "h": 375,
+      "c": true,
+      "s": [
+        0,
+        44,
+        21,
+        44
+      ],
+      "expect": "MOBILE_LANDSCAPE",
+      "bounds": {
+        "left": 70,
+        "right": 597,
+        "top": 44,
+        "bottom": 326
+      },
+      "rail": {
+        "left": 388.21999999999997,
+        "top": 0,
+        "right": 631,
+        "bottom": 66
+      },
+      "checks": {
+        "profile": true,
+        "bounds": true,
+        "usableW": true,
+        "usableH": true,
+        "clampA": true,
+        "clampZ": true,
+        "railSane": true,
+        "center": true
+      }
+    },
+    {
+      "name": "android-landscape",
+      "w": 915,
+      "h": 412,
+      "c": true,
+      "s": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expect": "MOBILE_LANDSCAPE",
+      "bounds": {
+        "left": 30,
+        "right": 885,
+        "top": 44,
+        "bottom": 378
+      },
+      "rail": {
+        "left": 577,
+        "top": 0,
+        "right": 846,
+        "bottom": 58
+      },
+      "checks": {
+        "profile": true,
+        "bounds": true,
+        "usableW": true,
+        "usableH": true,
+        "clampA": true,
+        "clampZ": true,
+        "railSane": true,
+        "center": true
+      }
+    },
+    {
+      "name": "tablet-landscape",
+      "w": 1180,
+      "h": 820,
+      "c": true,
+      "s": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expect": "TABLET",
+      "bounds": {
+        "left": 30,
+        "right": 1150,
+        "top": 44,
+        "bottom": 786
+      },
+      "rail": {
+        "left": 577,
+        "top": 0,
+        "right": 846,
+        "bottom": 58
+      },
+      "checks": {
+        "profile": true,
+        "bounds": true,
+        "usableW": true,
+        "usableH": true,
+        "clampA": true,
+        "clampZ": true,
+        "railSane": true,
+        "center": true
+      }
+    },
+    {
+      "name": "mobile-portrait",
+      "w": 390,
+      "h": 844,
+      "c": true,
+      "s": [
+        47,
+        0,
+        34,
+        0
+      ],
+      "expect": "MOBILE_PORTRAIT",
+      "bounds": {
+        "left": 30,
+        "right": 360,
+        "top": 85,
+        "bottom": 782
+      },
+      "rail": {
+        "left": 172,
+        "top": 39,
+        "right": 390,
+        "bottom": 113
+      },
+      "checks": {
+        "profile": true,
+        "bounds": true,
+        "usableW": true,
+        "usableH": true,
+        "clampA": true,
+        "clampZ": true,
+        "railSane": true,
+        "center": true
+      }
+    }
+  ],
+  "status": {
+    "version": "2.15.24",
+    "profile": "MOBILE_PORTRAIT",
+    "coarse": true,
+    "safeArea": {
+      "top": 47,
+      "right": 0,
+      "bottom": 34,
+      "left": 0
+    },
+    "playerBounds": {
+      "left": 30,
+      "right": 360,
+      "top": 85,
+      "bottom": 782
+    },
+    "actionRail": {
+      "left": 172,
+      "top": 39,
+      "right": 390,
+      "bottom": 113
+    },
+    "effectiveTapTarget": 44,
+    "directTouch": true,
+    "singlePrimaryTouch": true,
+    "secondaryTouchIgnored": true,
+    "coalescedPointerMoves": true,
+    "viewportDebounce": true,
+    "stats": {
+      "excludedStarts": 0,
+      "ignoredSecondary": 0,
+      "coalescedMoves": 0,
+      "cancels": 0,
+      "viewportStabilizations": 0,
+      "lastCancel": ""
+    }
+  }
+}

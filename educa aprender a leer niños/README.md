@@ -1,6 +1,33 @@
-# Emilia · El Bosque de las Palabras · v0.9.4
+
+## v1.5.0 · Tinta Mágica + Palabra Secreta + Gemas Lingüísticas
+
+- **Tinta Mágica de Lumi:** práctica complementaria de mayúsculas/minúsculas ya conquistadas; la tinta dorada se recorta dentro del glifo y no funciona como examen de caligrafía.
+- **Palabra Secreta de Lumi:** imagen-pista + construcción letra por letra con vocabulario ya aprendido; sin vidas, ahorcado ni castigos, con pista progresiva.
+- **Gemas Lingüísticas:** letras/patrones, sílabas y palabras conquistadas se escuchan desde Mis tesoros; el texto domina visualmente sobre la gema y el color identifica el sendero.
+- Se preservan trazado por puntos, escritura de palabra/frase, mundos, progreso local, Lumi, PWA y contenido existente.
+
+# Emilia · El Bosque de las Palabras · v1.5.0
 
 Aplicación infantil local-first para lectura y lectoescritura inicial.
+
+Para continuar el proyecto en otra sesión, usar `PROMPT_CONTINUIDAD_EMILIA_v1.5.0.txt` junto con el ZIP estable v1.5.0.
+
+
+## v1.4.0 · Lectoescritura productiva inicial
+
+Esta versión desplaza el foco desde reconocer/repetir hacia producir. Introduce correspondencia mayúscula–minúscula en las misiones de letras simples ya enseñadas; Frases Vivas incorpora una fase final de escritura con el dedo para frases breves de 2–3 palabras, con lienzo amplio en tablet y adaptación responsive en celular; y las frases modeladas comienzan con mayúscula y terminan con punto. El trazado de frase registra evidencia motriz suficiente pero no pretende diagnosticar ni calificar la calidad de la caligrafía.
+
+Las gemas de vocales/sílabas dejan de usar un cristal morado uniforme: ahora cambian por sendero (diamante claro, rubí, esmeralda y amatista) y el contenido lingüístico queda por encima del cristal, con mayor tamaño y contraste. Se preservan progreso, mundos, historias, Lumi, assets y currículo existente.
+
+
+## v1.3.0 · Álbum por senderos y vocales visibles
+
+Esta versión continúa sobre v1.2.0 sin cambiar currículo, assets aprobados ni progreso. El Álbum de letras ahora representa A, E, I, O y U como cinco conquistas visibles usando los assets existentes; organiza las letras y patrones por los cuatro senderos y señala de forma breve la última letra o patrón conquistado. Las letras futuras permanecen dormidas/desaturadas y no se añaden mundos ni actividades.
+
+## v1.2.0 · Rescate adaptativo y progreso infantil visual
+
+Esta versión añade Rescate de palabras (3 retos breves sobre habilidades ya aprendidas que necesitan recuperación), ajuste de ayuda según confianza, un Álbum de letras conquistadas en Mis tesoros y crecimiento visual del bosque a partir de estrellas de tesoro. No abre letras nuevas ni modifica assets.
+
 
 ## v0.9.4 · Balance pedagógico de sesiones
 

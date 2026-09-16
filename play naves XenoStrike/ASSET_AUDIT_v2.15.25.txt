@@ -1,0 +1,4 @@
+Inherited asset files: 551
+Changed asset files: 0
+Missing inherited asset files: 0
+Result: PASS

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.54.0';
+  const VERSION = '3.57.0';
   // v3.29.0: rebalance global 1–20 por composición/ritmo, RIFT ALLY aleatorio 10s y Última Oportunidad manual de 5s.
   // v3.31.0: pulido UX móvil, cierre universal de overlays, carriles táctiles robustos y legibilidad de combate.
   // v3.33.0: identidad legible de Naves Rizoma, telegráfico de especial con assets reales y lectura de build ampliada.
@@ -20,6 +20,9 @@
   // v3.52.0: GUARDIAN TACTICAL MEMORY + SIGNATURE CHAINS + LAST STAND. Memoria corta de esquiva, secuencias encadenadas adaptativas y Último Asalto telegráfico sin inflar HP.
   // v3.53.0: ARENA CONTROL + ESCORT SYNERGY. Detecta abuso de bordes/zonas repetidas, despliega cercos móviles telegráficos y coordina fuego enlazado boss-escoltas sin inflar HP.
   // v3.54.0: COUNTERPLAY WINDOWS + PHASE ECOLOGY. Premia esquiva/interrupción con núcleo expuesto breve y da a cada fase una prioridad táctica distinta sin sumar HP.
+  // v3.55.0: RIZOMA RIPOSTE + PHASE OBJECTIVES + POWER PATTERN COUNTERS. Convierte daño durante núcleo expuesto en contraataque signature, añade anclas temporales de fase y reacciones geométricas a poderes repetidos sin anular la build.
+  // v3.56.0: RIZOMA FLOW + PERFECT DODGE RESONANCE. Casi-impactos y resoluciones limpias cargan Flow; al completarse abre un duelo directo que potencia la siguiente ventana de Riposta sin alterar HP base.
+  // v3.57.0: CONTRAVECTOR RIZOMA + RUPTURA DE PATRÓN. Evasiones signature pueden invertir proyectiles reales hacia el Guardián; dos contravectores por fase rompen temporalmente su coreografía sin cancelar Último Asalto.
   // Conserva tractor progresivo, Taller RIZOMA, RIFT ALLY, Última Oportunidad, 20 mundos y assets existentes.
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
   // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
@@ -3640,7 +3643,7 @@
 
     createBalanceTelemetrySession(resumed=false) {
       const mode=this.trainingMode?.active?'training':(this.replayMode?.guidedPlaytest?'playtest':(this.replayMode?.active?'replay':'campaign'));
-      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0,resurrections:0,signatureSequences:0,lastStand:0,arenaCounters:0,escortCombos:0,counterplayWindows:0,phaseEcologyTransitions:0},adaptiveBoss:{schema:2,mode:'live-lite',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,liveMitigation:0,mitigatedDamage:0,assistanceDrops:0,resurrectionTriggered:false,evaluations:[]},startBuild:null,endBuild:null,flow:{breathers:0,deadZoneRescues:0,maxPressure:0},finalized:false};
+      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0,resurrections:0,signatureSequences:0,lastStand:0,arenaCounters:0,escortCombos:0,counterplayWindows:0,phaseEcologyTransitions:0,playerRipostes:0,phaseObjectives:0,phaseObjectiveWins:0,powerCounters:0,perfectDodges:0,flowBursts:0,duelWindows:0,duelWins:0,countervectors:0,patternBreaks:0,lastStandParries:0},adaptiveBoss:{schema:2,mode:'live-lite',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,liveMitigation:0,mitigatedDamage:0,assistanceDrops:0,resurrectionTriggered:false,evaluations:[]},startBuild:null,endBuild:null,flow:{breathers:0,deadZoneRescues:0,maxPressure:0},finalized:false};
     }
 
     restoreBalanceTelemetry(saved={}) {
@@ -4166,6 +4169,7 @@
         }
       }
       this.powerActivity[id]=Math.min(36,Math.max(this.powerActivity[id]||0,next)+((this.powerActivity[id]||0)>0?next*.28:0));
+      this.recordBossPowerPattern?.(id,'active');
       this.activatePowerSlot(id); return 'active';
     }
 
@@ -5123,7 +5127,7 @@
       f.damageTakenPhase=0;
       b.phaseRupture=.82;
       // v3.37: cada fase reinicia sus mazos. v3.38: la salida de la ruptura abre con la maniobra signature de esa fase.
-      b.patternDeck=[];b.motionDeck=[];b.motionDeckKey='';b.phaseSignaturePending=true;b.modeTimer=Math.min(Number.isFinite(b.modeTimer)?b.modeTimer:.82,.82);if(this.bossFight){this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;}
+      b.patternDeck=[];b.motionDeck=[];b.motionDeckKey='';b.phaseSignaturePending=true;b.modeTimer=Math.min(Number.isFinite(b.modeTimer)?b.modeTimer:.82,.82);if(this.bossFight){this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;if(this.bossFight.rizomaFlow){this.bossFight.rizomaFlow.duelPending=false;this.bossFight.rizomaFlow.vectorCharge=0;this.bossFight.rizomaFlow.phaseCountervectors=0;}}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);
       b.attack=Math.max(b.attack||0,.72);
       b.specialCd=Math.max(b.specialCd||0,1.15);
       b.specialTelegraph=0;b.specialTelegraphMax=0;
@@ -5219,18 +5223,232 @@
       return profiles[phase];
     }
 
+    ensureRizomaFlow(){
+      const f=this.bossFight;if(!f)return null;
+      return f.rizomaFlow||(f.rizomaFlow={charge:0,active:0,cooldown:0,nearMissCd:0,streak:0,streakTimer:0,bursts:0,lastReason:'',duelPending:false,vectorCharge:0,vectorCooldown:0,phaseCountervectors:0,patternBreakPhase:0});
+    }
+
+    addRizomaFlowCharge(amount=0,reason='lectura limpia'){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b||amount<=0)return false;
+      const rf=this.ensureRizomaFlow();if(!rf)return false;
+      rf.charge=clamp((rf.charge||0)+amount,0,100);rf.streak=Math.min(12,(rf.streak||0)+1);rf.streakTimer=4.2;rf.lastReason=reason;
+      if(rf.charge>=100&&(rf.cooldown||0)<=0&&(rf.active||0)<=0){
+        rf.charge=0;rf.active=5.6;rf.cooldown=10.5;rf.bursts=(rf.bursts||0)+1;rf.duelPending=true;
+        if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.flowBursts=(this.telemetrySession.boss.flowBursts||0)+1;
+        const ship=rizomaShipMeta(currentProfile().activeRizomaShip||'rz1'),color=ship?.color||'#fff2a8';
+        this.particles.push({type:'ring',x:this.player.x,y:this.player.y,r:10,maxR:this.isSmallScreen?92:132,life:.52,max:.52,color});
+        this.emit(this.player.x,this.player.y,color,8,this.isSmallScreen?75:105,.30);this.toast('≋ RIZOMA FLOW',`${reason} · resonancia táctica activa 5.6 s`);
+        return true;
+      }
+      return false;
+    }
+
+    releaseRizomaCountervector(bullet){
+      const f=this.bossFight,b=this.bossActive,p=this.player;if(!f?.active||!b||!p||!bullet?.enemy)return false;
+      const rf=this.ensureRizomaFlow();if(!rf)return false;
+      const ship=rizomaShipMeta(currentProfile().activeRizomaShip||'rz1'),color=ship?.color||'#fff2a8',phase=b.phase||1;
+      const a=Math.atan2(b.y-bullet.y,b.x-bullet.x),speed=520+phase*28+(this.mapIndex>=10?35:0),base=Math.max(70,(bullet.damage||10)*(5.2+phase*.35)),damage=Math.min(b.baseHp*.0048,base);
+      bullet.enemy=false;bullet.homing=true;bullet.targetRef=b;bullet.pierce=1;bullet.damage=damage;bullet.vx=Math.cos(a)*speed;bullet.vy=Math.sin(a)*speed;bullet.rot=a;bullet.life=Math.max(1.8,bullet.life||0);bullet.color=color;bullet.trail=true;bullet.bossHoming=false;bullet.wobble=0;bullet.countervector=true;bullet.criticalBurst=true;bullet.rizomaSource=ship?.id||'rz1';bullet.hitGrace=.14;
+      rf.vectorCharge=0;rf.vectorCooldown=(f.lastStand?.state==='active')?4.4:5.6;rf.phaseCountervectors=(rf.phaseCountervectors||0)+1;
+      this.particles.push({type:'ring',x:bullet.x,y:bullet.y,r:5,maxR:this.isSmallScreen?46:64,life:.22,max:.22,color});this.particles.push({type:'laser',x:p.x,y:p.y,a,life:.10,max:.10,range:Math.min(150,Math.hypot(bullet.x-p.x,bullet.y-p.y)),color,width:2.6});this.emit(bullet.x,bullet.y,color,6,88,.25);this.shake=Math.max(this.shake,2.6);
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.countervectors=(this.telemetrySession.boss.countervectors||0)+1;
+      if(f.lastStand?.state==='active'){
+        f.lastStand.timer=Math.max(.9,(f.lastStand.timer||0)-.35);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.lastStandParries=(this.telemetrySession.boss.lastStandParries||0)+1;this.toast('↯ CONTRAVECTOR',`Último Asalto · proyectil invertido · ${Math.round(damage)} daño potencial`);return true;
+      }
+      this.toast('↯ CONTRAVECTOR RIZOMA',`${ship?.name||'RIZOMA'} devuelve la firma · ${rf.phaseCountervectors}/2 hacia ruptura`);
+      if((rf.phaseCountervectors||0)>=2&&rf.patternBreakPhase!==(b.phase||1))this.triggerBossPatternBreak('dos contravectores');
+      return true;
+    }
+
+    triggerBossPatternBreak(reason='lectura vectorial'){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b||b.phaseRupture>0||f.lastStand?.state==='active')return false;
+      const rf=this.ensureRizomaFlow();if(!rf||rf.patternBreakPhase===(b.phase||1))return false;
+      rf.patternBreakPhase=b.phase||1;rf.phaseCountervectors=0;rf.vectorCharge=0;f.signatureSequence=null;f.signatureCooldown=Math.max(f.signatureCooldown||0,2.35);
+      if(f.phaseObjective?.nodes?.length){const doomed=new Set(f.phaseObjective.nodes);this.enemies=this.enemies.filter(e=>!doomed.has(e));}
+      f.phaseObjective=null;f.arenaCounter=null;f.escortCombo=null;
+      b.specialTelegraph=0;b.specialTelegraphMax=0;b.specialCd=Math.max(b.specialCd||0,1.25);b.attack=Math.max(b.attack||0,.78);
+      let cleared=0;for(let i=this.bullets.length-1;i>=0&&cleared<(this.isSmallScreen?5:8);i--){const x=this.bullets[i];if(!x.enemy)continue;if(Math.hypot(x.x-this.player.x,x.y-this.player.y)<230||Math.hypot(x.x-b.x,x.y-b.y)<Math.max(150,b.r*2.8)){this.particles.push({type:'ring',x:x.x,y:x.y,r:4,maxR:24,life:.13,max:.13,color:'#fff2a8'});this.bullets.splice(i,1);cleared++;}}
+      const opened=this.grantBossCounterplayWindow('Ruptura de patrón',1.05);b.phaseRupture=Math.max(b.phaseRupture||0,.62);this.flash=Math.max(this.flash,.48);this.shake=Math.max(this.shake,6.2);this.particles.push({type:'ring',x:b.x,y:b.y,r:20,maxR:Math.max(155,b.r*3.2),life:.58,max:.58,color:'#fff2a8'});this.emit(b.x,b.y,'#fff2a8',12,125,.34);
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.patternBreaks=(this.telemetrySession.boss.patternBreaks||0)+1;
+      this.toast('✦ RUPTURA DE PATRÓN',`${reason} · ${cleared} proyectiles disipados${opened?' · núcleo expuesto':''}`);return true;
+    }
+
+    chargeRizomaCountervector(bullet,signature=false){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b||!signature)return false;
+      const rf=this.ensureRizomaFlow();if(!rf||(rf.vectorCooldown||0)>0)return false;
+      const flow=(rf.active||0)>0,duel=!!f.duelWindow,lastStand=f.lastStand?.state==='active';
+      rf.vectorCharge=(rf.vectorCharge||0)+(flow?1.35:(duel?1.18:1));
+      const threshold=lastStand&&flow?2:3;
+      if(rf.vectorCharge+1e-6>=threshold)return this.releaseRizomaCountervector(bullet);
+      if(Math.floor(rf.vectorCharge)!==Math.floor((rf.vectorCharge||0)-1))this.toast('↯ CONTRAVECTOR',`${Math.min(threshold,Math.floor(rf.vectorCharge))}/${threshold} lecturas signature`);
+      return false;
+    }
+
+    registerBossNearMiss(bullet,distance,hitRadius){
+      const f=this.bossFight,boss=this.bossActive,p=this.player;if(!f?.active||!boss||!p||!bullet?.enemy||bullet.rizomaNearMissed)return false;
+      const rf=this.ensureRizomaFlow();if(!rf||(rf.nearMissCd||0)>0)return false;
+      const outer=hitRadius+(this.isSmallScreen?12:18);if(distance<hitRadius||distance>outer)return false;
+      const rx=bullet.x-p.x,ry=bullet.y-p.y,radial=rx*(bullet.vx||0)+ry*(bullet.vy||0);if(radial<=0)return false;
+      bullet.rizomaNearMissed=true;rf.nearMissCd=.105;
+      const signature=bullet.bossVisual||bullet.bossHoming,amount=signature?10:6;this.addRizomaFlowCharge(amount,signature?'esquiva de firma':'esquiva perfecta');
+      if(signature)this.chargeRizomaCountervector(bullet,true);
+      this.particles.push({type:'ring',x:p.x,y:p.y,r:p.r+3,maxR:p.r+(this.isSmallScreen?24:34),life:.16,max:.16,color:signature?'#fff2a8':'#83eaff'});
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.perfectDodges=(this.telemetrySession.boss.perfectDodges||0)+1;
+      return true;
+    }
+
+    startBossDuelWindow(){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b||b.phase<2||f.duelWindow||b.phaseRupture>0)return false;
+      const busy=f.signatureSequence||f.arenaCounter||f.escortCombo||f.phaseObjective||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0;
+      if(busy)return false;
+      f.duelWindow={timer:5.4,damageBaseline:f.damageTakenPhase||0,phase:b.phase,signatureStarted:false};
+      f.minionTimer=Math.max(f.minionTimer||0,5.5);f.escortTimer=Math.max(f.escortTimer||0,5.5);f.hazardTimer=Math.max(f.hazardTimer||0,4.8);f.signatureCooldown=0;b.specialCd=Math.max(b.specialCd||0,5.2);b.attack=Math.max(b.attack||0,.55);
+      const meta=boss2Meta(this.mapIndex);this.particles.push({type:'ring',x:b.x,y:b.y,r:18,maxR:Math.max(150,b.r*3.8),life:.75,max:.75,color:meta.accent||meta.color});
+      this.toast('◇ DUELO RIZOMA','5.4 s · menos relleno, una firma directa · sobrevive limpio para abrir el núcleo');
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.duelWindows=(this.telemetrySession.boss.duelWindows||0)+1;
+      return true;
+    }
+
+    updateRizomaFlow(dt){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return;
+      const rf=this.ensureRizomaFlow();if(!rf)return;
+      rf.active=Math.max(0,(rf.active||0)-dt);rf.cooldown=Math.max(0,(rf.cooldown||0)-dt);rf.nearMissCd=Math.max(0,(rf.nearMissCd||0)-dt);rf.vectorCooldown=Math.max(0,(rf.vectorCooldown||0)-dt);rf.streakTimer=Math.max(0,(rf.streakTimer||0)-dt);
+      if(rf.streakTimer<=0)rf.streak=Math.max(0,(rf.streak||0)-dt*1.5);
+      if(rf.duelPending&&(b.phase||1)>=2&&!f.duelWindow){if(this.startBossDuelWindow())rf.duelPending=false;}
+    }
+
+    updateBossDuelWindow(dt){
+      const f=this.bossFight,b=this.bossActive;if(!f?.duelWindow||!b)return;
+      const duel=f.duelWindow;duel.timer-=dt;
+      f.minionTimer=Math.max(f.minionTimer||0,.85);f.escortTimer=Math.max(f.escortTimer||0,.90);f.hazardTimer=Math.max(f.hazardTimer||0,.72);
+      if(!duel.signatureStarted&&!f.signatureSequence&&b.phaseRupture<=0&&(b.specialTelegraph||0)<=0){duel.signatureStarted=this.startBossSignatureSequence(b,'duel')||duel.signatureStarted;}
+      if(duel.timer<=0){
+        const clean=(f.damageTakenPhase||0)-(duel.damageBaseline||0)<=.18;f.duelWindow=null;
+        if(clean){this.addRizomaFlowCharge(14,'duelo limpio');this.grantBossCounterplayWindow('Duelo Rizoma superado',1.35);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.duelWins=(this.telemetrySession.boss.duelWins||0)+1;}
+        else this.toast('◇ DUELO CERRADO','El Guardián recupera su ecología normal');
+      }
+    }
+
     grantBossCounterplayWindow(reason='esquiva limpia',strength=1){
       const f=this.bossFight,b=this.bossActive;if(!f||!b||b.phaseRupture>0||(f.resurrectionFrenzy||0)>0)return false;
       if((f.counterplayCooldown||0)>0)return false;
-      const late=this.mapIndex>=10,duration=clamp(1.15+strength*.28+(late ? .18 : 0),1.25,2.05),meta=boss2Meta(this.mapIndex);
-      b.counterplayExposure=Math.max(b.counterplayExposure||0,duration);f.counterplayCooldown=3.1;
+      const flow=this.ensureRizomaFlow(),flowBoost=(flow?.active||0)>0;
+      const late=this.mapIndex>=10,duration=clamp(1.15+strength*.28+(late ? .18 : 0)+(flowBoost ? .28 : 0),1.25,2.32),meta=boss2Meta(this.mapIndex);
+      b.counterplayExposure=Math.max(b.counterplayExposure||0,duration);f.counterplayCooldown=3.1;f.counterStrike={timer:duration,charge:0,threshold:Math.max(120,b.baseHp*.018)*(flowBoost ? .80 : 1),reason,flowBoost};
       b.attack=Math.max(b.attack||0,.40);b.specialCd=Math.max(b.specialCd||0,.72);
       this.particles.push({type:'ring',x:b.x,y:b.y,r:Math.max(14,b.r*.42),maxR:Math.max(110,b.r*2.8),life:.46,max:.46,color:'#fff2a8'});
       this.particles.push({type:'ring',x:b.x,y:b.y,r:Math.max(18,b.r*.62),maxR:Math.max(145,b.r*3.4),life:.64,max:.64,color:meta.accent||meta.color});
       this.emit(b.x,b.y,'#fff2a8',10,this.isSmallScreen?92:125,.34);this.addCombatMastery?.(2.8+strength*1.2,'contraataque',{streak:false});
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.counterplayWindows=(this.telemetrySession.boss.counterplayWindows||0)+1;}
-      this.toast('✦ NÚCLEO EXPUESTO',`${reason} · ${duration.toFixed(1)} s de contraataque`);
+      this.toast('✦ NÚCLEO EXPUESTO',`${reason} · ${duration.toFixed(1)} s de contraataque${flowBoost?' · FLOW':''}`);
       return true;
+    }
+
+    bossPowerCounterType(id){
+      const primary=new Set(['triple','laser','voidray','laserSolar','laserHematic','laserAbyssal','pierce','torpedo']);
+      const area=new Set(['nuke','fire','gravmine','eruptionCore','novaAgonica','peristalsis','ventisca']);
+      const control=new Set(['stasis','ice','virus','disruptor','synapsis','psychicDominion','panelCut']);
+      const support=new Set(['shield','wingman','drone','afterburner','phantom','phase']);
+      if(primary.has(id))return 'pincer';
+      if(area.has(id))return 'helix';
+      if(control.has(id))return 'hunter';
+      if(support.has(id))return 'crossfire';
+      return 'crossfire';
+    }
+
+    recordBossPowerPattern(id,state='active'){
+      const f=this.bossFight,b=this.bossActive;if(!id||state!=='active'||!f?.active||!b||b.phase<2)return;
+      const pp=f.powerPattern||(f.powerPattern={history:[],cooldown:0,pending:null});
+      const t=f.elapsed||0;pp.history=(pp.history||[]).filter(x=>t-x.t<=24);pp.history.push({id,t});
+      if((pp.cooldown||0)>0||pp.pending)return;
+      const same=pp.history.filter(x=>x.id===id).length;
+      if(same>=3){pp.pending={id,type:this.bossPowerCounterType(id),state:'pending',timer:0};pp.history=pp.history.filter(x=>x.id!==id);}
+    }
+
+    updateBossPowerAdaptation(dt){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return;
+      const pp=f.powerPattern||(f.powerPattern={history:[],cooldown:0,pending:null});pp.cooldown=Math.max(0,(pp.cooldown||0)-dt);
+      const pc=pp.pending;if(!pc)return;
+      const busy=f.signatureSequence||f.arenaCounter||f.escortCombo||f.phaseObjective||f.duelWindow||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0||b.phaseRupture>0;
+      if(pc.state==='pending'){
+        if(busy)return;
+        pc.state='telegraph';pc.timer=.78;const name=POWERS.find(x=>x.id===pc.id)?.name||pc.id;this.toast('◈ CONTRAMEDIDA ADAPTATIVA',`${name} repetido · el Guardián cambia su geometría, no anula tu poder`);
+        const meta=boss2Meta(this.mapIndex);this.particles.push({type:'ring',x:b.x,y:b.y,r:18,maxR:Math.max(125,b.r*3.2),life:.72,max:.72,color:meta.accent||meta.color});
+        return;
+      }
+      pc.timer-=dt;
+      if(pc.timer<=0){
+        if(!busy)this.startBossSignatureSequence(b,'powerCounter',pc.type);
+        pp.cooldown=12.5;pp.pending=null;
+        if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.powerCounters=(this.telemetrySession.boss.powerCounters||0)+1;
+      }
+    }
+
+    startBossPhaseObjective(b,phase=b?.phase||1){
+      const f=this.bossFight;if(!b||!f||phase<2||this.trainingMode?.active)return false;
+      if(f.phaseObjective||f.duelWindow)return false;
+      const count=phase>=3?2:1,duration=phase>=4?5.0:5.8;
+      f.phaseObjective={state:'telegraph',timer:1.05,phase,count,remaining:count,duration,nodes:[]};
+      this.toast('◇ ANCLAS DE FASE',`${count} objetivo${count>1?'s':''} · destrúyelos para abrir el núcleo`);
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectives=(this.telemetrySession.boss.phaseObjectives||0)+1;
+      return true;
+    }
+
+    updateBossPhaseObjective(dt){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return;
+      const obj=f.phaseObjective;if(!obj)return;
+      obj.timer-=dt;
+      if(obj.state==='telegraph'&&obj.timer<=0){
+        obj.state='active';obj.timer=obj.duration;
+        const fams=b.minionFamilies||[],sig=guardianPhaseEvolution(this.mapIndex+1,b.phase||1),fam=fams.length?fams[sig.familyIndex%fams.length]:null;
+        for(let i=0;i<obj.count;i++){
+          this.spawnEnemy(pick(fam||b.summons||['corredor','sombra']),true);
+          const e=this.enemies[this.enemies.length-1];if(!e||e.boss)continue;
+          e.phaseObjectiveNode=true;e.bossEscort=false;e.continuityMicro=true;e.score=0;e.coin=0;e.xp=0;e.hp*=.68;e.baseHp=e.hp;e.speed*=.78;e.r*=1.08;e.color='#fff2a8';
+          const off=(i-(obj.count-1)/2)*(this.isSmallScreen?110:155);e.x=clamp(b.x+off,50,this.w-50);e.y=clamp(b.y+Math.max(85,b.r*1.25),55,this.h*.62);obj.nodes.push(e);
+          this.particles.push({type:'ring',x:e.x,y:e.y,r:8,maxR:44,life:.55,max:.55,color:'#fff2a8'});
+        }
+        return;
+      }
+      if(obj.state==='active'){
+        obj.nodes=obj.nodes.filter(e=>this.enemies.includes(e)&&e.hp>0);
+        obj.remaining=obj.nodes.length;
+        if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;return;}
+        if(obj.timer<=0){
+          const doomed=new Set(obj.nodes);this.enemies=this.enemies.filter(e=>!doomed.has(e));f.phaseObjective=null;f.signatureCooldown=Math.min(f.signatureCooldown||1,.45);this.toast('◇ ANCLAS ESTABLES','Objetivo no resuelto · la firma del Guardián se adelanta');
+        }
+      }
+    }
+
+    handleBossPhaseObjectiveKill(e){
+      const f=this.bossFight,obj=f?.phaseObjective;if(!e?.phaseObjectiveNode||!obj)return false;
+      obj.nodes=obj.nodes.filter(n=>n!==e&&this.enemies.includes(n)&&n.hp>0);obj.remaining=obj.nodes.length;
+      this.emit(e.x,e.y,'#fff2a8',12,115,.34);this.particles.push({type:'ring',x:e.x,y:e.y,r:7,maxR:72,life:.42,max:.42,color:'#fff2a8'});
+      if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;}
+      else this.toast('◇ ANCLA ROTA',`${obj.remaining} restante${obj.remaining===1?'':'s'}`);
+      return true;
+    }
+
+    chargeBossCounterStrike(applied){
+      const cs=this.bossFight?.counterStrike;if(!cs||applied<=0)return;cs.charge=(cs.charge||0)+applied;
+    }
+
+    releaseBossCounterStrike(cs){
+      const b=this.bossActive,p=this.player;if(!b||!p||!cs)return false;
+      if((cs.charge||0)<(cs.threshold||Infinity))return false;
+      const ship=rizomaShipMeta(currentProfile().activeRizomaShip||'rz1'),color=ship?.color||'#fff2a8';
+      const dmg=Math.min(b.baseHp*(cs.flowBoost ? .0105 : .0095),Math.max(95,(cs.charge||0)*.18*(cs.flowBoost?1.10:1)));
+      this.particles.push({type:'laser',x:p.x,y:p.y,a:Math.atan2(b.y-p.y,b.x-p.x),life:.18,max:.18,range:Math.hypot(b.x-p.x,b.y-p.y),color,width:4.2});
+      this.particles.push({type:'ring',x:b.x,y:b.y,r:12,maxR:Math.max(95,b.r*2.5),life:.42,max:.42,color});
+      this.damageEnemy(b,dmg,{counterStrike:true,criticalBurst:true,color,silent:true});this.shake=Math.max(this.shake,5.5);
+      if(cs.flowBoost){let cleared=0;for(let i=this.bullets.length-1;i>=0&&cleared<3;i--){const eb=this.bullets[i];if(!eb.enemy)continue;if(Math.hypot(eb.x-p.x,eb.y-p.y)<190){this.particles.push({type:'ring',x:eb.x,y:eb.y,r:4,maxR:30,life:.15,max:.15,color});this.bullets.splice(i,1);cleared++;}}p.shield=Math.min(p.maxShield,p.shield+Math.max(3,p.maxShield*.025));}
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.playerRipostes=(this.telemetrySession.boss.playerRipostes||0)+1;
+      this.toast(`⚡ RIPOSTA ${ship?.name?.toUpperCase()||'RIZOMA'}`,`${Math.round(dmg)} daño de contraataque · lectura convertida en ofensiva`);return true;
+    }
+
+    updateBossCounterStrike(dt){
+      const f=this.bossFight;if(!f?.counterStrike)return;const cs=f.counterStrike;cs.timer-=dt;
+      if(cs.timer<=0){this.releaseBossCounterStrike(cs);f.counterStrike=null;}
     }
 
     updateBossTacticalMemory(dt){
@@ -5261,11 +5479,12 @@
       return ({crossfire:'CRUZ DE CAZA',helix:'HÉLICE INVERSA',pincer:'PINZA PREDICTIVA',hunter:'CERCO DE DEPREDACIÓN'})[type]||'FIRMA GUARDIÁN';
     }
 
-    startBossSignatureSequence(b,reason='cycle'){
+    startBossSignatureSequence(b,reason='cycle',forcedType=null){
       const f=this.bossFight;if(!b||!f||b.phase<2||b.phaseRupture>0||(b.specialTelegraph||0)>0||f.signatureSequence)return false;
+      if(reason!=='powerCounter'&&(f.phaseObjective||f.powerPattern?.pending?.state==='telegraph'))return false;
       const enemyBullets=this.bullets.filter(x=>x.enemy).length,cap=this.isSmallScreen?18:30;
       if(enemyBullets>cap)return false;
-      const types=['crossfire','helix','pincer','hunter'],type=types[(this.mapIndex+(b.phase||1)+(f.signatureIndex||0))%types.length];
+      const types=['crossfire','helix','pincer','hunter'],type=forcedType&&types.includes(forcedType)?forcedType:types[(this.mapIndex+(b.phase||1)+(f.signatureIndex||0))%types.length];
       f.signatureIndex=(f.signatureIndex||0)+1;
       f.signatureSequence={type,step:0,timer:.38,sense:b.identityMotionSense||((Math.random()<.5)?-1:1),reason,damageBaseline:f.damageTakenPhase||0};
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.signatureSequences=(this.telemetrySession.boss.signatureSequences||0)+1;
@@ -5306,7 +5525,7 @@
       const seq=f.signatureSequence;
       if(seq){
         seq.timer-=dt;
-        if(seq.timer<=0){this.fireBossSignatureStep(b,seq);seq.step+=1;if(seq.step>=3){const clean=(f.damageTakenPhase||0)-(seq.damageBaseline||0)<=.18,reason=seq.reason;f.signatureSequence=null;const frenzy=f.lastStand?.state==='active';f.signatureCooldown=frenzy?rand(6.0,4.8):rand(14.5,10.5);if(clean)this.grantBossCounterplayWindow(reason==='lastStand'?'Último Asalto evadido':'Secuencia signature evadida',reason==='lastStand'?1.45:1.15);}else seq.timer=.46+seq.step*.08;}
+        if(seq.timer<=0){this.fireBossSignatureStep(b,seq);seq.step+=1;if(seq.step>=3){const clean=(f.damageTakenPhase||0)-(seq.damageBaseline||0)<=.18,reason=seq.reason;f.signatureSequence=null;const frenzy=f.lastStand?.state==='active';f.signatureCooldown=frenzy?rand(6.0,4.8):rand(14.5,10.5);if(clean){this.addRizomaFlowCharge(reason==='lastStand'?24:14,reason==='lastStand'?'último asalto limpio':'firma limpia');this.grantBossCounterplayWindow(reason==='lastStand'?'Último Asalto evadido':'Secuencia signature evadida',reason==='lastStand'?1.45:1.15);}}else seq.timer=.46+seq.step*.08;}
         return;
       }
       if(f.signatureCooldown<=0&&b.phase>=2&&b.phaseRupture<=0&&(b.specialTelegraph||0)<=0)this.startBossSignatureSequence(b,'cycle');
@@ -5315,8 +5534,8 @@
     updateBossLastStand(dt){
       const f=this.bossFight,b=this.bossActive;if(!f||!b)return;if(f.lastStandUsed&&!f.lastStand)return;
       const ratio=(b.hp||0)/Math.max(1,b.baseHp||1);
-      if(!f.lastStand&&b.phase>=4&&ratio<=.16){
-        f.lastStand={state:'telegraph',timer:1.20};b.lastStandTelegraph=true;b.attack=Math.max(b.attack||0,.65);b.specialCd=Math.max(b.specialCd||0,.8);
+      if(!f.lastStand&&b.phase>=4&&ratio<=.16&&!f.phaseObjective&&!f.powerPattern?.pending){
+        f.duelWindow=null;f.lastStand={state:'telegraph',timer:1.20};b.lastStandTelegraph=true;b.attack=Math.max(b.attack||0,.65);b.specialCd=Math.max(b.specialCd||0,.8);
         const meta=boss2Meta(this.mapIndex);this.toast('⚠ ÚLTIMO ASALTO','El Guardián rompe su patrón · cambia de trayectoria');this.particles.push({type:'ring',x:b.x,y:b.y,r:20,maxR:Math.max(170,b.r*4.2),life:1.15,max:1.15,color:meta.accent||'#ffffff'});this.shake=Math.max(this.shake,6);
         return;
       }
@@ -5335,7 +5554,7 @@
 
     startBossArenaCounter(reason='edge'){
       const f=this.bossFight,b=this.bossActive,p=this.player;if(!f||!b||!p||b.phase<2)return false;
-      if(f.arenaCounter||f.signatureSequence||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
+      if(f.arenaCounter||f.signatureSequence||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
       const enemyBullets=this.bullets.filter(x=>x.enemy).length,cap=this.isSmallScreen?16:28;if(enemyBullets>cap)return false;
       const cfg=this.bossArenaControlProfile(),meta=boss2Meta(this.mapIndex),cb=this.getCombatBounds(),margin=this.isSmallScreen?84:112;
       const nearLeft=p.x<cb.left+margin,nearRight=p.x>cb.right-margin,nearTop=p.y<cb.top+margin,nearBottom=p.y>cb.bottom-margin;
@@ -5373,12 +5592,12 @@
         const target=this.bossCounterAimPoint(b,.24),aim=Math.atan2(target.y-b.y,target.x-b.x),profile=this.bossAccentProfile?.()||{},meta=boss2Meta(this.mapIndex);
         for(const off of [-.72,.72])this.addEnemyBullet(b.x,b.y,aim+off,170+(b.phase||1)*12,7.2+(b.phase||1),meta.accent||meta.color,{r:4.6,life:4.2,shape:'lance',trail:true,bossVisual:true,spriteKey:profile.primary||null,spriteScale:3.0});
         this.shake=Math.max(this.shake,4.5);
-      }else if(ac.state==='active'&&ac.timer<=0){const clean=(f.damageTakenPhase||0)-(ac.damageBaseline||0)<=.18;f.arenaCounter=null;if(clean)this.grantBossCounterplayWindow('Cerco de Arena superado',.85);}
+      }else if(ac.state==='active'&&ac.timer<=0){const clean=(f.damageTakenPhase||0)-(ac.damageBaseline||0)<=.18;f.arenaCounter=null;if(clean){this.addRizomaFlowCharge(12,'cerco superado');this.grantBossCounterplayWindow('Cerco de Arena superado',.85);}}
     }
 
     startBossEscortCombo(){
       const f=this.bossFight,b=this.bossActive,p=this.player;if(!f||!b||!p||b.phase<2)return false;
-      if(f.escortCombo||f.signatureSequence||f.arenaCounter||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
+      if(f.escortCombo||f.signatureSequence||f.arenaCounter||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
       const escorts=this.enemies.filter(e=>!e.boss&&e.bossEscort&&e.hp>0).sort((a,c)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(c.x-p.x,c.y-p.y)).slice(0,this.isSmallScreen?2:3);
       if(escorts.length<2)return false;
       const enemyBullets=this.bullets.filter(x=>x.enemy).length;if(enemyBullets>(this.isSmallScreen?15:25))return false;
@@ -5396,14 +5615,14 @@
       const combo=f.escortCombo;if(!combo)return;combo.timer-=dt;
       if(combo.state==='telegraph'){
         combo.escorts=combo.escorts.filter(e=>this.enemies.includes(e)&&e.hp>0);
-        if(combo.escorts.length<2){f.escortCombo=null;this.grantBossCounterplayWindow('Enlace de Escolta interrumpido',1.55);return;}
+        if(combo.escorts.length<2){f.escortCombo=null;this.addRizomaFlowCharge(18,'enlace interrumpido');this.grantBossCounterplayWindow('Enlace de Escolta interrumpido',1.55);return;}
         if(combo.timer<=0){
           const profile=this.bossAccentProfile?.()||{},target=this.bossCounterAimPoint(b,.38),phase=b.phase||1,meta=boss2Meta(this.mapIndex);
           combo.escorts.forEach((e,i)=>{const aim=Math.atan2(target.y-e.y,target.x-e.x),sense=i%2?1:-1;this.addEnemyBullet(e.x,e.y,aim+sense*.16,186+phase*13,6.4+phase*.9,i%2?(meta.accent||meta.color):meta.color,{r:4.5,life:4.2,shape:i%2?'orb':'lance',trail:true,bossVisual:true,spriteKey:i%2?(profile.secondary||null):(profile.primary||null),spriteScale:2.9,bossHoming:phase>=3&&i===0,turnRate:.12+phase*.012});this.emit(e.x,e.y,combo.color,3,55,.20);});
           const centralAim=Math.atan2(target.y-b.y,target.x-b.x);this.addEnemyBullet(b.x,b.y,centralAim,218+phase*14,8.4+phase*1.1,meta.accent||meta.color,{r:5.5,life:4.0,shape:'lance',trail:true,bossVisual:true,spriteKey:profile.tertiary||profile.primary||null,spriteScale:3.1});
           combo.state='cooldown';combo.timer=.34;this.shake=Math.max(this.shake,4);
         }
-      }else if(combo.timer<=0){const clean=(f.damageTakenPhase||0)-(combo.damageBaseline||0)<=.18;f.escortCombo=null;if(clean)this.grantBossCounterplayWindow('Enlace de Escolta esquivado',.75);}
+      }else if(combo.timer<=0){const clean=(f.damageTakenPhase||0)-(combo.damageBaseline||0)<=.18;f.escortCombo=null;if(clean){this.addRizomaFlowCharge(10,'enlace esquivado');this.grantBossCounterplayWindow('Enlace de Escolta esquivado',.75);}}
     }
 
     updateBossFight(dt) {
@@ -5412,8 +5631,13 @@
       const f = this.bossFight;
       const b = this.bossActive;
       this.updateBossTacticalMemory(dt);
+      this.updateRizomaFlow(dt);
+      this.updateBossDuelWindow(dt);
       this.updateBossArenaControl(dt);
       this.updateBossEscortSynergy(dt);
+      this.updateBossPhaseObjective(dt);
+      this.updateBossPowerAdaptation(dt);
+      this.updateBossCounterStrike(dt);
       this.updateBossLastStand(dt);
       this.updateBossSignatureSequence(dt);
       const ecology=this.bossPhaseEcologyProfile(b);
@@ -5500,6 +5724,7 @@
         this.resolveBossPhaseBreak(b,f);
         const phaseEcology=this.bossPhaseEcologyProfile(b);f.phaseEcology=phaseEcology?.id||'duel';
         if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseEcologyTransitions=(this.telemetrySession.boss.phaseEcologyTransitions||0)+1;
+        this.startBossPhaseObjective(b,b.phase);
         if(b.phase>=2)f.signatureCooldown=Math.min(Number.isFinite(f.signatureCooldown)?f.signatureCooldown:3.2,b.phase>=4?1.55:2.35);
         const phaseShieldBefore=b.shieldMax||0;
         if (this.mapIndex === 6) {
@@ -8520,7 +8745,7 @@
       e.shield=Math.max(0,(e.shieldMax||0)*.35);
       e.phase=Math.max(3,e.phase||1);e.vulnerable=0;e.alpha=1;e.resurrectionGuard=1.15;e.resurrectionMutation=8.0;
       e.attack=Math.max(.42,(e.attack||1)*.84);e.specialCd=Math.max(.95,(e.specialCd||3)*.72);e.speed=(e.speed||60)*1.08;
-      if(this.bossFight){this.bossFight.cinematic=Math.max(this.bossFight.cinematic||0,1.05);this.bossFight.phaseNotified=e.phase;this.bossFight.minionTimer=.42;this.bossFight.supportTimer=.58;this.bossFight.hazardTimer=.92;this.bossFight.resurrectionFrenzy=8.0;this.bossFight.signatureSequence=null;this.bossFight.signatureCooldown=.85;this.bossFight.lastStand=null;this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.counterplayCooldown=2.8;}e.counterplayExposure=0;e.lastStandTelegraph=false;e.lastStandActive=false;
+      if(this.bossFight){this.bossFight.cinematic=Math.max(this.bossFight.cinematic||0,1.05);this.bossFight.phaseNotified=e.phase;this.bossFight.minionTimer=.42;this.bossFight.supportTimer=.58;this.bossFight.hazardTimer=.92;this.bossFight.resurrectionFrenzy=8.0;this.bossFight.signatureSequence=null;this.bossFight.signatureCooldown=.85;this.bossFight.lastStand=null;this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;this.bossFight.rizomaFlow&&(this.bossFight.rizomaFlow.duelPending=false);this.bossFight.powerPattern={history:[],cooldown:3.5,pending:null};this.bossFight.counterplayCooldown=2.8;}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);e.counterplayExposure=0;e.lastStandTelegraph=false;e.lastStandActive=false;
       this.bullets=this.bullets.filter(b=>!b.enemy);
       this.flash=1.8;this.shake=Math.max(this.shake,20);
       this.particles.push({type:'ring',x:e.x,y:e.y,r:18,maxR:Math.max(180,e.r*5.4),life:.9,max:.9,color:'#ff667d'});
@@ -9490,7 +9715,7 @@
       this.bossActive.attack *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
       this.bossActive.specialCd *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
       this.bossActive.resurrectionCount=0;this.bossActive.enduranceProfile=endurance;
-      this.bossFight = { active: true, elapsed:0, charge: 0, minionTimer: (this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15))*(this.trainingMode?.active?1:endurance.support), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: (this.mapIndex === 0 ? 2.2 : 1.9)*(this.trainingMode?.active?1:endurance.support), escortTimer: (this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9))*(this.trainingMode?.active?1:endurance.support), hazardTimer: (this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2))*(this.trainingMode?.active?1:endurance.support), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0, signatureCooldown:8.6+Math.random()*2.4, signatureSequence:null, signatureIndex:0, tacticalMemory:null, lastStand:null, lastStandUsed:false };
+      this.bossFight = { active: true, elapsed:0, charge: 0, minionTimer: (this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15))*(this.trainingMode?.active?1:endurance.support), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: (this.mapIndex === 0 ? 2.2 : 1.9)*(this.trainingMode?.active?1:endurance.support), escortTimer: (this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9))*(this.trainingMode?.active?1:endurance.support), hazardTimer: (this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2))*(this.trainingMode?.active?1:endurance.support), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0, signatureCooldown:8.6+Math.random()*2.4, signatureSequence:null, signatureIndex:0, tacticalMemory:null, lastStand:null, lastStandUsed:false, phaseObjective:null, counterStrike:null, powerPattern:{history:[],cooldown:3.5,pending:null}, rizomaFlow:{charge:0,active:0,cooldown:0,nearMissCd:0,streak:0,streakTimer:0,bursts:0,lastReason:'',duelPending:false,vectorCharge:0,vectorCooldown:0,phaseCountervectors:0,patternBreakPhase:0}, duelWindow:null };
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.started=true;this.telemetrySession.boss.phasesReached=Math.max(1,this.telemetrySession.boss.phasesReached||0);}
       const adaptive=this.ensureAdaptiveBossShadow();adaptive.bossDamageBuckets=[];adaptive.initialTtk=null;adaptive.minTtk=null;adaptive.maxState='A1';adaptive.evaluations=[];adaptive.liveMitigation=0;adaptive.mitigatedDamage=0;adaptive.assistCount=0;adaptive.assistCooldown=0;adaptive.resurrectionTriggered=false;this.evaluateAdaptiveBossShadow(true);
       this.enemies.push(this.bossActive);
@@ -10228,7 +10453,7 @@
       if (enemyCount > Math.floor((this.maxBullets || 180) * .35)) return;
       const boss=this.bossActive,bossOrigin=options.bossVisual??!!(boss&&Math.hypot(x-boss.x,y-boss.y)<=Math.max(76,(boss.r||38)*2.2));
       const finalDamage=damage*(bossOrigin&&!this.trainingMode?.active?(boss?.enduranceProfile?.damage||1):1);
-      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage:finalDamage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail||bossOrigin, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, spriteKey:options.spriteKey||null, spriteScale:options.spriteScale||null, visualScale:bossOrigin?1.40:1, age:0 });
+      this.bullets.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: options.r || 5, damage:finalDamage, life: options.life || 3.2, enemy: true, type:'enemyBolt', color, shape:options.shape||'bolt', trail:!!options.trail||bossOrigin, bossVisual:bossOrigin, spin:options.spin||0, rot:angle, bossHoming:!!options.bossHoming, turnRate:options.turnRate||0, wobble:options.wobble||0, spriteKey:options.spriteKey||null, spriteScale:options.spriteScale||null, visualScale:bossOrigin?1.40:1, age:0 });
     }
 
     destroyHazard(m) {
@@ -10262,9 +10487,10 @@
           if (target) {
             const ang = Math.atan2(target.y - b.y, target.x - b.x);
             const sp = Math.hypot(b.vx, b.vy) || 500;
-            const turn=b.voracious?5.4:(b.chimera?4.4:3.8);
+            const turn=b.voracious?5.4:(b.chimera?4.4:(b.countervector?6.2:3.8));
             b.vx += (Math.cos(ang) * sp - b.vx) * Math.min(1, dt * turn);
             b.vy += (Math.sin(ang) * sp - b.vy) * Math.min(1, dt * turn);
+            if(b.countervector)b.rot=Math.atan2(b.vy,b.vx);
           }
         }
         if(b.mantis&&!b.enemy){
@@ -10276,7 +10502,9 @@
         b.x += b.vx * dt * timeScale;
         b.y += b.vy * dt * timeScale;
         if (b.enemy) {
-          if (Math.hypot(b.x - p.x, b.y - p.y) < b.r + p.r) {
+          const playerBulletDistance=Math.hypot(b.x-p.x,b.y-p.y),playerHitRadius=b.r+p.r;
+          if(this.bossFight?.active&&this.bossActive&&!b.rizomaNearMissed&&(b.age||0)>.12)this.registerBossNearMiss(b,playerBulletDistance,playerHitRadius);
+          if (playerBulletDistance < playerHitRadius) {
             this.playerHit(b.damage);
             this.bullets.splice(i, 1);
             continue;
@@ -10468,6 +10696,7 @@
       if (e.boss && this.bossActive === e) this.updateBossUi();
       const adaptiveApplied=Math.max(0,adaptiveBeforeHp-Math.max(0,Number(e.hp)||0))+Math.max(0,adaptiveBeforeShield-Math.max(0,Number(e.shield)||0));
       this.recordAdaptiveBossDamage(adaptiveApplied,adaptiveIsBoss);
+      if(adaptiveIsBoss&&counterExposed&&!meta.counterStrike)this.chargeBossCounterStrike(adaptiveApplied);
     }
 
 
@@ -10532,6 +10761,7 @@
 
     killEnemy(e, index) {
       if(e?.boss&&this.shouldAutoResurrectBoss(e)){this.resurrectBoss(e);return;}
+      if(e?.phaseObjectiveNode){this.enemies.splice(index,1);AudioFX.death();this.handleBossPhaseObjectiveKill(e);return;}
       this.enemies.splice(index, 1);
       this.emit(e.x, e.y, e.color, e.boss ? 28 : 8, e.boss ? 160 : 70, e.boss ? 1.2 : .55);
       AudioFX.death();
@@ -11527,7 +11757,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>${t.adaptiveBoss?.enabled?`<span>🧪 ${t.adaptiveBoss.maxState||t.adaptiveBoss.state} · TTK ${t.adaptiveBoss.initialTtk?Math.round(t.adaptiveBoss.initialTtk)+'s':'—'}</span>`:''}${t.boss?.signatureSequences?`<span>⚔ ${t.boss.signatureSequences} firmas</span>`:''}${t.boss?.lastStand?`<span>☠ Último Asalto</span>`:''}${t.boss?.counterplayWindows?`<span>✦ ${t.boss.counterplayWindows} contraataques</span>`:''}`;}else els.resultTelemetrySummary.innerHTML='';}
+      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>${t.adaptiveBoss?.enabled?`<span>🧪 ${t.adaptiveBoss.maxState||t.adaptiveBoss.state} · TTK ${t.adaptiveBoss.initialTtk?Math.round(t.adaptiveBoss.initialTtk)+'s':'—'}</span>`:''}${t.boss?.signatureSequences?`<span>⚔ ${t.boss.signatureSequences} firmas</span>`:''}${t.boss?.lastStand?`<span>☠ Último Asalto</span>`:''}${t.boss?.counterplayWindows?`<span>✦ ${t.boss.counterplayWindows} contraataques</span>`:''}${t.boss?.playerRipostes?`<span>⚡ ${t.boss.playerRipostes} ripostas</span>`:''}${t.boss?.perfectDodges?`<span>≋ ${t.boss.perfectDodges} esquivas perfectas</span>`:''}${t.boss?.flowBursts?`<span>◎ ${t.boss.flowBursts} Flow</span>`:''}${t.boss?.duelWins?`<span>◇ ${t.boss.duelWins}/${t.boss.duelWindows||0} duelos</span>`:''}${t.boss?.countervectors?`<span>↯ ${t.boss.countervectors} contravectores</span>`:''}${t.boss?.patternBreaks?`<span>✦ ${t.boss.patternBreaks} rupturas</span>`:''}${t.boss?.phaseObjectives?`<span>◇ ${t.boss.phaseObjectiveWins||0}/${t.boss.phaseObjectives} anclas</span>`:''}`;}else els.resultTelemetrySummary.innerHTML='';}
       els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(guidedPlaytestVictory?'Ver laboratorio':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex===19?'Cerrar Saga II':(this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11||this.mapIndex===12)?'Ver señales futuras':'Ver epílogo'))) : 'Reactivar nave')));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);

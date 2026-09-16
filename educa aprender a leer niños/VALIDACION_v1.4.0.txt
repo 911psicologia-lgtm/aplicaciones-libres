@@ -1,0 +1,79 @@
+VALIDACIÓN TÉCNICA · EMILIA · EL BOSQUE DE LAS PALABRAS
+Versión: v1.4.0 · LECTOESCRITURA PRODUCTIVA INICIAL
+Fecha: 2026-09-16
+
+BASE DE TRABAJO
+- Archivo base: Emilia_Bosque_de_las_Palabras_v1.3.0_Album_por_Senderos.zip
+- SHA-256 verificado de la base: b1944c98e19ad9b7b431ac8a5dd997caa27ce90dde1e5f1e17f631a643f18cb0
+- Se trabajó de forma incremental; no se reconstruyó el proyecto.
+- Se preservó el esquema local de estado/progreso (EMILIA_CONTENT.version = 13).
+- No se sustituyó Lumi ni se añadieron assets gráficos nuevos.
+
+CAMBIOS FUNCIONALES VALIDADOS
+1. MAYÚSCULA ↔ MINÚSCULA
+- Nueva mecánica caseMatch inyectada únicamente en mundos de letras simples ya enseñadas.
+- 19 misiones elegibles reciben la actividad en tiempo de ejecución.
+- Patrones/dígrafos y jardines integradores no reciben esta actividad artificialmente.
+- Las opciones se limitan a vocales/letras disponibles hasta el orden curricular del mundo actual.
+- Prueba dinámica: 19/19 actividades generadas; respuesta presente; opciones sin duplicados; 0 errores.
+
+2. FRASES VIVAS · LEER Y ESCRIBIR
+- Nueva mecánica sentenceWrite con lienzo táctil.
+- 7 objetivos iniciales de escritura manual de frase.
+- Todos los objetivos tienen 2–3 palabras y se habilitan solo después de completar su mundo de referencia.
+- Se validó rotación de los 7 objetivos mediante sesiones simuladas: 7/7 accesibles, 7 IDs únicos, 0 errores.
+- El botón Completar exige evidencia motriz mínima; no se califica calidad caligráfica.
+- El ojo activa ayuda visual tenue y registra que la respuesta fue asistida.
+- Responsive: lienzo amplio en tablet/PC y reducción específica <=620 px y <=390 px.
+
+3. CONVENCIONES GRÁFICAS DE FRASE
+- Las pantallas sentenceModel y sentenceSceneRead muestran mayúscula inicial y punto final.
+- El contenido de audio conserva la unidad frase completa.
+- No se añadieron explicaciones gramaticales largas ni evaluaciones punitivas.
+
+4. GEMAS / CRISTALES LINGÜÍSTICOS
+- Sendero 1: diamante blanquecino/azulado.
+- Sendero 2: rubí claro.
+- Sendero 3: esmeralda.
+- Sendero 4: amatista.
+- La vocal/sílaba está separada del cristal decorativo y queda por encima con mayor tamaño, contraste y z-index.
+- Se preserva la interacción por toque y el audio asociado.
+
+INTEGRIDAD CURRICULAR Y DE DATOS
+- 28 mundos.
+- 28 misiones.
+- 124 habilidades.
+- 365 actividades declaradas dentro de misiones.
+- 48 actividades de refuerzo/reviewActivities.
+- 24 Escaleras de escritura.
+- 23 Frases Vivas.
+- 7 objetivos nuevos de escritura manual de frase.
+- 28 cuentos mágicos.
+- IDs de actividades declaradas duplicados: 0.
+- IDs de habilidades duplicados: 0.
+- IDs de misiones duplicados: 0.
+- Referencias de habilidades/misiones rotas revisadas en misiones, Escaleras, Frases Vivas, sentenceWritingTargets, reviewActivities y cuentos: 0.
+
+VALIDACIÓN DE CÓDIGO Y PWA
+- node --check ejecutado sobre todos los archivos .js de js/ y data/: OK.
+- CSS: animations.css 16/16 llaves; base.css 31/31; screens.css 1723/1723; tokens.css 1/1.
+- IDs estáticos duplicados en index.html: 0.
+- Service Worker: 224 referencias únicas cacheables; 0 faltantes.
+- Versión actualizada en index.html, manifest.webmanifest y nombre de caché de sw.js: v1.4.0.
+- No se introdujo framework ni bundler.
+
+AUDIO LOCAL
+- Se conserva exactamente la arquitectura previa: assets/audio/manifest.json declara 19 clips locales que todavía no están presentes físicamente.
+- Esta ausencia es PREEXISTENTE Y ESPERADA según el prompt maestro; el fallback TTS permanece activo.
+- La v1.4.0 no introduce nuevos clips faltantes.
+
+PRUEBA VISUAL EN NAVEGADOR
+- Se levantó correctamente el proyecto por HTTP local y index.html respondió HTTP 200.
+- Se intentó una captura con Chromium headless a 390×844; Chromium quedó bloqueado por las limitaciones DBus/headless del contenedor y finalizó por timeout.
+- Por tanto NO se afirma prueba visual real de interacción en navegador.
+- Sí se realizó validación estática, estructural, curricular y dinámica de los generadores de sesión.
+
+RUTA DE CONTINUIDAD
+- Incluida: RUTA_LECTOESCRITURA_PRODUCTIVA_v1.4.0.md
+- Incluido: PROMPT_CONTINUIDAD_EMILIA_v1.4.0.txt
+- Próxima prioridad sugerida: forma gráfica mayúscula/minúscula completa + escritura graduada de frase + lectura autónoma breve antes de abrir nuevos grafemas.

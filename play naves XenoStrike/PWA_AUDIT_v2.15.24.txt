@@ -1,0 +1,10 @@
+PWA AUDIT — v2.15.24
+
+PASS Service Worker cache id: swarm-rift-v2.15.24
+PASS index cache bust: css/game.css?v=21524
+PASS index cache bust: js/game.js?v=21524
+PASS PWA resource presence: 560/560
+PASS no resource path missing from sw.js ASSETS list
+PASS inherited assets unchanged: 551/551
+
+La nueva lógica no requiere recursos externos ni nuevas dependencias de red.

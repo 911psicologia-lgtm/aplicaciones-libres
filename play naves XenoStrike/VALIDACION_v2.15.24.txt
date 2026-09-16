@@ -1,0 +1,25 @@
+VALIDACIÓN — v2.15.24 ADAPTIVE HIVE COEVOLUTION SEQUENCES
+
+PASS node --check js/game.js
+PASS node --check sw.js
+PASS feature/runtime: 115/115
+PASS mobile ergonomics regression: 5/5 profiles
+PASS 10/10 microsequence identities present
+PASS OPEN → PRESS → CLOSE stage model
+PASS learned response -> microsequence flow
+PASS decode detection -> one closing mutation
+PASS repeated decode -> sequence abandonment
+PASS max 1 microsequence per phase
+PASS Arena Morphology anti-stack during sequence
+PASS Signature Priority anti-stack during sequence
+PASS no boss HP/damage/cadence mutation by microsequences
+PASS no player build/rank/power mutation by microsequences
+PASS no extra projectile-density contract
+PASS migration meta/run/telemetry from v2.15.23
+PASS telemetry schema 6 local-only
+PASS PWA resource presence: 560/560
+PASS inherited assets: 551/551 byte-identical
+PASS inherited file integrity before v2.15.24 docs: 793 unchanged, 3 intentional modifications, 0 missing
+PASS HTTP smoke: 10/10
+
+No se afirma una prueba física prolongada en teléfono/tablet real ni una validación humana de balance a largo plazo.

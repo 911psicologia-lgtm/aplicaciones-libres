@@ -1,0 +1,20 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.25
+ADAPTIVE HIVE FEINT BRANCHING
+
+CAMBIOS PRINCIPALES
+- Nueva capa LEGIBLE FEINT BRANCHING dentro de microsecuencias aprendidas.
+- Una microsecuencia puede revelar dos continuaciones plausibles mediante telegraph dual.
+- Telegraph de bifurcación: 0.90 s.
+- Commit delay posterior: 0.34 s.
+- La reacción del jugador se lee una sola vez al finalizar el telegraph.
+- Tras el commit la rama queda congelada: no existe corrección de seguimiento.
+- Ventana de gracia de decodificación: 0.42 s después del commit para no penalizar la reacción solicitada por el propio telegraph.
+- Máximo una bifurcación por fase y solamente dentro de una microsecuencia aprendida.
+- Ambas continuaciones reutilizan respuestas geométricas ya existentes del boss; no crean ataques, daño, proyectiles ni estadísticas nuevas.
+- Se conserva la mutación única y abandono de microsecuencia de v2.15.24.
+- Telemetría local actualizada a schema 7 con BRANCH_REVEAL y BRANCH_COMMIT.
+- Migración explícita desde saves/telemetría v2.15.24.
+- Cache PWA y cache-bust actualizados a v2.15.25.
+
+NO ACTIVADO
+Reactive Armor, Symbiotic Assist, RIFT Disruption, RIFT Rebirth y extra soft gates permanecen en Shadow.

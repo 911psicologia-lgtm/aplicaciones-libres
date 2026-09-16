@@ -1,0 +1,16 @@
+Emilia · El Bosque de las Palabras · v1.0.0
+
+NUEVO CUARTO SENDERO
+- J: JA JE JI JO JU, JUGO/JOTA, frase.
+- H: H silenciosa, HOLA/HUMO/HOJA, frase.
+- V: VA VE VI VO VU, VELA/VASO/VINO, frase y contraste visual B/V.
+- Y: YA YE YO, YEMA/YATE/YOYO, frase.
+- Z: ZA ZO ZU, TAZA/LAZO/ZONA, frase y nota de pronunciación colombiana.
+- Claro de Nuevas Letras: integración J H V Y Z.
+- Cuento mágico final: El paseo de las nuevas letras.
+
+CORRECCIONES
+- TAZA se retira como palabra inicial del mundo T y pasa a Z.
+- Navegación del mapa ahora calcula dinámicamente el número de senderos.
+- Se añadieron trazos J H V Y Z.
+- Se añadieron refuerzos y escaleras de escritura/frases para el nuevo bloque.
