@@ -23,4 +23,4 @@ bosses=G.enemies.filter(e=>e.alive&&e.role==='boss');
 if(bosses.length!==1 || G.phase!=='boss') throw new Error('prelude did not transition to exactly one boss');
 if(!(bosses[0].introUntil>now)) throw new Error('boss intro protection missing');
 if((SF.config.enemyEcology.breederFromWave||99)>3) throw new Error('breeder must remain reachable within three pre-boss waves');
-console.log('MISSION DIRECTOR v0.6.9 OK',{phase:G.phase,objective:G.objective.id,boss:bosses[0].identity?.name,formations:formations.length});
+console.log('MISSION DIRECTOR v0.7.2 OK',{phase:G.phase,objective:G.objective.id,boss:bosses[0].identity?.name,formations:formations.length});

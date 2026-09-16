@@ -1,115 +1,67 @@
-=====================================================================
-R10.15 · REPRODUCTOR FLOTANTE REAL (2 CAPAS) + AUDITORÍA DE PLAYLISTS
-=====================================================================
-Fecha: 2026-09-13 · Base: R10.14 (estable, intacta)
-Naturaleza del cambio: 100% ADITIVO. Ningún sistema existente fue
-modificado de forma destructiva. DB_VERSION 6 intacto.
+R10.15 — IMPLEMENTACIÓN (2026-09-15)
+=====================================
+Los 8 pedidos del APK, aplicados sobre R10.14 estable (sin reconstruir nada).
+Versión nativa reconstruida desde cero (el entorno anterior se perdió), con la
+misma arquitectura que R10.15: WebViewAssetLoader + HappyNative + Servicio.
 
----------------------------------------------------------------------
-FASE 1 · AUDITORÍA DE ARQUITECTURA (resultado)
----------------------------------------------------------------------
-- HAPPY es una PWA PURA: HTML/CSS/JS vanilla + Service Worker +
-  IndexedDB. NO existía wrapper nativo.
-- Un navegador/PWA NO puede crear ventanas por encima de otras apps.
-  Por tanto se implementó la solución en DOS CAPAS (según spec §12):
-  CAPA A web/PWA (puente + fallback honesto) y CAPA B Android nativa.
-- El modo previo «Pantalla reducida» (overlay CSS interno, R10.12)
-  se conserva y se renombra conceptualmente: MINI PLAYER INTERNO.
+1) PWA: instalación suprimida en el APK
+   - const IS_NATIVE_APK (HappyNative presente u origen appassets).
+   - beforeinstallprompt se descarta en el APK; syncInstallUI oculta ⇩ Instalar
+     y el botón de onboarding; maybeShowInstallCoach no se muestra.
+   - En navegador/PWA todo sigue igual (los cambios solo activan con HappyNative).
 
----------------------------------------------------------------------
-TRES MODOS DIFERENCIADOS (no mezclados)
----------------------------------------------------------------------
-1. MINI    ▱ Mini reproductor interno (dentro de HAPPY)  ⧉
-2. FLOTANTE ▣ Reproductor flotante real (sobre otras apps, capa Android)
-3. SEGUNDO PLANO: audio con controles multimedia del sistema (Media Session)
+2) Carpeta: importación restaurada en el APK
+   - WebView aplasta carpetas con webkitdirectory (onShowFileChooser →
+     ACTION_GET_CONTENT). Causa raíz confirmada del «solo carga canciones sueltas».
+   - Nuevo flujo nativo: HappyNative.importFolder() → ACTION_OPEN_DOCUMENT_TREE →
+     FolderImporter recorre DocumentFile (subcarpetas) y copia audios a
+     cacheDir/happy-imports/<token>/ → servidos por MainActivity.ImportedFilesHandler
+     (ruta /local/<token>/...) → el web los trae con fetch, reconstruye File con
+     webkitRelativePath y reusa importFiles() INTACTO (OPFS, etiquetas, portadas).
+   - En navegador sigue: showDirectoryPicker → folderInput (webkitdirectory).
 
----------------------------------------------------------------------
-ARCHIVOS NUEVOS
----------------------------------------------------------------------
-- floatbridge.js          · CAPA A: puente web↔Android (window.HappyNative
-                            / window.MpNativeBridge), emisión del ÚNICO
-                            estado de reproducción cada 1s + eventos,
-                            snapshotSync() para sondeo del servicio,
-                            fallback HONESTO en PWA pura (nunca simula),
-                            flujo de permiso denegado (REINTENTAR/SEGUIR).
-- android/                · CAPA B: proyecto Gradle mínimo completo.
-  · MainActivity.java     · WebView (núcleo web intacto) + puente JS +
-                            PiP nativo + flujo de permiso overlay solo
-                            al pulsar ▣ FLOTANTE.
-  · NativeBridge.java     · @JavascriptInterface postFromWeb(JSON).
-  · PlaybackBus.java      · estado compartido: la WEB es la única
-                            fuente de verdad; Android solo refleja.
-  · FloatingPlayerService.java · foreground service (mediaPlayback):
-                            overlay TYPE_APPLICATION_OVERLAY (compacto
-                            246dp / expandido 300dp con progreso y seek),
-                            arrastre por handle + SNAP a bordes,
-                            posición recordada (SharedPreferences),
-                            MediaSessionCompat + notificación MediaStyle
-                            (portada/título/artista/⏮▶⏭), wake lock.
-  · NotificationCommandReceiver.java · acciones de la notificación.
-  · res/layout/overlay_player.xml, drawables, values (paleta HAPPY).
-  · README.md             · protocolo del puente + compilación 3 pasos.
+3) Playlist: fila única ▶ + Mix + Modo + Canciones + Enlace
+   - HTML: .playlist-actions.single-row con 5 botones (playPlaylistBtn solo ▶).
+   - NUEVO playlistModeBtn (✦≋) → openPlaybackModesSheet({contextIds: pl.trackIds})
+     (los modos existentes: Radio, Redescubrir, Sorpréndeme, Cola Viva).
+   - CSS de una línea con ajuste para ≤380px; se oculta Mix/Modo en podcasts.
 
----------------------------------------------------------------------
-ARCHIVOS MODIFICADOS (parches mínimos)
----------------------------------------------------------------------
-- index.html  · botón ▣ FLOTANTE junto a ⧉; botón ◱ PiP en el dock;
-                renombres «Mini reproductor interno»; +floatbridge.js.
-- app.js      · BUILD R10.15; els +floatingRealBtn/remotePipBtn;
-                buildPlaybackSnapshot() (snapshot para el puente);
-                activeVideoElement()/syncPipButton()/requestPipWeb()
-                (PiP web para video nativo compatible); menú ⋯ con
-                «▣ Reproductor flotante real» + etiqueta de capacidad;
-                evento mp:app-ready; window.MP ampliado (togglePlay,
-                nextTrack, prevTrack, seekBy, getCurrentTrack,
-                buildPlaybackSnapshot, requestPipWeb, artworkUrlFor…).
-- styles.css  · estilos del botón ▣ y PiP (estética existente).
-- sw.js       · caché r10.15-floating-real + floatbridge.js en CORE.
-- version.json/VERSION.txt/manifest (shortcuts intactos).
+4) YouTube pantalla bloqueada (deja de silenciarse)
+   - CAUSA: el servicio nativo pedía foco de audio → el WebView recibía pérdida
+     de foco y silenciaba a los pocos segundos.
+   - SOLUCIÓN: el servicio NO pide foco NUNCA (PlaybackBus/FloatingPlayerService
+     no contienen requestAudioFocus). Además MainActivity.onPause() ya no pausa
+     el WebView si hay reproducción activa.
 
----------------------------------------------------------------------
-REGLAS DE ORO IMPLEMENTADAS
----------------------------------------------------------------------
-- UN SOLO ESTADO DE REPRODUCCIÓN: la web (window.MP) es la única
-  fuente; overlay/MediaSession/notificación la reflejan y devuelven
-  comandos media/*. NUNCA dos motores de audio (probado).
-- ✕ del flotante nativo cierra SOLO la ventana: el audio continúa y
-  la notificación multimedia queda disponible.
-- ↗ vuelve a HAPPY exactamente donde estaba (FLAG_ACTIVITY_REORDER_
-  TO_FRONT; no reinicia la pista).
-- Permiso SYSTEM_ALERT_WINDOW: se solicita SOLO al pulsar ▣ FLOTANTE
-  por primera vez. Si se niega → mensaje + REINTENTAR/SEGUIR EN
-  HAPPY; la música sigue con normalidad. Nada se rompe.
-- PiP: video nativo compatible → PiP del sistema (web o nativo según
-  capa). Otras fuentes → degradan a carátula + controles. No se
-  fuerza nada.
-- Fallback honesto en navegador/PWA: el sheet explica que el modo
-  flotante sobre otras apps requiere la versión Android y ofrece
-  Mini interno / PiP (si hay video) / segundo plano. NO se simula.
-- Sin permisos innecesarios: nada de cámara/ubicación/contactos.
-- Estado persistido: floatingX/floatingY/floatingExpanded (nativo).
-  Al reiniciar NO se muestra el overlay automáticamente.
-- Orientación: configChanges completo; posición re-acotada (clamp).
+5) Biblioteca: botón 🎙 Podcast
+   - Pestaña nueva junto a Playlists/Canciones/Álbumes; abre el hub de podcasts
+     existente (continuar escuchando + programas + añadir).
 
----------------------------------------------------------------------
-PRUEBAS EJECUTADAS (E2E, Chromium real + mock YouTube local)
----------------------------------------------------------------------
-PLAYLISTS (auditoría pedida):
- ✓ Crear playlist + añadir 2 canciones (dedup verificado)
- ✓ ▶ Reproducir desde el detalle: arranca en 0:00 (no reanuda a medias)
- ✓ Avance automático 1ª→2ª canción desde 0:00 (regresión R10.12 no reaparece)
- ✓ ⏮ anterior por historial, reiniciando posición
-FLOTANTE/CAPAS:
- ✓ PWA pura: ▣ → fallback honesto con las 3 opciones correctas
- ✓ Mini interno desde el fallback: reproducción continua (mismo punto)
- ✓ Simulación completa de capa Android: handshake web/hello→native/hello
- ✓ ▣ con capa nativa → floating/start (sin sheet de fallback)
- ✓ media/pause|play|seek desde overlay controlan la MISMA reproducción
- ✓ snapshotSync() entrega JSON fresco (sondeo del servicio)
- ✓ Permiso denegado → sheet REINTENTAR/SEGUIR EN HAPPY + música intacta
- ✓ TEST 10: NORMAL→MINI→NORMAL con exactamente 1 fuente de audio activa
-NO REGRESIÓN:
- ✓ Inicio/Buscar/Biblioteca/SP navegación + 4 items de nav
- ✓ Media Session: metadata (título/artista) + playbackState playing
- ✓ SP · Estudio Podcast activo (spRoot, sin errores)
- ✓ Sin errores de consola (salvo mensajes esperados del mock)
+6) Mini reproductor interno ⧉ desactivado
+   - Botón ⧉ retirado de la barra superior (index.html).
+   - ⋯ → «◱ Pantalla reducida flotante» abre la VENTANA FLOTANTE REAL nativa
+     (FloatingPlayerService, TYPE_APPLICATION_OVERLAY, con permiso de
+     superposición) — panel remoto con título/artista/progreso + ⏮ ▶ ⏭ + ⤢
+     (abre la app) + × (cierra). El audio siempre vive en el WebView principal:
+     imposible duplicar sonido.
+
+7) Calidad de audio restaurada
+   - Misma causa que (4): el ducking/deriva de volumen venía del foco pedido por
+     el servicio. Sin pedidos de foco, el WebView conserva su volumen original.
+
+8) Bluetooth / pantalla del auto (AVRCP)
+   - MediaSessionCompat ACTIVA con MediaMetadataCompat (título/artista/álbum/
+     duración) y PlaybackStateCompat (STATE_PLAYING/PAUSED + posición + acciones
+     PLAY/PAUSE/SKIP_TO_NEXT/SKIP_TO_PREVIOUS).
+   - El web empuja estado cada 900 ms (happyPushMediaState → HappyNative.mediaState).
+   - Notificación MediaStyle con ⏮ ▶/⏸ ⏭ (NotificationCommandReceiver →
+     PlaybackBus.sendCommand → __HAPPY_BRIDGE__.cmd() en el WebView).
+   - Los botones del volante/auto llegan por MediaSession → mismos comandos.
+
+Notas
+- DB mpf-minimal-db v6 y mpf-sp-studio intactas; Recovery compatible.
+- sw.js cache mpf-r10.15-apk-fixes; version.json/VERSION.txt/manifest ?v=r10.15-apk.
+- Keystore: el entorno anterior se perdió con el reset del sandbox; se generó un
+  keystore NUEVO (happy-release.keystore, alias happy, pass happy2026). Instalar
+  esta versión sobre el APK viejo exige desinstalar antes (firma distinta) →
+  guardar Recovery JSON antes si se quieren conservar playlists.

@@ -1,0 +1,34 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.21
+Build: ADAPTIVE_HIVE_TACTICAL_IDENTITY
+Base: 2.15.20 ADAPTIVE_HIVE_PREDICTIVE_PILOT
+Worlds: 20
+Bosses: 20
+Adaptive Hive: TACTICAL IDENTITY PILOT
+Director sampling: 1.0 s
+Spatial sampling: ~0.20 s, session-only during boss combat
+DPS windows: burst 3 s / tactical 8 s / sustained 20 s
+Historical local memory: max 6 eligible wins, min 3, blend 20%, clamp ±12%
+Telemetry: local only, schema 3, last 40 boss fights
+Live interventions: Signature Priority + Tactical Identity Geometry
+Tactical scope: campaign worlds 11–20, phases 2–3, A2/A3, confidence >= 0.68
+Tactical cadence: adaptive 4.5–7.0 s / neutral 3.0–4.8 s / mandatory neutral after max 2 active segments
+Identity matrix: 10/10 CH2 bosses
+Geometry constraints: max aim lead 0.115 rad / max Y offset 0.075H / max X offset 0.035W
+Projectile inflation: none
+HP inflation: none
+Damage boost: none
+Cadence boost: none
+Heavy interventions active: none (reactive armor, assist, disruption, rebirth, extra soft gates remain Shadow)
+Migration: v2.15.20 -> v2.15.21 explicit
+Control: direct Pointer Events touch + mouse; no joystick; no DASH
+PWA resources: 560 / missing 0
+CH2 distributed SHA verified: 210/210
+CH2 historical undistributed background PNG entries: 20, inherited from canonical base
+Assets preserved vs base: 551/551
+Original source preservation: 762/765 bit-identical; 3 intentional source changes
+Feature/runtime checks: 86/86
+Mobile profile matrix: 5/5
+HTTP smoke: 12/12
+Created: 2026-09-15
+Final package files (projected, incl. CONTENT_SHA256): 779

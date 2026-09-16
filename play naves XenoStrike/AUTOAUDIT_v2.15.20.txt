@@ -1,0 +1,18 @@
+SWARM//RIFT v2.15.20 — AUTOAUDIT
+=================================
+Feature/runtime: 75/75 PASS
+Mobile profile matrix: 5/5 PASS
+PWA resources: 560 / missing 0
+CH2 manifest distributed hashes: 210/210 PASS; mismatch 0
+Assets vs v2.15.19: 551/551 bit-identical
+Original preservation: 749/752 bit-identical; changed intentionally 3; missing 0
+Adaptive Hive mode: PREDICTIVE_PILOT
+Live Adaptive intervention: SIGNATURE PRIORITY ONLY
+Heavy Adaptive interventions: SHADOW
+Signature Pilot: worlds 11–20 / A3 sustained / confidence >=0.78 / once per phase
+Adaptive telemetry: localStorage only / schema 2 / max 40 fights
+Network calls inside Adaptive Hive block: 0
+HP/build/rank/power mutations inside Adaptive Hive block: 0
+HTTP smoke: 12/12 PASS
+Physical phone/tablet session: NOT PERFORMED / NOT CLAIMED
+Result: PASS

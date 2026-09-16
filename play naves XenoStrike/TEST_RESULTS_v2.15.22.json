@@ -1,0 +1,385 @@
+{
+  "version": "2.15.22",
+  "feature": {
+    "ok": true,
+    "summary": {
+      "passed": 95,
+      "total": 95
+    },
+    "checks": {
+      "worlds20": true,
+      "desktop": true,
+      "desktopBounds": true,
+      "mobileLandscape": true,
+      "safeAreaBounds": true,
+      "edgeClamp": true,
+      "actionRailValid": true,
+      "actionRailExcluded": true,
+      "railRouting": true,
+      "safeHudCenter": true,
+      "ergoContract": true,
+      "combatFocus": true,
+      "lastChanceHighest": true,
+      "compactDraw": true,
+      "saveMigration": true,
+      "version": true,
+      "statusHook": true,
+      "cssBust": true,
+      "jsBust": true,
+      "swCache": true,
+      "safeProbe": true,
+      "touchTargetCss": true,
+      "secondaryGuard": true,
+      "coalescedInput": true,
+      "visibilityCancel": true,
+      "orientationCancel": true,
+      "debouncedViewport": true,
+      "dynamicPlayerBounds": true,
+      "directTouchPreserved": true,
+      "noDashInput": true,
+      "microSwarmPreserved": true,
+      "riftAllyPreserved": true,
+      "lastChancePreserved": true,
+      "hudPreserved": true,
+      "mobileErgonomicsPreserved": true,
+      "performancePreserved": true,
+      "hiveSelfTest": true,
+      "hiveStates": true,
+      "hiveHysteresis": true,
+      "hiveCadence": true,
+      "hiveTargetWindows": true,
+      "a1Silent": true,
+      "a3Shadow": true,
+      "dpsRolling": true,
+      "multiWindowDps": true,
+      "burstGuard": true,
+      "telemetryRuntime": true,
+      "telemetryCap": true,
+      "telemetryMigration": true,
+      "historyClamp": true,
+      "signaturePilot": true,
+      "signaturePilotOncePerPhase": true,
+      "signaturePilotAdvancedOnly": true,
+      "signaturePilotFinalizingGuard": true,
+      "spatialReader": true,
+      "tacticalEligible": true,
+      "tacticalVector": true,
+      "neutralRecovery": true,
+      "identityMatrix": true,
+      "allTenIdentityRuntime": true,
+      "allTenSignaturePlanning": true,
+      "noExtraProjectileContract": true,
+      "signatureGeometryLockedAtStart": true,
+      "geometryBoundsContract": true,
+      "tacticalTelemetry": true,
+      "localOnly": true,
+      "shadowContract": true,
+      "identitySafeMutation": true,
+      "hiveStatusHooks": true,
+      "ttkFormula": true,
+      "explicitMigration": true,
+      "arenaEligible": true,
+      "arenaIdentityMatrix": true,
+      "arenaSafeCorridor": true,
+      "arenaTelegraph": true,
+      "arenaExecuted": true,
+      "arenaBudgetBounded": true,
+      "arenaCooldown": true,
+      "arenaSourceContracts": true,
+      "allTenArenaRuntime": true,
+      "twentyBosses": true,
+      "familyCombatPreserved": true,
+      "bossIdentityPreserved": true,
+      "waveChoreographerPreserved": true,
+      "preBossPreserved": true,
+      "arenaPresentationPreserved": true,
+      "aftermathPreserved": true,
+      "hangarPreserved": true,
+      "commanderConvergencePreserved": true,
+      "waveObjectivesPreserved": true,
+      "bossRushPreserved": true,
+      "chasePreserved": true,
+      "rewardLedgerPreserved": true,
+      "checkpointsPreserved": true,
+      "audioPreserved": true
+    },
+    "ergonomics": {
+      "version": "2.15.22",
+      "profile": "MOBILE_LANDSCAPE",
+      "coarse": true,
+      "safeArea": {
+        "top": 0,
+        "right": 47,
+        "bottom": 21,
+        "left": 47
+      },
+      "playerBounds": {
+        "left": 73,
+        "right": 771,
+        "top": 44,
+        "bottom": 341
+      },
+      "actionRail": {
+        "left": 577,
+        "top": 0,
+        "right": 844,
+        "bottom": 58
+      },
+      "effectiveTapTarget": 44,
+      "directTouch": true,
+      "singlePrimaryTouch": true,
+      "secondaryTouchIgnored": true,
+      "coalescedPointerMoves": true,
+      "viewportDebounce": true,
+      "stats": {
+        "excludedStarts": 0,
+        "ignoredSecondary": 0,
+        "coalescedMoves": 0,
+        "cancels": 0,
+        "viewportStabilizations": 0,
+        "lastCancel": ""
+      }
+    },
+    "bounds": {
+      "left": 73,
+      "right": 771,
+      "top": 44,
+      "bottom": 341
+    },
+    "rail": {
+      "left": 577,
+      "top": 0,
+      "right": 844,
+      "bottom": 58
+    },
+    "routed": {
+      "x": 771,
+      "y": 66
+    }
+  },
+  "mobile": {
+    "ok": true,
+    "profiles": [
+      {
+        "name": "iphone-landscape-notch",
+        "w": 844,
+        "h": 390,
+        "c": true,
+        "s": [
+          0,
+          47,
+          21,
+          47
+        ],
+        "expect": "MOBILE_LANDSCAPE",
+        "bounds": {
+          "left": 73,
+          "right": 771,
+          "top": 44,
+          "bottom": 341
+        },
+        "rail": {
+          "left": 577,
+          "top": 0,
+          "right": 844,
+          "bottom": 58
+        },
+        "checks": {
+          "profile": true,
+          "bounds": true,
+          "usableW": true,
+          "usableH": true,
+          "clampA": true,
+          "clampZ": true,
+          "railSane": true,
+          "center": true
+        }
+      },
+      {
+        "name": "compact-landscape-notch",
+        "w": 667,
+        "h": 375,
+        "c": true,
+        "s": [
+          0,
+          44,
+          21,
+          44
+        ],
+        "expect": "MOBILE_LANDSCAPE",
+        "bounds": {
+          "left": 70,
+          "right": 597,
+          "top": 44,
+          "bottom": 326
+        },
+        "rail": {
+          "left": 388.21999999999997,
+          "top": 0,
+          "right": 631,
+          "bottom": 66
+        },
+        "checks": {
+          "profile": true,
+          "bounds": true,
+          "usableW": true,
+          "usableH": true,
+          "clampA": true,
+          "clampZ": true,
+          "railSane": true,
+          "center": true
+        }
+      },
+      {
+        "name": "android-landscape",
+        "w": 915,
+        "h": 412,
+        "c": true,
+        "s": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "expect": "MOBILE_LANDSCAPE",
+        "bounds": {
+          "left": 30,
+          "right": 885,
+          "top": 44,
+          "bottom": 378
+        },
+        "rail": {
+          "left": 577,
+          "top": 0,
+          "right": 846,
+          "bottom": 58
+        },
+        "checks": {
+          "profile": true,
+          "bounds": true,
+          "usableW": true,
+          "usableH": true,
+          "clampA": true,
+          "clampZ": true,
+          "railSane": true,
+          "center": true
+        }
+      },
+      {
+        "name": "tablet-landscape",
+        "w": 1180,
+        "h": 820,
+        "c": true,
+        "s": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "expect": "TABLET",
+        "bounds": {
+          "left": 30,
+          "right": 1150,
+          "top": 44,
+          "bottom": 786
+        },
+        "rail": {
+          "left": 577,
+          "top": 0,
+          "right": 846,
+          "bottom": 58
+        },
+        "checks": {
+          "profile": true,
+          "bounds": true,
+          "usableW": true,
+          "usableH": true,
+          "clampA": true,
+          "clampZ": true,
+          "railSane": true,
+          "center": true
+        }
+      },
+      {
+        "name": "mobile-portrait",
+        "w": 390,
+        "h": 844,
+        "c": true,
+        "s": [
+          47,
+          0,
+          34,
+          0
+        ],
+        "expect": "MOBILE_PORTRAIT",
+        "bounds": {
+          "left": 30,
+          "right": 360,
+          "top": 85,
+          "bottom": 782
+        },
+        "rail": {
+          "left": 172,
+          "top": 39,
+          "right": 390,
+          "bottom": 113
+        },
+        "checks": {
+          "profile": true,
+          "bounds": true,
+          "usableW": true,
+          "usableH": true,
+          "clampA": true,
+          "clampZ": true,
+          "railSane": true,
+          "center": true
+        }
+      }
+    ],
+    "status": {
+      "version": "2.15.22",
+      "profile": "MOBILE_PORTRAIT",
+      "coarse": true,
+      "safeArea": {
+        "top": 47,
+        "right": 0,
+        "bottom": 34,
+        "left": 0
+      },
+      "playerBounds": {
+        "left": 30,
+        "right": 360,
+        "top": 85,
+        "bottom": 782
+      },
+      "actionRail": {
+        "left": 172,
+        "top": 39,
+        "right": 390,
+        "bottom": 113
+      },
+      "effectiveTapTarget": 44,
+      "directTouch": true,
+      "singlePrimaryTouch": true,
+      "secondaryTouchIgnored": true,
+      "coalescedPointerMoves": true,
+      "viewportDebounce": true,
+      "stats": {
+        "excludedStarts": 0,
+        "ignoredSecondary": 0,
+        "coalescedMoves": 0,
+        "cancels": 0,
+        "viewportStabilizations": 0,
+        "lastCancel": ""
+      }
+    }
+  },
+  "httpSmoke": {
+    "passed": 10,
+    "total": 10
+  },
+  "notes": [
+    "No prolonged physical-device playtest claimed.",
+    "Arena Morphology executes only in campaign worlds 11-20 from phase 2 when adaptive eligibility is satisfied."
+  ]
+}

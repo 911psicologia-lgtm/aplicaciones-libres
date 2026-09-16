@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  HAPPY Android · permisos:
-   INTERNET                     → cargar la PWA (igual que el navegador)
-   SYSTEM_ALERT_WINDOW          → reproductor flotante sobre otras apps (el usuario lo autoriza en Ajustes, solo al activar FLOTANTE)
-   FOREGROUND_SERVICE + MEDIA_PLAYBACK → servicio de reproducción persistente (notificación multimedia)
-   POST_NOTIFICATIONS           → mostrar la notificación multimedia (Android 13+, se pide solo al activar FLOTANTE)
-   WAKE_LOCK                    → evitar que el sistema suspenda la decodificación del WebView en segundo plano
-  NO se piden cámara, ubicación ni contactos.
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
     <application
-        android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
+        android:label="MUSIC PLAY"
+        android:icon="@drawable/ic_launcher"
         android:theme="@style/Theme.Happy"
-        android:usesCleartextTraffic="true"
+        android:usesCleartextTraffic="false"
         android:hardwareAccelerated="true"
-        android:supportsPictureInPicture="true"
-        android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode">
+        android:allowBackup="true">
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
-            android:supportsPictureInPicture="true">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -46,15 +39,6 @@
 
         <receiver
             android:name=".NotificationCommandReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="media/prev" />
-                <action android:name="media/play" />
-                <action android:name="media/pause" />
-                <action android:name="media/toggle" />
-                <action android:name="media/next" />
-                <action android:name="media/stop" />
-            </intent-filter>
-        </receiver>
+            android:exported="false" />
     </application>
 </manifest>

@@ -1,0 +1,33 @@
+SWARM//RIFT — Insecta Siege v2.15.21
+Build: ADAPTIVE_HIVE_TACTICAL_IDENTITY
+Base: v2.15.20 ADAPTIVE_HIVE_PREDICTIVE_PILOT
+
+VALIDACIÓN
+1. node --check js/game.js: PASS
+2. node --check sw.js: PASS
+3. node --check tools/feature_test_v21521.js: PASS
+4. Feature/runtime regression: 86/86 PASS
+5. A0/A1/A2/A3: PASS
+6. Hysteresis: PASS
+7. DPS 3/8/20 + TTK: PASS
+8. Burst Spike guard: PASS
+9. Local historical calibration ±12%: PASS
+10. Signature Priority Pilot: PASS
+11. Spatial Reader boss-local: PASS
+12. Tactical Identity Pilot bounds: PASS
+13. Mandatory neutral recovery: PASS
+14. All 10 CH2 identity movement branches: PASS
+15. All 10 CH2 signature planning branches: PASS
+16. No tactical HP/damage/cadence/projectile inflation: PASS
+17. Telemetry schema 3 / migration v2.15.20: PASS
+18. Telemetry cap 40: PASS
+19. Local-only / no network calls in Director: PASS
+20. Mobile ergonomics matrix: 5/5 PASS
+21. PWA resources: 560/560 PASS
+22. Assets preserved vs v2.15.20: 551/551 PASS
+23. CH2 distributed manifest SHA: 210/210 PASS
+24. HTTP smoke: 12/12 PASS
+25. Original base preservation: 762/765 bit-identical; 3 intentional source changes
+
+NOTA DE ALCANCE
+No se realizó una sesión física prolongada en teléfono/tableta ni balance humano de larga duración. Las pruebas realizadas son de sintaxis, runtime automatizado, integridad, recursos, HTTP y regresión lógica.

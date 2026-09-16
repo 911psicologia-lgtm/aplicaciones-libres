@@ -1,0 +1,19 @@
+SWARM//RIFT — INSECTA SIEGE v2.15.22
+ADAPTIVE HIVE — ARENA MORPHOLOGY PILOT
+
+NUEVO
+- Adaptive Arena Morphology para bosses de mundos 11–20.
+- Matriz de 10 identidades de arena: KHEPRI, VESPERA, REGENT, PYROLUX, CAUSTIC, ATLAS, MIRAGE, PIT, AURICULUS y APIS.
+- Corredor seguro legible y garantizado en cada evento adaptativo de arena.
+- Telegraph previo de 0.88 s antes de ejecutar la geometría de arena.
+- Selección espacial basada en la lectura local de movimiento ya existente.
+- Reutilización del presupuesto de proyectiles/obstáculos del hazard original: no se incrementa densidad por adaptación.
+- Telemetría local schema 4 con eventos de Arena Morphology.
+- Migración explícita desde meta/run/telemetría v2.15.21.
+
+SE CONSERVA
+- 20 mundos / 20 bosses.
+- Adaptive Hive Shadow architecture, Predictive Pilot y Tactical Identity.
+- Signature Priority Pilot.
+- Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, poderes, combos, PWA, responsive y guardados.
+- Reactive armor, symbiotic assist, RIFT Disruption, RIFT Rebirth y extra soft gates siguen en Shadow.

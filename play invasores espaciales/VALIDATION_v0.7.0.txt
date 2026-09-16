@@ -1,0 +1,23 @@
+STARFALL FRONTIER v0.7.0 — ENCOUNTER EVOLUTION
+VALIDATION: PASS
+
+Critical fix:
+- Boss/miniboss/guardian no longer die or disappear on player contact.
+- Role-aware collision handling active.
+- Kamikaze proximity/contact self-destruction active.
+
+Combat evolution:
+- Strict W01-W05 boss/subboss durability escalation.
+- Formation minion durability increased.
+- Boss basic attack cycle separated from signature attacks.
+- Boss surge movement in advanced phases.
+- Subboss phase III / FINAL FURY active.
+- Chain/fusion/shield secondary damage respects encounter defenses and phase gates.
+
+Regression:
+- Full Node test suite PASS.
+- Boss transition regression PASS.
+- Boss transition watchdog PASS.
+- Responsive smoke PASS.
+- Asset/audio stable-tree hash unchanged.
+- Economy stable hash unchanged.

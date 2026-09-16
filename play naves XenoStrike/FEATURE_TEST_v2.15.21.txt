@@ -1,0 +1,26 @@
+SWARM//RIFT v2.15.21 — FEATURE TEST
+Resultado: PASS
+Checks: 86/86
+
+Incluye:
+- regresión de mundos, bosses y sistemas principales;
+- A0/A1/A2/A3;
+- hysteresis;
+- DPS 3/8/20;
+- Burst Guard;
+- confidence guard;
+- telemetría local y cap 40;
+- migración v2.15.20 -> v2.15.21;
+- historical clamp ±12%;
+- Signature Priority Pilot;
+- Spatial Reader;
+- Tactical Identity eligibility;
+- límites de vector/adaptación;
+- neutral recovery obligatorio;
+- matriz táctica de 10 bosses;
+- runtime de locomoción de los 10 bosses 11–20;
+- planificación de signature de los 10 bosses 11–20;
+- signature geometry locked at start;
+- no extra projectiles / HP / damage / cadence boost;
+- local-only telemetry;
+- preservación de Family Combat, Boss Identity, Wave Choreographer, Pre-Boss, Arena, Aftermath, Hangar, Commander Convergence, Wave Objectives, Boss Rush, CHASE, Reward Ledger, checkpoints y audio.

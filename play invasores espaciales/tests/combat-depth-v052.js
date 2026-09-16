@@ -4,7 +4,7 @@ const sandbox={window:{}}; sandbox.window.SF={}; vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
 const game=fs.readFileSync(path.join(root,'js/game.js'),'utf8');
-if(C.VERSION!=='0.6.9') throw new Error('wrong version');
+if(C.VERSION!=='0.7.2') throw new Error('wrong version');
 if(!C.microSwarm?.enabled) throw new Error('micro swarm disabled');
 if(C.microSwarm.fromWave>2) throw new Error('micro swarm enters too late');
 if(!C.bossModules?.enabled) throw new Error('boss modules disabled');

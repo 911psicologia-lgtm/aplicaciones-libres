@@ -1,0 +1,5 @@
+SWARM//RIFT v2.15.21 — MOBILE COMBAT ERGONOMICS REGRESSION
+Resultado: PASS
+Perfiles: 5/5
+
+Valida perfiles desktop/tablet/mobile, safe areas/notch, límites del jugador, exclusión de la barra de acciones, clamping táctil, target efectivo 44 px, un solo touch primario, rechazo de touch secundario, coalesced pointer moves, viewport debounce, control táctil directo, SIN joystick y SIN DASH.

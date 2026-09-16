@@ -1,15 +1,4 @@
-// =============================================================
-// HAPPY Android · raíz del proyecto
-// Wrapper mínimo que REUTILIZA la PWA HAPPY tal cual.
-// La app web sigue siendo el núcleo; esta capa solo añade:
-//  - WebView a pantalla completa
-//  - Reproductor flotante real (TYPE_APPLICATION_OVERLAY)
-//  - Foreground service + MediaSession + notificación multimedia
-//  - Picture-in-Picture nativo
-// =============================================================
-buildscript {
-    repositories { google(); mavenCentral() }
-    dependencies { classpath 'com.android.tools.build:gradle:8.5.2' }
+// Top-level build file — HAPPY MUSIC PLAY R10.15
+plugins {
+    id 'com.android.application' version '8.4.1' apply false
 }
-allprojects { repositories { google(); mavenCentral() } }
-task clean(type: Delete) { delete rootProject.buildDir }

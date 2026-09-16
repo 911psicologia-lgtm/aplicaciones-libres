@@ -5,7 +5,7 @@ const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.cr
 vm.runInContext(read('js/config.js'),sandbox); const C=sandbox.window.SF.config;
 function ok(v,m){if(!v)throw new Error(m)}
 const game=read('js/game.js'),ui=read('js/ui.js'),html=read('index.html'),css=read('css/main.css'),eco=read('js/economy.js');
-ok(C.VERSION==='0.6.9','wrong version');
+ok(C.VERSION==='0.7.2','wrong version');
 ok(C.progression.maxLives>=9&&C.progression.restartLives>=4,'life economy not expanded');
 ok(C.powers.magnet,'magnet power missing');
 ok(C.economy.catalog.some(x=>x.kind==='revive'),'revive shop item missing');
@@ -20,4 +20,4 @@ ok(/hangar-upgrade/.test(css)&&/ship-grid\.compact/.test(css),'compact hangar CS
 ok(/data-hangar-buy/.test(ui),'hangar upgrade buttons missing');
 ok(/maxInventory/.test(eco),'revive inventory cap missing');
 ok(/getWorldPowerup/.test(game),'original runtime power art not used');
-console.log('HANGAR + SURVIVAL + LOOT v0.6.9 PASS');
+console.log('HANGAR + SURVIVAL + LOOT v0.7.2 PASS');

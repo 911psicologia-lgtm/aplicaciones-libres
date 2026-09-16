@@ -1,0 +1,9 @@
+SWARM//RIFT v2.15.20 — ASSET AUDIT
+Assets directories compared with v2.15.19: 551 files
+Bit-identical assets: 551
+Changed assets: 0
+CH2 manifest entries: 230
+CH2 present + SHA-valid: 210
+CH2 hash mismatches: 0
+CH2 omitted PNG background masters: 20 (same canonical condition as v2.15.19; no new omission)
+No new fabricated asset introduced.

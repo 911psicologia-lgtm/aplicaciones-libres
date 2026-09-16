@@ -1,0 +1,8 @@
+SWARM//RIFT v2.15.20 — PWA AUDIT
+Service Worker cache: swarm-rift-v2.15.20
+Declared resources: 560
+Missing resources: 0
+index CSS cache bust: 21520
+index JS cache bust: 21520
+node --check sw.js: PASS
+HTTP smoke: 12/12 PASS

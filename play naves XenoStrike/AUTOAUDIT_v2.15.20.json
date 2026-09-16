@@ -1,0 +1,60 @@
+{
+  "version": "2.15.20",
+  "build": "ADAPTIVE_HIVE_PREDICTIVE_PILOT",
+  "base": "2.15.19",
+  "feature_runtime": {
+    "passed": 75,
+    "total": 75
+  },
+  "mobile_profiles": {
+    "passed": 5,
+    "total": 5
+  },
+  "pwa": {
+    "declared": 560,
+    "missing": 0
+  },
+  "assets": {
+    "base_assets": 551,
+    "bit_identical": 551,
+    "changed": 0
+  },
+  "chapter2_manifest": {
+    "entries": 230,
+    "present_hash_ok": 210,
+    "missing_expected_background_masters": 20,
+    "hash_mismatch": 0
+  },
+  "preservation": {
+    "base_files": 752,
+    "bit_identical": 749,
+    "modified_existing": [
+      "index.html",
+      "sw.js",
+      "js/game.js"
+    ],
+    "missing": 0
+  },
+  "adaptive_hive": {
+    "mode": "PREDICTIVE_PILOT",
+    "sample_seconds": 1,
+    "dps_windows_seconds": [
+      3,
+      8,
+      20
+    ],
+    "history_max": 6,
+    "history_min": 3,
+    "history_blend": 0.2,
+    "history_clamp_fraction": 0.12,
+    "telemetry_max_fights": 40,
+    "live_intervention": "signature_priority_only",
+    "heavy_interventions": "shadow"
+  },
+  "http_smoke": {
+    "passed": 12,
+    "total": 12
+  },
+  "physical_device_test": false,
+  "result": "PASS"
+}

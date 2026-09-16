@@ -1,0 +1,27 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.53.0
+
+VERSIÓN: 3.53.0 — Arena Control + Escort Synergy
+
+COMPROBACIONES
+- `node --check js/game.js`: OK
+- Versionado index/manifest/sw/game sincronizado a 3.53.0
+- Sin nuevos assets
+- Cerco de Arena integrado y telegráfico
+- Zona bossPressure móvil integrada en update/draw de zones
+- Enlace de escolta integrado con cancelación al perder nodos
+- Nuevas métricas de telemetría incluidas
+
+PRUEBAS MANUALES RECOMENDADAS
+- Permanecer deliberadamente en una esquina durante fases 2–4 y comprobar aviso + barrido.
+- Mantener dos escoltas vivas y comprobar enlace visual + descarga coordinada.
+- Destruir una escolta durante el telegráfico y verificar cancelación.
+- Confirmar que no coincida con Último Asalto o telegráfico signature en pantalla saturada.
+
+AUDITORÍA DE INTEGRIDAD
+- Assets totales: 842
+- Assets modificados respecto de v3.52: 0
+- Referencias literales de assets: 801
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- game.js / sw.js / manifest / index: versión 3.53.0 sincronizada

@@ -1,0 +1,40 @@
+SWARM//RIFT v2.15.21 — AUTOAUDIT
+
+BASE PRESERVATION
+- Archivos heredados base: 765
+- Bit-identical: 762
+- Cambios intencionales: 3
+  1) js/game.js
+  2) index.html
+  3) sw.js
+- Assets alterados: 0/551
+
+TACTICAL IDENTITY SAFETY
+- No modifica boss.maxHp ni HP por el piloto táctico.
+- No modifica multiplicadores de daño.
+- No aumenta cadencia.
+- No añade proyectiles por el piloto táctico.
+- No borra ni suprime powers.
+- No cambia ranks/build.
+- Bounded aim lead: ±0.115 rad.
+- Bounded Y bias: 7.5% H.
+- Bounded X bias: 3.5% W.
+- Fan spread redistribution: 0.82–1.22.
+- Mandatory neutral recovery after max 2 adaptive segments.
+- Fairness holds preserved.
+- BURST_SPIKE guard preserved.
+- Signature geometry fixed at signature creation; telegraph preserved.
+
+SHADOW COUNTERMEASURES STILL INACTIVE
+- reactive armor
+- symbiotic assist
+- RIFT DISRUPTION
+- RIFT REBIRTH
+- extra soft gates
+
+NETWORK / PRIVACY
+- Hive Director does not call fetch, XMLHttpRequest, sendBeacon or WebSocket.
+- Telemetry remains localStorage-only.
+
+RESULT
+PASS

@@ -1,0 +1,41 @@
+STARFALL FRONTIER v0.7.1 — BATTLE RHYTHM
+VALIDATION STATUS: PASS
+
+Core syntax:
+- js/config.js: PASS
+- js/game.js: PASS
+- js/main.js: PASS
+- sw.js: PASS
+
+Regression suite:
+- 36 JavaScript tests: PASS
+- runtime-smoke: PASS
+- responsive-smoke: PASS
+- boss-transition-regression: PASS
+- boss-transition-watchdog: PASS
+- boss-fortress: PASS
+- boss-reboot/adrenaline: PASS
+- combat-flow/choreography: PASS
+- Reactive Matrix Assist: PASS
+- economy/shop: PASS
+- hangar/survival/loot: PASS
+- tactical belt/drone command: PASS
+- DSEBI F4: PASS
+- battle-rhythm-v071: PASS
+
+Integrity:
+- assets/audio tree SHA-256: 5cb8226fbc528eb670a41d8846a714538076c293c77af2c139cf81b78c189847
+- js/economy.js SHA-256: cbca517e6d3a5ddddad8693fc7920bea6f9083c75c1db7a1fba013f3031e28dd
+- PWA manifest: STARFALL FRONTIER / fullscreen
+- Service worker cache: starfall-shell-v0.7.1
+- Service worker registration build: 0710
+
+New systems confirmed:
+- Boss Battle Rhythm / counter windows
+- Perfect-dodge extended core exposure
+- Phase-aware boss signature mutations
+- Subboss basic-fire / signature separation
+- Subboss recovery windows
+- Formation desperation / final charge
+- Tactical kamikaze chain detonation
+- Pause-clock preservation for new encounter timers

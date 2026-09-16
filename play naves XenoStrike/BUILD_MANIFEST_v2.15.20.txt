@@ -1,0 +1,24 @@
+SWARM//RIFT — Insecta Siege
+Version: 2.15.20
+Build: ADAPTIVE_HIVE_PREDICTIVE_PILOT
+Base: 2.15.19 ADAPTIVE_HIVE_SHADOW
+Worlds: 20
+Bosses: 20
+Adaptive Hive: PREDICTIVE PILOT
+Sampling: 1.0 s
+DPS windows: burst 3 s / tactical 8 s / sustained 20 s
+Historical local memory: max 6 eligible wins, min 3, blend 20%, clamp ±12%
+Telemetry: local only, schema 2, last 40 boss fights
+Live new intervention: Signature Priority only, worlds 11–20, max once/phase
+Heavy interventions active: none
+Migration: v2.15.19 -> v2.15.20 explicit
+Control: direct Pointer Events touch + mouse; no joystick; no DASH
+PWA resources: 560 / missing 0
+CH2 distributed SHA verified: 210/210
+Assets preserved vs base: 551/551
+Original source preservation: 749/752 bit-identical; 3 intentional source changes
+Feature/runtime checks: 75/75
+Mobile profile matrix: 5/5
+HTTP smoke: 12/12
+Created: 2026-09-15
+Final package files (projected, incl. CONTENT_SHA256): 765

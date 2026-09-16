@@ -1,6 +1,26 @@
-# STARFALL FRONTIER v0.6.9
+# STARFALL FRONTIER v0.7.2
 
 Build completa derivada de v0.6.5, con énfasis en libertad de movimiento, Hangar, economía táctica, supervivencia, loot y aliado de jefe.
+
+
+## v0.7.2 — Hunter Doctrine
+
+Esta iteración añade inteligencia espacial justa y coordinación enemiga. Los bosses pueden detectar permanencia lateral o evasiones repetitivas y preparar contrapatrones telegráficos cuyo objetivo queda bloqueado antes del disparo. Las formaciones incorporan fuego cruzado sincronizado y las escoltas del boss se especializan como hunters, interceptors, orbiters, gunners o rammers. Durante un contrap Patrón se arbitran otras amenazas fuertes para preservar lectura y evitar dificultad basada en saturación. Una evasión limpia puede conceder **LECTURA TÁCTICA**.
+
+
+## v0.7.1 — Battle Rhythm
+
+Esta iteración profundiza ENCOUNTER EVOLUTION sin reconstruir el juego. Introduce ritmo de combate de amenaza → esquiva → contraataque, recuperación breve del boss tras sus firmas, ventanas de núcleo más amplias si el jugador evita daño durante la firma, mutaciones secundarias de las firmas en fases avanzadas, fuego básico separado de las firmas de los subjefes, última carga de formaciones debilitadas y detonaciones tácticas encadenables al destruir kamikazes antes del impacto.
+
+## v0.7.0 — Encounter Evolution
+
+- Corrige la colisión crítica que podía eliminar bosses/subbosses al tocar la nave del jugador.
+- Introduce colisiones por rol: boss embiste y sobrevive; subjefe impacta y retrocede; kamikaze se sacrifica.
+- Añade kamikazes con telegraph, homing tardío y autoexplosión de proximidad en dives, micro-swarms, hordas y escoltas.
+- Refuerza la resistencia de esbirros de formación y hace más progresiva la curva de HP de subbosses/bosses.
+- Separa fuego básico de firma de boss: 3 variantes de ataque por identidad + firmas fuertes por fase.
+- Añade maniobras de ruptura/surge en fases avanzadas y tercera fase de furia para subjefes.
+- Protege fortaleza/fases frente a daño secundario (chain, fusion arc y shield pulse) para evitar saltos de encuentro.
 
 ## Inicio
 Abrir `index.html` desde servidor web / GitHub Pages / Cloudflare Pages. La PWA usa `manifest.webmanifest` y `sw.js`.

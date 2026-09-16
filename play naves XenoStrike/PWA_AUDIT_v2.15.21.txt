@@ -1,0 +1,6 @@
+SWARM//RIFT v2.15.21 — PWA AUDIT
+Cache: swarm-rift-v2.15.21
+Recursos declarados en sw.js: 560
+Recursos presentes: 560
+Recursos ausentes: 0
+Resultado: PASS

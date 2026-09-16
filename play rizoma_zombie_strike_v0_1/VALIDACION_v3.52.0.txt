@@ -1,0 +1,52 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.52.0
+
+VERSIÓN: v3.52.0 — Guardian Tactical Evolution
+
+NUEVOS SISTEMAS
+- Memoria táctica corta del movimiento del jugador.
+- Secuencias signature encadenadas de tres pasos.
+- Cuatro familias de secuencia: Crossfire / Helix / Pincer / Hunter.
+- Último Asalto telegráfico en fase final sin aumento de HP.
+- Telemetría de firmas y Último Asalto.
+
+CRITERIOS
+- No iniciar secuencia con exceso de proyectiles enemigos.
+- La memoria no persiste fuera del encuentro.
+- El Último Asalto ocurre una sola vez.
+- Resurrección no crea una segunda copia si ya fue consumido.
+- Mantener assets y progresión existentes.
+
+VALIDACIÓN ESTRUCTURAL FINAL
+- Assets presentes: 842
+- Referencias literales auditadas: 787
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- manifest.version: 3.52.0
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest JSON: OK
+- Assets: idénticos a v3.51.0 (sin nuevas imágenes ni sustituciones).
+
+FUNCIONES CRÍTICAS PRESERVADAS BYTE A BYTE RESPECTO DE v3.51.0
+- damageEnemy
+- bossPattern
+- boss2Pattern
+- boss2Special
+- triggerBossSpecial
+- addEnemyBullet
+- updateBossMotion
+- updateBossApproach
+- updateContinuityEnemyDirector
+
+FUNCIONES MODIFICADAS DE FORMA INTENCIONAL
+- updateBossFight
+- resurrectBoss
+
+NUEVAS FUNCIONES
+- updateBossTacticalMemory
+- bossCounterAimPoint
+- startBossSignatureSequence
+- fireBossSignatureStep
+- updateBossSignatureSequence
+- updateBossLastStand

@@ -1,0 +1,13 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.54.0
+
+VERSIÓN: v3.54.0 — Counterplay Windows + Phase Ecology
+
+COMPROBACIONES PREVISTAS
+- Versionado sincronizado JS/index/manifest/SW.
+- Sintaxis JS válida.
+- 20 mundos preservados.
+- Assets preservados respecto de v3.53.0.
+- NÚCLEO EXPUESTO integrado en signature, arena y escoltas.
+- ECOLOGÍA DE FASE integrada en timers de minions/escoltas/hazards/signatures/arena.
+- Resurrección limpia exposición pendiente.
+- HP base/economía/progresión no modificados.

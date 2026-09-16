@@ -6,7 +6,7 @@ const ctx={window:{},localStorage,console,Date,JSON,Math}; ctx.window.window=ctx
 vm.createContext(ctx);
 for(const f of ['config.js','storage.js','economy.js']) vm.runInContext(fs.readFileSync(path.join(root,'js',f),'utf8'),ctx,{filename:f});
 const C=ctx.window.SF.config,E=ctx.window.SF.economy;
-if(C.VERSION!=='0.6.9') throw new Error('wrong version');
+if(C.VERSION!=='0.7.2') throw new Error('wrong version');
 let p=E.state();
 if(p.coins!==120||p.level!==1) throw new Error('starter economy missing');
 let cat=E.catalog();

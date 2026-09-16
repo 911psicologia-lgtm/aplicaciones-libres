@@ -5,7 +5,7 @@ window.SF.config = {
   SHIP_KEY: 'sf3_ship',
   PROFILE_KEY: 'sf3_profile_v1',
   MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
-  VERSION: '0.6.9',
+  VERSION: '0.7.2',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -164,11 +164,11 @@ window.SF.config = {
   difficultyCurve: {
     // Curva W01–05: inicia accesible, escala de forma visible y reserva la mayor presión para W04–05.
     worlds: [
-      {hp:.90,speed:.92,fireCd:1.10,subbossHp:1.58,bossHp:1.55,bossFireCd:.98,eliteChance:.72},
-      {hp:.98,speed:.98,fireCd:1.04,subbossHp:1.78,bossHp:1.80,bossFireCd:.91,eliteChance:.88},
-      {hp:1.06,speed:1.03,fireCd:1.00,subbossHp:2.02,bossHp:2.10,bossFireCd:.84,eliteChance:1.00},
-      {hp:1.14,speed:1.07,fireCd:.96,subbossHp:2.32,bossHp:2.45,bossFireCd:.77,eliteChance:1.12},
-      {hp:1.22,speed:1.11,fireCd:.92,subbossHp:2.62,bossHp:2.80,bossFireCd:.70,eliteChance:1.24}
+      {hp:.98,speed:.94,fireCd:1.08,subbossHp:1.74,bossHp:1.72,bossFireCd:.98,eliteChance:.76},
+      {hp:1.06,speed:1.00,fireCd:1.02,subbossHp:1.98,bossHp:2.02,bossFireCd:.90,eliteChance:.92},
+      {hp:1.14,speed:1.05,fireCd:.98,subbossHp:2.28,bossHp:2.38,bossFireCd:.82,eliteChance:1.04},
+      {hp:1.22,speed:1.10,fireCd:.94,subbossHp:2.60,bossHp:2.78,bossFireCd:.74,eliteChance:1.16},
+      {hp:1.30,speed:1.15,fireCd:.90,subbossHp:2.94,bossHp:3.18,bossFireCd:.67,eliteChance:1.30}
     ],
     waves: {
       1:{hp:.88,speed:.92,fireCd:1.12,eliteMul:.70},
@@ -302,12 +302,17 @@ window.SF.config = {
     armorMul: .72,
     exposedDamageMul: 1.42,
     maxDamagePerHitRatio: .035,
-    phaseThreshold: .50,
+    phaseThreshold: .58,
+    finalThreshold: .26,
     phaseRechargeRatio: .35,
-    breakExposeMs: 1600,
-    phaseGateMs: 620,
-    rageFireCdMul: .72,
-    rageMoveMul: 1.20
+    finalRechargeRatio: .20,
+    breakExposeMs: 1750,
+    phaseGateMs: 650,
+    finalGateMs: 560,
+    rageFireCdMul: .74,
+    finalFireCdMul: .58,
+    rageMoveMul: 1.18,
+    finalMoveMul: 1.34
   },
 
   reactiveMatrix: {
@@ -463,6 +468,117 @@ window.SF.config = {
       ]
     }
   },
+  encounterEvolution: {
+    // v0.7.0 — coherencia de encuentro: resistencia, contacto, movilidad y kamikazes.
+    enabled: true,
+    bossHpMulBySector: [1.08,1.12,1.17,1.22,1.28],
+    subbossHpMulBySector: [1.06,1.10,1.14,1.19,1.24],
+    minionHpBonusBySector: [0,0,1,1,2],
+    bossContactDamageByPhase: [2.0,2.5,3.0],
+    subbossContactDamage: 2.0,
+    bossContactCooldownMs: 780,
+    subbossContactCooldownMs: 720,
+    contactSeparationPx: 34,
+    bossSurgeFromPhase: 1,
+    bossSurgeIntervalMs: [4200,6800],
+    bossSurgeDurationMs: [780,1120],
+    bossSurgeDepthRatioByPhase: [.08,.16,.23],
+    bossSurgeTrackRatio: [.20,.38,.55],
+    kamikaze: {
+      enabled: true,
+      diveChanceByWave: [.22,.34,.48,.62],
+      microChance: .42,
+      hordeChance: .58,
+      escortChanceByPhase: [.35,.60,.78],
+      droneChance: .52,
+      contactDamage: 2.25,
+      eliteContactDamage: 2.9,
+      explosionRadius: 74,
+      proximityRadius: 34,
+      telegraphMs: 520,
+      homingPxPerSec: 120,
+      diveDepthOffset: 14,
+      chainRadius: 96,
+      chainDamage: 3.2,
+      chainBossDamage: .42,
+      chainScoreBonus: 18
+    },
+    // v0.7.1: ritmo legible de amenaza → esquiva → contraataque.
+    battleRhythm: {
+      enabled: true,
+      signatureCounterDelayMsByPhase: [620,540,460],
+      counterWindowMsByPhase: [1320,1140,980],
+      counterCoreExposeMsByPhase: [720,640,560],
+      perfectDodgeCoreExposeMsByPhase: [1480,1280,1080],
+      recoveryMoveMul: .48,
+      windupMoveMul: .70,
+      perfectDodgeTolerance: .001,
+      mutationFromPhase: 1,
+      mutationEvery: 1
+    },
+    subbossRhythm: {
+      enabled: true,
+      signatureCooldownMsByPhase: [5200,4400,3600],
+      recoveryMsByPhase: [720,620,520],
+      exposeMsByPhase: [620,560,500],
+      recoveryMoveMul: .62
+    },
+    desperation: {
+      enabled: true,
+      triggerAliveRatio: .20,
+      minInitialCount: 18,
+      maxLaunchMobile: 2,
+      maxLaunchDesktop: 4,
+      kamikazeChance: .72,
+      diveDurationMul: .78,
+      survivorHpBonus: 1,
+      survivorShotLeadMs: [180,620]
+    },
+    // v0.7.2 — el boss observa hábitos espaciales sin apuntado tramposo:
+    // la zona se bloquea durante el telegraph y el jugador puede escapar de ella.
+    hunterDoctrine: {
+      enabled: true,
+      fromPhase: 1,
+      sampleEveryMs: 280,
+      historyMs: 3600,
+      minSamples: 8,
+      campSpanRatio: .24,
+      edgeLeftRatio: .34,
+      edgeRightRatio: .66,
+      repeatDirectionSamples: 4,
+      directionMinDeltaRatio: .022,
+      telegraphMsByPhase: [980,860,760],
+      laneHalfWidthRatio: [.11,.12,.135],
+      intervalMsByPhase: [[7200,9000],[5600,7600],[4300,6200]],
+      idleRecheckMs: 950,
+      escapeCheckMs: 720,
+      escapeDistanceRatio: .18,
+      cleanEscapeScore: 85,
+      maxExtraProjectilesMobile: 4,
+      maxExtraProjectilesDesktop: 6
+    },
+    // Ataques coordinados de formación: pocos enemigos preparan una descarga simultánea
+    // con objetivo bloqueado. Presión legible, no lluvia aleatoria de proyectiles.
+    formationCoordination: {
+      enabled: true,
+      fromWave: 2,
+      telegraphMs: 720,
+      intervalMs: [5200,7600],
+      mobileShooters: 2,
+      desktopShooters: 3,
+      minAliveRatio: .30,
+      focusSpreadPx: 78,
+      projectileSpeed: 335,
+      damage: 1
+    },
+    escortDoctrine: {
+      enabled: true,
+      hunterTrackPxPerSec: 92,
+      interceptorSpreadPx: 72,
+      orbiterWaveAmp: 26
+    }
+  },
+
   bossArena: {
     introInvulnerabilityMs: 1800,
     introMessageMs: 1200,

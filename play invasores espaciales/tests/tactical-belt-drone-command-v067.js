@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'..'); const read=f=>fs.readFileSync(path.join
 const sandbox={window:null}; sandbox.window=sandbox; sandbox.window.SF={}; vm.createContext(sandbox); vm.runInContext(read('js/config.js'),sandbox);
 const C=sandbox.window.SF.config, game=read('js/game.js'), ui=read('js/ui.js'), main=read('js/main.js'), html=read('index.html'), css=read('css/main.css');
 const ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.6.9','wrong version');
+ok(C.VERSION==='0.7.2','wrong version');
 ok(C.allyDrone.durationMs>=15000,'drone duration not improved');
 ok(C.allyDrone.interceptMinBay>=1&&C.allyDrone.interceptsAtMax>=2,'drone defensive command missing');
 ok(Array.isArray(C.bossAlly.signatureAtMs)&&C.bossAlly.signatureAtMs.length>=2,'boss ally signatures missing');
@@ -17,4 +17,4 @@ ok(/fireBossAllySignature/.test(game)&&/bossAllyProgress/.test(game),'boss ally 
 ok(/G\.bossAllyActiveUntil\+=delta/.test(game),'boss ally pause clock protection missing');
 ok(/CASCO COMPLETO/.test(game)&&/VIDAS AL MÁXIMO/.test(game),'waste prevention missing');
 ok(/tactical-belt/.test(css)&&/boss-ally-btn\.active/.test(css),'new tactical CSS missing');
-console.log('TACTICAL BELT + DRONE COMMAND v0.6.9 PASS');
+console.log('TACTICAL BELT + DRONE COMMAND v0.7.2 PASS');

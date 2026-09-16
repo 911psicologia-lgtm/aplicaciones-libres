@@ -1,0 +1,22 @@
+AUTOAUDIT — v2.15.22
+
+ALCANCE
+Implementación incremental sobre v2.15.21. No se reconstruyó el proyecto.
+
+RIESGO PRINCIPAL CONTROLADO
+La arena adaptativa podía aumentar injustamente la densidad. Se evitó mediante reutilización del hazard ya existente y corredor seguro obligatorio.
+
+MUTACIONES EN VIVO PERMITIDAS
+- Signature Priority Pilot: cooldown de signature bajo contrato previo.
+- Tactical Identity: geometría/locomoción acotada.
+- Arena Morphology: reorganización del hazard existente tras telegraph.
+
+NO ACTIVADO
+- Reactive armor.
+- Symbiotic assist.
+- RIFT Disruption.
+- RIFT Rebirth.
+- Extra soft gates.
+
+INTEGRIDAD
+Todos los assets heredados permanecen byte-identical. Solo game.js, index.html y sw.js cambian entre los archivos heredados.

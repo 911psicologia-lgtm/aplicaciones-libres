@@ -1,5 +1,6 @@
 package com.happy.musicplay;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,429 +8,457 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
+import android.content.pm.ServiceInfo;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SeekBar;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.core.app.NotificationCompat;
-import androidx.media.app.NotificationCompat.MediaStyle;
 
 /**
- * R10.15 · CAPA B · FloatingPlayerService
- * ---------------------------------------------------------------
- * Servicio en primer plano (foregroundServiceType=mediaPlayback):
- *  1) Mantiene viva la reproducción del WebView al salir a HOME,
- *     cambiar de app o bloquear la pantalla (wake lock parcial).
- *  2) MediaSession + notificación MediaStyle (portada, título,
- *     artista, ⏮ ▶/⏸ ⏭) sincronizadas con el ÚNICO estado real
- *     (la web, vía PlaybackBus).
- *  3) Overlay real TYPE_APPLICATION_OVERLAY: compacto y expandido,
- *     arrastrable por la barra handle, snap a bordes, posición
- *     persistida (floatingX/floatingY/floatingExpanded).
+ * R10.15 · FloatingPlayerService
  *
- * El botón ✕ SOLO cierra la ventana: el audio continúa en segundo
- * plano y el usuario puede detenerlo desde la notificación, la
- * pantalla bloqueada o HAPPY. El servicio se retira solo cuando la
- * web reporta que no hay pista (track:null) estable.
+ * ① VENTANA FLOTANTE REAL (TYPE_APPLICATION_OVERLAY): panel remoto compacto con
+ *    título/artista, progreso y controles ⏮ ▶ ⏭ + botón para abrir la app.
+ *    El audio SIEMPRE vive en el WebView principal (una sola fuente de sonido:
+ *    imposible de duplicar). El WebView principal no se pausa en background.
+ *
+ * ② MediaSessionCompat ACTIVA con metadata (título/artista/álbum/duración) y
+ *    PlaybackState (⏮ ▶ ⏭) → la pantalla del auto y los auriculares Bluetooth
+ *    muestran la canción y controlan la reproducción (AVRCP).
+ *
+ * ③ NO SE PIDE FOCO DE AUDIO EN NINGÚN MOMETO: pedirlo silenciaba YouTube con
+ *    pantalla bloqueada y degradaba el volumen del WebView (ducking).
  */
-public class FloatingPlayerService extends Service implements PlaybackBus.Listener {
+public class FloatingPlayerService extends Service {
 
     public static final String CHANNEL_ID = "happy_playback";
-    private static final int NOTIF_ID = 1015;
-    private static final String PREFS = "happy_floating";
-    private static final long NULL_TRACK_GRACE_MS = 4000;
+    public static final int NOTIF_ID = 1590;
 
-    public static void start(Context ctx) {
-        Intent i = new Intent(ctx, FloatingPlayerService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) ctx.startForegroundService(i);
-        else ctx.startService(i);
-    }
+    private static FloatingPlayerService instance;
+    private NativeRadioEngine nativeEngine;
+    private boolean tickerStarted = false;
 
-    public static void stop(Context ctx) {
-        ctx.stopService(new Intent(ctx, FloatingPlayerService.class));
-    }
-
+    private MediaSessionCompat mediaSession;
+    private WindowManager windowManager;
+    private View floatView;
+    private TextView floatTitle, floatArtist, floatTimeNow, floatTimeTotal;
+    private ProgressBar floatProgress;
+    private Button floatPlay;
     private final Handler ui = new Handler(Looper.getMainLooper());
-    private WindowManager wm;
-    private View overlayView;
-    private boolean overlayShown = false;
-    private MediaSessionCompat session;
-    private PowerManager.WakeLock wakeLock;
-
-    // UI
-    private TextView compactTitle, compactArtist, expandedTitle, expandedArtist, timeNow, timeTotal;
-    private Button compactPlay, expandedPlay;
-    private ImageView compactArt, expandedArt;
-    private SeekBar seek;
-    private View compactBox, expandedBox;
-
     private boolean expanded = false;
-    private boolean userSeeking = false;
-    private long lastNonNull = 0;
-    private long currentDurationMs = 0;
 
-    private final Runnable poll = new Runnable() {
-        @Override public void run() {
-            // Respaldo por sondeo: la web puede congelar timers en segundo plano.
-            // snapshotSync() devuelve el último snapshot cacheado (JSON síncrono).
-            PlaybackBus.get().evalJs(
-                "window.MP_FLOATING&&window.MP_FLOATING.snapshotSync&&window.MpNativeBridge&&window.MpNativeBridge.fromNative('__POLL__'+window.MP_FLOATING.snapshotSync())");
-            ui.postDelayed(this, 1000);
-        }
-    };
+    public static boolean isRunning() { return instance != null; }
 
-    @Override public IBinder onBind(Intent intent) { return null; }
-
-    @Override public void onCreate() {
-        super.onCreate();
-        createChannel();
-        startForeground(NOTIF_ID, buildNotification());
-        PlaybackBus.get().addListener(this);
-        acquireWakeLock();
-        setupMediaSession();
-        ui.postDelayed(this::showOverlayIfPermitted, 60);
-        ui.postDelayed(poll, 1200);
-    }
-
-    @Override public int onStartCommand(Intent intent, int flags, int startId) { return START_STICKY; }
-
-    @Override public void onDestroy() {
-        ui.removeCallbacks(poll);
-        PlaybackBus.get().removeListener(this);
-        hideOverlay();
-        releaseSession();
-        releaseWakeLock();
-        super.onDestroy();
-    }
-
-    /* ══════════════ OVERLAY REAL ══════════════ */
-
-    private void showOverlayIfPermitted() {
-        if (overlayShown || !SettingsCompat.canDrawOverlays(this)) {
-            if (!SettingsCompat.canDrawOverlays(this)) {
-                PlaybackBus.get().mediaCommand("media/pause", null); // no-op seguro
-                stopSelf();
-            }
+    public static void startFloating(Context context, String payload) {
+        Context app = context.getApplicationContext();
+        if (!Settings.canDrawOverlays(app)) {
+            // pedir permiso de superposición y abrir la ventana al volver
+            try {
+                Intent i = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        android.net.Uri.parse("package:com.happy.musicplay"));
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                app.startActivity(i);
+            } catch (Exception ignored) { }
             return;
         }
-        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_player, null);
-        bindViews();
-
-        SharedPreferences p = getSharedPreferences(PREFS, MODE_PRIVATE);
-        expanded = p.getBoolean("floatingExpanded", false);
-        applyMode(false);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                dp(246), WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
-        lp.gravity = Gravity.TOP | Gravity.START;
-        lp.x = p.getInt("floatingX", -1);
-        lp.y = p.getInt("floatingY", dp(80));
-        wm.addView(overlayView, lp);
-        overlayShown = true;
-        clampPosition(lp);
-        bindDrag(lp);
-        bindControls();
-        PlaybackBus.get().mediaCommandArgs("native/hello", "\"capabilities\":{\"overlay\":true,\"pip\":true,\"service\":true,\"version\":1}");
-        onStateChanged(PlaybackBus.get().state);
+        Intent i = new Intent(app, FloatingPlayerService.class);
+        i.putExtra("payload", payload == null ? "" : payload);
+        if (Build.VERSION.SDK_INT >= 26) app.startForegroundService(i);
+        else app.startService(i);
     }
 
-    private void bindViews() {
-        compactTitle = overlayView.findViewById(R.id.compactTitle);
-        compactArtist = overlayView.findViewById(R.id.compactArtist);
-        compactPlay = overlayView.findViewById(R.id.btnCompactPlay);
-        compactArt = overlayView.findViewById(R.id.compactArt);
-        expandedTitle = overlayView.findViewById(R.id.expandedTitle);
-        expandedArtist = overlayView.findViewById(R.id.expandedArtist);
-        expandedPlay = overlayView.findViewById(R.id.btnExpandedPlay);
-        expandedArt = overlayView.findViewById(R.id.expandedArt);
-        timeNow = overlayView.findViewById(R.id.timeNow);
-        timeTotal = overlayView.findViewById(R.id.timeTotal);
-        seek = overlayView.findViewById(R.id.expandedSeek);
-        compactBox = overlayView.findViewById(R.id.compactBox);
-        expandedBox = overlayView.findViewById(R.id.expandedBox);
+    public static void refreshNotification() {
+        final FloatingPlayerService svc = instance;
+        if (svc != null) svc.ui.post(svc::updateNotificationAndSession);
     }
 
-    private void applyMode(boolean persist) {
-        if (overlayView == null) return;
-        compactBox.setVisibility(expanded ? View.GONE : View.VISIBLE);
-        expandedBox.setVisibility(expanded ? View.VISIBLE : View.GONE);
-        if (persist) getSharedPreferences(PREFS, MODE_PRIVATE)
-                .edit().putBoolean("floatingExpanded", expanded).apply();
-        if (wm != null && overlayShown) {
-            WindowManager.LayoutParams lp = (WindowManager.LayoutParams) overlayView.getLayoutParams();
-            lp.width = expanded ? dp(300) : dp(246);
-            try { wm.updateViewLayout(overlayView, lp); clampPosition(lp); } catch (Exception ignored) {}
+    public static void handleWebMessage(Context context, String message) {
+        Context app = context.getApplicationContext();
+        Intent i = new Intent(app, FloatingPlayerService.class)
+                .putExtra("webMessage", message == null ? "{}" : message);
+        if (Build.VERSION.SDK_INT >= 26) app.startForegroundService(i);
+        else app.startService(i);
+    }
+
+    public static boolean handleCommand(String cmd) {
+        FloatingPlayerService svc = instance;
+        return svc != null && svc.nativeEngine != null && svc.nativeEngine.handleCommand(cmd);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) { return null; }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        ensureChannel(this);
+        nativeEngine = new NativeRadioEngine(this);
+        setupMediaSession();
+        startForeground(NOTIF_ID, buildNotification());
+        if (Settings.canDrawOverlays(this)) addFloatWindow();
+        updateNotificationAndSession();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.hasExtra("webMessage") && nativeEngine != null) {
+            nativeEngine.handleMessage(intent.getStringExtra("webMessage"));
+        }
+        if (intent != null && intent.hasExtra("payload")) {
+            // el web envía el estado actual; lo reflejamos en panel y sesión
+            updateNotificationAndSession();
+        }
+        if (!tickerStarted) { tickerStarted = true; ui.post(ticker); }
+        return START_STICKY;
+    }
+
+    // ---------------------------------------------------------
+    // MediaSession (AVRCP · pantalla del auto · auriculares)
+    // ---------------------------------------------------------
+    @SuppressLint("WrongConstant")
+    private void setupMediaSession() {
+        mediaSession = new MediaSessionCompat(this, "HAPPY");
+        mediaSession.setCallback(new MediaSessionCompat.Callback() {
+            @Override public void onPlay() { if (!handleCommand("play")) PlaybackBus.sendCommand("play"); }
+            @Override public void onPause() { if (!handleCommand("pause")) PlaybackBus.sendCommand("pause"); }
+            @Override public void onSkipToNext() { PlaybackBus.sendCommand("next"); }
+            @Override public void onSkipToPrevious() { PlaybackBus.sendCommand("prev"); }
+        });
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
+                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setActive(true);
+    }
+
+    private void updateNotificationAndSession() {
+        PlaybackBus.MediaState st = PlaybackBus.getState();
+
+        MediaMetadataCompat.Builder md = new MediaMetadataCompat.Builder();
+        md.putString(MediaMetadataCompat.METADATA_KEY_TITLE,
+                st.title == null || st.title.length() == 0 ? "MUSIC PLAY" : st.title);
+        md.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, st.artist == null ? "" : st.artist);
+        md.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, st.album == null ? "" : st.album);
+        if (st.durationMs > 0) {
+            md.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, st.durationMs);
+        }
+        mediaSession.setMetadata(md.build());
+
+        long actions = PlaybackStateCompat.ACTION_PLAY
+                | PlaybackStateCompat.ACTION_PAUSE
+                | PlaybackStateCompat.ACTION_PLAY_PAUSE
+                | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+                | PlaybackStateCompat.ACTION_STOP;
+        float speed = st.playing ? 1f : 0f;
+        @PlaybackStateCompat.State int state = st.playing
+                ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
+        mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                .setActions(actions)
+                .setState(state, st.positionMs, speed)
+                .build());
+
+        updateFloatPanel(st);
+
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (nm != null) nm.notify(NOTIF_ID, buildNotification());
+    }
+
+    // ---------------------------------------------------------
+    // Notificación multimedia (MediaStyle)
+    // ---------------------------------------------------------
+    private Notification buildNotification() {
+        PlaybackBus.MediaState st = PlaybackBus.getState();
+        PendingIntent piOpen = PendingIntent.getActivity(this, 1,
+                new Intent(this, MainActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        NotificationCompat.Action prev = new NotificationCompat.Action(
+                android.R.drawable.ic_media_previous, "Anterior",
+                commandPendingIntent("prev"));
+        NotificationCompat.Action play = new NotificationCompat.Action(
+                st.playing ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play,
+                st.playing ? "Pausa" : "Reproducir", commandPendingIntent("toggle"));
+        NotificationCompat.Action next = new NotificationCompat.Action(
+                android.R.drawable.ic_media_next, "Siguiente",
+                commandPendingIntent("next"));
+        Notification n = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.ic_media_play)
+                .setContentTitle(st.title == null || st.title.length() == 0 ? "MUSIC PLAY" : st.title)
+                .setContentText(st.artist == null || st.artist.length() == 0
+                        ? "Reproducción HAPPY" : st.artist)
+                .setContentIntent(piOpen)
+                .setOnlyAlertOnce(true)
+                .setOngoing(st.playing)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .addAction(prev).addAction(play).addAction(next)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setMediaSession(mediaSession.getSessionToken())
+                        .setShowActionsInCompactView(0, 1, 2))
+                .build();
+        return n;
+    }
+
+    private PendingIntent commandPendingIntent(String cmd) {
+        Intent i = new Intent(this, NotificationCommandReceiver.class);
+        i.setAction("com.happy.musicplay.CMD");
+        i.putExtra("cmd", cmd);
+        return PendingIntent.getBroadcast(this, cmd.hashCode(), i,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    public static void ensureChannel(Context ctx) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationManager nm = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
+            if (nm != null && nm.getNotificationChannel(CHANNEL_ID) == null) {
+                NotificationChannel ch = new NotificationChannel(CHANNEL_ID,
+                        "Reproducción HAPPY", NotificationManager.IMPORTANCE_LOW);
+                ch.setDescription("Controles de reproducción de MUSIC PLAY");
+                ch.setShowBadge(false);
+                nm.createNotificationChannel(ch);
+            }
         }
     }
 
-    private void bindDrag(WindowManager.LayoutParams lp) {
-        View handle = overlayView.findViewById(R.id.overlayHandle);
-        handle.setOnTouchListener(new View.OnTouchListener() {
-            float downX, downY; int startX, startY; boolean moved = false;
-            @Override public boolean onTouch(View v, MotionEvent e) {
-                switch (e.getAction()) {
+    // ---------------------------------------------------------
+    // Ventana flotante real (panel remoto)
+    // ---------------------------------------------------------
+    @SuppressLint("ClickableViewAccessibility")
+    private void addFloatWindow() {
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        if (floatView != null) return;
+
+        final float density = getResources().getDisplayMetrics().density;
+        final int barHeight = (int) (34 * density);
+        final int pad = (int) (12 * density);
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.parseColor("#F20E1014"));
+        bg.setCornerRadius(18 * density);
+        bg.setStroke((int) (1 * density), Color.parseColor("#33FFFFFF"));
+        root.setBackground(bg);
+
+        // barra de arrastre
+        LinearLayout bar = new LinearLayout(this);
+        bar.setOrientation(LinearLayout.HORIZONTAL);
+        bar.setGravity(Gravity.CENTER_VERTICAL);
+        bar.setPadding(pad, 0, pad, 0);
+        bar.setBackgroundColor(Color.parseColor("#26FFFFFF"));
+        TextView handle = new TextView(this);
+        handle.setText("⠿  MUSIC PLAY · FLOTANTE");
+        handle.setTextColor(Color.parseColor("#CCFFFFFF"));
+        handle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        handle.setPadding(0, barHeight / 3, 0, barHeight / 3);
+        handle.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        Button close = new Button(this);
+        close.setText("×");
+        close.setTextColor(Color.WHITE);
+        close.setBackgroundColor(Color.TRANSPARENT);
+        close.setPadding((int) (10 * density), 0, (int) (10 * density), 0);
+        close.setOnClickListener(v -> removeFloatWindow());
+        bar.addView(handle);
+        bar.addView(close);
+        bar.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, barHeight));
+        root.addView(bar);
+
+        // metadata
+        floatTitle = new TextView(this);
+        floatTitle.setTextColor(Color.WHITE);
+        floatTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        floatTitle.setSingleLine(true);
+        floatTitle.setPadding(pad, (int) (8 * density), pad, 0);
+        floatArtist = new TextView(this);
+        floatArtist.setTextColor(Color.parseColor("#99FFFFFF"));
+        floatArtist.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        floatArtist.setSingleLine(true);
+        floatArtist.setPadding(pad, (int) (2 * density), pad, 0);
+        root.addView(floatTitle);
+        root.addView(floatArtist);
+
+        floatProgress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
+        floatProgress.setMax(1000);
+        LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        plp.setMargins(pad, (int) (6 * density), pad, 0);
+        floatProgress.setLayoutParams(plp);
+        root.addView(floatProgress);
+
+        LinearLayout times = new LinearLayout(this);
+        times.setOrientation(LinearLayout.HORIZONTAL);
+        floatTimeNow = new TextView(this);
+        floatTimeNow.setTextColor(Color.parseColor("#88FFFFFF"));
+        floatTimeNow.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        floatTimeTotal = new TextView(this);
+        floatTimeTotal.setTextColor(Color.parseColor("#88FFFFFF"));
+        floatTimeTotal.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        floatTimeTotal.setGravity(Gravity.END);
+        floatTimeNow.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        floatTimeTotal.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        times.setPadding(pad, 0, pad, 0);
+        times.addView(floatTimeNow);
+        times.addView(floatTimeTotal);
+        root.addView(times);
+
+        // controles
+        LinearLayout controls = new LinearLayout(this);
+        controls.setOrientation(LinearLayout.HORIZONTAL);
+        controls.setGravity(Gravity.CENTER);
+        Button prev = new Button(this);
+        prev.setText("⏮");
+        floatPlay = new Button(this);
+        floatPlay.setText("▶");
+        Button next = new Button(this);
+        next.setText("⏭");
+        Button openApp = new Button(this);
+        openApp.setText("⤢");
+        openApp.setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            try { startActivity(i); } catch (Exception ignored) { }
+        });
+        prev.setOnClickListener(v -> PlaybackBus.sendCommand("prev"));
+        floatPlay.setOnClickListener(v -> { if (!handleCommand("toggle")) PlaybackBus.sendCommand("toggle"); });
+        next.setOnClickListener(v -> PlaybackBus.sendCommand("next"));
+        Button[] btns = {prev, floatPlay, next, openApp};
+        for (Button b : btns) {
+            b.setTextColor(Color.WHITE);
+            b.setBackgroundColor(Color.parseColor("#1AFFFFFF"));
+            b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            LinearLayout.LayoutParams blp = new LinearLayout.LayoutParams(0,
+                    (int) (44 * density), 1f);
+            blp.setMargins((int) (4 * density), (int) (8 * density),
+                    (int) (4 * density), (int) (10 * density));
+            b.setLayoutParams(blp);
+            b.setAllCaps(false);
+            controls.addView(b);
+        }
+        root.addView(controls);
+
+        int w = (int) Math.min(
+                getResources().getDisplayMetrics().widthPixels * 0.86f, 340 * density);
+        int hCollapsed = LinearLayout.LayoutParams.WRAP_CONTENT;
+
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                w, hCollapsed,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSLUCENT);
+        params.gravity = Gravity.TOP | Gravity.START;
+        params.x = (int) (16 * density);
+        params.y = (int) (120 * density);
+
+        // arrastre por la barra + doble toque expande/colapsa
+        bar.setOnTouchListener(new View.OnTouchListener() {
+            private float downX, downY;
+            private int startX, startY;
+            private long downAt = 0;
+            private boolean moved = false;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        downX = e.getRawX(); downY = e.getRawY();
-                        startX = lp.x; startY = lp.y; moved = false; return true;
+                        downX = event.getRawX();
+                        downY = event.getRawY();
+                        startX = params.x;
+                        startY = params.y;
+                        downAt = System.currentTimeMillis();
+                        moved = false;
+                        return true;
                     case MotionEvent.ACTION_MOVE:
-                        float ddx = e.getRawX() - downX, ddy = e.getRawY() - downY;
-                        if (Math.abs(ddx) > 4 || Math.abs(ddy) > 4) moved = true;
-                        lp.x = startX + (int) ddx; lp.y = startY + (int) ddy;
-                        try { wm.updateViewLayout(overlayView, lp); } catch (Exception ignored) {}
+                        float dx = event.getRawX() - downX, dy = event.getRawY() - downY;
+                        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
+                        params.x = startX + (int) dx;
+                        params.y = startY + (int) dy;
+                        try { windowManager.updateViewLayout(root, params); } catch (Exception ignored) { }
                         return true;
                     case MotionEvent.ACTION_UP:
-                        if (moved) snapToEdge(lp);
+                        if (!moved && System.currentTimeMillis() - downAt < 350) {
+                            expanded = !expanded;
+                            params.width = expanded ? WindowManager.LayoutParams.MATCH_PARENT : w;
+                            try { windowManager.updateViewLayout(root, params); } catch (Exception ignored) { }
+                        }
                         return true;
                 }
                 return false;
             }
         });
-        // Toque en la carátula compacta ⇄ expandir/contraer.
-        View.OnClickListener toggle = v -> { expanded = !expanded; applyMode(true); };
-        compactArt.setOnClickListener(toggle);
-        expandedArt.setOnClickListener(toggle);
+
+        try {
+            windowManager.addView(root, params);
+            floatView = root;
+        } catch (Exception ignored) { }
     }
 
-    /** SNAP TO EDGE: al soltar cerca de un borde, imán horizontal suave. */
-    private void snapToEdge(WindowManager.LayoutParams lp) {
-        int w = overlayView.getWidth();
-        int vw = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int targetX = (lp.x + w / 2) < vw / 2 ? dp(8) : vw - w - dp(8);
-        int fromX = lp.x;
-        long dur = 180;
-        long t0 = android.os.SystemClock.uptimeMillis();
-        ui.post(new Runnable() {
-            @Override public void run() {
-                float f = Math.min(1f, (android.os.SystemClock.uptimeMillis() - t0) / (float) dur);
-                float ease = 1 - (1 - f) * (1 - f);
-                lp.x = (int) (fromX + (targetX - fromX) * ease);
-                try { wm.updateViewLayout(overlayView, lp); } catch (Exception ignored) {}
-                if (f < 1f) ui.postDelayed(this, 16);
-                else getSharedPreferences(PREFS, MODE_PRIVATE).edit()
-                        .putInt("floatingX", lp.x).putInt("floatingY", lp.y).apply();
-            }
-        });
-    }
-
-    private void clampPosition(WindowManager.LayoutParams lp) {
-        int w = overlayView.getWidth(), h = overlayView.getHeight();
-        int vw = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int vh = Resources.getSystem().getDisplayMetrics().heightPixels;
-        if (w == 0) w = dp(246); if (h == 0) h = dp(150);
-        lp.x = Math.max(dp(4), Math.min(vw - w - dp(4), lp.x));
-        lp.y = Math.max(dp(4), Math.min(vh - h - dp(40), lp.y));
-        try { wm.updateViewLayout(overlayView, lp); } catch (Exception ignored) {}
-        getSharedPreferences(PREFS, MODE_PRIVATE).edit()
-                .putInt("floatingX", lp.x).putInt("floatingY", lp.y).apply();
-    }
-
-    private void bindControls() {
-        PlaybackBus bus = PlaybackBus.get();
-        compactPlay.setOnClickListener(v -> bus.mediaCommand("media/toggle", null));
-        expandedPlay.setOnClickListener(v -> bus.mediaCommand("media/toggle", null));
-        overlayView.findViewById(R.id.btnCompactPrev).setOnClickListener(v -> bus.mediaCommand("media/prev", null));
-        overlayView.findViewById(R.id.btnCompactNext).setOnClickListener(v -> bus.mediaCommand("media/next", null));
-        overlayView.findViewById(R.id.btnExpandedPrev).setOnClickListener(v -> bus.mediaCommand("media/prev", null));
-        overlayView.findViewById(R.id.btnExpandedNext).setOnClickListener(v -> bus.mediaCommand("media/next", null));
-
-        // ✕ = cerrar SOLO la ventana; el audio continúa en segundo plano.
-        overlayView.findViewById(R.id.btnClose).setOnClickListener(v -> hideOverlay());
-        // ↗ = volver a HAPPY exactamente donde estaba (misma reproducción).
-        overlayView.findViewById(R.id.btnReturnApp).setOnClickListener(v -> {
-            Intent i = new Intent(this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(i);
-            hideOverlay();
-        });
-
-        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {}
-            @Override public void onStartTrackingTouch(SeekBar sb) { userSeeking = true; }
-            @Override public void onStopTrackingTouch(SeekBar sb) {
-                userSeeking = false;
-                double seconds = sb.getProgress() / 1000.0 * (currentDurationMs / 1000.0);
-                bus.mediaCommand("media/seek", "\"position\":" + seconds);
-            }
-        });
-    }
-
-    private void hideOverlay() {
-        if (overlayShown && wm != null && overlayView != null) {
-            try { wm.removeView(overlayView); } catch (Exception ignored) {}
+    private void removeFloatWindow() {
+        if (floatView != null && windowManager != null) {
+            try { windowManager.removeView(floatView); } catch (Exception ignored) { }
+            floatView = null;
         }
-        overlayShown = false;
-        PlaybackBus.get().mediaCommandArgs("floating/stopped", "");
-        // La ventana se cierra pero la música sigue: mantener notificación
-        // mientras haya pista; si la web no reporta pista, retirar el servicio.
-        ui.postDelayed(() -> {
-            if (!PlaybackBus.get().state.hasTrack && !overlayShown) stopSelf();
-        }, 1200);
     }
 
-    /* ══════════════ MEDIA SESSION + NOTIFICACIÓN ══════════════ */
-
-    private void setupMediaSession() {
-        session = new MediaSessionCompat(this, "HAPPY", null, null);
-        session.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
-                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        session.setCallback(new MediaSessionCompat.Callback() {
-            @Override public void onPlay() { PlaybackBus.get().mediaCommand("media/play", null); }
-            @Override public void onPause() { PlaybackBus.get().mediaCommand("media/pause", null); }
-            @Override public void onSkipToNext() { PlaybackBus.get().mediaCommand("media/next", null); }
-            @Override public void onSkipToPrevious() { PlaybackBus.get().mediaCommand("media/prev", null); }
-            @Override public void onSeekTo(long pos) {
-                PlaybackBus.get().mediaCommand("media/seek", "\"position\":" + (pos / 1000.0));
-            }
-            @Override public void onStop() { PlaybackBus.get().mediaCommand("media/stop", null); }
-        });
-        session.setActive(true);
-    }
-
-    private void releaseSession() {
-        if (session != null) { try { session.release(); } catch (Exception ignored) {} session = null; }
-    }
-
-    @Override public void onStateChanged(PlaybackBus.State s) {
-        // 1) Overlay
-        if (overlayShown && overlayView != null) {
-            compactTitle.setText(s.hasTrack ? s.title : "Sin reproducción");
-            compactArtist.setText(s.hasTrack ? s.artist : "HAPPY");
-            expandedTitle.setText(s.hasTrack ? s.title : "Sin reproducción");
-            expandedArtist.setText(s.hasTrack ? s.artist : "HAPPY");
-            String pp = s.isPlaying ? "⏸" : "▶";
-            compactPlay.setText(pp); expandedPlay.setText(pp);
-            Bitmap art = PlaybackBus.get().artwork();
-            if (art != null) { compactArt.setImageBitmap(art); expandedArt.setImageBitmap(art); }
-            else { compactArt.setImageResource(android.R.drawable.ic_media_play); expandedArt.setImageResource(android.R.drawable.ic_media_play); }
-            currentDurationMs = s.duration;
-            if (!userSeeking && s.duration > 0) {
-                int pct = (int) (s.currentTime * 100 / s.duration);
-                seek.setProgress(Math.max(0, Math.min(1000, pct * 10)));
-            }
-            timeNow.setText(fmt(s.currentTime));
-            timeTotal.setText(fmt(s.duration));
+    private final Runnable ticker = new Runnable() {
+        @Override
+        public void run() {
+            updateNotificationAndSession();
+            ui.postDelayed(this, 1000);
         }
-        // 2) MediaSession
-        if (session != null) {
-            MediaMetadataCompat.Builder mb = new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, s.hasTrack ? s.title : "HAPPY")
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, s.hasTrack ? s.artist : "")
-                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, s.hasTrack ? s.album : "MUSIC PLAY");
-            if (s.duration > 0) mb.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, s.duration);
-            Bitmap art = PlaybackBus.get().artwork();
-            if (art != null) { mb.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, art); mb.putBitmap(MediaMetadataCompat.METADATA_KEY_ART, art); }
-            session.setMetadata(mb.build());
-
-            PlaybackStateCompat.Builder pb = new PlaybackStateCompat.Builder()
-                    .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PAUSE
-                            | PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                            | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS | PlaybackStateCompat.ACTION_SEEK_TO
-                            | PlaybackStateCompat.ACTION_STOP)
-                    .setState(s.isPlaying ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED,
-                            s.currentTime, 1f);
-            session.setPlaybackState(pb.build());
-        }
-        // 3) Notificación
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(NOTIF_ID, buildNotification());
-        // 4) Auto-retiro cuando la web ya no tiene pista
-        if (s.hasTrack) lastNonNull = android.os.SystemClock.uptimeMillis();
-        else if (android.os.SystemClock.uptimeMillis() - lastNonNull > NULL_TRACK_GRACE_MS) stopSelf();
-    }
-
-    private Notification buildNotification() {
-        PlaybackBus.State s = PlaybackBus.get().state;
-        Intent open = new Intent(this, MainActivity.class);
-        open.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pOpen = PendingIntent.getActivity(this, 1, open,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder b = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_media_play)
-                .setContentTitle(s.hasTrack ? s.title : "HAPPY · MUSIC PLAY")
-                .setContentText(s.hasTrack ? s.artist : "Reproducción en segundo plano")
-                .setLargeIcon(PlaybackBus.get().artwork())
-                .setContentIntent(pOpen)
-                .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setShowWhen(false)
-                .addAction(new NotificationCompat.Action(android.R.drawable.ic_media_previous, "Anterior",
-                        mediaPending("media/prev", 2)))
-                .addAction(new NotificationCompat.Action(s.isPlaying ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play,
-                        s.isPlaying ? "Pausa" : "Play", mediaPending(s.isPlaying ? "media/pause" : "media/play", 3)))
-                .addAction(new NotificationCompat.Action(android.R.drawable.ic_media_next, "Siguiente",
-                        mediaPending("media/next", 4)))
-                .setStyle(new MediaStyle()
-                        .setMediaSession(session == null ? null : session.getSessionToken())
-                        .setShowActionsInCompactView(0, 1, 2));
-        return b.build();
-    }
-
-    private PendingIntent mediaPending(String type, int rc) {
-        // Acciones de la notificación → receptor propio → puente JS → HAPPY web.
-        Intent i = new Intent(this, NotificationCommandReceiver.class);
-        i.setAction(type); // p.ej. "media/prev"
-        return PendingIntent.getBroadcast(this, rc, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-    }
-
-    private void createChannel() {
-        NotificationChannel ch = new NotificationChannel(CHANNEL_ID,
-                getString(R.string.notif_channel), NotificationManager.IMPORTANCE_LOW);
-        ch.setDescription(getString(R.string.notif_channel_desc));
-        ch.setShowBadge(false);
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.createNotificationChannel(ch);
-    }
-
-    /* ══════════════ WAKE LOCK (audio estable en segundo plano) ══════════════ */
-
-    private void acquireWakeLock() {
-        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "HAPPY::floating-playback");
-        wakeLock.setReferenceCounted(false);
-        wakeLock.acquire(4 * 60 * 60 * 1000L);
-    }
-
-    private void releaseWakeLock() {
-        if (wakeLock != null) { try { wakeLock.release(); } catch (Exception ignored) {} wakeLock = null; }
-    }
-
-    private static int dp(int v) {
-        return Math.round(v * Resources.getSystem().getDisplayMetrics().density);
-    }
+    };
 
     private static String fmt(long ms) {
-        long total = Math.max(0, ms / 1000);
-        return String.format(java.util.Locale.US, "%d:%02d", total / 60, total % 60);
+        if (ms <= 0) return "0:00";
+        long s = ms / 1000;
+        return (s / 60) + ":" + String.format("%02d", s % 60);
     }
 
-    /** Compat mínimo (evita dependencia extra). */
-    static final class SettingsCompat {
-        static boolean canDrawOverlays(Context c) {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(c);
+    private void updateFloatPanel(PlaybackBus.MediaState st) {
+        if (floatView == null || floatTitle == null) return;
+        floatTitle.setText(st.title == null || st.title.length() == 0 ? "Sin reproducción" : st.title);
+        floatArtist.setText(st.artist == null || st.artist.length() == 0 ? "MUSIC PLAY · HAPPY" : st.artist);
+        long d = Math.max(st.durationMs, 1);
+        floatProgress.setProgress((int) Math.min(1000, st.positionMs * 1000 / d));
+        floatTimeNow.setText(fmt(st.positionMs));
+        floatTimeTotal.setText(fmt(st.durationMs));
+        if (floatPlay != null) floatPlay.setText(st.playing ? "⏸" : "▶");
+    }
+
+    @Override
+    public void onDestroy() {
+        ui.removeCallbacksAndMessages(null);
+        if (nativeEngine != null) { nativeEngine.release(); nativeEngine = null; }
+        removeFloatWindow();
+        if (mediaSession != null) {
+            try {
+                mediaSession.setActive(false);
+                mediaSession.release();
+            } catch (Exception ignored) { }
+            mediaSession = null;
         }
+        instance = null;
+        super.onDestroy();
     }
 }

@@ -1,0 +1,70 @@
+SWARM//RIFT — INSECTA SIEGE
+CHANGELOG v2.15.21 — ADAPTIVE HIVE TACTICAL IDENTITY
+Base canónica: v2.15.20 ADAPTIVE_HIVE_PREDICTIVE_PILOT
+Fecha: 2026-09-15
+
+NOVEDAD PRINCIPAL
+- Adaptive Hive Boss Director evoluciona de PREDICTIVE_PILOT a TACTICAL_IDENTITY_PILOT.
+- Se conserva el Signature Priority Pilot de v2.15.20.
+- Se incorpora lectura espacial LOCAL durante cada pelea de boss.
+- Se incorpora una matriz táctica distinta para los 10 bosses de Capítulo II.
+- La adaptación modifica de forma acotada geometría, ángulo, fase de anillos y sesgo de locomoción.
+- Las signatures pueden fijar al inicio un objetivo espacial levemente anticipado; el telegraph siempre representa esa geometría antes del daño.
+
+LECTURA ESPACIAL LOCAL
+Clasificaciones posibles:
+- READING
+- EDGE_ANCHOR
+- VERTICAL_WEAVE
+- CENTER_HOLD
+- LANE_ANCHOR
+- EVASIVE
+- MOBILE_MIX
+
+La lectura usa únicamente la pelea actual. No se guarda perfil personal ni se transmite información.
+Métricas: zonas verticales, distancia recorrida normalizada, cambios de dirección vertical, permanencia en bordes, permanencia central y predicción Y suavizada.
+
+MATRIZ DE IDENTIDAD TÁCTICA
+11 KHEPRI / SCARAB IMPERATOR: ORBIT_TILT
+12 VESPERA LANCER: VECTOR_INTERCEPT
+13 REGENT MANDIBLE: PINCER_TRACK
+14 PYROLUX BEACON: FIGURE_EIGHT_PHASE
+15 CAUSTIC ALCHEMIST: DISTILLERY_CROSSWIND
+16 ATLAS VEIL: VEIL_OFFSET
+17 MIRAGE PHASMID: MIRROR_OPPOSITION
+18 PIT EMPEROR: AMBUSH_OFFSET
+19 AURICULUS RAZOR: TAIL_LEAD
+20 APIS IMPERIA: ROYAL_PRESSURE
+
+LÍMITES DE JUSTICIA
+- Solo campaign.
+- Solo mundos 11–20.
+- Desde Fase II.
+- Solo A2/A3.
+- Confianza del Director >= 0.68.
+- Requiere lectura espacial suficientemente confiable.
+- BURST_SPIKE no activa el piloto táctico.
+- Se suspende en boss entry, phase transition, recovery grace, Last Chance, Boss Rush, telegraphs, specials, charges y signatures activas.
+- Máximo lead angular: 0.115 rad.
+- Máximo sesgo vertical base: 7.5% del alto.
+- Máximo sesgo horizontal base: 3.5% del ancho.
+- No añade proyectiles.
+- No aumenta HP.
+- No aumenta daño.
+- No aumenta cadencia.
+- Dos segmentos adaptativos como máximo antes de una ventana neutral obligatoria.
+
+SIGNATURES
+- La adaptación espacial de signature se decide al crear la signature.
+- Una vez iniciada, no persigue dinámicamente al jugador.
+- Se mantiene wind-up/telegraph, audio, animación, hit geometry y dodgeabilidad.
+
+TELEMETRÍA
+- Schema 3.
+- Migra schema 2 / v2.15.20.
+- LocalStorage exclusivamente local.
+- Máximo 40 peleas.
+- Añade spatialFinal, tacticalPilotEvents, tacticalSegments y tacticalNeutralSegments.
+
+PRESERVADO
+20 mundos, 20 bosses, Capítulos I/II, Family Combat Grammar, Coordinated Maneuvers, Adaptive Counterplay, Combat Director, Wave Objectives, CH2 Wave Choreographer, Pre-Boss Escalation, Boss Identity I/II, tres fases, signatures, audio/anim sync, Enemy Sonic Ecology, Boss Arena Presentation, Boss Death & Arena Aftermath, RIFT ALLY, Last Chance, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, powers, branches, ranks, fusions, doctrines, combos, checkpoints, Reward Ledger, progreso, Normal/Hard, mouse directo, touch directo sin joystick, SIN DASH, PWA/offline, responsive, saves/migrations, Device Profiler, Performance Governor, Jank-Aware Frame Pacer, Asset Residency Streamer, Audio Budget Governor, HUD/Mobile Readability, Mobile Combat Ergonomics y safe areas.

@@ -1,0 +1,36 @@
+SWARM//RIFT — Insecta Siege v2.15.20
+Build: ADAPTIVE_HIVE_PREDICTIVE_PILOT
+Base canónica inmediata: v2.15.19 — ADAPTIVE_HIVE_SHADOW
+
+IMPLEMENTADO
+- Adaptive Hive Boss Director evoluciona de Shadow simple a PREDICTIVE PILOT.
+- DPS multiventana real: 3 s BURST / 8 s TACTICAL / 20 s SUSTAINED.
+- Perfil de daño con fingerprint: STEADY, BURST_SPIKE, SUSTAINED_DOMINATION, RAMP_UP, COOLING, LOW_OUTPUT.
+- Confianza adaptativa basada en edad de muestra, cobertura temporal y concordancia entre ventanas.
+- Guard anti-falso-positivo: BURST_SPIKE no escala automáticamente a A3 si el DPS sostenido no confirma dominación.
+- Memoria local por boss/dificultad: últimas 6 victorias elegibles; calibración solo con >=3 muestras, blend 20% y límite estricto ±12%.
+- Experience Debt: mide cobertura de fases, signatures por fase, deuda de signature, deuda de fases y riesgo de perder identidad/espectáculo.
+- El planner contrafactual calcula la respuesta MÍNIMA necesaria; no aplica multiplicadores de daño todavía.
+- Reconoce las phase gates nativas ya existentes y evita proponer gates redundantes.
+- Fairness Hold durante entrada, transición de fase, Last Chance, recovery grace y Boss Rush.
+- SIGNATURE PRIORITY PILOT activo y limitado: mundos 11–20, campaign, A3 sostenido, confianza >=0.78, deuda de signature, máximo una aceleración por fase.
+- El Signature Pilot solo reduce el cooldown hasta 1.05 s; la signature conserva su telegraph, audio, animación, daño y esquivabilidad originales.
+- Armadura reactiva, ayudas A0, RIFT DISRUPTION, RIFT REBIRTH y gates adicionales continúan exclusivamente como propuestas Shadow.
+- Telemetría schema 2 con migración local desde swarm_rift_hive_telemetry_v21519.
+- Telemetría ampliada: perfiles DPS, confidence, fingerprints, baseline histórico, cobertura de experiencia, duraciones por fase, signatures por fase/timeline y eventos del piloto.
+- Nuevo hook __SWARM_HIVE_DIRECTOR_REPORT().
+
+MIGRACIÓN / PWA
+- VERSION 2.15.20.
+- meta/run keys v21520 con fallback explícito inmediato a v21519 y anteriores.
+- telemetry key v21520 con lectura/migración de v21519.
+- cache bust index -> 21520.
+- Service Worker cache -> swarm-rift-v2.15.20.
+
+PRESERVACIÓN
+- 20 mundos / 20 bosses.
+- 749/752 archivos de v2.15.19 bit-identical.
+- Únicos archivos preexistentes modificados: js/game.js, index.html, sw.js.
+- 551/551 archivos de assets bit-identical frente a v2.15.19.
+- 210/210 assets CH2 distribuidos presentes conservan SHA-256; las 20 omisiones PNG maestras de fondos siguen siendo la condición canónica previa.
+- Sin mundos 21–30.

@@ -1,0 +1,12 @@
+200 2809 /
+200 2809 /index.html
+200 689241 /js/game.js
+200 25875 /sw.js
+200 9113 /css/game.css
+200 529 /manifest.json
+200 69062 /assets/player_ship.webp
+200 180558 /assets/bg_rust_canyon.webp
+200 1372090 /assets/boss_anim/architect/idle.png?av=2137
+200 565934 /assets_ch2/bosses/scarab_imperator/idle.png?av=2157
+200 71724 /assets_ch2/enemies/w20/major.png?av=2157
+200 91787 /ASSET_MANIFEST_CH2_ZAI.json

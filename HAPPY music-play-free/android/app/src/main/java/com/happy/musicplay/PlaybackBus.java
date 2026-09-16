@@ -1,111 +1,135 @@
 package com.happy.musicplay;
 
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.webkit.WebView;
 
-import java.util.CopyOnWriteArrayList;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * R10.15 · CAPA B · PlaybackBus
- * ---------------------------------------------------------------
- * UN SOLO ESTADO DE REPRODUCCIÓN: la app web (HAPPY PWA dentro del
- * WebView) es la ÚNICA fuente de verdad. Esta capa nativa solo
- * guarda el último snapshot publicado por el puente para que el
- * overlay y la MediaSession lo reflejen, y devuelve comandos hacia
- * el web vía evaluateJavascript. NUNCA decodifica audio propio.
+ * R10.15 · PlaybackBus — única fuente de verdad entre la Activity (WebView principal),
+ * el servicio de ventana flotante y la sesión multimedia.
+ *
+ * La reproducción SIEMPRE vive en un WebView (web es el reproductor). El servicio
+ * nunca toca el audio: solo espeja estado (metadata AVRCP) y reenvía comandos.
+ * IMPORTANTE: aquí no se pide foco de audio jamás (causaba el silenciado de
+ * YouTube en pantalla bloqueada y la degradación de volumen).
  */
 public final class PlaybackBus {
 
-    /** Snapshot publicado por la web (floatbridge.js → state). */
-    public static class State {
-        public String title = "", artist = "", album = "", source = "", artworkUrl = "";
-        public long duration = 0, currentTime = 0;
-        public boolean isPlaying = false, podcast = false, hasTrack = false;
+    public static class MediaState {
+        public String title = "MUSIC PLAY";
+        public String artist = "";
+        public String album = "";
+        public boolean playing = false;
+        public long positionMs = 0L;
+        public long durationMs = 0L;
+        public boolean canNext = true;
+        public boolean canPrev = true;
+        public String trackId = "";
     }
 
-    private static final PlaybackBus INSTANCE = new PlaybackBus();
-    public static PlaybackBus get() { return INSTANCE; }
+    public interface Listener {
+        void onCommand(String cmd);            // play / pause / toggle / next / prev
+        void onBecomePlayer(String payload);   // JSON {trackId,posMs,playing}
+    }
 
-    public final State state = new State();
-    private WebView webView;
-    private final Handler main = new Handler(Looper.getMainLooper());
-    private final CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<>();
-    private Bitmap artworkBitmap;
-    private String artworkBitmapUrl;
-
-    public interface Listener { void onStateChanged(State s); }
+    private static volatile MediaState state = new MediaState();
+    private static volatile WeakReference<WebView> playerWebView = new WeakReference<>(null);
+    private static volatile WeakReference<WebView> floatWebView = new WeakReference<>(null);
+    private static final CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<>();
+    private static final Handler main = new Handler(Looper.getMainLooper());
 
     private PlaybackBus() {}
 
-    public void attachWebView(WebView wv) { this.webView = wv; }
-    public void detachWebView() { this.webView = null; }
+    public static MediaState getState() { return state; }
 
-    public Bitmap artwork() { return artworkBitmap; }
-    public void setArtwork(Bitmap bmp, String url) {
-        artworkBitmap = bmp; artworkBitmapUrl = url;
-        notifyListeners();
-    }
-    public String artworkUrl() { return artworkBitmapUrl; }
-
-    public void addListener(Listener l) { if (!listeners.contains(l)) listeners.add(l); }
-    public void removeListener(Listener l) { listeners.remove(l); }
-
-    /** Llamado por NativeBridge cuando la web publica {type:'state'}. */
-    public void publish(boolean hasTrack, String title, String artist, String album,
-                        String source, long duration, long currentTime,
-                        boolean isPlaying, boolean podcast, String artworkUrl) {
-        state.hasTrack = hasTrack;
-        if (hasTrack) {
-            state.title = ns(title); state.artist = ns(artist); state.album = ns(album);
-            state.source = ns(source);
-            state.duration = duration; state.currentTime = currentTime;
-            state.isPlaying = isPlaying; state.podcast = podcast;
-            if (artworkUrl != null && !artworkUrl.equals(state.artworkUrl)) {
-                state.artworkUrl = artworkUrl;
-                fetchArtwork(artworkUrl);
-            }
+    /** JSON del estado actual (para traspasos entre WebViews). */
+    public static String playingStateJson() {
+        MediaState s = state;
+        try {
+            org.json.JSONObject o = new org.json.JSONObject();
+            o.put("title", s.title);
+            o.put("artist", s.artist);
+            o.put("album", s.album);
+            o.put("playing", s.playing);
+            o.put("positionMs", s.positionMs);
+            o.put("durationMs", s.durationMs);
+            o.put("trackId", s.trackId);
+            return o.toString();
+        } catch (Exception e) {
+            return "{}";
         }
-        notifyListeners();
     }
 
-    private void notifyListeners() {
-        main.post(() -> { for (Listener l : listeners) l.onStateChanged(state); });
+    /** El WebView que ACTIVAMENTE reproduce (principal por defecto). */
+    public static WebView getPlayerWebView() {
+        WebView p = playerWebView.get();
+        if (p != null) return p;
+        return floatWebView.get();
     }
 
-    /** Comando web ← nativo (overlay / MediaSession / notificación → HAPPY web). */
-    public void evalJs(String js) {
-        WebView wv = webView;
-        if (wv == null) return;
+    public static void setPlayerWebView(WebView w) { playerWebView = new WeakReference<>(w); }
+    public static void setFloatWebView(WebView w) { floatWebView = new WeakReference<>(w); }
+
+    public static void addListener(Listener l) { if (l != null) listeners.add(l); }
+    public static void removeListener(Listener l) { listeners.remove(l); }
+
+    /** Estado entrante desde el web (HappyNative.mediaState). */
+    public static void updateFromWeb(final String json) {
+        try {
+            org.json.JSONObject o = new org.json.JSONObject(json);
+            MediaState s = new MediaState();
+            s.title = o.optString("title", "MUSIC PLAY");
+            s.artist = o.optString("artist", "");
+            s.album = o.optString("album", "");
+            s.playing = o.optBoolean("playing", false);
+            s.positionMs = o.optLong("positionMs", 0L);
+            s.durationMs = o.optLong("durationMs", 0L);
+            s.canNext = o.optBoolean("canNext", true);
+            s.canPrev = o.optBoolean("canPrev", true);
+            s.trackId = o.optString("trackId", "");
+            state = s;
+        } catch (Exception ignored) { }
+    }
+
+    /** Comando desde notificación / MediaSession / ventana flotante → al WebView reproductor. */
+    public static void sendCommand(final String cmd) {
         main.post(() -> {
-            try { wv.evaluateJavascript(js, null); } catch (Exception ignored) {}
+            WebView w = getPlayerWebView();
+            if (w != null) {
+                w.evaluateJavascript(
+                    "window.__HAPPY_BRIDGE__&&window.__HAPPY_BRIDGE__.cmd(" +
+                    org.json.JSONObject.quote(cmd) + ");", null);
+            }
+            for (Listener l : listeners) {
+                try { l.onCommand(cmd); } catch (Exception ignored) { }
+            }
         });
     }
 
-    public void mediaCommand(String type, String extraJson) {
-        String payload = extraJson == null ? "" : "," + extraJson;
-        evalJs("window.MpNativeBridge&&window.MpNativeBridge.fromNative(JSON.stringify({type:'" + type + "'" + payload + "}))");
+    /** Evento JSON nativo → módulo web (radio.js/app.js). */
+    public static void sendNativeEvent(final String json) {
+        main.post(() -> {
+            WebView w = getPlayerWebView();
+            if (w != null) w.evaluateJavascript(
+                    "window.__HAPPY_BRIDGE__&&window.__HAPPY_BRIDGE__.nativeEvent(" +
+                            org.json.JSONObject.quote(json == null ? "{}" : json) + ");", null);
+        });
     }
 
-    /** Igual que mediaCommand pero con argumentos JSON crudos (sin llaves). */
-    public void mediaCommandArgs(String type, String rawArgs) {
-        mediaCommand(type, rawArgs == null || rawArgs.isEmpty() ? null : rawArgs);
+    /** Traspaso de reproducción (ventana flotante toma el control). */
+    public static void sendBecomePlayer(final WebView target, final String payload) {
+        main.post(() -> {
+            if (target != null) {
+                target.evaluateJavascript(
+                    "window.__HAPPY_BRIDGE__&&window.__HAPPY_BRIDGE__.becomePlayer(" +
+                    org.json.JSONObject.quote(payload) + ");", null);
+            }
+            for (Listener l : listeners) {
+                try { l.onBecomePlayer(payload); } catch (Exception ignored) { }
+            }
+        });
     }
-
-    private void fetchArtwork(String url) {
-        new Thread(() -> {
-            try {
-                java.net.URL u = new java.net.URL(url);
-                java.net.HttpURLConnection c = (java.net.HttpURLConnection) u.openConnection();
-                c.setConnectTimeout(6000); c.setReadTimeout(8000);
-                c.setInstanceFollowRedirects(true);
-                Bitmap bmp = android.graphics.BitmapFactory.decodeStream(c.getInputStream());
-                c.disconnect();
-                if (bmp != null) setArtwork(bmp, url);
-            } catch (Exception ignored) {}
-        }, "happy-artwork").start();
-    }
-
-    private static String ns(String s) { return s == null ? "" : s; }
 }

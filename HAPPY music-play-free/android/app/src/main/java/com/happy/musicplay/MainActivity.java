@@ -2,197 +2,338 @@ package com.happy.musicplay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Rational;
-import android.view.ViewGroup;
+import android.provider.Settings;
 import android.webkit.PermissionRequest;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.webkit.WebViewAssetLoader;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
- * R10.15 · CAPA B · MainActivity
- * ---------------------------------------------------------------
- * Anfitrión WebView de la PWA HAPPY (la app web es el núcleo y el
- * ÚNICO reproductor). Añade solo capacidades del sistema:
- *  - carga de la PWA (URL desplegada o bundle local assets/www)
- *  - puente JS window.HappyNative (NativeBridge)
- *  - flujo de permiso overlay SOLO al activar ▣ FLOTANTE
- *  - Picture-in-Picture nativo cuando la fuente es video
- *  - reintento de permiso al volver de Ajustes (sin romper nada)
+ * R10.15 · MainActivity — WebView con WebViewAssetLoader (https appassets),
+ * importación de archivos sueltos, importación de CARPETAS vía árbol nativo,
+ * micrófono, y registro del WebView en el PlaybackBus (reproductor por defecto).
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
-    /** URL de tu despliegue actual (GitHub → Cloudflare). Cámbiala aquí. */
-    static final String DEFAULT_URL = "https://TU-DESPLIEGUE-HAPPY.example/index.html";
-    static final int REQ_OVERLAY_SETTINGS = 4101;
-    static final int REQ_NOTIFICATIONS = 4102;
+    public static final String START_URL =
+            "https://appassets.androidplatform.net/assets/www/index.html";
 
-    WebView webView;
-    NativeBridge bridge;
-    final Handler ui = new Handler(Looper.getMainLooper());
+    public static final int REQ_MICROPHONE = 4103;
+    public static final int REQ_FILE_CHOOSER = 4104;
+    public static final int REQ_NOTIFICATIONS = 4102;
+    public static final int REQ_TREE_FOLDER = 4105;
 
-    private boolean overlayPermissionPending = false;
-    private boolean notificationsRequested = false;
-
-    public void post(Runnable r) { ui.post(r); }
+    private WebView webView;
+    private NativeBridge bridge;
+    private ValueCallback<Uri[]> filePathCallback;
 
     @SuppressLint("SetJavaScriptEnabled")
-    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        webView = new WebView(this);
-        setContentView(webView, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .addPathHandler("/local/", new ImportedFilesHandler(this))
+                .build();
+
+        webView = new WebView(this);
         WebSettings s = webView.getSettings();
         s.setJavaScriptEnabled(true);
-        s.setDomStorageEnabled(true);              // IndexedDB/localStorage de la PWA
+        s.setDomStorageEnabled(true);
         s.setDatabaseEnabled(true);
-        s.setMediaPlaybackRequiresUserGesture(false); // audio estable en segundo plano
-        s.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
-        s.setAllowFileAccess(true);
+        s.setMediaPlaybackRequiresUserGesture(false);
+        s.setAllowFileAccess(false);
+        s.setAllowContentAccess(false);
+        s.setLoadWithOverviewMode(true);
+        s.setUseWideViewPort(true);
+        s.setSupportZoom(false);
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override public boolean shouldOverrideUrlLoading(WebView v, String url) {
-                Uri u = Uri.parse(url);
-                String scheme = u.getScheme() == null ? "" : u.getScheme();
-                // Esquemas externos (intent:, market:, spotify:, mailto:…) → fuera del WebView.
-                return !scheme.equals("http") && !scheme.equals("https") && !scheme.equals("file")
-                        && !scheme.equals("about") && !scheme.equals("data");
-            }
-        });
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override public void onPermissionRequest(final PermissionRequest request) {
-                // SOLO micro si la app web lo pide (Estudio Podcast). Nada más.
-                runOnUiThread(() -> request.grant(request.getResources()));
-            }
-        });
+        webView.setBackgroundColor(0xFF0E1014);
 
         bridge = new NativeBridge(this);
-        webView.addJavascriptInterface(bridge, "HappyNative"); // window.HappyNative
-        PlaybackBus.get().attachWebView(webView);
+        webView.addJavascriptInterface(bridge, "HappyNative");
 
-        webView.loadUrl(resolveStartUrl());
-    }
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
 
-    private String resolveStartUrl() {
-        try {
-            // Si se empaquetó una copia local de la PWA en assets/www, usarla.
-            getAssets().open("www/index.html").close();
-            return "file:///android_asset/www/index.html";
-        } catch (Exception e) {
-            return DEFAULT_URL;
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Uri uri = request.getUrl();
+                String u = uri.toString();
+                if (u.startsWith("https://appassets.androidplatform.net")
+                        || u.startsWith("http://appassets.androidplatform.net")) {
+                    return false; // navegación interna
+                }
+                try { // enlaces externos → navegador del sistema
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                } catch (Exception ignored) { }
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // R10.15 · El WebView principal ES el reproductor por defecto
+                PlaybackBus.setPlayerWebView(view);
+                super.onPageFinished(view, url);
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onPermissionRequest(final PermissionRequest request) {
+                runOnUiThread(() -> {
+                    for (String r : request.getResources()) {
+                        if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(r)) {
+                            if (selfGranted(android.Manifest.permission.RECORD_AUDIO)) {
+                                request.grant(request.getResources());
+                            } else {
+                                request.deny();
+                                requestRuntimeMic();
+                            }
+                            return;
+                        }
+                    }
+                    request.deny();
+                });
+            }
+
+            @Override
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback,
+                                             FileChooserParams params) {
+                if (filePathCallback != null) filePathCallback.onReceiveValue(null);
+                filePathCallback = callback;
+                try {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    Intent chooser = Intent.createChooser(intent, "Selecciona archivos");
+                    startActivityForResult(chooser, REQ_FILE_CHOOSER);
+                } catch (Exception e) {
+                    filePathCallback = null;
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        setContentView(webView);
+        if (savedInstanceState == null) {
+            webView.loadUrl(START_URL);
+        } else {
+            webView.restoreState(savedInstanceState);
         }
-    }
 
-    /* ══════════════ FLOTANTE: flujo de permiso (solo al activar ▣) ══════════════ */
+        PlaybackBus.addListener(commandListener);
 
-    void startFloatingFlow() {
-        boolean granted = android.provider.Settings.canDrawOverlays(this);
-        if (granted) {
-            FloatingPlayerService.start(this);
-            bridge.sendPermissionResult(true, false);
-            return;
-        }
-        overlayPermissionPending = true;
-        // Explicación sencilla + ajustes. Nada se rompe si el usuario niega.
-        Toast.makeText(this, R.string.overlay_explanation, Toast.LENGTH_LONG).show();
-        requestNotifPermissionIfNeeded();
-        try {
-            startActivityForResult(NativeBridge.overlaySettingsIntent(this), REQ_OVERLAY_SETTINGS);
-        } catch (Exception e) {
-            try { startActivityForResult(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + getPackageName())), REQ_OVERLAY_SETTINGS); } catch (Exception ignored) {}
-        }
-        bridge.sendPermissionResult(false, true); // pending → web espera el resultado
-    }
-
-    private void requestNotifPermissionIfNeeded() {
-        if (notificationsRequested || Build.VERSION.SDK_INT < 33) return;
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED) return;
-        notificationsRequested = true;
-        ActivityCompat.requestPermissions(this,
-                new String[]{ android.Manifest.permission.POST_NOTIFICATIONS }, REQ_NOTIFICATIONS);
-    }
-
-    @Override protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_OVERLAY_SETTINGS && overlayPermissionPending) {
-            overlayPermissionPending = false;
-            boolean granted = android.provider.Settings.canDrawOverlays(this);
-            if (granted) {
-                FloatingPlayerService.start(this);
-                bridge.sendPermissionResult(true, false);
-            } else {
-                // Negado → la web muestra REINTENTAR / SEGUIR EN HAPPY. La música sigue.
-                bridge.sendPermissionResult(false, false);
+        // Permiso de notificaciones (Android 13+)
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (!selfGranted("android.permission.POST_NOTIFICATIONS")) {
+                requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"},
+                        REQ_NOTIFICATIONS);
             }
         }
+        FloatingPlayerService.ensureChannel(this);
     }
 
-    /* ══════════════ PICTURE-IN-PICTURE nativo (video) ══════════════ */
+    private final PlaybackBus.Listener commandListener = new PlaybackBus.Listener() {
+        @Override public void onCommand(String cmd) { /* el web ya lo recibe */ }
+        @Override public void onBecomePlayer(String payload) { }
+    };
 
-    void enterNativePip() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            PlaybackBus.get().mediaCommandArgs("pip/result", "\"active\":false,\"error\":\"requiere Android 8+\"");
+    private boolean selfGranted(String perm) {
+        return checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestRuntimeMic() {
+        requestPermissions(new String[]{android.Manifest.permission.RECORD_AUDIO}, REQ_MICROPHONE);
+    }
+
+    /** R10.15 · Abre el selector nativo de CARPETA (árbol) — pedido desde HappyNative. */
+    public void startFolderImport() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            startActivityForResult(intent, REQ_TREE_FOLDER);
+        } catch (Exception e) {
+            Toast.makeText(this, "Selector de carpeta no disponible", Toast.LENGTH_SHORT).show();
+            notifyFolderError("error");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQ_FILE_CHOOSER) {
+            Uri[] result = null;
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                if (data.getClipData() != null) {
+                    int n = data.getClipData().getItemCount();
+                    result = new Uri[n];
+                    for (int i = 0; i < n; i++) result[i] = data.getClipData().getItemAt(i).getUri();
+                } else if (data.getData() != null) {
+                    result = new Uri[]{data.getData()};
+                }
+            }
+            if (filePathCallback != null) {
+                filePathCallback.onReceiveValue(result);
+                filePathCallback = null;
+            }
             return;
         }
+        if (requestCode == REQ_TREE_FOLDER) {
+            if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+                final Uri treeUri = data.getData();
+                final int flags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                try {
+                    getContentResolver().takePersistableUriPermission(treeUri, flags);
+                } catch (SecurityException ignored) { }
+                Toast.makeText(this, "Leyendo carpeta…", Toast.LENGTH_SHORT).show();
+                FolderImporter.importTree(this, treeUri);
+            } else {
+                notifyFolderError("denied");
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /** Notifica al web el resultado de la importación de carpeta. */
+    public void notifyFolderResult(String json) {
+        runOnUiThread(() -> webView.evaluateJavascript(
+                "window.__HAPPY_BRIDGE__&&window.__HAPPY_BRIDGE__.folderResult(" +
+                        org.json.JSONObject.quote(json) + ");", null));
+    }
+
+    public void notifyFolderError(String reason) {
         try {
-            Rational ratio = new Rational(16, 9);
-            android.app.PictureInPictureParams params =
-                    new android.app.PictureInPictureParams.Builder().setAspectRatio(ratio).build();
-            enterPictureInPictureMode(params);
-            PlaybackBus.get().mediaCommandArgs("pip/result", "\"active\":true");
-        } catch (Exception e) {
-            PlaybackBus.get().mediaCommandArgs("pip/result",
-                    "\"active\":false,\"error\":\"" + String.valueOf(e.getMessage()).replace("\"", "'") + "\"");
+            org.json.JSONObject o = new org.json.JSONObject();
+            o.put("ok", false);
+            o.put("reason", reason);
+            notifyFolderResult(o.toString());
+        } catch (Exception ignored) { }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // R10.15 · NO pausar el WebView si hay reproducción: es la causa de que
+        // YouTube se detenga/silencie al bloquear la pantalla.
+        if (!PlaybackBus.getState().playing) {
+            try { webView.onPause(); } catch (Exception ignored) { }
         }
     }
 
-    @Override public void onPictureInPictureModeChanged(boolean isInPip, Configuration newConfig) {
-        super.onPictureInPictureModeChanged(isInPip, newConfig);
-        PlaybackBus.get().mediaCommandArgs("pip/state", "\"active\":" + isInPip);
-    }
-
-    /* ══════════════ Ciclo de vida ══════════════ */
-
-    @Override public void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
-        if (bridge != null) ui.postDelayed(() -> bridge.sendNativeHello(), 350);
+        try { webView.onResume(); } catch (Exception ignored) { }
+        // el intervalo del web (happyPushMediaState cada 900 ms) refresca el estado
     }
 
-    @Override public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack();
-        else {
-            // Ir a HOME sin destruir la Activity: el audio sigue con el servicio.
+    @Override
+    protected void onDestroy() {
+        PlaybackBus.removeListener(commandListener);
+        if (webView != null) {
             try {
-                Intent home = new Intent(Intent.ACTION_MAIN);
-                home.addCategory(Intent.CATEGORY_HOME);
-                startActivity(home);
-            } catch (Exception ignored) {}
+                webView.loadUrl("about:blank");
+                webView.removeAllViews();
+                webView.destroy();
+            } catch (Exception ignored) { }
         }
+        super.onDestroy();
     }
 
-    @Override protected void onDestroy() {
-        PlaybackBus.get().detachWebView();
-        if (webView != null) webView.destroy();
-        super.onDestroy();
+    private void happyPushState() { /* estado mantenido por el web (intervalo 900 ms) */ }
+
+    @Override
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) webView.goBack();
+        else moveTaskToBack(true); // NO destruir: la música sigue con el servicio
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (webView != null) webView.saveState(outState);
+    }
+
+    /** Servidor local de los archivos importados (carpetas) bajo /local/<token>/<nombre>. */
+    public static class ImportedFilesHandler implements WebViewAssetLoader.PathHandler {
+        private final File rootDir;
+
+        ImportedFilesHandler(Activity activity) {
+            rootDir = new File(activity.getCacheDir(), "happy-imports");
+        }
+
+        @Override
+        @Nullable
+        public WebResourceResponse handle(String path) {
+            try {
+                if (path == null || path.isEmpty()) return notFound();
+                String decoded = java.net.URLDecoder.decode(path.replaceFirst("^/+", ""), "UTF-8");
+                File f = new File(rootDir, decoded);
+                String canonical = f.getCanonicalPath();
+                if (!canonical.startsWith(rootDir.getCanonicalPath())) return notFound();
+                if (!f.exists() || !f.isFile()) return notFound();
+                String mime = guessMime(f.getName());
+                WebResourceResponse resp = new WebResourceResponse(mime, null,
+                        new java.io.FileInputStream(f));
+                resp.setResponseHeaders(java.util.Collections.singletonMap(
+                        "Access-Control-Allow-Origin", "*"));
+                return resp;
+            } catch (IOException e) {
+                return notFound();
+            }
+        }
+
+        private WebResourceResponse notFound() {
+            try {
+                return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found", null,
+                        new java.io.ByteArrayInputStream(new byte[0]));
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        private static String guessMime(String name) {
+            String n = name.toLowerCase();
+            if (n.endsWith(".mp3")) return "audio/mpeg";
+            if (n.endsWith(".m4a") || n.endsWith(".m4b")) return "audio/mp4";
+            if (n.endsWith(".aac")) return "audio/aac";
+            if (n.endsWith(".wav")) return "audio/wav";
+            if (n.endsWith(".ogg") || n.endsWith(".oga")) return "audio/ogg";
+            if (n.endsWith(".opus")) return "audio/opus";
+            if (n.endsWith(".flac")) return "audio/flac";
+            if (n.endsWith(".wma")) return "audio/x-ms-wma";
+            if (n.endsWith(".mp4") || n.endsWith(".m4v")) return "video/mp4";
+            if (n.endsWith(".webm")) return "video/webm";
+            if (n.endsWith(".mkv")) return "video/x-matroska";
+            if (n.endsWith(".avi")) return "video/x-msvideo";
+            if (n.endsWith(".mov")) return "video/quicktime";
+            if (n.endsWith(".3gp")) return "video/3gpp";
+            if (n.endsWith(".wmv")) return "video/x-ms-wmv";
+            return "application/octet-stream";
+        }
     }
 }

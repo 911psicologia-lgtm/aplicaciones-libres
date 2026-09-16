@@ -1,0 +1,58 @@
+SWARM//RIFT v2.15.20 — VALIDACIÓN
+===================================
+Base: v2.15.19 ADAPTIVE_HIVE_SHADOW
+Build: ADAPTIVE_HIVE_PREDICTIVE_PILOT
+
+1. Syntax
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+2. Adaptive Hive Predictive Pilot
+- Feature/runtime checks: 75/75 PASS
+- Sampling: 1 s
+- DPS windows: 3 / 8 / 20 s
+- Burst false-positive guard: PASS
+- Low-confidence A3 guard: PASS
+- A0/A1/A2/A3: PASS
+- Hysteresis 3 samples / min state 4 s / cooldown 3 s: PASS
+- Historical calibration clamp ±12%: PASS
+- Telemetry migration v2.15.19 -> schema 2: PASS
+- Telemetry storage cap: 40 fights PASS
+- A1 remains silent: PASS
+- Heavy countermeasures remain Shadow: PASS
+- Signature Priority Pilot: PASS
+- Signature Pilot max once per phase: PASS
+- Signature Pilot disabled before world 11: PASS
+- No HP/build/rank/power mutation by Adaptive Hive block: PASS
+- Network calls inside Adaptive Hive block: NONE
+
+3. Migration
+- VERSION 2.15.20: PASS
+- KEY_META v21520 + explicit v21519 fallback: PASS
+- KEY_RUN v21520 + explicit v21519 fallback: PASS
+- telemetry v21520 + fallback v21519: PASS
+- index cache bust 21520: PASS
+- SW cache v2.15.20: PASS
+- automated save migration v2.15.19 -> v2.15.20: PASS
+
+4. Regression / preservation
+- Mobile profile matrix: 5/5 PASS
+- Original v2.15.19 files: 749/752 bit-identical
+- Modified originals only: js/game.js, sw.js, index.html
+- Original files missing: 0
+- Asset files: 551/551 bit-identical vs v2.15.19
+- 20 worlds / 20 bosses: PASS
+- Family Combat, Combat Director, objectives, CH2 choreography, identities, animation/audio sync, arena/aftermath, Micro-Swarm, RIFT ALLY, Last Chance, Boss Rush, Grand Boss Rush, Commander Convergence, CHASE, Hangar, combos, checkpoints, performance governors and mobile ergonomics: preserved by automated/static regression checks.
+
+5. PWA / assets
+- Service Worker resources: 560, missing 0
+- CH2 manifest entries: 230
+- CH2 distributed assets present/hash-valid: 210/210
+- CH2 hash mismatches: 0
+- Expected omitted CH2 PNG background masters: 20/20, unchanged from canonical base
+- HTTP smoke: 12/12 HTTP 200
+
+6. Scope honesty
+- No physical phone/tablet gameplay session performed.
+- No claim of real-device thermal, latency, long-session or subjective balance validation.
+- Automated tests confirm contracts and regressions; human play remains necessary before enabling reactive armor, disruption or rebirth.
