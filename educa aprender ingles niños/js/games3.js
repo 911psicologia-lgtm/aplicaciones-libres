@@ -657,3 +657,97 @@ window.switchPlayer = function () {
     })
   };
 })();
+
+/* ═══════════════════════════════════════════════════════════
+   v12: 🧸 MODO EXPLORAR — jugar sin puntos ni errores
+   Para peques de 3 años (o primerizos): todas las fotos del nivel
+   actual en una cuadrícula. Tocar una foto la muestra grande, dice
+   la palabra (EN + ES según el ajuste de idioma) y suelta confeti
+   suave. CERO presión: no hay vidas, fallos ni cuenta regresiva.
+   Accesible desde la Zona de Juegos (tarjeta 🧸 Explora).
+   ═══════════════════════════════════════════════════════════ */
+let _exploreWorldId = '';
+let _exploreTaps = 0;
+
+window.startExplore = function () {
+  const p = activeProfile(); if (!p) return;
+  beep(true);
+  _exploreWorldId = '';
+  openModal('🧸 Modo Explorar', `
+    <div class="small" style="margin-bottom:8px">Elige un mundo y toca las fotos para escuchar las palabras. Sin puntos y sin errores: ¡solo explorar! 🌈</div>
+    <div class="exp-preview" id="expPreview">
+      <div class="exp-prev-hint">👆 Toca una foto de abajo</div>
+    </div>
+    <div class="exp-chips" id="expChips"></div>
+    <div class="exp-grid" id="exploreGrid"></div>
+  `, `<button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Listo</button>`);
+
+  // cuenta la visita (una por apertura) y desbloquea insignias
+  updateProfile(pp => { pp.stats.exploreVisits = (pp.stats.exploreVisits || 0) + 1; });
+  checkBadges();
+
+  renderExploreChips();
+  window.PW_EXPLORE = {
+    open: () => !!document.getElementById('exploreGrid'),
+    world: () => _exploreWorldId,
+    taps: () => _exploreTaps,
+    count: () => (activeProfile() ? (activeProfile().stats.exploreVisits || 0) : 0)
+  };
+};
+
+/* chips horizontales con los mundos del nivel actual del niño */
+function renderExploreChips() {
+  const host = $('expChips'); if (!host) return;
+  host.innerHTML = '';
+  WORLDS.filter(w => w.lvl === currentLevel).forEach(w => {
+    const chip = document.createElement('button');
+    chip.className = 'exp-chip' + (w.id === _exploreWorldId ? ' on' : '');
+    chip.innerHTML = `${w.icon} ${w.name}`;
+    chip.onclick = () => { beep(true); _exploreWorldId = w.id; renderExploreChips(); renderExploreGrid(); };
+    host.appendChild(chip);
+  });
+  // preselecciona el primer mundo (o el último usado si sigue disponible)
+  if (!_exploreWorldId || !WORLDS.some(w => w.id === _exploreWorldId && w.lvl === currentLevel)) {
+    const first = WORLDS.find(w => w.lvl === currentLevel);
+    if (first) _exploreWorldId = first.id;
+    renderExploreChips();
+  }
+  renderExploreGrid();
+}
+
+/* cuadrícula de fotos (contain, 0% recorte) del mundo elegido */
+function renderExploreGrid() {
+  const host = $('exploreGrid'); if (!host) return;
+  const w = WORLDS.find(x => x.id === _exploreWorldId);
+  if (!w) { host.innerHTML = '<div class="small" style="text-align:center">Elige un mundo arriba ☝️</div>'; return; }
+  host.innerHTML = '';
+  w.items.forEach(it => {
+    const card = document.createElement('button');
+    card.className = 'exp-card';
+    card.setAttribute('aria-label', it.en);
+    card.innerHTML = `
+      ${it.img ? imgTag(it.img, it.em || '✨', 'exp-img', it.en)
+               : `<span class="exp-img img-fallback">${it.em || '✨'}</span>`}
+      <span class="exp-en">${(w.kind === 'numbers' && it.num != null) ? it.num : it.en}</span>`;
+    card.onclick = () => exploreTap(w.id, it.en);
+    host.appendChild(card);
+  });
+}
+
+/* tocar una palabra: foto grande + voz + confeti suave (idempotente) */
+window.exploreTap = function (worldId, en) {
+  const w = WORLDS.find(x => x.id === worldId); if (!w) return;
+  const it = w.items.find(i => i.en === en); if (!it) return;
+  _exploreTaps++;
+  TTS.sayWord(it.en, it.es, w.kind === 'letters' ? 'letters' : undefined);
+  beep(true);
+  burst(10);
+  const prev = $('expPreview');
+  if (prev) {
+    prev.innerHTML = `
+      ${it.img ? imgTag(it.img, it.em || '✨', 'exp-prev-img', it.en)
+               : `<span class="exp-prev-img img-fallback">${it.em || '✨'}</span>`}
+      <div class="exp-prev-en">${it.en}</div>
+      <div class="exp-prev-es">${it.es || ''}${w.name ? ' · ' + w.name : ''}</div>`;
+  }
+};

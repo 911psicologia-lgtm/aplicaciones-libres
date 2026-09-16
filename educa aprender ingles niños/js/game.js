@@ -27,6 +27,10 @@ function startMission(worldId, skipIntro = false) {
   const world = WORLDS.find(w => w.id === worldId);
   if (!world) return;
 
+  // v12: recordar el último mundo tocado para «▶ Continuar donde quedaste»
+  // (se guarda aunque el niño cancele la intro: la intención de jugar cuenta)
+  try { const pu = activeProfile(); if (pu) { pu.lastWorld = worldId; saveState(); } } catch (e) {}
+
   // Intro: tarjetas-foto para repasar antes de jugar
   if (!skipIntro && world.story) {
     const cards = world.items.map(it => {

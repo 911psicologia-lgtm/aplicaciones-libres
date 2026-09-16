@@ -1,14 +1,41 @@
-# 🌈 PequeWorld v11 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v12 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
-**fotos reales**, **79 mundos / 782 palabras**, **11 juegos y estudios**
-(⚡ **Rápido** · Completa · Empareja · Memoria · Escucha · 🎤 Di la palabra ·
-🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** · 📚 Diccionario · Repaso
-**priorizado**), **tour de bienvenida**, **🔒 puerta parental**, **🏆 hitos de
-palabras dominadas**, **🖨️ informe de padres imprimible con consejos AAP**,
-**🔊 selector de voz en inglés**, **PWA instalable sin conexión**, avatar con
-tu propia foto, Tienda de 12 avatares, Ruleta diaria, ⭐ Mundo destacado y
-🎓 Diplomas imprimibles.
+**fotos reales**, **79 mundos / 782 palabras**, **12 juegos y estudios**
+(⚡ **Rápido** · 🧸 **Explora** · Completa · Empareja · Memoria · Escucha ·
+🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
+📚 Diccionario · Repaso **priorizado**), **tour de bienvenida**,
+**🔒 puerta parental**, **🏆 hitos de palabras dominadas**,
+**🗓️ calendario de estrellas**, **🖨️ informe de padres imprimible con
+consejos AAP**, **🔊 selector de voz en inglés**, **PWA instalable sin
+conexión**, avatar con tu propia foto, Tienda de 12 avatares, Ruleta diaria,
+⭐ Mundo destacado y 🎓 Diplomas imprimibles.
+
+> 🌟 **Novedades v12 (necesarias e innovadoras — misma vía admisible, cero regresiones):**
+> 1. 🧸 **Modo Explorar**: la estrella de la versión. Un espacio **sin puntos,
+>    sin errores y sin vidas** para peques de 3 años o primerizos: todas las
+>    fotos del nivel actual en una cuadrícula; tocar una la muestra grande,
+>    pronuncia la palabra (EN + ES según el ajuste) y suelta confeti suave.
+>    En la Zona de Juegos (tarjeta 🧸 Explora). Insignias «Primera
+>    Exploración» y «Ojo Curioso».
+> 2. 🗓️ **Calendario de estrellas**: nuevo tab en Premios. Cada día jugado
+>    pega una estrella ⭐ en un calendario de 8 semanas (hoy resaltado, racha
+>    actual abajo). Reutiliza los días ya registrados — cero datos nuevos.
+> 3. 🔠 **Tamaño de texto**: Normal / Grande / Muy grande en Ajustes. Como
+>    toda la app usa unidades relativas (em), escala de verdad en todas las
+>    pantallas y queda guardado para las próximas visitas.
+> 4. ▶ **Continuar donde quedaste**: chip dorado en el mapa que reabre el
+>    último mundo tocado — menos búsqueda, más juego, útil para los peques
+>    que vuelven a la app cada día.
+> 5. 🔔 **Efectos de sonido apagables**: los beeps de acierto/cofres ahora
+>    tienen su propio interruptor en Ajustes (la voz ya lo tenía). Por
+>    defecto activados — nada cambia para quien ya usa la app.
+> 6. 🫁 **Burbuja de respiración**: el aviso de descanso (v11) ahora guía un
+>    ciclo visual de respiración — inspira cuando la burbuja crece, sopla
+>    cuando se encoge. Respeta `prefers-reduced-motion`.
+> 7. 🏅 **94 insignias** (2 nuevas) y migración automática de perfiles
+>    antiguos sin perder nada. Caché PWA `pequeworld-v12` (el botón azul
+>    de actualización avisa a las instalaciones previas).
 
 > ✨ **Novedades v11 (ajustes geniales — vía libre, sin tocar lo que funciona):**
 > 1. 📆 **Palabra del Día**: cada día una palabra con foto real espera en el

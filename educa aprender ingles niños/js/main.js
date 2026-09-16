@@ -4,6 +4,8 @@
 function boot() {
   initStars();
   loadState();
+  // v12: aplica el tamaño de texto guardado (Normal/Grande/Muy grande)
+  if (typeof applyTextSize === 'function') applyTextSize();
   // Perfil por defecto si está vacío
   if (!Object.keys(STATE.profiles).length) {
     const p = defaultProfile('Niño', 'avatar_1');

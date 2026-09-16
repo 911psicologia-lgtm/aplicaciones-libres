@@ -94,8 +94,14 @@ const TTS = {
 TTS.init();
 
 /* ── BEEPS ── */
+/* v12: los efectos de sonido (beeps) se pueden apagar en Ajustes.
+   Por defecto ACTIVADOS (sfx === false significa apagado) para no
+   cambiar nada para las familias que ya usan la app. La voz tiene
+   su propio interruptor (voiceEnabled) desde siempre. */
+function sfxOn() { return !(STATE && STATE.settings && STATE.settings.sfx === false); }
 function beep(ok = true) {
   try {
+    if (!sfxOn()) return;
     if (!_AC) _AC = new (window.AudioContext || window.webkitAudioContext)();
     if (_AC.state === 'suspended') _AC.resume();
     const t = _AC.currentTime;
@@ -117,6 +123,7 @@ function beep(ok = true) {
 }
 function beepWin() {
   try {
+    if (!sfxOn()) return;
     if (!_AC) _AC = new (window.AudioContext || window.webkitAudioContext)();
     if (_AC.state === 'suspended') _AC.resume();
     const t = _AC.currentTime;
@@ -131,6 +138,7 @@ function beepWin() {
 }
 function beepChest() {
   try {
+    if (!sfxOn()) return;
     if (!_AC) _AC = new (window.AudioContext || window.webkitAudioContext)();
     if (_AC.state === 'suspended') _AC.resume();
     const t = _AC.currentTime;
@@ -148,6 +156,7 @@ function beepChest() {
    Suena 260ms después de abrir un cofre con premio gordo. */
 function beepJackpot() {
   try {
+    if (!sfxOn()) return;
     if (!_AC) _AC = new (window.AudioContext || window.webkitAudioContext)();
     if (_AC.state === 'suspended') _AC.resume();
     const t = _AC.currentTime;

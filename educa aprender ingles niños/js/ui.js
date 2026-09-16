@@ -320,6 +320,9 @@ function renderMap() {
   // v11: Palabra del día (foto + audio + recompensa diaria)
   renderWordOfDay(p);
 
+  // v12: chip «Continuar donde quedaste»
+  renderContinueChip(p);
+
   // Ruleta diaria (v5)
   renderSpinBanner(p);
 
@@ -398,6 +401,8 @@ function renderGamesZone(p) {
   const defs = [
     // ★ v8: sesión rápida de 5 minutos — cero decisiones para el niño
     {cls: 'gz-quick', ico: '⚡', name: 'Rápido', sub: 'sesión de 5 min', fn: () => startQuickSession()},
+    // ★ v12: Modo Explorar — jugar sin puntos ni errores (para peques de 3 años)
+    {cls: 'gz-explore', ico: '🧸', name: 'Explora', sub: 'toca y escucha', fn: () => startExplore()},
     {cls: 'gz-spell', ico: '🔤', name: 'Completa', sub: 'la palabra', fn: () => startSpellMission()},
     {cls: 'gz-match', ico: '🧩', name: 'Empareja', sub: 'foto + palabra', fn: () => startMatchMission()},
     {cls: 'gz-mem',   ico: '🃏', name: 'Memoria', sub: 'encuentra parejas', fn: () => startMemoryMission()},
@@ -468,6 +473,29 @@ function bumpDailyGoal() {
   p.dailyGoal.count = (p.dailyGoal.count || 0) + 1;
   saveState();
 }
+
+/* ── v12: ▶ CONTINUAR DONDE QUEDASTE ──
+   Chip dorado en el mapa que reabre el último mundo tocado.
+   Ahorra el paso de buscar la tarjeta cuando el niño vuelve a la app.
+   startMission (game.js) registra p.lastWorld en cada toque. */
+function renderContinueChip(p) {
+  const anchor = $('dailyGoal'); if (!anchor) return;
+  let host = $('continueChip');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'continueChip';
+    anchor.parentNode.insertBefore(host, anchor);
+  }
+  const w = p.lastWorld ? WORLDS.find(x => x.id === p.lastWorld) : null;
+  if (!w) { host.innerHTML = ''; return; }
+  host.innerHTML = `<button class="cont-btn" onclick="resumeLastWorld()" aria-label="Continuar donde quedaste">
+    ▶ Continuar: ${w.icon} ${w.name}</button>`;
+}
+window.resumeLastWorld = function () {
+  const p = activeProfile(); if (!p || !p.lastWorld) return;
+  beep(true);
+  startMission(p.lastWorld);
+};
 
 /* ── v11: PALABRA DEL DÍA ──
    Una palabra con foto distinta cada día (determinista por fecha local,
@@ -559,6 +587,10 @@ const BREAK_AT = [30, 60];
         <img src="assets/img/ui/mascot.jpg" alt="Búho de PequeWorld" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,215,0,.5)">
         <div style="font-weight:900;font-size:1.15em;margin:10px 0 6px">¡Llevas ${hit} minutos jugando! 🌟</div>
         <div class="small">Estira los brazos 🙆 · mira por la ventana 👀 · toma un poco de agua 💧<br>¡Tus ojos y tu cerebro lo agradecen! Vuelve cuando quieras.</div>
+        <div class="breathe-wrap" aria-hidden="true">
+          <div class="breathe-bubble"></div>
+          <div class="breathe-hint">Inspira cuando crece 🌕 · sopla cuando se encoge 🌑</div>
+        </div>
       </div>
     `, `<button class="bigbtn bb-green bb-sm" onclick="closeModal()">¡OK, me estiro! 🙆</button>`);
     beep(true);
@@ -578,10 +610,47 @@ const BREAK_AT = [30, 60];
 let _trophyTab = 0;
 function switchTrophyTab(i) {
   _trophyTab = i;
-  [0, 1, 2, 3, 4, 5, 6].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
+  [0, 1, 2, 3, 4, 5, 6, 7].forEach(j => $(`tTab${j}`).classList.toggle('on', j === i));
   renderTrophyContent();
 }
 function renderTrophies() { switchTrophyTab(0); }
+
+/* ── v12: 🗓️ CALENDARIO DE ADHESIVOS ──
+   Cada día jugado pega una estrella ⭐. Reutiliza p.stats.daysPlayed
+   (que la app ya registraba para insignias de días): CERO datos nuevos,
+   cero riesgo para perfiles antiguos. Cuadrícula de 8 semanas
+   (lunes→domingo), hoy resaltado, racha actual abajo. */
+function calendarStickersHTML(p) {
+  const played = (p.stats && p.stats.daysPlayed) || {};
+  const today = new Date();
+  const dow = (today.getDay() + 6) % 7;              // lunes = 0
+  const endSunday = new Date(today);                 // domingo de esta semana
+  endSunday.setDate(endSunday.getDate() + (6 - dow));
+  let rows = '';
+  for (let wk = 7; wk >= 0; wk--) {
+    let cells = '';
+    for (let d = 0; d < 7; d++) {
+      const dt = new Date(endSunday);
+      dt.setDate(endSunday.getDate() - wk * 7 - (6 - d));
+      const key = localDayStr(dt);
+      const on = !!played[key];
+      const isToday = key === todayStr();
+      const future = dt > today;
+      cells += `<div class="cal-cell${on ? ' on' : ''}${isToday ? ' today' : ''}${future ? ' future' : ''}" title="${key}">${on ? '⭐' : (isToday ? '·' : '')}</div>`;
+    }
+    rows += `<div class="cal-row">${cells}</div>`;
+  }
+  const total = Object.keys(played).length;
+  const streak = p.streak || 0;
+  return `<div class="cal-wrap">
+    <div class="cal-head">🗓️ Mi calendario de estrellas</div>
+    <div class="cal-sub">Cada día que juegas se pega una estrella ⭐</div>
+    <div class="cal-days"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+    <div class="cal-grid">${rows}</div>
+    <div class="cal-total">⭐ ${total} ${total === 1 ? 'día con estrella' : 'días con estrellas'}</div>
+    <div class="cal-streak">${streak > 0 ? `🔥 Racha actual: <b>${streak}</b> ${streak === 1 ? 'día' : 'días'} — ¡no la rompas!` : '🌱 Juega hoy y empieza tu racha 🔥'}</div>
+  </div>`;
+}
 
 function renderTrophyContent() {
   const p = activeProfile();
@@ -658,6 +727,9 @@ function renderTrophyContent() {
   } else if (_trophyTab === 6) {
     // 🏆 HITOS DE PALABRAS DOMINADAS (v8)
     if (window.renderMilestonesTab) window.renderMilestonesTab();
+  } else if (_trophyTab === 7) {
+    // 🗓️ CALENDARIO DE ADHESIVOS (v12)
+    host.innerHTML = calendarStickersHTML(p);
   } else {
     // Ranking con medallas de fotos
     const realPlayers = Object.values(STATE.profiles)
@@ -731,6 +803,22 @@ function openSettings() {
     <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">🔊 Voz activa</div>
       <button class="bigbtn bb-sm ${s.voiceEnabled ? 'bb-green' : 'bb-ghost'}" id="voiceToggleBtn" onclick="toggleVoice(this)">${s.voiceEnabled ? '🔊 Activada' : '🔇 Silenciada'}</button>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🔔 Efectos de sonido (nuevo v12)</div>
+      <div class="small">Los «bips» de acierto, cofres y premios. La voz se controla aparte con el botón de arriba.</div>
+      <button class="bigbtn bb-sm ${s.sfx === false ? 'bb-ghost' : 'bb-green'}" id="sfxToggleBtn" onclick="toggleSfx(this)" style="margin-top:8px">${s.sfx === false ? '🔕 Apagados' : '✅ Activados'}</button>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🔠 Tamaño de texto (nuevo v12)</div>
+      <div class="small">Elige el tamaño de letra más cómodo para tu peque. Sirve en toda la app.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <button class="bigbtn bb-sm ${s.textSize === 'lg' || s.textSize === 'xl' ? 'bb-ghost' : 'bb-gold'}" onclick="setTextSize('normal',this)">Normal</button>
+        <button class="bigbtn bb-sm ${s.textSize === 'lg' ? 'bb-gold' : 'bb-ghost'}" onclick="setTextSize('lg',this)">Grande</button>
+        <button class="bigbtn bb-sm ${s.textSize === 'xl' ? 'bb-gold' : 'bb-ghost'}" onclick="setTextSize('xl',this)">Muy grande</button>
+      </div>
     </div>
     <div class="divider"></div>
     <div style="margin-bottom:14px">
@@ -825,6 +913,35 @@ window.toggleHaptics = (btn) => {
   btn.textContent = on ? '✅ Activada' : '📳 Apagada';
   btn.className = btn.className.replace(on ? 'bb-ghost' : 'bb-green', on ? 'bb-green' : 'bb-ghost');
   notif(on ? '📳 Vibración activada' : '📳 Vibración apagada', 'var(--blue)');
+};
+/* v12: efectos de sonido (beeps) — por defecto activados; la voz tiene su propio interruptor */
+window.toggleSfx = (btn) => {
+  STATE.settings.sfx = STATE.settings.sfx === false; // false→true, true/undefined→false
+  saveState();
+  const on = STATE.settings.sfx !== false;
+  btn.textContent = on ? '✅ Activados' : '🔕 Apagados';
+  btn.className = btn.className.replace(on ? 'bb-ghost' : 'bb-green', on ? 'bb-green' : 'bb-ghost');
+  notif(on ? '🔔 Efectos de sonido activados' : '🔕 Efectos de sonido apagados', 'var(--blue)');
+  if (on) beep(true); // confirmación audible solo al reactivar
+};
+/* v12: tamaño de texto — normal / grande / muy grande. Todo el CSS de la app
+   usa em (escala relativa), así que basta con una clase en <body> aplicada
+   en el arranque y al cambiar el ajuste. Se guarda por dispositivo (settings). */
+function applyTextSize() {
+  document.body.classList.remove('fs-lg', 'fs-xl');
+  const t = STATE.settings.textSize;
+  if (t === 'lg') document.body.classList.add('fs-lg');
+  else if (t === 'xl') document.body.classList.add('fs-xl');
+}
+window.setTextSize = (t, btn) => {
+  STATE.settings.textSize = t; saveState(); applyTextSize();
+  if (btn && btn.parentNode) {
+    const row = btn.parentNode;
+    row.querySelectorAll('.bigbtn').forEach(b => { b.className = b.className.replace('bb-gold', 'bb-ghost'); });
+    btn.className = btn.className.replace('bb-ghost', 'bb-gold');
+  }
+  notif('🔠 Tamaño de texto: ' + (t === 'normal' ? 'Normal' : t === 'lg' ? 'Grande' : 'Muy grande'), 'var(--blue)');
+  beep(true);
 };
 window.resetProfile = () => {
   if (!confirm('¿Seguro? Se borrarán todos los premios de este perfil.')) return;

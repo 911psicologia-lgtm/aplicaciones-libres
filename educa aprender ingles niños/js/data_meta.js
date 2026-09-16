@@ -181,6 +181,9 @@ const BADGES = [
   // ★ V11 — palabra del día
   {id:'wotd1', icon:'📆', name:'Palabra del Día',   desc:'Escucha tu primera Palabra del día en el mapa', c:p=>Object.keys((p.stats&&p.stats.wotdDays)||{}).length>=1},
   {id:'wotd7', icon:'🌟', name:'Semana de Palabras', desc:'Escucha la Palabra del día en 7 días distintos', c:p=>Object.keys((p.stats&&p.stats.wotdDays)||{}).length>=7},
+  // ★ V12 — modo explorar (jugar sin puntos ni errores)
+  {id:'explore1',  icon:'🧸', name:'Primera Exploración', desc:'Abre el Modo Explorar y toca tu primera foto', c:p=>(p.stats.exploreVisits||0)>=1},
+  {id:'explore10', icon:'🔭', name:'Ojo Curioso',         desc:'Visita el Modo Explorar 10 veces', c:p=>(p.stats.exploreVisits||0)>=10},
 ];
 
 /* Rivales IA para el ranking */
@@ -220,7 +223,7 @@ function migrateProfile(p) {
   if (!p.lastSpin) p.lastSpin = '';
   if (!p.mastery) p.mastery = {}; // v7: veces que acierta cada palabra
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
