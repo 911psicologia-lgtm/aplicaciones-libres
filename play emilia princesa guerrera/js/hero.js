@@ -63,8 +63,8 @@ const Hero = {
         if (state.hero.princessDef.passiveEffect === 'speedBoost') {
             speedMult += state.hero.princessDef.passiveValue;
         }
-        state.hero.x += (state.input.x - state.hero.x) * 0.15 * speedMult;
-        state.hero.y += (state.input.y - state.hero.y) * 0.15 * speedMult;
+        state.hero.x += (state.input.x - state.hero.x) * 0.25 * speedMult;
+        state.hero.y += (state.input.y - state.hero.y) * 0.25 * speedMult;
         // Limitar a pantalla
         state.hero.x = Math.max(30, Math.min(state.canvasW - 30, state.hero.x));
         state.hero.y = Math.max(60, Math.min(state.canvasH - 30, state.hero.y));
@@ -90,10 +90,10 @@ const Hero = {
         state.hero.shootCooldown--;
         if (state.hero.shootCooldown <= 0) {
             this.shoot(state);
-            const baseRate = 12;
-            const speedBoost = state.hero.powers.speed > 0 ? 1.6 : 1;
+            const baseRate = 7;
+            const speedBoost = state.hero.powers.speed > 0 ? 1.8 : 1;
             const totalBoost = speedBoost * state.hero.fireRateBoost * (1 + state.upgrades.fireRate * 0.05);
-            state.hero.shootCooldown = Math.max(4, baseRate / totalBoost);
+            state.hero.shootCooldown = Math.max(2, baseRate / totalBoost);
         }
     },
 

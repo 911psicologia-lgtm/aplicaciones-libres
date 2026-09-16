@@ -1,5 +1,6 @@
 /* ============================================================
-   ENTITIES - Bullet, Enemy, Boss, Ally
+   ENTITIES v5 - Bullet, Enemy (con comportamientos), Boss, Ally
+   Más velocidad, más variedad, más adrenalina
    ============================================================ */
 
 /* ============ BULLET ============ */
@@ -9,36 +10,23 @@ class Bullet {
         this.y = y;
         this.isEnemy = isEnemy;
         this.type = type;
-        this.speed = isEnemy ? Math.min(speed, 9) : speed;
+        this.speed = isEnemy ? Math.min(speed, 11) : speed;
         this.vx = Math.cos(angle) * this.speed;
         this.vy = Math.sin(angle) * this.speed;
         this.dead = false;
         this.size = isEnemy ? 7 : 10;
         this.damage = this._getDamage(type);
         this.pierce = (type === 'PIERCE') ? 3 : 0;
-        this.life = 200; // evita memoria infinita
+        this.life = 200;
         this.angle = angle;
         this.t = 0;
     }
 
     _getDamage(type) {
         const damages = {
-            NORMAL: 15,
-            TRIPLE: 12,
-            KISS: 18,
-            ROSE: 22,
-            LASER: 8,
-            PIERCE: 20,
-            BOMB: 30,
-            ENEMY: 1,
-            BOSS: 1,
-            // Tipos elementales
-            ICE: 18,
-            FIRE: 25,
-            LIGHTNING: 14,
-            SHADOW: 20,
-            LIGHT: 22,
-            NATURE: 16
+            NORMAL: 15, TRIPLE: 12, KISS: 18, ROSE: 22, LASER: 8, PIERCE: 20, BOMB: 30,
+            ENEMY: 1, BOSS: 1,
+            ICE: 18, FIRE: 25, LIGHTNING: 14, SHADOW: 20, LIGHT: 22, NATURE: 16
         };
         return damages[type] || 15;
     }
@@ -52,59 +40,27 @@ class Bullet {
             this.x < -50 || this.x > state.canvasW + 50) {
             this.dead = true;
         }
-        // Estela de partículas
-        if (this.t % 2 === 0 && (this.type === 'KISS' || this.type === 'ROSE' || this.type === 'LASER')) {
-            state.particles.push(new Particle(this.x, this.y, {
-                vx: -this.vx * 0.1 + (Math.random() - 0.5),
-                vy: -this.vy * 0.1 + (Math.random() - 0.5),
-                color: this.isEnemy ? '#ff3333' : '#6ef0ff',
-                size: 2, life: 0.4, decay: 0.08
-            }));
-        }
         // Estelas elementales
         if (this.t % 2 === 0 && !this.isEnemy) {
-            if (this.type === 'FIRE') {
-                // Estela de fuego
-                state.particles.push(new Particle(this.x, this.y, {
-                    vx: (Math.random() - 0.5) * 2,
-                    vy: 2 + Math.random() * 2,
-                    color: ['#ff6600', '#ffaa00', '#ffff00'][Math.floor(Math.random() * 3)],
-                    size: 3 + Math.random() * 2, life: 0.5, decay: 0.06
-                }));
-            } else if (this.type === 'ICE') {
-                // Estela de hielo (cristales pequeños)
-                state.particles.push(new Particle(this.x, this.y, {
-                    vx: (Math.random() - 0.5) * 1,
-                    vy: 1 + Math.random(),
-                    color: '#aaffff', size: 2, life: 0.4, decay: 0.08, shape: 'star'
-                }));
-            } else if (this.type === 'LIGHTNING') {
-                // Chispas eléctricas
-                state.particles.push(new Particle(this.x, this.y, {
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: (Math.random() - 0.5) * 4,
-                    color: '#ffff00', size: 2, life: 0.3, decay: 0.1, shape: 'spark'
-                }));
-            } else if (this.type === 'SHADOW') {
-                // Estela oscura
-                state.particles.push(new Particle(this.x, this.y, {
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: (Math.random() - 0.5) * 1.5,
-                    color: '#660099', size: 3, life: 0.5, decay: 0.06
-                }));
-            } else if (this.type === 'LIGHT') {
-                // Destellos de luz
+            const trails = {
+                FIRE: { color: ['#ff6600', '#ffaa00', '#ffff00'], size: 4, life: 0.5 },
+                ICE: { color: ['#aaffff'], size: 2, life: 0.4, shape: 'star' },
+                LIGHTNING: { color: ['#ffff00'], size: 2, life: 0.3, shape: 'spark' },
+                SHADOW: { color: ['#660099'], size: 3, life: 0.5 },
+                LIGHT: { color: ['#FFD700'], size: 2, life: 0.4, shape: 'star' },
+                NATURE: { color: ['#88ff66'], size: 2, life: 0.5 },
+                KISS: { color: ['#ff6ec7'], size: 2, life: 0.4 },
+                ROSE: { color: ['#ff6699'], size: 2, life: 0.4 },
+                LASER: { color: ['#6ef0ff'], size: 2, life: 0.4 }
+            };
+            const trail = trails[this.type];
+            if (trail) {
                 state.particles.push(new Particle(this.x, this.y, {
                     vx: (Math.random() - 0.5) * 2,
                     vy: (Math.random() - 0.5) * 2,
-                    color: '#FFD700', size: 2, life: 0.4, decay: 0.07, shape: 'star'
-                }));
-            } else if (this.type === 'NATURE') {
-                // Esporas verdes
-                state.particles.push(new Particle(this.x, this.y, {
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: 1 + Math.random(),
-                    color: '#88ff66', size: 2, life: 0.5, decay: 0.06
+                    color: Array.isArray(trail.color) ? trail.color[Math.floor(Math.random() * trail.color.length)] : trail.color,
+                    size: trail.size, life: trail.life, decay: 0.06,
+                    shape: trail.shape || 'circle'
                 }));
             }
         }
@@ -115,46 +71,94 @@ class Bullet {
     }
 }
 
-/* ============ ENEMY (esbirros) ============ */
+/* ============ ENEMY - con familias y comportamientos ============ */
 class Enemy {
     constructor(opts = {}) {
         const level = LEVELS[Game.state.levelIdx];
+        // Define si es menor, medio o mayor
+        this.tier = opts.tier || 'minor'; // minor | medium | major | subBoss
+        const tierKey = this.tier === 'minor' ? 'enemyMinor' : (this.tier === 'medium' ? 'enemyMedium' : 'enemyMajor');
+        const def = level[tierKey];
+
         this.x = opts.x !== undefined ? opts.x : Math.random() * Game.state.canvasW;
         this.y = opts.y !== undefined ? opts.y : -80;
-        this.type = opts.type || level.enemyType;
+        this.type = def.type;
+        this.name = def.name;
         this.isBoss = false;
         this.isSubBoss = opts.isSubBoss || false;
-        this.size = opts.size || (this.isSubBoss ? 80 : 50);
-        this.hp = opts.hp || (this.isSubBoss ? 300 + Game.state.levelIdx * 30 : 25 + Game.state.levelIdx * 4);
+        this.size = opts.size || (this.tier === 'major' ? 60 : (this.tier === 'medium' ? 50 : 40));
+        this.hp = def.hp + (Game.state.levelIdx * 3);
         this.maxHp = this.hp;
         this.dead = false;
-        this.vy = opts.vy || (3.5 + Game.state.levelIdx * 0.1);
-        this.vx = opts.vx || 0;
-        this.shootCooldown = opts.shootCooldown || (this.isSubBoss ? 60 : 0);
+        this.baseSpeed = def.speed + (Game.state.levelIdx * 0.05);
+        this.vy = this.baseSpeed;
+        this.vx = 0;
+        this.behavior = def.behavior;
+        this.shootInterval = def.shootInterval || 0;
+        this.shootCooldown = this.shootInterval ? Math.random() * this.shootInterval : 0;
         this.t = 0;
-        this.scoreValue = this.isSubBoss ? 400 : 100;
+        this.scoreValue = def.score;
+        this.startX = this.x;
+        this.angleOffset = Math.random() * Math.PI * 2;
+        // Para comportamiento rush
+        this.rushTimer = 0;
+        this.rushing = false;
     }
 
     update(state) {
         this.t++;
-        this.y += this.vy;
-        this.x += this.vx + Math.sin(this.t * 0.05) * (this.isSubBoss ? 2 : 1.5);
+        // Aplicar comportamiento
+        switch (this.behavior) {
+            case 'straight':
+                this.y += this.baseSpeed;
+                break;
+            case 'sine':
+                this.y += this.baseSpeed;
+                this.x = this.startX + Math.sin(this.t * 0.04 + this.angleOffset) * 80;
+                break;
+            case 'zigzag':
+                this.y += this.baseSpeed;
+                this.x += Math.sin(this.t * 0.08) * 4;
+                // Rebote lateral
+                if (this.x < 30) this.x = 30;
+                if (this.x > state.canvasW - 30) this.x = state.canvasW - 30;
+                break;
+            case 'rush':
+                // Se acerca despacio, luego embiste
+                if (!this.rushing) {
+                    this.y += this.baseSpeed * 0.5;
+                    this.rushTimer++;
+                    if (this.rushTimer > 60 && this.y > 100) {
+                        this.rushing = true;
+                        // Calcular dirección hacia la heroína
+                        const dx = state.hero.x - this.x;
+                        const dy = state.hero.y - this.y;
+                        const d = Math.hypot(dx, dy);
+                        this.vx = (dx / d) * this.baseSpeed * 2;
+                        this.vy = (dy / d) * this.baseSpeed * 2;
+                    }
+                } else {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                break;
+        }
 
-        // Rebote lateral
-        if (this.x < 30) { this.x = 30; this.vx = Math.abs(this.vx); }
-        if (this.x > state.canvasW - 30) { this.x = state.canvasW - 30; this.vx = -Math.abs(this.vx); }
-
-        // Disparo esporádico para subjefes
-        if (this.isSubBoss && this.shootCooldown > 0) {
+        // Disparo para enemigos medios
+        if (this.shootInterval > 0) {
             this.shootCooldown--;
-            if (this.shootCooldown <= 0) {
+            if (this.shootCooldown <= 0 && this.y > 0 && this.y < state.canvasH * 0.7) {
                 const angle = Math.atan2(state.hero.y - this.y, state.hero.x - this.x);
                 state.entities.push(new Bullet(this.x, this.y, angle, 'ENEMY', true, 5));
-                this.shootCooldown = 80 + Math.random() * 40;
+                this.shootCooldown = this.shootInterval;
+                AudioEngine.shoot();
             }
         }
 
-        if (this.y > state.canvasH + 100) this.dead = true;
+        // Salir de pantalla
+        if (this.y > state.canvasH + 100 || this.x < -100 || this.x > state.canvasW + 100) {
+            this.dead = true;
+        }
     }
 
     draw(ctx) {
@@ -221,98 +225,22 @@ class Boss {
     }
 
     _shoot(state) {
-        // Disparo básico hacia la heroína
         const angle = Math.atan2(state.hero.y - this.y, state.hero.x - this.x);
         state.entities.push(new Bullet(this.x, this.y + 30, angle, 'BOSS', true, 6));
-        // A veces disparo triple
-        if (Math.random() > 0.6) {
-            state.entities.push(new Bullet(this.x, this.y + 30, angle - 0.2, 'BOSS', true, 6));
-            state.entities.push(new Bullet(this.x, this.y + 30, angle + 0.2, 'BOSS', true, 6));
+        if (Math.random() > 0.5) {
+            state.entities.push(new Bullet(this.x, this.y + 30, angle - 0.25, 'BOSS', true, 6));
+            state.entities.push(new Bullet(this.x, this.y + 30, angle + 0.25, 'BOSS', true, 6));
         }
     }
 
     draw(ctx) {
-        // Usa imagen de villano si está disponible, sino fallback a canvas
-        if (this.cfg.imageKey && ImageLoader.has(this.cfg.imageKey)) {
-            ctx.save();
-            // Aura del jefe (pulsante)
-            const auraColor = this.inSpecial ? '#ff0033' : '#ff6600';
-            const pulse = 0.4 + Math.sin(this.t * 0.1) * 0.2;
-            const aura = ctx.createRadialGradient(this.x, this.y, this.size * 0.3, this.x, this.y, this.size * 1.2);
-            aura.addColorStop(0, `rgba(255, 100, 0, ${pulse * 0.6})`);
-            aura.addColorStop(0.5, `rgba(255, 0, 100, ${pulse * 0.3})`);
-            aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = aura;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size * 1.2, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Aura de poder especial activo
-            if (this.inSpecial) {
-                ctx.strokeStyle = `rgba(255, 0, 51, ${0.6 + Math.sin(this.t * 0.4) * 0.3})`;
-                ctx.lineWidth = 4;
-                ctx.shadowColor = '#ff0033';
-                ctx.shadowBlur = 25;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * 1.1, 0, Math.PI * 2);
-                ctx.stroke();
-                ctx.shadowBlur = 0;
-            }
-
-            // Sombra
-            ctx.fillStyle = 'rgba(0,0,0,0.4)';
-            ctx.beginPath();
-            ctx.ellipse(this.x, this.y + this.size * 0.5, this.size * 0.4, this.size * 0.1, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Imagen del villano con glow
-            ctx.shadowColor = auraColor;
-            ctx.shadowBlur = 20;
-            const img = ImageLoader.get(this.cfg.imageKey);
-            const aspect = img.height / img.width;
-            const w = this.size * 1.6;
-            const h = w * aspect;
-            ctx.drawImage(img, this.x - w / 2, this.y - h / 2 - this.size * 0.2, w, h);
-            ctx.shadowBlur = 0;
-
-            // Corona/diadema dorada sobre el jefe
-            ctx.fillStyle = '#FFD700';
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1.5;
-            const cy = this.y - this.size * 0.7;
-            ctx.beginPath();
-            ctx.moveTo(this.x - this.size * 0.3, cy);
-            ctx.lineTo(this.x - this.size * 0.3, cy + this.size * 0.1);
-            ctx.lineTo(this.x + this.size * 0.3, cy + this.size * 0.1);
-            ctx.lineTo(this.x + this.size * 0.3, cy);
-            ctx.lineTo(this.x + this.size * 0.2, cy - this.size * 0.05);
-            ctx.lineTo(this.x + this.size * 0.1, cy - this.size * 0.15);
-            ctx.lineTo(this.x, cy - this.size * 0.05);
-            ctx.lineTo(this.x - this.size * 0.1, cy - this.size * 0.15);
-            ctx.lineTo(this.x - this.size * 0.2, cy - this.size * 0.05);
-            ctx.closePath();
-            ctx.fill();
-            ctx.stroke();
-            // Joya roja en la corona
-            ctx.fillStyle = '#ff0033';
-            ctx.shadowColor = '#ff0033';
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.arc(this.x, cy - this.size * 0.02, this.size * 0.04, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-
-            ctx.restore();
-            return;
-        }
-        // Fallback al canvas original
         if (this.cfg.drawFn) {
             this.cfg.drawFn(ctx, this.x, this.y, this.size, this.t, this.hp / this.maxHp);
         }
     }
 }
 
-/* ============ ALLY (aliados que orbitan a la heroína) ============ */
+/* ============ ALLY ============ */
 class Ally {
     constructor() {
         this.x = 0;
@@ -327,7 +255,6 @@ class Ally {
         this.x = state.hero.x + Math.cos(angle) * 95;
         this.y = state.hero.y + Math.sin(angle) * 95;
 
-        // Disparo sincronizado
         this.shootCooldown--;
         if (this.shootCooldown <= 0) {
             const shots = state.hero.combo > 10 ? 2 : 1;
@@ -342,19 +269,15 @@ class Ally {
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
-        // Mini príncipe / aliado (variante del héroe)
         // Aura
         ctx.fillStyle = 'rgba(110, 240, 255, 0.3)';
         ctx.beginPath();
         ctx.arc(0, 0, 20, 0, Math.PI * 2);
         ctx.fill();
-        // Cuerpo
+        // Cuerpo príncipe aliado
         ctx.fillStyle = '#3366ff';
         ctx.beginPath();
-        ctx.moveTo(-12, 0);
-        ctx.lineTo(12, 0);
-        ctx.lineTo(16, 22);
-        ctx.lineTo(-16, 22);
+        ctx.moveTo(-12, 0); ctx.lineTo(12, 0); ctx.lineTo(16, 22); ctx.lineTo(-16, 22);
         ctx.closePath();
         ctx.fill();
         // Cabeza
@@ -367,16 +290,11 @@ class Ally {
         ctx.beginPath();
         ctx.arc(0, -7, 9, Math.PI, Math.PI * 2);
         ctx.fill();
-        // Corona pequeña
+        // Corona
         ctx.fillStyle = '#FFD700';
         ctx.beginPath();
-        ctx.moveTo(-6, -14);
-        ctx.lineTo(-6, -11);
-        ctx.lineTo(6, -11);
-        ctx.lineTo(6, -14);
-        ctx.lineTo(3, -10);
-        ctx.lineTo(0, -14);
-        ctx.lineTo(-3, -10);
+        ctx.moveTo(-6, -14); ctx.lineTo(-6, -11); ctx.lineTo(6, -11); ctx.lineTo(6, -14);
+        ctx.lineTo(3, -10); ctx.lineTo(0, -14); ctx.lineTo(-3, -10);
         ctx.closePath();
         ctx.fill();
         // Ojos
@@ -389,7 +307,7 @@ class Ally {
     }
 }
 
-/* ============ POWERUP ITEM (en pantalla) ============ */
+/* ============ POWERUP ITEM ============ */
 class PowerUpItem {
     constructor(x, y, type) {
         this.x = x;
@@ -406,7 +324,6 @@ class PowerUpItem {
         this.t++;
         this.y += this.vy;
         this.x += this.vx;
-        // Atracción magnética
         const magnetRange = 80 + state.upgrades.magnetism * 20;
         const dx = state.hero.x - this.x;
         const dy = state.hero.y - this.y;
@@ -440,10 +357,9 @@ class Coin {
         this.t++;
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.15; // gravedad
+        this.vy += 0.15;
         this.vx *= 0.99;
         this.life--;
-        // Atracción
         const magnetRange = 100 + state.upgrades.magnetism * 25;
         const dx = state.hero.x - this.x;
         const dy = state.hero.y - this.y;
@@ -460,7 +376,7 @@ class Coin {
     }
 }
 
-/* ============ CHEST (cofre con premio) ============ */
+/* ============ CHEST ============ */
 class Chest {
     constructor(x, y) {
         this.x = x;

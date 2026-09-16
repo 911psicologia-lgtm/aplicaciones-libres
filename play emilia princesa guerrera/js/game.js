@@ -302,21 +302,43 @@ const Game = {
 
     _handleSpawns() {
         const state = this.state;
-        if (state.bossActive) return; // no spawneas minions durante el jefe
+        if (state.bossActive) return;
 
-        // Enemigos
+        // Enemigos menores (frecuentes)
         state.spawnTimers.enemy--;
         if (state.spawnTimers.enemy <= 0) {
-            state.entities.push(new Enemy());
-            state.spawnTimers.enemy = Math.max(15, 50 - state.levelIdx * 2);
+            state.entities.push(new Enemy({ tier: 'minor' }));
+            // Cadencia más rápida con el nivel
+            state.spawnTimers.enemy = Math.max(12, 40 - state.levelIdx * 2);
+        }
+
+        // Enemigos medios (cada cierto tiempo, disparan)
+        state.spawnTimers.medium = (state.spawnTimers.medium || 200) - 1;
+        if (state.spawnTimers.medium <= 0) {
+            state.entities.push(new Enemy({ tier: 'medium' }));
+            state.spawnTimers.medium = 150 + Math.random() * 100;
+        }
+
+        // Enemigos mayores (menos frecuentes, más peligrosos)
+        state.spawnTimers.major = (state.spawnTimers.major || 400) - 1;
+        if (state.spawnTimers.major <= 0) {
+            state.entities.push(new Enemy({ tier: 'major' }));
+            state.spawnTimers.major = 350 + Math.random() * 200;
+            AudioEngine.warning();
         }
 
         // Sub-jefes (cada cierto tiempo)
         state.subBossTimer--;
         if (state.subBossTimer <= 0) {
-            state.entities.push(new Enemy({ isSubBoss: true, y: -100 }));
+            // Subjefe = enemigo mayor con mas HP
+            const sb = new Enemy({ tier: 'major', isSubBoss: true, size: 80 });
+            sb.hp *= 3;
+            sb.maxHp = sb.hp;
+            sb.scoreValue = 600;
+            state.entities.push(sb);
             state.subBossTimer = 1500 + Math.random() * 500;
             AudioEngine.warning();
+            PopupSystem.warning('¡SUBJEFE!');
         }
 
         // Power-ups
@@ -326,21 +348,21 @@ const Game = {
             const type = types[Math.floor(Math.random() * types.length)];
             const x = 80 + Math.random() * (state.canvasW - 160);
             state.entities.push(new PowerUpItem(x, -30, type));
-            state.spawnTimers.power = 600 + Math.random() * 300;
+            state.spawnTimers.power = 500 + Math.random() * 300;
         }
 
         // Obstáculos
         state.spawnTimers.obstacle--;
         if (state.spawnTimers.obstacle <= 0) {
             state.obstacles.push(ObstacleFactory.spawn(state));
-            state.spawnTimers.obstacle = 250 + Math.random() * 200;
+            state.spawnTimers.obstacle = 200 + Math.random() * 150;
         }
 
-        // Elementos flotantes a destruir
+        // Elementos flotantes
         state.spawnTimers.floater--;
         if (state.spawnTimers.floater <= 0) {
             state.entities.push(ObstacleFactory.spawnFloater(state));
-            state.spawnTimers.floater = 180 + Math.random() * 200;
+            state.spawnTimers.floater = 150 + Math.random() * 150;
         }
 
         // Cofres

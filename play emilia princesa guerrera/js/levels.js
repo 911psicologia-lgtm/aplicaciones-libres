@@ -1,14 +1,16 @@
 /* ============================================================
-   LEVELS - 20 Reinos con trama, ambientación, temática y datos
-   Ahora con fondos realistas (bg key para ImageLoader)
+   LEVELS v5 - 20 Reinos con familias de enemigos
+   Cada nivel define: enemyMinor, enemyMedium, enemyMajor
+   con comportamientos distintos
    ============================================================ */
 
 const LEVELS = [
     {
         n: "Reino Slime",
         story: "Las colinas verdes rebosan de babosas saltarinas que devoran cosechas. Emilia llega con su varita mágica para calmarlas.",
-        enemyType: 'slime',
-        enemyName: 'Babosa Saltarina',
+        enemyMinor: { type: 'slimeMinor', name: 'Babosa Verde', behavior: 'straight', hp: 25, speed: 3.5, score: 100 },
+        enemyMedium: { type: 'slimeMedium', name: 'Babosa Azul', behavior: 'zigzag', hp: 50, speed: 3, score: 200, shootInterval: 90 },
+        enemyMajor: { type: 'slimeMajor', name: 'Babosa Carmesí', behavior: 'rush', hp: 100, speed: 5, score: 400 },
         bg: { deep: '#0a1a30', mid: '#1a3a5a', accent: '#88ff99', secondary: '#22aa55', stars: '#ffffff' },
         bgImage: 'bg_slime',
         boss: 'slimeKing',
@@ -19,8 +21,9 @@ const LEVELS = [
     {
         n: "Bosque Dulce",
         story: "Un bosque de caramelo y miel está siendo invadido por enjambres de avispas de azúcar. La Reina Abeja exige tributo.",
-        enemyType: 'bee',
-        enemyName: 'Abeja de Miel',
+        enemyMinor: { type: 'beeMinor', name: 'Abeja Obrera', behavior: 'sine', hp: 20, speed: 4, score: 100 },
+        enemyMedium: { type: 'goblinMinor', name: 'Duende Dulce', behavior: 'zigzag', hp: 45, speed: 3.5, score: 180 },
+        enemyMajor: { type: 'beeMinor', name: 'Abeja Reina Joven', behavior: 'rush', hp: 90, speed: 5, score: 350, shootInterval: 80 },
         bg: { deep: '#2a0a1a', mid: '#5a2a3a', accent: '#ffcc66', secondary: '#ff6699', stars: '#fff' },
         bgImage: 'bg_candy',
         boss: 'queenBee',
@@ -31,8 +34,9 @@ const LEVELS = [
     {
         n: "Valle Fuego",
         story: "Ríos de lava cruzan el valle. Los imps de fuego desafían a cualquier intruso con burlas ardientes.",
-        enemyType: 'fireImp',
-        enemyName: 'Imp de Lava',
+        enemyMinor: { type: 'impMinor', name: 'Diablillo', behavior: 'sine', hp: 25, speed: 4, score: 100 },
+        enemyMedium: { type: 'impMinor', name: 'Demonio Joven', behavior: 'zigzag', hp: 55, speed: 4.5, score: 220, shootInterval: 100 },
+        enemyMajor: { type: 'impMajor', name: 'Demonio Mayor', behavior: 'rush', hp: 120, speed: 5, score: 450 },
         bg: { deep: '#2a0000', mid: '#5a0a00', accent: '#ff6600', secondary: '#ffaa00', stars: '#ffff66' },
         bgImage: 'bg_fire',
         boss: 'fireDemon',
@@ -43,8 +47,9 @@ const LEVELS = [
     {
         n: "Cumbres Hielo",
         story: "Cumbres congeladas donde los golems de hielo vigilan reliquias antiguas. El frío cala hasta el alma.",
-        enemyType: 'iceGolem',
-        enemyName: 'Golem de Hielo',
+        enemyMinor: { type: 'iceGolemMinor', name: 'Golem de Hielo', behavior: 'straight', hp: 40, speed: 2.5, score: 120 },
+        enemyMedium: { type: 'iceGolemMinor', name: 'Golem Escarchado', behavior: 'zigzag', hp: 70, speed: 3, score: 240, shootInterval: 110 },
+        enemyMajor: { type: 'iceGolemMinor', name: 'Golem Glacial', behavior: 'rush', hp: 130, speed: 4, score: 480 },
         bg: { deep: '#001a33', mid: '#003366', accent: '#aaffff', secondary: '#6ef0ff', stars: '#fff' },
         bgImage: 'bg_ice',
         boss: 'iceQueen',
@@ -55,8 +60,9 @@ const LEVELS = [
     {
         n: "Ciudad Neón",
         story: "Una metrópolis cibernética donde robots defectuosos acechan en callejones de luz líquida.",
-        enemyType: 'robot',
-        enemyName: 'Robot Corrupto',
+        enemyMinor: { type: 'robotMinor', name: 'Drone', behavior: 'sine', hp: 30, speed: 4, score: 130 },
+        enemyMedium: { type: 'robotMinor', name: 'Robot Corrupto', behavior: 'zigzag', hp: 60, speed: 3.5, score: 230, shootInterval: 90 },
+        enemyMajor: { type: 'robotMajor', name: 'Meka Neón', behavior: 'rush', hp: 140, speed: 4.5, score: 500 },
         bg: { deep: '#000010', mid: '#100030', accent: '#ff00cc', secondary: '#00ffff', stars: '#ff00ff' },
         bgImage: 'bg_neon',
         boss: 'robotOverlord',
@@ -67,8 +73,9 @@ const LEVELS = [
     {
         n: "Mundo Galleta",
         story: "Un mundo hecho de dulces donde las galletas vivientes atacan con astucia repostería.",
-        enemyType: 'cookie',
-        enemyName: 'Galleta Guerrera',
+        enemyMinor: { type: 'goblinMinor', name: 'Galleta Saltarina', behavior: 'sine', hp: 25, speed: 3.5, score: 110 },
+        enemyMedium: { type: 'slimeMedium', name: 'Postre Viviente', behavior: 'zigzag', hp: 50, speed: 3, score: 200, shootInterval: 100 },
+        enemyMajor: { type: 'goblinMedium', name: 'Repostero Loco', behavior: 'rush', hp: 110, speed: 4.5, score: 420 },
         bg: { deep: '#2a1a0a', mid: '#5a3a1a', accent: '#d2691e', secondary: '#ffaa55', stars: '#ffd700' },
         bgImage: 'bg_cookie',
         boss: 'cookieMonster',
@@ -79,8 +86,9 @@ const LEVELS = [
     {
         n: "Océano Perla",
         story: "Profundidades abisales donde pulpos gigantes custodian perlas cantoras.",
-        enemyType: 'octopus',
-        enemyName: 'Pulpo Abisal',
+        enemyMinor: { type: 'slimeMinor', name: 'Medusa', behavior: 'sine', hp: 25, speed: 3, score: 110 },
+        enemyMedium: { type: 'slimeMedium', name: 'Pulpo Abisal', behavior: 'zigzag', hp: 55, speed: 3.5, score: 210, shootInterval: 95 },
+        enemyMajor: { type: 'slimeMajor', name: 'Leviatán', behavior: 'rush', hp: 115, speed: 4, score: 430 },
         bg: { deep: '#001a4a', mid: '#003380', accent: '#66ccff', secondary: '#ff66cc', stars: '#aaffff' },
         bgImage: 'bg_ocean',
         boss: 'kraken',
@@ -91,8 +99,9 @@ const LEVELS = [
     {
         n: "Desierto Dorado",
         story: "Dunas infinitas esconden escorpiones dorados que emergen al anochecer.",
-        enemyType: 'scorpion',
-        enemyName: 'Escorpión Dorado',
+        enemyMinor: { type: 'wormMinor', name: 'Gusano Pequeño', behavior: 'sine', hp: 30, speed: 3.5, score: 120 },
+        enemyMedium: { type: 'wormMinor', name: 'Escorpión Dorado', behavior: 'zigzag', hp: 60, speed: 4, score: 230, shootInterval: 90 },
+        enemyMajor: { type: 'wormMinor', name: 'Gusano Gigante', behavior: 'rush', hp: 130, speed: 5, score: 480 },
         bg: { deep: '#3a2a0a', mid: '#7a5a1a', accent: '#ffaa00', secondary: '#ff6600', stars: '#ffff80' },
         bgImage: 'bg_desert',
         boss: 'sandWorm',
@@ -103,8 +112,9 @@ const LEVELS = [
     {
         n: "Selva Mágica",
         story: "Una selva viva donde tigres espirituales protegen reliquias antiguas.",
-        enemyType: 'tiger',
-        enemyName: 'Tigre Espíritu',
+        enemyMinor: { type: 'tigerMinor', name: 'Tigre Joven', behavior: 'sine', hp: 30, speed: 4, score: 130 },
+        enemyMedium: { type: 'goblinMinor', name: 'Tribal Selva', behavior: 'zigzag', hp: 60, speed: 3.5, score: 220, shootInterval: 95 },
+        enemyMajor: { type: 'tigerMinor', name: 'Tigre Espíritu', behavior: 'rush', hp: 130, speed: 5, score: 470 },
         bg: { deep: '#0a2a0a', mid: '#1a5a1a', accent: '#66ff33', secondary: '#ffcc00', stars: '#aaffaa' },
         bgImage: 'bg_jungle',
         boss: 'tigerKing',
@@ -115,8 +125,9 @@ const LEVELS = [
     {
         n: "Castillo Fantasma",
         story: "Un castillo encantado donde los fantasmas susurran maldiciones milenarias.",
-        enemyType: 'ghost',
-        enemyName: 'Espectro Lamentoso',
+        enemyMinor: { type: 'ghostMinor', name: 'Espectro', behavior: 'sine', hp: 25, speed: 3, score: 120 },
+        enemyMedium: { type: 'skeletonMinor', name: 'Esqueleto', behavior: 'zigzag', hp: 55, speed: 3.5, score: 210, shootInterval: 100 },
+        enemyMajor: { type: 'ghostMajor', name: 'Espectro Mayor', behavior: 'rush', hp: 120, speed: 4, score: 450 },
         bg: { deep: '#0a0a2a', mid: '#1a1a4a', accent: '#aaaaff', secondary: '#ccccff', stars: '#ffffff' },
         bgImage: 'bg_haunted',
         boss: 'ghostKing',
@@ -127,8 +138,9 @@ const LEVELS = [
     {
         n: "Nubes Algodón",
         story: "Ciudades flotantes en nubes rosas donde las tormentas cobran vida propia.",
-        enemyType: 'cloud',
-        enemyName: 'Nube Tempestuosa',
+        enemyMinor: { type: 'beeMinor', name: 'Hada Veloz', behavior: 'sine', hp: 25, speed: 4, score: 120 },
+        enemyMedium: { type: 'ghostMinor', name: 'Nube Viva', behavior: 'zigzag', hp: 55, speed: 3, score: 210, shootInterval: 100 },
+        enemyMajor: { type: 'robotMinor', name: 'Golem Aire', behavior: 'rush', hp: 120, speed: 4.5, score: 460 },
         bg: { deep: '#2a3a5a', mid: '#5a6a8a', accent: '#ffffff', secondary: '#ffccff', stars: '#ffffff' },
         bgImage: 'bg_clouds',
         boss: 'cloudGiant',
@@ -139,8 +151,9 @@ const LEVELS = [
     {
         n: "Espacio Estelar",
         story: "El vacío interestelar donde naves alienígenas acechan enjambres cósmicos.",
-        enemyType: 'alien',
-        enemyName: 'Invasor Gris',
+        enemyMinor: { type: 'alienMinor', name: 'Invasor Gris', behavior: 'sine', hp: 30, speed: 3.5, score: 130 },
+        enemyMedium: { type: 'alienMinor', name: 'Xeno Soldado', behavior: 'zigzag', hp: 60, speed: 4, score: 240, shootInterval: 90 },
+        enemyMajor: { type: 'robotMajor', name: 'Node Nodriza', behavior: 'rush', hp: 140, speed: 4.5, score: 500 },
         bg: { deep: '#000005', mid: '#0a0a25', accent: '#88ff66', secondary: '#aa66ff', stars: '#ffffff' },
         bgImage: 'bg_space',
         boss: 'alienMother',
@@ -151,8 +164,9 @@ const LEVELS = [
     {
         n: "Jardín Rosas",
         story: "Un jardín encantado donde las rosas espirituales protegen a la Dama Carmesí.",
-        enemyType: 'rose',
-        enemyName: 'Rosa Espinosa',
+        enemyMinor: { type: 'beeMinor', name: 'Mariposa Rosa', behavior: 'sine', hp: 25, speed: 3.5, score: 120 },
+        enemyMedium: { type: 'ghostMinor', name: 'Espíritu Floral', behavior: 'zigzag', hp: 55, speed: 3, score: 220, shootInterval: 95 },
+        enemyMajor: { type: 'tigerMinor', name: 'Guardián Rosal', behavior: 'rush', hp: 120, speed: 4.5, score: 470 },
         bg: { deep: '#2a0a1a', mid: '#5a1a3a', accent: '#ff3366', secondary: '#ff6699', stars: '#ffaaaa' },
         bgImage: 'bg_roses',
         boss: 'roseQueen',
@@ -163,8 +177,9 @@ const LEVELS = [
     {
         n: "Mina Gemas",
         story: "Profundas minas donde cristales vivos cortan el aire con reflejos afilados.",
-        enemyType: 'gem',
-        enemyName: 'Gema Cortante',
+        enemyMinor: { type: 'iceGolemMinor', name: 'Gema Pequeña', behavior: 'sine', hp: 35, speed: 3.5, score: 130 },
+        enemyMedium: { type: 'skeletonMinor', name: 'Minero Muerto', behavior: 'zigzag', hp: 65, speed: 3.5, score: 240, shootInterval: 90 },
+        enemyMajor: { type: 'iceGolemMinor', name: 'Gema Colosal', behavior: 'rush', hp: 135, speed: 4.5, score: 490 },
         bg: { deep: '#0a0a3a', mid: '#1a1a5a', accent: '#00ffff', secondary: '#aa00ff', stars: '#ffffff' },
         bgImage: 'bg_mine',
         boss: 'gemDragon',
@@ -175,8 +190,9 @@ const LEVELS = [
     {
         n: "Reino del Sol",
         story: "Un reino dorado donde el sol nunca se pone y los espíritus solares custodian reliquias ardientes.",
-        enemyType: 'sun',
-        enemyName: 'Espíritu Solar',
+        enemyMinor: { type: 'impMinor', name: 'Espíritu Solar', behavior: 'sine', hp: 30, speed: 4, score: 130 },
+        enemyMedium: { type: 'impMinor', name: 'Avatar Solar', behavior: 'zigzag', hp: 65, speed: 4, score: 240, shootInterval: 90 },
+        enemyMajor: { type: 'impMajor', name: 'Heraldo Solar', behavior: 'rush', hp: 140, speed: 5, score: 500 },
         bg: { deep: '#3a2a00', mid: '#7a5a00', accent: '#ffff00', secondary: '#ffaa00', stars: '#ffffaa' },
         bgImage: 'bg_sun',
         boss: 'sunGod',
@@ -187,8 +203,9 @@ const LEVELS = [
     {
         n: "Tierra Dragones",
         story: "Cumbres volcánicas donde dragones milenarios disputan el cielo ardiente.",
-        enemyType: 'dragon',
-        enemyName: 'Dragón Joven',
+        enemyMinor: { type: 'dragonMinor', name: 'Dragón Joven', behavior: 'sine', hp: 35, speed: 4, score: 140 },
+        enemyMedium: { type: 'dragonMinor', name: 'Wyvern', behavior: 'zigzag', hp: 70, speed: 4.5, score: 250, shootInterval: 85 },
+        enemyMajor: { type: 'impMajor', name: 'Dragón Anciano', behavior: 'rush', hp: 150, speed: 5, score: 520 },
         bg: { deep: '#1a0a0a', mid: '#3a1a1a', accent: '#33aa33', secondary: '#ff6600', stars: '#ffaa00' },
         bgImage: 'bg_dragon',
         boss: 'dragonLord',
@@ -199,8 +216,9 @@ const LEVELS = [
     {
         n: "Pantano Oscuro",
         story: "Nieblas tóxicas cubren un pantano donde cocodrilos mutantes devoran incautos.",
-        enemyType: 'croc',
-        enemyName: 'Cocodrilo Tóxico',
+        enemyMinor: { type: 'witchMinor', name: 'Bruja Aprendiz', behavior: 'sine', hp: 30, speed: 3.5, score: 140 },
+        enemyMedium: { type: 'witchMinor', name: 'Bruja Pantanosa', behavior: 'zigzag', hp: 65, speed: 3.5, score: 250, shootInterval: 90 },
+        enemyMajor: { type: 'witchMajor', name: 'Bruja Mayor', behavior: 'rush', hp: 145, speed: 4.5, score: 510 },
         bg: { deep: '#0a1a0a', mid: '#1a3a1a', accent: '#4a7c2a', secondary: '#aa6633', stars: '#88aa66' },
         bgImage: 'bg_swamp',
         boss: 'swampWitch',
@@ -211,8 +229,9 @@ const LEVELS = [
     {
         n: "Cuna Juguetes",
         story: "Un taller encantado donde juguetes abandonados cobran vida con hambre vengativa.",
-        enemyType: 'teddy',
-        enemyName: 'Oso Vendido',
+        enemyMinor: { type: 'goblinMinor', name: 'Oso Peluche', behavior: 'sine', hp: 30, speed: 3.5, score: 140 },
+        enemyMedium: { type: 'robotMinor', name: 'Soldadito', behavior: 'zigzag', hp: 65, speed: 4, score: 250, shootInterval: 90 },
+        enemyMajor: { type: 'goblinMedium', name: 'Maestro Juguete', behavior: 'rush', hp: 145, speed: 4.5, score: 510 },
         bg: { deep: '#3a1a2a', mid: '#5a2a3a', accent: '#ff99cc', secondary: '#ffcc66', stars: '#ffccaa' },
         bgImage: 'bg_toys',
         boss: 'toyMaster',
@@ -223,8 +242,9 @@ const LEVELS = [
     {
         n: "Dimensión Cristal",
         story: "Una dimensión espejo donde los cristales reflejan maldad y luz en igual medida.",
-        enemyType: 'crystal',
-        enemyName: 'Cristal Espejo',
+        enemyMinor: { type: 'iceGolemMinor', name: 'Cristal Menor', behavior: 'sine', hp: 35, speed: 4, score: 150 },
+        enemyMedium: { type: 'ghostMinor', name: 'Cristal Espejo', behavior: 'zigzag', hp: 70, speed: 4, score: 260, shootInterval: 85 },
+        enemyMajor: { type: 'iceGolemMinor', name: 'Prisma Viviente', behavior: 'rush', hp: 150, speed: 5, score: 530 },
         bg: { deep: '#1a0a3a', mid: '#3a1a5a', accent: '#aaccff', secondary: '#ff66cc', stars: '#ffffff' },
         bgImage: 'bg_crystal',
         boss: 'crystalSage',
@@ -235,8 +255,9 @@ const LEVELS = [
     {
         n: "Trono Supremo",
         story: "El corazón del imperio oscuro. La Emperatriz Oscura aguarda con todos los poderes robados a los reinos caídos.",
-        enemyType: 'darkling',
-        enemyName: 'Esbirro Oscuro',
+        enemyMinor: { type: 'darklingMinor', name: 'Esbirro Oscuro', behavior: 'sine', hp: 35, speed: 4, score: 150 },
+        enemyMedium: { type: 'darklingMinor', name: 'Sombra Mayor', behavior: 'zigzag', hp: 75, speed: 4.5, score: 280, shootInterval: 80 },
+        enemyMajor: { type: 'darklingMajor', name: 'Abismo', behavior: 'rush', hp: 160, speed: 5.5, score: 550 },
         bg: { deep: '#000000', mid: '#1a0010', accent: '#ff0033', secondary: '#660066', stars: '#660000' },
         bgImage: 'bg_dark',
         boss: 'darkEmpress',
