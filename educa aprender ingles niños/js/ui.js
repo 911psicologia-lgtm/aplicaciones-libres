@@ -323,8 +323,14 @@ function renderMap() {
   // v12: chip «Continuar donde quedaste»
   renderContinueChip(p);
 
+  // v13: chip 🎲 «Sorpréndeme» (misión al azar)
+  renderSurpriseChip(p);
+
   // Ruleta diaria (v5)
   renderSpinBanner(p);
+
+  // v14: retos del fin de semana (solo sáb/dom; entre semana, insinuación)
+  if (window.renderWeekendCard) renderWeekendCard(p);
 
   // Zona de Juegos (v5: Completar · Emparejar · Memoria · Escucha · Repaso)
   renderGamesZone(p);
@@ -413,6 +419,11 @@ function renderGamesZone(p) {
     // ★ v8: dos juegos nuevos
     {cls: 'gz-sent',  ico: '🧩', name: 'Oraciones', sub: 'arma la frase', fn: () => startSentenceMission()},
     {cls: 'gz-rhyme', ico: '🔵', name: 'Rimas', sub: '¿qué rima?', fn: () => startRhymeMission()},
+    // ★ v14: taller de letras y juegos creativos
+    {cls: 'gz-trace', ico: '✏️', name: 'Trazar', sub: 'letras con el dedo', fn: () => startTrace()},
+    {cls: 'gz-hang',  ico: '🎯', name: 'Ahorcado', sub: 'adivina la palabra', fn: () => startHangman()},
+    {cls: 'gz-puzzle',ico: '🖼️', name: 'Rompecabezas', sub: '4 · 9 · 12 piezas', fn: () => startPuzzle()},
+    {cls: 'gz-dots',  ico: '🔢', name: 'Puntos', sub: 'une la figura', fn: () => startDots()},
     {cls: 'gz-dict',  ico: '📚', name: 'Diccionario', sub: 'todas mis palabras', fn: () => openDictionary()},
     {cls: 'gz-review' + (pend ? '' : ' gz-off'), ico: '🔁', name: 'Repaso',
      sub: pend ? pend + (pend === 1 ? ' error · priorizado' : ' errores · priorizados') : '¡Sin errores!', fn: () => startReviewMission()},
@@ -497,6 +508,34 @@ window.resumeLastWorld = function () {
   startMission(p.lastWorld);
 };
 
+/* ── v13: 🎲 SORPRÉNDEME ──
+   Un toque y la app elige una misión al azar del nivel actual.
+   Innovación 100% aditiva: reutiliza startMission (motor intacto)
+   y el flujo normal de misiones; solo añade la emoción de la
+   sorpresa + contador para la insignia «Aventurero». */
+function renderSurpriseChip(p) {
+  const anchor = $('dailyGoal'); if (!anchor) return;
+  let host = $('surpriseChip');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'surpriseChip';
+    anchor.parentNode.insertBefore(host, anchor);
+  }
+  const pool = WORLDS.filter(w => w.lvl === currentLevel);
+  if (!pool.length) { host.innerHTML = ''; return; }
+  host.innerHTML = `<button class="cont-btn surp-btn" onclick="surpriseMe()" aria-label="Sorpréndeme: misión sorpresa al azar">🎲 Sorpréndeme</button>`;
+}
+window.surpriseMe = function () {
+  const p = activeProfile(); if (!p) return;
+  const pool = WORLDS.filter(w => w.lvl === currentLevel);
+  if (!pool.length) return;
+  const w = pool[Math.floor(Math.random() * pool.length)];
+  updateProfile(pp => { pp.stats.surpriseGames = (pp.stats.surpriseGames || 0) + 1; });
+  beep(true); buzz(30);
+  notif('🎲 ¡Sorpresa: ' + w.icon + ' ' + (w.es || w.name) + '!', 'var(--gold)');
+  startMission(w.id);
+};
+
 /* ── v11: PALABRA DEL DÍA ──
    Una palabra con foto distinta cada día (determinista por fecha local,
    sin UTC para no cambiar a las 19:00 como en v9 [C-2]). Al escucharla
@@ -568,8 +607,48 @@ const BREAK_AT = [30, 60];
     const t = todayStr();
     if (!p.stats.screenTime || p.stats.screenTime.date !== t) p.stats.screenTime = {date: t, mins: 0};
     p.stats.screenTime.mins = (p.stats.screenTime.mins || 0) + 1;
+    // v13: historial diario (para el gráfico semanal de la Zona de padres)
+    if (!p.stats.screenHist) p.stats.screenHist = {};
+    p.stats.screenHist[t] = (p.stats.screenHist[t] || 0) + 1;
     saveState();
     maybeRemind();
+    maybeLimit();
+  }
+
+  /* v13: ⏱️ LÍMITE DIARIO DE TIEMPO (control de padres, enfoque AAP)
+     Los padres fijan minutos en Zona de padres. Al alcanzarlos — y solo
+     cuando el juego está libre, como el descanso v11 — el búho celebra
+     lo jugado y sugiere cerrar. Nunca fuerza: 1 aviso por día. */
+  function maybeLimit() {
+    const p = activeProfile(); if (!p) return;
+    const lim = +STATE.settings.dailyLimit || 0;
+    if (!lim) return;                                           // sin límite configurado
+    if (typeof G !== 'undefined' && G.active) return;           // nunca en mitad de una misión
+    if (document.querySelector('.modal-overlay.on')) return;    // ni sobre otro modal
+    const t = todayStr();
+    const mins = todayMins(p);
+    /* v14: PRE-AVISO amable a los 5 min del límite (solo límites ≥ 15 min,
+       notif no bloqueante, 1 vez al día — mismas tutelas que el aviso final) */
+    if (lim >= 15 && mins >= lim - 5 && mins < lim && (p.stats.limitShown || {})['pre' + t] !== true) {
+      p.stats.limitShown = p.stats.limitShown || {};
+      p.stats.limitShown['pre' + t] = true; saveState();
+      notif('⏱️ Faltan 5 minutos para tu límite de hoy — ¡termina con calma! 🌙', 'var(--gold)');
+    }
+    if (mins < lim) return;
+    p.stats.limitShown = p.stats.limitShown || {};
+    if (p.stats.limitShown.date === t) return;                  // solo 1 aviso al día
+    p.stats.limitShown.date = t; saveState();
+    openModal('🌙 Hora de descansar', `
+      <div style="text-align:center;padding:6px 4px">
+        <img src="assets/img/ui/mascot.jpg" alt="Búho de PequeWorld" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,215,0,.5)">
+        <div style="font-weight:900;font-size:1.15em;margin:10px 0 6px">¡Jugaste ${lim} minutos hoy! 🌟</div>
+        <div class="small">Tu cerebro crece cuando descansas 💪 ¿Cerramos por hoy?<br>¡Mañana hay más aventuras y palabras nuevas!</div>
+      </div>
+    `, `<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="bigbtn bb-ghost bb-sm" onclick="closeModal()">🔸 Un poco más</button>
+        <button class="bigbtn bb-green bb-sm" onclick="closeModal()">🌙 Hasta mañana</button>
+       </div>`);
+    beep(true);
   }
   function maybeRemind() {
     const p = activeProfile(); if (!p) return;
@@ -601,6 +680,15 @@ const BREAK_AT = [30, 60];
     tick: addMinute,
     remind: maybeRemind,
     state: () => { const p = activeProfile(); return p ? {mins: todayMins(p), shown: p.stats.breakShown || {}} : null; }
+  };
+  /* v13: ganchos de prueba/evidencia para el límite diario (no alteran la UI normal) — v14: + left/pre */
+  window.PW_LIMIT = {
+    check: maybeLimit,
+    state: () => {
+      const p = activeProfile(); if (!p) return null;
+      const lim = (+STATE.settings.dailyLimit || 0), m = todayMins(p);
+      return {lim, mins: m, left: Math.max(0, lim - m), shownToday: (p.stats.limitShown || {}).date === todayStr(), preShown: (p.stats.limitShown || {})['pre' + todayStr()] === true};
+    }
   };
 })();
 
@@ -822,6 +910,12 @@ function openSettings() {
     </div>
     <div class="divider"></div>
     <div style="margin-bottom:14px">
+      <div style="font-weight:900;margin-bottom:6px">🔠 Palabras en MAYÚSCULAS (nuevo v13)</div>
+      <div class="small">Ideal para lectores tempranos que reconocen primero las mayúsculas. Solo cambia el aspecto: la voz, las fotos y el juego siguen exactamente igual.</div>
+      <button class="bigbtn bb-sm ${s.capsMode ? 'bb-gold' : 'bb-ghost'}" id="capsToggleBtn" onclick="toggleCaps(this)" style="margin-top:8px">${s.capsMode ? '🔠 Activadas' : '🔤 Normal'}</button>
+    </div>
+    <div class="divider"></div>
+    <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">⏰ Recordatorios de descanso (nuevo)</div>
       <div class="small">A los 30 y 60 minutos de juego, el búho sugiere estirarse y descansar los ojos. Nunca interrumpe una misión.</div>
       <button class="bigbtn bb-sm ${s.breakReminders === false ? 'bb-ghost' : 'bb-green'}" id="breakToggleBtn" onclick="toggleBreak(this)" style="margin-top:8px">${s.breakReminders === false ? '⏰ Apagados' : '✅ Activados'}</button>
@@ -851,6 +945,12 @@ function openSettings() {
     <div style="margin-bottom:14px">
       <div style="font-weight:900;margin-bottom:6px">👨‍👩‍👧 Zona de padres</div>
       ${parentsStatsHTML(p)}
+      <div style="margin-top:12px">
+        <div style="font-weight:900;margin-bottom:6px">⏱️ Límite de tiempo diario (nuevo v13 · pulido v14)</div>
+        <div class="small">Cuando tu peque alcance el límite, el búho celebrará lo jugado y sugerirá cerrar la app. Nunca interrumpe una misión, avisa solo 1 vez al día y a los 5 min del límite da un aviso suave.</div>
+        <div class="limit-row" id="limitRow">${limitChipsHTML()}</div>
+        <div id="limitNow">${limitNowHTML()}</div>
+      </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <button class="bigbtn bb-green bb-sm" onclick="openParentsReport()">🖨️ Informe imprimible (v8)</button>
         <button class="bigbtn bb-ghost bb-sm" onclick="exportProgress()">⬇️ Exportar progreso</button>
@@ -932,6 +1032,91 @@ function applyTextSize() {
   const t = STATE.settings.textSize;
   if (t === 'lg') document.body.classList.add('fs-lg');
   else if (t === 'xl') document.body.classList.add('fs-xl');
+}
+
+/* ── v13: 🔠 MODO MAYÚSCULAS (lectores tempranos) ──
+   Solo apariencia (text-transform): la voz, las fotos, el guardado y el
+   motor de juego quedan exactamente igual. Se aplica en boot() y al toque. */
+function applyCapsMode() {
+  document.body.classList.toggle('caps', STATE.settings.capsMode === true);
+}
+window.toggleCaps = function (btn) {
+  STATE.settings.capsMode = STATE.settings.capsMode !== true; // undefined/false→true, true→false
+  saveState(); applyCapsMode(); beep(true); buzz(20);
+  if (btn && btn.parentNode) {
+    btn.textContent = STATE.settings.capsMode ? '🔠 Activadas' : '🔤 Normal';
+    btn.classList.toggle('bb-gold', STATE.settings.capsMode);
+    btn.classList.toggle('bb-ghost', !STATE.settings.capsMode);
+  }
+  notif(STATE.settings.capsMode ? '🔠 Palabras en MAYÚSCULAS activadas' : '🔤 Mayúsculas desactivadas', 'var(--gold)');
+};
+
+/* ── v13: ⏱️ LÍMITE DIARIO (chips en Zona de padres) — pulido v14 ──
+   v14 añade: chip de 90 min, estado «minutos hoy / restantes» y un
+   PRE-AVISO amable a los 5 min del límite (notif, nunca modal). */
+function limitChipsHTML() {
+  const cur = +STATE.settings.dailyLimit || 0;
+  return [[0, 'Apagado'], [15, '15 min'], [30, '30 min'], [45, '45 min'], [60, '60 min'], [90, '90 min']].map(x =>
+    `<button class="limit-chip${cur === x[0] ? ' on' : ''}" onclick="setDailyLimit(${x[0]})" aria-pressed="${cur === x[0]}">${x[1]}</button>`).join('');
+}
+function limitNowHTML() {
+  const p = activeProfile(); if (!p) return '';
+  const lim = +STATE.settings.dailyLimit || 0;
+  if (!lim) return '<div class="limit-now">⏱️ Límite apagado — el juego es libre hoy</div>';
+  const st = p.stats.screenTime;
+  const mins = (st && st.date === todayStr()) ? (st.mins || 0) : 0;
+  const left = Math.max(0, lim - mins);
+  const pct = clamp((mins / lim) * 100, 0, 100);
+  return `<div class="limit-now">⏱️ Hoy: <b>${mins}</b> min ${left > 0 ? `· te quedan <b>${left}</b> min del límite de ${lim}` : '· límite alcanzado — ¡hora de descansar! 🌙'}
+    <div class="ln-bar"><span style="width:${pct}%"></span></div></div>`;
+}
+function refreshLimitNow() { const el = $('limitNow'); if (el) el.innerHTML = limitNowHTML(); }
+window.setDailyLimit = function (v) {
+  STATE.settings.dailyLimit = +v || 0;
+  saveState(); beep(true);
+  const row = $('limitRow'); if (row) row.innerHTML = limitChipsHTML();
+  refreshLimitNow();
+  notif(v ? '⏱️ Límite diario: ' + v + ' minutos' : '⏱️ Límite diario apagado', 'var(--gold)');
+};
+
+/* ── v13: 📊 GRÁFICO SEMANAL DE MINUTOS (Zona de padres) ──
+   Reutiliza stats.screenHist que el contador v11 ya registra minuto a
+   minuto. Barras CSS puras (cero dependencias), hoy resaltado, con poda
+   ligera a 14 días para que el localStorage no crezca sin fin. */
+function weekMinutesHTML(p) {
+  const h = (p.stats && p.stats.screenHist) || {};
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 14);
+  const ckey = localDayStr(cutoff);
+  let pruned = false;
+  Object.keys(h).forEach(k => { if (k < ckey) { delete h[k]; pruned = true; } });
+  if (pruned) saveState();
+  /* continuidad v11→v13: perfiles que ya tenían «Minutos hoy» pero aún no
+     historial — mostramos su minuto real de hoy sin inventar el resto */
+  const st = p.stats && p.stats.screenTime;
+  const tk = todayStr();
+  const shown = (st && st.date === tk && (st.mins || 0) > (h[tk] || 0)) ? st.mins : (h[tk] || 0);
+  const today = new Date();
+  const days = [];
+  let max = 0;
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const key = localDayStr(d);
+    const m = key === tk ? shown : (h[key] || 0);
+    if (m > max) max = m;
+    days.push({key, m, lbl: ['D', 'L', 'M', 'X', 'J', 'V', 'S'][d.getDay()], dnum: d.getDate(), hoy: i === 0});
+  }
+  const bars = days.map(x => `
+    <div class="wk-col" title="${x.key}: ${x.m} min">
+      <span class="wk-val">${x.m > 0 ? x.m : ''}</span>
+      <div class="wk-bar${x.m > 0 ? ' on' : ''}${x.hoy ? ' hoy' : ''}" style="height:${Math.max(5, Math.round((x.m / Math.max(max, 10)) * 62))}px"></div>
+      <span class="wk-lbl">${x.lbl}</span><span class="wk-dnum">${x.dnum}</span>
+    </div>`).join('');
+  const total = days.reduce((a, x) => a + x.m, 0);
+  return `<div class="wk-wrap">
+    <div class="wk-head">📊 Minutos de juego — últimos 7 días</div>
+    <div class="wk-chart">${bars}</div>
+    <div class="wk-total">⏱️ ${total} min en total · promedio ${Math.round(total / 7)} min/día</div>
+  </div>`;
 }
 window.setTextSize = (t, btn) => {
   STATE.settings.textSize = t; saveState(); applyTextSize();
@@ -1128,7 +1313,7 @@ function parentsStatsHTML(p) {
     ['📆 Palabras del día', Object.keys(s.wotdDays || {}).length],
   ];
   return `<div class="parent-grid">${st.map(x => `
-    <div class="parent-cell"><span class="pc-k">${x[0]}</span><b class="pc-v">${x[1]}</b></div>`).join('')}</div>`;
+    <div class="parent-cell"><span class="pc-k">${x[0]}</span><b class="pc-v">${x[1]}</b></div>`).join('')}</div>` + weekMinutesHTML(p);
 }
 
 window.exportProgress = function () {

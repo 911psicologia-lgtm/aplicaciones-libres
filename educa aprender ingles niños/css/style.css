@@ -329,3 +329,41 @@ body.fs-xl{font-size:115%}
 .cal-total{margin-top:10px;font-weight:900;font-size:.95em}
 .cal-streak{margin-top:4px;font-size:.85em;color:var(--gold)}
 .cal-streak b{font-size:1.1em}
+
+/* ══════════════════════════════════════════
+   v13 — Sorpréndeme · Límite diario · Gráfico semanal · MAYÚSCULAS
+   ══════════════════════════════════════════ */
+/* 🎲 chip Sorpréndeme: mismo lenguaje visual que Continuar, tono violeta */
+.surp-btn{background:linear-gradient(135deg,#7b5cff,#9b59b6);border-color:rgba(255,255,255,.22)}
+.surp-btn:hover{box-shadow:0 10px 26px rgba(123,92,255,.4)}
+
+/* ⏱️ chips del límite diario (Zona de padres) */
+.limit-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.limit-chip{
+  padding:8px 14px;border-radius:12px;border:2px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);color:var(--muted);font-weight:900;font-size:.85em;
+  cursor:pointer;font-family:inherit;transition:all .2s
+}
+.limit-chip.on{border-color:var(--gold);background:rgba(255,215,0,.15);color:var(--gold)}
+
+/* 📊 gráfico semanal de minutos */
+.wk-wrap{margin-top:14px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;padding:12px}
+.wk-head{font-weight:900;margin-bottom:10px}
+.wk-chart{display:flex;align-items:flex-end;gap:8px;height:100px}
+.wk-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.wk-val{font-size:.72em;font-weight:900;color:var(--gold);min-height:1em}
+.wk-bar{width:68%;max-width:26px;border-radius:6px 6px 3px 3px;background:rgba(255,255,255,.12);transition:height .3s}
+.wk-bar.on{background:linear-gradient(180deg,var(--gold),#c8961e)}
+.wk-bar.hoy{box-shadow:0 0 10px rgba(255,215,0,.45)}
+.wk-lbl{font-size:.7em;color:var(--muted);font-weight:900}
+.wk-dnum{font-size:.62em;color:var(--muted)}
+.wk-total{margin-top:8px;font-size:.85em;color:var(--muted)}
+
+/* 🔠 MAYÚSCULAS pedagógicas — solo visual (text-transform): la voz, las
+   fotos y el motor siguen exactamente igual. Opt-in desde Ajustes. */
+body.caps .q-big-word, body.caps .ob-word, body.caps .ob-letter,
+body.caps .word-card-txt, body.caps .wotd-word, body.caps .slot,
+body.caps .dt-en{text-transform:uppercase}
+
+@media print{.surp-btn,.limit-row,.wk-wrap{display:none}}
+@media (prefers-reduced-motion: reduce){.surp-btn,.wk-bar{transition:none}}

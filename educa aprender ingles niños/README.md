@@ -1,15 +1,70 @@
-# 🌈 PequeWorld v12 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v14 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
-**fotos reales**, **79 mundos / 782 palabras**, **12 juegos y estudios**
-(⚡ **Rápido** · 🧸 **Explora** · Completa · Empareja · Memoria · Escucha ·
-🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
+**fotos reales**, **79 mundos / 782 palabras**, **16 juegos y estudios**
+(⚡ **Rápido** · 🧸 **Explora** · ✏️ **Trazar** · 🎯 **Ahorcado** ·
+🖼️ **Rompecabezas 4/9/12** · 🔢 **Puntos** · Completa · Empareja · Memoria ·
+Escucha · 🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
 📚 Diccionario · Repaso **priorizado**), **tour de bienvenida**,
 **🔒 puerta parental**, **🏆 hitos de palabras dominadas**,
 **🗓️ calendario de estrellas**, **🖨️ informe de padres imprimible con
 consejos AAP**, **🔊 selector de voz en inglés**, **PWA instalable sin
 conexión**, avatar con tu propia foto, Tienda de 12 avatares, Ruleta diaria,
 ⭐ Mundo destacado y 🎓 Diplomas imprimibles.
+
+> 🎨 **Novedades v14 (taller de letras y juegos creativos — misma vía admisible, cero regresiones):**
+> 1. ✏️ **Trazado de letras**: elige una letra A-Z y trázala con el dedo sobre
+>    la guía. La tinta dorada solo se pinta dentro de la letra (composición
+>    canvas), la barra muestra cuánta letra cubres y al completar suena la
+>    celebración con «A is for Apple». Sin vidas ni errores — como Explora.
+>    Colección de letras trazadas + insignias «Primer Trazo», «Mano de
+>    Artista» (10) y «Alfabeto Completo» (26).
+> 2. 🎯 **Ahorcado kid (Adivina la palabra)**: versión amable SIN muñeco:
+>    la foto-pista siempre visible, 6 corazones y teclado A-Z gigante. Si se
+>    acaban los corazones, la palabra se revela con cariño y se sigue. Ronda
+>    de 5 palabras con bonus de ronda perfecta. Insignias «Detective de
+>    Palabras» y «Maestro del Misterio».
+> 3. 🖼️ **Rompecabezas de fotos**: 4, 9 o 12 piezas con fotos reales de los
+>    mundos del nivel. Toca dos piezas para intercambiarlas (más fácil que
+>    arrastrar) y usa «Ver ejemplo» (2 veces) para mirar la foto. Al armarla,
+>    la palabra se pronuncia en EN + ES. Insignias «Primer Rompecabezas»,
+>    «Rompecabezas x9» y «x12».
+> 4. 🔢 **Unir con puntos**: 6 figuras secretas (Estrella, Casa, Cohete,
+>    Árbol, Pez y Corazón) — toca los puntos en orden 1, 2, 3… y la figura se
+>    dibuja sola; el siguiente punto brilla en verde y el fallo es amable
+>    (temblor, sin castigo). Al cerrarla se rellena y habla su nombre.
+>    Insignias «Punto a Punto» y «Galería de Figuras» (6/6).
+> 5. 🗓️ **Retos del fin de semana**: tarjeta en el mapa solo sábados y
+>    domingos (entre semana, insinuación para crear expectativa). 3 retos
+>    medibles al día — 2 misiones, 10 aciertos y la Palabra del Día — con
+>    premio de 🪙+30 ✨+50 ⭐+1 una vez por día de finde. Insignias «Héroe del
+>    Finde» y «Leyenda de Fines» (8 días).
+> 6. ⏱️ **Límite diario pulido**: nuevo chip de **90 min**, estado «Hoy: X min
+>    · te quedan Y» en Zona de padres y un **pre-aviso suave a los 5 minutos**
+>    del límite (toast, no modal — mismas tutelas que el aviso final).
+> 7. 🏅 **108 insignias** (12 nuevas) y migración automática de perfiles
+>    antiguos sin perder nada (los perfiles nuevos nacen completos). Caché
+>    PWA `pequeworld-v14` (el botón azul de actualización avisa a las
+>    instalaciones previas).
+
+> 🎲 **Novedades v13 (necesarias e innovadoras — misma vía admisible, cero regresiones):**
+> 1. 🎲 **Sorpréndeme**: chip violeta en el mapa. Un toque y la app elige una
+>    misión al azar del nivel actual — la emoción de la sorpresa para variar
+>    la rutina, usando el mismo motor de misiones de siempre. Insignias
+>    «Primera Sorpresa» y «Aventurero».
+> 2. ⏱️ **Límite de tiempo diario** (Zona de padres): Apagado / 15 / 30 / 45 /
+>    60 minutos. Al llegar al límite el búho celebra lo jugado y sugiere
+>    cerrar — **nunca interrumpe una misión**, avisa solo 1 vez al día y no
+>    fuerza nada (enfoque AAP, mismo espíritu del descanso v11).
+> 3. 📊 **Gráfico semanal de minutos** (Zona de padres): barras de los últimos
+>    7 días con total y promedio, alimentado por el contador v11. Los perfiles
+>    antiguos muestran su minuto real de hoy desde el primer día.
+> 4. 🔠 **Palabras en MAYÚSCULAS** (Ajustes): para lectores tempranos que
+>    reconocen primero las mayúsculas. Solo cambia el aspecto (text-transform):
+>    la voz, las fotos y el juego siguen exactamente igual.
+> 5. 🏅 **96 insignias** (2 nuevas) y migración automática de perfiles
+>    antiguos sin perder nada. Caché PWA `pequeworld-v13` (el botón azul
+>    de actualización avisa a las instalaciones previas).
 
 > 🌟 **Novedades v12 (necesarias e innovadoras — misma vía admisible, cero regresiones):**
 > 1. 🧸 **Modo Explorar**: la estrella de la versión. Un espacio **sin puntos,

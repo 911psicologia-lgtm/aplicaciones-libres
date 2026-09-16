@@ -1,0 +1,204 @@
+/* ═══════════════════════════════════════════════════════════
+   PequeWorld — GAMES v14 CSS
+   1) ✏️ Trazado · 2) 🎯 Ahorcado · 3) 🖼️ Rompecabezas
+   4) 🔢 Unir con puntos · 5) 🗓️ Retos del fin de semana
+   6) ⏱️ Límite diario pulido (estado + pre-aviso)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 1) ✏️ TRAZADO DE LETRAS ── */
+.trace-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.tr-chip {
+  width: 34px; height: 34px; border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.07);
+  color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1em;
+  cursor: pointer; padding: 0; line-height: 1;
+}
+.tr-chip:active { transform: scale(.92); }
+.tr-chip.ok { border-color: rgba(46,204,113,.7); background: rgba(46,204,113,.18); }
+.tr-chip.ok::after { content: '✓'; display: block; font-size: .55em; color: #2ecc71; font-family: Nunito, sans-serif; margin-top: -3px; }
+.trace-prog-wrap {
+  height: 10px; border-radius: 6px; overflow: hidden;
+  background: rgba(255,255,255,.1); margin-bottom: 10px;
+}
+.trace-prog {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #FFD54A, #FF8C42);
+  border-radius: 6px; transition: width .18s ease;
+}
+.trace-prog.full { background: linear-gradient(90deg, #2ecc71, #7CFCB0); }
+.trace-box {
+  position: relative; width: 100%; max-width: 340px;
+  margin: 0 auto; border-radius: 18px;
+  background: radial-gradient(circle at 50% 40%, rgba(124,100,255,.14), rgba(10,5,24,.5));
+  border: 2px dashed rgba(255,255,255,.22);
+  overflow: hidden;
+}
+.trace-box canvas {
+  display: block; width: 100%; height: auto;
+  touch-action: none; -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.trace-box canvas + canvas { position: absolute; inset: 0; }
+
+/* ── 2) 🎯 AHORCADO KID ── */
+.hg-top { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+.hg-photo { flex: 0 0 120px; }
+.hg-img {
+  width: 120px; height: 120px; object-fit: contain; display: block;
+  border-radius: 14px; background: rgba(255,255,255,.06);
+}
+.hg-side { flex: 1; min-width: 0; }
+.hg-hearts { display: flex; gap: 3px; font-size: 1.05em; margin-bottom: 10px; flex-wrap: wrap; }
+.hg-heart.off { opacity: .55; filter: grayscale(.7); }
+.hg-slots { display: flex; flex-wrap: wrap; gap: 5px; }
+.hg-slot {
+  min-width: 30px; height: 38px; padding: 0 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9px; border-bottom: 3px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.08);
+  font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.3em; color: #fff;
+}
+.hg-slot.on { border-color: #FFD54A; background: rgba(255,213,74,.16); color: #FFD54A; }
+.hg-slot.miss-slot { border-color: rgba(231,76,60,.6); background: rgba(231,76,60,.14); color: #ff9d92; }
+.hg-msg { text-align: center; min-height: 1.4em; font-size: .92em; margin: 6px 0 10px; color: var(--muted, #cfc9ea); }
+.hg-keys { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.hg-key {
+  height: 40px; border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.09);
+  color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.05em;
+  cursor: pointer; padding: 0; line-height: 1;
+}
+.hg-key:active { transform: scale(.92); }
+.hg-key.hit { background: rgba(46,204,113,.25); border-color: rgba(46,204,113,.75); color: #7CFCB0; }
+.hg-key.miss { background: rgba(231,76,60,.2); border-color: rgba(231,76,60,.55); color: #ff9d92; opacity: .7; }
+#hgNext { width: 100%; margin-top: 10px; }
+
+/* ── 3) 🖼️ ROMPECABEZAS ── */
+.pz-diffs { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.pz-diff {
+  flex: 1; min-width: 90px; padding: 9px 6px; border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,.22); background: rgba(255,255,255,.07);
+  color: #fff; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: .95em;
+  cursor: pointer;
+}
+.pz-diff:active { transform: scale(.95); }
+.pz-stage { position: relative; }
+.pz-hint { text-align: center; padding: 30px 10px; opacity: .8; }
+.pz-board {
+  display: grid; gap: 3px; width: 100%; max-width: 340px; margin: 0 auto;
+  border-radius: 14px; overflow: hidden; background: rgba(255,255,255,.05);
+  border: 2px solid rgba(255,255,255,.18);
+}
+.pz-tile {
+  background-color: rgba(255,255,255,.04); background-repeat: no-repeat;
+  cursor: pointer; min-height: 54px;
+  outline: 1px solid rgba(0,0,0,.25); outline-offset: -1px;
+  transition: filter .12s ease;
+}
+.pz-tile.sel { filter: brightness(1.35) saturate(1.2); outline: 3px solid #FFD54A; z-index: 2; }
+.pz-tile.ok { outline-color: rgba(46,204,113,.35); }
+.pz-peek {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(10,5,24,.86); border-radius: 14px; z-index: 5;
+  transition: opacity .3s ease;
+}
+.pz-peek.out { opacity: 0; }
+.pz-peek img { max-width: 88%; max-height: 88%; object-fit: contain; border-radius: 10px; }
+.pz-done { text-align: center; }
+.pz-done img {
+  max-width: 100%; max-height: 210px; object-fit: contain; display: block;
+  margin: 0 auto; border-radius: 14px; background: rgba(255,255,255,.05);
+}
+.pz-done-word { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.5em; color: var(--gold, #FFD54A); margin-top: 8px; }
+.pz-done-es { font-size: .9em; opacity: .85; }
+.pz-done-rew { font-weight: 800; color: #7CFCB0; margin-top: 4px; }
+.pz-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+#pzFoot2 { justify-content: center; }
+
+/* ── 4) 🔢 UNIR CON PUNTOS ── */
+.dots-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.dot-chip {
+  padding: 7px 12px; border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.07); color: #fff;
+  font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: .92em;
+  cursor: pointer;
+}
+.dot-chip:active { transform: scale(.94); }
+.dot-chip.on { border-color: #FFD54A; background: rgba(255,213,74,.16); }
+.dot-chip.ok { border-color: rgba(46,204,113,.7); background: rgba(46,204,113,.16); }
+.dots-box {
+  width: 100%; max-width: 340px; margin: 0 auto; border-radius: 18px;
+  background: radial-gradient(circle at 50% 40%, rgba(124,100,255,.14), rgba(10,5,24,.5));
+  border: 2px dashed rgba(255,255,255,.22); overflow: hidden;
+}
+.dots-box canvas { display: block; width: 100%; height: auto; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.dots-box.wiggle { animation: dotsWiggle .38s ease; }
+@keyframes dotsWiggle {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-7px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-3px); }
+}
+
+/* ── 5) 🗓️ RETOS DEL FIN DE SEMANA ── */
+.wknd-teaser {
+  margin: 0 0 12px; padding: 10px 14px; border-radius: 14px;
+  background: rgba(124,100,255,.1); border: 1.5px dashed rgba(124,100,255,.4);
+  font-size: .88em; text-align: center; opacity: .85;
+}
+.wknd-card {
+  margin: 0 0 12px; padding: 12px 14px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(124,100,255,.16), rgba(255,213,74,.08));
+  border: 1.5px solid rgba(124,100,255,.45);
+}
+.wknd-card.done { border-color: rgba(46,204,113,.65); }
+.wknd-head {
+  font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 1.02em;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.wknd-day {
+  font-size: .62em; font-weight: 700; color: var(--gold, #FFD54A);
+  background: rgba(255,213,74,.14); border-radius: 8px; padding: 2px 8px;
+  text-transform: capitalize;
+}
+.wknd-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0; opacity: .92;
+}
+.wknd-row.ok { opacity: 1; }
+.wknd-row.ok .wr-txt { text-decoration: line-through; opacity: .65; }
+.wr-ico { font-size: 1.2em; flex: 0 0 auto; }
+.wr-mid { flex: 1; min-width: 0; }
+.wr-txt { font-size: .86em; font-weight: 700; margin-bottom: 3px; }
+.wr-bar {
+  height: 7px; border-radius: 5px; background: rgba(255,255,255,.12); overflow: hidden;
+}
+.wr-bar span { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #FFD54A, #FF8C42); transition: width .3s ease; }
+.wknd-row.ok .wr-bar span { background: linear-gradient(90deg, #2ecc71, #7CFCB0); }
+.wr-n { font-size: .85em; color: var(--muted, #cfc9ea); flex: 0 0 auto; }
+.wknd-claimed {
+  text-align: center; font-weight: 800; color: #7CFCB0;
+  padding: 8px 0 2px; font-size: .95em;
+}
+
+/* ── 6) ⏱️ LÍMITE DIARIO PULIDO ── */
+.limit-now {
+  margin-top: 8px; padding: 9px 12px; border-radius: 12px;
+  background: rgba(255,213,74,.08); border: 1.5px solid rgba(255,213,74,.3);
+  font-size: .86em; font-weight: 700;
+}
+.limit-now .ln-bar {
+  height: 8px; border-radius: 5px; background: rgba(255,255,255,.12);
+  overflow: hidden; margin-top: 6px;
+}
+.limit-now .ln-bar span { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #FFD54A, #FF8C42); }
+
+/* ── Accesibilidad: menos movimiento ── */
+@media (prefers-reduced-motion: reduce) {
+  .dots-box.wiggle { animation: none; }
+  .trace-prog, .wr-bar span { transition: none; }
+  .pz-tile { transition: none; }
+}

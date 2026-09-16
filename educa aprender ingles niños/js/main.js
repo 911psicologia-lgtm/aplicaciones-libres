@@ -6,6 +6,8 @@ function boot() {
   loadState();
   // v12: aplica el tamaño de texto guardado (Normal/Grande/Muy grande)
   if (typeof applyTextSize === 'function') applyTextSize();
+  // v13: aplica el modo MAYÚSCULAS guardado (lectores tempranos)
+  if (typeof applyCapsMode === 'function') applyCapsMode();
   // Perfil por defecto si está vacío
   if (!Object.keys(STATE.profiles).length) {
     const p = defaultProfile('Niño', 'avatar_1');

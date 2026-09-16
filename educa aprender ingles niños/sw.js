@@ -1,20 +1,20 @@
 /* ═══════════════════════════════════════════════════════════
-   PequeWorld — Service Worker (v12)
+   PequeWorld — Service Worker (v14)
    Sin conexión también funciona: cache-first para todo lo local.
    Solo se registra en http/https (localhost o servidor); el uso
    con doble clic (file://) sigue funcionando como siempre.
-   v12: bump de caché (pequeworld-v12) — nueva versión con Modo
-   Explorar, calendario de estrellas, tamaño de texto, chip
-   Continuar, toggle de efectos de sonido y burbuja de respiración.
+   v14: bump de caché (pequeworld-v14) — taller de letras
+   (trazado, ahorcado, rompecabezas 4/9/12, unir con puntos),
+   retos del fin de semana y límite diario pulido.
    ⚠️ Importante: subir CACHE en CADA versión — así el navegador
    detecta el sw.js nuevo y dispara el aviso de actualización.
    ═══════════════════════════════════════════════════════════ */
-const CACHE = 'pequeworld-v12';
+const CACHE = 'pequeworld-v14';
 const CORE = [
   './', 'index.html', 'manifest.webmanifest',
-  'css/fonts.css', 'css/style.css', 'css/game.css', 'css/games.css', 'css/games2.css', 'css/games3.css',
+  'css/fonts.css', 'css/style.css', 'css/game.css', 'css/games.css', 'css/games2.css', 'css/games3.css', 'css/games4.css',
   'js/utils.js', 'js/data_worlds.js', 'js/data_worlds2.js', 'js/data_worlds3.js', 'js/data_worlds4.js',
-  'js/data_meta.js', 'js/audio.js', 'js/effects.js', 'js/ui.js', 'js/game.js', 'js/games.js', 'js/games2.js', 'js/games3.js', 'js/main.js',
+  'js/data_meta.js', 'js/audio.js', 'js/effects.js', 'js/ui.js', 'js/game.js', 'js/games.js', 'js/games2.js', 'js/games3.js', 'js/games4.js', 'js/main.js',
   /* v9 [C-3]: tipografía de identidad — sin esto, el primer uso offline
      mostraba el sistema y la app "cambiaba de cara" */
   'assets/fonts/Baloo2-latin-1.woff2', 'assets/fonts/Baloo2-latin-ext-0.woff2',

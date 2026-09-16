@@ -201,6 +201,9 @@ function coreReward(item, evt) {
   G.ok++; G.streak++;
   updateProfile(p => {
     p.stats.totalCorrect = (p.stats.totalCorrect || 0) + 1;
+    // v14: aciertos por día (alimentan el reto de fin de semana)
+    if (!p.stats.correctByDay) p.stats.correctByDay = {};
+    p.stats.correctByDay[todayStr()] = (p.stats.correctByDay[todayStr()] || 0) + 1;
     p.coins = (p.coins || 0) + 2;
     p.xp = (p.xp || 0) + 12;
     // v7: maestría por palabra (alimenta el Diccionario: 🌱 nueva → ✅ aprendida → 🏆 dominada)
