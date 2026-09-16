@@ -16,7 +16,10 @@ const Bosses = {
             this._defsInitialized = true;
         }
         const cfg = this._defs[type] || this._defs.slimeKing;
-        const baseHp = 1500 + levelIdx * 400;
+        // HP reducido drásticamente para público 6-9 años
+        // Antes: 1500 + levelIdx*400 (1500-9100)
+        // Ahora: 300 + levelIdx*60 (300-1500) - 5x más fácil
+        const baseHp = 300 + levelIdx * 60;
         return {
             type,
             hp: baseHp,

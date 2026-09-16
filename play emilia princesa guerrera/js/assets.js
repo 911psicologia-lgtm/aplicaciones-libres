@@ -411,87 +411,134 @@ const Assets = {
 
     /* Catálogo de familias de enemigos dibujados con canvas */
     _enemyFamilies: {
-        /* ===== FAMILIA BABOSAS (Reino Slime) - menores verdes, medios azules, mayores rojas ===== */
+        /* ===== FAMILIA BABOSAS - estilo kawaii cute con ojos grandes ===== */
         slimeMinor(ctx, s, t) {
             const wobble = Math.sin(t * 0.15) * 3;
-            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.15, s * 0.05, 0, 0, s * 0.5);
-            grad.addColorStop(0, '#aaffaa');
-            grad.addColorStop(1, '#33aa55');
+            // Cuerpo con gradiente más suave
+            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.2, s * 0.05, 0, 0, s * 0.5);
+            grad.addColorStop(0, '#c8ffc8');
+            grad.addColorStop(0.6, '#66cc66');
+            grad.addColorStop(1, '#2a7a3a');
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.ellipse(0, wobble * 0.3, s * 0.45, s * 0.38 + wobble * 0.05, 0, 0, Math.PI * 2);
             ctx.fill();
-            // Brillo
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            // Brillo superior (más pronunciado, estilo gelatina)
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
             ctx.beginPath();
-            ctx.ellipse(-s * 0.15, -s * 0.18, s * 0.1, s * 0.05, 0, 0, Math.PI * 2);
+            ctx.ellipse(-s * 0.15, -s * 0.2, s * 0.13, s * 0.07, 0, 0, Math.PI * 2);
             ctx.fill();
-            // Ojos
-            ctx.fillStyle = '#000';
+            // Segundo brillo
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
             ctx.beginPath();
-            ctx.arc(-s * 0.12, 0, s * 0.04, 0, Math.PI * 2);
-            ctx.arc(s * 0.12, 0, s * 0.04, 0, Math.PI * 2);
+            ctx.arc(s * 0.15, -s * 0.1, s * 0.04, 0, Math.PI * 2);
             ctx.fill();
-            // Boca pequeña
-            ctx.strokeStyle = '#000';
+            // OJOS GRANDES KAWAII con brillos
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-s * 0.13, -s * 0.02, s * 0.08, 0, Math.PI * 2);
+            ctx.arc(s * 0.13, -s * 0.02, s * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+            // Pupilas grandes y oscuras
+            ctx.fillStyle = '#1a1a3a';
+            ctx.beginPath();
+            ctx.arc(-s * 0.13, 0, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(s * 0.13, 0, s * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            // Brillo en pupilas (kawaii)
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-s * 0.11, -s * 0.02, s * 0.02, 0, Math.PI * 2);
+            ctx.arc(s * 0.15, -s * 0.02, s * 0.02, 0, Math.PI * 2);
+            ctx.fill();
+            // Mejillas sonrosadas
+            ctx.fillStyle = 'rgba(255, 150, 180, 0.5)';
+            ctx.beginPath();
+            ctx.arc(-s * 0.22, s * 0.08, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(s * 0.22, s * 0.08, s * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            // Boca pequeña sonriente
+            ctx.strokeStyle = '#1a3a1a';
             ctx.lineWidth = 1.5;
+            ctx.lineCap = 'round';
             ctx.beginPath();
-            ctx.arc(0, s * 0.12, s * 0.05, 0.2, Math.PI - 0.2);
+            ctx.arc(0, s * 0.12, s * 0.06, 0.2, Math.PI - 0.2);
             ctx.stroke();
         },
         slimeMedium(ctx, s, t) {
             const wobble = Math.sin(t * 0.12) * 4;
-            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.15, s * 0.05, 0, 0, s * 0.5);
-            grad.addColorStop(0, '#aaccff');
-            grad.addColorStop(1, '#3366aa');
+            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.2, s * 0.05, 0, 0, s * 0.5);
+            grad.addColorStop(0, '#c8e0ff');
+            grad.addColorStop(0.6, '#5588cc');
+            grad.addColorStop(1, '#2a4488');
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.ellipse(0, wobble * 0.3, s * 0.48, s * 0.4 + wobble * 0.05, 0, 0, Math.PI * 2);
             ctx.fill();
             // Manchas
-            ctx.fillStyle = 'rgba(50, 100, 200, 0.5)';
+            ctx.fillStyle = 'rgba(80, 130, 200, 0.4)';
             ctx.beginPath();
-            ctx.arc(s * 0.15, s * 0.05, s * 0.08, 0, Math.PI * 2);
-            ctx.arc(-s * 0.2, s * 0.1, s * 0.06, 0, Math.PI * 2);
+            ctx.arc(s * 0.18, s * 0.1, s * 0.08, 0, Math.PI * 2);
+            ctx.arc(-s * 0.2, s * 0.15, s * 0.06, 0, Math.PI * 2);
             ctx.fill();
-            // Brillo
-            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            // Brillos
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
             ctx.beginPath();
-            ctx.ellipse(-s * 0.18, -s * 0.2, s * 0.12, s * 0.06, 0, 0, Math.PI * 2);
+            ctx.ellipse(-s * 0.18, -s * 0.22, s * 0.13, s * 0.07, 0, 0, Math.PI * 2);
             ctx.fill();
-            // Ojos con ceño
-            ctx.fillStyle = '#000';
+            // Ojos grandes
+            ctx.fillStyle = '#fff';
             ctx.beginPath();
-            ctx.arc(-s * 0.13, -s * 0.05, s * 0.05, 0, Math.PI * 2);
-            ctx.arc(s * 0.13, -s * 0.05, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(-s * 0.14, -s * 0.05, s * 0.09, 0, Math.PI * 2);
+            ctx.arc(s * 0.14, -s * 0.05, s * 0.09, 0, Math.PI * 2);
             ctx.fill();
-            ctx.strokeStyle = '#000';
+            ctx.fillStyle = '#1a1a3a';
+            ctx.beginPath();
+            ctx.arc(-s * 0.14, -s * 0.03, s * 0.055, 0, Math.PI * 2);
+            ctx.arc(s * 0.14, -s * 0.03, s * 0.055, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-s * 0.12, -s * 0.05, s * 0.02, 0, Math.PI * 2);
+            ctx.arc(s * 0.16, -s * 0.05, s * 0.02, 0, Math.PI * 2);
+            ctx.fill();
+            // Mejillas
+            ctx.fillStyle = 'rgba(255, 150, 180, 0.5)';
+            ctx.beginPath();
+            ctx.arc(-s * 0.24, s * 0.05, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(s * 0.24, s * 0.05, s * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+            // Ceño (ligeramente fruncido pero cute)
+            ctx.strokeStyle = '#1a3a5a';
             ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
             ctx.beginPath();
-            ctx.moveTo(-s * 0.2, -s * 0.15); ctx.lineTo(-s * 0.05, -s * 0.1);
-            ctx.moveTo(s * 0.2, -s * 0.15); ctx.lineTo(s * 0.05, -s * 0.1);
+            ctx.moveTo(-s * 0.22, -s * 0.18);
+            ctx.lineTo(-s * 0.06, -s * 0.13);
+            ctx.moveTo(s * 0.22, -s * 0.18);
+            ctx.lineTo(s * 0.06, -s * 0.13);
             ctx.stroke();
-            // Boca con dientes
-            ctx.fillStyle = '#000';
+            // Boca con diente
+            ctx.fillStyle = '#1a1a3a';
             ctx.beginPath();
             ctx.ellipse(0, s * 0.15, s * 0.1, s * 0.06, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.fillStyle = '#fff';
-            ctx.fillRect(-s * 0.04, s * 0.1, s * 0.03, s * 0.05);
-            ctx.fillRect(s * 0.01, s * 0.1, s * 0.03, s * 0.05);
+            ctx.fillRect(-s * 0.03, s * 0.1, s * 0.03, s * 0.05);
         },
         slimeMajor(ctx, s, t) {
-            // Slime grande rojo con pinchos
+            // Slime grande rojo con pinchos - más imponente pero aún cute
             const wobble = Math.sin(t * 0.1) * 5;
-            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.15, s * 0.05, 0, 0, s * 0.55);
-            grad.addColorStop(0, '#ffaaaa');
-            grad.addColorStop(1, '#aa0033');
+            const grad = ctx.createRadialGradient(-s * 0.15, -s * 0.2, s * 0.05, 0, 0, s * 0.55);
+            grad.addColorStop(0, '#ffc8c8');
+            grad.addColorStop(0.6, '#cc4444');
+            grad.addColorStop(1, '#882222');
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.ellipse(0, wobble * 0.3, s * 0.5, s * 0.42 + wobble * 0.05, 0, 0, Math.PI * 2);
             ctx.fill();
             // Pinchos
-            ctx.fillStyle = '#660022';
+            ctx.fillStyle = '#661111';
             for (let i = 0; i < 5; i++) {
                 const a = -Math.PI / 2 + (i - 2) * 0.3;
                 const r = s * 0.45;
@@ -501,22 +548,39 @@ const Assets = {
                 ctx.lineTo(Math.cos(a + 0.1) * r, Math.sin(a + 0.1) * r);
                 ctx.fill();
             }
-            // Ojos malvados
+            // Brillo
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.beginPath();
+            ctx.ellipse(-s * 0.2, -s * 0.25, s * 0.13, s * 0.07, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // Ojos grandes malvados pero cute
             ctx.fillStyle = '#fff';
             ctx.beginPath();
-            ctx.arc(-s * 0.15, -s * 0.05, s * 0.08, 0, Math.PI * 2);
-            ctx.arc(s * 0.15, -s * 0.05, s * 0.08, 0, Math.PI * 2);
+            ctx.arc(-s * 0.15, -s * 0.05, s * 0.1, 0, Math.PI * 2);
+            ctx.arc(s * 0.15, -s * 0.05, s * 0.1, 0, Math.PI * 2);
             ctx.fill();
+            // Pupilas rojas brillantes
             ctx.fillStyle = '#ff0033';
             ctx.shadowColor = '#ff0033';
             ctx.shadowBlur = 8;
             ctx.beginPath();
-            ctx.arc(-s * 0.15, -s * 0.05, s * 0.04, 0, Math.PI * 2);
-            ctx.arc(s * 0.15, -s * 0.05, s * 0.04, 0, Math.PI * 2);
+            ctx.arc(-s * 0.15, -s * 0.03, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(s * 0.15, -s * 0.03, s * 0.05, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-s * 0.13, -s * 0.05, s * 0.02, 0, Math.PI * 2);
+            ctx.arc(s * 0.17, -s * 0.05, s * 0.02, 0, Math.PI * 2);
+            ctx.fill();
+            // Mejillas
+            ctx.fillStyle = 'rgba(200, 50, 80, 0.4)';
+            ctx.beginPath();
+            ctx.arc(-s * 0.26, s * 0.05, s * 0.05, 0, Math.PI * 2);
+            ctx.arc(s * 0.26, s * 0.05, s * 0.05, 0, Math.PI * 2);
+            ctx.fill();
             // Boca con colmillos
-            ctx.fillStyle = '#000';
+            ctx.fillStyle = '#1a0010';
             ctx.beginPath();
             ctx.ellipse(0, s * 0.18, s * 0.12, s * 0.08, 0, 0, Math.PI * 2);
             ctx.fill();

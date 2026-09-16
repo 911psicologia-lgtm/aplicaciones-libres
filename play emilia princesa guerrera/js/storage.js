@@ -100,8 +100,20 @@ const Storage = {
             critChance: 0,    // +5% crítico por nivel
             magnetism: 0,     // +20px rango atracción por nivel
             shieldStart: 0,   // +2s escudo inicial por nivel
-            coinBonus: 0      // +10% monedas por nivel
+            coinBonus: 0,     // +10% monedas por nivel
+            comboBonus: 0,    // +15% velocidad combo por nivel
+            startPower: 0,    // Empieza con poder aleatorio
+            extraLife: 0      // Revive una vez al morir
         };
+    },
+
+    // Tutorial visto
+    saveTutorialSeen() {
+        try { localStorage.setItem('emilia_saga_tutorial', '1'); } catch (e) {}
+    },
+
+    loadTutorialSeen() {
+        try { return localStorage.getItem('emilia_saga_tutorial') === '1'; } catch (e) { return false; }
     }
 };
 

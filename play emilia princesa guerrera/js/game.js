@@ -449,6 +449,25 @@ const Game = {
                     state.boss.hp -= e.damage;
                     AudioEngine.bossHit();
                     ParticleFactory.sparkle(state.particles, e.x, e.y, '#FFD700', 4);
+                    // Número de daño GRANDE y colorido para que la niña vea el progreso
+                    if (e.crit) {
+                        PopupSystem.crit(e.x, e.y);
+                    } else {
+                        PopupSystem.hit(Math.floor(e.damage), e.x, e.y, '#FFD700');
+                    }
+                    // Mensaje de ánimo cada 25% del jefe
+                    const ratio = state.boss.hp / state.boss.maxHp;
+                    if (!state.boss._lastMilestone) state.boss._lastMilestone = 1;
+                    if (state.boss._lastMilestone > 0.75 && ratio <= 0.75) {
+                        PopupSystem.bonus('¡BIEN!', state.boss.x, state.boss.y + 80);
+                        state.boss._lastMilestone = 0.75;
+                    } else if (state.boss._lastMilestone > 0.5 && ratio <= 0.5) {
+                        PopupSystem.bonus('¡SIGUE ASÍ!', state.boss.x, state.boss.y + 80);
+                        state.boss._lastMilestone = 0.5;
+                    } else if (state.boss._lastMilestone > 0.25 && ratio <= 0.25) {
+                        PopupSystem.bonus('¡CASI!', state.boss.x, state.boss.y + 80);
+                        state.boss._lastMilestone = 0.25;
+                    }
                     if (e.pierce > 0) {
                         e.pierce--;
                     } else {
@@ -634,21 +653,22 @@ const Game = {
         }
 
         // Enemigos / Balas enemigas vs Heroína
+        // Hitbox MÁS PEQUEÑA para niñas 6-9 años (perdonadora)
         if (hero.invuln <= 0) {
             for (let e of state.entities) {
                 if (e.dead) continue;
                 let hit = false;
                 if (e instanceof Enemy) {
                     const d = Math.hypot(hero.x - e.x, hero.y - e.y);
-                    if (d < 40) hit = true;
+                    if (d < 30) hit = true; // antes 40
                 } else if (e instanceof Bullet && e.isEnemy) {
                     const d = Math.hypot(hero.x - e.x, hero.y - e.y);
-                    if (d < 25) hit = true;
+                    if (d < 18) hit = true; // antes 25
                 } else if (e.isCoin) {
                     // Las monedas no dañan
                 } else if (e.isPowerUp) {
                     const d = Math.hypot(hero.x - e.x, hero.y - e.y);
-                    if (d < 35) {
+                    if (d < 40) { // antes 35 - más fácil recoger
                         Powers.pickup(state, e.type);
                         e.dead = true;
                     }
@@ -656,7 +676,7 @@ const Game = {
                     // El cofre no daña, requiere disparo
                 } else if (e.type === 'toxicCloud' || e.type === 'ghostWave') {
                     const d = Math.hypot(hero.x - e.x, hero.y - e.y);
-                    if (d < e.size) hit = true;
+                    if (d < e.size * 0.7) hit = true; // antes size, ahora más pequeño
                 }
                 if (hit) {
                     Hero.hurt(state);
@@ -862,7 +882,19 @@ const Game = {
         Storage.clearSave();
         UI.updateRanking();
         AudioEngine.gameOver();
-        UI.showScreen('gameOver');
+        // Mensaje de ánimo para niñas 6-9 años
+        const mensajes = [
+            '¡Lo intentaste muy bien!',
+            '¡Casi lo logras!',
+            '¡Tú puedes, inténtalo de nuevo!',
+            '¡Eres muy valiente!',
+            '¡Sigue practicando!'
+        ];
+        const msg = mensajes[Math.floor(Math.random() * mensajes.length)];
+        PopupSystem.special(msg, this.state.canvasW / 2, this.state.canvasH / 2);
+        setTimeout(() => {
+            UI.showScreen('gameOver');
+        }, 1500);
     },
 
     /* ============ VICTORIA ============ */

@@ -806,6 +806,68 @@ canvas#gameCanvas {
     font-weight: bold;
 }
 
+/* ============================== TUTORIAL ============================== */
+.tutorial-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 600;
+    background: rgba(10, 0, 30, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.tutorial-card {
+    background: rgba(40, 10, 60, 0.95);
+    border: 3px solid #ff00cc;
+    border-radius: 24px;
+    padding: 30px 24px;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 0, 204, 0.5);
+}
+.tutorial-step {
+    color: #FFD700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+.tutorial-title {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 14px;
+    text-shadow: 0 0 12px #ff00cc;
+}
+.tutorial-icon {
+    font-size: 3.5rem;
+    margin: 14px 0;
+    color: #6ef0ff;
+    text-shadow: 0 0 15px #6ef0ff;
+}
+.tutorial-desc {
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+.tutorial-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+.tutorial-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+}
+.tutorial-dot.active {
+    background: #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+}
+
 /* ============================== RESPONSIVE ============================== */
 @media (max-width: 600px) {
     .glass-panel { min-width: auto; padding: 8px 12px; }

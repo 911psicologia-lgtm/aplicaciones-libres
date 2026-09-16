@@ -10,7 +10,8 @@ class Bullet {
         this.y = y;
         this.isEnemy = isEnemy;
         this.type = type;
-        this.speed = isEnemy ? Math.min(speed, 11) : speed;
+        // Balas enemigas MÁS LENTAS para público 6-9 años (antes 11, ahora 6)
+        this.speed = isEnemy ? Math.min(speed, 6) : speed;
         this.vx = Math.cos(angle) * this.speed;
         this.vy = Math.sin(angle) * this.speed;
         this.dead = false;
@@ -23,12 +24,13 @@ class Bullet {
     }
 
     _getDamage(type) {
+        // Daño AUMENTADO para que el jefe sea matable por niñas 6-9
         const damages = {
-            NORMAL: 15, TRIPLE: 12, KISS: 18, ROSE: 22, LASER: 8, PIERCE: 20, BOMB: 30,
+            NORMAL: 25, TRIPLE: 20, KISS: 30, ROSE: 35, LASER: 15, PIERCE: 32, BOMB: 50,
             ENEMY: 1, BOSS: 1,
-            ICE: 18, FIRE: 25, LIGHTNING: 14, SHADOW: 20, LIGHT: 22, NATURE: 16
+            ICE: 30, FIRE: 40, LIGHTNING: 22, SHADOW: 32, LIGHT: 35, NATURE: 26
         };
-        return damages[type] || 15;
+        return damages[type] || 25;
     }
 
     update(state) {

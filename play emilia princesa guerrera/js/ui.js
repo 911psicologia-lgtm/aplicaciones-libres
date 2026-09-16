@@ -99,7 +99,52 @@ const UI = {
         document.getElementById('btn-select-confirm').addEventListener('click', () => {
             AudioEngine.uiClick();
             Game.startGame(this.el.selectedPrincessKey);
+            // Mostrar tutorial en la primera partida
+            if (!Storage.loadTutorialSeen()) {
+                setTimeout(() => this.showTutorial(), 800);
+            }
         });
+        // Tutorial
+        this._tutorialStep = 0;
+        document.getElementById('btn-tut-next').addEventListener('click', () => {
+            AudioEngine.uiClick();
+            this.nextTutorialStep();
+        });
+    },
+
+    /* Tutorial para niñas 6-9 años */
+    showTutorial() {
+        this._tutorialStep = 0;
+        this._showTutorialStep();
+    },
+
+    _showTutorialStep() {
+        const steps = [
+            { title: '¡Hola!', icon: '👆', desc: 'Mueve el ratón o tu dedo para mover a tu princesa' },
+            { title: '¡Dispara!', icon: '✨', desc: 'Tu princesa dispara sola. ¡Solo muévela para apuntar!' },
+            { title: '¡Derrota al jefe!', icon: '👑', desc: 'Destruye enemigos y derrota al jefe del reino. ¡Tú puedes!' }
+        ];
+        const step = steps[this._tutorialStep];
+        document.getElementById('tut-step').textContent = `Paso ${this._tutorialStep + 1} de ${steps.length}`;
+        document.getElementById('tut-title').textContent = step.title;
+        document.getElementById('tut-icon').textContent = step.icon;
+        document.getElementById('tut-desc').textContent = step.desc;
+        // Actualizar dots
+        for (let i = 1; i <= 3; i++) {
+            const dot = document.getElementById('dot-' + i);
+            if (dot) dot.classList.toggle('active', i === this._tutorialStep + 1);
+        }
+        document.getElementById('tutorial-overlay').classList.remove('hidden');
+    },
+
+    nextTutorialStep() {
+        this._tutorialStep++;
+        if (this._tutorialStep >= 3) {
+            document.getElementById('tutorial-overlay').classList.add('hidden');
+            Storage.saveTutorialSeen();
+        } else {
+            this._showTutorialStep();
+        }
     },
 
     /* Renderiza la pantalla de selección de princesa */

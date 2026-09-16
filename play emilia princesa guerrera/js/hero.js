@@ -6,8 +6,8 @@ const Hero = {
     /* Inicializa o resetea la heroína */
     init(state) {
         const def = state.princessDef || PrincessDefs.princess_pink;
-        // Calcular vida máxima con pasivos
-        let maxLives = 3 + state.upgrades.maxLives;
+        // 5 vidas base para niñas 6-9 años (antes 3)
+        let maxLives = 5 + state.upgrades.maxLives;
         if (def.passiveEffect === 'maxLives') {
             maxLives += def.passiveValue;
         }
@@ -163,7 +163,7 @@ const Hero = {
             return;
         }
         state.hero.lives--;
-        state.hero.invuln = 90;
+        state.hero.invuln = 150; // antes 90, ahora 2.5s para niñas 6-9 años
         AudioEngine.heroHurt();
         ParticleFactory.explosion(null, state.particles, state.hero.x, state.hero.y, '#ff3366', 16);
         PopupSystem.quick('¡AY!', state.hero.x, state.hero.y - 50, {
@@ -183,11 +183,11 @@ const Hero = {
         // Escudo
         if (state.hero.powers.shield > 0) {
             const a = 0.5 + Math.sin(t * 0.2) * 0.3;
-            // Burbuja cristalina con hexágonos
+            // Burbuja cristalina más grande para niñas (antes 60, ahora 75)
             ctx.strokeStyle = `rgba(110, 240, 255, ${a})`;
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.arc(state.hero.x, state.hero.y, 60, 0, Math.PI * 2);
+            ctx.arc(state.hero.x, state.hero.y, 75, 0, Math.PI * 2);
             ctx.stroke();
             // Patrón hexagonal
             ctx.strokeStyle = `rgba(170, 220, 255, ${a * 0.5})`;
@@ -196,19 +196,19 @@ const Hero = {
                 const a1 = (i / 6) * Math.PI * 2 + t * 0.02;
                 const a2 = ((i + 1) / 6) * Math.PI * 2 + t * 0.02;
                 ctx.beginPath();
-                ctx.moveTo(state.hero.x + Math.cos(a1) * 60, state.hero.y + Math.sin(a1) * 60);
-                ctx.lineTo(state.hero.x + Math.cos(a2) * 60, state.hero.y + Math.sin(a2) * 60);
+                ctx.moveTo(state.hero.x + Math.cos(a1) * 75, state.hero.y + Math.sin(a1) * 75);
+                ctx.lineTo(state.hero.x + Math.cos(a2) * 75, state.hero.y + Math.sin(a2) * 75);
                 ctx.stroke();
             }
-            // Anillo exterior más sutil
+            // Anillo exterior
             ctx.strokeStyle = `rgba(255, 255, 255, ${a * 0.6})`;
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(state.hero.x, state.hero.y, 65, 0, Math.PI * 2);
+            ctx.arc(state.hero.x, state.hero.y, 80, 0, Math.PI * 2);
             ctx.stroke();
         }
-        // Heroína con movilidad y expresiones
-        Assets.drawHeroine(ctx, state.hero.x, state.hero.y, 60, t, state.hero.invuln > 0, state.hero.princessKey, state);
+        // Heroína MÁS GRANDE (antes 60, ahora 75) para niñas 6-9 años
+        Assets.drawHeroine(ctx, state.hero.x, state.hero.y, 75, t, state.hero.invuln > 0, state.hero.princessKey, state);
 
         // Estela mágica al moverse
         if (state.hero.moveSpeed > 20 && t % 2 === 0) {
