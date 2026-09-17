@@ -1,769 +1,628 @@
 /* ═══════════════════════════════════════════════════════════
-   PequeWorld — GAMES v14 (taller de letras y juegos creativos)
-   1) ✏️ Trazado de letras  (canvas, sin fallos, colección A-Z)
-   2) 🎯 Ahorcado kid       (foto-pista, 6 ❤️, teclado A-Z)
-   3) 🖼️ Rompecabezas       (4 · 9 · 12 piezas con fotos reales)
-   4) 🔢 Unir con puntos    (6 figuras, tap en orden)
-   5) 🗓️ Retos del fin de semana (3 retos medibles, sáb/domingo)
-   Todo 100% local, aditivo, sin tocar el motor de misiones.
+   PequeWorld — GAMES v14 «Taller de Juegos»
+   1) ✏️ Traza la letra   (canvas + pointer events, tolerante)
+   2) 🔤 Adivina la palabra (ahorcado suave: sin dibujos tristes)
+   3) 🖼️ Rompecabezas      (4 · 9 · 12 piezas, toca y cambia)
+   4) ⭐ Une los puntos    (dibujo punto a punto con palabra)
+   5) 🎪 Reto del fin de semana (misión mixta + bono)
+   Todo 100% local, sin nuevas dependencias, motor de misiones
+   intacto (bootGameMission + coreReward/coreFail/endMission).
    ═══════════════════════════════════════════════════════════ */
 
-/* ══════════ 1) ✏️ TRAZADO DE LETRAS ══════════
-   El niño traza la letra con el dedo (o ratón) encima de una
-   guía. Se pinta SOLO dentro de la letra (composición canvas),
-   la barra muestra cuánta letra cubre y al llegar al umbral
-   suena la celebración. Sin vidas y sin errores: como Explora.
-   Colección: stats.traceLetters = {A:true, …} alimenta insignias. */
-const TRACE_SIZE = 320;
-const TRACE_COVER = 0.72;    // % de la letra pintada para completarla
-const TRACE_MIN_EVENTS = 40; // anti-trampa: hay que trazAR de verdad (movimientos, no toques secos)
-let TR = { on: false, letter: '', target: [], painted: 0, mask: null, strokes: 0, events: 0, done: false, lastPt: null };
+/* ══════════ 1) ✏️ TRAZA LA LETRA ══════════ */
+/* Letras A-Z con palabra de ejemplo que YA tiene foto real en la app.
+   [letra, palabra EN, traducción ES, clave de imagen] */
+const TRACE_ABC = [
+  ['A','apple','manzana','apple'], ['B','ball','pelota','ball'],
+  ['C','cat','gato','cat'],       ['D','dog','perro','dog'],
+  ['E','egg','huevo','egg'],      ['F','fish','pez','fish'],
+  ['G','grapes','uvas','grapes'], ['H','hat','sombrero','hat'],
+  ['I','icecream','helado','icecream'], ['J','jet','avión','jet'],
+  ['K','kite','cometa','kite'],   ['L','lion','león','lion'],
+  ['M','moon','luna','moon'],     ['N','nose','nariz','nose'],
+  ['O','orange','naranja','orange'], ['P','pizza','pizza','pizza'],
+  ['Q','queen','reina','queen'],  ['R','rain','lluvia','rain'],
+  ['S','sun','sol','sun'],        ['T','tree','árbol','tree'],
+  ['U','umbrella','paraguas','umbrella'], ['V','violin','violín','violin'],
+  ['W','water','agua','water'],   ['X','xylophone','xilófono','xylophone'],
+  ['Y','yoyo','yoyó','yoyo'],     ['Z','zebra','cebra','zebra'],
+];
+/* Estado del trazado actual (una letra) */
+const TR = { marked: [], guide: [], strokes: [], drawing: false, cov: 0, done: false, lastX: 0, lastY: 0 };
+window.TR = TR; // accesible para tests/evidencia
 
-function traceWordFor(L) {
-  /* «A de Apple» → Apple (palabra para la voz y la pista) */
-  for (const w of WORLDS) {
-    if (w.kind !== 'letters') continue;
-    const it = w.items.find(x => x.en.toUpperCase() === L && x.hint);
-    if (it && it.hint) {
-      const m = it.hint.split(/\s+de\s+/i);
-      if (m[1]) return m[1];
-      return it.hint;
-    }
-  }
-  return '';
-}
-
-window.startTrace = function () {
-  const p = activeProfile(); if (!p) return;
+window.startTraceMission = function () {
   beep(true);
-  TR = { on: true, letter: '', target: [], painted: 0, mask: null, strokes: 0, events: 0, done: false, lastPt: null };
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  openModal('✏️ Trazado de letras', `
-    <div class="small" style="margin-bottom:8px">Elige una letra y trázala con el dedo 👆 de arriba a abajo. ¡Sigue el color de la guía!</div>
-    <div class="trace-chips" id="traceChips"></div>
-    <div class="trace-prog-wrap"><div class="trace-prog" id="traceProg"></div></div>
-    <div class="trace-box" id="traceBox">
-      <canvas id="traceBase" width="${TRACE_SIZE}" height="${TRACE_SIZE}"></canvas>
-      <canvas id="traceInk" width="${TRACE_SIZE}" height="${TRACE_SIZE}"></canvas>
-    </div>
-    <div class="small" style="text-align:center;margin-top:6px" id="traceHint">👆 Toca una letra de arriba</div>
-  `, `<button class="bigbtn bb-ghost bb-sm" onclick="traceClear()">🧽 Borrar trazo</button>
-      <button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Listo</button>`);
-
-  const chips = $('traceChips');
-  letters.forEach(L => {
-    const done = !!((activeProfile().stats.traceLetters || {})[L]);
-    const chip = document.createElement('button');
-    chip.className = 'tr-chip' + (done ? ' ok' : '');
-    chip.textContent = L;
-    chip.setAttribute('aria-label', 'Trazar letra ' + L + (done ? ' completada' : ''));
-    chip.onclick = () => tracePick(L);
-    chips.appendChild(chip);
-  });
-  updateProfile(pp => { pp.stats.traceVisits = (pp.stats.traceVisits || 0) + 1; });
-  checkBadges();
-  window.PW_TRACE = {
-    open: () => TR.on && !!document.getElementById('traceInk'),
-    letter: () => TR.letter,
-    coverage: () => TR.target.length ? TR.painted / TR.target.length : 0,
-    done: () => TR.done,
-    picked: () => Object.keys((activeProfile() && activeProfile().stats.traceLetters) || {}).length
-  };
+  const picks = shuffle(TRACE_ABC).slice(0, 6);
+  const qs = picks.map(([L, w, es, img]) => ({
+    letter: L, item: { en: w, es, img, em: '✏️' }
+  }));
+  bootGameMission('trace', 'Traza la Letra', 'Trazado de letras', '✏️', qs, renderTraceQuestion);
+  G.countPerfect = false; // trazar es práctica creativa: no infla «misiones perfectas»
 };
 
-/* pinta la guía gris de la letra y prepara la máscara de cobertura */
-function tracePick(L) {
-  if (!TR.on) return;
+function renderTraceQuestion() {
+  if (!G.active || G.qi >= G.questions.length) { endMission(); return; }
+  const q = G.questions[G.qi];
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Letra ${G.qi + 1}/${tot}`;
+  $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
+  renderLivesRow();
+  $('qBadge').textContent = '✏️ Traza la letra ' + q.letter;
+  $('qInstruction').textContent = 'Pinta la letra grande con el dedo · Trace the letter!';
+  const wEl = $('qWord'); wEl.className = 'q-big-word'; wEl.style.display = 'none';
+  $('qTrans').textContent = q.item.en + ' · ' + q.item.es;
+  const og = $('optsGrid'); og.className = 'opts-grid'; og.style.display = 'none'; og.innerHTML = '';
+  $('qVisual').innerHTML = `
+    <div class="tr-wrap">
+      <canvas id="trCanvas" class="tr-canvas" width="340" height="340"></canvas>
+      <div class="tr-bar"><div class="tr-fill" id="trFill" style="width:0%"></div></div>
+      <div class="tr-foot">
+        <button class="bigbtn bb-ghost bb-sm" onclick="traceClear()">🧹 Borrar</button>
+        <div class="tr-photo">${imgTag(q.item.img, q.item.em, 'tr-photo-img', q.item.en)}<span>${q.item.en}</span></div>
+      </div>
+    </div>`;
+  traceInit(q);
+}
+
+function traceInit(q) {
+  TR.guide = []; TR.marked = []; TR.strokes = [];
+  TR.cov = 0; TR.done = false; TR.drawing = false;
+  const cv = $('trCanvas'); if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const draw = () => traceBuildGuide(cv, ctx, q.letter);
+  draw();
+  // si la fuente de identidad llega tarde, redibuja la guía con «Baloo 2»
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!TR.done && TR.strokes.length === 0) draw(); }).catch(() => {});
+  // soporte puntero unificado (ratón, táctil y lápiz)
+  if (cv.dataset.bound) return; // bind una sola vez
+  cv.dataset.bound = '1';
+  const pos = e => {
+    const r = cv.getBoundingClientRect();
+    return [(e.clientX - r.left) * (cv.width / r.width), (e.clientY - r.top) * (cv.height / r.height)];
+  };
+  cv.addEventListener('pointerdown', e => {
+    if (TR.done) return;
+    e.preventDefault();
+    try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+    TR.drawing = true;
+    const [x, y] = pos(e);
+    TR.lastX = x; TR.lastY = y;
+    TR.strokes.push({ pts: [[x, y]] });
+    traceMark(x, y);
+    tracePaint(ctx);
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!TR.drawing || TR.done) return;
+    e.preventDefault();
+    const [x, y] = pos(e);
+    // interpola para que movimientos rápidos no dejen huecos
+    const d = Math.hypot(x - TR.lastX, y - TR.lastY);
+    const steps = Math.max(1, Math.floor(d / 4));
+    const cur = TR.strokes[TR.strokes.length - 1];
+    for (let i = 1; i <= steps; i++) {
+      const ix = TR.lastX + (x - TR.lastX) * i / steps;
+      const iy = TR.lastY + (y - TR.lastY) * i / steps;
+      cur.pts.push([ix, iy]);
+      traceMark(ix, iy);
+    }
+    TR.lastX = x; TR.lastY = y;
+    tracePaint(ctx);
+  });
+  const up = e => { TR.drawing = false; };
+  cv.addEventListener('pointerup', up);
+  cv.addEventListener('pointercancel', up);
+  cv.addEventListener('pointerleave', up);
+}
+
+/* Rasteriza la letra y guarda sus puntos-guía (muestreo cada 5px) */
+function traceBuildGuide(cv, ctx, letter) {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  ctx.save();
+  ctx.font = '900 250px "Baloo 2", Nunito, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,255,255,.13)';
+  ctx.fillText(letter, 170, 182);
+  ctx.restore();
+  // puntos guía desde un canvas oculto
+  const off = document.createElement('canvas');
+  off.width = cv.width; off.height = cv.height;
+  const octx = off.getContext('2d');
+  octx.font = '900 250px "Baloo 2", Nunito, sans-serif';
+  octx.textAlign = 'center'; octx.textBaseline = 'middle';
+  octx.fillStyle = '#fff';
+  octx.fillText(letter, 170, 182);
+  try {
+    const data = octx.getImageData(0, 0, off.width, off.height).data;
+    TR.guide = [];
+    for (let y = 0; y < off.height; y += 5) {
+      for (let x = 0; x < off.width; x += 5) {
+        if (data[(y * off.width + x) * 4 + 3] > 100) TR.guide.push([x, y, false]); // x, y, marcado
+      }
+    }
+  } catch (e) { TR.guide = []; }
+  TR.marked = []; TR.cov = 0;
+  tracePaint(ctx);
+}
+
+/* Marca los puntos-guía cerca del trazo (radio tolerante 30px) */
+function traceMark(x, y) {
+  const R = 30, R2 = R * R;
+  let newly = 0;
+  for (const p of TR.guide) {
+    if (p[2]) continue;
+    const dx = p[0] - x, dy = p[1] - y;
+    if (dx * dx + dy * dy <= R2) { p[2] = true; TR.marked.push(p); newly++; }
+  }
+  if (TR.guide.length) TR.cov = TR.marked.length / TR.guide.length;
+  return newly;
+}
+
+function tracePaint(ctx) {
+  const cv = ctx.canvas;
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  // guía tenue
+  ctx.save();
+  ctx.font = '900 250px "Baloo 2", Nunito, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,255,255,.13)';
+  ctx.fillText(G.questions[G.qi].letter, 170, 182);
+  ctx.restore();
+  // progreso dorado sobre la guía
+  ctx.fillStyle = 'rgba(255,215,0,.5)';
+  for (const p of TR.marked) { ctx.beginPath(); ctx.arc(p[0], p[1], 4, 0, Math.PI * 2); ctx.fill(); }
+  // trazos del niño
+  ctx.strokeStyle = '#FFD700';
+  ctx.lineWidth = 20; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.globalAlpha = .92;
+  for (const s of TR.strokes) {
+    if (s.pts.length === 1) { ctx.beginPath(); ctx.arc(s.pts[0][0], s.pts[0][1], 10, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill(); continue; }
+    ctx.beginPath();
+    ctx.moveTo(s.pts[0][0], s.pts[0][1]);
+    for (let i = 1; i < s.pts.length; i++) ctx.lineTo(s.pts[i][0], s.pts[i][1]);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  // punto de inicio verde (primera guía marcada o primera de la lista)
+  const st = (TR.marked[0] || TR.guide[0]);
+  if (st) { ctx.beginPath(); ctx.arc(st[0], st[1], 9, 0, Math.PI * 2); ctx.fillStyle = '#2ECC71'; ctx.fill(); }
+  const fill = $('trFill');
+  if (fill) fill.style.width = Math.min(100, Math.round(TR.cov / .5 * 100)) + '%';
+  // éxito tolerante: 50% de la letra cubierta basta para celebrar
+  if (!TR.done && TR.cov >= .5 && TR.guide.length) {
+    TR.done = true;
+    traceSuccess();
+  }
+}
+
+function traceSuccess() {
+  const q = G.questions[G.qi];
+  const fill = $('trFill'); if (fill) fill.style.width = '100%';
+  const cv = $('trCanvas');
+  const r = cv ? cv.getBoundingClientRect() : null;
+  burst(45);
+  beep(true); buzz(35);
+  if (r) floatXP('+12 XP', r.left + r.width / 2, r.top + r.height / 2);
+  TTS.speak([
+    { text: q.letter, lang: 'en-US', rate: .68, pauseMs: 480 },
+    { text: q.item.en, lang: 'en-US', rate: .78, pauseMs: 0 }
+  ]);
+  coreReward(q.item, null);
+  showFeedback(true, '¡Letra ' + q.letter + ' trazada! ✏️', q.item.en + ' = ' + q.item.es);
+}
+window.traceClear = function () {
+  if (TR.done) return;
+  TR.strokes = []; TR.guide.forEach(p => { p[2] = false; });
+  TR.marked = []; TR.cov = 0;
+  const cv = $('trCanvas');
+  if (cv) tracePaint(cv.getContext('2d'));
   beep(true);
-  TR.letter = L; TR.strokes = 0; TR.events = 0; TR.done = false; TR.lastPt = null;
-  const base = $('traceBase'), ink = $('traceInk');
-  if (!base || !ink) return;
-  const b = base.getContext('2d'), k = ink.getContext('2d');
-  b.clearRect(0, 0, TRACE_SIZE, TRACE_SIZE);
-  k.clearRect(0, 0, TRACE_SIZE, TRACE_SIZE);
+};
 
-  /* guía: letra gigante gris claro con borde punteado */
-  b.save();
-  b.font = '800 230px "Baloo 2", sans-serif';
-  b.textAlign = 'center'; b.textBaseline = 'middle';
-  b.fillStyle = 'rgba(255,255,255,.10)';
-  b.strokeStyle = 'rgba(255,255,255,.34)';
-  b.lineWidth = 3; b.setLineDash([7, 7]);
-  b.fillText(L, TRACE_SIZE / 2, TRACE_SIZE / 2 + 8);
-  b.strokeText(L, TRACE_SIZE / 2, TRACE_SIZE / 2 + 8);
-  b.restore();
+/* ══════════ 2) 🔤 ADIVINA LA PALABRA (ahorcado suave) ══════════ */
+/* Versión infantil sin dibujos tristes: la foto da la pista y los
+   corazones de siempre marcan los intentos. Al ganar se pronuncia
+   la palabra; al perder se enseña y se guarda para el Repaso. */
+const HG = { used: {}, wrong: 0, won: false, lock: false };
+window.HG = HG; // accesible para tests/evidencia
 
-  /* punto de inicio dibujado (arriba) para orientar el trazo */
-  const maskC = document.createElement('canvas');
-  maskC.width = TRACE_SIZE; maskC.height = TRACE_SIZE;
-  const m = maskC.getContext('2d');
-  m.font = '800 230px "Baloo 2", sans-serif';
-  m.textAlign = 'center'; m.textBaseline = 'middle';
-  m.fillText(L, TRACE_SIZE / 2, TRACE_SIZE / 2 + 8);
-  const data = m.getImageData(0, 0, TRACE_SIZE, TRACE_SIZE).data;
-  TR.target = [];
-  const step = 5;
-  for (let y = 0; y < TRACE_SIZE; y += step) {
-    for (let x = 0; x < TRACE_SIZE; x += step) {
-      if (data[(y * TRACE_SIZE + x) * 4 + 3] > 40) TR.target.push({ x, y });
-    }
-  }
-  TR.mask = maskC;
-  TR.painted = 0;
-  const word = traceWordFor(L);
-  $('traceHint').textContent = word ? `Traza la ${L} · ${L} de ${word}` : `Traza la letra ${L}`;
-  traceProgUI();
-}
-
-function traceProgUI() {
-  const bar = $('traceProg'); if (!bar) return;
-  const pct = TR.target.length ? clamp(TR.painted / TR.target.length, 0, 1) : 0;
-  bar.style.width = (pct * 100).toFixed(1) + '%';
-  bar.classList.toggle('full', TR.done);
-}
-
-function traceClear() {
-  const ink = $('traceInk'); if (!ink || !TR.letter) return;
-  beep(true);
-  ink.getContext('2d').clearRect(0, 0, TRACE_SIZE, TRACE_SIZE);
-  TR.painted = 0; TR.strokes = 0; TR.events = 0; TR.done = false; TR.lastPt = null;
-  traceProgUI();
-}
-
-/* conecta el trazo del niño con el canvas de tinta */
-(function () {
-  let drawing = false;
-  function ptOf(ev) {
-    const c = $('traceInk'); if (!c) return null;
-    const r = c.getBoundingClientRect();
-    return { x: (ev.clientX - r.left) * (TRACE_SIZE / r.width), y: (ev.clientY - r.top) * (TRACE_SIZE / r.height) };
-  }
-  function paintDot(pt) {
-    const k = $('traceInk').getContext('2d');
-    k.save();
-    k.globalCompositeOperation = 'source-over';
-    k.strokeStyle = '#FFD54A'; k.lineWidth = 30;
-    k.lineCap = 'round'; k.lineJoin = 'round';
-    if (TR.lastPt) { k.beginPath(); k.moveTo(TR.lastPt.x, TR.lastPt.y); k.lineTo(pt.x, pt.y); k.stroke(); }
-    else { k.beginPath(); k.arc(pt.x, pt.y, 15, 0, Math.PI * 2); k.fillStyle = '#FFD54A'; k.fill(); }
-    k.restore();
-    /* recorta la tinta a la silueta de la letra */
-    k.save();
-    k.globalCompositeOperation = 'destination-in';
-    k.drawImage(TR.mask, 0, 0);
-    k.restore();
-    /* cobertura: marca objetivos tocados (radio 17px) */
-    let added = 0;
-    for (let i = 0; i < TR.target.length; i++) {
-      const t = TR.target[i];
-      if (t.p) continue;
-      const dx = t.x - pt.x, dy = t.y - pt.y;
-      if (dx * dx + dy * dy <= 289) { t.p = 1; added++; }
-    }
-    if (added) {
-      TR.painted += added; TR.events++;
-      traceProgUI();
-      const cov = TR.painted / TR.target.length;
-      if (!TR.done && cov >= TRACE_COVER && TR.events >= TRACE_MIN_EVENTS) traceComplete();
-    }
-  }
-  document.addEventListener('pointerdown', ev => {
-    if (!TR.on || TR.done || ev.target.id !== 'traceInk') return;
-    drawing = true; TR.lastPt = null; TR.strokes++;
-    try { ev.target.setPointerCapture(ev.pointerId); } catch (e) {}
-    const pt = ptOf(ev); if (pt) paintDot(pt); TR.lastPt = pt;
-  });
-  document.addEventListener('pointermove', ev => {
-    if (!drawing || TR.done || ev.target.id !== 'traceInk') return;
-    const pt = ptOf(ev); if (pt) { paintDot(pt); TR.lastPt = pt; }
-  });
-  document.addEventListener('pointerup', () => { drawing = false; TR.lastPt = null; });
-  document.addEventListener('pointercancel', () => { drawing = false; TR.lastPt = null; });
-})();
-
-function traceComplete() {
-  TR.done = true;
-  const L = TR.letter, first = !((activeProfile().stats.traceLetters || {})[L]);
-  const word = traceWordFor(L);
-  updateProfile(p => {
-    p.stats.traceLetters = p.stats.traceLetters || {};
-    p.stats.traceLetters[L] = true;
-    p.xp = (p.xp || 0) + (first ? 12 : 5);
-    p.coins = (p.coins || 0) + (first ? 8 : 3);
-    if (first) p.stars = (p.stars || 0) + 1;
-  });
-  saveState(); updateTopbar(); checkBadges();
-  burst(45); beepWin(); buzz(35);
-  const hint = $('traceHint');
-  if (hint) hint.textContent = `🎉 ¡Letra ${L} completada! ${first ? '⭐ ¡Primera vez!' : ''}`;
-  const chip = [...document.querySelectorAll('.tr-chip')].find(c => c.textContent === L);
-  if (chip) chip.classList.add('ok');
-  traceProgUI();
-  TTS.speak(word
-    ? [{ text: L, lang: 'en-US', rate: .68, pauseMs: 480 }, { text: `${L} is for ${word}`, lang: 'en-US', rate: .78 }]
-    : [{ text: L, lang: 'en-US', rate: .68 }]);
-}
-
-/* ══════════ 2) 🎯 AHORCADO KID (Adivina la palabra) ══════════
-   Versión amable sin muñeco: la foto SIEMPRE está visible como
-   pista (reconocer letras, no adivinar a ciegas). 6 corazones,
-   teclado A-Z grande. Palabra ganada → recompensa; sin vidas →
-   se revela con cariño y se sigue. Ronda = 5 palabras. */
-let HG = null;
-
-window.startHangman = function () {
-  const p = activeProfile(); if (!p) return;
+window.startHangMission = function () {
   beep(true);
   const pool = [];
   gameWorlds().forEach(w => w.items.forEach(it => {
-    if (it.img && /^[a-zA-Z]{3,9}$/.test(it.en)) pool.push({ w, it });
+    const L = (it.en || '').length;
+    if (it.img && spellableItem(it.en) && L >= 3 && L <= 8) pool.push({ w, it });
   }));
   if (pool.length < 5) { notif('📚 Juega más mundos para desbloquear este juego', 'var(--red)'); return; }
-  HG = { words: shuffle(pool).slice(0, 5), wi: 0, lives: 6, wins: 0, shown: new Set(), over: false, used: new Set() };
-  openModal('🎯 Adivina la palabra', `
-    <div class="small" style="margin-bottom:6px" id="hgLabel">Palabra 1/5 · Mira la foto y toca las letras</div>
-    <div class="hg-top">
-      <div class="hg-photo" id="hgPhoto"></div>
-      <div class="hg-side">
-        <div class="hg-hearts" id="hgHearts"></div>
-        <div class="hg-slots" id="hgSlots"></div>
-      </div>
-    </div>
-    <div class="hg-msg" id="hgMsg">👆 Toca las letras correctas</div>
-    <div class="hg-keys" id="hgKeys"></div>
-    <button class="bigbtn bb-gold" id="hgNext" style="display:none">Siguiente palabra ➜</button>
-  `, `<button class="bigbtn bb-gold bb-sm" onclick="hangFinish(true)">✓ Terminar ronda</button>`);
-  hangRender();
-  window.PW_HANG = {
-    open: () => !!HG && !!document.getElementById('hgKeys'),
-    word: () => HG ? HG.words[HG.wi] && HG.words[HG.wi].it.en.toUpperCase() : '',
-    lives: () => HG ? HG.lives : 0,
-    wins: () => HG ? HG.wins : 0,
-    games: () => (activeProfile() && activeProfile().stats.hangGames) || 0
-  };
+  const qs = shuffle(pool).slice(0, 5).map(({ w, it }) => ({ item: it, word: it.en.toUpperCase(), w }));
+  bootGameMission('hang', 'Adivina la Palabra', 'palabra secreta', '🔤', qs, renderHangQuestion);
 };
 
-function hangRender() {
-  const { w, it } = HG.words[HG.wi];
-  HG.shown = new Set(); HG.used = new Set(); HG.over = false;
-  $('hgLabel').textContent = `Palabra ${HG.wi + 1}/5 · ${w.icon} ${w.name}`;
-  $('hgPhoto').innerHTML = imgTag(it.img, it.em || '✨', 'hg-img', it.en);
-  $('hgMsg').textContent = '👆 Toca las letras correctas';
-  $('hgNext').style.display = 'none';
-  const hearts = $('hgHearts');
-  hearts.innerHTML = '';
-  for (let i = 0; i < 6; i++) {
-    const s = document.createElement('span');
-    s.className = 'hg-heart'; s.textContent = '❤️';
-    hearts.appendChild(s);
-  }
-  const word = it.en.toUpperCase();
-  $('hgSlots').innerHTML = [...word].map(ch =>
-    `<span class="hg-slot" data-l="${ch}">${/[A-Z]/.test(ch) ? '' : ch}</span>`).join('');
-  const keys = $('hgKeys');
-  keys.innerHTML = '';
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(L => {
+function renderHangQuestion() {
+  if (!G.active || G.qi >= G.questions.length) { endMission(); return; }
+  const q = G.questions[G.qi];
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Palabra ${G.qi + 1}/${tot}`;
+  $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
+  renderLivesRow();
+  const lb = $('listenBtn'); if (lb) lb.style.display = 'none'; // el audio diría la respuesta
+  $('qBadge').textContent = '🔤 Palabra secreta';
+  $('qInstruction').textContent = 'Mira la foto y toca las letras';
+  const wEl = $('qWord');
+  wEl.className = 'q-big-word hs-slots';
+  wEl.style.display = '';
+  wEl.innerHTML = [...q.word].map(() => '<span class="hs-slot"></span>').join('');
+  $('qTrans').textContent = 'Un intento por letra · 5 corazones ❤️';
+  $('qVisual').innerHTML = imgTag(q.item.img, q.item.em, 'q-big-img', q.item.en);
+  HG.used = {}; HG.wrong = 0; HG.won = false; HG.lock = false;
+  const og = $('optsGrid');
+  og.className = 'opts-grid hang-kb';
+  og.style.display = '';
+  og.innerHTML = '';
+  for (const ch of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
     const b = document.createElement('button');
-    b.className = 'hg-key'; b.textContent = L;
-    b.setAttribute('aria-label', 'Letra ' + L);
-    b.onclick = () => hangGuess(L, b, word);
-    keys.appendChild(b);
-  });
-}
-
-window.hangGuess = function (L, btn, word) {
-  if (!HG || HG.over) return;
-  if (HG.used.has(L)) return;
-  HG.used.add(L);
-  if (!word) word = HG.words[HG.wi].it.en.toUpperCase();
-  const msg = $('hgMsg');
-  if (word.includes(L)) {
-    btn.classList.add('hit');
-    HG.shown.add(L);
-    beep(true);
-    document.querySelectorAll(`.hg-slot[data-l="${L}"]`).forEach(s => { s.textContent = L; s.classList.add('on'); });
-    TTS.speak([{ text: L, lang: 'en-US', rate: .7 }]);
-    const done = [...word].every(ch => !/[A-Z]/.test(ch) || HG.shown.has(ch));
-    if (done) hangWin(word);
-  } else {
-    btn.classList.add('miss');
-    HG.lives--;
-    beep(false); buzz([50, 40, 50]);
-    const hs = document.querySelectorAll('.hg-heart');
-    if (hs[HG.lives]) { hs[HG.lives].textContent = '💔'; hs[HG.lives].classList.add('off'); }
-    if (msg) msg.textContent = HG.lives <= 2 ? '😌 ¡Casi! Piensa en las letras de la foto…' : '🤔 Esa letra no está — ¡sigue probando!';
-    if (HG.lives <= 0) hangLose(word);
+    b.className = 'hang-key';
+    b.textContent = ch;
+    b.dataset.letter = ch;
+    b.onclick = () => hangTap(ch);
+    og.appendChild(b);
   }
-};
-
-function hangWin(word) {
-  HG.over = true; HG.wins++;
-  const it = HG.words[HG.wi].it;
-  updateProfile(p => {
-    p.xp = (p.xp || 0) + 6; p.coins = (p.coins || 0) + 4;
-    p.stats.hangWins = (p.stats.hangWins || 0) + 1;
-    p.mastery = p.mastery || {};
-    p.mastery[it.en] = (p.mastery[it.en] || 0) + 1;
-  });
-  saveState(); updateTopbar(); checkBadges();
-  burst(40); beepWin(); buzz(35);
-  $('hgMsg').innerHTML = `🎉 ¡Era <b>${word}</b>! = ${it.es}`;
-  TTS.speak([{ text: it.en, lang: 'en-US', rate: .72, pauseMs: 500 }, { text: it.es, lang: 'es-ES', rate: .8 }]);
-  hangNextBtn();
+  const fb = $('feedbackBar');
+  fb.className = 'feedback-bar';
 }
 
-function hangLose(word) {
-  HG.over = true;
-  const it = HG.words[HG.wi].it;
-  document.querySelectorAll('.hg-slot').forEach(s => { if (!s.textContent) { s.textContent = s.dataset.l; s.classList.add('miss-slot'); } });
-  $('hgMsg').innerHTML = `🌱 ¡Casi! Era <b>${word}</b> = ${it.es}. ¡La próxima la sacas!`;
-  TTS.speak([{ text: it.en, lang: 'en-US', rate: .72 }]);
-  hangNextBtn();
-}
-
-function hangNextBtn() {
-  const nb = $('hgNext');
-  nb.style.display = '';
-  nb.textContent = HG.wi >= HG.words.length - 1 ? '🏁 Ver mi ronda ➜' : 'Siguiente palabra ➜';
-  nb.onclick = () => {
-    beep(true);
-    if (HG.wi >= HG.words.length - 1) hangFinish(false);
-    else { HG.wi++; hangRender(); }
-  };
-}
-
-/* fin de ronda (manual o tras 5 palabras): recompensas + insignias */
-window.hangFinish = function (early) {
-  if (!HG) return;
-  const wins = HG.wins, played = HG.wi + (HG.over ? 1 : 0);
-  HG = null;
-  updateProfile(p => {
-    p.stats.hangGames = (p.stats.hangGames || 0) + 1;
-    if (wins === 5) { p.xp = (p.xp || 0) + 20; p.coins = (p.coins || 0) + 10; }
-  });
-  saveState(); checkBadges();
-  closeModal();
-  if (wins > 0) {
-    celebrate({
-      icon: '🎯',
-      title: `¡${wins} palabra${wins > 1 ? 's' : ''} adivinada${wins > 1 ? 's' : ''}!`,
-      sub: wins === 5 ? '¡RONDA PERFECTA! Eres un detective de letras 🕵️' : 'Cada letra cuenta. ¡Sigue así!',
-      rewards: [`🎯 ${wins}/5 palabras`, wins === 5 ? '🪙 +10 de bonus' : '💪 ¡A por la ronda completa!'],
-      confetti: 2, dur: 3000
+window.hangTap = function (ch) {
+  const q = G.questions[G.qi];
+  if (!G.active || !q || HG.lock || HG.won || HG.used[ch]) return;
+  HG.used[ch] = true;
+  const key = document.querySelector('.hang-key[data-letter="' + ch + '"]');
+  const hits = [...q.word].map((c, i) => c === ch ? i : -1).filter(i => i >= 0);
+  if (hits.length) {
+    if (key) { key.classList.add('ok'); key.disabled = true; }
+    hits.forEach(i => {
+      const s = document.querySelectorAll('.hs-slot')[i];
+      if (s) { s.textContent = ch; s.classList.add('fill'); }
     });
-  } else if (!early) {
-    notif('🌱 ¡Buen intento! Toca otra vez para intentarlo de nuevo', 'var(--orange)');
-  }
-};
-
-/* ══════════ 3) 🖼️ ROMPECABEZAS (4 · 9 · 12 piezas) ══════════
-   Fotos reales de los mundos del nivel. Toca una pieza y luego
-   otra para intercambiarlas (más fácil que arrastrar para manos
-   pequeñas). Botón «Ver ejemplo» (2 usos) para mirar la foto.
-   Difícil 12 = 3 filas × 4 columnas. */
-let PZ = null;
-const PZ_LEVELS = { 4: { rows: 2, cols: 2, xp: 8, coins: 5 }, 9: { rows: 3, cols: 3, xp: 15, coins: 8 }, 12: { rows: 3, cols: 4, xp: 25, coins: 12 } };
-
-window.startPuzzle = function () {
-  const p = activeProfile(); if (!p) return;
-  beep(true);
-  openModal('🖼️ Rompecabezas', `
-    <div class="small" style="margin-bottom:8px">Elige el tamaño y toca dos piezas para intercambiarlas. ¡Arma la foto!</div>
-    <div class="pz-diffs" id="pzDiffs"></div>
-    <div class="pz-stage" id="pzStage">
-      <div class="pz-hint">👆 Elige un tamaño</div>
-    </div>
-    <div class="pz-foot" id="pzFoot"></div>
-  `, `<button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Listo</button>`);
-  const diffs = $('pzDiffs');
-  [[4, 'Fácil · 4'], [9, 'Medio · 9'], [12, 'Difícil · 12']].forEach(([n, label]) => {
-    const b = document.createElement('button');
-    b.className = 'pz-diff'; b.textContent = label;
-    b.onclick = () => { beep(true); puzzleBuild(n); };
-    diffs.appendChild(b);
-  });
-  window.PW_PUZZLE = {
-    open: () => !!PZ && !!document.getElementById('pzBoard'),
-    solved: () => PZ ? PZ.solved : false,
-    pieces: () => PZ ? PZ.rows * PZ.cols : 0,
-    games: () => (activeProfile() && activeProfile().stats.puzzleGames) || 0
-  };
-};
-
-function puzzleBuild(n) {
-  const pool = [];
-  gameWorlds().forEach(w => w.items.forEach(it => { if (it.img) pool.push({ w, it }); }));
-  if (!pool.length) { notif('📚 Juega más mundos primero', 'var(--red)'); return; }
-  const pick = pool[(Math.random() * pool.length) | 0];
-  const img = new Image();
-  img.onload = () => puzzleStart(n, pick, img);
-  img.onerror = () => { notif('😕 No pude cargar esa foto, prueba otra vez', 'var(--red)'); };
-  img.src = IMG(pick.it.img);
-}
-
-function puzzleStart(n, pick, img) {
-  const { rows, cols } = PZ_LEVELS[n];
-  PZ = { img: IMG(pick.it.img), en: pick.it.en, es: pick.it.es, em: pick.it.em || '✨', rows, cols, n,
-         tiles: shuffle([...Array(n).keys()]), sel: -1, peeks: 2, moves: 0, solved: false, url: img.src };
-  if (PZ.tiles.every((t, i) => t === i)) { const t = PZ.tiles[0]; PZ.tiles[0] = PZ.tiles[1]; PZ.tiles[1] = t; }
-  const stage = $('pzStage');
-  stage.innerHTML = '<div class="pz-board" id="pzBoard"></div>';
-  const board = $('pzBoard');
-  board.style.aspectRatio = (cols === 4) ? '4 / 3' : '1 / 1';
-  board.dataset.rows = rows; board.dataset.cols = cols;
-  for (let pos = 0; pos < n; pos++) {
-    const t = document.createElement('div');
-    t.className = 'pz-tile'; t.dataset.pos = pos;
-    t.onclick = () => puzzleTap(pos);
-    board.appendChild(t);
-  }
-  puzzlePaint();
-  puzzleFoot();
-}
-
-function puzzlePaint() {
-  const board = $('pzBoard'); if (!board || !PZ) return;
-  const { rows, cols } = PZ;
-  board.querySelectorAll('.pz-tile').forEach(t => {
-    const pos = +t.dataset.pos;
-    const cell = PZ.tiles[pos];
-    const r = Math.floor(cell / cols), c = cell % cols;
-    t.style.backgroundImage = `url("${PZ.url}")`;
-    t.style.backgroundSize = `${cols * 100}% ${rows * 100}%`;
-    t.style.backgroundPosition = cols > 1 ? `${(c / (cols - 1)) * 100}% ${(r / (rows - 1)) * 100}%` : 'center';
-    t.classList.toggle('sel', pos === PZ.sel);
-    t.classList.toggle('ok', PZ.tiles[pos] === pos);
-  });
-}
-
-function puzzleFoot() {
-  const f = $('pzFoot'); if (!f || !PZ) return;
-  f.innerHTML = `<span class="small">🧩 ${PZ.rows * PZ.cols} piezas · ${PZ.moves} cambios</span>
-    <button class="bigbtn bb-ghost bb-sm" ${PZ.peeks <= 0 ? 'disabled' : ''} onclick="puzzlePeek()">👀 Ver ejemplo (${PZ.peeks})</button>`;
-}
-
-window.puzzleTap = function (pos) {
-  if (!PZ || PZ.solved) return;
-  beep(true);
-  if (PZ.sel === -1) { PZ.sel = pos; puzzlePaint(); return; }
-  if (PZ.sel === pos) { PZ.sel = -1; puzzlePaint(); return; }
-  const a = PZ.sel, b = pos;
-  [PZ.tiles[a], PZ.tiles[b]] = [PZ.tiles[b], PZ.tiles[a]];
-  PZ.sel = -1; PZ.moves++;
-  puzzlePaint(); puzzleFoot();
-  if (PZ.tiles.every((t, i) => t === i)) puzzleSolved();
-};
-
-window.puzzlePeek = function () {
-  if (!PZ || PZ.peeks <= 0 || PZ.solved) return;
-  PZ.peeks--;
-  beep(true);
-  const stage = $('pzStage');
-  const ov = document.createElement('div');
-  ov.className = 'pz-peek';
-  ov.innerHTML = `<img src="${PZ.url}" alt="${PZ.en}">`;
-  stage.appendChild(ov);
-  setTimeout(() => { ov.classList.add('out'); setTimeout(() => ov.remove(), 350); }, 1300);
-  puzzleFoot();
-};
-
-function puzzleSolved() {
-  PZ.solved = true;
-  const { xp, coins } = PZ_LEVELS[PZ.n];
-  updateProfile(p => {
-    p.xp = (p.xp || 0) + xp; p.coins = (p.coins || 0) + coins;
-    p.stats.puzzleGames = (p.stats.puzzleGames || 0) + 1;
-    p.stats.puzzles = p.stats.puzzles || {};
-    p.stats.puzzles[PZ.n] = (p.stats.puzzles[PZ.n] || 0) + 1;
-  });
-  saveState(); updateTopbar(); checkBadges();
-  burst(60); beepWin(); buzz(35);
-  const stage = $('pzStage');
-  stage.innerHTML = `<div class="pz-done">
-      <img src="${PZ.url}" alt="${PZ.en}">
-      <div class="pz-done-word">${PZ.en}</div>
-      <div class="pz-done-es">${PZ.es} · 🧩 ${PZ.moves} cambios</div>
-      <div class="pz-done-rew">✨ +${xp} XP · 🪙 +${coins}</div>
-    </div>
-    <div class="pz-foot" id="pzFoot2"><button class="bigbtn bb-gold bb-sm" onclick="puzzleAgain()">🔄 Otro rompecabezas</button></div>`;
-  TTS.speak([{ text: PZ.en, lang: 'en-US', rate: .74, pauseMs: 480 }, { text: PZ.es, lang: 'es-ES', rate: .8 }]);
-}
-
-/* ══════════ 4) 🔢 UNIR CON PUNTOS ══════════
-   Figuras simples definidas como polilínea cerrada (coordenadas
-   normalizadas 0–1). El niño toca los puntos EN ORDEN: cada acierto
-   dibuja un tramo; el siguiente punto brilla pulsando. Sin fallos:
-   tocar el punto equivocado solo mueve un temblor amable. Al cerrar
-   la figura se rellena, habla su nombre y cae confeti.
-   Corazón y Sol se generan por fórmula (puntos perfectos). */
-const DOTS_SIZE = 320;
-const DOTS_SHAPES = [
-  { id: 'star', en: 'Star', es: 'Estrella', em: '⭐', pts: [
-    [.500, .030], [.613, .356], [.951, .362], [.681, .572], [.780, .905],
-    [.500, .702], [.220, .905], [.319, .572], [.049, .362], [.387, .356]] },
-  { id: 'house', en: 'House', es: 'Casa', em: '🏠', pts: [
-    [.150, .950], [.150, .500], [.500, .130], [.850, .500], [.850, .950],
-    [.620, .950], [.620, .720], [.380, .720], [.380, .950]] },
-  { id: 'rocket', en: 'Rocket', es: 'Cohete', em: '🚀', pts: [
-    [.500, .050], [.680, .300], [.820, .750], [.660, .700], [.500, .900],
-    [.340, .700], [.180, .750], [.320, .300]] },
-  { id: 'tree', en: 'Tree', es: 'Árbol', em: '🌳', pts: [
-    [.500, .040], [.860, .430], [.600, .500], [.600, .720], [.680, .950],
-    [.320, .950], [.400, .720], [.400, .500], [.140, .430]] },
-  { id: 'fish', en: 'Fish', es: 'Pez', em: '🐟', pts: [
-    [.070, .500], [.300, .300], [.620, .230], [.930, .500], [.620, .770], [.300, .700]] },
-  { id: 'heart', en: 'Heart', es: 'Corazón', em: '❤️', pts: heartPts(14) },
-];
-function heartPts(n) {
-  const out = [];
-  for (let i = 0; i < n; i++) {
-    const t = (i / n) * Math.PI * 2;
-    const x = 16 * Math.pow(Math.sin(t), 3);
-    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
-    out.push([clamp(.5 + x / 40, .04, .96), clamp(.52 - y / 36, .04, .96)]);
-  }
-  return out;
-}
-let DN = null;
-
-window.startDots = function () {
-  const p = activeProfile(); if (!p) return;
-  beep(true);
-  openModal('🔢 Unir con puntos', `
-    <div class="small" style="margin-bottom:8px">Toca los puntos <b>en orden 1, 2, 3…</b> y descubre la figura secreta.</div>
-    <div class="dots-chips" id="dotsChips"></div>
-    <div class="dots-box"><canvas id="dotsCv" width="${DOTS_SIZE}" height="${DOTS_SIZE}"></canvas></div>
-    <div class="small" style="text-align:center;margin-top:6px" id="dotsMsg">👆 Elige una figura</div>
-  `, `<button class="bigbtn bb-ghost bb-sm" onclick="dotsRestart()">🔄 Empezar de nuevo</button>
-      <button class="bigbtn bb-gold bb-sm" onclick="closeModal()">✓ Listo</button>`);
-  const chips = $('dotsChips');
-  DOTS_SHAPES.forEach(s => {
-    const done = !!((activeProfile().stats.dotsShapes || {})[s.id]);
-    const chip = document.createElement('button');
-    chip.className = 'dot-chip' + (done ? ' ok' : '');
-    chip.innerHTML = `${s.em} ${s.es}`;
-    chip.onclick = () => dotsPick(s.id);
-    chips.appendChild(chip);
-  });
-  window.PW_DOTS = {
-    open: () => !!DN && !!document.getElementById('dotsCv'),
-    shape: () => DN ? DN.shape.id : '',
-    next: () => DN ? DN.next : 0,
-    done: () => DN ? DN.done : false,
-    total: () => Object.keys((activeProfile() && activeProfile().stats.dotsShapes) || {}).length
-  };
-};
-
-window.dotsPick = function (id) {
-  const s = DOTS_SHAPES.find(x => x.id === id); if (!s) return;
-  beep(true);
-  DN = { shape: s, next: 0, done: false };
-  const msg = $('dotsMsg');
-  if (msg) msg.textContent = `Toca el punto 1 para empezar ${s.em}`;
-  document.querySelectorAll('.dot-chip').forEach(c => c.classList.remove('on'));
-  [...document.querySelectorAll('.dot-chip')].find(c => c.textContent.includes(s.es)).classList.add('on');
-  dotsDraw();
-};
-
-function dotsRestart() {
-  if (DN) { DN.next = 0; DN.done = false; dotsDraw(); const msg = $('dotsMsg'); if (msg) msg.textContent = `Toca el punto 1 ${DN.shape.em}`; }
-}
-
-function dotsDraw() {
-  const cv = $('dotsCv'); if (!cv || !DN) return;
-  const ctx = cv.getContext('2d');
-  const S = DOTS_SIZE, s = DN.shape;
-  const P = s.pts.map(([x, y]) => [x * S, y * S]);
-  ctx.clearRect(0, 0, S, S);
-  /* tramos ya unidos */
-  if (DN.next > 0) {
-    ctx.strokeStyle = '#FFD54A'; ctx.lineWidth = 7; ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(P[0][0], P[0][1]);
-    for (let i = 1; i < DN.next; i++) ctx.lineTo(P[i][0], P[i][1]);
-    if (DN.done) ctx.closePath();
-    ctx.stroke();
-  }
-  /* relleno al completar */
-  if (DN.done) {
-    ctx.save();
-    const gr = ctx.createLinearGradient(0, 0, S, S);
-    gr.addColorStop(0, 'rgba(255,213,74,.55)'); gr.addColorStop(1, 'rgba(255,140,66,.45)');
-    ctx.fillStyle = gr;
-    ctx.beginPath();
-    ctx.moveTo(P[0][0], P[0][1]);
-    P.slice(1).forEach(p => ctx.lineTo(p[0], p[1]));
-    ctx.closePath(); ctx.fill();
-    ctx.font = '56px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(s.em, S / 2, S / 2);
-    ctx.restore();
-  }
-  /* puntos */
-  P.forEach(([x, y], i) => {
-    const isNext = !DN.done && i === DN.next;
-    const done = i < DN.next;
-    ctx.beginPath(); ctx.arc(x, y, isNext ? 15 : 12, 0, Math.PI * 2);
-    ctx.fillStyle = done ? '#FFD54A' : isNext ? '#7CFCB0' : 'rgba(255,255,255,.85)';
-    ctx.fill();
-    if (isNext) {
-      ctx.beginPath(); ctx.arc(x, y, 21 + Math.sin(Date.now() / 220) * 3, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(124,252,176,.8)'; ctx.lineWidth = 3; ctx.stroke();
+    beep(true); buzz(20);
+    // ¿palabra completa?
+    const left = [...q.word].filter(c => !HG.used[c]).length;
+    if (left === 0) {
+      HG.won = true; HG.lock = true;
+      coreReward(q.item, null);
+      TTS.sayWord(q.item.en, q.item.es, 'words');
+      burst(40);
+      showFeedback(true, '¡Adivinaste! 🎉', q.item.en + ' = ' + q.item.es);
     }
-    ctx.fillStyle = '#141026';
-    ctx.font = '800 14px Nunito, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(String(i + 1), x, y + 1);
-  });
-  if (!DN.done) requestAnimationFrame(dotsDraw); /* pulso del punto siguiente */
-}
-
-/* tap en el canvas: hit-test del punto siguiente (radio generoso 30px) */
-(function () {
-  document.addEventListener('pointerdown', ev => {
-    if (!DN || DN.done || ev.target.id !== 'dotsCv') return;
-    const cv = $('dotsCv'), r = cv.getBoundingClientRect();
-    const x = (ev.clientX - r.left) * (DOTS_SIZE / r.width);
-    const y = (ev.clientY - r.top) * (DOTS_SIZE / r.height);
-    const s = DN.shape, S = DOTS_SIZE;
-    const P = s.pts.map(([px, py]) => [px * S, py * S]);
-    const [tx, ty] = P[DN.next];
-    const d = Math.hypot(tx - x, ty - y);
-    if (d <= 30) {
-      DN.next++;
-      beep(true);
-      if (DN.next >= P.length) dotsComplete();
-      else { const m = $('dotsMsg'); if (m) m.textContent = `¡Bien! Ahora el punto ${DN.next + 1}`; }
-      dotsDraw();
-    } else {
-      /* amable: temblor del canvas + pista del número buscado */
-      beep(false);
-      const box = cv.closest('.dots-box');
-      if (box) { box.classList.remove('wiggle'); void box.offsetWidth; box.classList.add('wiggle'); }
-      const m = $('dotsMsg');
-      if (m) m.textContent = `👀 Busca el punto ${DN.next + 1} (el que brilla en verde)`;
+  } else {
+    if (key) { key.classList.add('miss'); key.disabled = true; }
+    HG.wrong++;
+    beep(false); buzz([50, 40, 50]);
+    if (HG.wrong >= 5) {
+      HG.lock = true;
+      // revela la palabra completa (momento de enseñar, nunca de castigar)
+      document.querySelectorAll('.hs-slot').forEach((s, i) => { s.textContent = q.word[i]; s.classList.add('fill', 'rev'); });
+      recordMistake((q.w && q.w.id) || 'hang', q.item);
+      const res = coreFail(q);
+      if (res === 'dead') return;
     }
-  });
-})();
-
-function dotsComplete() {
-  DN.done = true;
-  const s = DN.shape;
-  const first = !((activeProfile().stats.dotsShapes || {})[s.id]);
-  updateProfile(p => {
-    p.stats.dotsShapes = p.stats.dotsShapes || {};
-    p.stats.dotsShapes[s.id] = true;
-    p.xp = (p.xp || 0) + (first ? 10 : 5);
-    p.coins = (p.coins || 0) + (first ? 6 : 3);
-  });
-  saveState(); updateTopbar(); checkBadges();
-  burst(50); beepWin(); buzz(35);
-  const msg = $('dotsMsg');
-  if (msg) msg.textContent = `🎉 ¡Es una ${s.es}! ${s.en} ${first ? '· ⭐ ¡Primera vez!' : ''}`;
-  const chip = [...document.querySelectorAll('.dot-chip')].find(c => c.textContent.includes(s.es));
-  if (chip) chip.classList.add('ok');
-  dotsDraw();
-  TTS.speak([{ text: s.en, lang: 'en-US', rate: .74, pauseMs: 480 }, { text: s.es, lang: 'es-ES', rate: .8 }]);
-}
-
-/* ══════════ 5) 🗓️ RETOS DEL FIN DE SEMANA ══════════
-   Tarjeta en el mapa SOLO sábados y domingos (entre semana, una
-   insinuación para generar expectativa). 3 retos medibles con
-   datos que la app YA registra: misiones de hoy (v7), aciertos de
-   hoy (v14, contador aditivo en coreReward) y Palabra del Día
-   (v11). Recompensa al completar los 3: 1 vez por día de finde. */
-function weekKey(d) {
-  d = d || new Date();
-  const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const day = (dt.getDay() + 6) % 7;                 // lunes=0 … domingo=6
-  dt.setDate(dt.getDate() - day + 3);                // jueves de la semana (norma ISO)
-  const y = dt.getFullYear();
-  const jan1 = new Date(y, 0, 1);
-  const wk = Math.ceil(((dt - jan1) / 864e5 + jan1.getDay() + 1) / 7);
-  return y + '-S' + String(wk).padStart(2, '0');
-}
-function weekendRetos(p) {
-  const t = todayStr();
-  const miss = ((p.stats.missionsByDay || {})[t]) || 0;
-  const corr = ((p.stats.correctByDay || {})[t]) || 0;
-  const wotd = !!((p.stats.wotdDays || {})[t]);
-  return [
-    { icon: '🎯', txt: 'Completa 2 misiones', have: Math.min(miss, 2), goal: 2 },
-    { icon: '✅', txt: 'Acierta 10 respuestas', have: Math.min(corr, 10), goal: 10 },
-    { icon: '📆', txt: 'Escucha la Palabra del Día', have: wotd ? 1 : 0, goal: 1 },
-  ];
-}
-window.renderWeekendCard = function (p) {
-  const isWknd = [0, 6].includes(new Date().getDay());
-  let host = $('weekendZone');
-  if (!host) {
-    host = document.createElement('div');
-    host.id = 'weekendZone';
-    const spin = $('spinZone');
-    const gz = $('gamesZone');
-    if (spin && spin.parentNode) spin.parentNode.insertBefore(host, spin);
-    else if (gz && gz.parentNode) gz.parentNode.insertBefore(host, gz);
   }
-  if (!isWknd) {
-    host.innerHTML = `<div class="wknd-teaser">🗓️ Los <b>retos del fin de semana</b> se abren el sábado 🎉</div>`;
+  updateTopbar();
+};
+
+/* ══════════ 3) 🖼️ ROMPECABEZAS (4 · 9 · 12 piezas) ══════════ */
+/* Foto real de la app cortada en piezas con background-position.
+   Mecánica amable «toca una, toca otra»: sin arrastrar, sin tiempo,
+   sin errores — solo la alegría de armar. El niño elige el tamaño. */
+const PZ = { diff: 9, sel: -1, tiles: [], solved: false };
+window.PZ = PZ; // accesible para tests/evidencia
+
+window.startPuzzleMission = function (diff) {
+  beep(true);
+  if (!diff) {
+    openModal('🖼️ Rompecabezas', `
+      <div style="text-align:center;padding:4px 0">
+        <div style="font-weight:900;margin-bottom:10px">¿De cuántas piezas?</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="bigbtn bb-green bb-sm" onclick="closeModal();startPuzzleMission(4)">🟩 4 piezas</button>
+          <button class="bigbtn bb-gold bb-sm" onclick="closeModal();startPuzzleMission(9)">🟨 9 piezas</button>
+          <button class="bigbtn bb-purple bb-sm" onclick="closeModal();startPuzzleMission(12)">🟪 12 piezas</button>
+        </div>
+        <div class="small" style="margin-top:10px">Toca una pieza y luego otra para cambiarlas de lugar</div>
+      </div>`,
+      `<button class="bigbtn bb-ghost bb-sm" onclick="closeModal()">Cancelar</button>`);
     return;
   }
-  const t = todayStr();
-  const retos = weekendRetos(p);
-  const claimed = !!((p.stats.weekendClaimed || {})[t]);
-  const allDone = retos.every(r => r.have >= r.goal);
-  host.innerHTML = `<div class="wknd-card${allDone ? ' done' : ''}">
-    <div class="wknd-head">🗓️ Retos del fin de semana <span class="wknd-day">${new Date().toLocaleDateString('es-ES', { weekday: 'long' })}</span></div>
-    ${retos.map(r => `
-      <div class="wknd-row${r.have >= r.goal ? ' ok' : ''}">
-        <span class="wr-ico">${r.icon}</span>
-        <div class="wr-mid">
-          <div class="wr-txt">${r.txt}</div>
-          <div class="wr-bar"><span style="width:${(r.have / r.goal) * 100}%"></span></div>
-        </div>
-        <b class="wr-n">${r.have}/${r.goal}</b>
-      </div>`).join('')}
-    ${claimed
-      ? '<div class="wknd-claimed">✅ ¡Retos de hoy completados! Vuelve mañana 🌟</div>'
-      : allDone
-        ? '<button class="bigbtn bb-gold bb-sm" onclick="claimWeekend()">🎁 Reclamar 🪙+30 ✨+50</button>'
-        : '<div class="small" style="opacity:.75">Completa los 3 y gana el premio del finde 🎁</div>'}
-  </div>`;
+  PZ.diff = +diff || 9;
+  const pool = [];
+  gameWorlds().forEach(w => w.items.forEach(it => { if (it.img) pool.push({ w, it }); }));
+  if (pool.length < 5) { notif('📚 Juega más mundos para desbloquear este juego', 'var(--red)'); return; }
+  const qs = shuffle(pool).slice(0, 5).map(({ w, it }) => ({ item: it, w }));
+  bootGameMission('puzzle', 'Rompecabezas', 'arma la foto', '🖼️', qs, renderPuzzleQuestion);
+  G.countPerfect = false; // armar es creatividad: no infla «perfectas»
 };
 
-window.claimWeekend = function () {
-  const p = activeProfile(); if (!p) return;
-  const t = todayStr();
-  if (!weekendRetos(p).every(r => r.have >= r.goal)) return;
-  if ((p.stats.weekendClaimed || {})[t]) return;
-  updateProfile(pp => {
-    pp.stats.weekendClaimed = pp.stats.weekendClaimed || {};
-    pp.stats.weekendClaimed[t] = true;
-    pp.stats.weekendDays = pp.stats.weekendDays || {};
-    pp.stats.weekendDays[t] = true;
-    pp.coins = (pp.coins || 0) + 30; pp.xp = (pp.xp || 0) + 50; pp.stars = (pp.stars || 0) + 1;
+function pzGeom() {
+  const n = PZ.diff;
+  const cols = n === 4 ? 2 : n === 9 ? 3 : 4;
+  const rows = Math.round(n / cols);
+  return { cols, rows };
+}
+
+function renderPuzzleQuestion() {
+  if (!G.active || G.qi >= G.questions.length) { endMission(); return; }
+  const q = G.questions[G.qi];
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Puzzle ${G.qi + 1}/${tot}`;
+  $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
+  renderLivesRow();
+  const lb = $('listenBtn'); if (lb) lb.style.display = 'none';
+  $('qBadge').textContent = '🖼️ Rompecabezas';
+  $('qInstruction').textContent = 'Toca dos piezas para cambiarlas de lugar';
+  const wEl = $('qWord'); wEl.className = 'q-big-word'; wEl.style.display = 'none';
+  $('qTrans').textContent = q.item.en + ' · ' + q.item.es;
+  const og = $('optsGrid'); og.className = 'opts-grid'; og.style.display = 'none'; og.innerHTML = '';
+  const { cols, rows } = pzGeom();
+  // baraja hasta que NO esté resuelta de entrada
+  PZ.tiles = [...Array(PZ.diff).keys()];
+  let guard = 0;
+  do { PZ.tiles = shuffle(PZ.tiles); } while (PZ.tiles.every((v, i) => v === i) && guard++ < 50);
+  PZ.sel = -1; PZ.solved = false;
+  $('qVisual').innerHTML = `
+    <div class="pz-wrap">
+      <div class="pz-head">${imgTag(q.item.img, q.item.em, 'pz-ref-img', q.item.en)}<span class="small">modelo 👈</span></div>
+      <div class="pz-grid" id="pzGrid" style="grid-template-columns:repeat(${cols},1fr);aspect-ratio:${cols}/${rows}"></div>
+    </div>`;
+  pzPaint();
+}
+
+function pzPaint() {
+  const q = G.questions[G.qi];
+  const { cols, rows } = pzGeom();
+  const grid = $('pzGrid'); if (!grid) return;
+  grid.innerHTML = '';
+  PZ.tiles.forEach((pc, i) => {
+    const t = document.createElement('div');
+    t.className = 'pz-tile' + (PZ.sel === i ? ' sel' : '') + (PZ.solved ? ' done' : '');
+    t.style.backgroundImage = `url(${IMG(q.item.img)})`;
+    t.style.backgroundSize = `${cols * 100}% ${rows * 100}%`;
+    t.style.backgroundPosition = `${(pc % cols) * 100 / (cols - 1)}% ${Math.floor(pc / cols) * 100 / (rows - 1)}%`;
+    t.onclick = () => pzTap(i);
+    grid.appendChild(t);
   });
-  saveState(); updateTopbar(); checkBadges();
-  burst(70); beepWin();
-  celebrate({
-    icon: '🗓️',
-    title: '¡Retos del fin de semana completados!',
-    sub: 'Misiones, aciertos y Palabra del Día: ¡todo hoy!',
-    rewards: ['🪙 +30 Monedas', '✨ +50 XP', '⭐ +1 Estrella'],
-    confetti: 3, dur: 3200
+}
+
+function pzTap(i) {
+  if (PZ.solved || !G.active) return;
+  if (PZ.sel === -1) {
+    PZ.sel = i; beep(true); buzz(15);
+  } else if (PZ.sel === i) {
+    PZ.sel = -1; beep(true);
+  } else {
+    [PZ.tiles[PZ.sel], PZ.tiles[i]] = [PZ.tiles[i], PZ.tiles[PZ.sel]];
+    PZ.sel = -1;
+    pzPaint();
+    if (PZ.tiles.every((v, idx) => v === idx)) {
+      PZ.solved = true;
+      pzWin();
+    } else beep(true);
+  }
+  pzPaint();
+}
+
+function pzWin() {
+  const q = G.questions[G.qi];
+  const grid = $('pzGrid');
+  const r = grid ? grid.getBoundingClientRect() : null;
+  burst(50); beep(true); buzz(35);
+  if (r) floatXP('+12 XP', r.left + r.width / 2, r.top + r.height / 2);
+  TTS.sayWord(q.item.en, q.item.es, 'words');
+  coreReward(q.item, null);
+  showFeedback(true, '¡Rompecabezas listo! 🧩', q.item.en + ' = ' + q.item.es);
+  updateTopbar();
+}
+
+/* ══════════ 4) ⭐ UNE LOS PUNTOS ══════════ */
+/* Dibujo punto a punto con números. Sin penalizaciones: si toca
+   mal, el punto correcto parpadea. Al terminar: palabra + foto. */
+const DOTS_SHAPES = [
+  { en: 'star',  es: 'estrella', img: 'star',  pts: [[.5,.08],[.61,.38],[.93,.38],[.67,.57],[.76,.88],[.5,.69],[.24,.88],[.33,.57],[.07,.38],[.39,.38]] },
+  { en: 'house', es: 'casa',     img: 'house', pts: [[.18,.82],[.18,.5],[.5,.2],[.82,.5],[.82,.82],[.66,.82],[.66,.62],[.34,.62],[.34,.82]] },
+  { en: 'fish',  es: 'pez',      img: 'fish',  pts: [[.1,.5],[.3,.32],[.55,.3],[.78,.42],[.92,.32],[.86,.5],[.92,.68],[.78,.58],[.55,.7],[.3,.68]] },
+  { en: 'heart', es: 'corazón',  img: 'heart', pts: [[.5,.85],[.2,.55],[.1,.35],[.24,.18],[.44,.24],[.5,.36],[.56,.24],[.76,.18],[.9,.35],[.8,.55]] },
+  { en: 'tent',  es: 'tienda',   img: 'tent',  pts: [[.5,.18],[.1,.82],[.4,.82],[.5,.55],[.6,.82],[.9,.82]] },
+  { en: 'tree',  es: 'árbol',    img: 'tree',  pts: [[.5,.12],[.28,.42],[.4,.42],[.18,.68],[.4,.68],[.4,.86],[.6,.86],[.6,.68],[.82,.68],[.6,.42],[.72,.42]] },
+];
+const DT = { next: 0, flash: 0, done: false, timer: null };
+window.DT = DT; // accesible para tests/evidencia
+
+window.startDotsMission = function () {
+  beep(true);
+  const qs = shuffle(DOTS_SHAPES).slice(0, 3).map(s => ({
+    shape: s, item: { en: s.en, es: s.es, img: s.img, em: '⭐' }
+  }));
+  bootGameMission('dots', 'Une los Puntos', 'punto a punto', '⭐', qs, renderDotsQuestion);
+  G.countPerfect = false; // dibujar es creatividad: no infla «perfectas»
+};
+
+function dtXY(p) { return [30 + p[0] * 280, 30 + p[1] * 280]; }
+
+function renderDotsQuestion() {
+  if (!G.active || G.qi >= G.questions.length) { endMission(); return; }
+  const q = G.questions[G.qi];
+  const tot = G.questions.length;
+  $('gProgLabel').textContent = `Dibujo ${G.qi + 1}/${tot}`;
+  $('gProgFill').style.width = ((G.qi / tot) * 100) + '%';
+  renderLivesRow();
+  const lb = $('listenBtn'); if (lb) lb.style.display = 'none';
+  $('qBadge').textContent = '⭐ Une los puntos';
+  $('qInstruction').textContent = 'Toca los números en orden: 1, 2, 3…';
+  const wEl = $('qWord'); wEl.className = 'q-big-word'; wEl.style.display = 'none';
+  $('qTrans').textContent = '¿Qué será? Descúbrelo uniendo los puntos';
+  const og = $('optsGrid'); og.className = 'opts-grid'; og.style.display = 'none'; og.innerHTML = '';
+  $('qVisual').innerHTML = `
+    <div class="dt-wrap">
+      <canvas id="dtCanvas" class="dt-canvas" width="340" height="340"></canvas>
+      <div class="dt-foot"><span class="dt-tip">1 → 2 → 3 … hasta el último punto</span></div>
+    </div>`;
+  DT.next = 0; DT.flash = 0; DT.done = false;
+  dtPaint();
+  const cv = $('dtCanvas');
+  if (cv && !cv.dataset.bound) {
+    cv.dataset.bound = '1';
+    cv.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      const r = cv.getBoundingClientRect();
+      dtTap((e.clientX - r.left) * (cv.width / r.width), (e.clientY - r.top) * (cv.height / r.height));
+    });
+  }
+  if (DT.timer) clearInterval(DT.timer);
+  DT.timer = setInterval(() => { // pulso suave del punto objetivo
+    if (!$('dtCanvas')) { clearInterval(DT.timer); DT.timer = null; return; } // limpiezas al salir del juego
+    if (DT.next < q.shape.pts.length && !DT.done) dtPaint();
+  }, 450);
+}
+
+function dtPaint() {
+  const q = G.questions[G.qi];
+  const cv = $('dtCanvas'); if (!cv || !q) return;
+  const ctx = cv.getContext('2d');
+  const pts = q.shape.pts.map(dtXY);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  // líneas ya unidas
+  ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (DT.next > 1) {
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < DT.next; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    if (DT.done) ctx.closePath();
+    ctx.stroke();
+  }
+  // relleno de la figura al completar
+  if (DT.done) {
+    ctx.fillStyle = 'rgba(255,215,0,.28)';
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath(); ctx.fill();
+  }
+  // puntos numerados
+  pts.forEach((p, i) => {
+    const isTarget = i === DT.next && !DT.done;
+    const pulse = isTarget && Math.floor(Date.now() / 450) % 2 === 0;
+    const flash = isTarget && DT.flash > 0;
+    ctx.beginPath();
+    ctx.arc(p[0], p[1], isTarget ? (pulse ? 17 : 13) : 11, 0, Math.PI * 2);
+    ctx.fillStyle = i < DT.next ? '#2ECC71' : isTarget ? (flash ? '#FF8C42' : '#FFD700') : 'rgba(255,255,255,.85)';
+    ctx.fill();
+    if (isTarget) {
+      ctx.beginPath(); ctx.arc(p[0], p[1], flash ? 24 : 21, 0, Math.PI * 2);
+      ctx.strokeStyle = flash ? 'rgba(255,140,66,.8)' : 'rgba(255,215,0,.6)';
+      ctx.lineWidth = 3; ctx.stroke();
+    }
+    ctx.fillStyle = '#1d1433';
+    ctx.font = '900 15px Nunito, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(String(i + 1), p[0], p[1] + .5);
   });
-  renderWeekendCard(activeProfile());
+  if (DT.flash > 0) DT.flash--;
+}
+
+window.dtTap = function (x, y) {
+  const q = G.questions[G.qi];
+  if (!q || DT.done) return;
+  const [tx, ty] = dtXY(q.shape.pts[DT.next]);
+  if (Math.hypot(x - tx, y - ty) <= 36) {
+    DT.next++;
+    beep(true); buzz(15);
+    if (DT.next >= q.shape.pts.length) {
+      DT.done = true;
+      dtWin();
+    }
+    dtPaint();
+  } else {
+    DT.flash = 4; // el punto correcto parpadea en naranja: sin castigos
+    buzz(10);
+    dtPaint();
+  }
+};
+
+function dtWin() {
+  const q = G.questions[G.qi];
+  const cv = $('dtCanvas');
+  const r = cv ? cv.getBoundingClientRect() : null;
+  burst(50); beepWin(); buzz(35);
+  if (r) floatXP('+12 XP', r.left + r.width / 2, r.top + r.height / 2);
+  TTS.sayWord(q.item.en, q.item.es, 'words');
+  coreReward(q.item, null);
+  showFeedback(true, '¡Dibujo completo! ⭐', q.item.en + ' = ' + q.item.es);
+  if (DT.timer) { clearInterval(DT.timer); DT.timer = null; }
+  updateTopbar();
+}
+
+/* ══════════ 5) 🎪 RETO DEL FIN DE SEMANA ══════════
+   Sábados y domingos aparece el reto: una misión mixta de 10
+   preguntas con fotos de muchos mundos + bono de monedas/XP.
+   Entre semana el chip muestra cuántos días faltan. */
+window.PW_FORCE_WEEKEND = false; // gancho de pruebas (no altera la UI normal)
+function isWeekendToday() {
+  if (window.PW_FORCE_WEEKEND) return true;
+  const d = new Date().getDay();
+  return d === 6 || d === 0;
+}
+function daysToWeekend() {
+  const d = new Date().getDay();
+  return (d === 6 || d === 0) ? 0 : (6 - d + 7) % 7;
+}
+
+window.startWeekendMission = function () {
+  beep(true); buzz(30);
+  const pool = [];
+  const lvlws = WORLDS.filter(w => w.lvl === (currentLevel || 1));
+  (lvlws.length ? lvlws : WORLDS).forEach(w => w.items.forEach(it => { if (it.img) pool.push(it); }));
+  if (pool.length < 10) { notif('📚 Vuelve cuando hayas jugado más mundos', 'var(--red)'); return; }
+  const picks = shuffle(pool).slice(0, 10);
+  const qs = picks.map(item => {
+    const wrongs = shuffle(pool.filter(x => x !== item && x.en !== item.en)).slice(0, 3);
+    return { item, opts: shuffle([item, ...wrongs]), ans: item };
+  });
+  bootGameMission('weekend', 'Reto del Finde', 'misión mixta', '🎪', qs, renderQuestion);
+};
+
+/* chip del mapa (junto a Sorpréndeme) */
+function renderWeekendChip(p) {
+  const anchor = $('dailyGoal'); if (!anchor) return;
+  let host = $('weekendChip');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'weekendChip';
+    anchor.parentNode.insertBefore(host, anchor);
+  }
+  const done = p.stats && p.stats.weekendDone && p.stats.weekendDone[todayStr()];
+  if (isWeekendToday()) {
+    host.innerHTML = `<button class="cont-btn wk-btn" onclick="weekendTap()" aria-label="Reto del fin de semana">🎪 ${done ? '¡Reto hecho hoy! Repite' : '¡Reto del finde!'}</button>`;
+  } else {
+    const d = daysToWeekend();
+    host.innerHTML = `<button class="cont-btn wk-btn off" onclick="weekendTap()" aria-label="Reto del fin de semana: vuelve el sábado">🎪 Reto del finde · en ${d === 1 ? '1 día' : d + ' días'}</button>`;
+  }
+}
+window.weekendTap = function () {
+  if (isWeekendToday()) return startWeekendMission();
+  const d = daysToWeekend();
+  openModal('🎪 Reto del fin de semana', `
+    <div style="text-align:center;padding:6px 4px">
+      <div style="font-size:2.4em">🎪</div>
+      <div style="font-weight:900;font-size:1.12em;margin:8px 0 6px">¡Vuelve el ${d === 1 ? 'mañana (¡sábado!)' : 'sábado'}!</div>
+      <div class="small">Los sábados y domingos hay un <b>reto especial</b>: 10 preguntas
+      de muchos mundos con <b>bono de monedas y XP</b>. ¡Es el partido grande de la semana! ⭐</div>
+    </div>`,
+    `<button class="bigbtn bb-gold bb-sm" onclick="closeModal()">¡OK! 🎪</button>`);
+  beep(true);
 };
 
 /* ganchos de prueba/evidencia (no alteran la UI normal) */
 window.PW_WEEKEND = {
-  info: () => ({ weekend: [0, 6].includes(new Date().getDay()), week: weekKey() }),
-  retos: () => activeProfile() ? weekendRetos(activeProfile()) : null,
-  state: () => {
-    const p = activeProfile(); if (!p) return null;
-    return {
-      claimedDays: Object.keys(p.stats.weekendDays || {}).length,
-      claimedToday: !!((p.stats.weekendClaimed || {})[todayStr()]),
-      allDone: weekendRetos(p).every(r => r.have >= r.goal)
-    };
-  },
-  claim: claimWeekend
+  is: isWeekendToday,
+  days: daysToWeekend,
+  start: () => startWeekendMission()
 };
+

@@ -11,7 +11,7 @@ SF.ui={...nopProxy,showHud:noop,hideScreens:noop,renderGameOver:noop,flashMsg:no
 SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,clearGame:noop}; SF.audio=nopProxy; SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle:()=>null};
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'}); SF.game.init(canvas); SF.game.startNew('TEST','vanguard');
 const G=SF.game.state,D=SF.game._debug,ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.5','wrong version'); ok(C.encounterEvolution.combatIntent.enabled,'combat intent disabled'); ok(C.encounterEvolution.subbossInterruption.enabled,'subboss interruption disabled');
+ok(C.VERSION==='0.7.6','wrong version'); ok(C.encounterEvolution.combatIntent.enabled,'combat intent disabled'); ok(C.encounterEvolution.subbossInterruption.enabled,'subboss interruption disabled');
 const hp=(id,alive=true)=>({id,alive,hp:alive?10:0,maxHp:10});
 // Intent telegraph: the target must freeze, then create an interruptible escort window.
 G.phase='boss'; G.px=G.w*.22; G.py=G.h*.78; G.enemies=[];
@@ -24,4 +24,4 @@ G.enemies=[boss2]; G.enemyBullets=[]; G.px=G.w*.35; now+=1000; D.armBossCombatIn
 // Subboss: one concentrated punish per signature recovery delays the next signature and extends exposure.
 const sub={alive:true,role:'miniboss',identity:{name:'SUB'},x:90,y:90,w:120,h:90,hp:500,maxHp:1000,subRecoveryUntil:0,subExposeUntil:0,subSignatureNextAt:0,subRecoverySerial:0,subInterruptedRecoverySerial:-1,subInterruptPressure:0};
 now+=1000; D.scheduleSubbossRecovery(sub,1,now); const originalSig=sub.subSignatureNextAt, originalExpose=sub.subExposeUntil; const score1=G.score; ok(D.noteSubbossRecoveryDamage(sub,50,now+100),'subboss recovery was not interruptible'); ok(sub.subSignatureNextAt>originalSig,'subboss next signature was not delayed'); ok(sub.subExposeUntil>originalExpose,'subboss exposure was not extended'); ok(G.score>score1,'subboss interrupt gave no reward'); ok(!D.noteSubbossRecoveryDamage(sub,100,now+150),'same recovery allowed multiple interrupts');
-console.log('TACTICAL INTENT v0.7.5 PASS',{lockedTarget:Math.round(locked),intentBullets:G.enemyBullets.length,subSignatureDelay:Math.round(sub.subSignatureNextAt-originalSig),subExposeExtension:Math.round(sub.subExposeUntil-originalExpose)});
+console.log('TACTICAL INTENT v0.7.6 PASS',{lockedTarget:Math.round(locked),intentBullets:G.enemyBullets.length,subSignatureDelay:Math.round(sub.subSignatureNextAt-originalSig),subExposeExtension:Math.round(sub.subExposeUntil-originalExpose)});

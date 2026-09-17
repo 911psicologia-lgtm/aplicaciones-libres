@@ -4,7 +4,7 @@ const root=path.resolve(__dirname,'..');
 const audioRoot=path.join(root,'audio','STARFALL_FRONTIER_AUDIO_PACK_v1');
 const config=fs.readFileSync(path.join(root,'js','config.js'),'utf8');
 const audio=fs.readFileSync(path.join(root,'js','audio.js'),'utf8');
-if(!config.includes("VERSION: '0.7.5'")) throw new Error('Wrong version');
+if(!config.includes("VERSION: '0.7.6'")) throw new Error('Wrong version');
 const oggs=[];
 (function walk(dir){for(const f of fs.readdirSync(dir)){const p=path.join(dir,f),st=fs.statSync(p);if(st.isDirectory())walk(p);else if(f.endsWith('.ogg'))oggs.push(p);}})(audioRoot);
 if(oggs.length!==449) throw new Error('Expected 449 OGG archive, got '+oggs.length);

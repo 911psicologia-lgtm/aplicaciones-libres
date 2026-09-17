@@ -12,7 +12,7 @@ const sandbox={window:{SF:{}},performance:{now:()=>0},console}; sandbox.window.w
 vm.createContext(sandbox);
 vm.runInContext(fs.readFileSync(path.join(root,'js/config.js'),'utf8'),sandbox);
 const C=sandbox.window.SF.config;
-if(C.VERSION!=='0.7.5') throw new Error('Wrong version');
+if(C.VERSION!=='0.7.6') throw new Error('Wrong version');
 if(C.wave.startCols<10||C.wave.startRows<6) throw new Error('Formation too sparse');
 if(C.obstacles.maxCount>2) throw new Error('Obstacles became invasive');
 const assetFiles=[];

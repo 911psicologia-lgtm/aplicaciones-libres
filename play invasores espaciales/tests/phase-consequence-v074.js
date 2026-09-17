@@ -11,7 +11,7 @@ SF.ui={...nopProxy,showHud:noop,hideScreens:noop,renderGameOver:noop,flashMsg:no
 SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,clearGame:noop}; SF.audio=nopProxy; SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle:()=>null};
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'}); SF.game.init(canvas); SF.game.startNew('TEST','vanguard');
 const G=SF.game.state,D=SF.game._debug,ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.5','wrong version'); ok(C.encounterEvolution.phaseConsequences.enabled,'phase consequences disabled'); ok(C.encounterEvolution.supportSynergy.enabled,'support synergy disabled');
+ok(C.VERSION==='0.7.6','wrong version'); ok(C.encounterEvolution.phaseConsequences.enabled,'phase consequences disabled'); ok(C.encounterEvolution.supportSynergy.enabled,'support synergy disabled');
 const hp=(id,alive)=>({id,alive,hp:alive?10:0,maxHp:10});
 // Weapon scars: frozen target and auxiliary doctrine instead of restoring magically lost weapons.
 G.phase='boss'; G.px=G.w*.22; G.py=G.h*.76; G.enemies=[];
@@ -33,4 +33,4 @@ const breeder={alive:true,role:'formation',kind:'breeder',x:155,y:125,w:30,h:30,
 G.enemies=[sentinel,reanimator,breeder]; G.enemyGraveyard=[{kind:'raider',row:0,col:0,ox:0,oy:0,w:30,h:24,renderH:36,maxHp:10,score:20,color:'#fff'}];
 now+=100; ok(D.findSupportPartner(reanimator,['sentinel'],now)===sentinel,'support link not found'); D.spawnRevivedEnemy(reanimator,now); const revived=G.enemies.find(e=>e.role==='reviving'); ok(revived&&revived.hp>=8,'sentinel-linked revive was not reinforced');
 D.spawnBreederDrone(breeder,now); const drone=G.enemies.find(e=>e.role==='breedDrone'); ok(drone&&drone.hp>=2,'sentinel-linked breeder drone was not armored'); ok(breeder.breedAt-now<C.enemyEcology.breederIntervalMs,'reanimator-linked breeder did not accelerate');
-console.log('PHASE CONSEQUENCE v0.7.5 PASS',{lockedTarget:Math.round(locked),anchorBullets:G.enemyBullets.length-bb,criticalOpen:Math.round(crit.coreOpenUntil-now),revivedHp:revived.hp,droneHp:drone.hp});
+console.log('PHASE CONSEQUENCE v0.7.6 PASS',{lockedTarget:Math.round(locked),anchorBullets:G.enemyBullets.length-bb,criticalOpen:Math.round(crit.coreOpenUntil-now),revivedHp:revived.hp,droneHp:drone.hp});

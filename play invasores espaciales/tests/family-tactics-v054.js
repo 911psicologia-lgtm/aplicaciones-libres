@@ -3,7 +3,7 @@ const root=path.join(__dirname,'..');
 const context={window:{SF:{}},console}; vm.createContext(context);
 vm.runInContext(fs.readFileSync(path.join(root,'js','config.js'),'utf8'),context);
 const C=context.window.SF.config;
-if(C.VERSION!=='0.7.5') throw new Error('wrong version');
+if(C.VERSION!=='0.7.6') throw new Error('wrong version');
 if(!C.worldFamilyTactics?.enabled) throw new Error('family tactics disabled');
 for(let i=1;i<=5;i++) if(!C.worldFamilyTactics.worlds[i]?.id) throw new Error('missing world tactic '+i);
 const game=fs.readFileSync(path.join(root,'js','game.js'),'utf8');

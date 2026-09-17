@@ -90,6 +90,7 @@ const UI = {
         document.getElementById('btn-quit').addEventListener('click', () => location.reload());
         document.getElementById('btn-next-level').addEventListener('click', () => Game.nextLevel());
         document.getElementById('btn-retry').addEventListener('click', () => location.reload());
+        document.getElementById('btn-retry-level').addEventListener('click', () => Game.retryLevel());
         document.getElementById('btn-victory-restart').addEventListener('click', () => location.reload());
         // Selección de princesa
         document.getElementById('btn-select-back').addEventListener('click', () => {
@@ -429,6 +430,35 @@ const UI = {
     },
 
     showRewards(rewards) {
+        // Mostrar estrellas
+        const starsDisplay = document.getElementById('stars-display');
+        if (starsDisplay && Game.state._lastStars) {
+            const stars = Game.state._lastStars;
+            let starsHtml = '';
+            for (let i = 0; i < 3; i++) {
+                const earned = i < stars;
+                starsHtml += `<canvas class="star ${earned ? 'earned' : 'unearned'}" width="50" height="50" data-earned="${earned}"></canvas>`;
+            }
+            starsDisplay.innerHTML = starsHtml;
+            // Dibujar estrellas en canvas
+            starsDisplay.querySelectorAll('canvas').forEach((c, i) => {
+                const ctx = c.getContext('2d');
+                ctx.clearRect(0, 0, 50, 50);
+                ctx.save();
+                ctx.translate(25, 25);
+                const earned = c.dataset.earned === 'true';
+                ctx.fillStyle = earned ? '#FFD700' : '#444';
+                ctx.strokeStyle = earned ? '#fff' : '#222';
+                ctx.lineWidth = 2;
+                if (earned) {
+                    ctx.shadowColor = '#FFD700';
+                    ctx.shadowBlur = 15;
+                }
+                Assets._drawStar(ctx, 0, 0, 5, 20, 9);
+                ctx.stroke();
+                ctx.restore();
+            });
+        }
         this.el.rewardBox.innerHTML = `
             <div class="reward-title">${rewards.prize.name}</div>
             <div style="font-size:0.85rem; opacity:0.8; margin-bottom:8px;">${rewards.prize.desc}</div>

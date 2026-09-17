@@ -806,6 +806,33 @@ canvas#gameCanvas {
     font-weight: bold;
 }
 
+/* ============================== ESTRELLAS ============================== */
+.stars-display {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 14px 0;
+}
+.star {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+    transition: transform 0.3s;
+}
+.star.earned {
+    animation: starPop 0.5s ease;
+}
+@keyframes starPop {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    60% { transform: scale(1.3) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.star.unearned {
+    opacity: 0.25;
+    filter: grayscale(1);
+}
+
 /* ============================== TUTORIAL ============================== */
 .tutorial-overlay {
     position: absolute;

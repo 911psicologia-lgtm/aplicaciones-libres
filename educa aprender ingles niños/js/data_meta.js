@@ -187,19 +187,17 @@ const BADGES = [
   // ★ V13 — botón Sorpréndeme (aventura al azar)
   {id:'surprise1',  icon:'🎲', name:'Primera Sorpresa', desc:'Toca el dado Sorpréndeme y juega una misión al azar', c:p=>(p.stats.surpriseGames||0)>=1},
   {id:'surprise10', icon:'🗺️', name:'Aventurero',      desc:'Usa Sorpréndeme 10 veces. ¡Qué explorador!', c:p=>(p.stats.surpriseGames||0)>=10},
-  // ★ V14 — taller de letras y juegos creativos
-  {id:'trace1',  icon:'✏️', name:'Primer Trazo',       desc:'Traza tu primera letra en el taller', c:p=>Object.keys((p.stats&&p.stats.traceLetters)||{}).length>=1},
-  {id:'trace10', icon:'🖊️', name:'Mano de Artista',   desc:'Traza 10 letras distintas', c:p=>Object.keys((p.stats&&p.stats.traceLetters)||{}).length>=10},
-  {id:'trace26', icon:'🖋️', name:'Alfabeto Completo', desc:'Traza las 26 letras. ¡INCREÍBLE!', c:p=>Object.keys((p.stats&&p.stats.traceLetters)||{}).length>=26},
-  {id:'hang1',   icon:'🎯', name:'Detective de Palabras', desc:'Termina tu primera ronda de Adivina la palabra', c:p=>(p.stats.hangGames||0)>=1},
-  {id:'hang10',  icon:'🏆', name:'Maestro del Misterio',  desc:'Termina 10 rondas de Adivina la palabra', c:p=>(p.stats.hangGames||0)>=10},
-  {id:'weekend1',icon:'🗓️', name:'Héroe del Finde',    desc:'Completa los 3 retos de un día de fin de semana', c:p=>Object.keys((p.stats&&p.stats.weekendDays)||{}).length>=1},
-  {id:'weekend8',icon:'🌟', name:'Leyenda de Fines',    desc:'Completa retos en 8 días de fin de semana', c:p=>Object.keys((p.stats&&p.stats.weekendDays)||{}).length>=8},
-  {id:'puzzle1', icon:'🖼️', name:'Primer Rompecabezas', desc:'Arma tu primer rompecabezas de fotos', c:p=>(p.stats.puzzleGames||0)>=1},
-  {id:'puzzle9', icon:'🧩', name:'Rompecabezas x9',    desc:'Arma uno de 9 piezas', c:p=>((p.stats&&p.stats.puzzles)||{})[9]>=1},
-  {id:'puzzle12',icon:'🏁', name:'Rompecabezas x12',   desc:'Arma uno de 12 piezas. ¡Experto!', c:p=>((p.stats&&p.stats.puzzles)||{})[12]>=1},
-  {id:'dots1',   icon:'🔢', name:'Punto a Punto',      desc:'Completa tu primera figura uniendo puntos', c:p=>Object.keys((p.stats&&p.stats.dotsShapes)||{}).length>=1},
-  {id:'dots6',   icon:'🌈', name:'Galería de Figuras',  desc:'Completa las 6 figuras de puntos', c:p=>Object.keys((p.stats&&p.stats.dotsShapes)||{}).length>=6},
+  // ★ V14 — Taller de Juegos (trazar, adivinar, armar, unir, reto finde)
+  {id:'trace1',  icon:'✏️', name:'Primer Trazo',          desc:'Traza tu primera letra en Traza la Letra', c:p=>(p.stats.traceGames||0)>=1},
+  {id:'trace10', icon:'🖋️', name:'Mano de Artista',      desc:'Completa 10 rondas de Traza la Letra', c:p=>(p.stats.traceGames||0)>=10},
+  {id:'hang1',   icon:'🔤', name:'Adivinador',           desc:'Completa tu primera palabra secreta', c:p=>(p.stats.hangGames||0)>=1},
+  {id:'hang10',  icon:'🥇', name:'Detective de Palabras', desc:'Completa 10 juegos de Adivina la Palabra', c:p=>(p.stats.hangGames||0)>=10},
+  {id:'puzzle1', icon:'🖼️', name:'Primer Rompecabezas',  desc:'Arma tu primer rompecabezas', c:p=>(p.stats.puzzleGames||0)>=1},
+  {id:'puzzle10',icon:'🧩', name:'Maestro del Puzzle',   desc:'Arma 10 rompecabezas. ¡Cerebro de campeón!', c:p=>(p.stats.puzzleGames||0)>=10},
+  {id:'dots1',   icon:'⭐', name:'Punto a Punto',        desc:'Completa tu primer dibujo uniendo puntos', c:p=>(p.stats.dotsGames||0)>=1},
+  {id:'dots10',  icon:'🎨', name:'Artista de Líneas',    desc:'Completa 10 dibujos de unir puntos', c:p=>(p.stats.dotsGames||0)>=10},
+  {id:'weekend1',icon:'🎪', name:'Reto del Finde',       desc:'Completa tu primer Reto de fin de semana', c:p=>(p.stats.weekendGames||0)>=1},
+  {id:'weekend4',icon:'🗼', name:'Estrella del Fin de Semana', desc:'Completa 4 retos de fin de semana', c:p=>(p.stats.weekendGames||0)>=4},
 ];
 
 /* Rivales IA para el ranking */
@@ -239,15 +237,10 @@ function migrateProfile(p) {
   if (!p.lastSpin) p.lastSpin = '';
   if (!p.mastery) p.mastery = {}; // v7: veces que acierta cada palabra
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','hangGames','hangWins','puzzleGames','traceVisits'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','traceGames','hangGames','puzzleGames','dotsGames','weekendGames'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
-  if (!p.stats.traceLetters) p.stats.traceLetters = {}; // v14: letras trazadas {A:true,…}
-  if (!p.stats.dotsShapes) p.stats.dotsShapes = {};   // v14: figuras de puntos completadas
-  if (!p.stats.puzzles) p.stats.puzzles = {};         // v14: rompecabezas por tamaño {4:n,9:n,12:n}
-  if (!p.stats.weekendDays) p.stats.weekendDays = {}; // v14: días de finde con retos completados
-  if (!p.stats.weekendClaimed) p.stats.weekendClaimed = {}; // v14: recompensa de retos reclamada por fecha
-  if (!p.stats.correctByDay) p.stats.correctByDay = {}; // v14: aciertos por fecha (reto de finde)
+  if (!p.stats.weekendDone) p.stats.weekendDone = {}; // v14: días de reto del finde completado
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
   if (!p.stats.screenHist) p.stats.screenHist = {}; // v13: minutos de uso por fecha {AAAA-MM-DD: min} para el gráfico semanal
   if (!p.stats.limitShown) p.stats.limitShown = {date:''}; // v13: aviso de límite diario ya mostrado hoy
@@ -274,7 +267,7 @@ function defaultProfile(name, avatar='avatar_1') {
     best: {},
     mistakes: {},
     mastery: {},
-    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, sayGames:0, oddGames:0, dictVisits:0, quickGames:0, sentGames:0, rhymeGames:0, dictOk:0, dictTry:0, daysPlayed:{}, missionsByDay:{}, traceLetters:{}, dotsShapes:{}, puzzles:{}, weekendDays:{}, weekendClaimed:{}, correctByDay:{}, wotdDays:{}, screenHist:{}, screenTime:{date:'', mins:0}, breakShown:{date:''}, limitShown:{date:''}},
+    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, sayGames:0, oddGames:0, dictVisits:0, quickGames:0, sentGames:0, rhymeGames:0, dictOk:0, dictTry:0, daysPlayed:{}, missionsByDay:{}},
     milestones: {},
     tourDone: false,
     dailyGoal: {date:'', count:0, claimed:false}

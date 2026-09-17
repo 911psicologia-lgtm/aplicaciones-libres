@@ -1,7 +1,17 @@
-# STARFALL FRONTIER v0.7.5
+# STARFALL FRONTIER v0.7.6
 
 Build completa derivada de v0.6.5, con énfasis en libertad de movimiento, Hangar, economía táctica, supervivencia, loot y aliado de jefe.
 
+
+
+## v0.7.6 — Combat Doctrine
+
+- Doctrinas persistentes por identidad: Nova, Lancer, Brood, Gravity y Phoenix priorizan ritmos, intenciones y escoltas diferentes.
+- Threat Pacing Budget: toda amenaza mayor deja una microventana mínima antes de permitir otra amenaza mayor, evitando cadenas ilegibles.
+- Ruptura de mando: interrumpir dos intenciones consecutivas en una fase descoordina escoltas, retrasa summons y concede una recompensa adicional.
+- Escoltas enlazadas usan roles y objetivos coherentes con la doctrina del boss.
+- Fatiga estructural del subjefe: interrupciones repetidas degradan su capacidad de recargar escudo y prolongan su recuperación.
+- Se preservan Tactical Intent, Phase Consequence, Tactical Ecosystem, Hunter Doctrine, Battle Rhythm y Encounter Evolution.
 
 
 ## v0.7.5 — Tactical Intent

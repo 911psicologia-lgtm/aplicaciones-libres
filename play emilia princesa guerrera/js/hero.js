@@ -164,6 +164,9 @@ const Hero = {
         }
         state.hero.lives--;
         state.hero.invuln = 150; // antes 90, ahora 2.5s para niñas 6-9 años
+        // Registrar daño para sistema de estrellas
+        if (state._tookDamageThisLevel === undefined) state._tookDamageThisLevel = false;
+        state._tookDamageThisLevel = true;
         AudioEngine.heroHurt();
         ParticleFactory.explosion(null, state.particles, state.hero.x, state.hero.y, '#ff3366', 16);
         PopupSystem.quick('¡AY!', state.hero.x, state.hero.y - 50, {

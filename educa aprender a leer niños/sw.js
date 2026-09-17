@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v1.5.0-tinta-palabra-gemas';
+const CACHE='emilia-bosque-v1.7.0-lectura-autonoma-escritura-responsive';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

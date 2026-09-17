@@ -1,8 +1,8 @@
 {
   "name": "Emilia · El Bosque de las Palabras",
   "short_name": "Emilia",
-  "description": "Aventura infantil de lectoescritura en cuatro senderos con letras, sílabas, palabras, frases, cuentos, trazado, Tinta Mágica, Palabra Secreta, gemas lingüísticas y práctica adaptativa.",
-  "start_url": "./index.html?v=1.5.0",
+  "description": "Aventura infantil de lectoescritura en cuatro senderos con letras, sílabas, palabras, frases, cuentos, trazado, Tinta Mágica, Palabra Secreta, gemas lingüísticas, rompecabezas de palabras, ruta de puntos, lectura autónoma con audio opcional, escritura responsive de frases y práctica adaptativa.",
+  "start_url": "./index.html?v=1.7.0",
   "scope": "./",
   "display": "fullscreen",
   "background_color": "#f7f0df",

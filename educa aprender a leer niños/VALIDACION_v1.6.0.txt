@@ -1,0 +1,48 @@
+VALIDACIÓN TÉCNICA · EMILIA · EL BOSQUE DE LAS PALABRAS
+v1.6.0 · ROMPECABEZAS LINGÜÍSTICOS + RUTA DE PUNTOS
+Fecha: 2026-09-16
+
+BASE
+- Continuidad incremental desde v1.5.0.
+- No se reconstruyó el proyecto.
+- Se preservan 28 mundos, 28 misiones, 124 habilidades y 365 actividades curriculares declaradas.
+- 208 assets preservados; no se añadieron ni sustituyeron imágenes.
+
+IMPLEMENTACIÓN
+1. Rompecabezas lingüísticos adaptativos
+- Solo usa palabras ya aprendidas y con asset visual existente.
+- Dificultad según recorrido: 4 piezas (inicio), 9 piezas (avance medio), 12 piezas (avance alto).
+- Interacción por toque: seleccionar dos piezas para intercambiarlas; apta para tablet y celular.
+- Al completar la imagen, se revela la palabra y se exige tocar “Leer” para escucharla antes de avanzar.
+- No introduce vidas, tiempo límite ni pérdida.
+
+2. Ruta de puntos de Lumi
+- Solo usa palabras ya aprendidas.
+- Los puntos contienen letras o unidades ortográficas conocidas (CH, QUE, RR, CI, GE, etc.).
+- Se unen en orden mediante toques; la app dibuja la ruta y forma visualmente la palabra.
+- Al finalizar se muestra la imagen y se pronuncia la palabra completa.
+- En esta primera versión se limita a palabras de hasta 7 unidades para evitar saturación en celular.
+
+AUDITORÍA TÉCNICA
+- Todos los archivos JS verificados con node --check: 0 errores.
+- CSS: llaves balanceadas.
+- Service Worker: 224 referencias únicas; 0 archivos faltantes.
+- 208 assets presentes.
+- prefers-reduced-motion aplicado a nuevas transiciones.
+- Caché PWA incrementada a emilia-bosque-v1.6.0-rompecabezas-puntos.
+- index.html y manifest.webmanifest actualizados a v1.6.0.
+
+CRITERIO PEDAGÓGICO
+- Ambos modos terminan en una unidad lingüística leída; no son minijuegos decorativos.
+- No adelantan X/K/W ni patrones no conquistados.
+- Se mantiene alternativa por toque; no se exige arrastre.
+
+PRUEBA VISUAL
+- No se afirma validación visual completa en navegador real en este entorno.
+- Sí se realizaron validaciones de sintaxis, estructura, referencias y empaquetado.
+
+SIGUIENTES FRENTES
+- Retos de fin de semana no punitivos.
+- Lectura autónoma con retirada progresiva del TTS.
+- Escritura de frases responsive palabra por palabra en celular.
+- Evolución de Ruta de puntos hacia frases breves solo cuando el espacio y la decodabilidad lo permitan.

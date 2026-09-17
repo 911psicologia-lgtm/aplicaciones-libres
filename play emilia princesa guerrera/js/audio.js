@@ -1,12 +1,16 @@
 /* ============================================================
-   AUDIO ENGINE - Sonidos sintetizados con Web Audio API
+   AUDIO ENGINE - Sonidos sintetizados + Música melódica + Voces
    ============================================================ */
 
 const AudioEngine = {
     ctx: null,
     master: null,
+    musicGain: null,
     on: true,
     initialized: false,
+    musicLoop: null,
+    currentTrack: null,
+    musicEnabled: false,
 
     init() {
         if (this.initialized) return;
@@ -15,6 +19,10 @@ const AudioEngine = {
             this.master = this.ctx.createGain();
             this.master.gain.value = 0.35;
             this.master.connect(this.ctx.destination);
+            // Canal separado para música (más bajo)
+            this.musicGain = this.ctx.createGain();
+            this.musicGain.gain.value = 0.12;
+            this.musicGain.connect(this.master);
             this.initialized = true;
         } catch (e) {
             console.warn('AudioContext no disponible', e);
@@ -228,6 +236,173 @@ const AudioEngine = {
         setTimeout(() => this.tone(1047, 0.3, 'square', 0.3), 400);
         setTimeout(() => this.tone(1319, 0.3, 'square', 0.3), 500);
         setTimeout(() => this.tone(1568, 0.5, 'square', 0.35), 600);
+    },
+
+    /* ============ SISTEMA DE MÚSICA MELÓDICA ============ */
+    /* Cada track es una secuencia de notas [frecuencia, duración] */
+    _tracks: {
+        // Melodía alegre del menú (Do mayor)
+        menu: [
+            [523, 0.3], [659, 0.3], [784, 0.3], [1047, 0.6],
+            [988, 0.3], [880, 0.3], [784, 0.6],
+            [659, 0.3], [784, 0.3], [880, 0.3], [988, 0.6],
+            [1047, 0.3], [988, 0.3], [880, 0.3], [784, 0.6]
+        ],
+        // Melodía de aventura (La menor - más enérgica)
+        adventure: [
+            [440, 0.25], [523, 0.25], [659, 0.25], [880, 0.5],
+            [784, 0.25], [659, 0.25], [523, 0.5],
+            [440, 0.25], [523, 0.25], [659, 0.25], [880, 0.25], [988, 0.5],
+            [880, 0.25], [784, 0.25], [659, 0.25], [523, 0.5]
+        ],
+        // Melodía de batalla de jefe (Mi menor - tensa y épica)
+        boss: [
+            [330, 0.2], [392, 0.2], [494, 0.2], [659, 0.4],
+            [523, 0.2], [440, 0.2], [330, 0.4],
+            [392, 0.2], [440, 0.2], [523, 0.2], [659, 0.2], [784, 0.4],
+            [659, 0.2], [523, 0.2], [440, 0.2], [330, 0.4]
+        ],
+        // Melodía de victoria (Do mayor - triunfal)
+        victory: [
+            [523, 0.2], [659, 0.2], [784, 0.2], [1047, 0.4],
+            [988, 0.2], [1047, 0.4], [1175, 0.4],
+            [1047, 0.2], [988, 0.2], [880, 0.2], [784, 0.4],
+            [659, 0.2], [784, 0.2], [880, 0.2], [1047, 0.6]
+        ],
+        // Melodía triste (La menor - para game over)
+        sad: [
+            [440, 0.5], [392, 0.5], [349, 0.5], [294, 1.0],
+            [330, 0.5], [349, 0.5], [392, 0.5], [440, 1.0]
+        ]
+    },
+
+    /* Inicia reproducción de un track en bucle */
+    playMusic(trackName) {
+        if (!this.on || !this.ctx) return;
+        if (this.currentTrack === trackName) return;
+        this.stopMusic();
+        this.currentTrack = trackName;
+        this.musicEnabled = true;
+        this._playTrackLoop(trackName);
+    },
+
+    _playTrackLoop(trackName) {
+        if (!this.musicEnabled || this.currentTrack !== trackName) return;
+        const track = this._tracks[trackName];
+        if (!track) return;
+        let totalDuration = 0;
+        track.forEach(([freq, dur]) => {
+            setTimeout(() => {
+                if (this.musicEnabled && this.currentTrack === trackName) {
+                    this._playMusicNote(freq, dur);
+                }
+            }, totalDuration * 1000);
+            totalDuration += dur;
+        });
+        // Repetir cuando termine
+        setTimeout(() => {
+            if (this.musicEnabled && this.currentTrack === trackName) {
+                this._playTrackLoop(trackName);
+            }
+        }, totalDuration * 1000 + 500);
+    },
+
+    _playMusicNote(freq, dur) {
+        if (!this.ctx || !this.musicGain) return;
+        const now = this.ctx.currentTime;
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'triangle'; // Sonido suave y melódico
+        o.frequency.value = freq;
+        // Envolvente suave
+        g.gain.setValueAtTime(0, now);
+        g.gain.linearRampToValueAtTime(0.4, now + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.01, now + dur);
+        o.connect(g);
+        g.connect(this.musicGain);
+        o.start(now);
+        o.stop(now + dur + 0.05);
+        // Bajo acompañante (una octava abajo, más suave)
+        const o2 = this.ctx.createOscillator();
+        const g2 = this.ctx.createGain();
+        o2.type = 'sine';
+        o2.frequency.value = freq / 2;
+        g2.gain.setValueAtTime(0, now);
+        g2.gain.linearRampToValueAtTime(0.15, now + 0.05);
+        g2.gain.exponentialRampToValueAtTime(0.01, now + dur);
+        o2.connect(g2);
+        g2.connect(this.musicGain);
+        o2.start(now);
+        o2.stop(now + dur + 0.05);
+    },
+
+    stopMusic() {
+        this.musicEnabled = false;
+        this.currentTrack = null;
+    },
+
+    /* ============ VOSES EMOCIONALES (sintetizadas) ============ */
+    /* Sonidos cortos tipo "voz" para expresiones */
+    voiceYay() {
+        // ¡Yupi! - risa alegre ascendente
+        if (!this.on || !this.ctx) return;
+        this.tone(659, 0.08, 'triangle', 0.2);
+        setTimeout(() => this.tone(880, 0.08, 'triangle', 0.2), 80);
+        setTimeout(() => this.tone(1047, 0.15, 'triangle', 0.25), 160);
+    },
+
+    voiceOhNo() {
+        // ¡Oh no! - sonido triste descendente
+        if (!this.on || !this.ctx) return;
+        this.sweep(440, 220, 0.4, 'triangle', 0.2);
+    },
+
+    voiceWow() {
+        // ¡Guau! - sorpresa
+        if (!this.on || !this.ctx) return;
+        this.tone(523, 0.05, 'triangle', 0.15);
+        setTimeout(() => this.tone(784, 0.05, 'triangle', 0.15), 50);
+        setTimeout(() => this.tone(1047, 0.2, 'triangle', 0.25), 100);
+    },
+
+    voiceBravo() {
+        // ¡Bravo! - celebración
+        if (!this.on || !this.ctx) return;
+        this.tone(523, 0.1, 'square', 0.2);
+        setTimeout(() => this.tone(659, 0.1, 'square', 0.2), 100);
+        setTimeout(() => this.tone(784, 0.1, 'square', 0.2), 200);
+        setTimeout(() => this.tone(1047, 0.3, 'square', 0.25), 300);
+    },
+
+    voiceGiggle() {
+        // Risita cute
+        if (!this.on || !this.ctx) return;
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => this.tone(880 + Math.random() * 200, 0.05, 'triangle', 0.1), i * 70);
+        }
+    },
+
+    voiceOof() {
+        // ¡Ay! - daño recibido
+        if (!this.on || !this.ctx) return;
+        this.sweep(300, 150, 0.2, 'sawtooth', 0.25);
+    },
+
+    voiceSparkle() {
+        // Brillo mágico
+        if (!this.on || !this.ctx) return;
+        this.tone(1568, 0.05, 'sine', 0.15);
+        setTimeout(() => this.tone(2093, 0.1, 'sine', 0.15), 50);
+    },
+
+    voiceFanfare() {
+        // Fanfarria de victoria
+        if (!this.on || !this.ctx) return;
+        const notes = [523, 659, 784, 1047, 1319];
+        notes.forEach((n, i) => {
+            setTimeout(() => this.tone(n, 0.15, 'square', 0.2), i * 100);
+        });
+        setTimeout(() => this.tone(1568, 0.4, 'square', 0.25), 500);
     }
 };
 

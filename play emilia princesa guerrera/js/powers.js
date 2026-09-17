@@ -223,6 +223,10 @@ const Powers = {
         const def = this.defs[type];
         if (!def) return;
         def.onPickup(state);
+        // Registrar power-up recogido para logros
+        if (window.Achievements) {
+            Achievements.onPowerUp();
+        }
         // Verifica combinaciones
         ComboSystem.checkCombination(state, type);
     },

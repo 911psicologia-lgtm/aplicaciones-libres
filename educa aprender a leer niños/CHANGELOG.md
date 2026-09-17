@@ -1,3 +1,14 @@
+# CHANGELOG · v1.7.0 · Lectura Autónoma + Escritura Responsive
+
+- Frases Vivas incorpora retirada adaptativa del modelo sonoro: solo el nivel de apoyo conserva modelado completo inicial.
+- En crecimiento/confianza, completar, ordenar, leer y escribir frases prioriza el intento visual antes de usar el oído.
+- Nueva pista infantil mínima “👀 primero tú → 👂” para explicar la retirada de apoyo sin texto largo.
+- Escritura de frases responsive: tablet/PC conserva lienzo completo; celular usa una ventana palabra por palabra con la frase global siempre visible.
+- El trazador de palabra puede preservar mayúsculas cuando se usa dentro de una frase; el punto final sigue como estructura gráfica explícita.
+- El uso voluntario del audio y de la pista visual queda registrado como apoyo; no se penaliza.
+- Zona adulta añade señales descriptivas de intentos de lectura de frases sin/con ayuda y producción escrita de frases.
+- Se preservan mundos, currículo, assets, progreso local, Tinta Mágica, Palabra Secreta, Gemas Lingüísticas, Rompecabezas y Ruta de puntos.
+
 # v1.5.0 · Tinta Mágica + Palabra Secreta + Gemas Lingüísticas
 
 - Añade Tinta Mágica para grafemas ya conquistados, con mayúscula/minúscula y máscara de tinta dorada dentro de la letra.

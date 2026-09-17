@@ -11,7 +11,7 @@ SF.ui={...nopProxy,showHud:noop,hideScreens:noop,renderGameOver:noop,flashMsg:no
 SF.storage={saveGame:noop,loadRanking:()=>[],saveRanking:noop,loadGame:()=>null,clearGame:noop}; SF.audio=nopProxy; SF.assets={getBackground:()=>null,getShip:()=>null,getEnemy:()=>null,getObstacle:()=>null};
 vm.runInContext(fs.readFileSync(path.join(root,'js/game.js'),'utf8'),sandbox,{filename:'game.js'}); SF.game.init(canvas); SF.game.startNew('TEST','vanguard');
 const G=SF.game.state,D=SF.game._debug,ok=(v,m)=>{if(!v)throw new Error(m)};
-ok(C.VERSION==='0.7.5','wrong version');
+ok(C.VERSION==='0.7.6','wrong version');
 ok(C.encounterEvolution.adaptiveMemory.enabled,'adaptive memory disabled');
 ok(C.encounterEvolution.systemBreak.enabled,'system break disabled');
 ok(C.encounterEvolution.supportNetwork.enabled,'support network disabled');
@@ -29,4 +29,4 @@ const a={alive:true,role:'formation',kind:'gunner',x:125,y:105,w:30,h:30,nextSho
 const b={alive:true,role:'formation',kind:'striker',x:150,y:115,w:30,h:30,nextShot:now};
 const far={alive:true,role:'formation',kind:'raider',x:350,y:700,w:30,h:30,nextShot:now}; G.enemies=[support,a,b,far];
 const affected=D.triggerSupportNetworkCollapse(support,now); ok(affected===2,'support collapse affected wrong local count'); ok(a.supportDisruptedUntil>now&&b.supportDisruptedUntil>now,'nearby units were not disrupted'); ok(!a.coordinatedShotUntil&&!a.chargeUntil,'coordinated shot survived support collapse'); ok(!far.supportDisruptedUntil,'far unit was incorrectly disrupted');
-console.log('TACTICAL ECOSYSTEM v0.7.5 PASS',{echoTarget:Math.round(locked),echoBullets:G.enemyBullets.length,systemBreakPhase:boss.breakPhase,networkAffected:affected});
+console.log('TACTICAL ECOSYSTEM v0.7.6 PASS',{echoTarget:Math.round(locked),echoBullets:G.enemyBullets.length,systemBreakPhase:boss.breakPhase,networkAffected:affected});

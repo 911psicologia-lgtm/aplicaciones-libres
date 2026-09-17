@@ -309,6 +309,267 @@ class Ally {
     }
 }
 
+/* ============ HADA COMPAÑERA - compañera emocional de la princesa ============ */
+class FairyCompanion {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.targetX = 0;
+        this.targetY = 0;
+        this.t = 0;
+        this.mood = 'happy'; // happy | excited | worried | sad | brave
+        this.moodTimer = 0;
+        this.wingFlap = 0;
+        this.commentCooldown = 600; // Comenta cada ~10s
+        this.lastComment = null;
+    }
+
+    update(state) {
+        this.t++;
+        this.wingFlap = Math.sin(this.t * 0.5) * 0.3 + 0.7;
+
+        // Posición objetivo: flotar cerca de la princesa
+        const offset = Math.sin(this.t * 0.03) * 50;
+        this.targetX = state.hero.x + 70 + offset;
+        this.targetY = state.hero.y - 40 + Math.sin(this.t * 0.05) * 15;
+
+        // Movimiento suave
+        this.x += (this.targetX - this.x) * 0.1;
+        this.y += (this.targetY - this.y) * 0.1;
+
+        // Actualizar mood según situación
+        if (state.hero.invuln > 0) {
+            this.setMood('worried');
+        } else if (state.bossActive && state.boss) {
+            const ratio = state.boss.hp / state.boss.maxHp;
+            if (ratio < 0.3) this.setMood('excited');
+            else this.setMood('brave');
+        } else if (state.hero.combo >= 15) {
+            this.setMood('excited');
+        } else if (state.hero.lives <= 1) {
+            this.setMood('worried');
+        } else {
+            this.setMood('happy');
+        }
+
+        // Decaimiento del mood
+        if (this.moodTimer > 0) this.moodTimer--;
+
+        // Comentarios periódicos
+        this.commentCooldown--;
+        if (this.commentCooldown <= 0) {
+            this.sayRandomComment(state);
+            this.commentCooldown = 800 + Math.random() * 400;
+        }
+    }
+
+    setMood(mood) {
+        if (this.mood !== mood) {
+            this.mood = mood;
+            this.moodTimer = 60;
+        }
+    }
+
+    sayRandomComment(state) {
+        const commentsByMood = {
+            happy: [
+                '¡Eres increíble!',
+                '¡Vamos princesa!',
+                '¡Qué divertido!',
+                '¡Lo estás haciendo genial!',
+                '¡YUPI!'
+            ],
+            excited: [
+                '¡WOW!',
+                '¡Eres la mejor!',
+                '¡Sigue así!',
+                '¡Brilla fuerte!',
+                '¡INCREÍBLE!'
+            ],
+            worried: [
+                '¡Cuidado!',
+                '¡Ten cuidado!',
+                '¡Puedes hacerlo!',
+                '¡No te rindas!',
+                '¡Estoy contigo!'
+            ],
+            sad: [
+                '¡Oh no!',
+                '¡Inténtalo de nuevo!',
+                '¡No pasa nada!',
+                '¡Tú puedes!'
+            ],
+            brave: [
+                '¡Adelante!',
+                '¡Derrota al jefe!',
+                '¡Casi lo logras!',
+                '¡Brave princess!'
+            ]
+        };
+        const comments = commentsByMood[this.mood] || commentsByMood.happy;
+        const msg = comments[Math.floor(Math.random() * comments.length)];
+        this.lastComment = msg;
+        // Popup con el comentario del hada
+        PopupSystem.quick(msg, this.x, this.y - 20, {
+            color: this._moodColor(),
+            size: 18,
+            scale: 0.9,
+            life: 1.8,
+            decay: 0.015,
+            style: 'comic'
+        });
+        // Sonido de hada
+        AudioEngine.voiceSparkle();
+        // Registrar para logros
+        if (window.Achievements) {
+            Achievements.onFairyCheer();
+        }
+    }
+
+    _moodColor() {
+        const colors = {
+            happy: '#FFD700',
+            excited: '#ff00cc',
+            worried: '#ff6600',
+            sad: '#6ef0ff',
+            brave: '#ff3366'
+        };
+        return colors[this.mood] || '#FFD700';
+    }
+
+    /* Comentario inmediato para eventos especiales */
+    sayEvent(text, mood = 'excited') {
+        this.setMood(mood);
+        PopupSystem.bonus(text, this.x, this.y - 30);
+        AudioEngine.voiceSparkle();
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+
+        // Aura mágica pulsante
+        const auraColor = this._moodColor();
+        const pulse = 0.6 + Math.sin(this.t * 0.1) * 0.3;
+        const aura = ctx.createRadialGradient(0, 0, 2, 0, 0, 25);
+        aura.addColorStop(0, this._hexToRgba(auraColor, 0.7 * pulse));
+        aura.addColorStop(1, this._hexToRgba(auraColor, 0));
+        ctx.fillStyle = aura;
+        ctx.beginPath();
+        ctx.arc(0, 0, 25, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Alas (vibrando)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.beginPath();
+        ctx.ellipse(-8, -3, 6, 10 * this.wingFlap, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(8, -3, 6, 10 * this.wingFlap, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+        // Alas más brillantes
+        ctx.fillStyle = `rgba(255, 200, 240, ${0.5 * this.wingFlap})`;
+        ctx.beginPath();
+        ctx.ellipse(-8, -3, 4, 7 * this.wingFlap, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(8, -3, 4, 7 * this.wingFlap, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Cuerpo del hada (pequeño)
+        const bodyGrad = ctx.createRadialGradient(0, 0, 1, 0, 0, 8);
+        bodyGrad.addColorStop(0, '#fff');
+        bodyGrad.addColorStop(1, auraColor);
+        ctx.fillStyle = bodyGrad;
+        ctx.shadowColor = auraColor;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(0, 0, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Cabello
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(0, -2, 8, Math.PI, Math.PI * 2);
+        ctx.fill();
+
+        // Ojos según mood
+        ctx.fillStyle = '#1a0050';
+        if (this.mood === 'worried' || this.mood === 'sad') {
+            // Ojos preocupados
+            ctx.beginPath();
+            ctx.arc(-2, 0, 1.5, 0, Math.PI * 2);
+            ctx.arc(2, 0, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            // Cejas preocupadas
+            ctx.strokeStyle = '#1a0050';
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(-3, -2); ctx.lineTo(-1, -1.5);
+            ctx.moveTo(3, -2); ctx.lineTo(1, -1.5);
+            ctx.stroke();
+        } else if (this.mood === 'excited' || this.mood === 'brave') {
+            // Ojos felices (líneas)
+            ctx.strokeStyle = '#1a0050';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(-2, 0, 1.5, Math.PI, 0);
+            ctx.arc(2, 0, 1.5, Math.PI, 0);
+            ctx.stroke();
+        } else {
+            // Ojos normales
+            ctx.beginPath();
+            ctx.arc(-2, 0, 1.2, 0, Math.PI * 2);
+            ctx.arc(2, 0, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+            // Brillo
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(-1.7, -0.3, 0.4, 0, Math.PI * 2);
+            ctx.arc(2.3, -0.3, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Boca según mood
+        ctx.strokeStyle = '#1a0050';
+        ctx.lineWidth = 0.8;
+        ctx.lineCap = 'round';
+        if (this.mood === 'happy' || this.mood === 'excited' || this.mood === 'brave') {
+            // Sonrisa
+            ctx.beginPath();
+            ctx.arc(0, 2, 2, 0.2, Math.PI - 0.2);
+            ctx.stroke();
+        } else if (this.mood === 'worried') {
+            // Boca "o" preocupada
+            ctx.fillStyle = '#1a0050';
+            ctx.beginPath();
+            ctx.arc(0, 3, 1, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.mood === 'sad') {
+            // Boca triste
+            ctx.beginPath();
+            ctx.arc(0, 4, 2, Math.PI + 0.2, -0.2);
+            ctx.stroke();
+        }
+
+        // Estela mágica (partículas)
+        if (this.t % 5 === 0) {
+            // Añadir partícula fuera del ctx.save/restore
+        }
+
+        ctx.restore();
+    }
+
+    _hexToRgba(hex, alpha) {
+        if (hex.startsWith('rgba')) return hex;
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+}
+
 /* ============ POWERUP ITEM ============ */
 class PowerUpItem {
     constructor(x, y, type) {
@@ -406,6 +667,7 @@ window.Bullet = Bullet;
 window.Enemy = Enemy;
 window.Boss = Boss;
 window.Ally = Ally;
+window.FairyCompanion = FairyCompanion;
 window.PowerUpItem = PowerUpItem;
 window.Coin = Coin;
 window.Chest = Chest;

@@ -34,7 +34,7 @@ manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 assert_(manifest.get('display')=='fullscreen','manifest display must be fullscreen')
 for icon in manifest.get('icons',[]): assert_((ROOT/icon['src'].lstrip('./')).exists(),f'missing PWA icon {icon["src"]}')
 sw=(ROOT/'sw.js').read_text(encoding='utf-8')
-assert_('starfall-shell-v0.7.5' in sw,'wrong service worker cache version')
+assert_('starfall-shell-v0.7.6' in sw,'wrong service worker cache version')
 assert_('js/reactive_matrix.js' in sw,'reactive matrix missing from PWA shell')
 
 # Runtime asset references
@@ -54,7 +54,7 @@ mx=(ROOT/'js/reactive_matrix.js').read_text(encoding='utf-8')
 assert_("mode: 'assist'" in cfg,'Reactive Matrix not in assist mode')
 assert_('noteIntervention' in mx and 'matrixJamActivated:false' in mx and 'matrixRebootActivated:false' in mx,'Assist telemetry guarantees missing')
 
-print('VALIDATION v0.7.5 PASS')
+print('VALIDATION v0.7.6 PASS')
 print('asset_audio_tree_sha256',tree_hash())
 print('economy_js_sha256',hashlib.sha256((ROOT/'js/economy.js').read_bytes()).hexdigest())
 print('pwa_manifest',manifest['name'],manifest['display'])

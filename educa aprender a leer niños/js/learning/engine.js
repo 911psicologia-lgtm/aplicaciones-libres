@@ -249,6 +249,12 @@
     const out=raw.charAt(0).toLocaleUpperCase('es')+raw.slice(1);
     return /[.!?]$/.test(out)?out:`${out}.`;
   }
+  function sentenceReadingMode(skill){
+    const c=(skill&&window.EmiliaMastery&&EmiliaMastery.confidence)?EmiliaMastery.confidence(skill):{key:'new',score:0,total:0};
+    if(c.key==='confident')return 'independent';
+    if(c.key==='growing')return 'guided';
+    return 'supported';
+  }
 
   function buildSentencePracticeSession(){
     const available=availableSentenceLadders();
@@ -257,19 +263,22 @@
     const parts=String(ladder.sentence||'').trim().split(/\s+/).filter(Boolean);
     const scrambled=parts.length>2?[parts[parts.length-1],...parts.slice(1,-1),parts[0]]:parts.slice().reverse();
     const writingPool=availableSentenceWritingTargets(),writingTarget=writingPool.length?writingPool[(s.sessions||0)%writingPool.length]:null;
-    const displaySentence=sentenceCase(ladder.sentence);
-    const acts=[
-      {id:`${ladder.id}_model`,type:'sentenceModel',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:'Mira y escucha la frase',voicePrompt:`Escucha: ${displaySentence} Toca cada palabra de izquierda a derecha.`},
-      {id:`${ladder.id}_gap`,type:'gapFill',mode:'word',skill:ladder.skill,prompt:'Completa la frase',introPrompt:'Completa la frase. Si necesitas escucharla, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,say:displaySentence,display:ladder.gapDisplay.slice(),options:ladder.gapOptions.slice(),answer:ladder.gapAnswer,completeSay:displaySentence,completeAudioKind:'sentence',coach:displaySentence},
-      {id:`${ladder.id}_build`,type:'sentenceBuild',skill:ladder.skill,prompt:'Pon la frase en orden',introPrompt:'Pon las palabras en orden. Si necesitas escuchar la frase, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,say:displaySentence,parts:scrambled,answerParts:parts,coach:displaySentence},
-      {id:`${ladder.id}_scene`,type:'sentenceSceneRead',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:'Ahora léela en la escena',voicePrompt:'Lee la frase. Si necesitas ayuda, toca una palabra o el oído.',background:ladder.background,scene:(ladder.scene||[]).slice(),sceneSay:(ladder.sceneSay||[]).slice()}
-    ];
+    const displaySentence=sentenceCase(ladder.sentence),readingMode=sentenceReadingMode(ladder.skill),readerFirst=readingMode!=='supported';
+    const acts=[];
+    // El modelo sonoro completo solo se mantiene cuando todavía hace falta apoyo.
+    // En crecimiento/confianza la sesión empieza directamente con lectura-construcción y el oído queda como ayuda voluntaria.
+    if(readingMode==='supported')acts.push({id:`${ladder.id}_model`,type:'sentenceModel',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:'Mira y escucha la frase',voicePrompt:`Escucha: ${displaySentence} Toca cada palabra de izquierda a derecha.`,autoSpeak:true,readingMode});
+    acts.push(
+      {id:`${ladder.id}_gap`,type:'gapFill',mode:'word',skill:ladder.skill,prompt:'Completa la frase',introPrompt:'Completa la frase. Si necesitas escucharla, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,readerFirst,readingMode,say:displaySentence,display:ladder.gapDisplay.slice(),options:ladder.gapOptions.slice(),answer:ladder.gapAnswer,completeSay:displaySentence,completeAudioKind:'sentence',coach:displaySentence},
+      {id:`${ladder.id}_build`,type:'sentenceBuild',skill:ladder.skill,prompt:'Pon la frase en orden',introPrompt:'Pon las palabras en orden. Si necesitas escuchar la frase, toca el oído.',voicePrompt:`Escucha: ${displaySentence}`,autoSpeak:false,trackAudioHelp:true,readerFirst,readingMode,say:displaySentence,parts:scrambled,answerParts:parts,coach:displaySentence},
+      {id:`${ladder.id}_scene`,type:'sentenceSceneRead',assess:false,skill:ladder.skill,say:displaySentence,parts:parts,prompt:readerFirst?'Primero intenta leerla tú':'Ahora léela en la escena',voicePrompt:'Lee la frase. Si necesitas ayuda, toca una palabra o el oído.',readerFirst:true,readingMode,background:ladder.background,scene:(ladder.scene||[]).slice(),sceneSay:(ladder.sceneSay||[]).slice()}
+    );
     if(writingTarget){
-      const phrase=sentenceCase(writingTarget.sentence);
-      acts.push({id:`${writingTarget.id}_finger`,type:'sentenceWrite',skill:writingTarget.skill,sentence:phrase,say:phrase,prompt:'Ahora escribe una frase corta',voicePrompt:`Escucha: ${phrase} Escríbela con tu dedo. Empieza con mayúscula. Si necesitas ayuda, toca el ojo.`});
+      const phrase=sentenceCase(writingTarget.sentence),writingMode=sentenceReadingMode(writingTarget.skill),writingReaderFirst=writingMode!=='supported';
+      acts.push({id:`${writingTarget.id}_finger`,type:'sentenceWrite',skill:writingTarget.skill,sentence:phrase,say:phrase,prompt:'Ahora escribe una frase corta',voicePrompt:`${writingReaderFirst?'Intenta escribirla. Si necesitas ayuda, toca el oído o el ojo.':`Escucha: ${phrase} Escríbela con tu dedo. Empieza con mayúscula.`}`,autoSpeak:!writingReaderFirst,trackAudioHelp:true,readerFirst:writingReaderFirst,readingMode:writingMode,responsiveWords:true});
     }
     const assessed=acts.filter(a=>a.assess!==false).length;
-    return {kind:'practice',practiceMode:'sentences',forceFullSequence:true,missionId:null,title:'Frases vivas · leer y escribir',activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,assessed),maxAssessed:assessed,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sentenceLadder:ladder.id,sentenceWritingTarget:writingTarget&&writingTarget.id};
+    return {kind:'practice',practiceMode:'sentences',forceFullSequence:true,missionId:null,title:'Frases vivas · leer y escribir',activities:acts,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:acts.length,minAssessed:Math.min(3,assessed),maxAssessed:assessed,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0,sentenceLadder:ladder.id,sentenceWritingTarget:writingTarget&&writingTarget.id,readingMode};
   }
   function buildWritingPracticeSession(){
     const available=availableWritingLadders();
@@ -348,6 +357,29 @@
     return{kind:'practice',practiceMode:'secretWord',forceFullSequence:true,missionId:null,title:'Palabra secreta de Lumi',activities,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:activities.length,minAssessed:activities.length,maxAssessed:activities.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
   }
 
+
+  // v1.6.0 · Rompecabezas lingüísticos + Ruta de puntos
+  function availablePuzzleWords(){
+    const s=EmiliaStore.get(),done=new Set(s.completedMissions||[]),art=EMILIA_CONTENT.wordArt||{};
+    return (EMILIA_CONTENT.writingLadders||[]).filter(x=>done.has(x.mission)&&art[x.word]&&String(x.word||'').length>=3);
+  }
+  function puzzleCount(){return availablePuzzleWords().length;}
+  function puzzleSize(){const n=(EmiliaStore.get().completedMissions||[]).length;return n>=18?12:n>=8?9:4;}
+  function buildPuzzlePracticeSession(){
+    const available=availablePuzzleWords();if(!available.length)return buildPracticeSession();
+    const s=EmiliaStore.get(),size=puzzleSize(),pool=rotate(available.slice(),Number(s.sessions||0)%available.length).slice(0,3);
+    const activities=pool.map((item,i)=>({id:`puzzle_${item.id}_${size}_${i}`,type:'lingPuzzle',skill:item.skill,word:item.word,src:(EMILIA_CONTENT.wordArt||{})[item.word],pieces:size,prompt:`Arma la imagen y descubre la palabra`,voicePrompt:'Arma la imagen. Cuando termines, descubre y lee la palabra.'}));
+    return{kind:'practice',practiceMode:'lingPuzzle',forceFullSequence:true,missionId:null,title:`Rompecabezas de palabras · ${size} piezas`,activities,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:activities.length,minAssessed:activities.length,maxAssessed:activities.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
+  }
+  function availableDotWords(){return availablePuzzleWords().filter(x=>secretUnits(x.word).length<=7);}
+  function dotCount(){return availableDotWords().length;}
+  function buildDotPracticeSession(){
+    const available=availableDotWords();if(!available.length)return buildPracticeSession();
+    const s=EmiliaStore.get(),pool=rotate(available.slice(),(Number(s.sessions||0)+2)%available.length).slice(0,3);
+    const activities=pool.map((item,i)=>({id:`dots_${item.id}_${i}`,type:'lingDots',skill:item.skill,word:item.word,units:secretUnits(item.word),src:(EMILIA_CONTENT.wordArt||{})[item.word],prompt:'Une los puntos en orden y descubre la palabra',voicePrompt:'Toca los puntos en orden. Cada punto guarda una parte de la palabra.'}));
+    return{kind:'practice',practiceMode:'lingDots',forceFullSequence:true,missionId:null,title:'Ruta de puntos de Lumi',activities,index:0,hits:0,independentHits:0,errors:0,startedAt:Date.now(),attempts:{},reviewCount:activities.length,minAssessed:activities.length,maxAssessed:activities.length,endedAdaptively:false,streak:0,bestStreak:0,bonusStars:0};
+  }
+
   function assessedSoFar(session){return session.activities.slice(0,session.index+1).filter(a=>a.assess!==false).length;}
   function shouldPause(session){
     if(!session||session.kind!=='mission'||session.forceFullSequence)return false;
@@ -400,5 +432,5 @@
   }
   function unlockedStories(){return EMILIA_CONTENT.stories.filter(st=>EmiliaMastery.prereqsMet(st.requires||[]));}
   function recommendedStory(){const arr=unlockedStories();return arr[arr.length-1]||null;}
-  window.EmiliaEngine={missionById,isUnlocked,status,worldState,recommendedMission,buildSession,buildPracticeSession,buildFlashPracticeSession,buildRescuePracticeSession,buildGapPracticeSession,buildWritingPracticeSession,buildSentencePracticeSession,buildMagicTracePracticeSession,buildSecretWordPracticeSession,magicTraceCount,secretWordCount,availableMagicLetters,availableSecretWords,writingLadderCount,availableWritingLadders,sentenceLadderCount,availableSentenceLadders,sentenceWritingTargetCount,availableSentenceWritingTargets,activityFamily,balanceActivities,sequenceStats,assessedSoFar,shouldPause,shouldEnd,finish,unlockedStories,recommendedStory};
+  window.EmiliaEngine={missionById,isUnlocked,status,worldState,recommendedMission,buildSession,buildPracticeSession,buildFlashPracticeSession,buildRescuePracticeSession,buildGapPracticeSession,buildWritingPracticeSession,buildSentencePracticeSession,buildMagicTracePracticeSession,buildSecretWordPracticeSession,buildPuzzlePracticeSession,buildDotPracticeSession,magicTraceCount,secretWordCount,puzzleCount,dotCount,availableMagicLetters,availableSecretWords,availablePuzzleWords,availableDotWords,writingLadderCount,availableWritingLadders,sentenceLadderCount,availableSentenceLadders,sentenceWritingTargetCount,availableSentenceWritingTargets,activityFamily,balanceActivities,sequenceStats,assessedSoFar,shouldPause,shouldEnd,finish,unlockedStories,recommendedStory};
 })();

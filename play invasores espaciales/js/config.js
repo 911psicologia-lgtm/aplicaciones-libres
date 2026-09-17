@@ -5,7 +5,7 @@ window.SF.config = {
   SHIP_KEY: 'sf3_ship',
   PROFILE_KEY: 'sf3_profile_v1',
   MATRIX_TELEMETRY_KEY: 'sf3_reactive_matrix_telemetry_v1',
-  VERSION: '0.7.5',
+  VERSION: '0.7.6',
   ships: [
     { id: 'vanguard', name: 'Vanguard', unlock: 0, speed: 430, fireRate: 0.14, hp: 10, damage: 1, armor:1, hitbox:.92, powerDuration:1.15, magnet:1.18, color: '#7ee6ff', accent: '#ffc867', desc: 'Equilibrada · poderes +15% · buen magnetismo · 10 HP' },
     { id: 'warden', name: 'Warden', unlock: 2500, speed: 380, fireRate: 0.12, hp: 14, damage: 1.18, armor:.82, hitbox:1.02, powerDuration:.95, magnet:1, color: '#ff9375', accent: '#ffe08a', desc: 'Blindada · recibe 18% menos daño · golpe fuerte · 14 HP' },
@@ -657,6 +657,33 @@ window.SF.config = {
       breakScoreByPhase: [0,140,220],
       safeCooldownAfterBreakMs: 1250,
       intentProjectileSpeedByPhase: [0,340,382]
+    },
+    // v0.7.6 — doctrina persistente por identidad + pacing de amenazas.
+    // Cada boss conserva preferencias tácticas propias sin romper telegraphs ni equidad.
+    bossDoctrine: {
+      enabled: true,
+      threatQuietMsByPhase: [760,680,600],
+      commandBreaksToDisrupt: 2,
+      commandDisruptMsByPhase: [0,3400,4200],
+      commandScoreByPhase: [0,110,170],
+      commandSummonDelayMs: 1900,
+      profiles: {
+        nova: {label:'ASALTO SOLAR',intentSequence:['PURSUIT','SIEGE','PURSUIT','CONTROL'],escortRoles:{PURSUIT:'gunner',SIEGE:'gunner',CONTROL:'interceptor',REORGANIZE:'gunner'},moveMulByPhase:[1.04,1.08,1.12],signatureCdMulByPhase:[1,.96,.92]},
+        lancer: {label:'DUELO AXIAL',intentSequence:['PURSUIT','SIEGE','CONTROL','PURSUIT'],escortRoles:{PURSUIT:'interceptor',SIEGE:'interceptor',CONTROL:'gunner',REORGANIZE:'interceptor'},moveMulByPhase:[1.03,1.09,1.15],signatureCdMulByPhase:[.98,.94,.90]},
+        brood: {label:'MANDO DE ENJAMBRE',intentSequence:['REORGANIZE','PURSUIT','REORGANIZE','CONTROL'],escortRoles:{PURSUIT:'hunter',SIEGE:'hunter',CONTROL:'orbiter',REORGANIZE:'hunter'},moveMulByPhase:[.98,1.02,1.07],signatureCdMulByPhase:[1.03,1,.96]},
+        gravity: {label:'CERCO GRAVÍTICO',intentSequence:['CONTROL','SIEGE','CONTROL','PURSUIT'],escortRoles:{PURSUIT:'hunter',SIEGE:'gunner',CONTROL:'orbiter',REORGANIZE:'orbiter'},moveMulByPhase:[.96,1,1.05],signatureCdMulByPhase:[1.04,1,.96]},
+        phoenix: {label:'RENACIMIENTO AGRESIVO',intentSequence:['SIEGE','PURSUIT','CONTROL','SIEGE'],escortRoles:{PURSUIT:'hunter',SIEGE:'gunner',CONTROL:'interceptor',REORGANIZE:'gunner'},moveMulByPhase:[1.02,1.08,1.13],signatureCdMulByPhase:[.99,.95,.91]}
+      }
+    },
+    // Repetir interrupciones correctas contra el subjefe deja una fatiga persistente
+    // que reduce su capacidad de recomponer escudo y prolonga ligeramente recuperación.
+    subbossFatigue: {
+      enabled: true,
+      interruptionsToFatigue: 2,
+      shieldRechargeMul: .72,
+      recoveryBonusMs: 260,
+      signatureDelayBonusMs: 320,
+      scoreBonus: 90
     },
     // El subjefe puede ser interrumpido si el jugador aprovecha de verdad la
     // recuperación posterior a una firma. Una interrupción por recuperación.

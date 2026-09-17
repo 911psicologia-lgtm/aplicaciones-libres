@@ -183,7 +183,7 @@
   }
 
   function startWord(canvas,word,onComplete,onProgress,opts={}){
-    const ctx=canvas.getContext('2d'),dpr=Math.max(1,window.devicePixelRatio||1),clean=String(word||'').toLocaleLowerCase('es');
+    const ctx=canvas.getContext('2d'),dpr=Math.max(1,window.devicePixelRatio||1),source=String(word||'').trim(),clean=opts.preserveCase?source:source.toLocaleLowerCase('es');
     let drawing=false,current=[],strokes=[],done=false,letters=[],guide=opts.guide||'full';
 
     function layout(targetCtx){

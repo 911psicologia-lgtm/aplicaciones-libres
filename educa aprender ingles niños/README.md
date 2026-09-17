@@ -2,50 +2,48 @@
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
 **fotos reales**, **79 mundos / 782 palabras**, **16 juegos y estudios**
-(⚡ **Rápido** · 🧸 **Explora** · ✏️ **Trazar** · 🎯 **Ahorcado** ·
-🖼️ **Rompecabezas 4/9/12** · 🔢 **Puntos** · Completa · Empareja · Memoria ·
-Escucha · 🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
-📚 Diccionario · Repaso **priorizado**), **tour de bienvenida**,
+(⚡ **Rápido** · 🧸 **Explora** · Completa · Empareja · Memoria · Escucha ·
+🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
+📚 Diccionario · Repaso **priorizado** · ✏️ **Traza** · 🔤 **Adivina** ·
+🖼️ **Rompecabezas 4/9/12** · ⭐ **Puntos**), **tour de bienvenida**,
 **🔒 puerta parental**, **🏆 hitos de palabras dominadas**,
 **🗓️ calendario de estrellas**, **🖨️ informe de padres imprimible con
 consejos AAP**, **🔊 selector de voz en inglés**, **PWA instalable sin
 conexión**, avatar con tu propia foto, Tienda de 12 avatares, Ruleta diaria,
 ⭐ Mundo destacado y 🎓 Diplomas imprimibles.
 
-> 🎨 **Novedades v14 (taller de letras y juegos creativos — misma vía admisible, cero regresiones):**
-> 1. ✏️ **Trazado de letras**: elige una letra A-Z y trázala con el dedo sobre
->    la guía. La tinta dorada solo se pinta dentro de la letra (composición
->    canvas), la barra muestra cuánta letra cubres y al completar suena la
->    celebración con «A is for Apple». Sin vidas ni errores — como Explora.
->    Colección de letras trazadas + insignias «Primer Trazo», «Mano de
->    Artista» (10) y «Alfabeto Completo» (26).
-> 2. 🎯 **Ahorcado kid (Adivina la palabra)**: versión amable SIN muñeco:
->    la foto-pista siempre visible, 6 corazones y teclado A-Z gigante. Si se
->    acaban los corazones, la palabra se revela con cariño y se sigue. Ronda
->    de 5 palabras con bonus de ronda perfecta. Insignias «Detective de
->    Palabras» y «Maestro del Misterio».
-> 3. 🖼️ **Rompecabezas de fotos**: 4, 9 o 12 piezas con fotos reales de los
->    mundos del nivel. Toca dos piezas para intercambiarlas (más fácil que
->    arrastrar) y usa «Ver ejemplo» (2 veces) para mirar la foto. Al armarla,
->    la palabra se pronuncia en EN + ES. Insignias «Primer Rompecabezas»,
->    «Rompecabezas x9» y «x12».
-> 4. 🔢 **Unir con puntos**: 6 figuras secretas (Estrella, Casa, Cohete,
->    Árbol, Pez y Corazón) — toca los puntos en orden 1, 2, 3… y la figura se
->    dibuja sola; el siguiente punto brilla en verde y el fallo es amable
->    (temblor, sin castigo). Al cerrarla se rellena y habla su nombre.
->    Insignias «Punto a Punto» y «Galería de Figuras» (6/6).
-> 5. 🗓️ **Retos del fin de semana**: tarjeta en el mapa solo sábados y
->    domingos (entre semana, insinuación para crear expectativa). 3 retos
->    medibles al día — 2 misiones, 10 aciertos y la Palabra del Día — con
->    premio de 🪙+30 ✨+50 ⭐+1 una vez por día de finde. Insignias «Héroe del
->    Finde» y «Leyenda de Fines» (8 días).
-> 6. ⏱️ **Límite diario pulido**: nuevo chip de **90 min**, estado «Hoy: X min
->    · te quedan Y» en Zona de padres y un **pre-aviso suave a los 5 minutos**
->    del límite (toast, no modal — mismas tutelas que el aviso final).
-> 7. 🏅 **108 insignias** (12 nuevas) y migración automática de perfiles
->    antiguos sin perder nada (los perfiles nuevos nacen completos). Caché
->    PWA `pequeworld-v14` (el botón azul de actualización avisa a las
->    instalaciones previas).
+> 🎪 **Novedades v14 — «Taller de Juegos» (pedido explícito del usuario, cero regresiones):**
+> 1. ✏️ **Traza la letra**: canvas con letra gigante y guía tenue; el niño
+>    pinta con el dedo (pointer events), barra de progreso de cobertura y
+>    éxito **tolerante** (50% basta). 6 letras por ronda, cada una con su
+>    palabra y foto real (A de Apple, B de Ball…). Botón 🧹 Borrar.
+>    Insignias «Primer Trazo» y «Mano de Artista».
+> 2. 🔤 **Adivina la palabra** (ahorcado suave): foto-pista + casillas +
+>    teclado A-Z. **Sin dibujos tristes**: los 5 corazones de siempre marcan
+>    los intentos y al perder se enseña la palabra y queda para el Repaso.
+>    5 palabras por ronda. Insignias «Adivinador» y «Detective de Palabras».
+> 3. 🖼️ **Rompecabezas 4 · 9 · 12 piezas**: el niño elige el tamaño
+>    (2×2, 3×3, 4×3) con fotos reales de la app; mecánica amable «toca una,
+>    toca otra», sin arrastrar ni tiempo. Modelo de referencia visible.
+>    Insignias «Primer Rompecabezas» y «Maestro del Puzzle».
+> 4. ⭐ **Une los puntos**: 6 figuras (estrella, casa, pez, corazón, tienda,
+>    árbol) con puntos numerados; el objetivo pulsa y si toca mal solo
+>    parpadea — **sin castigos**. Al cerrar la figura se rellena y se
+>    pronuncia la palabra en inglés. Insignias «Punto a Punto» y
+>    «Artista de Líneas».
+> 5. 🎪 **Reto del fin de semana**: chip naranja en el mapa. Sábados y
+>    domingos abre una misión mixta de 10 preguntas de muchos mundos con
+>    **bono +30 🪙 +25 ✨**; entre semana muestra cuántos días faltan y un
+>    cartel amable. Insignias «Reto del Finde» y «Estrella del Fin de
+>    Semana».
+> 6. ⏱️ **Tiempos del límite pulidos**: chips más finos (**10 y 90 min**
+>    nuevos), **aviso previo 5 minutos antes** del límite (toast, 1×/día),
+>    línea «Hoy: X min · quedan Y» en la Zona de padres y el aviso del búho
+>    muestra los **minutos reales del día**.
+> 7. 🏅 **106 insignias** (10 nuevas) y migración automática. Caché PWA
+>    `pequeworld-v14` (el botón azul de actualización avisa a las
+>    instalaciones previas). Los juegos creativos (trazar, armar, unir) **no
+>    infla** la estadística de «misiones perfectas».
 
 > 🎲 **Novedades v13 (necesarias e innovadoras — misma vía admisible, cero regresiones):**
 > 1. 🎲 **Sorpréndeme**: chip violeta en el mapa. Un toque y la app elige una
@@ -311,7 +309,7 @@ pequeworld/
 - ⭐ Mundo destacado del día (monedas x2)
 - 🏆 **Hitos de palabras dominadas (10→500) con álbum** (v8)
 - 🛍️ Tienda de 12 avatares coleccionables
-- 🏅 90 insignias · 🎓 Diplomas imprimibles · 📊 Ranking con rivales IA
+- 🏅 106 insignias · 🎓 Diplomas imprimibles · 📊 Ranking con rivales IA
 - 📚 Diccionario con progreso por palabra (🌱/✅/🏆)
 - 🖨️ **Informe de progreso para la familia** (v8)
 

@@ -9,4 +9,4 @@ const S=ctx.SF.storage,C=ctx.SF.config;
 store.set(C.RANK_KEY,JSON.stringify({bad:true})); if(!Array.isArray(S.loadRanking())||S.loadRanking().length) throw new Error('ranking corruption not contained');
 S.saveRanking('<img src=x onerror=1>', 'oops', -4, 999); const r=S.loadRanking()[0]; if(!r||r.score!==0||r.sector!==1||r.wave!==99) throw new Error('ranking normalization failed');
 store.set(C.SAVE_KEY,JSON.stringify({player:'A\u0000B',shipId:'bad',sector:'x',wave:-3,score:'100'})); const g=S.loadGame(); if(!g||g.shipId!==C.ships[0].id||g.sector!==1||g.wave!==1||g.score!==100||g.player!=='AB') throw new Error('save normalization failed');
-console.log('STORAGE HARDENING v0.7.5 PASS');
+console.log('STORAGE HARDENING v0.7.6 PASS');

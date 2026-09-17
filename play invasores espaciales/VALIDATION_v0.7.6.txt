@@ -1,0 +1,25 @@
+STARFALL FRONTIER v0.7.6 — COMBAT DOCTRINE
+FINAL VALIDATION
+
+JavaScript regression: 41/41 PASS
+Python validators: 11/11 PASS
+node --check js/game.js: PASS
+node --check js/config.js: PASS
+combat-doctrine-v076.js: PASS
+validate-v076.py: PASS
+assets/: 273/273 byte-identical vs v0.7.5
+ audio/: 451/451 byte-identical vs v0.7.5
+js/economy.js: byte-identical vs v0.7.5
+PWA cache: starfall-shell-v0.7.6
+Service worker build: 0760
+
+Validated systems:
+- Persistent boss doctrine profiles
+- Identity-specific intent/escort preference
+- Threat Pacing Budget / major-threat quiet windows
+- Consecutive Tactical Intent break streak
+- Command disruption and routine escort suppression
+- Subboss structural fatigue
+- Pause-clock continuity for new timers
+- Tactical Intent / Phase Consequence / Tactical Ecosystem regression
+- Hunter Doctrine / Battle Rhythm / Encounter Evolution regression

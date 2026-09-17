@@ -1,3 +1,12 @@
+# Emilia · El Bosque de las Palabras
+## v1.7.0 · Lectura Autónoma + Escritura Responsive de Frases
+
+Continuidad incremental sobre v1.6.0. Frases Vivas retira progresivamente el modelo sonoro según confianza: en apoyo conserva modelado; en crecimiento/confianza la niña intenta leer primero y el oído queda como ayuda voluntaria. En celular, la escritura de frase se realiza palabra por palabra conservando la frase completa como contexto; en tablet/PC permanece el lienzo amplio de frase completa. La zona adulta muestra señales descriptivas de intentos de lectura sin/con ayuda y frases escritas, sin convertirlas en diagnóstico.
+
+## v1.6.0 · Rompecabezas Lingüísticos + Ruta de Puntos
+
+Nueva continuidad incremental sobre v1.5.0. Añade dos modos de práctica que siempre desembocan en lectura de una palabra ya aprendida: rompecabezas adaptativos de 4/9/12 piezas y ruta de puntos con unidades ortográficas conocidas. No abre grafemas futuros ni cambia progreso, mundos o contenidos base.
+
 
 ## v1.5.0 · Tinta Mágica + Palabra Secreta + Gemas Lingüísticas
 

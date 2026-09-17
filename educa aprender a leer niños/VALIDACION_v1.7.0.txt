@@ -1,0 +1,61 @@
+VALIDACIÓN TÉCNICA · EMILIA · EL BOSQUE DE LAS PALABRAS
+v1.7.0 · LECTURA AUTÓNOMA + ESCRITURA RESPONSIVE DE FRASES
+Fecha: 2026-09-17
+
+BASE
+- Continuidad incremental desde v1.6.0.
+- No se reconstruyó el proyecto.
+- data/content.js, js/state/store.js y js/learning/mastery.js son idénticos a v1.6.0.
+- 208 assets preservados sin diferencias respecto a v1.6.0.
+- Se preservan 28 mundos, 28 misiones, 124 habilidades, 365 actividades curriculares declaradas, 24 Escaleras de escritura, 23 Frases Vivas, 7 objetivos de escritura de frase y 28 cuentos.
+
+IMPLEMENTACIÓN
+1. Retirada adaptativa del modelo sonoro en Frases Vivas
+- Estado supported/nuevo: conserva sentenceModel con audio inicial.
+- Estado growing: se elimina sentenceModel y la sesión comienza con completar/ordenar/leer; el oído queda voluntario.
+- Estado confident: mantiene lectura primero; el audio de frase no se reproduce automáticamente.
+- Las tareas cuya naturaleza es auditiva siguen conservando audio obligatorio.
+- Señal infantil breve: “👀 primero tú → 👂”.
+
+2. Escritura responsive de frases
+- Tablet/PC (>620 px): mantiene lienzo de frase completa.
+- Celular (<=620 px): muestra la frase global y ofrece un lienzo amplio palabra por palabra.
+- Cada palabra se completa antes de avanzar a la siguiente.
+- El trazador de palabra puede preservar mayúsculas dentro de frases.
+- El punto final permanece como estructura gráfica explícita y no se fuerza a dibujarlo dentro del lienzo palabra por palabra.
+- El uso del oído o del ojo se registra como apoyo; no genera castigo.
+
+3. Seguimiento adulto
+- Registra intentos de lectura de frase sin audio.
+- Registra intentos con ayuda solicitada.
+- Registra frases escritas con el dedo y si se realizaron palabra por palabra en pantalla pequeña.
+- Estas señales se presentan como seguimiento educativo, no diagnóstico.
+
+AUDITORÍA TÉCNICA
+- 11 archivos JS verificados con node --check: 0 errores.
+- manifest.webmanifest y assets/audio/manifest.json: JSON válido.
+- 0 IDs duplicados entre las 365 actividades declaradas.
+- 0 referencias de habilidades rotas.
+- CSS: balance de llaves = 0.
+- Service Worker: 224 referencias; 224 únicas; 0 faltantes.
+- 208 assets presentes y sin diferencias respecto a v1.6.0.
+- Caché PWA: emilia-bosque-v1.7.0-lectura-autonoma-escritura-responsive.
+- Servidor local: index.html = HTTP 200; manifest.webmanifest = HTTP 200; js/app.js = HTTP 200.
+
+PRUEBA DE COMPORTAMIENTO PROGRAMÁTICA
+- support -> sentenceModel + gapFill + sentenceBuild + sentenceSceneRead + sentenceWrite.
+- growing -> gapFill + sentenceBuild + sentenceSceneRead + sentenceWrite; sin sentenceModel inicial.
+- confident -> gapFill + sentenceBuild + sentenceSceneRead + sentenceWrite; sin sentenceModel inicial.
+- En growing/confident sentenceWrite usa autoSpeak=false y readerFirst=true.
+- En support sentenceWrite conserva autoSpeak=true.
+
+PRUEBA VISUAL
+- No se afirma validación visual/táctil completa en un navegador móvil real.
+- La validación realizada cubre sintaxis, lógica adaptativa, estructura responsive declarada, referencias, servidor local y empaquetado.
+- Próxima prueba prioritaria: celular <=390 px y tablet 768–1024 px, observando tamaño del lienzo, sensibilidad del trazo y cambio de palabra.
+
+SIGUIENTES FRENTES
+- Escalera de independencia para escritura de frases: copia visible -> guía tenue -> apoyo por palabras -> escena -> dictado opcional.
+- Cuaderno de Emilia para conservar producciones propias.
+- Retos del fin de semana no punitivos con leer/construir/escribir.
+- Audio local real cuando exista paquete de sonidos.

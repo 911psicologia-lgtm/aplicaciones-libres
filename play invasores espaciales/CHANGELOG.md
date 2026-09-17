@@ -1,3 +1,12 @@
+# v0.7.6 — COMBAT DOCTRINE
+
+- Perfiles persistentes de doctrina por boss con secuencias de intención, roles de escolta, movilidad y cadencia signature propias.
+- Nuevo Threat Pacing Budget para impedir encadenamientos inmediatos de amenazas mayores sin ventana de lectura.
+- Dos interrupciones consecutivas de intención en una fase activan CADENA DE MANDO ROTA y retrasan coordinación de escoltas/summons.
+- Objetivos de escolta especializados por rol para pinzas, órbitas, caza y fuego sostenido más legibles.
+- Fatiga estructural de subjefes tras interrupciones repetidas: menor recarga de escudo, recuperación más larga y firma posterior retrasada.
+- PWA actualizado a cache `starfall-shell-v0.7.6` y registro `build=0760`.
+
 # v0.7.5 — TACTICAL INTENT
 
 - Nuevo Boss Combat Intent con cuatro doctrinas visibles y objetivo congelado.

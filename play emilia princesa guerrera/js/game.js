@@ -63,6 +63,8 @@ const Game = {
 
         UI.updateRanking();
         UI.showScreen('start');
+        // Música del menú
+        AudioEngine.playMusic('menu');
 
         // Carga todas las imágenes asíncronamente
         ImageLoader.loadAll(() => {
@@ -125,11 +127,32 @@ const Game = {
         };
 
         Hero.init(this.state);
+        // Crear hada compañera
+        this.state.fairy = new FairyCompanion();
         UI.el.hudNick.textContent = name + ' · ' + pDef.name;
         UI.hideAllScreens();
         this.loadLevel(0);
         AudioEngine.levelStart();
-        PopupSystem.special(pDef.name, this.state.canvasW / 2, this.state.canvasH / 2);
+        AudioEngine.playMusic('adventure');
+        PopupSystem.special(pDef.name + ' te acompañará', this.state.canvasW / 2, this.state.canvasH / 2);
+        // El hada saluda
+        setTimeout(() => {
+            if (this.state.fairy) {
+                this.state.fairy.sayEvent('¡Hola! Soy tu hada', 'happy');
+                AudioEngine.voiceGiggle();
+            }
+        }, 1500);
+        // Racha diaria - dar recompensa si es primer juego del día
+        const dailyReward = DailyStreak.checkAndClaim();
+        if (dailyReward) {
+            setTimeout(() => {
+                PopupSystem.bonus(`¡Racha ${dailyReward.streak} días! +${dailyReward.reward} monedas`, this.state.canvasW / 2, this.state.canvasH / 2 + 100);
+                AudioEngine.voiceBravo();
+                UI.updateHUD();
+            }, 3000);
+        }
+        // Verificar logros de monedas al iniciar
+        Achievements.onCoins(this.state.coins);
         this._loopRunning = true;
         this.loop();
     },
@@ -175,6 +198,7 @@ const Game = {
 
         Hero.init(this.state);
         this.state.hero.lives = save.lives || 5;
+        this.state.fairy = new FairyCompanion();
         for (let i = 0; i < (save.allies || 0); i++) {
             this.state.allies.push(new Ally());
         }
@@ -182,6 +206,7 @@ const Game = {
         UI.hideAllScreens();
         this.loadLevel(this.state.levelIdx);
         AudioEngine.levelStart();
+        AudioEngine.playMusic('adventure');
         this._loopRunning = true;
         this.loop();
     },
@@ -192,6 +217,7 @@ const Game = {
         this.state.levelStartScore = this.state.score;
         this.state.bossActive = false;
         this.state.boss = null;
+        this.state._tookDamageThisLevel = false; // Reset para estrellas
         this.state.entities = this.state.entities.filter(e => e instanceof Bullet && !e.isEnemy);
         UI.hideBossUI();
         const level = LEVELS[idx];
@@ -202,6 +228,8 @@ const Game = {
         if (this.state.upgrades.shieldStart > 0) {
             this.state.hero.powers.shield = this.state.upgrades.shieldStart * 180;
         }
+        // Música de aventura
+        AudioEngine.playMusic('adventure');
     },
 
     nextLevel() {
@@ -217,6 +245,38 @@ const Game = {
         this.state.active = true;
         this.state.paused = false;
         // Reiniciar loop si no está corriendo
+        if (!this._loopRunning) {
+            this._loopRunning = true;
+            this.loop();
+        }
+    },
+
+    /* ============ CHECKPOINT: retry desde el nivel actual ============ */
+    retryLevel() {
+        AudioEngine.uiClick();
+        AudioEngine.stopMusic();
+        UI.hideAllScreens();
+        // Restaurar vidas y estado
+        Hero.init(this.state);
+        this.state.score = this.state.levelStartScore;
+        this.state.entities = [];
+        this.state.obstacles = [];
+        this.state.particles = [];
+        this.state.bossActive = false;
+        this.state.boss = null;
+        this.state._tookDamageThisLevel = false;
+        this.state.activeCombos = new Set();
+        // Recrear hada
+        this.state.fairy = new FairyCompanion();
+        UI.clearComboChips();
+        this.loadLevel(this.state.levelIdx);
+        AudioEngine.levelStart();
+        this.state.active = true;
+        this.state.paused = false;
+        PopupSystem.special('¡INTÉNTALO DE NUEVO!', this.state.canvasW / 2, this.state.canvasH / 2);
+        if (this.state.fairy) {
+            setTimeout(() => this.state.fairy.sayEvent('¡Tú puedes!', 'brave'), 1000);
+        }
         if (!this._loopRunning) {
             this._loopRunning = true;
             this.loop();
@@ -250,6 +310,11 @@ const Game = {
         Hero.update(state);
         Powers.tick(state);
         ComboSystem.tick(state);
+
+        // Hada compañera
+        if (state.fairy) {
+            state.fairy.update(state);
+        }
 
         // Aliados
         state.allies.forEach((a, i) => a.update(i, state.allies.length, state));
@@ -395,6 +460,21 @@ const Game = {
         UI.showMotivation('¡JEFE!: ' + level.bossName.toUpperCase());
         AudioEngine.warning();
         setTimeout(() => AudioEngine.warning(), 300);
+        // Cambiar a música de jefe
+        AudioEngine.playMusic('boss');
+        // Hada reacciona
+        if (state.fairy) {
+            state.fairy.sayEvent('¡Cuidado, el jefe!', 'brave');
+        }
+        // ANIMACIÓN DRAMÁTICA de entrada del jefe
+        // Flash de pantalla
+        state._bossFlash = 30;
+        // Temblor de pantalla
+        state._screenShake = 20;
+        // Onda de choque visual
+        ParticleFactory.shockwave(state.particles, state.boss.x, state.boss.y, '#ff0033');
+        ParticleFactory.ring(state.particles, state.boss.x, state.boss.y, '#ff0033', 32);
+        PopupSystem.warning('¡JEFE!');
         // Limpia entidades no-jefe
         state.entities = state.entities.filter(e => e instanceof Bullet);
         // Escudo protector
@@ -404,9 +484,39 @@ const Game = {
     _onBossDeath() {
         const state = this.state;
         AudioEngine.bossDie();
+        // Cambiar a música de victoria
+        AudioEngine.playMusic('victory');
+        // Confeti y celebración
         ParticleFactory.shockwave(state.particles, state.boss.x, state.boss.y, '#FFD700');
         ParticleFactory.sparkle(state.particles, state.boss.x, state.boss.y, '#FFD700', 30);
         ParticleFactory.ring(state.particles, state.boss.x, state.boss.y, '#ff00cc', 32);
+        // Lluvia de confeti
+        for (let i = 0; i < 50; i++) {
+            const a = Math.random() * Math.PI * 2;
+            const sp = 3 + Math.random() * 6;
+            state.particles.push(new Particle(state.boss.x, state.boss.y, {
+                vx: Math.cos(a) * sp,
+                vy: Math.sin(a) * sp - 3,
+                color: ['#ff00cc', '#6ef0ff', '#FFD700', '#88ff66', '#ff6600'][Math.floor(Math.random() * 5)],
+                size: 4 + Math.random() * 3, life: 1.5, decay: 0.015,
+                gravity: 0.15, shape: Math.random() > 0.5 ? 'star' : 'square'
+            }));
+        }
+        // Hada celebra
+        if (state.fairy) {
+            state.fairy.sayEvent('¡LO LOGRASTE!', 'excited');
+        }
+        AudioEngine.voiceBravo();
+        // Logro: jefe muerto + nivel completado
+        Achievements.onBossKill();
+        const noDamage = !state._tookDamageThisLevel;
+        Achievements.onLevelComplete(state.levelIdx + 1, noDamage);
+        // Calcular estrellas
+        const stars = Achievements.calculateStars(
+            state.hero.lives, state.hero.maxLives, 0, state._tookDamageThisLevel ? 1 : 0
+        );
+        Achievements.saveLevelStars(state.levelIdx, stars);
+        state._lastStars = stars;
         state.score += 1000 + state.levelIdx * 200;
         UI.hideBossUI();
 
@@ -565,6 +675,8 @@ const Game = {
                         PopupSystem.quick('+' + points, en.x, en.y, {
                             color: '#FFD700', size: 22, scale: 1.1, life: 0.8, decay: 0.03
                         });
+                        // Logro: enemigo muerto
+                        Achievements.onEnemyKill();
                         // Monedas (con bonus de princesa)
                         if (Math.random() < 0.4) {
                             const coinCount = hero.princessDef && hero.princessDef.passiveEffect === 'coinBonus' ? 2 : 1;
@@ -577,6 +689,8 @@ const Game = {
                         if (comboResult) {
                             PopupSystem.combo(comboResult.name.toUpperCase(), en.x, en.y - 30);
                         }
+                        // Logro: combo
+                        Achievements.onCombo(hero.combo);
                         // Streak popup
                         if (hero.combo >= 2 && hero.combo % 2 === 0) {
                             PopupSystem.streak(hero.combo, en.x, en.y - 60);
@@ -706,6 +820,19 @@ const Game = {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Aplicar temblor de pantalla si está activo
+        let didShake = false;
+        if (state._screenShake && state._screenShake > 0) {
+            const shake = state._screenShake;
+            ctx.save();
+            ctx.translate(
+                (Math.random() - 0.5) * shake,
+                (Math.random() - 0.5) * shake
+            );
+            state._screenShake -= 1;
+            didShake = true;
+        }
+
         // Obstáculos (detrás)
         state.obstacles.forEach(o => o.draw(ctx, state.frames));
 
@@ -722,6 +849,11 @@ const Game = {
         // Aliados
         state.allies.forEach(a => a.draw(ctx));
 
+        // Hada compañera
+        if (state.fairy) {
+            state.fairy.draw(ctx);
+        }
+
         // Heroína
         Hero.draw(ctx, state);
 
@@ -730,6 +862,18 @@ const Game = {
 
         // Popups emergentes (lo último, encima de todo)
         PopupSystem.tick(ctx);
+
+        // Restaurar transform si había temblor
+        if (didShake) {
+            ctx.restore();
+        }
+
+        // Flash de pantalla (jefe aparece)
+        if (state._bossFlash && state._bossFlash > 0) {
+            ctx.fillStyle = `rgba(255, 0, 51, ${state._bossFlash / 30 * 0.4})`;
+            ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            state._bossFlash--;
+        }
     },
 
     /* ============ FONDO DINÁMICO REALISTA (sin scroll vertical) ============ */
@@ -878,10 +1022,11 @@ const Game = {
     /* ============ FIN DE JUEGO ============ */
     gameOver() {
         this.state.active = false;
+        AudioEngine.stopMusic();
+        AudioEngine.playMusic('sad');
         Storage.saveRank(this.state.nick, this.state.score);
         Storage.clearSave();
         UI.updateRanking();
-        AudioEngine.gameOver();
         // Mensaje de ánimo para niñas 6-9 años
         const mensajes = [
             '¡Lo intentaste muy bien!',
@@ -892,19 +1037,45 @@ const Game = {
         ];
         const msg = mensajes[Math.floor(Math.random() * mensajes.length)];
         PopupSystem.special(msg, this.state.canvasW / 2, this.state.canvasH / 2);
+        // Hada triste
+        if (this.state.fairy) {
+            this.state.fairy.setMood('sad');
+            setTimeout(() => this.state.fairy.sayEvent('¡No te rindas!', 'sad'), 1000);
+        }
+        AudioEngine.voiceOhNo();
         setTimeout(() => {
             UI.showScreen('gameOver');
-        }, 1500);
+        }, 2500);
     },
 
     /* ============ VICTORIA ============ */
     victory() {
         this.state.active = false;
+        AudioEngine.stopMusic();
+        AudioEngine.playMusic('victory');
         Storage.saveRank(this.state.nick, this.state.score);
         Storage.clearSave();
         UI.updateRanking();
+        // Confeti masivo
+        for (let i = 0; i < 100; i++) {
+            const x = Math.random() * this.state.canvasW;
+            const y = Math.random() * this.state.canvasH * 0.5;
+            this.state.particles.push(new Particle(x, y, {
+                vx: (Math.random() - 0.5) * 4,
+                vy: 2 + Math.random() * 3,
+                color: ['#ff00cc', '#6ef0ff', '#FFD700', '#88ff66', '#ff6600', '#ff3366'][Math.floor(Math.random() * 6)],
+                size: 4 + Math.random() * 4, life: 2.0, decay: 0.01,
+                gravity: 0.1, shape: Math.random() > 0.5 ? 'star' : 'square'
+            }));
+        }
+        AudioEngine.voiceFanfare();
+        // Hada celebra
+        if (this.state.fairy) {
+            this.state.fairy.sayEvent('¡SALVASTE LOS 20 REINOS!', 'excited');
+        }
+        PopupSystem.special('¡ERES UNA HEROÍNA!', this.state.canvasW / 2, this.state.canvasH / 2);
         AudioEngine.victory();
-        UI.showScreen('victory');
+        setTimeout(() => UI.showScreen('victory'), 2000);
     }
 };
 
