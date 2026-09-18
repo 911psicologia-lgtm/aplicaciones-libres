@@ -37,6 +37,8 @@ function v0164EmptyReports() {
 function ensureCaseV0164(c) {
   if (!c) return c;
   c.scope = ['tras','habilidades','ambos','hc'].includes(c.scope) ? c.scope : 'ambos';
+  c.trasMode = c.trasMode === 'resumido' ? 'resumido' : 'extenso';
+  if (typeof c.trasModeConfigured !== 'boolean') c.trasModeConfigured = true;
   c.workflow = Object.assign({ lastStep:2, completed:[], scopeSelected:true }, c.workflow || {});
   c.workflow.completed = Array.isArray(c.workflow.completed) ? c.workflow.completed : [];
   c.hc = Object.assign({
@@ -94,6 +96,15 @@ function mergeCaseRecords(target, source, note) {
     if (hasMeaningfulValue(source.meta && source.meta[k])) target.meta[k] = source.meta[k];
   });
   if (source.scope) target.scope = source.scope;
+  // La modalidad TRAS solo reemplaza la del expediente receptor cuando
+  // el archivo/fuente realmente la traía configurada. Así un JSON legado
+  // no convierte silenciosamente un caso existente a modo extenso.
+  if (source.trasModeConfigured === true && ['extenso','resumido'].includes(source.trasMode)) {
+    target.trasMode = source.trasMode;
+    target.trasModeConfigured = true;
+  } else if (target.trasModeConfigured !== true) {
+    target.trasModeConfigured = false;
+  }
 
   // HC: conservar y ampliar; el resumen más completo prevalece.
   ['motivo','evento','familia','escolar','sintomas','recursos','objetivo'].forEach(k => {
@@ -343,6 +354,7 @@ function toggleTrasMode() {
     });
   if (seOcultarian.length && !confirm(`Al cambiar a modo ${next}, ${seOcultarian.length} respuesta(s) ya registradas dejarán de mostrarse en la entrevista lineal (no se borran; siguen visibles en Revisión e Informe). ¿Continuar?`)) return;
   c.trasMode = next;
+  c.trasModeConfigured = true;
   touchCase(c, 'Modo TRAS cambiado a ' + next);
   persist();
   renderScopeSelector();
@@ -377,6 +389,7 @@ function createCaseWithScope(scope) {
   const c = createEmptyCase();
   c.scope = scope;
   c.trasMode = trasMode;
+  c.trasModeConfigured = true;
   c.modules = c.modules || {};
   c.modules.matrizCA = wantsMatrizCA;
   c.workflow.scopeSelected = true;
@@ -946,7 +959,7 @@ function buildEvaluationMaterialV0164() {
     alcance:c.scope,
     contexto:aiCaseContext(),
     historia_clinica:c.hc,
-    tras:{modo_aplicacion:c.trasMode==='resumido'?'resumido (38 items: ciclos C y D)':'extenso ajustado (59 items; se retiraron items redundantes por area)',areas,patrones:c.patterns,analisis_consolidado:c.consolidated,recomendaciones:c.recommendations},
+    tras:{modo_aplicacion:c.trasModeConfigured===false?'modalidad no confirmada en expediente legado':(c.trasMode==='resumido'?'resumido (38 items: ciclos C y D)':'extenso ajustado (59 items; se retiraron items redundantes por area)'),areas,patrones:c.patterns,analisis_consolidado:c.consolidated,recomendaciones:c.recommendations},
     goldstein:gold,
     matriz_cognitivo_atencional:matrizCA,
     personalidad:c.personalidad,

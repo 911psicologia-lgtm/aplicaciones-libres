@@ -1,0 +1,36 @@
+SWARM//RIFT v2.15.30 — VALIDACIÓN
+=================================
+
+Versión: 2.15.30
+Nombre: ADAPTIVE_HIVE_PACING_ECOLOGY
+Base canónica: v2.15.29 ADAPTIVE_HIVE_RHYTHM_FORECASTING
+
+RESULTADOS
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+- pruebas dirigidas Pacing Ecology: 10/10 PASS
+- HTTP smoke: 10/10 PASS
+- PWA: 560/560 recursos presentes
+- assets heredados: 551/551 byte a byte idénticos
+- archivos heredados: 872
+- heredados idénticos: 869
+- heredados modificados intencionalmente: 3
+  * js/game.js
+  * index.html
+  * sw.js
+- archivos heredados perdidos: 0
+
+COBERTURA DIRIGIDA
+1. Headroom temporal bloquea microsecuencia sin tiempo suficiente.
+2. Signature Priority conserva excepción cerca de transición.
+3. Fatiga familiar proyectada bloquea saturación antes del commit.
+4. Rhythm spacing bloquea follow-up demasiado rápido.
+5. Feint Branch anidado conserva excepción jerárquica.
+6. Mantenimiento agrupado ~10 Hz conserva recuperación proporcional.
+7. Spacing aumenta con presión y tier RECOVERY.
+8. Fase 3 no aplica headroom de transición inexistente.
+9. Eventos de commit registran headroom/fatigue/spacing.
+10. Reservation coalescing continúa funcionando.
+
+LIMITACIONES
+No se realizó una sesión humana prolongada de balance en hardware móvil físico. Las pruebas aquí documentadas son sintácticas, lógicas dirigidas, estructurales, de integridad, PWA y HTTP.

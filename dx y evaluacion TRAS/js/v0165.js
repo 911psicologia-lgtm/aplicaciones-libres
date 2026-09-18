@@ -167,6 +167,7 @@ createCaseWithScope = function createCaseWithScopeV0165(scope) {
     const c = ensureCaseV0164(current);
     c.scope = scope;
     c.trasMode = trasMode;
+    c.trasModeConfigured = true;
     c.modules = c.modules || {};
     c.modules.matrizCA = wantsMatrizCA;
     c.workflow.scopeSelected = true;

@@ -1,0 +1,43 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.60.0
+
+VERSIÓN: v3.60.0 — Tactical Cohesion + Spawn Gates
+
+RESULTADOS
+- js/game.js: `node --check` OK.
+- sw.js: `node --check` OK.
+- manifest.json: JSON válido.
+- Versionado sincronizado: 3.60.0 en JS, HTML, manifest y Service Worker.
+- WORLD_BALANCE: 20 filas, M1–M20, sin Mundo 21.
+- HP base monotónico: OK.
+- Hitos: M1 11.200 / M5 19.500 / M10 38.900 / M15 77.800 / M20 155.500.
+- Assets: 842.
+- Comparación v3.59 → v3.60: 842/842 assets idénticos byte a byte; 0 añadidos, 0 eliminados, 0 modificados.
+- Referencias de assets: 800 únicas / 0 faltantes.
+- IDs HTML: 230 / 0 duplicados.
+- HTTP local: 200 OK en index.html, js/game.js, css/styles.css, manifest.json, sw.js y boss M20.
+
+FUNCIONES CRÍTICAS IDÉNTICAS RESPECTO A v3.59
+- bossPattern
+- boss2Pattern
+- boss2Special
+- triggerBossSpecial
+- updateBossMotion
+- updateBossApproach
+- damageEnemy
+- evaluateAdaptiveBossShadow
+- shouldAutoResurrectBoss
+- advancedEnemyAim
+- updateAdvancedEnemyIdentity
+- addEnemyBullet
+
+CAMBIOS INTENCIONALES
+- bossPhaseEcologyProfile: usa momentum suavizado.
+- bossTacticalCanStart: jerarquía explícita de prioridad.
+- grantBossTacticalRecovery: presupuesto regenerativo.
+- updateBossTacticalArbiter: histéresis de FOCO y bandas de carga.
+- updateBossFight: gates centralizados para nuevos minions/escoltas/hazards.
+- spawnBoss / resurrectBoss: inicialización de nuevos campos del Árbitro.
+- HUD/telemetría: FOCO estabilizado y métricas de carga/spawns diferidos.
+
+LÍMITES DE LA VALIDACIÓN
+No se atribuye prueba física Android/iOS ni campaña completa M1–M20 jugada. La validación ejecutada es estática, estructural, de integridad de assets, HTTP local y empaquetado.

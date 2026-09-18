@@ -1,0 +1,114 @@
+MUSIC PLAY FREE HAPPY · R10.11
+YT NATIVE ENGINE · PLAYLIST QUEUE FIX · REAL FULLSCREEN
+2026-09-12
+
+Base obligatoria:
+- R10.10 Pendientes · Recomendados del día · Spotify podcast · Video flotante.
+- IndexedDB `mpf-minimal-db`, DB_VERSION 6 y Recovery Guard intactos.
+- No hay migraciones destructivas ni cambios de stores.
+
+════════════════════════════════════════════════════════════════════
+1. MOTOR NATIVO DE YOUTUBE · AUDIO/VIDEO CON PANTALLA BLOQUEADA
+════════════════════════════════════════════════════════════════════
+Problema: el reproductor IFrame de YouTube se pausa al bloquear el teléfono.
+Es una restricción del iframe, no de la app. R10.11 añade un motor nativo.
+
+Cómo funciona:
+- MUSIC PLAY resuelve la URL directa del stream (audio m4a u video mp4
+  progresivo) y la reproduce en elementos <audio>/<video> reales.
+- Al ser un elemento de medios nativo con Media Session, Chrome/Android
+  mantiene el audio con la pantalla bloqueada y muestra controles del
+  sistema: play/pausa, anterior/siguiente, seek 10 s (15/30 en podcasts)
+  y la carátula del video en la pantalla de bloqueo.
+- Las canciones se reproducen SOLO AUDIO por defecto: menos datos,
+  batería y reproducción garantizada en segundo plano. La tarjeta flotante
+  muestra la carátula y la etiqueta "YOUTUBE · AUDIO".
+- Los videos (Música en video / mediaKind video) muestran el video en el
+  reproductor flotante; al bloquear la pantalla el audio se transfiere a la
+  pista de audio en la misma posición, y al volver se restaura el video.
+- Si el stream caduca o falla a mitad de canción: un reintento resuelve
+  streams frescos y continúa en la misma posición; si no, cae al reproductor
+  visible y luego a la siguiente pista de la cola.
+
+Orden de resolución (primero que funcione gana):
+1) Helper same-origin /api/youtube-streams (Cloudflare Worker actualizado).
+2) Instancias Piped/Invidious descubiertas en runtime desde el registro
+   oficial api.invidious.io (CORS abierto) + lista integrada, probadas en
+   tandas paralelas con prioridad a las que funcionaron en la sesión.
+3) Instancia personalizada del usuario (Menú ⋯ → Motor de YouTube).
+4) Reproductor visible (IFrame) — comportamiento anterior, sin bloqueo.
+
+Nueva pantalla de configuración: Menú ⋯ → Motor de YouTube
+- Modo Nativo (recomendado) / Reproductor visible.
+- Campo de instancia preferida (Piped/Invidious propia).
+- Botón "Probar motor nativo" con diagnóstico en vivo.
+
+════════════════════════════════════════════════════════════════════
+2. FIX · PLAYLISTS VS "PENDIENTES DE ESCUCHAR" (canciones a medias)
+════════════════════════════════════════════════════════════════════
+Problema: al reproducir una playlist, la canción siguiente que ya se había
+escuchado a medias continuaba desde lo que faltaba en vez de empezar
+completa. "Ambos sistemas se entrecruzaban".
+
+Causa raíz (eran dos sistemas avanzando a la vez):
+- Las playlists de YouTube se delegaban al reproductor interno
+  (loadPlaylist del IFrame). YouTube avanza solo y retoma "por donde iba"
+  cada video según SU historial del navegador/cuenta — eso cruzaba con el
+  sistema de Pendientes de la app y con la cola interna.
+- La app además avanzaba su propia cola al detectar ENDED → doble avance,
+  metadatos atascados en el nombre de la lista y controles de bloqueo
+  inútiles.
+
+Corrección:
+- Toda playlist de YouTube se convierte en cola gestionada por MUSIC PLAY:
+  las canciones importadas se reproducen una a una (playTrack) en el orden
+  de la lista. Cada canción SIEMPRE empieza en 0.
+- La posición guardada (Pendientes / último punto) SOLO se aplica cuando el
+  usuario la pide de forma explícita: tarjeta "Pendientes de escuchar" o
+  "Seguir escuchando" con hito 25/50/75. Los podcasts conservan su punto
+  como siempre (eso es correcto para podcasts).
+- Al terminar una canción, la app avanza la cola (manual → modo → contexto)
+  sin intervención de YouTube: sin saltos dobles y con metadatos correctos
+  por canción, también en la pantalla de bloqueo.
+
+Regla de oro R10.11:
+  Música desde playlist → siempre completa.
+  Retomar posición → solo en Pendientes / Seguir escuchando / Podcasts.
+
+════════════════════════════════════════════════════════════════════
+3. PANTALLA COMPLETA REAL · SIN FRANJA BLANCA DEL SISTEMA
+════════════════════════════════════════════════════════════════════
+- Manifest: display "fullscreen" (antes "standalone"). Las instalaciones
+  nuevas se abren sin barra de estado ni barra de navegación: la franja
+  blanca con el botón atrás desaparece.
+- Red de seguridad: al abrir la app YA instalada, el primer toque activa el
+  modo inmersivo (requestFullscreen con navigationUI:'hide') aunque el
+  manifest viejo siga en caché.
+- Menú ⋯ ahora incluye "⛶ Pantalla completa" directo, además del botón ⛶
+  de la barra superior y el flujo PWA.
+- CSS: fondo garantizado en modo app/fullscreen (html[data-shell=app]) para
+  que nunca asome blanco del sistema.
+
+Nota: tras actualizar, si la franja persiste, cerrar y abrir la app desde
+el icono (o reinstalarla) hace que Chrome relea el manifest.
+
+════════════════════════════════════════════════════════════════════
+4. MEJORAS GENERALES R10.11
+════════════════════════════════════════════════════════════════════
+- Media Session con carátulas multi-tamaño de YouTube (mq/hq/sd) para la
+  pantalla de bloqueo y playbackRate correcto en podcasts nativos.
+- Búsqueda (biblioteca y global) con debounce por rAF: escribir ya no
+  re-renderiza la lista letra por letra.
+- El reproductor flotante usa slots persistentes: alternar audio/video/
+  iframe ya no destruye elementos de medios a mitad de reproducción.
+- Botón de cierre del reproductor flotante con texto claro y pausa segura
+  en cualquier motor.
+- Worker Cloudflare ampliado con /api/youtube-streams (InnerTube ANDROID/
+  IOS + Invidious, con verificación Range de cada URL) documentado en
+  cloudflare/README.txt.
+- Volume/rate aplicados a todos los motores nativos de una sola llamada.
+
+PRINCIPIO DE SEGURIDAD (sin cambios):
+- No cambiar DB_NAME ni DB_VERSION.
+- No borrar object stores.
+- Toda futura versión debe partir de esta R10.11 o una descendiente verificada.

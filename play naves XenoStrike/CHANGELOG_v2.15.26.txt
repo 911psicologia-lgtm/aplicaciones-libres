@@ -1,0 +1,21 @@
+SWARM//RIFT v2.15.26 — ADAPTIVE HIVE INTERVENTION ORCHESTRATOR
+
+CAMBIOS
+- Añadido Adaptive Intervention Orchestrator.
+- Presupuesto intra-combate de saliencia con recuperación gradual.
+- Ventanas de silencio para evitar apilamiento de intervenciones perceptibles.
+- Fatiga por repetición de familias adaptativas.
+- Focal intervention lock: Counter-Evolution bloquea temporalmente Arena Morphology y Signature Priority.
+- Feint Branching conserva continuidad dentro de la microsecuencia ya autorizada.
+- Sampling adaptativo: FULL 1.00 s / BALANCED 1.15 s / RECOVERY 1.35 s.
+- Telemetría local actualizada a schema 8.
+- Nuevos hooks de inspección/self-test del Orchestrator.
+- Migración explícita desde v2.15.25.
+
+NO MODIFICADO
+- 20 mundos y 20 bosses.
+- HP, daño base, cadencia, powers, ranks, upgrades o build del jugador.
+- Densidad global de proyectiles.
+- Assets y audio.
+- Mobile Combat Ergonomics.
+- Reactive Armor / Symbiotic Assist / RIFT Disruption / RIFT Rebirth continúan en Shadow.

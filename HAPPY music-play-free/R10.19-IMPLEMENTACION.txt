@@ -1,0 +1,110 @@
+═══════════════════════════════════════════════════════════════
+MUSIC PLAY · HAPPY — R10.19 · IMPLEMENTACIÓN
+Fecha: 2026-09-17 · Build: 2026.09.17-r10.19-search-reorder
+═══════════════════════════════════════════════════════════════
+
+OBJETIVO
+Corregir la lupa de buscar: al tocar una canción de los resultados, no
+reproducía — emergía el menú contextual porque competía con la canción
+anterior. Mejorar además la flexibilidad del reorder por long-press en
+playlists y la calidad de la búsqueda.
+
+───────────────────────────────────────────────────────────────
+1. LUPA · TOCAR = REPRODUCIR (NO ABRIR MENÚ)
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+En makeTrackRow() había DOS handlers compitiendo:
+  · click → playTrack(track.id, ctx)
+  · pointerdown + setTimeout(520ms) → openTrackSheet(track, options)
+Si el dedo quedaba quieto 520ms, el long-press disparaba openTrackSheet Y
+luego el click también disparaba playTrack — o viceversa. Resultado: a
+veces se abría el menú, a veces se reproducía la canción anterior porque
+el contextIds era la cola activa, no los resultados de búsqueda.
+
+SOLUCIÓN (app.js · makeTrackRow)
+  · Click handler reescrito: SIEMPRE llama playTrack con ctx explícito
+    (options.contextIds > fromPlaylist > getFilteredTracks). NUNCA usa
+    la cola actual como contexto.
+  · Long-press handler reescrito:
+    - Marca `moved=true` si hay >8px de movimiento (cancela el timer).
+    - Al disparar, setea front._gestureConsumedUntil = now+400ms para
+      que el click posterior NO también dispare play.
+    - Solo abre el menú si !moved && !_gestureActive && !_reorderActive.
+  · Contextmenu (right-click / long-press nativo) sigue abriendo el menú.
+  · Botón ⋯ (row-more en fromPlaylist) sigue abriendo el menú.
+
+CONTEXTO DE REPRODUCCIÓN CORRECTO
+renderSearch() ahora pasa searchCtx (los IDs de las canciones visibles
+en resultados) como contextIds a makeTrackRow. Antes pasaba undefined →
+makeTrackRow caía a getFilteredTracks() (biblioteca filtrada por
+categorías/género) → la cola se mantenía en la selección anterior.
+
+───────────────────────────────────────────────────────────────
+2. BÚSQUEDA MÁS FLEXIBLE
+───────────────────────────────────────────────────────────────
+
+MEJORAS en renderSearch():
+  · normalize(s): convierte a NFD y quita diacríticos (á→a, ñ→n, etc.)
+    + lowercase. "juan luis" ahora encuentra "Juan Luis Guerra".
+  · tokens = q.split(/\s+/). Cada token debe aparecer en algún campo
+    (título/artista/álbum/género/nombre de archivo/carpeta). No
+    requiere orden exacto. "rock colombiano" encuentra canciones con
+    "rock" Y "colombiano" en cualquier campo.
+  · Playlists: además de coincidir por nombre, ahora también coinciden
+    por contenido — si buscas "salsa" y una playlist tiene canciones
+    de salsa (aunque no tenga "salsa" en el nombre), aparece.
+  · Álbumes: misma normalización.
+  · Mensaje "Sin coincidencias" ahora explica que la búsqueda ignora
+    acentos y busca por palabras.
+
+───────────────────────────────────────────────────────────────
+3. REORDER MÁS FLEXIBLE
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+El reorder por long-press (bindLongPressReorder) era difícil de activar:
+  · 430ms de espera (largo).
+  · 9px de umbral de cancelación (cualquier temblor cancelaba).
+  · Auto-scroll lento (18px/frame).
+  · Solo funcionaba si la row destino estaba en #playlistList.
+
+MEJORAS en bindLongPressReorder():
+  · Tiempo de activación: 430ms → 320ms.
+  · Umbral de cancelación por movimiento: 9px → 14px.
+  · Auto-scroll: 18px/frame → 28px/frame.
+  · Hit-test: busca .track-row en cualquier contenedor scrollable
+    (.virtual-list, .list, .search-results, .playlist-detail) — no
+    solo #playlistList.
+  · Ventana de gracia tras soltar: 500ms → 700ms (el click posterior
+    no dispara play).
+  · Si el usuario suelta antes de 320ms (no era un reorder real), se
+    abre el menú — mismo comportamiento que antes.
+
+FEEDBACK VISUAL (styles.css)
+  · .track-row.reorder-source .track-front::after → icono ⠿ pulsante
+    (animación reorderHandlePulse 1.2s) que indica "estás arrastrando
+    esta fila".
+  · .track-row[data-reorderable="1"] .track-art::after → punto accent
+    sutil en la esquina del artwork al hover (hint de que se puede
+    mover). Aparece solo en filas de playlist manual.
+  · .track-row:active .track-front → escala .992 al tocar (feedback
+    táctil de "tap reconocido").
+  · Línea accent verde-rojo existente (reorder-target) mantenida.
+
+DATA ATTRIBUTE
+makeTrackRow() ahora setea row.dataset.reorderable='1' cuando
+options.fromPlaylist && !options.smart → el CSS muestra el hint visual
+solo en playlists manuales (no en smart collections, que son automáticas).
+
+───────────────────────────────────────────────────────────────
+COMPATIBILIDAD
+───────────────────────────────────────────────────────────────
+  · versionCode 20, versionName 10.19, misma firma SHA-256 → actualización directa.
+  · IndexedDB v7; Recovery v6 sin cambios.
+  · Requiere Android 7.0+ (minSdk 24).
+  · Reorder por long-press solo en playlists manuales; smart collections
+    (Favoritos/+Escuchadas/Recientes) son automáticas y no se pueden
+    reordenar manualmente.
+
+═══════════════════════════════════════════════════════════════

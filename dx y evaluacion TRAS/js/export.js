@@ -350,7 +350,7 @@ function buildReportHtml(target, audience) {
   const persCount = c.personalidad && Array.isArray(c.personalidad.dimensiones) ? c.personalidad.dimensiones.length : 0;
 
   const modulosActivos = showTras
-    ? [c.trasMode === 'resumido' ? 'Nucleo TRAS · modo resumido (38 items)' : 'Nucleo TRAS · modo extenso ajustado (59 items)'].concat(DATASET.areas_complementarias.filter(a => c.modules.complementarios[a.id]).map(a => a.nombre))
+    ? [c.trasModeConfigured === false ? 'Nucleo TRAS · modalidad pendiente de confirmar' : (c.trasMode === 'resumido' ? 'Nucleo TRAS · modo resumido (38 items)' : 'Nucleo TRAS · modo extenso ajustado (59 items)')].concat(DATASET.areas_complementarias.filter(a => c.modules.complementarios[a.id]).map(a => a.nombre))
     : [];
   if (showGold) modulosActivos.push('Lista de chequeo de habilidades sociales de Goldstein');
   if (persCount) modulosActivos.push('Perfil descriptivo de personalidad en formacion');

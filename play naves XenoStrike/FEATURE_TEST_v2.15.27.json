@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "summary": {
+    "passed": 22,
+    "total": 22
+  },
+  "checks": {
+    "version": true,
+    "worlds": true,
+    "schema": true,
+    "contextual": true,
+    "identities": true,
+    "directorSelf": true,
+    "orchestratorSelf": true,
+    "runMigration": true,
+    "utilityMeaningful": true,
+    "commitTracks": true,
+    "typeCooldown": true,
+    "recoveryDeferral": true,
+    "phaseAttentionCap": true,
+    "sampling": true,
+    "lowUtilityGate": true,
+    "a1RecoveryBoost": true,
+    "cacheBust": true,
+    "statusHook": true,
+    "metaTelemetryMigration": true,
+    "noHeavyActivation": true,
+    "noNetworkInHive": true,
+    "noStatInflation": true
+  },
+  "selftest": {
+    "startBudget": 82,
+    "utility": 1,
+    "contextPass": true,
+    "firstPermit": true,
+    "firstCommit": true,
+    "budgetSpent": 22,
+    "quietBlocksSecond": true,
+    "budgetRecovers": true,
+    "arenaAfterQuiet": true,
+    "recoveryDefersVisual": true,
+    "phaseCountTracked": true,
+    "typeCooldownExpires": true,
+    "sampling": {
+      "full": 1,
+      "balanced": 1.18,
+      "recovery": 1.45,
+      "ordered": true
+    },
+    "bounded": true,
+    "pass": true
+  }
+}

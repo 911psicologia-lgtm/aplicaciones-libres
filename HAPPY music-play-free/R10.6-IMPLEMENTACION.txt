@@ -1,0 +1,12 @@
+MUSIC PLAY · HAPPY — R10.6 LIBRARY DISCOVERY
+
+Cambios:
+- Inicio vivo con Álbumes para ti, Ritmos y Artistas.
+- Las colecciones de Ritmo y Artista son automáticas y no crean playlists permanentes.
+- Cada colección abre sus canciones y permite Play / Aleatorio.
+- Ritmos se construye a partir de metadatos, álbum/carpeta/título y nombres de playlists cuando contienen categorías reconocibles.
+- Artistas se agrupan desde metadatos disponibles.
+- Álbumes para ti se ordena usando señales locales: favoritos, escuchas válidas, completadas, repeticiones y recencia.
+- El antiguo chulo verde de la cabecera fue sustituido, cuando la PWA está instalada, por ⛶ Pantalla completa.
+- La información PWA continúa dentro del menú ⋯.
+- No se eliminan playlists ni se guardan nuevas listas por estas colecciones emergentes.

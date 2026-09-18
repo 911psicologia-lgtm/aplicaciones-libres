@@ -1,0 +1,24 @@
+AUTOAUDIT — v2.15.26
+
+Base canónica: v2.15.25 ADAPTIVE_HIVE_FEINT_BRANCHING.
+Archivos heredados: 819.
+Archivos heredados idénticos: 816.
+Archivos heredados modificados: 3.
+  - index.html
+  - js/game.js
+  - sw.js
+Archivos heredados perdidos: 0.
+Assets heredados: 551 idénticos / 0 modificados / 0 perdidos.
+Mobile Combat Ergonomics: bloque fuente idéntico a v2.15.25.
+
+Orchestrator:
+- No muta HP/maxHP.
+- No muta daño/contacto.
+- No genera proyectiles.
+- No realiza llamadas de red.
+- Presupuesto acotado 0–100.
+- Quiet windows y repeat fatigue activos.
+- Sampling ligado a Performance Governor.
+
+Limitación de validación:
+El navegador automatizado del entorno bloqueó navegación tanto a localhost como a file:// por política administrativa. No se declara prueba gráfica automatizada ni prueba física en dispositivo real.

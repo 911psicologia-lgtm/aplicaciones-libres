@@ -1,0 +1,117 @@
+{
+  "pass": true,
+  "passed": 22,
+  "total": 22,
+  "tests": [
+    {
+      "name": "start_budget",
+      "pass": true,
+      "detail": "82"
+    },
+    {
+      "name": "signature_permit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "signature_commit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "signature_cost",
+      "pass": true,
+      "detail": "60"
+    },
+    {
+      "name": "major_quiet_window",
+      "pass": true,
+      "detail": "quiet_window"
+    },
+    {
+      "name": "budget_recovers",
+      "pass": true,
+      "detail": "76.5"
+    },
+    {
+      "name": "quiet_expires",
+      "pass": true,
+      "detail": "0"
+    },
+    {
+      "name": "arena_after_quiet",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "arena_commit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "arena_cost",
+      "pass": true,
+      "detail": "52.5"
+    },
+    {
+      "name": "counter1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "counter2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "repeat_fatigue",
+      "pass": true,
+      "detail": "repeat_fatigue"
+    },
+    {
+      "name": "budget_denial",
+      "pass": true,
+      "detail": "salience_budget"
+    },
+    {
+      "name": "nested_branch_ignores_parent_quiet",
+      "pass": true,
+      "detail": "eligible"
+    },
+    {
+      "name": "nested_branch_commit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "budget_capped",
+      "pass": true,
+      "detail": "100"
+    },
+    {
+      "name": "sample_full",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "name": "sample_balanced",
+      "pass": true,
+      "detail": "1.15"
+    },
+    {
+      "name": "sample_recovery",
+      "pass": true,
+      "detail": "1.35"
+    },
+    {
+      "name": "sampling_order",
+      "pass": true,
+      "detail": "1/1.15/1.35"
+    },
+    {
+      "name": "phase_transition_blocks_major",
+      "pass": true,
+      "detail": "phase_transition"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+SWARM//RIFT — Insecta Siege
+BUILD MANIFEST v2.15.29
+Build: ADAPTIVE HIVE RHYTHM FORECASTING
+
+Base canonical build: v2.15.28 ADAPTIVE HIVE STABILITY COORDINATION
+Inherited files: 859
+Inherited identical: 856
+Inherited modified intentionally: 3 (index.html, js/game.js, sw.js)
+Inherited missing: 0
+New v2.15.29 documentation/audit files before CONTENT_SHA256: 12
+Expected final files including CONTENT_SHA256: 872
+
+Core changes:
+- Phase rhythm forecast: ENTRY / BUILD / CLIMAX / EXIT_RISK.
+- Long intervention deferral when a phase transition is imminent.
+- Signature Priority remains available near phase exit for genuine signature debt.
+- Cross-family fatigue across SPECTACLE / SPATIAL / ADAPTIVE / SEQUENCE.
+- Family fatigue decay with partial cross-phase carry.
+- EMA-smoothed contextual utility.
+- 250 ms context cache to reduce duplicate spatial/experience calculations.
+- Same-type reservation coalescing.
+- Telemetry schema 11 and explicit v2.15.28 migration.
+
+Preserved constraints:
+- 20 worlds / 20 bosses.
+- No HP inflation.
+- No damage/cadence/projectile-density boost.
+- No player build/power/rank mutation.
+- Reactive Armor / Symbiotic Assist / RIFT Disruption / RIFT Rebirth / extra soft gates remain inactive.
+- Mobile Combat Ergonomics and direct-touch input blocks unchanged.
+- PWA/offline and all inherited assets preserved.
+
+Validation references:
+- FEATURE_TEST_v2.15.29.json
+- RHYTHM_FORECAST_UNIT_TEST_v2.15.29.json
+- VALIDACION_v2.15.29.txt
+- AUTOAUDIT_v2.15.29.txt
+- NODE_CHECK_v2.15.29.txt
+- PWA_AUDIT_v2.15.29.json
+- HTTP_SMOKE_v2.15.29.json
+- PRESERVATION_AUDIT_v2.15.29.json
+- MOBILE_ERGONOMICS_TEST_v2.15.29.json
+
+Physical-device prolonged play/balance session: not performed and not claimed.

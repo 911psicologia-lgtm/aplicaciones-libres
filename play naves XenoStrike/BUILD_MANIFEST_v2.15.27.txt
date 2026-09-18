@@ -1,0 +1,42 @@
+SWARM//RIFT — BUILD MANIFEST
+Version: 2.15.27
+Build: ADAPTIVE_HIVE_CONTEXTUAL_ORCHESTRATION
+Base canónica: v2.15.26 ADAPTIVE_HIVE_INTERVENTION_ORCHESTRATOR
+
+Core modified inherited files:
+- js/game.js
+- index.html
+- sw.js
+
+Principal new runtime contracts:
+- Context Utility Gate
+- Phase Attention Budget
+- Type-specific cooldowns
+- Performance-aware intervention cost
+- Graceful RECOVERY deferrals
+- A1 attention-budget recovery boost
+- Adaptive sampling FULL/BALANCED/RECOVERY
+- Telemetry schema 9 local-only
+
+Preserved:
+- 20 worlds / 20 bosses
+- Chapter I 1–10 / Chapter II 11–20
+- existing enemies, bosses, powers, combos, hangar and progression
+- Micro-Swarm, RIFT ALLY, Last Chance
+- Boss Rush / Grand Boss Rush / Commander Convergence / CHASE
+- Tactical Identity / Arena Morphology / Counter-Evolution / Coevolution Sequences / Feint Branching
+- PWA/offline / responsive / Mobile Combat Ergonomics
+- Device Profiler / Performance Governor / Jank-Aware Frame Pacer / Asset Residency Streamer / Audio Budget Governor
+
+Validation:
+- Feature Test: 22/22 PASS
+- Mobile profiles: 5/5 PASS
+- PWA resources: 560/560 present
+- HTTP smoke: 10/10 PASS
+- Assets: 551/551 identical to v2.15.26
+- Inherited files: 830/833 identical; 3 intended modifications; 0 missing
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+Final projected file count inside build root: 848
+CONTENT_SHA256 hashes every file except CONTENT_SHA256_v2.15.27.txt itself.

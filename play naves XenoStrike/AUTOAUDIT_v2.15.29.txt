@@ -1,0 +1,15 @@
+SWARM//RIFT v2.15.29 AUTOAUDIT
+
+Inherited files: 859
+Inherited identical: 856
+Inherited changed intentionally: index.html, sw.js, js/game.js
+Inherited missing: 0
+Inherited assets compared: 551
+Inherited assets changed: 0
+PWA resources present: 560/560
+Targeted Rhythm Forecast tests: 13/13 PASS
+Feature/structural checks: 42/42 PASS
+HTTP smoke: 10/10 HTTP 200
+Node syntax checks: PASS
+Adaptive block external network APIs: none detected
+Physical-device prolonged balance session: NOT PERFORMED / NOT CLAIMED

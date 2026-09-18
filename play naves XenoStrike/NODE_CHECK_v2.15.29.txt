@@ -1,0 +1,2 @@
+node --check js/game.js: PASS
+node --check sw.js: PASS

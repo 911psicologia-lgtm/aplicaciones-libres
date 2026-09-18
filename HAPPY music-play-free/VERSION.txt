@@ -1,0 +1,42 @@
+MUSIC PLAY · HAPPY — R10.23 (2026-09-18)
+
+CORRECCIÓN · MicroTicker siempre vivo
+1. EQ SIEMPRE animado — nunca está completamente muerto:
+   · playing → animación completa (6 keyframes, .7-1.1s, gradient accent)
+   · paused → heartbeat suave (2s, barras al 40-55%, opacity .5-.7)
+   · idle → pulse muy lento (3s, barras al 20-30%, casi imperceptible)
+2. La animación se reinicia correctamente con force reflow al cambiar estado.
+3. El ticker se siente integrado: a ratos tiene movimiento fuerte (playing),
+   a ratos se aquieta con un latido suave (paused), y ante un evento vuelve
+   a cobrar vida.
+
+CORRECCIÓN · State sync (Radio Live vs canción local)
+1. checkStateChanges() cada 1.2s detecta:
+   · Cambio de Radio Live (activar/desactivar) → Queue.forceRefresh() +
+     collectFromSources() inmediato. Antes se quedaba mostrando la canción
+     local aunque la radio ya estuviera sonando.
+   · Cambio de canción → refresh inmediato.
+   · Cambio de engine → refresh inmediato.
+   · Cambio play/pause → emite evento ▶ REANUDACIÓN / ⏸ PAUSA.
+2. Sources.local() y Sources.youtube() ahora verifican
+   window.MP_LIVE_RADIO?.isActive?.() → si la radio está activa, no muestran
+   info local/youtube. Sources.radio() tiene prioridad 25 (mayor que local 30).
+
+CORRECCIÓN · Ticker más ancho
+1. brand-mark (símbolo ♫ izquierdo) reducido de 48×48px → 36×36px.
+2. icon-status-btn (★ ⧉ ⋯) reducido de 42×42px → 32×32px.
+3. topbar gap reducido de 12px → 8px.
+4. max-width del ticker aumentado: calc(100vw - 170px) (antes 200px).
+5. En móvil: brand-mark 32×32, iconos 30×30, ticker calc(100vw - 145px).
+6. Resultado: el ticker tiene ~30% más espacio para mostrar información.
+
+COMPATIBILIDAD
+- applicationId com.happy.musicplay; versionCode 24; versionName 10.23.
+- Misma firma SHA-256: actualización directa compatible.
+- IndexedDB v7; Recovery v6 sin cambios.
+- Requiere Android 7.0+ (minSdk 24).
+
+NO SE MODIFICARON
+- Reproductor local, playlists, favoritos, Radio Live, historial, buscador,
+  YouTube, mini reproductor, pantalla flotante, navegación, almacenamiento.
+  El ticker es una capa aditiva.

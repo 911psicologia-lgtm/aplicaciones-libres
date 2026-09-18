@@ -1,0 +1,18 @@
+{
+  "version": "2.15.30",
+  "pass": 10,
+  "total": 10,
+  "paths": [
+    "index.html",
+    "js/game.js",
+    "css/game.css",
+    "manifest.json",
+    "sw.js",
+    "assets/player_ship.webp",
+    "assets/bg_rust_canyon.webp",
+    "assets_ch2/bosses/scarab_imperator/meta.json",
+    "assets_ch2/enemies/w20/minor.png",
+    "ASSET_MANIFEST_CH2_ZAI.json"
+  ],
+  "status": "PASS"
+}

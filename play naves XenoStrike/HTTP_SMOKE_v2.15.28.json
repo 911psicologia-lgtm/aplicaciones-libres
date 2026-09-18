@@ -1,0 +1,18 @@
+{
+  "version": "2.15.28",
+  "requests": 10,
+  "http_200": 10,
+  "pass": true,
+  "targets": [
+    "/",
+    "/index.html",
+    "/js/game.js",
+    "/css/game.css",
+    "/manifest.json",
+    "/sw.js",
+    "/assets/player_ship.webp",
+    "/assets/icon.svg",
+    "/assets_ch2/backgrounds/w11_boss.webp",
+    "/assets_ch2/bosses/apis_imperia/base.png"
+  ]
+}

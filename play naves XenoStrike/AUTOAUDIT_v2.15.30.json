@@ -1,0 +1,23 @@
+{
+  "version": "2.15.30",
+  "base": "2.15.29",
+  "feature": "ADAPTIVE_HIVE_PACING_ECOLOGY",
+  "inherited_files": 872,
+  "inherited_identical": 869,
+  "inherited_changed": ["js/game.js", "index.html", "sw.js"],
+  "inherited_missing": 0,
+  "assets_inherited": 551,
+  "assets_changed": 0,
+  "pwa_declared": 560,
+  "pwa_missing": 0,
+  "directed_tests": {"pass": 10, "total": 10},
+  "http_smoke": {"pass": 10, "total": 10},
+  "hard_countermeasures_activated": false,
+  "notes": [
+    "Duration-aware phase headroom added.",
+    "Predictive family fatigue added.",
+    "Dynamic rhythm spacing added.",
+    "Orchestrator maintenance batched at approximately 10 Hz.",
+    "No inherited asset was modified."
+  ]
+}

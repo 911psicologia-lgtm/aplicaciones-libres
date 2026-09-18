@@ -1,0 +1,10 @@
+/: 200 PASS
+index.html: 200 PASS
+js/game.js: 200 PASS
+sw.js: 200 PASS
+manifest.json: 200 PASS
+css/game.css: 200 PASS
+assets/icon.svg: 200 PASS
+assets/player_ship.webp: 200 PASS
+assets/bg_rust_canyon.webp: 200 PASS
+assets_ch2/bosses/scarab_imperator/meta.json: 200 PASS

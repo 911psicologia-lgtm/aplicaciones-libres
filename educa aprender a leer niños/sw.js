@@ -1,4 +1,4 @@
-const CACHE='emilia-bosque-v1.7.0-lectura-autonoma-escritura-responsive';
+const CACHE='emilia-bosque-v1.10.0-cuaderno-escritura-adaptativa';
 const ASSETS=[
   "./",
   "./assets/animals/arana.webp",

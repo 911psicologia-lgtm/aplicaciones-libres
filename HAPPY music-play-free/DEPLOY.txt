@@ -1,0 +1,9 @@
+MUSIC PLAY · HAPPY — R10.5
+
+1. Reemplaza completamente la versión anterior por TODO el contenido de este ZIP.
+2. No subas una carpeta dist adicional: index.html debe quedar en la raíz publicada de MUSIC PLAY.
+3. Publica por HTTPS.
+4. La primera apertura puede actualizar el Service Worker; si una versión antigua permanece, pulsa el icono ↻ o recarga una vez.
+5. En Android, las carpetas nuevas se usan solo como fuente de importación. MUSIC PLAY copia progresivamente los audios a su almacenamiento privado (OPFS), de modo que después no depende del permiso externo para reproducirlos.
+6. Para bibliotecas antiguas que aún pidan permisos, usa “Importar carpeta a MUSIC PLAY” una vez para migrarlas.
+7. El helper opcional de YouTube permanece en cloudflare/playlist-api-worker.mjs.

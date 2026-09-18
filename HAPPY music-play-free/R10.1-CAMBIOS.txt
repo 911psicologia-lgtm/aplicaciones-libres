@@ -1,0 +1,12 @@
+R10.1 — AJUSTES IMPLEMENTADOS
+
+1. Captura temprana de beforeinstallprompt antes de abrir IndexedDB/biblioteca.
+2. Diagnóstico PWA visible: HTTPS, manifest, Service Worker, control de página y prompt.
+3. El diálogo de instalación nunca presenta una acción inexistente: muestra Instalar ahora, Abrir en Chrome o Revisar instalación según contexto.
+4. Añadir canciones a playlist incluye Buscar + Biblioteca + Archivo + Carpeta + Enlace.
+5. Importar archivo/carpeta desde una playlist recuerda el destino y ofrece añadir todo el lote con un toque.
+6. Tras cualquier carga aparece Añadir a playlist existente.
+7. Operación por lote para evitar guardar una playlist cientos de veces.
+8. Acciones rápidas de playlist incluyen Añadir canciones, Archivo y Carpeta.
+9. Listado del selector se pagina visualmente en bloques de 80 para bibliotecas grandes.
+10. Service Worker endurecido para ignorar esquemas ajenos al sitio y devolver siempre una Response en fallos de red.

@@ -6,20 +6,20 @@
   function uid(){return 'kid_'+Math.random().toString(36).slice(2,9)+'_'+Date.now().toString(36);}
   function base(){
     return {
-      version:7.5,
+      version:7.6,
       profile:{id:'',name:'',mascot:'lumi',remember:true},
       mastery:{},history:[],completedMissions:[],achievements:[],seeds:0,treasureStars:0,sessions:0,
       lastMission:'forest_vowels',lastStory:'',activeSession:null,
       settings:{screenLimit:15,voiceRate:1,listeningPace:'normal',repeatShortAudio:false,sound:true,reducedMotion:false},
-      growth:{stage:0,plants:0,fireflies:0},readingSupport:{version:1,words:{},pages:{},skills:{},stories:{}},legacy:null,createdAt:Date.now(),updatedAt:Date.now()
+      growth:{stage:0,plants:0,fireflies:0},readingSupport:{version:1,words:{},pages:{},skills:{},stories:{}},notebook:{version:1,entries:[]},legacy:null,createdAt:Date.now(),updatedAt:Date.now()
     };
   }
   function mergeState(raw){
     const b=base(),s=Object.assign({},b,raw||{}),priorVersion=Number((raw&&raw.version)||0);
-    s.version=7.5;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
+    s.version=7.6;s.profile=Object.assign({},b.profile,(raw&&raw.profile)||{});
     s.mastery=(raw&&raw.mastery)||{};s.history=Array.isArray(raw&&raw.history)?raw.history:[];
     s.completedMissions=Array.isArray(raw&&raw.completedMissions)?raw.completedMissions:[];s.achievements=Array.isArray(raw&&raw.achievements)?raw.achievements:[];
-    s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});s.readingSupport=Object.assign({},b.readingSupport,(raw&&raw.readingSupport)||{});s.readingSupport.words=Object.assign({},b.readingSupport.words,((raw&&raw.readingSupport)||{}).words||{});s.readingSupport.pages=Object.assign({},b.readingSupport.pages,((raw&&raw.readingSupport)||{}).pages||{});s.readingSupport.skills=Object.assign({},b.readingSupport.skills,((raw&&raw.readingSupport)||{}).skills||{});s.readingSupport.stories=Object.assign({},b.readingSupport.stories,((raw&&raw.readingSupport)||{}).stories||{});
+    s.settings=Object.assign({},b.settings,(raw&&raw.settings)||{});s.growth=Object.assign({},b.growth,(raw&&raw.growth)||{});s.readingSupport=Object.assign({},b.readingSupport,(raw&&raw.readingSupport)||{});s.notebook=Object.assign({},b.notebook,(raw&&raw.notebook)||{});s.notebook.entries=Array.isArray(((raw&&raw.notebook)||{}).entries)?((raw&&raw.notebook)||{}).entries.slice(-18):[];s.readingSupport.words=Object.assign({},b.readingSupport.words,((raw&&raw.readingSupport)||{}).words||{});s.readingSupport.pages=Object.assign({},b.readingSupport.pages,((raw&&raw.readingSupport)||{}).pages||{});s.readingSupport.skills=Object.assign({},b.readingSupport.skills,((raw&&raw.readingSupport)||{}).skills||{});s.readingSupport.stories=Object.assign({},b.readingSupport.stories,((raw&&raw.readingSupport)||{}).stories||{});
     if(priorVersion<3.2&&s.settings.repeatShortAudio===true)s.settings.repeatShortAudio=false;
     if(priorVersion<7.5){
       const oldPace=String(s.settings.listeningPace||'');
@@ -70,5 +70,16 @@
   function logoutToPicker(){saveToRegistry(state);state=base();state.profile.remember=true;try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}return state;}
   function saveActiveSession(sess){state.activeSession=sess?JSON.parse(JSON.stringify(sess)):null;save();}
   function clearActiveSession(){state.activeSession=null;save();}
-  window.EmiliaStore={get,setState,patch,save,reset,resetProgress,event,exportJSON,importJSON,listProfiles,selectProfile,beginProfile,logoutToPicker,saveActiveSession,clearActiveSession,KEY,REGISTRY};
+  function addNotebookEntry(entry){
+    if(!entry||!entry.text)return null;
+    state.notebook=state.notebook&&typeof state.notebook==='object'?state.notebook:{version:1,entries:[]};
+    const clean=JSON.parse(JSON.stringify(entry));clean.id=clean.id||('note_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6));clean.createdAt=clean.createdAt||Date.now();
+    const key=String(clean.kind||'word')+'|'+String(clean.text||'').toLocaleLowerCase('es');
+    let entries=Array.isArray(state.notebook.entries)?state.notebook.entries.slice():[];
+    const same=entries.filter(x=>(String(x.kind||'word')+'|'+String(x.text||'').toLocaleLowerCase('es'))===key);
+    if(same.length>=2){const oldest=same.sort((a,b)=>(a.createdAt||0)-(b.createdAt||0))[0];entries=entries.filter(x=>x.id!==oldest.id);}
+    entries.push(clean);state.notebook.entries=entries.slice(-18);save();return clean;
+  }
+  function notebookEntries(){return ((state.notebook&&state.notebook.entries)||[]).slice();}
+  window.EmiliaStore={get,setState,patch,save,reset,resetProgress,event,exportJSON,importJSON,listProfiles,selectProfile,beginProfile,logoutToPicker,saveActiveSession,clearActiveSession,addNotebookEntry,notebookEntries,KEY,REGISTRY};
 })();

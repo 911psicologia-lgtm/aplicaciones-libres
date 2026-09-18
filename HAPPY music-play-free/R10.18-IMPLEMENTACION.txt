@@ -1,0 +1,130 @@
+═══════════════════════════════════════════════════════════════
+MUSIC PLAY · HAPPY — R10.18 · IMPLEMENTACIÓN
+Fecha: 2026-09-17 · Build: 2026.09.17-r10.18-native-boost
+═══════════════════════════════════════════════════════════════
+
+OBJETIVO
+Dos correcciones solicitadas tras R10.17:
+  1. Llevar HAPPY BOOST al pipeline nativo de ExoPlayer (Radio Live + YouTube
+     en segundo plano) vía android.media.audiofx — el BOOST JS ya funcionaba
+     pero solo tocaba el WebView.
+  2. La pantalla reducida flotante (⧉) dejaba la pantalla de atrás en negro;
+     debería ser un overlay del mismo tamaño que el panel y dejar ver la app.
+
+───────────────────────────────────────────────────────────────
+1. HAPPY BOOST NATIVO — android.media.audiofx sobre ExoPlayer
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+En R10.17, HAPPY BOOST usaba Web Audio API para procesar el audio que pasa
+por el WebView (biblioteca local, YouTube nativo en WebView, enlaces). Pero
+Radio Live y YouTube delegado al servicio nativo (ytSwapToAudioServiceForBackground)
+se reproducen en ExoPlayer dentro de FloatingPlayerService — fuera del
+WebView, sin acceso al grafo Web Audio. El BOOST no les llegaba.
+
+SOLUCIÓN
+Modificaciones Java (recompiladas con Gradle + Android SDK):
+
+NativeRadioEngine.java:
+  · Imports: android.media.audiofx.{BassBoost, Equalizer, LoudnessEnhancer, Virtualizer}
+  · Nuevos campos: equalizer, bassBoost, loudnessEnhancer, virtualizer,
+    audioSessionId, boostEnabled, effectsAttached.
+  · Listener onAudioSessionIdChanged(sessionId) → attachAudioEffects().
+  · attachAudioEffects(): crea los 4 efectos sobre el audioSessionId de
+    ExoPlayer. Maneja RuntimeException ("effect not supported" en algunos
+    OEM) con try/catch por efecto, así si falta uno los demás siguen.
+  · configureEqualizerBoost(eq): curva de 5 bandas que mapea la curva JS
+    de 8 bandas:
+      · 60 Hz   → +12 dB (sub-bass)
+      · 230 Hz  → +8 dB  (bass)
+      · 910 Hz  → +3 dB  (low-mid, suave)
+      · 3600 Hz → +6 dB  (presence)
+      · 14000 Hz→ +9 dB  (air)
+    Equalizer usa mB (mili-Bel = décimas de dB), por eso los valores son
+    1200/800/300/600/900.
+  · BassBoost: strength 800/1000 (80% — fuerte sin saturar).
+  · LoudnessEnhancer: targetGain 600 mB = +6 dB (con limitador interno).
+  · Virtualizer: strength 550/1000 (~55% — ensanchador estéreo Mid/Side).
+  · setBoostEnabled(boolean): activa/desactiva los 4 efectos a la vez.
+  · release(): libera los efectos antes que el player (efectos colgando de
+    un audio session id liberado causan warnings).
+
+NativeBridge.java:
+  · Nuevo método @JavascriptInterface setBoost(boolean) → FloatingPlayerService.handleBoost().
+  · Nuevo método @JavascriptInterface isBoostEnabled() → FloatingPlayerService.isBoostEnabled().
+  · appVersion() actualizado a "R10.18".
+
+FloatingPlayerService.java:
+  · Nuevos campos estáticos: pendingBoostEnabled (persiste el estado antes
+    de que se cree el servicio).
+  · Nuevos métodos estáticos handleBoost(boolean) e isBoostEnabled() que
+    reenvían al NativeRadioEngine actual.
+  · onCreate(): tras crear NativeRadioEngine, aplica pendingBoostEnabled
+    para que el estado BOOST se mantenga entre reinicios del servicio.
+
+app.js:
+  · setSoundMode(mode): si IS_NATIVE_APK y HappyNative.setBoost existe,
+    llama window.HappyNative.setBoost(mode === 'boost').
+  · init(): al iniciar la app, sincroniza el estado BOOST nativo con el
+    preferido (state.soundMode === 'boost').
+
+EFECTO
+Ahora ★ controla AMBOS pipelines simultáneamente:
+  · WebView (Web Audio API): biblioteca local + YouTube video nativo + enlaces.
+  · ExoPlayer (android.media.audiofx): Radio Live + YouTube cuando se delega
+    al servicio nativo al bloquear la pantalla.
+
+───────────────────────────────────────────────────────────────
+2. PANTALLA REDUCIDA FLOTANTE — OVERLAY REAL, NO PANTALLA NEGRA
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+El CSS original (.mini-float-on) ocultaba toda la UI de la app con
+`display:none!important` en `.screen-wrap, .bottom-nav, .mini-player, .topbar,
+.remote-dock` y forzaba `background:var(--bg)` (negro) en body. El resultado:
+al pulsar ⧉ se veía solo el panel flotante sobre fondo negro, sin la app
+detrás.
+
+SOLUCIÓN
+styles.css:
+  · Eliminada la regla que oculta .screen-wrap, .bottom-nav, etc. → ahora
+    usan `display:revert!important` (mantienen su visualización normal).
+  · Eliminada la regla que pinta body de negro → `background:revert`.
+  · Añadido un velo sutil (rgba(0,0,0,.12)) como `::after` en html.mini-float-on:
+      - z-index: 95 (por debajo del panel que es z-index: 96)
+      - pointer-events: none → el usuario puede seguir interactuando con la
+        app debajo del panel.
+  · El panel flotante (.float-mini) sigue siendo z-index: 96, arrastrable,
+    con backdrop-filter:blur(20px) para legibilidad.
+
+RESULTADO
+Al pulsar ⧉:
+  · El panel flotante aparece encima de la UI normal (inicio/biblioteca/radio).
+  · Se ve la app detrás a través del velo sutil.
+  · Se puede interactuar con la app debajo (scroll, taps) sin cerrar el panel.
+  · El panel sigue siendo arrastrable por la barra superior.
+  · ⤢ vuelve a la app completa; × cierra la pantalla reducida.
+
+───────────────────────────────────────────────────────────────
+COMPILACIÓN
+───────────────────────────────────────────────────────────────
+Para recompilar el código Java (no se hacía desde R10.15) se instaló:
+  · Android SDK command-line tools (platforms;android-34, build-tools;34.0.0).
+  · Gradle 8.7.
+  · OpenJDK 21 JDK (con jlink, necesario para AGP 8.4.1).
+Comando: gradle :app:assembleRelease → app-release.apk → firma con
+uber-apk-signer + keystore happy-release.keystore (mismo certificado que
+R10.16/R10.17 → actualización directa).
+
+───────────────────────────────────────────────────────────────
+COMPATIBILIDAD Y LÍMITES
+───────────────────────────────────────────────────────────────
+  · versionCode 19, versionName 10.18, misma firma SHA-256 → actualización directa.
+  · IndexedDB v7; Recovery v6 sin cambios.
+  · minSdk 24 (Android 7.0+). LoudnessEnhancer requiere API 19+ (siempre satisfecho).
+  · Algunos OEM no exponen todos los efectos; el código captura fallos por
+    efecto y continúa con los que sí estén disponibles.
+  · HAPPY BOOST (nativo y Web) NO reconstruye calidad perdida — realza
+    graves, presencia, aire y sube el loudness percibido sin clip.
+
+═══════════════════════════════════════════════════════════════

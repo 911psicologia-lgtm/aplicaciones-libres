@@ -1,0 +1,22 @@
+{
+  "version": "2.15.29",
+  "name": "RHYTHM FORECAST TARGETED",
+  "passed": 13,
+  "total": 13,
+  "pass": true,
+  "checks": {
+    "entryRhythm": true,
+    "exitRisk": true,
+    "signatureAllowedAtExit": true,
+    "coalesced": true,
+    "familyGate": true,
+    "nestedBranchBypassesFamily": true,
+    "familyDecay": true,
+    "a1FasterDecay": true,
+    "cacheStable": true,
+    "cacheRefresh": true,
+    "smoothedUtility": true,
+    "phaseCarry": true,
+    "noHardStats": true
+  }
+}

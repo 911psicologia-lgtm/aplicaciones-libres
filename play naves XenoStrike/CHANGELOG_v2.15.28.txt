@@ -1,0 +1,13 @@
+SWARM//RIFT v2.15.28 — ADAPTIVE HIVE STABILITY COORDINATION
+
+- Predictive intervention reservations: visible interventions reserve a short tactical window before execution.
+- Conflict matrix prevents Arena Morphology, Signature Priority and Counter-Evolution layers from colliding prospectively.
+- FEINT_BRANCH remains explicitly compatible with its parent MICRO_SEQUENCE.
+- Adaptive pressure envelope: intervention pressure accumulates, decays over time and gates additional major interventions after peaks.
+- Dynamic breathing: pressure lengthens quiet windows proportionally instead of adding damage or HP.
+- Phase-aware salience policy: phase 2 is intentionally lighter (4 interventions / 1 major / 62 salience); phase 3 retains the full envelope (5 / 2 / 82).
+- Phase transitions clear obsolete reservations, reduce accumulated pressure and force a short tactical recovery window.
+- Counter-Evolution reservations use their real trial/reuse/microsequence duration.
+- Telemetry schema 10 adds pressure, reservations, phase spend, conflict deferrals and salience denials.
+- Save/meta/telemetry migration updated from v2.15.27.
+- No HP, damage, cadence, projectile-density, rank, power or build inflation added.

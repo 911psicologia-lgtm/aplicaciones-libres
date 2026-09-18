@@ -1,0 +1,7 @@
+PWA AUDIT v2.15.26
+Cache: swarm-rift-v2.15.26
+Recursos declarados en ASSETS: 560
+Recursos presentes: 560
+Recursos faltantes: 0
+index cache bust: game.js?v=21526 / game.css?v=21526
+node --check sw.js: PASS

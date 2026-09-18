@@ -1,0 +1,27 @@
+AUTOAUDIT v2.15.27 — ADAPTIVE HIVE CONTEXTUAL ORCHESTRATION
+
+[PASS] No reconstrucción del proyecto.
+[PASS] No reducción de mundos/bosses/sistemas.
+[PASS] Solo 3 archivos heredados modificados.
+[PASS] 551 assets preservados byte a byte.
+[PASS] 560 recursos PWA presentes.
+[PASS] Migración explícita desde v2.15.26 para meta/run/telemetría.
+[PASS] Telemetría schema 9 local-only.
+[PASS] Context Utility Gate implementado.
+[PASS] Phase Attention Budget implementado.
+[PASS] Cooldowns por familia implementados.
+[PASS] Graceful degradation ligado a Performance Governor.
+[PASS] A1 recupera presupuesto sin intervenir.
+[PASS] Reactive Armor permanece Shadow.
+[PASS] Symbiotic Assist permanece Shadow.
+[PASS] RIFT Disruption permanece Shadow.
+[PASS] RIFT Rebirth permanece Shadow.
+[PASS] No HP inflation.
+[PASS] No damage boost.
+[PASS] No cadence boost.
+[PASS] No extra projectile density.
+[PASS] No build mutation.
+[PASS] Feature tests 22/22.
+[PASS] Mobile ergonomics PASS.
+[PASS] HTTP smoke 10/10.
+[PASS] node --check game.js / sw.js.

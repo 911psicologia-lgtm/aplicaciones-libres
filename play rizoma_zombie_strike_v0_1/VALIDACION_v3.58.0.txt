@@ -1,0 +1,24 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.58.0
+
+VERSIÓN: v3.58.0 — Guardian Tactical Arbiter + Recovery Rhythm
+
+VALIDACIONES REALIZADAS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json: JSON válido
+- Versionado index/game/manifest/SW: 3.58.0
+- Assets comparados contra v3.57.0: 842/842 presentes, 0 modificados, 0 faltantes
+- Referencias literales de assets detectadas por validador actual: 792, 0 faltantes
+- IDs HTML: 230, 0 duplicados
+- Patrones base bossPattern/boss2Pattern/boss2Special/triggerBossSpecial/updateBossMotion preservados
+- spawnBoss/resurrectBoss modificados únicamente para inicializar/resetear el nuevo estado táctico
+
+CAMBIOS A PROBAR MANUALMENTE
+1. Provocar Cerco + Firma + Enlace en fases 2–4 y comprobar que no arranquen simultáneamente.
+2. Ejecutar dos Contravectores y comprobar una recuperación legible tras Ruptura de Patrón.
+3. Llegar a fase 4 / Último Asalto con otra mecánica pendiente y verificar que Último Asalto tenga prioridad sin borrar proyectiles existentes.
+4. En móvil, forzar alta densidad y comprobar que el árbitro retrase nuevas capas en vez de limpiar la pantalla.
+5. Verificar que Anclas de Fase aparezcan después de la ruptura y no encima de ella.
+
+LIMITACIÓN
+No se afirma prueba física Android/iOS ni campaña completa M1–M20 jugada en este entorno.

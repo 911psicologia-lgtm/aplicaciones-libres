@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "inherited_files": 833,
+  "identical": 830,
+  "changed": [
+    "index.html",
+    "js/game.js",
+    "sw.js"
+  ],
+  "missing": [],
+  "added_count": 11,
+  "added": [
+    "ADAPTIVE_HIVE_CONTEXTUAL_ORCHESTRATION_v2.15.27.md",
+    "ASSET_AUDIT_v2.15.27.json",
+    "AUTOAUDIT_v2.15.27.txt",
+    "CHANGELOG_v2.15.27.txt",
+    "FEATURE_TEST_v2.15.27.json",
+    "HTTP_SMOKE_v2.15.27.json",
+    "MOBILE_ERGONOMICS_TEST_v2.15.27.json",
+    "PRESERVATION_AUDIT_v2.15.27.json",
+    "PWA_AUDIT_v2.15.27.json",
+    "VALIDACION_v2.15.27.txt",
+    "tools/feature_test_v21527.js"
+  ]
+}

@@ -1,0 +1,12 @@
+SWARM//RIFT v2.15.29 — ADAPTIVE HIVE RHYTHM FORECASTING
+
+- Adds ENTRY / BUILD / CLIMAX / EXIT_RISK phase rhythm classification.
+- Defers major interventions at phase entry and long adaptive sequences near an imminent phase transition.
+- Signature Priority remains eligible near phase exit so genuine signature debt is not suppressed.
+- Adds cross-family fatigue for SPECTACLE / SPATIAL / ADAPTIVE / SEQUENCE intervention families.
+- Family fatigue decays continuously, faster in A1, and carries partially across phase transitions.
+- Adds EMA-smoothed contextual utility (alpha 0.42) to reduce decision jitter.
+- Adds 250 ms context cache to avoid duplicate spatial/experience computation inside permit/commit chains.
+- Coalesces duplicate same-type reservations instead of growing the reservation queue.
+- Telemetry schema 11 and explicit v2.15.28 migration.
+- No HP, damage, cadence, projectile-density, power, rank or build inflation added.

@@ -1,0 +1,24 @@
+{
+  "version": "2.15.30",
+  "base": "2.15.29",
+  "preserved_exactly": {
+    "tactical_identity_matrix": true,
+    "arena_identity_matrix": true,
+    "counter_evolution_identity_matrix": true,
+    "micro_sequence_identity_matrix": true,
+    "mobile_ergonomics_status_block": true,
+    "player_combat_bounds_block": true
+  },
+  "new_orchestrator_block": {
+    "spawns_enemy_bullets": false,
+    "spawns_enemies": false,
+    "mutates_boss_hp_or_maxHp": false
+  },
+  "migration": {
+    "meta_fallback_from_v21529": true,
+    "run_fallback_from_v21529": true,
+    "telemetry_fallback_from_v21529": true,
+    "telemetry_schema": 12
+  },
+  "status": "PASS"
+}

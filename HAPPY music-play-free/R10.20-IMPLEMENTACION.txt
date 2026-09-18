@@ -1,0 +1,181 @@
+═══════════════════════════════════════════════════════════════
+MUSIC PLAY · HAPPY — R10.20 · IMPLEMENTACIÓN
+Fecha: 2026-09-17 · Build: 2026.09.17-r10.20-float-fix
+═══════════════════════════════════════════════════════════════
+
+OBJETIVO
+Cuatro correcciones solicitadas tras R10.19:
+  1. Pantalla reducida flotante deforma la barra inferior (se ve más ancha
+     que larga, duplicada con el panel flotante).
+  2. YouTube se bloquea al salir de la app — intento definitivo.
+  3. La pantalla reducida flotante debe ser un minicuadro que queda flotante
+     siempre y se superpone a otras aplicaciones.
+  4. Agregar 20 emisoras base (10 Colombianas + 10 internacionales).
+  5. Revisar conexiones Bluetooth disponibles.
+
+───────────────────────────────────────────────────────────────
+1. PANTALLA REDUCIDA FLOTANTE — DEFORMACIÓN ELIMINADA
+───────────────────────────────────────────────────────────────
+
+PROBLEMA (confirmado con análisis visual de la captura)
+Cuando se activa ⧉, se ven DOS cosas a la vez:
+  · El panel flotante (float-mini) arriba.
+  · La barra mini-player inferior (#miniPlayer) abajo, que se ve deformada
+    (más ancha que larga, compitiendo con el panel flotante).
+
+CAUSA
+En R10.18 cambié las reglas CSS para que .mini-float-on NO ocultara la UI
+de la app debajo. Pero esto incluía .mini-player → la barra inferior seguía
+visible cuando el float-mini estaba activo, causando duplicidad.
+
+SOLUCIÓN (styles.css)
+  · .mini-float-on .mini-player { display:none!important }
+    → la barra inferior se OCULTA cuando el float-mini está activo.
+  · .mini-float-on .screen-wrap, .bottom-nav, .topbar, .remote-dock
+    siguen con display:revert → la app se ve debajo del panel flotante.
+  · .fm-controls ahora es estrictamente horizontal:
+      flex-direction:row; flex-wrap:nowrap; flex:0 0 auto en botones.
+    → los controles del panel flotante nunca se deforman.
+
+───────────────────────────────────────────────────────────────
+2. YOUTUBE EN PANTALLA BLOQUEADA — DEFINITIVO
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+ytSwapToAudioServiceForBackground() delegaba el audio al ExoPlayer nativo
+cuando se bloqueaba la pantalla, PERO requería state.ytMedia.audioUrl. Si
+la resolución inicial solo devolvió muxedUrl (video) o la URL caducó,
+no había audioUrl → fallo silencioso → audio perdido al bloquear.
+
+SOLUCIÓN DEFINITIVA (app.js)
+1. Re-resolución al bloquear:
+   ytSwapToAudioServiceForBackground() ahora verifica si media.audioUrl
+   existe. Si no, llama resolveYouTubeMedia(track.remoteId, {force:true})
+   ANTES de delegar. Si la re-resolución funciona, delega con URL fresca.
+   Si falla, cae al ytAudio del WebView (audio-only nativo) que sobrevive
+   mejor al lock screen (no necesita decoder de video).
+
+2. Refresh periódico de URL:
+   Nueva función startYtUrlRefresh() — cada 5 minutos revisa si la URL
+   del YouTube track actual tiene >25 min en caché. Si sí, re-resuelve
+   en silencio y actualiza state.ytMedia SIN interrumpir la reproducción.
+   Esto garantiza que cuando el usuario bloquee el celular, la audioUrl
+   esté fresca y el swap sea instantáneo.
+   stopYtUrlRefresh() se llama en clearRemoteStage() y stopAllEngines().
+
+LÍMITE HONESTO
+La continuidad de YouTube en pantalla bloqueada depende de que el
+resolvedor (Invidious/Piped) devuelva una audioUrl directa vigente. Si
+todas las instancias están caídas o bloqueadas, el swap al servicio
+nativo no tendrá URL que delegar y caerá al ytAudio del WebView (que
+puede pausarse al bloquear). Esto es una limitación técnica real:
+YouTube no permite background playback oficialmente fuera de YouTube
+Premium, y dependemos de resolvedores de terceros. R10.20 maximiza las
+posibilidades de éxito con re-resolución al bloquear + refresh
+periódico, pero NO puede garantizar 100% de éxito si los resolvedores
+fallan. Esta es mi limitación honesta.
+
+───────────────────────────────────────────────────────────────
+3. PANTALLA REDUCIDA FLOTANTE — OVERLAY NATIVO REAL
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+El usuario quiere "un minicuadro de reproducción que quede flotante
+siempre y se superponga a otras aplicaciones". Antes, en APK, ⧉ abría
+el overlay HTML (dentro del WebView) — que NO se superpone a otras apps.
+
+SOLUCIÓN (app.js · toggleFloatMini)
+En APK, ⧉ ahora abre SOLO la VENTANA FLOTANTE NATIVA
+(TYPE_APPLICATION_OVERLAY) creada por FloatingPlayerService.java:
+  · Se superpone a TODAS las apps, no solo al WebView.
+  · Sobrevive al bloqueo de pantalla y a salir de la app.
+  · Muestra título/artista/progreso/controles ⏮ ▶ ⏭.
+  · Arrastrable por la barra superior.
+  · Botón × cierra; botón ⤢ abre la app completa.
+  · Si no tiene permiso SYSTEM_ALERT_WINDOW, lo pide al usuario.
+
+Ya NO mostramos el overlay HTML en APK porque duplicaba el nativo y
+causaba la deformación reportada. En PWA/navegador, ⧉ sigue abriendo
+el overlay HTML dentro de la pestaña.
+
+───────────────────────────────────────────────────────────────
+4. 20 EMISORAS BASE INCORPORADAS
+───────────────────────────────────────────────────────────────
+
+SOLUCIÓN (radio.js)
+Nuevo array BUILT_IN_STATIONS con 20 emisoras:
+
+Colombia (10):
+  · Candela Cali 102.5 FM
+  · HJUT 106.9 Bogotá (clásica/jazz/cultural)
+  · Radio UNAL Bogotá 98.5 (universidad/ciencia/cultura)
+  · Radioacktiva Bogotá 97.9 (rock/alternativa)
+  · Radio Tiempo Cali 89.5 (pop/romántica)
+  · Olímpica Stereo Cali 104.5 (tropical/salsa)
+  · Bésame Cali 106.5 (romántica/baladas)
+  · LOS40 Colombia (pop/hits)
+  · La X Medellín 103.9 (electrónica/dance)
+  · Radio Planeta 96.9 (pop/hits)
+
+Internacional (10):
+  · KEXP (EE.UU. — indie/alternativa/rock)
+  · FIP (Francia — jazz/world/electrónica/chanson/soul)
+  · NTS Radio 1 (Reino Unido — experimental/electrónica/underground)
+  · Worldwide FM (Reino Unido — world/jazz/afro/electrónica)
+  · Radio Swiss Jazz (Suiza — jazz/soul/blues)
+  · WQXR 105.9 (EE.UU. — clásica)
+  · Jazz24 (EE.UU. — jazz 24h)
+  · Groove Salad — SomaFM (EE.UU. — ambient/downtempo/chill)
+  · Resonance FM (Reino Unido — arte sonoro/experimental)
+  · France Culture (Francia — ciencia/filosofía/historia/cultura)
+
+Función seedBuiltInStations():
+  · Se llama en init() después de loadStores().
+  · Solo añade emisoras que no existan ya en favoritos (no duplica).
+  · Marca builtIn:true para identificarlas.
+  · Aparecen en Radio → Favoritas.
+
+───────────────────────────────────────────────────────────────
+5. REVISIÓN BLUETOOTH / CONEXIONES
+───────────────────────────────────────────────────────────────
+
+ESTADO ACTUAL (sin cambios — ya estaba bien configurado)
+
+MediaSessionCompat (androidx.media:media:1.7.0):
+  · FLAG_HANDLES_MEDIA_BUTTONS | FLAG_HANDLES_TRANSPORT_CONTROLS
+  · Callbacks: onPlay, onPause, onSkipToNext, onSkipToPrevious
+  · Metadata: título, artista, álbum, duración → AVRCP
+  · PlaybackState: PLAYING/PAUSED + posición + velocidad
+  → soporta pantalla del auto y auriculares Bluetooth (AVRCP 1.6)
+
+ExoPlayer (androidx.media3:media3-exoplayer:1.3.1):
+  · AudioAttributes USAGE_MEDIA / AUDIO_CONTENT_TYPE_MUSIC
+  → gestiona foco de audio, ducking y salida A2DP automáticamente
+  · setHandleAudioBecomingNoisy(true) → pausa al desconectar auriculares
+  · setWakeMode(C.WAKE_MODE_NETWORK) → mantiene CPU + red
+
+VERSIONES ACTUALES
+  · compileSdk 34, targetSdk 34, minSdk 24 (Android 7.0+)
+  · androidx.media:media:1.7.0 (MediaSessionCompat)
+  · androidx.media3:media3-exoplayer:1.3.1 (ExoPlayer)
+  · androidx.core:core:1.13.1
+  · androidx.appcompat:appcompat:1.6.1
+  · androidx.webkit:webkit:1.11.0
+
+PERMISOS (AndroidManifest.xml)
+  · INTERNET, ACCESS_NETWORK_STATE
+  · FOREGROUND_SERVICE, FOREGROUND_SERVICE_MEDIA_PLAYBACK
+  · WAKE_LOCK (mantener CPU durante playback)
+  · POST_NOTIFICATIONS (Android 13+)
+  · SYSTEM_ALERT_WINDOW (ventana flotante nativa)
+
+───────────────────────────────────────────────────────────────
+COMPATIBILIDAD
+───────────────────────────────────────────────────────────────
+  · versionCode 21, versionName 10.20, misma firma SHA-256 → actualización directa.
+  · IndexedDB v7; Recovery v6 sin cambios.
+  · Requiere Android 7.0+ (minSdk 24).
+  · TYPE_APPLICATION_OVERLAY requiere Android 6.0+ (siempre satisfecho).
+  · LoudnessEnhancer requiere API 19+ (siempre satisfecho).
+
+═══════════════════════════════════════════════════════════════

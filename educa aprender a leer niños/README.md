@@ -1,5 +1,13 @@
 # Emilia · El Bosque de las Palabras
-## v1.7.0 · Lectura Autónoma + Escritura Responsive de Frases
+## v1.10.0 · Cuaderno de Emilia + Escritura Adaptativa
+
+Esta versión profundiza la producción escrita sin expandir grafemas. Añade un Cuaderno local que conserva muestras vectoriales ligeras de palabras y frases escritas con el dedo, y convierte la Escalera de escritura en una progresión de independencia: modelo completo → pista tenue → escritura desde la imagen, con audio y ojo como ayudas voluntarias.
+
+## v1.9.0 · Cierre seguro de misión + reanudación visible
+
+Esta versión corrige la causa estructural del caso en que una letra podía aparecer terminada mientras la siguiente seguía cerrada: una misión ya no termina adaptativamente si una habilidad propia de esa misión todavía es requisito pendiente del mundo inmediato. También hace visible una misión guardada al volver al bosque y la reanuda desde el mismo punto.
+
+## v1.8.0 · Responsive móvil seguro + Guía explícita de progresión
 
 Continuidad incremental sobre v1.6.0. Frases Vivas retira progresivamente el modelo sonoro según confianza: en apoyo conserva modelado; en crecimiento/confianza la niña intenta leer primero y el oído queda como ayuda voluntaria. En celular, la escritura de frase se realiza palabra por palabra conservando la frase completa como contexto; en tablet/PC permanece el lienzo amplio de frase completa. La zona adulta muestra señales descriptivas de intentos de lectura sin/con ayuda y frases escritas, sin convertirlas en diagnóstico.
 
@@ -73,3 +81,13 @@ R, C, B, F y G fueron profundizados con completar, palabra-imagen, frases, escri
 - El contador infantil usa cuatro puntos de tramo; el total queda secundario.
 - Cuando un cuento se desbloquea, se destaca como siguiente recompensa narrativa.
 - Al terminar la comprensión de un cuento aparecen accesos directos al bosque o a la próxima aventura.
+
+
+## v1.8.0 · Responsive móvil seguro + guía de progresión
+- Corrige desbordamiento horizontal de lienzos y controles dentro de tarjetas móviles.
+- La cabecera de misión se reorganiza en dos filas en teléfonos estrechos.
+- Añade zona segura visual en escritura de palabra/frase.
+- Detecta prerrequisitos reales que bloquean la siguiente misión.
+- Si falta dominio, Lumi muestra, nombra y hace titilar el repaso necesario.
+- Tocar una letra bloqueada ya no deja al niño sin respuesta: redirige visual y verbalmente al paso pendiente.
+- Añade práctica puente de 3 actividades dirigida exactamente a la habilidad faltante.

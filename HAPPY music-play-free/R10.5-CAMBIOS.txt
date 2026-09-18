@@ -1,0 +1,23 @@
+MUSIC PLAY · HAPPY — R10.5
+
+1. AUDIO LOCAL SIN PERMISOS REPETIDOS
+- Los archivos nuevos se indexan de inmediato y se copian progresivamente a OPFS, el almacenamiento privado de la PWA.
+- Una vez copiados, reproducirlos no requiere volver a autorizar la carpeta original.
+- Las bibliotecas antiguas pueden migrarse eligiendo la carpeta una sola vez; las coincidencias se copian en segundo plano.
+- Si falta espacio, MUSIC PLAY conserva el mejor fallback disponible y lo informa.
+
+2. YOUTUBE / FUENTES EXTERNAS RESILIENTES
+- El reproductor de YouTube ya no considera éxito solo por cargar el iframe: espera reproducción real.
+- Error, bloqueo o timeout marca la pista y salta a la siguiente sin colgar la cola.
+- Se evita un bucle infinito si varias pistas consecutivas están bloqueadas.
+
+3. REORDENAR PLAYLIST POR GESTO
+- En una playlist manual, mantener pulsada una canción ~0,4 s activa modo de reordenamiento.
+- Arrastrar verticalmente hacia otra canción y soltar cambia el orden y lo persiste.
+- Swipe horizontal sigue reservado para cola (derecha) y quitar/eliminar (izquierda).
+- Las listas automáticas no se reordenan porque su orden es calculado.
+
+4. IMPORTACIÓN MASIVA
+- Persistencia de índices acelerada por lotes de 120 registros.
+- Ya no se guardan blobs completos en IndexedDB durante el indexado inicial.
+- El copiado local ocurre en cola secuencial para evitar congelar el celular.

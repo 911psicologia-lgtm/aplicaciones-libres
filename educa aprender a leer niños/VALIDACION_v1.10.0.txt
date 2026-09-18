@@ -1,0 +1,74 @@
+VALIDACIÓN TÉCNICA Y PEDAGÓGICA · EMILIA v1.10.0
+Cuaderno de Emilia + Escritura Adaptativa
+Fecha: 2026-09-18
+
+1. BASE
+- Origen: v1.9.0 Cierre seguro de misión + reanudación visible.
+- No se reconstruyó el proyecto.
+- No se añadieron mundos, grafemas, cuentos ni assets.
+- data/content.js y js/learning/mastery.js permanecen idénticos a v1.9.0.
+
+2. CUADERNO DE EMILIA
+- Nuevo acceso desde Mis tesoros → Mi cuaderno.
+- wordWrite y sentenceWrite conservan producciones reales como trazos normalizados (0..1), no como screenshots pesados.
+- Tablet/PC: una frase puede guardarse como producción completa.
+- Celular: sentenceWrite conserva las muestras palabra por palabra.
+- Cada producción puede tocarse para volver a escuchar la palabra/frase.
+- Máximo global: 18 entradas.
+- Máximo por mismo texto/tipo: 2 muestras; al llegar una tercera se elimina la más antigua de ese mismo texto.
+- No se almacena ni muestra puntuación estética de la caligrafía.
+
+3. ESCALERA ADAPTATIVA DE ESCRITURA
+- wordWritingStage(word) usa historia real de word_write_complete de la misma palabra.
+- 0 producciones independientes: copy.
+  Secuencia: modelo → construir → completar → escribir.
+  Escritura: guía completa + palabra visible + audio inicial.
+- 1 producción independiente: faded.
+  Secuencia: construir → completar → escribir.
+  Escritura: guía tenue; sin audio automático; oído/ojo voluntarios.
+- 2 o más producciones independientes: scene.
+  Secuencia: escribir desde imagen → completar.
+  Escritura: guía mínima; palabra oculta; sin audio automático; oído/ojo voluntarios.
+- Solicitar ayuda marca assisted, pero la producción sigue siendo válida y puede guardarse.
+
+4. PERSISTENCIA / MIGRACIÓN
+- Estado interno: 7.6.
+- Se añade notebook:{version:1,entries:[]} mediante merge compatible en la misma clave emilia.reader.v7.
+- Prueba de migración desde estado 7.5 sin notebook: PASS.
+- En la prueba se conservaron profile, mastery, completedMissions y activeSession, y notebook se creó vacío.
+- Importación/exportación JSON incluye Cuaderno de forma natural al formar parte del estado.
+
+5. PRUEBAS DE LÓGICA
+- Sesión con M completada y 0 word_write_complete independientes para “mamá”: stage=copy. PASS.
+- Con 1 producción independiente: stage=faded. PASS.
+- Con 2 producciones independientes: stage=scene. PASS.
+- Secuencias verificadas:
+  copy  = wordModel, build, gapFill, wordWrite
+  faded = build, gapFill, wordWrite
+  scene = wordWrite, gapFill
+- Política de Cuaderno probada con tres guardados de “mamá”: permanecen solo las 2 muestras más recientes. PASS.
+
+6. INTEGRIDAD ESTRUCTURAL
+- Mundos: 28
+- Misiones: 28
+- Habilidades: 124
+- Actividades declaradas en misiones: 365
+- Escaleras de escritura: 24
+- Frases Vivas: 23
+- Cuentos: 28
+- IDs de actividad duplicados: 0
+- Referencias de habilidades rotas: 0
+- Assets: 208; mismo conjunto de v1.9.0.
+- Service Worker: 225 referencias / 225 únicas / 0 faltantes.
+- CSS: llaves balanceadas (2071 / 2071).
+- JavaScript: todos los archivos de js/ y sw.js pasan node --check.
+
+7. RESPONSIVE / LIMITACIÓN VISUAL
+- Cuaderno usa dos columnas en pantallas amplias y una columna <=620 px.
+- Los canvases del Cuaderno usan width:100% del contenedor; no introducen vw internos nuevos.
+- Se preservan las correcciones responsive v1.8/v1.9 para escritura móvil.
+- No se afirma prueba táctil E2E en celular/tablet dentro de este entorno.
+- La validación real prioritaria debe comprobar: guardado de palabra, repetición hasta stage=scene y guardado de frase palabra por palabra en el dispositivo de Emilia.
+
+8. CONCEPTO
+APTA COMO NUEVA BASE ESTABLE v1.10.0 desde el punto de vista lógico y estructural. Esta iteración cambia la escritura de una actividad efímera a una producción que permanece y puede releerse, y retira ayuda en función de evidencia de independencia real de la misma palabra, no por cantidad de sesiones ni por presión.

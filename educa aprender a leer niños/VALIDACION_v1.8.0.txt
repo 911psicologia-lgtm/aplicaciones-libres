@@ -1,0 +1,99 @@
+VALIDACIÓN TÉCNICA Y UX · EMILIA v1.8.0
+Responsive móvil seguro + Guía explícita de progresión
+Fecha: 2026-09-17
+
+1. ORIGEN DE LA ITERACIÓN
+- Base: v1.7.0 Lectura Autónoma + Escritura Responsive de Frases.
+- Evidencia real aportada: 3 capturas de celular de 610 × 1356 px.
+- Incidencias observadas:
+  a) lienzo/escritura de palabra demasiado cerca o fuera del margen derecho;
+  b) controles de cabecera compitiendo por ancho en una sola fila;
+  c) siguiente mundo aparentemente bloqueado después de terminar una letra, sin explicación infantil de qué faltaba.
+
+2. HALLAZGO DE LÓGICA DE PROGRESIÓN
+- El bloqueo no dependía necesariamente de cuentos o retos ocultos.
+- Varias misiones requieren simultáneamente una misión previa completada y un umbral mínimo de mastery.
+- Ejemplo auditado: forest_p requiere forest_m completada + m_family >= 50.
+- La regla adaptativa era válida, pero el requisito quedaba invisible para una niña prelectora.
+
+3. IMPLEMENTACIÓN v1.8.0
+A. Responsive
+- En <=620 px, shells de palabra/frase/trazo/tableros usan 100% del contenedor disponible y no 96–97vw dentro de una tarjeta con padding.
+- activity-card usa padding lateral móvil seguro y recorta únicamente overflow horizontal accidental.
+- word-write-shell y sentence-write-word-shell incorporan zona visual segura interior.
+- startWord recalcula tamaño de guía según ancho útil con margen lateral 22–42 px.
+- Cabecera de misión pasa a grid de dos filas: navegación + racha arriba; progreso + contador abajo.
+- Acciones de trazado quedan limitadas al ancho útil.
+
+B. Guía explícita de progresión
+- progressionGuide() identifica primera misión no completada y requisito real que la bloquea.
+- worldState() marca target bloqueado y mundo/fuente que necesita repaso.
+- El mapa muestra origen ↻ → destino y un botón de repaso pulsante.
+- Lumi verbaliza una consigna breve: qué repasar, dónde tocar y qué se abrirá después.
+- Un bloqueo nuevo se anuncia automáticamente una vez por sesión; se puede repetir tocando Lumi o el nodo bloqueado.
+- Los nodos bloqueados ya no ignoran el toque.
+- Tras el repaso, el resultado indica si ya se abrió el siguiente mundo; al volver al bosque se vuelve a orientar.
+
+C. Repaso-puente
+- buildUnlockBridgeSession() crea 3 actividades centradas exactamente en la habilidad faltante.
+- Solo usa contenido ya enseñado; no abre grafemas futuros.
+- Intenta variar mecánicas cuando el banco lo permite.
+- No altera artificialmente el desbloqueo: las respuestas alimentan el mastery real.
+- El fondo/contexto corresponde al mundo fuente del repaso.
+
+4. PRUEBAS DE LÓGICA
+- Caso M -> P con m_family=30: target forest_p bloqueado, source forest_m, skill m_family. PASS.
+- Con m_family=55: forest_p pasa a ready. PASS.
+- Caso posterior P -> S con p_family bajo: target forest_s, source forest_p. PASS.
+- Auditoría automatizada de TODOS los requisitos de habilidad del recorrido: 30 casos de bloqueo/prerrequisito verificados; todos generan sesión unlockBridge de 3 actividades sobre la habilidad correcta. PASS.
+- Se verificó diversidad cuando existen tipos alternativos (p. ej., gapFill/symbolPick/build; build/imageWordPick; build/gapFill).
+
+5. PRUEBAS RESPONSIVE DE LAYOUT
+El entorno bloqueó por política la navegación Chromium al proyecto local completo (ERR_BLOCKED_BY_ADMINISTRATOR), por lo que NO se afirma una prueba visual E2E completa de la PWA.
+Sí se ejecutó Chromium headless sobre fixtures construidos con los CSS reales de la versión.
+
+A 390 px CSS:
+- scrollWidth: 390 px (sin overflow horizontal)
+- mission-head: 370 px
+- activity-card: 370 px
+- word-write-shell: 344 px × 225 px
+- simple-trace-actions: 330 px
+- guía de paso pendiente: 366 px
+Todos dentro del viewport. PASS.
+
+Matriz adicional sin overflow horizontal:
+- viewport 360 -> shell 314 / head 340 / actions 314
+- viewport 375 -> shell 329 / head 355 / actions 329
+- viewport 390 -> shell 344 / head 370 / actions 330
+- viewport 412 -> shell 358 / head 388 / actions 330
+- viewport 430 -> shell 376 / head 406 / actions 330
+- viewport 620 -> shell 566 / head 596 / actions 330
+PASS.
+
+6. INTEGRIDAD ESTRUCTURAL
+- Mundos: 28
+- Misiones: 28
+- Habilidades: 124
+- Actividades declaradas en misiones: 365
+- Refuerzos: 48
+- Escaleras de escritura: 24
+- Frases Vivas: 23
+- Objetivos de escritura de frase: 7
+- Cuentos: 28
+- IDs de actividad duplicados: 0
+- Referencias de habilidades rotas: 0
+- Service Worker: 224 referencias / 224 únicas / 0 faltantes
+- Assets: 208; idénticos a v1.7.0
+- data/content.js: sin cambios
+- js/state/store.js: sin cambios
+- js/learning/mastery.js: sin cambios
+- CSS: llaves balanceadas en tokens/base/screens/animations
+- JavaScript: 11 archivos (data/content.js + 10 js/*.js) pasan node --check
+
+7. LIMITACIONES / PRÓXIMA PRUEBA NECESARIA
+- Es indispensable repetir en el celular real de Emilia los tres escenarios aportados: mapa bloqueado, actividad de sílabas/gemas y escritura de “mamá”.
+- Especialmente observar tamaño natural del trazo con el dedo y si 344–376 px útiles bastan sin inducir escritura comprimida.
+- No agregar nuevas mecánicas antes de confirmar que la niña ya no queda atrapada por estados internos invisibles.
+
+CONCEPTO TÉCNICO
+APTA COMO NUEVA BASE ESTABLE v1.8.0, con validación lógica/estructural completa y validación responsive de geometría CSS. Pendiente únicamente la comprobación táctil E2E en dispositivo real.

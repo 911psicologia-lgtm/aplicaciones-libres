@@ -33,6 +33,7 @@ function createEmptyCase() {
     id,
     scope: 'ambos',
     trasMode: 'extenso',
+    trasModeConfigured: true,
     createdAt: now,
     updatedAt: now,
     historial: [{ ts: now, nota: 'Caso creado' }],
@@ -99,6 +100,12 @@ function normalizeCase(c) {
   delete c._exportApp; delete c._exportSchema; delete c._exportedAt;
   c.id = c.id || base.id;
   c.scope = (c.scope === 'tras' || c.scope === 'habilidades' || c.scope === 'ambos') ? c.scope : 'ambos';
+  // v0.16.28: la modalidad TRAS es parte persistente del expediente.
+  // Casos antiguos sin este dato se mantienen utilizables, pero quedan
+  // marcados como no confirmados para que el profesional la defina.
+  const hadValidTrasMode = c.trasMode === 'extenso' || c.trasMode === 'resumido';
+  c.trasMode = hadValidTrasMode ? c.trasMode : 'extenso';
+  c.trasModeConfigured = hadValidTrasMode ? (c.trasModeConfigured !== false) : false;
   c.meta = Object.assign({}, base.meta, c.meta || {});
   c.hc = Object.assign({}, base.hc, c.hc || {});
   c.hc.alertas = Array.isArray(c.hc.alertas) ? c.hc.alertas : [];

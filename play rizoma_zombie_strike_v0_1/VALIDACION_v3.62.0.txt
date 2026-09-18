@@ -1,0 +1,40 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.62.0
+
+VERSIÓN: v3.62.0 — Strategic Memory + Intent Fatigue
+
+RESULTADOS
+- node --check js/game.js: OK
+- node --check sw.js: OK
+- manifest.json: versión 3.62.0 válida
+- Mundos WORLD_BALANCE: 20
+- Curva bossHp: monotónica
+- M1/M5/M10/M15/M20: 11200 / 19500 / 38900 / 77800 / 155500
+- Assets: 842
+- Comparación assets vs v3.61: 842 idénticos, 0 modificados
+- Referencias literales de assets: 787 únicas, 0 faltantes
+- IDs HTML: 230, 0 duplicados
+
+FUNCIONES CRÍTICAS BYTE A BYTE IDÉNTICAS A v3.61
+- bossPattern
+- boss2Pattern
+- boss2Special
+- triggerBossSpecial
+- updateBossMotion
+- updateBossApproach
+- damageEnemy
+- addEnemyBullet
+- evaluateAdaptiveBossShadow
+- shouldAutoResurrectBoss
+- resurrectBoss
+- updateContinuityEnemyDirector
+
+NUEVAS CAPAS VERIFICADAS
+- memoria de intención
+- decaimiento de fatiga
+- fatiga independiente de firmas
+- diversificación de cadenas
+- TESIS por fase
+- telemetría de fatiga/memoria
+
+LIMITACIÓN
+No se afirma prueba física completa M1–M20 en Android/iOS. La validación de esta entrega es estática/estructural y de integridad del paquete.

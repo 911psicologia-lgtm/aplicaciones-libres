@@ -1,12 +1,12 @@
-const VERSION = '3.57.0';
+const VERSION = '3.62.0';
 const SHELL_CACHE = `rizoma-shell-v${VERSION}`;
 const RUNTIME_CACHE = `rizoma-runtime-v${VERSION}`;
 const CORE = [
   './',
   './index.html',
-  './css/styles.css?v=3.57.0',
-  './js/game.js?v=3.57.0',
-  './manifest.json?v=3.57.0',
+  './css/styles.css?v=3.62.0',
+  './js/game.js?v=3.62.0',
+  './manifest.json?v=3.62.0',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',

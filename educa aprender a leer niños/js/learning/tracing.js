@@ -98,6 +98,10 @@
     for(const s of strokes)for(let i=1;i<s.length;i++)total+=Math.hypot(s[i].x-s[i-1].x,s[i].y-s[i-1].y);
     return total;
   }
+  function normalizedInk(strokes,canvas){
+    const r=canvas.getBoundingClientRect(),w=Math.max(1,r.width),h=Math.max(1,r.height);
+    return (strokes||[]).filter(s=>s&&s.length).map(st=>st.map(p=>({x:Math.max(0,Math.min(1,p.x/w)),y:Math.max(0,Math.min(1,p.y/h))})));
+  }
   function polylineDots(segment,r,spacing=30){
     const px=segment.map(p=>({x:p[0]*r.width,y:p[1]*r.height})),out=[];
     for(let i=1;i<px.length;i++){
@@ -188,9 +192,9 @@
 
     function layout(targetCtx){
       const r=canvas.getBoundingClientRect();
-      const chars=[...clean],size=Math.max(50,Math.min(100,r.width/(Math.max(4,chars.length)*.78))),font=`800 ${size}px "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif`;
+      const chars=[...clean],safePad=Math.max(22,Math.min(42,r.width*.075)),usable=Math.max(150,r.width-safePad*2),mobile=r.width<560,maxSize=mobile?86:100,size=Math.max(44,Math.min(maxSize,usable/(Math.max(4,chars.length)*.82))),font=`800 ${size}px "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif`;
       targetCtx.font=font;const spacing=size*.075,widths=chars.map(ch=>targetCtx.measureText(ch).width),total=widths.reduce((a,b)=>a+b,0)+spacing*Math.max(0,widths.length-1);
-      let x=(r.width-total)/2;const y=r.height/2+size*.02;letters=chars.map((ch,i)=>{const item={ch,x0:x,x1:x+widths[i],cx:x+widths[i]/2,y,size};x+=widths[i]+spacing;return item;});
+      let x=Math.max(safePad,(r.width-total)/2);const y=r.height/2+size*.02;letters=chars.map((ch,i)=>{const item={ch,x0:x,x1:x+widths[i],cx:x+widths[i]/2,y,size};x+=widths[i]+spacing;return item;});
       return{r,chars,size,font,spacing,widths,total,y};
     }
     function resize(){const r=canvas.getBoundingClientRect();canvas.width=Math.max(1,r.width*dpr);canvas.height=Math.max(1,r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
@@ -236,6 +240,7 @@
       reset(){done=false;drawing=false;current=[];strokes=[];draw();onProgress&&onProgress({ratio:0,span:0,path:0,strokes:0,letters:[],canComplete:false,autoComplete:false});},
       forceComplete(){const pr=progress();if(pr.canComplete){finish(pr.ratio,true);return true;}return false;},
       progress,
+      exportInk(){return normalizedInk(strokes,canvas);},
       setGuide(next){guide=next||'full';draw();}
     };
   }
@@ -294,6 +299,7 @@
       reset(){done=false;drawing=false;current=[];strokes=[];draw();onProgress&&onProgress({ratio:0,span:0,path:0,strokes:0,words:[],canComplete:false,autoComplete:false});},
       forceComplete(){const pr=progress();if(pr.canComplete){finish(pr.ratio,true);return true;}return false;},
       progress,
+      exportInk(){return normalizedInk(strokes,canvas);},
       setGuide(next){guide=next||'minimal';draw();}
     };
   }

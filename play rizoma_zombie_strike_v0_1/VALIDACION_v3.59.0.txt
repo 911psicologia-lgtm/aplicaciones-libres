@@ -1,0 +1,38 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.59.0
+
+VERSIÓN: Tactical State Watchdog + Rizoma Focus
+
+PUNTOS A VALIDAR
+1. Ruptura de fase cancela firmas tácticas residuales.
+2. Último Asalto no conserva Cerco/Enlace/Duelo/Anclas previos.
+3. Temporizadores no finitos son saneados por Watchdog.
+4. Resoluciones limpias elevan Foco Rizoma temporalmente.
+5. Con Foco alto disminuye relleno y aumenta ligeramente la frecuencia relativa de firmas directas.
+6. HUD Rizoma muestra estados tácticos sin crear un panel adicional.
+7. HP base, assets, economía y progresión permanecen sin cambios.
+
+LIMITACIÓN
+Validación estática y de integridad; no se declara campaña M1–M20 completa en dispositivo físico.
+
+RESULTADOS DE INTEGRIDAD EJECUTADOS
+- Assets base v3.58: 842
+- Assets v3.59: 842
+- Assets faltantes: 0
+- Assets añadidos: 0
+- Assets modificados byte a byte: 0
+- Referencias literales de assets auditadas: 801
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- HTTP shell: 200 OK en index, JS, CSS, manifest, SW y boss M20
+- bossPattern: idéntico a v3.58
+- boss2Pattern: idéntico a v3.58
+- boss2Special: idéntico a v3.58
+- triggerBossSpecial: idéntico a v3.58
+- updateBossMotion: idéntico a v3.58
+- updateBossApproach: idéntico a v3.58
+- updateContinuityEnemyDirector: idéntico a v3.58
+- evaluateAdaptiveBossShadow: idéntico a v3.58
+- shouldAutoResurrectBoss: idéntico a v3.58
+- resurrectBoss: cambio esperado únicamente por inicialización del nuevo estado del árbitro tras resurrección
+- WORLD_BALANCE: 20 mundos; hitos preservados M1=11200, M5=19500, M10=38900, M15=77800, M20=155500 HP base

@@ -1,0 +1,10 @@
+R10.2 · Gestos móviles universales
+
+- Filas de canción: deslizar derecha = añadir a cola; deslizar izquierda = quitar/eliminar según contexto.
+- Playlist manual: izquierda quita de la playlist, no borra el archivo original.
+- Favoritos: izquierda quita el favorito.
+- + Escuchadas / Recientes / En repetición: izquierda oculta de esa lista automática hasta una nueva escucha real.
+- Biblioteca / búsqueda: izquierda elimina de MUSIC PLAY (no del almacenamiento físico del dispositivo).
+- Reproductor actual: + visible para añadir a playlist; botón Cola en reproductor completo.
+- Mini-player y carátula del reproductor aceptan gesto derecha/izquierda para cola/eliminar.
+- Gestos con bloqueo de eje para no interferir con scroll vertical; el clic no se dispara después de un swipe.

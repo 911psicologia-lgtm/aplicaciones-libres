@@ -1,0 +1,8 @@
+{
+  "version": "2.15.29",
+  "method": "structural regression against canonical v2.15.28",
+  "mobile_ergonomics_section_identical": true,
+  "direct_touch_input_block_identical": true,
+  "note": "No physical-device session claimed.",
+  "pass": true
+}

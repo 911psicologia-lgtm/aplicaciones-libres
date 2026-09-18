@@ -1,0 +1,73 @@
+VALIDACIÓN TÉCNICA Y UX · EMILIA v1.9.0
+Cierre seguro de misión + reanudación visible
+Fecha: 2026-09-18
+
+1. BASE
+- Origen: v1.8.0 Responsive móvil seguro + Guía explícita de progresión.
+- No se reconstruyó el proyecto.
+- No se añadieron mundos, grafemas, cuentos ni assets.
+
+2. HALLAZGO ESTRUCTURAL CORREGIDO
+- shouldEnd() podía cerrar una misión por promedio/independencia antes de que una habilidad concreta de esa misma misión alcanzara el umbral necesario para abrir el mundo inmediato.
+- finish() marcaba después la misión como completada; por ello podía coexistir check de misión terminada + siguiente mundo bloqueado.
+- v1.8.0 hacía visible el bloqueo y construía un repaso-puente.
+- v1.9.0 conserva esa red de seguridad y evita además el cierre adaptativo prematuro cuando la obligación pertenece a la misión actual.
+
+3. IMPLEMENTACIÓN
+A. missionUnlockObligations(mission)
+- Busca el mundo inmediatamente posterior.
+- Selecciona requisitos de habilidad que pertenecen a skillIds/actividades de la misión actual.
+- Devuelve umbral, score actual y estado met/pending.
+
+B. missionClosureGuide(mission)
+- Expone nextMission, obligations, pending y ready.
+
+C. shouldEnd(session)
+- Mantiene minAssessed, independencia, errores y masteryTarget existentes.
+- Antes de cerrar adaptativamente una misión comprueba missionClosureGuide().
+- Si hay una obligación propia pendiente, devuelve false y la sesión continúa.
+- Si se agota toda la lista, nextAfter() puede cerrar la misión normalmente; si el umbral todavía no se alcanzó, el repaso-puente posterior sigue disponible.
+
+D. Reanudación visible
+- Mundo con activeSession de misión: clase in-progress + distintivo ▶.
+- Nuevo panel infantil resume-step-guide con Lumi, mundo actual, señal de continuidad y botón seguir.
+- Al salir al bosque desde misión activa se activa una pista de reanudación.
+- startMission(id) detecta una activeSession del mismo missionId y la reanuda en su index en vez de crear una nueva.
+
+E. Pausa/resultado
+- sessionPause muestra ruta actual → siguiente cuando aún está pendiente la obligación de apertura.
+- Resultado de misión agotada con siguiente mundo todavía bloqueado informa que falta un repaso y orienta a volver al bosque.
+
+4. PRUEBAS DE LÓGICA
+- Transiciones con obligación propia directa identificadas: 26.
+- Para cada una se simuló score de obligación bajo: shouldEnd=false. PASS 26/26.
+- Para cada una se simuló obligación satisfecha: shouldEnd=true en condición de cierre. PASS 26/26.
+- Caso forest_m -> forest_p: m_family 30/50 => shouldEnd false. m_family 60/50 => shouldEnd true. PASS.
+- Prueba mock de startMission sobre sesión guardada forest_m index=4/10: buildSession no se ejecutó; se mostró la misma sesión en index 4 y se registró mission_resume_from_map. PASS.
+
+5. INTEGRIDAD ESTRUCTURAL
+- Mundos: 28
+- Misiones: 28
+- Habilidades: 124
+- Actividades declaradas en misiones: 365
+- Refuerzos: 48
+- Escaleras de escritura: 24
+- Frases Vivas: 23
+- Cuentos: 28
+- IDs de actividad duplicados: 0
+- Referencias de habilidades rotas: 0
+- Service Worker: 224 referencias / 224 únicas / 0 faltantes
+- Assets: 208; mismo conjunto de v1.8.0
+- data/content.js: sin cambios respecto a v1.8.0
+- js/state/store.js: sin cambios respecto a v1.8.0
+- js/learning/mastery.js: sin cambios respecto a v1.8.0
+- CSS: llaves balanceadas
+- JavaScript: todos los archivos pasan node --check
+
+6. RESPONSIVE / LIMITACIÓN VISUAL
+- Los nuevos paneles usan width:min(620px,100%) y reglas <=620 / <=390 px, sin medidas vw internas nuevas.
+- Se intentó ejecutar un fixture Chromium a 390 px para esta versión; Chromium quedó colgado por DBus/UPower del entorno y fue terminado. No se afirma prueba visual E2E.
+- La validación visual/táctil definitiva debe realizarse en el celular real de Emilia.
+
+7. CONCEPTO
+APTA COMO NUEVA BASE ESTABLE v1.9.0 desde el punto de vista lógico y estructural. La mejora reduce el caso de “misión terminada + siguiente letra bloqueada” causado por cierre adaptativo prematuro y hace explícita la continuidad cuando existe una misión guardada. Pendiente prueba táctil real en dispositivo.

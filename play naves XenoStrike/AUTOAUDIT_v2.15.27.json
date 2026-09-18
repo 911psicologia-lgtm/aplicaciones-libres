@@ -1,0 +1,58 @@
+{
+  "version": "2.15.27",
+  "name": "ADAPTIVE HIVE CONTEXTUAL ORCHESTRATION",
+  "ok": true,
+  "feature_tests": {
+    "passed": 22,
+    "total": 22
+  },
+  "mobile_profiles": {
+    "ok": true,
+    "count": 5
+  },
+  "pwa": {
+    "ok": true,
+    "resource_count": 560,
+    "missing_count": 0,
+    "missing": []
+  },
+  "http_smoke": {
+    "ok": true,
+    "passed": 10,
+    "total": 10
+  },
+  "assets": {
+    "ok": true,
+    "asset_files": 551,
+    "identical_to_v2_15_26": 551,
+    "changed": []
+  },
+  "preservation": {
+    "ok": true,
+    "inherited_files": 833,
+    "identical": 830,
+    "changed": [
+      "index.html",
+      "js/game.js",
+      "sw.js"
+    ],
+    "missing": []
+  },
+  "contracts": {
+    "context_utility_gate": true,
+    "phase_attention_budget": true,
+    "type_cooldowns": true,
+    "graceful_recovery_deferral": true,
+    "a1_recovery_boost": true,
+    "reactive_armor_active": false,
+    "symbiotic_assist_active": false,
+    "rift_disruption_active": false,
+    "rift_rebirth_active": false,
+    "hp_inflation": false,
+    "damage_boost": false,
+    "cadence_boost": false,
+    "extra_projectiles": false,
+    "build_mutation": false,
+    "external_telemetry": false
+  }
+}

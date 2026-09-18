@@ -1,0 +1,48 @@
+{
+  "version": "2.15.29",
+  "requests": 10,
+  "http_200": 10,
+  "pass": true,
+  "results": [
+    {
+      "target": "/",
+      "status": 200
+    },
+    {
+      "target": "/index.html",
+      "status": 200
+    },
+    {
+      "target": "/js/game.js",
+      "status": 200
+    },
+    {
+      "target": "/css/game.css",
+      "status": 200
+    },
+    {
+      "target": "/manifest.json",
+      "status": 200
+    },
+    {
+      "target": "/sw.js",
+      "status": 200
+    },
+    {
+      "target": "/assets/player_ship.webp",
+      "status": 200
+    },
+    {
+      "target": "/assets/icon.svg",
+      "status": 200
+    },
+    {
+      "target": "/assets_ch2/backgrounds/w11_boss.webp",
+      "status": 200
+    },
+    {
+      "target": "/assets_ch2/bosses/apis_imperia/base.png",
+      "status": 200
+    }
+  ]
+}

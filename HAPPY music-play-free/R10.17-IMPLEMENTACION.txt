@@ -1,0 +1,182 @@
+═══════════════════════════════════════════════════════════════
+MUSIC PLAY · HAPPY — R10.17 · IMPLEMENTACIÓN
+Fecha: 2026-09-17 · Build: 2026.09.17-r10.17-happy-boost
+═══════════════════════════════════════════════════════════════
+
+OBJETIVO
+Responder tres problemas reportados por el usuario en R10.16:
+  1. YouTube perdía el audio al bloquear el celular.
+  2. El icono ⧉ (pantalla reducida flotante) no funcionaba con videos
+     de YouTube — solo mostraba metadata sin video.
+  3. La calidad de audio es muy baja; se necesita un algoritmo de
+     mejora de audio aplicable a todas las fuentes.
+
+───────────────────────────────────────────────────────────────
+1. YOUTUBE EN PANTALLA BLOQUEADA — DELEGACIÓN AL SERVICIO NATIVO
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+El motor nativo de YouTube reproduce los videos en un <video>
+dentro del WebView (playYouTubeNative). Cuando la app pierde el
+frente (pantalla bloqueada o app a segundo plano), el WebView
+puede pausar el elemento <video> → audio perdido. La lógica
+existente (ytSwapToAudioForBackground) solo cambiaba al elemento
+<ytAudio> que también vive en el WebView → mismo problema.
+
+SOLUCIÓN
+Nueva función ytSwapToAudioServiceForBackground():
+  · Se invoca desde visibilitychange cuando document.visibilityState
+    pasa a 'hidden' y currentEngine==='youtube' && ytEngine==='native'
+    && ytNativeKind==='video'.
+  · Pausa el <video> del WebView (libera el decoder).
+  · Llama a window.HappyNative.postFromWeb({type:'media/play',
+    payload:{url:media.audioUrl, ...}}) → el mensaje llega a
+    NativeBridge.postFromWeb → FloatingPlayerService.handleWebMessage
+    → NativeRadioEngine.handleMessage('media/play') que arranca
+    ExoPlayer (foreground service mediaPlayback) con el stream de
+    audio. ExoPlayer SOBREVIVE al lock screen gracias a:
+      - FOREGROUND_SERVICE_MEDIA_PLAYBACK en el manifest.
+      - WAKE_MODE_NETWORK en ExoPlayer.Builder.
+      - startForeground con tipo mediaPlayback.
+  · Marca state.ytService=true, state.ytResumeVideo=true para
+    poder restaurar el video al volver.
+
+Nueva función ytReclaimVideoFromService():
+  · Se invoca desde visibilitychange cuando document.visibilityState
+    pasa a 'visible' && state.ytService && state.ytResumeVideo.
+  · Detiene el ExoPlayer (media/stop) y rearranca el <video> del
+    WebView en la misma posición (tomada de state.nativePositionMs).
+
+ARCHIVOS
+  · app.js: nuevas funciones ytSwapToAudioServiceForBackground(),
+    ytReclaimVideoFromService(); visibilitychange actualizado.
+
+NOTA
+El resolvedor de YouTube debe entregar una URL de audio directa
+vigente. Si la instancia de Invidious/Piped usada caduca, el
+fallback sigue siendo el reproductor iframe (que NO sobrevive al
+lock screen, igual que antes).
+
+───────────────────────────────────────────────────────────────
+2. PANTALLA REDUCIDA FLOTANTE (⧉) PARA VIDEOS DE YOUTUBE
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+En el APK, toggleFloatMini() redirigía a HappyNative.openFloat()
+que arranca el FloatingPlayerService con su overlay nativo. Ese
+overlay (TYPE_APPLICATION_OVERLAY) muestra título/artista/progreso
+y botones ⏮ ▶ ⏭ — PERO NO VIDEO. El usuario esperaba ver un cajón
+de video pequeño con controles, igual que con las canciones locales.
+
+SOLUCIÓN
+toggleFloatMini() ahora:
+  1. Siempre abre la ventana flotante HTML (floatMini / fmStage)
+     que ya soporta reparentar el <video> de YouTube (función
+     renderFloatMiniStage() que mueve els.ytVideo a fmStage).
+  2. En APK, adicionalmente arranca el servicio nativo (una sola
+     vez, bandera _happyNativeServiceStarted) para tener notificación
+     + MediaSession + AVRCP — sin pisar el overlay HTML porque el
+     overlay nativo solo se muestra si la app está en background.
+
+El usuario ahora ve:
+  · Cajón flotante HTML con video YouTube + controles ⏮ ▶ ⏭ + slider.
+  · Arrastrable por la barra superior.
+  · Botón ⤢ vuelve a la app completa.
+  · Botón × cierra la pantalla reducida.
+  · Notificación multimedia nativa (para pantalla bloqueada).
+
+ARCHIVOS
+  · app.js: nueva bandera _happyNativeServiceStarted, toggleFloatMini
+    reescrita.
+
+───────────────────────────────────────────────────────────────
+3. HAPPY BOOST — ALGORITMO DE MEJORA DE AUDIO
+───────────────────────────────────────────────────────────────
+
+PROBLEMA
+El audio sonaba "de muy baja calidad". El ecualizador existente
+(audioFx) solo tocaba els.audio (biblioteca local); YouTube,
+SoundCloud y enlaces directos se reproducían sin mejora.
+
+SOLUCIÓN — Motor HAPPY BOOST (Web Audio API)
+Reescritura completa del grafo audioFx:
+
+  sources (audio, directAudio, ytAudio, ytVideo)
+      ↓
+   input (GainNode compartido)
+      ↓
+   EQ multibanda (8 bandas BiquadFilter):
+     · subBass  · lowshelf  · 55 Hz   · +3.5 dB (BOOST)
+     · bass     · lowshelf  · 120 Hz  · +2.6 dB
+     · lowMid   · peaking   · 250 Hz  · +0.4 dB
+     · body     · peaking   · 500 Hz  · +0.8 dB
+     · presence · peaking   · 2.5 kHz · +2.4 dB
+     · highMid  · peaking   · 4.5 kHz · +1.8 dB
+     · treble   · highshelf · 8 kHz   · +2.6 dB
+     · air      · highshelf · 14 kHz  · +3.2 dB
+      ↓
+   compressor "glue" (DynamicsCompressor)
+     · knee 10 · attack 14 ms · release 240 ms
+     · threshold -13 dB · ratio 2.4 (en BOOST)
+      ↓
+   limiter de loudness (DynamicsCompressor)
+     · knee 4 · attack 3 ms · release 150 ms
+     · ratio 12 · threshold -2.2 dB
+      ↓
+   output (GainNode) · -0.4 dB
+      ↓
+   ctx.destination
+
+ENSANCHADOR ESTÉREO (Mid/Side)
+Preparado con midGain y sideGain (GainNode). En BOOST sube
+sideGain a 1.45 → abre la imagen estéreo sin destruir el centro
+vocal. En otros modos queda neutro (1.0/1.0).
+
+CROSS-Origin CORS
+  · index.html: crossorigin="anonymous" en ytAudio, ytVideo,
+    directAudio y liveRadioAudio.
+  · connectSourceToAudioFx(el): envuelve createMediaElementSource
+    en try/catch — si el medio es cross-origin sin CORS, la fuente
+    sigue sonando sin boost (no rompe).
+
+UI
+  · Botón ★ en la barra superior (entre ↻ y ⧉) — toggle instantáneo
+    Auto ↔ HAPPY BOOST.
+  · Opción "★ HAPPY BOOST" en el sheet de Sonido (⋯ → Sonido).
+  · Animación boostPulse cuando está activo.
+  · Toast: "★ HAPPY BOOST · mejora multibanda + loudness".
+
+APLICA A TODAS LAS FUENTES
+  · Local: Auto (por ritmo) / Original / Cálido / Potente / Claro / BOOST
+  · YouTube (audio y video): solo BOOST (otros modos no tocan la
+    señal para no duplicar EQ con la que ya hace YouTube).
+  · Enlaces directos: solo BOOST.
+  · Radio Live (ExoPlayer nativo): el BOOST JS no llega al pipeline
+    nativo. Queda pendiente para R10.18 con android.media.audiofx.
+
+ARCHIVOS
+  · app.js: audioFx reescrito, ensureAudioFx multibanda, nueva
+    connectSourceToAudioFx, BOOST_PROFILE, applySoundProfile con
+    rama boost, prepareAdaptiveSound multi-fuente, setSoundMode
+    y openSoundModeSheet actualizadas, event handler de boostBtn,
+    llamada a prepareAdaptiveSound tras playYouTubeNative y en
+    playLocalOrDirect para fuentes directas.
+  · index.html: crossorigin="anonymous" en media elements, nuevo
+    <button id="boostBtn"> en topbar, versionado de CSS/JS.
+  · styles.css: estilos .boost-btn, .boost-btn.on, animación
+    boostPulse, .sound-choice.boost-choice.
+
+───────────────────────────────────────────────────────────────
+COMPATIBILIDAD Y LÍMITES
+───────────────────────────────────────────────────────────────
+  · versionCode 18, versionName 10.17, misma firma SHA-256 que R10.16.
+  · IndexedDB v7; Recovery v6 sin cambios — actualización directa.
+  · HAPPY BOOST NO reconstruye calidad perdida (un mp3 de 96 kbps
+    sigue siendo 96 kbps). Realza graves, presencia, aire y sube
+    el loudness percibido sin clip.
+  · La continuidad de YouTube en bloqueo requiere URL de audio
+    directa vigente del resolvedor (Invidious/Piped).
+  · En medios cross-origin sin CORS, la mejora no se aplica pero
+    el audio sigue funcionando.
+
+═══════════════════════════════════════════════════════════════

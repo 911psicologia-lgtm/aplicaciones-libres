@@ -1,0 +1,7 @@
+ASSET AUDIT v2.15.26
+Comparación contra v2.15.25:
+Assets heredados: 551
+Idénticos SHA-256: 551
+Modificados: 0
+Perdidos: 0
+No se añadieron ni inventaron assets.

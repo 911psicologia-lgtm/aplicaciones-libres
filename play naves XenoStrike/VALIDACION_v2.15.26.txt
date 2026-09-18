@@ -1,0 +1,32 @@
+VALIDACIÓN — SWARM//RIFT v2.15.26
+
+Sintaxis:
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+Orchestrator unit tests:
+- 22/22 PASS
+- presupuesto, recuperación, quiet window, repeat fatigue, budget denial, nested branch, límites y sampling adaptativo.
+
+Verificación estructural:
+- 28/28 PASS
+- versión/migración, storage keys, schema 8, anti-stack, ausencia de mutaciones estadísticas, ausencia de red, identidad preservada y PWA.
+
+HTTP smoke:
+- 10/10 PASS
+
+PWA:
+- 560/560 recursos declarados presentes.
+
+Preservación:
+- 819 archivos heredados.
+- 816 idénticos.
+- 3 modificados intencionalmente.
+- 0 perdidos.
+- 551/551 assets heredados idénticos.
+
+Prueba gráfica automatizada:
+- NO ejecutada: Chromium del entorno devuelve ERR_BLOCKED_BY_ADMINISTRATOR para localhost y file://.
+
+Prueba física prolongada en móvil/tablet:
+- NO ejecutada / NO afirmada.

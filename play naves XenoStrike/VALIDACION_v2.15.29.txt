@@ -1,0 +1,13 @@
+VALIDACIÓN v2.15.29 — ADAPTIVE HIVE RHYTHM FORECASTING
+
+Feature/structural checks: 42/42 PASS
+Targeted Rhythm Forecast cases: 13/13 PASS
+node --check js/game.js: PASS
+node --check sw.js: PASS
+PWA resources: 560/560 present
+HTTP smoke: 10/10 HTTP 200
+Inherited preservation: 856/859 identical, 3 intentional code/cache changes, 0 missing
+Assets: 551/551 inherited assets byte-identical
+Mobile ergonomics + direct touch/input blocks: byte-identical to v2.15.28
+No external telemetry/network calls in Adaptive Hive block.
+No physical-device prolonged balance session claimed.

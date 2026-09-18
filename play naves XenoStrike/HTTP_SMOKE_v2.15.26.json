@@ -1,0 +1,68 @@
+{
+  "version": "2.15.26",
+  "pass": true,
+  "passed": 10,
+  "total": 10,
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "content_type": "text/html",
+      "pass": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "content_type": "text/html",
+      "pass": true
+    },
+    {
+      "path": "js/game.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "pass": true
+    },
+    {
+      "path": "sw.js",
+      "status": 200,
+      "content_type": "text/javascript",
+      "pass": true
+    },
+    {
+      "path": "manifest.json",
+      "status": 200,
+      "content_type": "application/json",
+      "pass": true
+    },
+    {
+      "path": "css/game.css",
+      "status": 200,
+      "content_type": "text/css",
+      "pass": true
+    },
+    {
+      "path": "assets/icon.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "pass": true
+    },
+    {
+      "path": "assets/player_ship.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "pass": true
+    },
+    {
+      "path": "assets/bg_rust_canyon.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "pass": true
+    },
+    {
+      "path": "assets_ch2/bosses/scarab_imperator/meta.json",
+      "status": 200,
+      "content_type": "application/json",
+      "pass": true
+    }
+  ]
+}

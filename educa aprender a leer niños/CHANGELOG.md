@@ -1,3 +1,31 @@
+# v1.10.0 · Cuaderno de Emilia + Escritura Adaptativa
+- Nuevo **Cuaderno de Emilia** dentro de Mis tesoros: conserva muestras reales de escritura de palabras y frases para volver a verlas y escucharlas.
+- El cuaderno guarda trazos normalizados, no capturas pesadas; máximo 18 entradas y máximo 2 muestras por misma palabra/frase.
+- La Escalera de escritura progresa según producciones independientes previas: `copy` → `faded` → `scene`.
+- `copy`: modelo visible + guía completa; `faded`: pista visual y guía tenue; `scene`: imagen primero, sin modelo ni audio automático, con oído/ojo disponibles.
+- La ayuda solicitada se registra como apoyo y no impide guardar la producción.
+- No se añaden letras, mundos, cuentos ni assets; se preserva la progresión y el esquema de perfiles mediante migración compatible del estado.
+
+# v1.9.0 · Cierre seguro de misión + reanudación visible
+- Cierre adaptativo protegido por requisitos reales del siguiente mundo.
+- El repaso-puente queda como red de seguridad, no como compensación habitual del cierre temprano.
+- Misiones a medias aparecen con ▶ en el mapa y panel infantil de reanudación.
+- Tocar el mismo mundo con sesión guardada retoma exactamente la actividad pendiente.
+- Al salir de una misión, Lumi señala y nombra dónde continuar.
+- En pausas, si aún falta una habilidad para abrir el siguiente mundo, se muestra la ruta actual → siguiente.
+- Si se agotó la misión y aún hace falta refuerzo, el resultado lo anuncia explícitamente y el bosque activa el repaso-puente.
+
+# v1.8.0 · Responsive móvil seguro + guía explícita de progresión
+
+- Lienzos móviles contenidos por el ancho real de la tarjeta, no por `vw`.
+- Cabecera de actividad responsive en dos filas para teléfonos estrechos.
+- Zona segura de escritura y geometría de palabra con márgenes internos.
+- `progressionGuide()` identifica la primera misión pendiente y el prerrequisito exacto que la bloquea.
+- Nuevo `unlockBridge`: repaso breve dirigido a la habilidad faltante.
+- Nodos bloqueados responden al toque y Lumi señala el paso pendiente.
+- Tarjeta visual de siguiente paso con titileo, voz e iconografía.
+- Tras el repaso, Lumi indica explícitamente si ya se abrió la siguiente letra.
+
 # CHANGELOG · v1.7.0 · Lectura Autónoma + Escritura Responsive
 
 - Frases Vivas incorpora retirada adaptativa del modelo sonoro: solo el nivel de apoyo conserva modelado completo inicial.

@@ -1,0 +1,73 @@
+{
+  "version": "2.15.28",
+  "name": "ADAPTIVE HIVE STABILITY COORDINATION",
+  "passed": 33,
+  "total": 33,
+  "pass": true,
+  "checks": {
+    "Version 2.15.28": true,
+    "Mode STABILITY_COORDINATION": true,
+    "Telemetry schema 10": true,
+    "Meta migration from v2.15.27": true,
+    "Run migration from v2.15.27": true,
+    "Telemetry migration from v2.15.27": true,
+    "Predictive reservation durations": true,
+    "Conflict matrix": true,
+    "Pressure recovery envelope": true,
+    "Phase salience budget": true,
+    "Phase 2 policy 4/1/62": true,
+    "Phase 3 policy 5/2/82": true,
+    "Phase transition breathing": true,
+    "Nested feint exception": true,
+    "Counter-evolution reserves exact duration": true,
+    "No fetch in adaptive block": true,
+    "No XMLHttpRequest in adaptive block": true,
+    "No sendBeacon in adaptive block": true,
+    "No WebSocket in adaptive block": true,
+    "Heavy countermeasures remain inactive": true,
+    "v2.15.28 status hook": true,
+    "Stability selftest hook": true,
+    "Index cache bust 21528": true,
+    "Service Worker cache 2.15.28": true,
+    "PWA 560 resources": true,
+    "PWA resources all present": true,
+    "Mobile ergonomics/input block unchanged": true,
+    "Inherited files only 3 changed": true,
+    "No inherited files missing": true,
+    "551 inherited assets preserved": true,
+    "Targeted orchestrator tests pass": true,
+    "node --check game.js": true,
+    "node --check sw.js": true
+  },
+  "targeted": {
+    "mode": true,
+    "schema": true,
+    "phase2": true,
+    "phase3": true,
+    "microCommit": true,
+    "predictiveConflict": true,
+    "nestedBranchAllowed": true,
+    "pressureGate": true,
+    "phaseSalience": true,
+    "phaseReset": true,
+    "a1PressureDecay": true,
+    "noAggressiveStats": true,
+    "pass": true
+  },
+  "preservation": {
+    "inherited": 848,
+    "identical": 845,
+    "changed": [
+      "index.html",
+      "js/game.js",
+      "sw.js"
+    ],
+    "missing": [],
+    "assetsCompared": 551,
+    "changedAssets": []
+  },
+  "pwa": {
+    "listed": 560,
+    "missing": []
+  }
+}

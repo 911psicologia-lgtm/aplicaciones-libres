@@ -1,0 +1,611 @@
+PROMPT MAESTRO DE CONTINUIDAD
+EMILIA · EL BOSQUE DE LAS PALABRAS
+BASE ESTABLE ACTUAL: v1.9.0 · CIERRE SEGURO DE MISIÓN + REANUDACIÓN VISIBLE
+
+Trabaja EXCLUSIVAMENTE sobre el archivo estable que adjunto:
+Emilia_Bosque_de_las_Palabras_v1.10.0_Cuaderno_Escritura_Adaptativa.zip
+
+NO reconstruyas el proyecto desde cero.
+NO elimines sistemas existentes.
+NO cambies la identidad visual de Lumi.
+NO sustituyas assets aprobados si no se solicita.
+NO agregues contenido por cantidad sin revisar primero su necesidad pedagógica.
+Cada vez que implementes una mejora, entrega un nuevo ZIP funcional y descargable, con versión incremental, validación técnica y resumen de cambios.
+
+============================================================
+1. IDENTIDAD DEL PROYECTO
+============================================================
+
+Nombre: Emilia · El Bosque de las Palabras.
+Público principal: niña de aproximadamente 5 años, prelectora / lectora inicial.
+Uso prioritario: celular y tablet; también PC.
+Arquitectura: PWA local-first, sin cuenta obligatoria, sin publicidad, progreso local por perfiles.
+Objetivo: acompañar conciencia fonológica, lectura inicial, lectoescritura, construcción de palabras, frases y escritura progresiva, con experiencia de juego cálida y simple.
+
+Principio central de UX:
+- El niño no debe tener que “deducir” qué hacer.
+- Iconos, animaciones breves, gestos y jerarquía visual deben enseñar la acción.
+- Una instrucción breve es mejor que dos instrucciones consecutivas.
+- Siempre que haya arrastre, debe existir alternativa por toque.
+- Evitar saturación de texto y controles.
+- No usar vidas, castigos, presión, pérdida punitiva ni gamificación manipulativa.
+
+============================================================
+2. DECISIONES PEDAGÓGICAS INNEGOCIABLES
+============================================================
+
+La progresión general es:
+reconocer → escuchar → completar → construir → escribir → leer.
+
+El niño debe trabajar solamente grafemas/patrones ya enseñados en cada etapa. Auditar decodabilidad y evitar adelantar letras futuras.
+
+Separar conceptualmente el audio en:
+- fonema,
+- nombre de letra,
+- vocal,
+- sílaba,
+- palabra,
+- frase,
+- cuento / narración,
+- consigna.
+
+No tratar “A”, “MA” y “MAMÁ” como si fueran la misma categoría de audio.
+
+TTS del navegador:
+- puede usarse para instrucciones, frases y cuentos;
+- NO es fuente ideal para fonemas, vocales y sílabas;
+- la arquitectura acepta audio local mediante assets/audio/manifest.json;
+- actualmente el paquete de audio local todavía no contiene los clips reales, solo manifest.json y README.txt, por lo que sigue existiendo fallback TTS.
+
+Velocidad:
+- narraciones/consignas: 0.90×, 1×, 1.12× seleccionables;
+- vocales, sílabas, fonemas y palabras aisladas mantienen velocidad estable.
+
+Consignas infantiles: muy breves y orientadas a la acción.
+Ejemplos preferidos:
+- “¿Con qué letra empieza SAPO? Toca la primera letra.”
+- “SO. Toca esa sílaba.”
+- “Escucha y toca cada vocal.”
+- “Escucha y toca cada sílaba.”
+Evitar procesos redundantes tipo “primero escucha... ahora toca...” cuando puede ser una sola instrucción.
+
+============================================================
+3. CUENTOS: DECISIÓN DEFINITIVA
+============================================================
+
+Los cuentos son recompensa y disfrute, NO evaluación.
+
+Nombre funcional actual: Cuentos Mágicos.
+
+El cuento debe:
+- iniciar con un botón claro “Escuchar cuento”;
+- narrarse automáticamente;
+- pasar por varias pantallas/frases de forma automática;
+- resaltar palabras/letras mientras Lumi narra;
+- permitir pausar, anterior, siguiente y repetir;
+- permitir tocar opcionalmente palabras/personajes para escucharlos;
+- NO tener preguntas de comprensión;
+- NO tener “?” final;
+- NO bloquear la salida con microinteracciones;
+- NO pedir arrastrar/tocar para poder terminar;
+- terminar con una celebración breve y orientación explícita para salir.
+
+La salida del cuento está arriba mediante el icono del bosque/árbol. Al terminar, ese control debe resaltarse y una pista gestual debe indicar que allí se sale. No colocar otra salida competidora abajo.
+
+============================================================
+4. MAPA Y ORIENTACIÓN INFANTIL
+============================================================
+
+Cada mundo completado debe verse inequívocamente terminado:
+- check grande,
+- aro/halo verde,
+- estado persistente,
+- animación breve del último mundo terminado al volver al mapa.
+
+Después de terminar una misión, regresar al mismo sendero donde se terminó, para que el niño vea qué conquistó.
+
+El siguiente mundo recomendado se resalta, pero no se obliga a recordarlo de memoria.
+
+Actualmente existen 4 senderos / capítulos y 28 mundos.
+
+Sendero 1:
+Vocales → M → P → S → L → N → T → D → Jardín de Palabras.
+
+Sendero 2:
+R → C → B → F → G → Gran Jardín Lector.
+
+Sendero 3:
+Ñ → CH → QU → R/RR → CE/CI → GE/GI → Bosque de los Secretos.
+
+Sendero 4:
+J → H → V → Y → Z → Claro de Nuevas Letras.
+
+Decisiones ortográficas importantes:
+- C primero CA/CO/CU; CE/CI después.
+- G primero GA/GO/GU; GE/GI después.
+- GUE/GUI permanece reservado para etapa posterior.
+- QU se enseña como patrón QUE/QUI con U silenciosa.
+- R/RR se contrasta con pares como PERO/PERRO y CARO/CARRO.
+- H se enseña como letra silenciosa.
+- B/V: en español colombiano suelen sonar igual; tratar diferencia visual/ortográfica, no inventar contraste fonético.
+- Z: en Colombia suele sonar como S; no fingir distinción /θ/.
+- Y se inicia con usos frecuentes como YA/YE/YO, sin forzar YI/YU como familia básica.
+- X, K y W todavía NO están activadas. Si se incorporan después, conviene tratarlas como “letras viajeras / palabras especiales” (taxi, kilo, kiwi, web, etc.), no como familias regulares obligatorias.
+
+Corrección ya hecha:
+TAZA fue retirada del mundo T y trasladada a Z.
+
+============================================================
+5. ACTIVIDADES EXISTENTES
+============================================================
+
+La aplicación ya contiene, entre otras:
+- escuchar y seleccionar vocal/letra/sílaba/palabra;
+- reconocer sonido inicial;
+- tocar una imagen y escuchar su nombre;
+- imagen ↔ palabra;
+- memoria palabra-imagen;
+- construir palabras por sílabas;
+- completar letras: m_má → mamá;
+- completar sílabas/patrones;
+- completar palabras dentro de frases;
+- arrastrar o tocar piezas;
+- ordenar frases;
+- trazado de letras;
+- trazado de palabras;
+- escritura con guía completa, tenue y mínima;
+- Frases Vivas;
+- Escalera de escritura;
+- Palabras escondidas;
+- Semillas que vuelven;
+- Reto sorpresa de Lumi;
+- Rescate de palabras;
+- Cuentos Mágicos.
+
+Cuando una palabra o frase se completa correctamente, pronunciar la unidad completa, no solo la pieza elegida.
+Ejemplo:
+m _ m á + A → “mamá”.
+“Lola usa la ___” + lupa → leer “Lola usa la lupa”.
+
+============================================================
+6. RITMO Y VARIEDAD
+============================================================
+
+Las misiones largas están divididas en microtramos de 4 actividades.
+Hay pausa visual segura con continuar / volver al bosque guardando / salir.
+No es fracaso ni evaluación.
+
+El compositor de sesiones intenta evitar rachas de la misma mecánica y alterna:
+escuchar → reconocer → gesto/trazo → construir → leer.
+
+No agrupar 3 tareas casi idénticas cuando existe una alternativa.
+Las variantes deben conservar su lugar curricular lógico.
+
+============================================================
+7. SISTEMA ADAPTATIVO
+============================================================
+
+La app registra:
+- acierto independiente,
+- respuesta asistida,
+- errores,
+- ayudas de audio,
+- repeticiones,
+- recuperación posterior.
+
+Esto sirve para organizar repaso; NO es diagnóstico.
+
+Semillas que vuelven recupera contenido ya visto que conviene volver a practicar.
+
+La ayuda gestual se retira progresivamente:
+- mientras aprende: ☝ / ↗ / ✍;
+- cuando una habilidad está consolidada: esas pistas se ocultan.
+
+v1.2.0 añadió confianza adaptativa:
+- support: más apoyo visual;
+- growing: apoyo estándar;
+- confident: en repasos puede retirarse la reproducción automática de consignas no auditivas; el botón de audio siempre queda disponible.
+- Las tareas auditivas reales siempre conservan el audio necesario.
+
+============================================================
+8. NUEVO EN v1.1.0
+============================================================
+
+Reto sorpresa de Lumi:
+- exactamente 3 actividades;
+- solo contenido de mundos ya superados;
+- intenta usar 3 mecánicas distintas;
+- cambia cada vez;
+- no adelanta letras;
+- una racha de 3 aciertos independientes abre cofre usando el sistema de tesoros.
+
+============================================================
+9. NUEVO EN v1.2.0
+============================================================
+
+A. Rescate de palabras
+- Sesión breve de 3 actividades.
+- Toma habilidades/palabras ya aprendidas que están débiles o listas para recuperación.
+- Prioriza variedad: reconocimiento, escucha y construcción cuando el banco lo permite.
+- No introduce letras nuevas.
+- Si las 3 salen independientes, se registra “palabras rescatadas” y la racha puede abrir cofre.
+- Acceso desde bosque y Práctica inteligente cuando hay contenido suficiente.
+
+B. Álbum de letras conquistadas
+Ubicación: Mis tesoros.
+- Muestra letras/patrones ya terminados encendidos.
+- Los pendientes aparecen dormidos/desaturados.
+- No usa porcentajes complejos para el niño.
+- Debe ayudar a que Emilia vea físicamente “todo lo que ya sabe”.
+
+C. Bosque que responde a las recompensas
+- Las estrellas de tesoro añaden destellos dorados al mapa por niveles.
+- La recompensa cambia sutilmente el ambiente del bosque; no crear ruido visual.
+
+D. Ajuste de confianza
+- En repaso consolidado se retiran ciertas ayudas automáticas.
+- Audio manual siempre disponible.
+- Gestos se retiran cuando ya domina la habilidad.
+
+============================================================
+10. NUEVO EN v1.3.0
+============================================================
+
+A. Álbum por senderos
+- El Álbum de letras se organiza en cuatro grupos que corresponden a los cuatro senderos del mapa.
+- Mantiene letras/patrones conquistados encendidos y pendientes dormidos/desaturados.
+- La última letra o patrón conquistado recibe un destello breve no punitivo.
+- `prefers-reduced-motion` desactiva ese destello.
+
+B. Vocales visibles como cinco conquistas
+- El mundo inicial de Vocales ya no se resume en una única ficha A·E·I·O·U dentro del Álbum.
+- A, E, I, O y U aparecen como cinco fichas independientes usando los assets aprobados existentes.
+- No se crean misiones nuevas ni se altera la misión forest_vowels: el cambio es únicamente de representación del progreso.
+
+C. Coherencia curricular del patrón R/RR
+- El Álbum rotula el patrón como R·RR para reflejar el contraste curricular ya enseñado en el tercer sendero.
+- No se modifica el ID interno forest_rr ni el progreso guardado.
+
+D. Compatibilidad
+- No cambia la clave de almacenamiento local ni el esquema de perfiles.
+- Los perfiles y progresos de v1.2.0 continúan cargando sin migración destructiva.
+- No se añadieron ni sustituyeron assets gráficos.
+
+============================================================
+11. NUEVO EN v1.4.0
+============================================================
+
+A. Mayúscula y minúscula dejan de ser invisibles
+- Las misiones de letras simples incorporan una correspondencia explícita mayúscula ↔ minúscula.
+- Solo usa letras ya enseñadas; los distractores proceden del repertorio conquistado hasta ese mundo.
+- Las frases modeladas y leídas comienzan visualmente con mayúscula y terminan con punto.
+- Esto es una base: la siguiente expansión debe diferenciar también el trazado de formas mayúsculas y minúsculas sin saturar las sesiones.
+
+B. Escritura productiva de frase con el dedo
+- Frases Vivas ya no termina solamente en escuchar/completar/ordenar/leer.
+- Cuando existe un objetivo disponible, añade una fase final para escribir una frase corta de 2–3 palabras con el dedo.
+- Existen 7 objetivos iniciales y todos usan vocabulario/grafemas de mundos ya aprendidos.
+- En tablet el lienzo aprovecha más ancho; en celular se compacta de forma responsive.
+- La ayuda del ojo muestra modelo tenue; su uso queda registrado como apoyo.
+- No se califica la belleza de la escritura ni se usa como diagnóstico: solo se exige evidencia motriz suficiente antes de completar.
+
+C. Gemas lingüísticas por etapa
+- El cristal decorativo deja de dominar visualmente sobre la vocal o sílaba.
+- Sendero 1: diamante blanquecino/azulado.
+- Sendero 2: rubí claro.
+- Sendero 3: esmeralda.
+- Sendero 4: amatista.
+- La vocal/sílaba se renderiza por encima, con mayor tamaño, contraste y prioridad perceptiva.
+
+D. Ruta de lectura real
+- Se añade `RUTA_LECTOESCRITURA_PRODUCTIVA_v1.4.0.md`.
+- La prioridad futura es avanzar de reconocimiento a decodificación, escritura y lectura autónoma; no aumentar minijuegos por cantidad.
+- Antes de abrir X/K/W o GUE/GUI debe consolidarse producción de frase y lectura con menor dependencia del TTS.
+
+============================================================
+12. NUEVO EN v1.6.0
+============================================================
+
+A. Tinta Mágica de Lumi
+- Es una práctica grafomotora complementaria; NO sustituye el trazado por puntos.
+- Solo se habilitan grafemas individuales ya conquistados.
+- Practica mayúscula y minúscula del mismo grafema.
+- La tinta dorada se recorta mediante máscara del glifo: los trazos visuales solo aparecen dentro de la letra.
+- No se evalúa belleza/calidad caligráfica ni se penaliza salir del recorrido.
+- X, K y W no se activan mientras sigan fuera del currículo actual.
+
+B. Palabra Secreta de Lumi
+- Sustituye la metáfora punitiva del ahorcado por construcción ortográfica con imagen-pista.
+- Usa únicamente palabras de Escaleras de escritura cuya misión ya fue superada y que tengan asset visual aprobado.
+- La niña toca piezas ortográficas en orden para completar la palabra: letras simples o patrones ya enseñados cuando corresponde.
+- No hay vidas, pérdida, ahorcado ni castigo.
+- Tras dos intentos fallidos Lumi ilumina brevemente la letra siguiente.
+- Al completar, se pronuncia la palabra entera.
+- Las piezas repetidas pueden reutilizarse; PERRO usa RR como patrón ya conquistado, LECHE conserva CH y QUESO conserva QUE.
+
+C. Gemas Lingüísticas
+- Mis tesoros incorpora gemas que contienen lenguaje ya conquistado.
+- Tres grupos: letras/patrones, sílabas y palabras.
+- El texto es el elemento dominante; la gema funciona como marco/recompensa.
+- Sendero 1: diamante blanquecino/azulado.
+- Sendero 2: rubí claro.
+- Sendero 3: esmeralda.
+- Sendero 4: amatista.
+- Al tocar una gema se escucha exactamente su unidad lingüística y su categoría de audio.
+- CH, QU, R/RR, CE/CI y GE/GI se tratan como patrones, no como letras simples.
+
+D. Principio de continuidad
+- Esta versión profundiza lectura/escritura sin añadir mundos ni adelantar grafemas.
+- Se preservan progreso local, 28 mundos, cuentos, Lumi, trazado previo, escritura de palabras/frases y PWA.
+- Los siguientes juegos deben justificar su aporte a decodificación, composición o escritura; no añadirse solo por entretenimiento.
+
+============================================================
+13. ESTADO CUANTITATIVO v1.6.0
+============================================================
+
+- 28 mundos.
+- 28 misiones.
+- 124 habilidades.
+- 365 actividades declaradas dentro de misiones.
+- 48 actividades de refuerzo.
+- 24 Escaleras de escritura.
+- 23 Frases Vivas.
+- 7 objetivos iniciales de escritura manual de frase de 2–3 palabras.
+- Actividades mayúscula/minúscula se inyectan dinámicamente en misiones de letras simples y por eso no alteran el conteo estático de 365 actividades declaradas.
+- 28 cuentos mágicos.
+- PWA Service Worker: 224 referencias; 0 faltantes en la validación de esta versión.
+
+============================================================
+14. ASSETS Y ESTILO VISUAL
+============================================================
+
+Lumi aprobada y NO debe reemplazarse:
+assets/characters/lumi_guide.png
+assets/characters/lumi_thinking.png
+assets/characters/lumi_cheer.png
+assets/characters/lumi_victory.png
+También existe lumi.svg como fallback.
+
+Ya existe un paquete narrativo integrado con fondos, personajes y props para cuentos:
+- parque de vocales,
+- picnic,
+- cocina/hogar,
+- mesa para amasar,
+- noche/luna,
+- exploración,
+- Domo de la D,
+- Jardín de Palabras,
+- personajes y objetos correspondientes.
+
+No generar assets nuevos salvo que una mejora realmente los necesite.
+Mantener estética cálida, infantil, limpia, semirrealista/cartoon 3D suave, sin saturación.
+
+============================================================
+15. ESTRUCTURA TÉCNICA PRINCIPAL
+============================================================
+
+index.html
+manifest.webmanifest
+sw.js
+
+data/content.js
+
+css/tokens.css
+css/base.css
+css/screens.css
+css/animations.css
+
+js/app.js
+js/state/store.js
+js/audio/audio-bank.js
+js/audio/voice.js
+js/learning/mastery.js
+js/learning/reading-adapt.js
+js/learning/tracing.js
+js/learning/scheduler.js
+js/learning/engine.js
+js/screens/renderers.js
+
+assets/...
+
+No introducir bundler ni framework si no es imprescindible.
+La app debe seguir funcionando como proyecto estático compatible con GitHub/Cloudflare/PWA.
+
+============================================================
+16. REGLAS DE IMPLEMENTACIÓN
+============================================================
+
+1. Trabaja siempre desde el ZIP estable adjunto.
+2. No reconstruyas.
+3. Preserva funcionalidades existentes.
+4. Haz cambios incrementales y auditables.
+5. Cada implementación debe terminar con un ZIP descargable.
+6. Validar sintaxis de todos los JS con node --check.
+7. Verificar referencias del Service Worker y assets faltantes.
+8. Verificar IDs duplicados y referencias de habilidades rotas.
+9. Verificar balance de llaves CSS.
+10. No afirmar prueba visual en navegador si no se ejecutó realmente.
+11. Priorizar celular/tablet y evitar apeñuscamiento.
+12. Conservar alternativa por toque cuando exista arrastre.
+13. Respetar prefers-reduced-motion.
+14. No convertir cuentos en exámenes.
+15. No añadir preguntas finales a cuentos.
+16. No introducir instrucciones largas si una frase breve sirve.
+17. No confundir fonema, nombre de letra, vocal, sílaba y palabra.
+18. Si encuentras inconsistencias curriculares, corrígelas antes de expandir.
+19. No borrar el progreso del usuario ni romper migración de estados.
+20. Mantener fallback TTS hasta integrar los audios locales reales.
+
+============================================================
+17. FORMA DE TRABAJO DESEADA
+============================================================
+
+Cuando diga “avanza”, “aplica mejoras” o “nueva implementación”:
+- inspecciona la versión estable,
+- identifica el siguiente punto con mayor valor,
+- implementa de verdad,
+- autoaudita,
+- entrega nuevo ZIP.
+
+No respondas únicamente con propuestas si la solicitud es implementar.
+No pidas reconfirmación para cambios que sean preservativos y coherentes con estas reglas.
+
+============================================================
+18. PRÓXIMOS FRENTES POSIBLES, NO OBLIGATORIOS
+============================================================
+
+Priorizar según pruebas reales de Emilia, no por lista rígida:
+- probar visualmente v1.7.0 en tablet/celular real, especialmente escritura palabra por palabra y sensibilidad del trazo;
+- avanzar hacia una escalera de independencia: copia visible → guía tenue → apoyo por palabras → escena → dictado opcional;
+- estudiar un Cuaderno de Emilia local para conservar producciones propias y releerlas;
+- diseñar Retos del fin de semana como 3 microretos de leer/construir/escribir, sin pérdida por ausencia ni rachas manipulativas;
+- mejorar Rescate de palabras a partir de uso real y señales de ayuda solicitada;
+- ampliar recompensa ambiental sin saturar;
+- integrar audio real de Z.AI cuando se entregue el ZIP de sonidos;
+- integrar animaciones de Lumi solamente si los frames/sprites llegan y preservan su identidad;
+- estudiar X, K y W como letras viajeras solo cuando el recorrido actual esté sólido;
+- GUE/GUI queda pendiente como patrón posterior;
+- seguir auditando decodabilidad de frases y palabras;
+- no reincorporar TTS automático en tareas de lectura consolidada salvo necesidad auditiva real.
+
+============================================================
+19. ARCHIVO BASE QUE DEBES USAR EN EL NUEVO CHAT
+============================================================
+
+Subir primero:
+Emilia_Bosque_de_las_Palabras_v1.10.0_Cuaderno_Escritura_Adaptativa.zip
+
+Luego pegar TODO este prompt.
+
+La prioridad es continuar desde v1.10.0 sin perder nada de lo construido, consolidar navegación, escritura autónoma y conservación/relectura de producciones antes de expandir grafemas.
+
+
+NUEVO EN v1.6.0
+- Rompecabezas lingüísticos adaptativos 4/9/12 piezas según progreso; solo palabras e imágenes ya conquistadas.
+- Ruta de puntos con letras/unidades ortográficas conocidas y lectura final de la palabra.
+- No usar estas mecánicas como entretenimiento aislado: siempre deben desembocar en lectura o escritura.
+
+
+NUEVO EN v1.7.0
+- Frases Vivas retira adaptativamente el modelo sonoro: apoyo conserva modelado; crecimiento/confianza priorizan lectura visual y oído voluntario.
+- Señal infantil mínima “👀 primero tú → 👂” en tareas lectoras con audio opcional.
+- Escritura de frases responsive: frase completa en tablet/PC y palabra por palabra en celular, conservando contexto global.
+- El trazador de palabra preserva mayúscula inicial cuando se usa dentro de una frase.
+- La ayuda de audio/pista se registra como apoyo, no como error o castigo.
+- Zona adulta muestra intentos de frase sin/con audio y producción escrita, solo como seguimiento educativo.
+- No se añadieron mundos, grafemas, historias ni assets.
+
+
+============================================================
+NUEVO EN v1.8.0 · RESPONSIVE MÓVIL + ORIENTACIÓN DE PROGRESIÓN
+============================================================
+
+A. Regla UX obligatoria para bloqueos
+- Un mundo bloqueado NUNCA puede quedar silencioso o exigir que el niño deduzca por qué no avanza.
+- Si la siguiente misión depende de una habilidad todavía bajo el umbral de dominio, Lumi debe mostrar y nombrar el paso que falta.
+- El mapa muestra visualmente origen → destino (por ejemplo M ↻ → P), resalta/titila el repaso requerido y ofrece un único botón infantil claro.
+- Al tocar una letra/mundo bloqueado, no ignorar el toque: activar la guía visual y la consigna de voz.
+- La primera vez que aparece un bloqueo en una sesión, Lumi lo anuncia automáticamente una vez; puede repetirse tocando a Lumi o el nodo bloqueado.
+- Después de completar el repaso-puente, al volver al bosque Lumi debe indicar si ya se abrió el siguiente lugar o qué paso continúa pendiente.
+- Los cuentos, tesoros y retos opcionales NO se convierten implícitamente en requisitos de desbloqueo. Si en el futuro alguna actividad fuera obligatoria, debe mostrarse y narrarse con la misma claridad.
+
+B. Repaso-puente adaptativo
+- progressionGuide identifica la primera misión no completada y el requisito real que falta.
+- Cuando falta un umbral de habilidad, buildUnlockBridgeSession crea una micro-sesión de 3 actividades del contenido ya enseñado.
+- Priorizar variedad de mecánicas cuando el banco lo permite; no repetir tres tareas idénticas si existe alternativa.
+- El repaso no introduce grafemas futuros y actualiza el mismo mastery real; no usa un desbloqueo artificial.
+- Se verificaron todos los requisitos de habilidad del recorrido para que produzcan un puente válido.
+
+C. Responsive móvil seguro
+- En <=620 px, los lienzos y tableros deben medir respecto al contenedor disponible, NO con 96–97vw dentro de una tarjeta con padding.
+- Mantener zona segura lateral para escritura; la guía de palabra recalcula tamaño tipográfico según ancho útil.
+- En <=620 px la cabecera de misión se organiza en dos filas para evitar controles apretados: navegación/racha arriba, progreso/contador abajo.
+- activity-card y shells de escritura/trazado deben permanecer dentro del viewport, sin desbordamiento horizontal.
+- La escritura de frase mantiene palabra por palabra en celular y frase completa en tablet/PC.
+
+D. Evidencia de prueba v1.8.0
+- Las capturas reales de celular mostraron recorte lateral de escritura y controles apretados; estas incidencias motivaron el ajuste.
+- Un fixture de layout en Chromium a 390 px verificó scrollWidth=390, cabecera 370 px, tarjeta 370 px, lienzo de palabra 344 px y acciones 330 px, todos dentro del viewport.
+- El entorno bloqueó por política la navegación Chromium al proyecto local completo; NO afirmar prueba E2E visual completa en navegador.
+- La validación real final debe repetirse en el dispositivo de Emilia después de instalar/actualizar la PWA.
+
+E. Prioridad inmediata después de v1.8.0
+1. Reprobar en el celular real las pantallas aportadas: mapa, gemas/sílabas y escritura de palabra.
+2. Ajustar sensibilidad/tamaño del trazo solo con evidencia real; evitar nuevas mecánicas hasta confirmar que el niño nunca queda atrapado.
+3. Si la orientación funciona, avanzar hacia Cuaderno de Emilia y escalera de independencia de escritura.
+4. Mantener como criterio: el niño no puede leer instrucciones largas ni adivinar estados internos del sistema. Mostrar + señalar + nombrar.
+
+
+============================================================
+NUEVO EN v1.9.0 · CIERRE SEGURO DE MISIÓN + REANUDACIÓN VISIBLE
+============================================================
+
+A. Cierre adaptativo protegido
+- Una misión NO puede terminar anticipadamente si una habilidad aprendida dentro de esa misma misión sigue siendo un requisito pendiente del mundo inmediato.
+- missionUnlockObligations() identifica requisitos del siguiente mundo que pertenecen realmente al contenido de la misión actual.
+- missionClosureGuide() expone qué obligación está lista o pendiente.
+- shouldEnd() conserva el cierre adaptativo únicamente cuando esas obligaciones ya están cumplidas.
+- Si se agotan todas las actividades y el requisito sigue bajo por errores/ayudas, la misión puede terminar, pero el resultado debe anunciar que hace falta un repaso y el bosque debe activar el repaso-puente. No ocultar el requisito.
+- El repaso-puente sigue existiendo como red de seguridad; no debe ser el mecanismo habitual para compensar cierres prematuros.
+
+B. Misión a medias visible
+- Si existe activeSession de tipo mission, el mundo correspondiente muestra un distintivo ▶ y un pulso visual.
+- Al volver al bosque aparece una guía infantil con Lumi, la letra/mundo y una señal de continuar.
+- Lumi nombra de forma breve cuántos pasos faltan y señala el lugar o botón que debe tocarse.
+- Tocar el mismo mundo con una sesión guardada debe reanudar exactamente el índice guardado, NO reconstruir ni reiniciar la misión.
+- Salir al bosque desde una misión activa debe activar una única pista de reanudación.
+
+C. Pausas y cierre
+- En una pausa de microtramo, si todavía está pendiente la habilidad que abrirá el siguiente mundo, mostrar visualmente actual → siguiente y narrar una sola instrucción breve: seguir un poco más para abrirlo.
+- Si una misión termina y todavía requiere repaso antes del siguiente mundo, el resultado debe decirlo explícitamente antes de volver al bosque.
+
+D. Validación v1.9.0
+- Se probaron las 26 transiciones en las que una habilidad propia de la misión actual es requisito directo del siguiente mundo: con score bajo shouldEnd=false; con el umbral satisfecho shouldEnd=true.
+- Se comprobó por mock que startMission() no crea una sesión nueva al tocar el mismo mundo si ya existe una sesión guardada: conserva missionId e index.
+- Mantener 28 mundos, 28 misiones, 124 habilidades y 365 actividades curriculares declaradas.
+- No se cambió content.js, store.js ni mastery.js; no cambiar el esquema de progreso por esta mejora.
+- El intento de fixture Chromium volvió a quedar bloqueado/colgado por DBus/UPower del entorno. NO afirmar validación visual E2E; repetir en celular real.
+
+E. Prioridad después de v1.9.0
+1. Probar en el celular real: salir a mitad de una letra, comprobar ▶ + voz + reanudación exacta.
+2. Probar una letra con respuestas asistidas/errores y confirmar que no se cierre anticipadamente si todavía falta el requisito del mundo siguiente.
+3. Ajustar sensibilidad/tamaño del trazo solo con evidencia real del dedo.
+4. Si navegación y cierres quedan sólidos, avanzar a Cuaderno de Emilia y escalera de independencia escrita.
+5. No agregar Retos del fin de semana ni nuevas letras mientras existan dudas de navegación, cierre o escritura móvil.
+
+Principio reforzado:
+**No basta con mostrar que algo terminó; la app debe garantizar que el cierre sea coherente con lo que exige el siguiente paso. Mostrar + señalar + nombrar + cerrar con criterio.**
+
+
+============================================================
+NUEVO EN v1.10.0 · CUADERNO DE EMILIA + ESCRITURA ADAPTATIVA
+============================================================
+
+A. Cuaderno de Emilia
+- Ubicación: Mis tesoros → Mi cuaderno.
+- Guardar algunas producciones reales de `wordWrite` y `sentenceWrite` como trazos normalizados, no como imágenes pesadas.
+- Máximo 18 entradas y máximo 2 muestras por mismo texto.
+- Tocar una producción permite escuchar la palabra/frase y releerla.
+- No puntuar estética, proporción ni “bonita/fea” la letra.
+- En celular, las frases pueden guardar muestras palabra por palabra; en tablet/PC, la producción completa.
+
+B. Escalera adaptativa de escritura
+- La retirada de ayuda depende de evidencia de escritura independiente previa de la misma palabra.
+- `copy`: sin evidencia independiente → modelo visible + guía completa + modelado sonoro.
+- `faded`: una producción independiente → guía tenue; audio deja de ser automático.
+- `scene`: dos o más producciones independientes → imagen primero; sin mostrar la palabra ni reproducirla automáticamente. Oído y ojo siempre disponibles como ayuda voluntaria.
+- Solicitar ayuda registra apoyo, no fracaso.
+- No retirar contexto de frases tan rápido como en palabras; mantener prudencia por carga de memoria de trabajo.
+
+C. Persistencia
+- Estado interno 7.6 añade `notebook:{version:1,entries:[]}` mediante migración compatible.
+- No borrar ni reiniciar perfiles anteriores.
+
+D. Prioridad después de v1.10.0
+1. Probar Cuaderno y escalera adaptativa en el celular/tablet real.
+2. Ajustar sensibilidad de trazo solo con evidencia real.
+3. Si funciona bien, estudiar una comparación simple entre dos muestras de la misma palabra y extender gradualmente independencia de frases.
+4. No abrir nuevas letras mientras escritura/navegación requieran ajustes.
+
+Principio reforzado:
+**Lo escrito no desaparece: se conserva para releer. La ayuda se retira por evidencia de independencia, nunca por presión o castigo.**

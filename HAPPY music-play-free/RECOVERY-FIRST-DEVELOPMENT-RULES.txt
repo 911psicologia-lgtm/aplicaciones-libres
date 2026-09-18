@@ -1,0 +1,19 @@
+MUSIC PLAY FREE HAPPY · RECOVERY-FIRST DEVELOPMENT RULES
+Base estable desde R10.7.1 · 2026-09-09
+
+Estas reglas son obligatorias para toda versión posterior:
+
+1. Mantener DB_NAME = mpf-minimal-db salvo migración explícita con copia previa y puente de lectura.
+2. Nunca borrar IndexedDB, local storage persistente, OPFS, playlists, tracks, history o prefs como parte de una actualización.
+3. Los aumentos de DB_VERSION deben ser ADITIVOS: crear stores/índices nuevos sin eliminar los existentes.
+4. Si cambia un modelo de datos, primero leer el formato anterior, convertirlo y solo después persistir el nuevo.
+5. Conservar compatibilidad de restauración con music-play-backup v1 y Recovery Vault v2 o migrar explícitamente schemas anteriores.
+6. Antes de aplicar una actualización desde la app, ejecutar createRecoveryBackup({reason:'before-app-update', download:true}).
+7. En el primer arranque de cada build con biblioteca existente, crear snapshot interno y Recovery JSON automático.
+8. Mantener como mínimo 8 snapshots internos recientes.
+9. Si la biblioteca activa aparece vacía pero hay snapshots internos con datos, NO sobrescribirlos: ofrecer recuperación.
+10. No incluir bytes MP3/MP4 en JSON. El Recovery conserva metadatos, relaciones, playlists, favoritos, historial, cola, fuentes y preferencias; archivos locales pueden requerir revinculación.
+11. Para máxima continuidad, desplegar/instalar MUSIC PLAY bajo un origen estable. Abrir index.html desde carpetas locales distintas puede hacer que el navegador trate el almacenamiento como otro origen.
+12. Ninguna futura R10.8/R11 debe eliminar Recovery Guard para simplificar código.
+
+13. Desde R10.8, preservar también contentType de colecciones, manualQueueIds y repeatOneId en toda migración y Recovery.

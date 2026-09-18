@@ -1,7 +1,9 @@
 (() => {
   'use strict';
 
-  const VERSION = '3.57.0';
+  const VERSION = '3.62.0';
+  // v3.61.0: GUARDIAN COMBAT PERSONA + INTENT CHAINS. Perfiles estratégicos M11–M20 coordinan ecología, intención, firma y movimiento sin añadir HP ni nuevas capas simultáneas.
+  // v3.62.0: STRATEGIC MEMORY + INTENT FATIGUE. La personalidad recuerda intenciones/firmas recientes, evita bucles predecibles y conserva memoria parcial al cambiar de fase sin romper el Árbitro Táctico.
   // v3.29.0: rebalance global 1–20 por composición/ritmo, RIFT ALLY aleatorio 10s y Última Oportunidad manual de 5s.
   // v3.31.0: pulido UX móvil, cierre universal de overlays, carriles táctiles robustos y legibilidad de combate.
   // v3.33.0: identidad legible de Naves Rizoma, telegráfico de especial con assets reales y lectura de build ampliada.
@@ -23,6 +25,9 @@
   // v3.55.0: RIZOMA RIPOSTE + PHASE OBJECTIVES + POWER PATTERN COUNTERS. Convierte daño durante núcleo expuesto en contraataque signature, añade anclas temporales de fase y reacciones geométricas a poderes repetidos sin anular la build.
   // v3.56.0: RIZOMA FLOW + PERFECT DODGE RESONANCE. Casi-impactos y resoluciones limpias cargan Flow; al completarse abre un duelo directo que potencia la siguiente ventana de Riposta sin alterar HP base.
   // v3.57.0: CONTRAVECTOR RIZOMA + RUPTURA DE PATRÓN. Evasiones signature pueden invertir proyectiles reales hacia el Guardián; dos contravectores por fase rompen temporalmente su coreografía sin cancelar Último Asalto.
+  // v3.58.0: GUARDIAN TACTICAL ARBITER + RECOVERY RHYTHM. Coordina Firma/Cerco/Enlace/Anclas/Duelo por carga real, evita solapamientos y crea recuperación corta tras resoluciones limpias sin alterar HP base.
+  // v3.59.0: TACTICAL STATE WATCHDOG + RIZOMA FOCUS. Sanea estados residuales, adapta la recuperación a carga/estado del jugador y concentra el combate tras cadenas limpias sin tocar HP base.
+  // v3.60.0: TACTICAL COHESION + SPAWN GATES. Formaliza prioridades, limita la acumulación de recuperación, estabiliza FOCO con histéresis y centraliza gates de nuevos minions/escoltas/hazards según carga real.
   // Conserva tractor progresivo, Taller RIZOMA, RIFT ALLY, Última Oportunidad, 20 mundos y assets existentes.
   // v3.9.0: añade gobernador visual adaptativo y refuerza legibilidad sin alterar lógica de combate.
   // v3.16.0: balance 5C individual de Flota de Conquista + Hangar Táctico reconstruido con comparador, recomendaciones y presets persistentes.
@@ -3643,7 +3648,7 @@
 
     createBalanceTelemetrySession(resumed=false) {
       const mode=this.trainingMode?.active?'training':(this.replayMode?.guidedPlaytest?'playtest':(this.replayMode?.active?'replay':'campaign'));
-      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0,resurrections:0,signatureSequences:0,lastStand:0,arenaCounters:0,escortCombos:0,counterplayWindows:0,phaseEcologyTransitions:0,playerRipostes:0,phaseObjectives:0,phaseObjectiveWins:0,powerCounters:0,perfectDodges:0,flowBursts:0,duelWindows:0,duelWins:0,countervectors:0,patternBreaks:0,lastStandParries:0},adaptiveBoss:{schema:2,mode:'live-lite',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,liveMitigation:0,mitigatedDamage:0,assistanceDrops:0,resurrectionTriggered:false,evaluations:[]},startBuild:null,endBuild:null,flow:{breathers:0,deadZoneRescues:0,maxPressure:0},finalized:false};
+      return {schema:2,id:`bt_${Date.now()}_${Math.random().toString(36).slice(2,7)}`,world:this.mapIndex+1,mapIndex:this.mapIndex,difficulty:this.difficulty||'normal',mode,resumed:!!resumed,startedAt:new Date().toISOString(),activeSeconds:0,bossSeconds:0,sampleTimer:0,waveReached:this.wave||1,startKills:Number(this.run?.kills||0),startScore:Number(this.run?.score||0),damageIncoming:0,shieldDamage:0,hpDamage:0,hitEvents:0,lethalEvents:0,lastChanceTriggers:0,revives:0,powerActivations:0,powers:{},density:{maxEnemies:0,maxEnemyBullets:0,maxPlayerBullets:0,maxParticles:0,maxPickups:0,maxHazards:0,maxAllies:0,maxThreatLoad:0},boss:{started:false,phasesReached:0,phaseBreaks:0,cleanPhases:0,resurrections:0,signatureSequences:0,lastStand:0,arenaCounters:0,escortCombos:0,counterplayWindows:0,phaseEcologyTransitions:0,playerRipostes:0,phaseObjectives:0,phaseObjectiveWins:0,powerCounters:0,perfectDodges:0,flowBursts:0,duelWindows:0,duelWins:0,countervectors:0,patternBreaks:0,lastStandParries:0,tacticalDeferrals:0,tacticalRecoveries:0,overlapPreventions:0,maxBossLoad:0,stateSanitizations:0,momentumPeak:0,focusSeconds:0,focusActivations:0,spawnBlocks:0,recoveryBudgetExhaustions:0,highLoadSeconds:0,criticalLoadSeconds:0,personaIntentChanges:0,personaIntentFulfilled:0,personaFollowups:0,personaSignatureMatches:0,personaFatigueAvoids:0,personaExpiredIntents:0,personaPhaseTheses:0,personaChainDiversions:0},adaptiveBoss:{schema:2,mode:'live-lite',enabled:true,state:'A1',maxState:'A1',powerIndex:0,preBossDps:0,bossDps:0,initialTtk:null,currentTtk:null,minTtk:null,targetWindow:null,wouldDo:null,liveMitigation:0,mitigatedDamage:0,assistanceDrops:0,resurrectionTriggered:false,evaluations:[]},startBuild:null,endBuild:null,flow:{breathers:0,deadZoneRescues:0,maxPressure:0},finalized:false};
     }
 
     restoreBalanceTelemetry(saved={}) {
@@ -5127,7 +5132,7 @@
       f.damageTakenPhase=0;
       b.phaseRupture=.82;
       // v3.37: cada fase reinicia sus mazos. v3.38: la salida de la ruptura abre con la maniobra signature de esa fase.
-      b.patternDeck=[];b.motionDeck=[];b.motionDeckKey='';b.phaseSignaturePending=true;b.modeTimer=Math.min(Number.isFinite(b.modeTimer)?b.modeTimer:.82,.82);if(this.bossFight){this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;if(this.bossFight.rizomaFlow){this.bossFight.rizomaFlow.duelPending=false;this.bossFight.rizomaFlow.vectorCharge=0;this.bossFight.rizomaFlow.phaseCountervectors=0;}}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);
+      b.patternDeck=[];b.motionDeck=[];b.motionDeckKey='';b.phaseSignaturePending=true;this.grantBossTacticalRecovery(.82,'ruptura de fase');this.setBossPersonaPhaseThesis(b,phase);b.modeTimer=Math.min(Number.isFinite(b.modeTimer)?b.modeTimer:.82,.82);if(this.bossFight){this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;if(this.bossFight.rizomaFlow){this.bossFight.rizomaFlow.duelPending=false;this.bossFight.rizomaFlow.vectorCharge=0;this.bossFight.rizomaFlow.phaseCountervectors=0;}}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);
       b.attack=Math.max(b.attack||0,.72);
       b.specialCd=Math.max(b.specialCd||0,1.15);
       b.specialTelegraph=0;b.specialTelegraphMax=0;
@@ -5212,6 +5217,140 @@
       }
     }
 
+    bossCombatPersonaProfile(b=this.bossActive){
+      const world=this.mapIndex+1,phase=Math.max(1,Math.min(4,b?.phase||1));
+      const generic={id:'adaptive',label:'GUARDIÁN ADAPTATIVO',short:'ADAPT.',signatures:['crossfire','helix','pincer','hunter'],intentWeights:{signature:1,arena:1,escort:1},pace:{minion:1,escort:1,hazard:1,signature:1,arena:1,escortCombo:1},motions:{},followups:{signature:'arena',arena:'signature',escort:'signature'}};
+      const profiles={
+        11:{id:'duneStalker',label:'ACECHADOR DUNAR',short:'ACECHO',signatures:['hunter','pincer','crossfire'],intentWeights:{signature:1.34,arena:1.16,escort:.78},pace:{minion:.96,escort:.92,hazard:1.02,signature:1.12,arena:1.10,escortCombo:.92},motions:{signature:'dive',arena:'sweep',escort:'serpentine'},followups:{signature:'arena',arena:'signature',escort:'signature'}},
+        12:{id:'abyssalShepherd',label:'PASTOR ABISAL',short:'ABISAL',signatures:['helix','crossfire','pincer'],intentWeights:{signature:1.04,arena:1.26,escort:1.20},pace:{minion:1.00,escort:1.08,hazard:1.08,signature:1.02,arena:1.18,escortCombo:1.14},motions:{signature:'figure8',arena:'undertow',escort:'tide'},followups:{arena:'escort',escort:'signature',signature:'arena'}},
+        13:{id:'magmaForger',label:'FORJADOR MAGMÁTICO',short:'FORJA',signatures:['crossfire','pincer','helix'],intentWeights:{signature:1.28,arena:.94,escort:.86},pace:{minion:.96,escort:.90,hazard:1.10,signature:1.16,arena:.98,escortCombo:.92},motions:{signature:'slam',arena:'arc',escort:'forge'},followups:{signature:'arena',arena:'signature',escort:'signature'}},
+        14:{id:'solarOrbiter',label:'ORBITADOR SOLAR',short:'SOLAR',signatures:['helix','crossfire','hunter'],intentWeights:{signature:1.28,arena:1.12,escort:.80},pace:{minion:.92,escort:.88,hazard:1.12,signature:1.18,arena:1.08,escortCombo:.90},motions:{signature:'flareArc',arena:'collapse',escort:'radial'},followups:{signature:'arena',arena:'signature',escort:'signature'}},
+        15:{id:'parasiticConstrictor',label:'CONSTRICTOR PARÁSITO',short:'CERCO',signatures:['pincer','hunter','helix'],intentWeights:{signature:1.02,arena:1.34,escort:1.18},pace:{minion:1.03,escort:1.08,hazard:1.08,signature:1.02,arena:1.20,escortCombo:1.14},motions:{signature:'mawBlink',arena:'coil',escort:'cross'},followups:{arena:'escort',escort:'signature',signature:'arena'}},
+        16:{id:'synapticPredictor',label:'PREDICTOR SINÁPTICO',short:'SINAPSIS',signatures:['hunter','pincer','crossfire'],intentWeights:{signature:1.38,arena:1.04,escort:.82},pace:{minion:.94,escort:.90,hazard:1.00,signature:1.22,arena:1.02,escortCombo:.90},motions:{signature:'vectorLock',arena:'synapseOrbit',escort:'nodeJump'},followups:{signature:'arena',arena:'signature',escort:'signature'}},
+        17:{id:'cryoHunter',label:'CAZADOR CRIO',short:'CAZA',signatures:['hunter','crossfire','pincer'],intentWeights:{signature:1.40,arena:1.16,escort:.88},pace:{minion:.92,escort:.90,hazard:1.04,signature:1.22,arena:1.12,escortCombo:.92},motions:{signature:'pounce',arena:'iceFlank',escort:'stalk'},followups:{signature:'arena',arena:'signature',escort:'signature'}},
+        18:{id:'panelTrickster',label:'EDITOR DE RUPTURA',short:'RUPTURA',signatures:['helix','pincer','hunter'],intentWeights:{signature:1.30,arena:.98,escort:1.06},pace:{minion:.94,escort:1.02,hazard:1.02,signature:1.18,arena:1.00,escortCombo:1.04},motions:{signature:'cutAcross',arena:'panelDash',escort:'pageArc'},followups:{signature:'escort',escort:'signature',arena:'signature'}},
+        19:{id:'psionController',label:'CONTROLADOR PSIÓNICO',short:'PSIÓN',signatures:['pincer','helix','crossfire'],intentWeights:{signature:1.30,arena:1.28,escort:.80},pace:{minion:.90,escort:.88,hazard:1.06,signature:1.20,arena:1.20,escortCombo:.88},motions:{signature:'needleDive',arena:'psionStrafe',escort:'psionHover'},followups:{arena:'signature',signature:'arena',escort:'signature'}},
+        20:{id:'apexPredator',label:'DEPREDADOR ÁPICE',short:'ÁPICE',signatures:['hunter','crossfire','pincer'],intentWeights:{signature:1.48,arena:1.16,escort:.92},pace:{minion:.88,escort:.90,hazard:1.02,signature:1.30,arena:1.12,escortCombo:.96},motions:{signature:'charge',arena:'skid',escort:'hunt'},followups:{signature:'arena',arena:'signature',escort:'signature'}}
+      };
+      const base=profiles[world]||generic;
+      const signaturePool=(world===20&&phase>=4)?['hunter','crossfire','hunter','pincer']:(world===19&&phase>=4?['pincer','helix','crossfire']:base.signatures);
+      return {...base,phase,signaturePool};
+    }
+
+    ensureBossPersonaMemory(){
+      const a=this.ensureBossTacticalArbiter();if(!a)return null;
+      a.personaFatigue||(a.personaFatigue={signature:0,arena:0,escort:0});
+      a.personaSignatureFatigue||(a.personaSignatureFatigue={crossfire:0,helix:0,pincer:0,hunter:0});
+      a.personaChainFatigue||(a.personaChainFatigue={});
+      a.personaIntentHistory||(a.personaIntentHistory=[]);
+      if(a.personaPhaseThesis===undefined)a.personaPhaseThesis=null;
+      if(!Number.isFinite(a.personaMemoryPhase))a.personaMemoryPhase=1;
+      return a;
+    }
+
+    decayBossPersonaMemory(dt){
+      const a=this.ensureBossPersonaMemory();if(!a)return;
+      for(const k of ['signature','arena','escort'])a.personaFatigue[k]=Math.max(0,(a.personaFatigue[k]||0)-dt*.075);
+      for(const k of ['crossfire','helix','pincer','hunter'])a.personaSignatureFatigue[k]=Math.max(0,(a.personaSignatureFatigue[k]||0)-dt*.055);
+      for(const k of Object.keys(a.personaChainFatigue||{})){a.personaChainFatigue[k]=Math.max(0,(a.personaChainFatigue[k]||0)-dt*.045);if(a.personaChainFatigue[k]<.02)delete a.personaChainFatigue[k];}
+      const elapsed=this.bossFight?.elapsed||0;a.personaIntentHistory=(a.personaIntentHistory||[]).filter(x=>elapsed-(x.t||0)<28);
+      if(a.personaPhaseThesis&&a.personaPhaseThesis.expires<=elapsed)a.personaPhaseThesis=null;
+    }
+
+    setBossPersonaPhaseThesis(b=this.bossActive,phase=b?.phase||1){
+      const f=this.bossFight,a=this.ensureBossPersonaMemory();if(!f||!a||phase<2)return null;
+      const persona=this.bossCombatPersonaProfile(b),weights={...(persona.intentWeights||{})};
+      if(phase===2)weights.escort=(weights.escort||1)*1.18;
+      else if(phase===3)weights.arena=(weights.arena||1)*1.24;
+      else if(phase>=4)weights.signature=(weights.signature||1)*1.38;
+      const kinds=['signature','arena','escort'].filter(k=>(weights[k]||0)>0).sort((x,y)=>(weights[y]||0)-(weights[x]||0));
+      let kind=kinds[0]||'signature';
+      if(a.personaIntentHistory?.length){const recent=a.personaIntentHistory[a.personaIntentHistory.length-1]?.kind;if(recent===kind&&kinds.length>1)kind=kinds[1];}
+      const elapsed=f.elapsed||0;a.personaPhaseThesis={kind,phase,expires:elapsed+10.5,label:this.bossPersonaIntentLabel(kind)};a.personaMemoryPhase=phase;
+      // La memoria persiste entre fases, pero pierde fuerza para permitir una nueva lectura del Guardián.
+      for(const k of ['signature','arena','escort'])a.personaFatigue[k]=(a.personaFatigue[k]||0)*.58;
+      for(const k of ['crossfire','helix','pincer','hunter'])a.personaSignatureFatigue[k]=(a.personaSignatureFatigue[k]||0)*.62;
+      for(const k of Object.keys(a.personaChainFatigue||{}))a.personaChainFatigue[k]*=.55;
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaPhaseTheses=(this.telemetrySession.boss.personaPhaseTheses||0)+1;
+      return a.personaPhaseThesis;
+    }
+
+    bossPersonaFollowupKind(persona,kind,a=this.ensureBossPersonaMemory()){
+      const base=persona?.followups?.[kind]||null;if(!base||!a)return base;
+      const key=`${kind}>${base}`,fatigue=a.personaChainFatigue?.[key]||0;
+      if(fatigue<1.45)return base;
+      const alternatives=['signature','arena','escort'].filter(x=>x!==kind&&x!==base);
+      const alt=alternatives.sort((x,y)=>(a.personaFatigue?.[x]||0)-(a.personaFatigue?.[y]||0))[0]||base;
+      if(alt!==base&&this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaChainDiversions=(this.telemetrySession.boss.personaChainDiversions||0)+1;
+      return alt;
+    }
+
+    noteBossPersonaIntent(kind='signature',outcome='fulfilled'){
+      const f=this.bossFight,a=this.ensureBossPersonaMemory();if(!f||!a)return;
+      const elapsed=f.elapsed||0,boost=outcome==='fulfilled'?1.00:(outcome==='expired'?.62:.38);
+      if(a.personaFatigue[kind]!=null)a.personaFatigue[kind]=clamp((a.personaFatigue[kind]||0)+boost,0,3.2);
+      a.personaIntentHistory.push({kind,t:elapsed,outcome});if(a.personaIntentHistory.length>16)a.personaIntentHistory.splice(0,a.personaIntentHistory.length-16);
+      if(a.personaPhaseThesis?.kind===kind&&outcome==='fulfilled')a.personaPhaseThesis=null;
+    }
+
+    bossPersonaIntentLabel(kind='signature'){
+      return ({signature:'FIRMA',arena:'CERCO',escort:'ENLACE'})[kind]||String(kind||'TACTICA').toUpperCase();
+    }
+
+    bossPersonaIntentWeights(b=this.bossActive){
+      const f=this.bossFight,a=this.ensureBossTacticalArbiter(),persona=this.bossCombatPersonaProfile(b),phase=Math.max(1,b?.phase||1);
+      const w={signature:persona.intentWeights?.signature||1,arena:persona.intentWeights?.arena||1,escort:persona.intentWeights?.escort||1};
+      if(phase===2)w.escort*=1.14;else if(phase===3)w.arena*=1.20;else if(phase>=4){w.signature*=1.30;w.escort*=.78;}
+      const m=f?.tacticalMemory;if((m?.confidence||0)>.55)w.signature*=1.18;
+      const ac=f?.arenaControl;if((ac?.cornerTime||0)>.8||(ac?.edgeTime||0)>1.4)w.arena*=1.42;
+      const escorts=(this.enemies||[]).filter(e=>!e.boss&&e.bossEscort&&e.hp>0).length;if(escorts>=2)w.escort*=1.26;else w.escort*=.30;
+      if(a?.focusActive){w.signature*=1.20;w.arena*=.90;w.escort*=.84;}
+      const expected=a?.personaExpectedFollowup;if(expected&&expected.expires>(f?.elapsed||0)&&w[expected.kind]!=null)w[expected.kind]*=1.42;
+      const thesis=a?.personaPhaseThesis;if(thesis&&thesis.expires>(f?.elapsed||0)&&w[thesis.kind]!=null)w[thesis.kind]*=1.34;
+      const recent=a?.lastKind;if(recent&&w[recent]!=null)w[recent]*=.68;
+      const mem=this.ensureBossPersonaMemory();for(const kind of ['signature','arena','escort']){const fatigue=mem?.personaFatigue?.[kind]||0;w[kind]*=1/(1+fatigue*.52);const repeats=(mem?.personaIntentHistory||[]).filter(x=>x.kind===kind&&(f?.elapsed||0)-(x.t||0)<16).length;if(repeats>=2){w[kind]*=Math.max(.38,1-(repeats-1)*.20);}}
+      return w;
+    }
+
+    chooseBossPersonaIntent(b=this.bossActive){
+      const w=this.bossPersonaIntentWeights(b),entries=Object.entries(w).filter(([,v])=>Number.isFinite(v)&&v>0),total=entries.reduce((s,[,v])=>s+v,0);if(!entries.length||total<=0)return null;
+      let r=Math.random()*total;for(const [kind,value] of entries){r-=value;if(r<=0)return kind;}return entries[entries.length-1][0];
+    }
+
+    updateBossCombatPersona(dt,snapshot=null){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b)return;
+      const a=this.ensureBossPersonaMemory(),persona=this.bossCombatPersonaProfile(b),elapsed=f.elapsed||0;
+      this.decayBossPersonaMemory(dt);a.personaId=persona.id;a.personaLabel=persona.label;a.personaIntentCd=Math.max(0,(a.personaIntentCd||0)-dt);
+      if(a.personaExpectedFollowup&&a.personaExpectedFollowup.expires<=elapsed)a.personaExpectedFollowup=null;
+      if(a.personaIntent){a.personaIntent.timer=Math.max(0,(a.personaIntent.timer||0)-dt);if(a.personaIntent.timer<=0){this.noteBossPersonaIntent(a.personaIntent.kind,'expired');if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaExpiredIntents=(this.telemetrySession.boss.personaExpiredIntents||0)+1;a.personaIntent=null;}}
+      if((b.phase||1)<2||f.lastStand||(b.phaseRupture||0)>0)return;
+      const state=this.bossTacticalCurrentState(),snap=snapshot||this.bossTacticalSnapshot();
+      if(a.personaIntent&&(state==='none'||state==='focus')&&(a.recovery||0)<=0){
+        const kind=a.personaIntent.kind;
+        if(kind==='signature')f.signatureCooldown=Math.min(Number.isFinite(f.signatureCooldown)?f.signatureCooldown:1.2,.88);
+        else if(kind==='arena'){f.arenaControl||(f.arenaControl={edgeTime:0,cornerTime:0,cooldown:2.4,lastSector:-1,sectorTime:0});f.arenaControl.cooldown=Math.min(Number.isFinite(f.arenaControl.cooldown)?f.arenaControl.cooldown:1.0,.72);}
+        else if(kind==='escort')f.escortComboCooldown=Math.min(Number.isFinite(f.escortComboCooldown)?f.escortComboCooldown:1.0,.82);
+      }
+      if(a.personaIntent||a.personaIntentCd>0||(state!=='none'&&state!=='focus')||(a.recovery||0)>0||snap.load>(snap.phone?.68:.76))return;
+      const kind=this.chooseBossPersonaIntent(b);if(!kind)return;
+      const thesisMatch=a.personaPhaseThesis?.kind===kind;a.personaIntent={kind,label:this.bossPersonaIntentLabel(kind),timer:thesisMatch?5.4:4.8,createdAt:elapsed,thesis:!!thesisMatch};a.personaIntentCd=rand(this.isSmallScreen?10.6:9.6,this.isSmallScreen?7.8:6.8);
+      if(a.personaFatigue?.[kind]!=null)a.personaFatigue[kind]=clamp((a.personaFatigue[kind]||0)+.18,0,3.2);
+      const motion=persona.motions?.[kind];if(motion){b.personaMotionHint=motion;b.modeTimer=Math.min(Number.isFinite(b.modeTimer)?b.modeTimer:1.2,1.10);}
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaIntentChanges=(this.telemetrySession.boss.personaIntentChanges||0)+1;
+    }
+
+    bossPersonaSignatureType(b,forcedType=null){
+      const types=['crossfire','helix','pincer','hunter'];if(forcedType&&types.includes(forcedType))return forcedType;
+      const a=this.ensureBossPersonaMemory(),persona=this.bossCombatPersonaProfile(b),raw=(persona.signaturePool||persona.signatures||types).filter(x=>types.includes(x));if(!raw.length)return types[(this.mapIndex+(b?.phase||1))%types.length];
+      const unique=[...new Set(raw)],baseCount={};for(const x of raw)baseCount[x]=(baseCount[x]||0)+1;
+      let candidates=unique;if(a?.personaLastSignature&&unique.length>1){const filtered=unique.filter(x=>x!==a.personaLastSignature);if(filtered.length)candidates=filtered;}
+      const weighted=candidates.map((type,i)=>{const fatigue=a?.personaSignatureFatigue?.[type]||0,preference=baseCount[type]||1,rotation=((this.bossFight?.signatureIndex||0)+this.mapIndex+(b?.phase||1)+i)%4;return {type,score:preference*1.15/(1+fatigue*.70)+rotation*.012};}).sort((x,y)=>y.score-x.score);
+      const type=weighted[0]?.type||candidates[0];if(a?.personaLastSignature&&type!==a.personaLastSignature&&(a.personaSignatureFatigue?.[a.personaLastSignature]||0)>.9&&this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaFatigueAvoids=(this.telemetrySession.boss.personaFatigueAvoids||0)+1;
+      a.personaLastSignature=type;a.personaSignatureFatigue[type]=clamp((a.personaSignatureFatigue[type]||0)+.92,0,3.4);
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaSignatureMatches=(this.telemetrySession.boss.personaSignatureMatches||0)+1;
+      return type;
+    }
+
     bossPhaseEcologyProfile(b=this.bossActive){
       const phase=Math.max(1,Math.min(4,b?.phase||1));
       const profiles={
@@ -5220,7 +5359,156 @@
         3:{id:'siege',label:'CERCO',minionPace:1.04,escortPace:1.08,hazardPace:1.25,signaturePace:1.06,arenaPace:1.18,escortComboPace:1.12},
         4:{id:'predator',label:'DEPREDADOR',minionPace:.82,escortPace:.82,hazardPace:.88,signaturePace:1.35,arenaPace:1.28,escortComboPace:1.05}
       };
-      return profiles[phase];
+      const persona=this.bossCombatPersonaProfile(b),pace=persona.pace||{},base=profiles[phase];
+      let tuned={...base,minionPace:base.minionPace*(pace.minion||1),escortPace:base.escortPace*(pace.escort||1),hazardPace:base.hazardPace*(pace.hazard||1),signaturePace:base.signaturePace*(pace.signature||1),arenaPace:base.arenaPace*(pace.arena||1),escortComboPace:base.escortComboPace*(pace.escortCombo||1),personaId:persona.id,personaLabel:persona.label,personaShort:persona.short};
+      const arb=this.bossFight?.tacticalArbiter,momentum=clamp(arb?.smoothedMomentum??arb?.momentum??0,0,1);
+      if(momentum>.02)tuned={...tuned,minionPace:tuned.minionPace*(1-momentum*.18),escortPace:tuned.escortPace*(1-momentum*.15),hazardPace:tuned.hazardPace*(1-momentum*.16),signaturePace:tuned.signaturePace*(1+momentum*.13),arenaPace:tuned.arenaPace*(1-momentum*.08),escortComboPace:tuned.escortComboPace*(1-momentum*.08)};
+      return tuned;
+    }
+
+    ensureBossTacticalArbiter(){
+      const f=this.bossFight;if(!f)return null;
+      const a=f.tacticalArbiter||(f.tacticalArbiter={lock:0,recovery:0,sampleCd:0,deferCd:0,lastDeferred:'',lastKind:'',lastAt:-99,history:[],cached:null,deferrals:0,recoveries:0,overlapPreventions:0,maxLoad:0,momentum:0,smoothedMomentum:0,momentumTimer:0,focusActive:false,focusHold:0,focusSeconds:0,focusActivations:0,watchdogCd:0,sanitizations:0,recoveryBudget:1.8,recoveryBudgetMax:1.8,recoveryBudgetExhaustions:0,spawnBlocks:0,loadBand:'calm',highLoadSeconds:0,criticalLoadSeconds:0});
+      if(!Number.isFinite(a.personaIntentCd))a.personaIntentCd=1.8;if(a.personaIntent===undefined)a.personaIntent=null;if(a.personaExpectedFollowup===undefined)a.personaExpectedFollowup=null;if(a.personaLastSignature===undefined)a.personaLastSignature='';if(!Number.isFinite(a.personaFulfilled))a.personaFulfilled=0;if(!Number.isFinite(a.personaFollowups))a.personaFollowups=0;
+      return a;
+    }
+
+    bossTacticalPriority(kind='system'){
+      const p={lastStand:100,phase:95,duel:82,objective:72,signature:62,powerCounter:56,arena:50,escort:46,recovery:28,focus:18,system:10};
+      return p[kind]||10;
+    }
+
+    bossTacticalCurrentState(){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return 'none';
+      if(f.lastStand)return 'lastStand';
+      if((b.phaseRupture||0)>0)return 'phase';
+      if(f.duelWindow)return 'duel';
+      if(f.phaseObjective)return 'objective';
+      if(f.signatureSequence)return 'signature';
+      if(f.powerPattern?.pending?.state==='telegraph')return 'powerCounter';
+      if(f.arenaCounter)return 'arena';
+      if(f.escortCombo)return 'escort';
+      const a=this.ensureBossTacticalArbiter();if((a?.recovery||0)>0)return 'recovery';
+      if(a?.focusActive)return 'focus';
+      return 'none';
+    }
+
+    bossTacticalSpawnAllowed(kind='minion'){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b)return false;
+      const a=this.ensureBossTacticalArbiter(),state=this.bossTacticalCurrentState();
+      const block=(overlap=false)=>{this.noteBossTacticalDeferral(`spawn:${kind}`,overlap);a.spawnBlocks=(a.spawnBlocks||0)+1;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.spawnBlocks=(this.telemetrySession.boss.spawnBlocks||0)+1;return false;};
+      if(state==='phase'||state==='duel')return block(true);
+      if(state==='recovery'&&!f.lastStand)return block(false);
+      const snap=this.bossTacticalSnapshot(),phone=!!snap.phone,focus=!!a.focusActive;
+      const baseCap=kind==='hazard'?(phone ? .74 : .82):(kind==='escort'?(phone ? .78 : .86):(phone ? .82 : .89));
+      const cap=baseCap-(focus&&kind!=='escort' ? .035 : 0);
+      if(!f.lastStand&&snap.load>cap)return block(false);
+      return true;
+    }
+
+    bossTacticalSnapshot(force=false){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return {load:0,pressure:0,enemyBullets:0,hazards:0,adds:0,activeCount:0,phone:!!this.isSmallScreen};
+      const a=this.ensureBossTacticalArbiter();if(!force&&a.cached&&(a.sampleCd||0)>0)return a.cached;
+      const phone=!!(this.mobileLandscape||this.mobilePortrait),cb=this.getCombatBounds();
+      let enemyBullets=0;for(const x of (this.bullets||[])){if(x?.enemy&&x.x>=cb.left-60&&x.x<=cb.right+60&&x.y>=cb.top-60&&x.y<=cb.bottom+60)enemyBullets++;}
+      let adds=0;for(const e of (this.enemies||[])){if(e&&!e.boss&&e.hp>0)adds++;}
+      const hazards=(this.meteors?.length||0)+(this.zones?.length||0)+(this.frontThreats?.length||0);
+      const active=[f.signatureSequence,f.arenaCounter,f.escortCombo,f.phaseObjective,f.duelWindow,f.powerPattern?.pending?.state==='telegraph'?f.powerPattern.pending:null,f.lastStand?.state==='telegraph'?f.lastStand:null].filter(Boolean).length;
+      const pressure=clamp(this.combatFlow?.stress||0,0,1),bulletN=clamp(enemyBullets/(phone?16:28),0,1),hazardN=clamp(hazards/(phone?7:11),0,1),addN=clamp(adds/(phone?10:17),0,1),activeN=clamp(active/2,0,1);
+      const load=clamp(bulletN*.34+hazardN*.20+addN*.14+activeN*.20+pressure*.12,0,1);
+      const snap={load,pressure,enemyBullets,hazards,adds,activeCount:active,phone};a.cached=snap;a.sampleCd=.12;a.maxLoad=Math.max(a.maxLoad||0,load);
+      if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.maxBossLoad=Math.max(this.telemetrySession.boss.maxBossLoad||0,load);
+      return snap;
+    }
+
+    noteBossTacticalDeferral(kind='sistema',overlap=false){
+      const a=this.ensureBossTacticalArbiter();if(!a)return;
+      if((a.deferCd||0)>0&&a.lastDeferred===kind)return;
+      a.deferCd=.72;a.lastDeferred=kind;a.deferrals=(a.deferrals||0)+1;if(overlap)a.overlapPreventions=(a.overlapPreventions||0)+1;
+      if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.tacticalDeferrals=(this.telemetrySession.boss.tacticalDeferrals||0)+1;if(overlap)this.telemetrySession.boss.overlapPreventions=(this.telemetrySession.boss.overlapPreventions||0)+1;}
+    }
+
+    bossTacticalCanStart(kind='system',opts={}){
+      const f=this.bossFight,b=this.bossActive;if(!f?.active||!b)return false;
+      const a=this.ensureBossTacticalArbiter(),force=!!opts.force,relief=!!opts.relief;
+      const activeState=this.bossTacticalCurrentState();
+      if(!force&&activeState!=='none'&&activeState!==kind&&this.bossTacticalPriority(activeState)>this.bossTacticalPriority(kind)){this.noteBossTacticalDeferral(kind,true);return false;}
+      if(!force&&(b.phaseRupture||0)>0){this.noteBossTacticalDeferral(kind,true);return false;}
+      if(!force&&(a.recovery||0)>0&&!relief){this.noteBossTacticalDeferral(kind,false);return false;}
+      if(!force&&(a.lock||0)>0&&a.lastKind&&a.lastKind!==kind){this.noteBossTacticalDeferral(kind,true);return false;}
+      const incompatible={signature:['arena','escort','objective'],arena:['signature','escort','objective','duel'],escort:['signature','arena','objective','duel'],objective:['signature','arena','escort','duel'],duel:['arena','escort','objective'],powerCounter:['arena','escort','objective','duel']};
+      const activeKinds=[];if(f.signatureSequence)activeKinds.push('signature');if(f.arenaCounter)activeKinds.push('arena');if(f.escortCombo)activeKinds.push('escort');if(f.phaseObjective)activeKinds.push('objective');if(f.duelWindow)activeKinds.push('duel');
+      if(!force&&activeKinds.some(k=>(incompatible[kind]||[]).includes(k))){this.noteBossTacticalDeferral(kind,true);return false;}
+      const snap=this.bossTacticalSnapshot(),momentum=clamp(a.momentum||0,0,1);let cap=snap.phone?.80:.88;
+      if(momentum>.45){cap+=kind==='signature'?momentum*.045:-momentum*.025;}
+      if(!force&&!relief&&snap.load>cap){this.noteBossTacticalDeferral(kind,false);return false;}
+      const elapsed=f.elapsed||0;if(!force&&a.lastKind===kind&&(elapsed-(a.lastAt||0))<5.4){this.noteBossTacticalDeferral(kind,false);return false;}
+      return true;
+    }
+
+    markBossTacticalStart(kind='system',lock=.55){
+      const f=this.bossFight,a=this.ensureBossTacticalArbiter();if(!f||!a)return;
+      const elapsed=f.elapsed||0,persona=this.bossCombatPersonaProfile(this.bossActive),expected=a.personaExpectedFollowup;
+      if(expected&&expected.expires>elapsed&&expected.kind===kind){a.personaFollowups=(a.personaFollowups||0)+1;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaFollowups=(this.telemetrySession.boss.personaFollowups||0)+1;}
+      if(a.personaIntent?.kind===kind){a.personaFulfilled=(a.personaFulfilled||0)+1;a.personaIntent=null;a.personaIntentCd=Math.max(a.personaIntentCd||0,3.8);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.personaIntentFulfilled=(this.telemetrySession.boss.personaIntentFulfilled||0)+1;}
+      this.noteBossPersonaIntent(kind,'fulfilled');
+      const follow=this.bossPersonaFollowupKind(persona,kind,a);if(follow){const chainKey=`${kind}>${follow}`;a.personaChainFatigue[chainKey]=clamp((a.personaChainFatigue[chainKey]||0)+.82,0,3.2);}a.personaExpectedFollowup=follow?{kind:follow,expires:elapsed+8.5}:null;
+      a.lastKind=kind;a.lastAt=elapsed;a.lock=Math.max(a.lock||0,lock);a.history=(a.history||[]).filter(x=>elapsed-x.t<24);a.history.push({kind,t:elapsed});
+      if(a.history.length>12)a.history.splice(0,a.history.length-12);
+    }
+
+    grantBossTacticalRecovery(seconds=.72,reason='resolución limpia'){
+      const f=this.bossFight,b=this.bossActive,a=this.ensureBossTacticalArbiter();if(!f||!b||!a)return false;
+      const snap=this.bossTacticalSnapshot(),playerRatio=this.player?clamp((this.player.hp||0)/Math.max(1,this.player.maxHp||1),0,1):1;
+      const adaptive=1+clamp((snap.load-.55)*.55,0,.22)+clamp((.42-playerRatio)*.32,0,.12),requested=clamp(seconds*adaptive,.30,1.45);
+      const budgetMax=this.isSmallScreen?1.55:1.85;a.recoveryBudgetMax=budgetMax;if(!Number.isFinite(a.recoveryBudget))a.recoveryBudget=budgetMax;
+      const available=clamp(a.recoveryBudget,0,budgetMax),s=Math.min(requested,available);
+      const reasonBoost=/patrón|anclas|riposta|núcleo|limpia/i.test(reason)?.18:(/fase/i.test(reason)?.10:.08);
+      a.momentum=clamp((a.momentum||0)+reasonBoost+requested*.07,0,1);a.momentumTimer=Math.max(a.momentumTimer||0,4.8+requested);
+      if(s<.22){a.recoveryBudgetExhaustions=(a.recoveryBudgetExhaustions||0)+1;if(this.telemetrySession&&!this.telemetrySession.finalized){const t=this.telemetrySession.boss;t.recoveryBudgetExhaustions=(t.recoveryBudgetExhaustions||0)+1;t.momentumPeak=Math.max(t.momentumPeak||0,a.momentum||0);}return false;}
+      a.recoveryBudget=Math.max(0,available-s);a.recovery=Math.max(a.recovery||0,s);a.lock=Math.max(a.lock||0,s*.58);a.recoveries=(a.recoveries||0)+1;
+      f.minionTimer=Math.max(f.minionTimer||0,s*.92);f.escortTimer=Math.max(f.escortTimer||0,s*.95);f.hazardTimer=Math.max(f.hazardTimer||0,s*.82);b.attack=Math.max(b.attack||0,.24);b.specialCd=Math.max(b.specialCd||0,.42);
+      if(this.telemetrySession&&!this.telemetrySession.finalized){const t=this.telemetrySession.boss;t.tacticalRecoveries=(t.tacticalRecoveries||0)+1;t.momentumPeak=Math.max(t.momentumPeak||0,a.momentum||0);}
+      return true;
+    }
+
+    sanitizeBossTacticalState(force=false){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return 0;
+      const a=this.ensureBossTacticalArbiter();if(!force&&(a.watchdogCd||0)>0)return 0;a.watchdogCd=.32;
+      let fixes=0;const clear=(key)=>{if(f[key]){f[key]=null;fixes++;}};
+      const finite=(obj,key,fallback=0)=>{if(obj&&obj[key]!=null&&!Number.isFinite(obj[key])){obj[key]=fallback;fixes++;}};
+      ['minionTimer','escortTimer','hazardTimer','supportTimer','signatureCooldown','counterplayCooldown','pendingPhaseObjective'].forEach(k=>finite(f,k,0));
+      ['attack','specialCd','phaseRupture','counterplayExposure'].forEach(k=>finite(b,k,0));
+      ['lock','recovery','sampleCd','deferCd','momentum','smoothedMomentum','momentumTimer','focusHold','recoveryBudget'].forEach(k=>finite(a,k,0));
+      a.momentum=clamp(a.momentum||0,0,1);a.smoothedMomentum=clamp(a.smoothedMomentum||0,0,1);a.recoveryBudget=clamp(a.recoveryBudget||0,0,a.recoveryBudgetMax||1.85);
+      if(f.signatureSequence)finite(f.signatureSequence,'timer',.18);if(f.arenaCounter)finite(f.arenaCounter,'timer',.18);if(f.escortCombo)finite(f.escortCombo,'timer',.18);if(f.duelWindow)finite(f.duelWindow,'timer',.18);if(f.lastStand)finite(f.lastStand,'timer',.18);
+      if((b.phaseRupture||0)>0){clear('signatureSequence');clear('arenaCounter');clear('escortCombo');clear('counterStrike');clear('duelWindow');if(f.powerPattern?.pending){f.powerPattern.pending=null;fixes++;}}
+      const lastStand=!!f.lastStand;if(lastStand){clear('arenaCounter');clear('escortCombo');clear('duelWindow');if(f.phaseObjective){clear('phaseObjective');this.enemies=this.enemies.filter(e=>!e.phaseObjectiveNode);}if(f.powerPattern?.pending){f.powerPattern.pending=null;fixes++;}}
+      if(f.phaseObjective?.state==='active'){const nodes=this.enemies.filter(e=>e?.phaseObjectiveNode&&e.hp>0).length;if((f.phaseObjective.remaining||0)>0&&nodes===0){clear('phaseObjective');}}
+      if(f.signatureSequence&&((f.signatureSequence.step||0)<0||(f.signatureSequence.step||0)>3)){clear('signatureSequence');}
+      if(f.arenaCounter&&(f.arenaCounter.timer||0)<-1)clear('arenaCounter');if(f.duelWindow&&(f.duelWindow.timer||0)<-1)clear('duelWindow');
+      if(fixes){a.sanitizations=(a.sanitizations||0)+fixes;a.cached=null;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.stateSanitizations=(this.telemetrySession.boss.stateSanitizations||0)+fixes;}
+      return fixes;
+    }
+
+    updateBossTacticalArbiter(dt){
+      const f=this.bossFight,b=this.bossActive;if(!f||!b)return;
+      const a=this.ensureBossTacticalArbiter();a.lock=Math.max(0,(a.lock||0)-dt);a.recovery=Math.max(0,(a.recovery||0)-dt);a.sampleCd=Math.max(0,(a.sampleCd||0)-dt);a.deferCd=Math.max(0,(a.deferCd||0)-dt);a.watchdogCd=Math.max(0,(a.watchdogCd||0)-dt);
+      const budgetMax=this.isSmallScreen?1.55:1.85;a.recoveryBudgetMax=budgetMax;a.recoveryBudget=clamp((Number.isFinite(a.recoveryBudget)?a.recoveryBudget:budgetMax)+dt*(this.isSmallScreen ? .18 : .22),0,budgetMax);
+      a.momentumTimer=Math.max(0,(a.momentumTimer||0)-dt);if((a.momentumTimer||0)<=0)a.momentum=Math.max(0,(a.momentum||0)-dt*.16);
+      const smoothStart=(a.smoothedMomentum ?? a.momentum ?? 0);a.smoothedMomentum=smoothStart+((a.momentum||0)-smoothStart)*Math.min(1,dt*3.6);a.focusHold=Math.max(0,(a.focusHold||0)-dt);
+      const sm=clamp(a.smoothedMomentum||0,0,1);if(!a.focusActive&&sm>=.58){a.focusActive=true;a.focusHold=2.2;a.focusActivations=(a.focusActivations||0)+1;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.focusActivations=(this.telemetrySession.boss.focusActivations||0)+1;}else if(a.focusActive&&sm<.34&&(a.focusHold||0)<=0)a.focusActive=false;
+      const snap=this.bossTacticalSnapshot();
+      const high=snap.phone ? .84 : .91,critical=snap.phone ? .92 : .97,previousBand=a.loadBand||'calm';a.loadBand=snap.load>=critical?'critical':(snap.load>=high?'high':(snap.load>=.56?'balanced':'calm'));
+      if(a.loadBand==='high'||a.loadBand==='critical'){a.highLoadSeconds=(a.highLoadSeconds||0)+dt;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.highLoadSeconds=(this.telemetrySession.boss.highLoadSeconds||0)+dt;}
+      if(a.loadBand==='critical'){a.criticalLoadSeconds=(a.criticalLoadSeconds||0)+dt;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.criticalLoadSeconds=(this.telemetrySession.boss.criticalLoadSeconds||0)+dt;}
+      if(previousBand!==a.loadBand)a.cached=null;
+      if((a.recovery||0)>0){f.minionTimer=Math.max(f.minionTimer||0,.42);f.escortTimer=Math.max(f.escortTimer||0,.48);f.hazardTimer=Math.max(f.hazardTimer||0,.38);}
+      const momentum=sm;
+      if(a.focusActive&&!f.lastStand){const focus=.44+momentum*.33;f.minionTimer=Math.max(f.minionTimer||0,focus);f.escortTimer=Math.max(f.escortTimer||0,focus*.92);f.hazardTimer=Math.max(f.hazardTimer||0,focus*.85);a.focusSeconds=(a.focusSeconds||0)+dt;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.focusSeconds=(this.telemetrySession.boss.focusSeconds||0)+dt;}
+      if(f.pendingPhaseObjective&&!f.phaseObjective&&(b.phaseRupture||0)<=0){const ph=f.pendingPhaseObjective;if(this.bossTacticalCanStart('objective')){f.pendingPhaseObjective=0;this.startBossPhaseObjective(b,ph,true);}}
+      if(snap.load>high){a.lock=Math.max(a.lock||0,.28);f.minionTimer=Math.max(f.minionTimer||0,snap.load>critical ? .86 : .54);f.escortTimer=Math.max(f.escortTimer||0,snap.load>critical ? .92 : .62);f.hazardTimer=Math.max(f.hazardTimer||0,snap.load>critical ? .80 : .50);}
+      this.updateBossCombatPersona(dt,snap);
     }
 
     ensureRizomaFlow(){
@@ -5270,7 +5558,7 @@
       let cleared=0;for(let i=this.bullets.length-1;i>=0&&cleared<(this.isSmallScreen?5:8);i--){const x=this.bullets[i];if(!x.enemy)continue;if(Math.hypot(x.x-this.player.x,x.y-this.player.y)<230||Math.hypot(x.x-b.x,x.y-b.y)<Math.max(150,b.r*2.8)){this.particles.push({type:'ring',x:x.x,y:x.y,r:4,maxR:24,life:.13,max:.13,color:'#fff2a8'});this.bullets.splice(i,1);cleared++;}}
       const opened=this.grantBossCounterplayWindow('Ruptura de patrón',1.05);b.phaseRupture=Math.max(b.phaseRupture||0,.62);this.flash=Math.max(this.flash,.48);this.shake=Math.max(this.shake,6.2);this.particles.push({type:'ring',x:b.x,y:b.y,r:20,maxR:Math.max(155,b.r*3.2),life:.58,max:.58,color:'#fff2a8'});this.emit(b.x,b.y,'#fff2a8',12,125,.34);
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.patternBreaks=(this.telemetrySession.boss.patternBreaks||0)+1;
-      this.toast('✦ RUPTURA DE PATRÓN',`${reason} · ${cleared} proyectiles disipados${opened?' · núcleo expuesto':''}`);return true;
+      this.grantBossTacticalRecovery(.98,'ruptura de patrón');this.toast('✦ RUPTURA DE PATRÓN',`${reason} · ${cleared} proyectiles disipados${opened?' · núcleo expuesto':''}`);return true;
     }
 
     chargeRizomaCountervector(bullet,signature=false){
@@ -5299,12 +5587,13 @@
 
     startBossDuelWindow(){
       const f=this.bossFight,b=this.bossActive;if(!f?.active||!b||b.phase<2||f.duelWindow||b.phaseRupture>0)return false;
+      if(!this.bossTacticalCanStart('duel',{relief:true}))return false;
       const busy=f.signatureSequence||f.arenaCounter||f.escortCombo||f.phaseObjective||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0;
-      if(busy)return false;
+      if(busy){this.noteBossTacticalDeferral('duel',true);return false;}
       f.duelWindow={timer:5.4,damageBaseline:f.damageTakenPhase||0,phase:b.phase,signatureStarted:false};
       f.minionTimer=Math.max(f.minionTimer||0,5.5);f.escortTimer=Math.max(f.escortTimer||0,5.5);f.hazardTimer=Math.max(f.hazardTimer||0,4.8);f.signatureCooldown=0;b.specialCd=Math.max(b.specialCd||0,5.2);b.attack=Math.max(b.attack||0,.55);
       const meta=boss2Meta(this.mapIndex);this.particles.push({type:'ring',x:b.x,y:b.y,r:18,maxR:Math.max(150,b.r*3.8),life:.75,max:.75,color:meta.accent||meta.color});
-      this.toast('◇ DUELO RIZOMA','5.4 s · menos relleno, una firma directa · sobrevive limpio para abrir el núcleo');
+      this.markBossTacticalStart('duel',.42);this.toast('◇ DUELO RIZOMA','5.4 s · menos relleno, una firma directa · sobrevive limpio para abrir el núcleo');
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.duelWindows=(this.telemetrySession.boss.duelWindows||0)+1;
       return true;
     }
@@ -5340,7 +5629,7 @@
       this.particles.push({type:'ring',x:b.x,y:b.y,r:Math.max(18,b.r*.62),maxR:Math.max(145,b.r*3.4),life:.64,max:.64,color:meta.accent||meta.color});
       this.emit(b.x,b.y,'#fff2a8',10,this.isSmallScreen?92:125,.34);this.addCombatMastery?.(2.8+strength*1.2,'contraataque',{streak:false});
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.counterplayWindows=(this.telemetrySession.boss.counterplayWindows||0)+1;}
-      this.toast('✦ NÚCLEO EXPUESTO',`${reason} · ${duration.toFixed(1)} s de contraataque${flowBoost?' · FLOW':''}`);
+      this.grantBossTacticalRecovery(.46+strength*.10,reason);this.toast('✦ NÚCLEO EXPUESTO',`${reason} · ${duration.toFixed(1)} s de contraataque${flowBoost?' · FLOW':''}`);
       return true;
     }
 
@@ -5372,7 +5661,8 @@
       const busy=f.signatureSequence||f.arenaCounter||f.escortCombo||f.phaseObjective||f.duelWindow||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0||b.phaseRupture>0;
       if(pc.state==='pending'){
         if(busy)return;
-        pc.state='telegraph';pc.timer=.78;const name=POWERS.find(x=>x.id===pc.id)?.name||pc.id;this.toast('◈ CONTRAMEDIDA ADAPTATIVA',`${name} repetido · el Guardián cambia su geometría, no anula tu poder`);
+        if(!this.bossTacticalCanStart('powerCounter'))return;
+        pc.state='telegraph';pc.timer=.78;this.markBossTacticalStart('powerCounter',.52);const name=POWERS.find(x=>x.id===pc.id)?.name||pc.id;this.toast('◈ CONTRAMEDIDA ADAPTATIVA',`${name} repetido · el Guardián cambia su geometría, no anula tu poder`);
         const meta=boss2Meta(this.mapIndex);this.particles.push({type:'ring',x:b.x,y:b.y,r:18,maxR:Math.max(125,b.r*3.2),life:.72,max:.72,color:meta.accent||meta.color});
         return;
       }
@@ -5384,11 +5674,13 @@
       }
     }
 
-    startBossPhaseObjective(b,phase=b?.phase||1){
+    startBossPhaseObjective(b,phase=b?.phase||1,fromPending=false){
       const f=this.bossFight;if(!b||!f||phase<2||this.trainingMode?.active)return false;
+      if((b.phaseRupture||0)>0&&!fromPending){f.pendingPhaseObjective=Math.max(f.pendingPhaseObjective||0,phase);return false;}
       if(f.phaseObjective||f.duelWindow)return false;
+      if(!this.bossTacticalCanStart('objective')){f.pendingPhaseObjective=Math.max(f.pendingPhaseObjective||0,phase);return false;}
       const count=phase>=3?2:1,duration=phase>=4?5.0:5.8;
-      f.phaseObjective={state:'telegraph',timer:1.05,phase,count,remaining:count,duration,nodes:[]};
+      f.phaseObjective={state:'telegraph',timer:1.05,phase,count,remaining:count,duration,nodes:[]};this.markBossTacticalStart('objective',.62);
       this.toast('◇ ANCLAS DE FASE',`${count} objetivo${count>1?'s':''} · destrúyelos para abrir el núcleo`);
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectives=(this.telemetrySession.boss.phaseObjectives||0)+1;
       return true;
@@ -5413,7 +5705,7 @@
       if(obj.state==='active'){
         obj.nodes=obj.nodes.filter(e=>this.enemies.includes(e)&&e.hp>0);
         obj.remaining=obj.nodes.length;
-        if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;return;}
+        if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);this.grantBossTacticalRecovery(.72,'anclas resueltas');if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;return;}
         if(obj.timer<=0){
           const doomed=new Set(obj.nodes);this.enemies=this.enemies.filter(e=>!doomed.has(e));f.phaseObjective=null;f.signatureCooldown=Math.min(f.signatureCooldown||1,.45);this.toast('◇ ANCLAS ESTABLES','Objetivo no resuelto · la firma del Guardián se adelanta');
         }
@@ -5424,7 +5716,7 @@
       const f=this.bossFight,obj=f?.phaseObjective;if(!e?.phaseObjectiveNode||!obj)return false;
       obj.nodes=obj.nodes.filter(n=>n!==e&&this.enemies.includes(n)&&n.hp>0);obj.remaining=obj.nodes.length;
       this.emit(e.x,e.y,'#fff2a8',12,115,.34);this.particles.push({type:'ring',x:e.x,y:e.y,r:7,maxR:72,life:.42,max:.42,color:'#fff2a8'});
-      if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;}
+      if(obj.remaining<=0){f.phaseObjective=null;this.addRizomaFlowCharge(20,'anclas destruidas');this.grantBossCounterplayWindow('Anclas de fase destruidas',1.45);this.grantBossTacticalRecovery(.72,'anclas resueltas');if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.phaseObjectiveWins=(this.telemetrySession.boss.phaseObjectiveWins||0)+1;}
       else this.toast('◇ ANCLA ROTA',`${obj.remaining} restante${obj.remaining===1?'':'s'}`);
       return true;
     }
@@ -5443,7 +5735,7 @@
       this.damageEnemy(b,dmg,{counterStrike:true,criticalBurst:true,color,silent:true});this.shake=Math.max(this.shake,5.5);
       if(cs.flowBoost){let cleared=0;for(let i=this.bullets.length-1;i>=0&&cleared<3;i--){const eb=this.bullets[i];if(!eb.enemy)continue;if(Math.hypot(eb.x-p.x,eb.y-p.y)<190){this.particles.push({type:'ring',x:eb.x,y:eb.y,r:4,maxR:30,life:.15,max:.15,color});this.bullets.splice(i,1);cleared++;}}p.shield=Math.min(p.maxShield,p.shield+Math.max(3,p.maxShield*.025));}
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.playerRipostes=(this.telemetrySession.boss.playerRipostes||0)+1;
-      this.toast(`⚡ RIPOSTA ${ship?.name?.toUpperCase()||'RIZOMA'}`,`${Math.round(dmg)} daño de contraataque · lectura convertida en ofensiva`);return true;
+      this.grantBossTacticalRecovery(.42,'riposta');this.toast(`⚡ RIPOSTA ${ship?.name?.toUpperCase()||'RIZOMA'}`,`${Math.round(dmg)} daño de contraataque · lectura convertida en ofensiva`);return true;
     }
 
     updateBossCounterStrike(dt){
@@ -5482,11 +5774,12 @@
     startBossSignatureSequence(b,reason='cycle',forcedType=null){
       const f=this.bossFight;if(!b||!f||b.phase<2||b.phaseRupture>0||(b.specialTelegraph||0)>0||f.signatureSequence)return false;
       if(reason!=='powerCounter'&&(f.phaseObjective||f.powerPattern?.pending?.state==='telegraph'))return false;
+      const forced=reason==='lastStand'||reason==='duel';if(!this.bossTacticalCanStart('signature',{force:forced}))return false;
       const enemyBullets=this.bullets.filter(x=>x.enemy).length,cap=this.isSmallScreen?18:30;
       if(enemyBullets>cap)return false;
-      const types=['crossfire','helix','pincer','hunter'],type=forcedType&&types.includes(forcedType)?forcedType:types[(this.mapIndex+(b.phase||1)+(f.signatureIndex||0))%types.length];
+      const type=this.bossPersonaSignatureType(b,forcedType);
       f.signatureIndex=(f.signatureIndex||0)+1;
-      f.signatureSequence={type,step:0,timer:.38,sense:b.identityMotionSense||((Math.random()<.5)?-1:1),reason,damageBaseline:f.damageTakenPhase||0};
+      f.signatureSequence={type,step:0,timer:.38,sense:b.identityMotionSense||((Math.random()<.5)?-1:1),reason,damageBaseline:f.damageTakenPhase||0};this.markBossTacticalStart('signature',reason==='lastStand'?.25:.58);
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.signatureSequences=(this.telemetrySession.boss.signatureSequences||0)+1;
       if(reason==='phase'||reason==='lastStand')this.toast(`⚠ ${this.bossSignatureSequenceName(type)}`,reason==='lastStand'?'Último Asalto · lectura y evasión':'Firma de fase · cambia tu trayectoria');
       const meta=boss2Meta(this.mapIndex);this.particles.push({type:'ring',x:b.x,y:b.y,r:16,maxR:Math.max(90,b.r*2.5),life:.42,max:.42,color:meta.accent||meta.color});
@@ -5535,7 +5828,10 @@
       const f=this.bossFight,b=this.bossActive;if(!f||!b)return;if(f.lastStandUsed&&!f.lastStand)return;
       const ratio=(b.hp||0)/Math.max(1,b.baseHp||1);
       if(!f.lastStand&&b.phase>=4&&ratio<=.16&&!f.phaseObjective&&!f.powerPattern?.pending){
-        f.duelWindow=null;f.lastStand={state:'telegraph',timer:1.20};b.lastStandTelegraph=true;b.attack=Math.max(b.attack||0,.65);b.specialCd=Math.max(b.specialCd||0,.8);
+        const overlapped=!!(f.signatureSequence||f.arenaCounter||f.escortCombo||f.duelWindow||f.pendingPhaseObjective);
+        f.signatureSequence=null;f.arenaCounter=null;f.escortCombo=null;f.duelWindow=null;f.pendingPhaseObjective=0;
+        if(overlapped){const a=this.ensureBossTacticalArbiter();a.overlapPreventions=(a.overlapPreventions||0)+1;if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.overlapPreventions=(this.telemetrySession.boss.overlapPreventions||0)+1;}
+        this.markBossTacticalStart('lastStand',.32);f.lastStand={state:'telegraph',timer:1.20};b.lastStandTelegraph=true;b.attack=Math.max(b.attack||0,.65);b.specialCd=Math.max(b.specialCd||0,.8);
         const meta=boss2Meta(this.mapIndex);this.toast('⚠ ÚLTIMO ASALTO','El Guardián rompe su patrón · cambia de trayectoria');this.particles.push({type:'ring',x:b.x,y:b.y,r:20,maxR:Math.max(170,b.r*4.2),life:1.15,max:1.15,color:meta.accent||'#ffffff'});this.shake=Math.max(this.shake,6);
         return;
       }
@@ -5554,7 +5850,8 @@
 
     startBossArenaCounter(reason='edge'){
       const f=this.bossFight,b=this.bossActive,p=this.player;if(!f||!b||!p||b.phase<2)return false;
-      if(f.arenaCounter||f.signatureSequence||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
+      if(!this.bossTacticalCanStart('arena'))return false;
+      if(f.arenaCounter||f.signatureSequence||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0){this.noteBossTacticalDeferral('arena',true);return false;}
       const enemyBullets=this.bullets.filter(x=>x.enemy).length,cap=this.isSmallScreen?16:28;if(enemyBullets>cap)return false;
       const cfg=this.bossArenaControlProfile(),meta=boss2Meta(this.mapIndex),cb=this.getCombatBounds(),margin=this.isSmallScreen?84:112;
       const nearLeft=p.x<cb.left+margin,nearRight=p.x>cb.right-margin,nearTop=p.y<cb.top+margin,nearBottom=p.y>cb.bottom-margin;
@@ -5562,7 +5859,7 @@
       if(nearLeft||nearRight){sx=nearLeft?cb.left+18:cb.right-18;sy=clamp(p.y,cb.top+70,cb.bottom-70);vx=(nearLeft?1:-1)*cfg.speed;vy=(p.moveVy||0)*.08;}
       else if(nearTop||nearBottom){sx=clamp(p.x,cb.left+70,cb.right-70);sy=nearTop?cb.top+18:cb.bottom-18;vx=(p.moveVx||0)*.08;vy=(nearTop?1:-1)*cfg.speed;}
       else {const side=Math.random()<.5?-1:1;sx=side<0?cb.left+20:cb.right-20;sy=clamp(p.y+(p.moveVy||0)*.18,cb.top+70,cb.bottom-70);vx=-side*cfg.speed;vy=(p.moveVy||0)*.06;}
-      f.arenaCounter={state:'telegraph',timer:.86,reason,sx,sy,vx,vy,cfg,color:meta.accent||meta.color,damageBaseline:f.damageTakenPhase||0};
+      f.arenaCounter={state:'telegraph',timer:.86,reason,sx,sy,vx,vy,cfg,color:meta.accent||meta.color,damageBaseline:f.damageTakenPhase||0};this.markBossTacticalStart('arena',.56);
       this.toast('⌖ CERCO DE ARENA',reason==='corner'?'La esquina quedó expuesta · rompe el patrón':'El Guardián comprime tu zona · reposiciónate');
       this.particles.push({type:'ring',x:sx,y:sy,r:12,maxR:cfg.radius*1.6,life:.82,max:.82,color:meta.accent||meta.color});
       const ang=Math.atan2(vy,vx);this.particles.push({type:'laser',x:sx,y:sy,a:ang,life:.62,max:.62,range:this.isSmallScreen?180:260,color:meta.accent||meta.color,width:2.4});
@@ -5597,11 +5894,12 @@
 
     startBossEscortCombo(){
       const f=this.bossFight,b=this.bossActive,p=this.player;if(!f||!b||!p||b.phase<2)return false;
-      if(f.escortCombo||f.signatureSequence||f.arenaCounter||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0)return false;
+      if(!this.bossTacticalCanStart('escort'))return false;
+      if(f.escortCombo||f.signatureSequence||f.arenaCounter||f.phaseObjective||f.duelWindow||f.powerPattern?.pending?.state==='telegraph'||f.lastStand?.state==='telegraph'||(b.specialTelegraph||0)>0){this.noteBossTacticalDeferral('escort',true);return false;}
       const escorts=this.enemies.filter(e=>!e.boss&&e.bossEscort&&e.hp>0).sort((a,c)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(c.x-p.x,c.y-p.y)).slice(0,this.isSmallScreen?2:3);
       if(escorts.length<2)return false;
       const enemyBullets=this.bullets.filter(x=>x.enemy).length;if(enemyBullets>(this.isSmallScreen?15:25))return false;
-      const meta=boss2Meta(this.mapIndex);f.escortCombo={state:'telegraph',timer:.72,escorts:escorts.map(e=>e),color:meta.accent||meta.color,damageBaseline:f.damageTakenPhase||0,initialCount:escorts.length};
+      const meta=boss2Meta(this.mapIndex);f.escortCombo={state:'telegraph',timer:.72,escorts:escorts.map(e=>e),color:meta.accent||meta.color,damageBaseline:f.damageTakenPhase||0,initialCount:escorts.length};this.markBossTacticalStart('escort',.54);
       escorts.forEach(e=>{const a=Math.atan2(e.y-b.y,e.x-b.x);this.particles.push({type:'laser',x:b.x,y:b.y,a,life:.66,max:.66,range:Math.hypot(e.x-b.x,e.y-b.y),color:meta.accent||meta.color,width:2.2});});
       this.toast('◇ ENLACE DE ESCOLTA','Rompe la geometría o elimina un nodo antes de la descarga');
       if(this.telemetrySession&&!this.telemetrySession.finalized)this.telemetrySession.boss.escortCombos=(this.telemetrySession.boss.escortCombos||0)+1;
@@ -5630,6 +5928,8 @@
       const p = this.player;
       const f = this.bossFight;
       const b = this.bossActive;
+      this.sanitizeBossTacticalState();
+      this.updateBossTacticalArbiter(dt);
       this.updateBossTacticalMemory(dt);
       this.updateRizomaFlow(dt);
       this.updateBossDuelWindow(dt);
@@ -5647,67 +5947,76 @@
       f.elapsed=(f.elapsed||0)+dt;
       f.minionTimer -= dt*(ecology?.minionPace||1);
       if (f.minionTimer <= 0) {
-        const nonBoss = this.enemies.filter(e => !e.boss).length;
-        const basePressureCap=this.mapIndex === 0 ? 7 + b.phase * 2 : (this.mapIndex === 1 ? 6 + b.phase * 2 : 5 + b.phase * 2);
-        const pressureCap=Math.ceil(basePressureCap*1.342); // v3.22 · +10% adicional sobre la presión simultánea de v3.21
-        if (nonBoss < pressureCap) {
-          const baseCount = this.mapIndex === 0 ? Math.min(4, 2 + Math.floor(b.phase / 1.6)) : (this.mapIndex === 1 ? Math.min(4,2+Math.floor(b.phase/2)) : Math.min(3, 1 + Math.floor((b.phase + 1) / 2)));
-          const count=Math.min(this.mobileLandscape||this.mobilePortrait?5:6,baseCount+1);
-          for (let i = 0; i < count; i++) {
-            const fams = b.minionFamilies || [],signature=guardianPhaseEvolution(this.mapIndex+1,b.phase||1);
-            const fam = fams.length ? fams[(signature.familyIndex + f.addsKilled + i) % fams.length] : null;
-            this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+        if(!this.bossTacticalSpawnAllowed('minion'))f.minionTimer=Math.max(f.minionTimer||0,.36);
+        else {
+          const nonBoss = this.enemies.filter(e => !e.boss).length;
+          const basePressureCap=this.mapIndex === 0 ? 7 + b.phase * 2 : (this.mapIndex === 1 ? 6 + b.phase * 2 : 5 + b.phase * 2);
+          const pressureCap=Math.ceil(basePressureCap*1.342); // v3.22 · +10% adicional sobre la presión simultánea de v3.21
+          if (nonBoss < pressureCap) {
+            const baseCount = this.mapIndex === 0 ? Math.min(4, 2 + Math.floor(b.phase / 1.6)) : (this.mapIndex === 1 ? Math.min(4,2+Math.floor(b.phase/2)) : Math.min(3, 1 + Math.floor((b.phase + 1) / 2)));
+            const count=Math.min(this.mobileLandscape||this.mobilePortrait?5:6,baseCount+1);
+            for (let i = 0; i < count; i++) {
+              const fams = b.minionFamilies || [],signature=guardianPhaseEvolution(this.mapIndex+1,b.phase||1);
+              const fam = fams.length ? fams[(signature.familyIndex + f.addsKilled + i) % fams.length] : null;
+              this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+            }
           }
+          const baseMinionTimer=this.mapIndex === 0 ? Math.max(1.9, 3.7 - b.phase * .34) : (this.mapIndex === 1 ? Math.max(2.15,4.2-b.phase*.32) : Math.max(2.8, 5.1 - b.phase * .42 - this.mapIndex * .06));
+          f.minionTimer=baseMinionTimer*.82*supportScale;
         }
-        const baseMinionTimer=this.mapIndex === 0 ? Math.max(1.9, 3.7 - b.phase * .34) : (this.mapIndex === 1 ? Math.max(2.15,4.2-b.phase*.32) : Math.max(2.8, 5.1 - b.phase * .42 - this.mapIndex * .06));
-        f.minionTimer=baseMinionTimer*.82*supportScale;
       }
       f.escortTimer = (f.escortTimer || 0) - dt*(ecology?.escortPace||1);
       if (f.escortTimer <= 0) {
-        if (this.mapIndex === 0) {
-          const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
-          if(escorts<2)this.spawnEnemy('nave_espejo',true);
-          f.escortTimer=Math.max(2.5,(4.9-b.phase*.4)*supportScale);
-        } else if (this.mapIndex === 1) {
-          const fam=WORLD_TWO_MINION_FAMILIES[(f.addsKilled+b.phase)%3];
-          this.spawnEnemy(pick(fam),true);
-          f.escortTimer=Math.max(2.8,(5.6-b.phase*.38)*supportScale);
-        } else if(this.mapIndex>=10){
-          const fams=b.minionFamilies||[],signature=guardianPhaseEvolution(this.mapIndex+1,b.phase||1);
-          const escorts=this.enemies.filter(e=>!e.boss&&e.bossEscort).length;
-          if(fams.length&&escorts<1+Math.floor((b.phase+1)/2)){const phaseFam=fams[signature.familyIndex%fams.length];this.spawnEnemy(pick(phaseFam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.hp*=1.18;e.baseHp=e.hp;}}
-          f.escortTimer=Math.max(3.0,(6.2-b.phase*.58-this.mapIndex*.08)*supportScale);
-        } else {
-          const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
-          if(escorts<1+Math.floor((b.phase+1)/2))this.spawnEnemy('nave_espejo',true);
-          f.escortTimer=Math.max(3.2,(6.7-b.phase*.62-this.mapIndex*.09)*supportScale);
+        if(!this.bossTacticalSpawnAllowed('escort'))f.escortTimer=Math.max(f.escortTimer||0,.42);
+        else {
+          if (this.mapIndex === 0) {
+            const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
+            if(escorts<2)this.spawnEnemy('nave_espejo',true);
+            f.escortTimer=Math.max(2.5,(4.9-b.phase*.4)*supportScale);
+          } else if (this.mapIndex === 1) {
+            const fam=WORLD_TWO_MINION_FAMILIES[(f.addsKilled+b.phase)%3];
+            this.spawnEnemy(pick(fam),true);
+            f.escortTimer=Math.max(2.8,(5.6-b.phase*.38)*supportScale);
+          } else if(this.mapIndex>=10){
+            const fams=b.minionFamilies||[],signature=guardianPhaseEvolution(this.mapIndex+1,b.phase||1);
+            const escorts=this.enemies.filter(e=>!e.boss&&e.bossEscort).length;
+            if(fams.length&&escorts<1+Math.floor((b.phase+1)/2)){const phaseFam=fams[signature.familyIndex%fams.length];this.spawnEnemy(pick(phaseFam),true);const e=this.enemies[this.enemies.length-1];if(e&&!e.boss){e.bossEscort=true;e.hp*=1.18;e.baseHp=e.hp;}}
+            f.escortTimer=Math.max(3.0,(6.2-b.phase*.58-this.mapIndex*.08)*supportScale);
+          } else {
+            const escorts=this.enemies.filter(e=>e.behavior==='mirror').length;
+            if(escorts<1+Math.floor((b.phase+1)/2))this.spawnEnemy('nave_espejo',true);
+            f.escortTimer=Math.max(3.2,(6.7-b.phase*.62-this.mapIndex*.09)*supportScale);
+          }
         }
       }
       f.hazardTimer = (f.hazardTimer || 0) - dt*(ecology?.hazardPace||1);
       if (f.hazardTimer <= 0) {
-        const p = this.player;
-        if (b.family === 'desert') {
-          this.spawnWorldElevenHazard(Math.min(3,1+b.phase),true);this.spawnWorldElevenDustDevil(1,b.phase>=3);
-        } else if (b.family === 'pelagic') {
-          this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(1,b.phase>=3);
-        } else if (b.family === 'magma') {
-          this.spawnWorldThirteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldThirteenEruption(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
-        } else if (b.family === 'stellar') {
-          this.spawnWorldFourteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldFourteenNova(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
-        } else if (b.family === 'vermicular') {
-          this.spawnWorldFifteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldFifteenContraction(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
-        } else if (b.family === 'demon' || b.family === 'mythic') {
-          this.spawnMeteorRain(this.mapIndex === 0 ? 2 : 3, true);
-        } else if (b.family === 'spirit' || b.family === 'witch') {
-          for (let i = 0; i < 2; i++) this.zones.push({ x: p.x + rand(110,-110), y: p.y + rand(90,-90), r: 20 + b.phase * 2, life: 2.4, max: 2.4, type: 'root' });
-        } else {
-          for (let i = 0; i < 1 + Math.min(2, b.phase); i++) {
-            const fams = b.minionFamilies || [];
-            const fam = fams.length ? fams[(f.addsKilled + i + 1) % fams.length] : null;
-            this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+        if(!this.bossTacticalSpawnAllowed('hazard'))f.hazardTimer=Math.max(f.hazardTimer||0,.48);
+        else {
+          const p = this.player;
+          if (b.family === 'desert') {
+            this.spawnWorldElevenHazard(Math.min(3,1+b.phase),true);this.spawnWorldElevenDustDevil(1,b.phase>=3);
+          } else if (b.family === 'pelagic') {
+            this.spawnWorldTwelveHazard(Math.min(3,1+b.phase),true);this.spawnWorldTwelveCurrent(1,b.phase>=3);
+          } else if (b.family === 'magma') {
+            this.spawnWorldThirteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldThirteenEruption(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
+          } else if (b.family === 'stellar') {
+            this.spawnWorldFourteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldFourteenNova(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
+          } else if (b.family === 'vermicular') {
+            this.spawnWorldFifteenHazard(Math.min(3,1+b.phase),true);this.spawnWorldFifteenContraction(Math.min(2,1+Math.floor(b.phase/2)),b.phase>=3);
+          } else if (b.family === 'demon' || b.family === 'mythic') {
+            this.spawnMeteorRain(this.mapIndex === 0 ? 2 : 3, true);
+          } else if (b.family === 'spirit' || b.family === 'witch') {
+            for (let i = 0; i < 2; i++) this.zones.push({ x: p.x + rand(110,-110), y: p.y + rand(90,-90), r: 20 + b.phase * 2, life: 2.4, max: 2.4, type: 'root' });
+          } else {
+            for (let i = 0; i < 1 + Math.min(2, b.phase); i++) {
+              const fams = b.minionFamilies || [];
+              const fam = fams.length ? fams[(f.addsKilled + i + 1) % fams.length] : null;
+              this.spawnEnemy(pick(fam || b.summons || ['corredor','sombra']), true);
+            }
           }
+          f.hazardTimer = Math.max(3.25, (6.2 - b.phase * .5 - this.mapIndex * .05)*supportScale);
         }
-        f.hazardTimer = Math.max(3.25, (6.2 - b.phase * .5 - this.mapIndex * .05)*supportScale);
       }
       if (this.mapIndex === 0 || this.mapIndex === 1 || this.mapIndex === 6 || this.mapIndex === 8 || this.mapIndex === 9) {
         const guardians=this.enemies.filter(e=>!e.boss).length;
@@ -5950,6 +6259,7 @@
 
     nextBossMotionMode(b,modes=[]) {
       if(!b||!Array.isArray(modes)||!modes.length)return 'orbit';
+      const hint=b.personaMotionHint;if(hint){b.personaMotionHint=null;if(modes.includes(hint)&&hint!==b.lastMotionMode){b.lastMotionMode=hint;b.motionDeck=[];b.motionDeckKey='';return hint;}}
       const key=modes.join('|');
       if(b.motionDeckKey!==key||!Array.isArray(b.motionDeck)||!b.motionDeck.length){
         const deck=modes.slice();
@@ -8745,7 +9055,7 @@
       e.shield=Math.max(0,(e.shieldMax||0)*.35);
       e.phase=Math.max(3,e.phase||1);e.vulnerable=0;e.alpha=1;e.resurrectionGuard=1.15;e.resurrectionMutation=8.0;
       e.attack=Math.max(.42,(e.attack||1)*.84);e.specialCd=Math.max(.95,(e.specialCd||3)*.72);e.speed=(e.speed||60)*1.08;
-      if(this.bossFight){this.bossFight.cinematic=Math.max(this.bossFight.cinematic||0,1.05);this.bossFight.phaseNotified=e.phase;this.bossFight.minionTimer=.42;this.bossFight.supportTimer=.58;this.bossFight.hazardTimer=.92;this.bossFight.resurrectionFrenzy=8.0;this.bossFight.signatureSequence=null;this.bossFight.signatureCooldown=.85;this.bossFight.lastStand=null;this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;this.bossFight.rizomaFlow&&(this.bossFight.rizomaFlow.duelPending=false);this.bossFight.powerPattern={history:[],cooldown:3.5,pending:null};this.bossFight.counterplayCooldown=2.8;}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);e.counterplayExposure=0;e.lastStandTelegraph=false;e.lastStandActive=false;
+      if(this.bossFight){this.bossFight.cinematic=Math.max(this.bossFight.cinematic||0,1.05);this.bossFight.phaseNotified=e.phase;this.bossFight.minionTimer=.42;this.bossFight.supportTimer=.58;this.bossFight.hazardTimer=.92;this.bossFight.resurrectionFrenzy=8.0;this.bossFight.signatureSequence=null;this.bossFight.signatureCooldown=.85;this.bossFight.lastStand=null;this.bossFight.arenaCounter=null;this.bossFight.escortCombo=null;this.bossFight.phaseObjective=null;this.bossFight.counterStrike=null;this.bossFight.duelWindow=null;this.bossFight.rizomaFlow&&(this.bossFight.rizomaFlow.duelPending=false);this.bossFight.powerPattern={history:[],cooldown:3.5,pending:null};this.bossFight.counterplayCooldown=2.8;this.bossFight.pendingPhaseObjective=0;this.bossFight.tacticalArbiter={lock:.65,recovery:.85,sampleCd:0,deferCd:0,lastDeferred:'',lastKind:'resurrection',lastAt:this.bossFight.elapsed||0,history:[],cached:null,deferrals:0,recoveries:0,overlapPreventions:0,maxLoad:0,momentum:0,smoothedMomentum:0,momentumTimer:0,focusActive:false,focusHold:0,focusSeconds:0,focusActivations:0,watchdogCd:0,sanitizations:0,recoveryBudget:1.4,recoveryBudgetMax:1.8,recoveryBudgetExhaustions:0,spawnBlocks:0,loadBand:'calm',highLoadSeconds:0,criticalLoadSeconds:0};}this.enemies=this.enemies.filter(x=>!x.phaseObjectiveNode);e.counterplayExposure=0;e.lastStandTelegraph=false;e.lastStandActive=false;
       this.bullets=this.bullets.filter(b=>!b.enemy);
       this.flash=1.8;this.shake=Math.max(this.shake,20);
       this.particles.push({type:'ring',x:e.x,y:e.y,r:18,maxR:Math.max(180,e.r*5.4),life:.9,max:.9,color:'#ff667d'});
@@ -9715,7 +10025,7 @@
       this.bossActive.attack *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
       this.bossActive.specialCd *= (this.getDifficulty().bossCadence || 1)*(this.trainingMode?.active?1:endurance.cadence);
       this.bossActive.resurrectionCount=0;this.bossActive.enduranceProfile=endurance;
-      this.bossFight = { active: true, elapsed:0, charge: 0, minionTimer: (this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15))*(this.trainingMode?.active?1:endurance.support), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: (this.mapIndex === 0 ? 2.2 : 1.9)*(this.trainingMode?.active?1:endurance.support), escortTimer: (this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9))*(this.trainingMode?.active?1:endurance.support), hazardTimer: (this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2))*(this.trainingMode?.active?1:endurance.support), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0, signatureCooldown:8.6+Math.random()*2.4, signatureSequence:null, signatureIndex:0, tacticalMemory:null, lastStand:null, lastStandUsed:false, phaseObjective:null, counterStrike:null, powerPattern:{history:[],cooldown:3.5,pending:null}, rizomaFlow:{charge:0,active:0,cooldown:0,nearMissCd:0,streak:0,streakTimer:0,bursts:0,lastReason:'',duelPending:false,vectorCharge:0,vectorCooldown:0,phaseCountervectors:0,patternBreakPhase:0}, duelWindow:null };
+      this.bossFight = { active: true, elapsed:0, charge: 0, minionTimer: (this.mapIndex === 0 ? 1.6 : (this.mapIndex === 1 ? 1.85 : 2.15))*(this.trainingMode?.active?1:endurance.support), phaseNotified: 1, cinematic: this.mapIndex === 1 ? 1.95 : 1.15, addsKilled: 0, supportTimer: (this.mapIndex === 0 ? 2.2 : 1.9)*(this.trainingMode?.active?1:endurance.support), escortTimer: (this.mapIndex === 0 ? 3.4 : (this.mapIndex === 1 ? 3.2 : 3.9))*(this.trainingMode?.active?1:endurance.support), hazardTimer: (this.mapIndex === 0 ? 5.0 : (this.mapIndex === 1 ? 4.8 : 4.2))*(this.trainingMode?.active?1:endurance.support), guardianPulse: 0, damageTakenPhase:0, phaseBreaks:0, cleanPhases:0, signatureCooldown:8.6+Math.random()*2.4, signatureSequence:null, signatureIndex:0, tacticalMemory:null, lastStand:null, lastStandUsed:false, phaseObjective:null, counterStrike:null, powerPattern:{history:[],cooldown:3.5,pending:null}, rizomaFlow:{charge:0,active:0,cooldown:0,nearMissCd:0,streak:0,streakTimer:0,bursts:0,lastReason:'',duelPending:false,vectorCharge:0,vectorCooldown:0,phaseCountervectors:0,patternBreakPhase:0}, duelWindow:null, pendingPhaseObjective:0, tacticalArbiter:{lock:0,recovery:0,sampleCd:0,deferCd:0,lastDeferred:'',lastKind:'',lastAt:-99,history:[],cached:null,deferrals:0,recoveries:0,overlapPreventions:0,maxLoad:0,momentum:0,smoothedMomentum:0,momentumTimer:0,focusActive:false,focusHold:0,focusSeconds:0,focusActivations:0,watchdogCd:0,sanitizations:0,recoveryBudget:1.8,recoveryBudgetMax:1.8,recoveryBudgetExhaustions:0,spawnBlocks:0,loadBand:'calm',highLoadSeconds:0,criticalLoadSeconds:0} };
       if(this.telemetrySession&&!this.telemetrySession.finalized){this.telemetrySession.boss.started=true;this.telemetrySession.boss.phasesReached=Math.max(1,this.telemetrySession.boss.phasesReached||0);}
       const adaptive=this.ensureAdaptiveBossShadow();adaptive.bossDamageBuckets=[];adaptive.initialTtk=null;adaptive.minTtk=null;adaptive.maxState='A1';adaptive.evaluations=[];adaptive.liveMitigation=0;adaptive.mitigatedDamage=0;adaptive.assistCount=0;adaptive.assistCooldown=0;adaptive.resurrectionTriggered=false;this.evaluateAdaptiveBossShadow(true);
       this.enemies.push(this.bossActive);
@@ -11757,7 +12067,7 @@
         <span class="reward-pill">${this.isHardMode()?'⚔️ Difícil':'◉ Normal'}</span>
         <span class="reward-pill">M${this.mapIndex + 1} · L${this.wave}</span>
         <span class="reward-pill">❤️ ${this.extraLives + 1}</span>`;
-      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>${t.adaptiveBoss?.enabled?`<span>🧪 ${t.adaptiveBoss.maxState||t.adaptiveBoss.state} · TTK ${t.adaptiveBoss.initialTtk?Math.round(t.adaptiveBoss.initialTtk)+'s':'—'}</span>`:''}${t.boss?.signatureSequences?`<span>⚔ ${t.boss.signatureSequences} firmas</span>`:''}${t.boss?.lastStand?`<span>☠ Último Asalto</span>`:''}${t.boss?.counterplayWindows?`<span>✦ ${t.boss.counterplayWindows} contraataques</span>`:''}${t.boss?.playerRipostes?`<span>⚡ ${t.boss.playerRipostes} ripostas</span>`:''}${t.boss?.perfectDodges?`<span>≋ ${t.boss.perfectDodges} esquivas perfectas</span>`:''}${t.boss?.flowBursts?`<span>◎ ${t.boss.flowBursts} Flow</span>`:''}${t.boss?.duelWins?`<span>◇ ${t.boss.duelWins}/${t.boss.duelWindows||0} duelos</span>`:''}${t.boss?.countervectors?`<span>↯ ${t.boss.countervectors} contravectores</span>`:''}${t.boss?.patternBreaks?`<span>✦ ${t.boss.patternBreaks} rupturas</span>`:''}${t.boss?.phaseObjectives?`<span>◇ ${t.boss.phaseObjectiveWins||0}/${t.boss.phaseObjectives} anclas</span>`:''}`;}else els.resultTelemetrySummary.innerHTML='';}
+      if(els.resultTelemetrySummary){const t=this.telemetrySession,fmtTime=sec=>{sec=Math.max(0,Math.round(sec||0));const m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');return `${m}:${ss}`;};if(t){els.resultTelemetrySummary.innerHTML=`<small>TELEMETRÍA LOCAL</small><span>⏱ ${fmtTime(t.activeSeconds)}</span><span>◆ Jefe ${fmtTime(t.bossSeconds)}</span><span>♡ Casco ${Math.round(t.hpDamage||0)}</span><span>⚠ Pico ${Math.round(t.density?.maxThreatLoad||0)}</span>${t.adaptiveBoss?.enabled?`<span>🧪 ${t.adaptiveBoss.maxState||t.adaptiveBoss.state} · TTK ${t.adaptiveBoss.initialTtk?Math.round(t.adaptiveBoss.initialTtk)+'s':'—'}</span>`:''}${t.boss?.signatureSequences?`<span>⚔ ${t.boss.signatureSequences} firmas</span>`:''}${t.boss?.lastStand?`<span>☠ Último Asalto</span>`:''}${t.boss?.counterplayWindows?`<span>✦ ${t.boss.counterplayWindows} contraataques</span>`:''}${t.boss?.playerRipostes?`<span>⚡ ${t.boss.playerRipostes} ripostas</span>`:''}${t.boss?.perfectDodges?`<span>≋ ${t.boss.perfectDodges} esquivas perfectas</span>`:''}${t.boss?.flowBursts?`<span>◎ ${t.boss.flowBursts} Flow</span>`:''}${t.boss?.duelWins?`<span>◇ ${t.boss.duelWins}/${t.boss.duelWindows||0} duelos</span>`:''}${t.boss?.countervectors?`<span>↯ ${t.boss.countervectors} contravectores</span>`:''}${t.boss?.patternBreaks?`<span>✦ ${t.boss.patternBreaks} rupturas</span>`:''}${t.boss?.phaseObjectives?`<span>◇ ${t.boss.phaseObjectiveWins||0}/${t.boss.phaseObjectives} anclas</span>`:''}${t.boss?.tacticalDeferrals?`<span>⚖ ${t.boss.tacticalDeferrals} arbitrajes · pico ${Math.round((t.boss.maxBossLoad||0)*100)}%</span>`:''}${t.boss?.momentumPeak?`<span>◎ foco ${Math.round((t.boss.momentumPeak||0)*100)}% · ${Math.round(t.boss.focusSeconds||0)}s</span>`:''}${t.boss?.stateSanitizations?`<span>✓ ${t.boss.stateSanitizations} saneos</span>`:''}${t.boss?.spawnBlocks?`<span>⧖ ${t.boss.spawnBlocks} spawns diferidos</span>`:''}${t.boss?.focusActivations?`<span>◎ ${t.boss.focusActivations} focos</span>`:''}${t.boss?.criticalLoadSeconds?`<span>⚠ ${Math.round(t.boss.criticalLoadSeconds)}s carga crítica</span>`:''}`;}else els.resultTelemetrySummary.innerHTML='';}
       els.btnResultContinue.textContent = trainingVictory?'Volver a entrenamiento':(guidedPlaytestVictory?'Ver laboratorio':(replayVictory ? 'Volver a niveles' : (victory ? (this.mapIndex===19?'Cerrar Saga II':(this.mapIndex + 1 < MAPS.length ? 'Siguiente mundo' : ((this.mapIndex===10||this.mapIndex===11||this.mapIndex===12)?'Ver señales futuras':'Ver epílogo'))) : 'Reactivar nave')));
       const noLives=!victory && this.extraLives<=0;
       els.btnResultContinue.classList.toggle('hidden',noLives);
@@ -11982,9 +12292,12 @@
       badge.classList.remove('hidden');badge.classList.toggle('rizoma-ready',ready);badge.classList.toggle('rizoma-charging',charging);badge.classList.toggle('rizoma-boss-live',!!this.bossActive);badge.setAttribute('aria-hidden','false');badge.dataset.ship=meta.id;badge.style.setProperty('--rz-color',meta.color||'#83eaff');badge.style.setProperty('--rz-ready',String(ratio));
       if(els.rizomaTacticCode)els.rizomaTacticCode.textContent=ui.code;
       if(els.rizomaTacticRole)els.rizomaTacticRole.textContent=ui.archetype;
-      if(els.rizomaTacticStage)els.rizomaTacticStage.textContent=`E${stage} · ${ui.verb}`;
-      if(els.rizomaTacticStatus)els.rizomaTacticStatus.textContent=ready?'LISTO':`${Math.ceil(remain)}s`;
-      const desc=`${meta.name}. ${ui.archetype}. Arsenal etapa ${stage}. ${meta.special}: ${ready?'listo':`${remain.toFixed(1)} segundos`}.`;
+      const f=this.bossFight,b=this.bossActive,arb=f?.tacticalArbiter,ecology=b?this.bossPhaseEcologyProfile(b):null,rf=f?.rizomaFlow;
+      const focusValue=Math.round(clamp(arb?.smoothedMomentum??arb?.momentum??0,0,1)*100),intent=arb?.personaIntent,thesis=arb?.personaPhaseThesis,tacticalStatus=b?(b.counterplayExposure>0?`NÚCLEO ${b.counterplayExposure.toFixed(1)}s`:(f?.lastStand?.state==='active'?'ÚLTIMO':(f?.duelWindow?`DUELO ${Math.ceil(f.duelWindow.timer||0)}s`:((rf?.active||0)>0?`FLOW ${Math.ceil(rf.active)}s`:(arb?.focusActive?`FOCO ${focusValue}%`:((arb?.recovery||0)>0?'VENTANA':(intent?`INTENCIÓN ${intent.label}`:(thesis?`TESIS ${thesis.label}`:(ready?'LISTO':`${Math.ceil(remain)}s`))))))))):(ready?'LISTO':`${Math.ceil(remain)}s`);
+      if(els.rizomaTacticStage)els.rizomaTacticStage.textContent=b?`E${stage} · ${ui.verb} · ${ecology?.label||'JEFE'}`:`E${stage} · ${ui.verb}`;
+      if(els.rizomaTacticStatus)els.rizomaTacticStatus.textContent=tacticalStatus;
+      badge.classList.toggle('rizoma-core-open',!!(b&&b.counterplayExposure>0));badge.classList.toggle('rizoma-flow-focus',!!(b&&((rf?.active||0)>0||arb?.focusActive)));badge.dataset.bossLoad=arb?.loadBand||'calm';
+      const desc=`${meta.name}. ${ui.archetype}. Arsenal etapa ${stage}. ${meta.special}: ${ready?'listo':`${remain.toFixed(1)} segundos`}.${b?` Fase ${b.phase||1} ${ecology?.label||''}. Personalidad ${ecology?.personaLabel||'Guardián adaptativo'}. ${tacticalStatus}.`:''}`;
       badge.title=desc;badge.setAttribute('aria-label',desc);
     }
 

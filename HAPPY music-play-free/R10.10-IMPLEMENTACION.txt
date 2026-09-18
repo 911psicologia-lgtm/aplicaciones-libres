@@ -1,0 +1,7 @@
+MUSIC PLAY FREE HAPPY · R10.10
+
+1. Spotify podcast: los podcasts externos sin episodios locales abren su URL de Spotify desde el botón principal. El botón se rotula “Abrir en Spotify”.
+2. Pendientes de escuchar: MUSIC PLAY guarda posición, duración, proporción y fecha de la última escucha de canciones. Inicio muestra canciones interrumpidas alrededor de los hitos 25%, 50% y 75%, y al tocarlas continúa desde el punto guardado.
+3. Recomendados del día: usa historial local con fecha/hora, franja del día, afinidad por artista/álbum/género/ritmo, favoritos y escucha previa. La selección queda estable durante la misma fecha y franja. No requiere servidor.
+4. Video flotante YouTube/SoundCloud: botón ⤢/⤡ para ampliar o reducir, tamaño recordado localmente, y × para cerrar. Al cerrar se pausa/destruye el reproductor flotante; la pista queda seleccionada y Play puede abrirla otra vez.
+5. Recovery v5: conserva nuevas huellas de progreso de escucha y la selección diaria; IndexedDB sigue en mpf-minimal-db / versión 6.

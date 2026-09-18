@@ -1,0 +1,10 @@
+TEST RESULTS — SWARM//RIFT v2.15.27
+
+Feature test: 22/22 PASS
+Mobile ergonomics: PASS (5 perfiles)
+PWA resources: 560/560 presentes
+HTTP smoke: 10/10 PASS
+Assets: 551/551 idénticos a v2.15.26
+Inherited files: 830/833 idénticos; 3 cambios intencionales; 0 pérdidas
+node --check js/game.js: PASS
+node --check sw.js: PASS

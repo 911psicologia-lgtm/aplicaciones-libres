@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "passed": 10,
+  "total": 10,
+  "rows": [
+    {
+      "path": "/",
+      "status": 200,
+      "ok": true,
+      "length": "2809"
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "ok": true,
+      "length": "2809"
+    },
+    {
+      "path": "/js/game.js",
+      "status": 200,
+      "ok": true,
+      "length": "764770"
+    },
+    {
+      "path": "/css/game.css",
+      "status": 200,
+      "ok": true,
+      "length": "9113"
+    },
+    {
+      "path": "/manifest.json",
+      "status": 200,
+      "ok": true,
+      "length": "529"
+    },
+    {
+      "path": "/assets/player_ship.webp",
+      "status": 200,
+      "ok": true,
+      "length": "69062"
+    },
+    {
+      "path": "/assets/music/boss_01_nucleo_meteorico.mp3",
+      "status": 200,
+      "ok": true,
+      "length": "1205366"
+    },
+    {
+      "path": "/assets_ch2/bosses/scarab_imperator/meta.json",
+      "status": 200,
+      "ok": true,
+      "length": "467"
+    },
+    {
+      "path": "/assets_ch2/enemies/w20/major.png?av=2157",
+      "status": 200,
+      "ok": true,
+      "length": "71724"
+    },
+    {
+      "path": "/sw.js",
+      "status": 200,
+      "ok": true,
+      "length": "25875"
+    }
+  ]
+}

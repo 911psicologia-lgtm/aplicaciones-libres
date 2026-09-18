@@ -1,0 +1,364 @@
+{
+  "version": "2.15.26",
+  "pass": true,
+  "passed": 62,
+  "total": 62,
+  "groups": {
+    "orchestrator_unit": {
+      "pass": true,
+      "passed": 22,
+      "total": 22,
+      "tests": [
+        {
+          "name": "start_budget",
+          "pass": true,
+          "detail": "82"
+        },
+        {
+          "name": "signature_permit",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "signature_commit",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "signature_cost",
+          "pass": true,
+          "detail": "60"
+        },
+        {
+          "name": "major_quiet_window",
+          "pass": true,
+          "detail": "quiet_window"
+        },
+        {
+          "name": "budget_recovers",
+          "pass": true,
+          "detail": "76.5"
+        },
+        {
+          "name": "quiet_expires",
+          "pass": true,
+          "detail": "0"
+        },
+        {
+          "name": "arena_after_quiet",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "arena_commit",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "arena_cost",
+          "pass": true,
+          "detail": "52.5"
+        },
+        {
+          "name": "counter1",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "counter2",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "repeat_fatigue",
+          "pass": true,
+          "detail": "repeat_fatigue"
+        },
+        {
+          "name": "budget_denial",
+          "pass": true,
+          "detail": "salience_budget"
+        },
+        {
+          "name": "nested_branch_ignores_parent_quiet",
+          "pass": true,
+          "detail": "eligible"
+        },
+        {
+          "name": "nested_branch_commit",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "budget_capped",
+          "pass": true,
+          "detail": "100"
+        },
+        {
+          "name": "sample_full",
+          "pass": true,
+          "detail": "1"
+        },
+        {
+          "name": "sample_balanced",
+          "pass": true,
+          "detail": "1.15"
+        },
+        {
+          "name": "sample_recovery",
+          "pass": true,
+          "detail": "1.35"
+        },
+        {
+          "name": "sampling_order",
+          "pass": true,
+          "detail": "1/1.15/1.35"
+        },
+        {
+          "name": "phase_transition_blocks_major",
+          "pass": true,
+          "detail": "phase_transition"
+        }
+      ]
+    },
+    "structural": {
+      "version": "2.15.26",
+      "pass": true,
+      "passed": 28,
+      "total": 28,
+      "tests": [
+        {
+          "name": "version_21526",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "meta_key_21526",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "run_key_21526",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "meta_fallback_21525",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "run_fallback_21525",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "telemetry_schema_8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "telemetry_migration_21525",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "index_cache_bust",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "sw_cache_21526",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_present",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "budget_bounded_logic",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "quiet_windows",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "repeat_fatigue",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "adaptive_sampling",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_no_hp_mutation",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_no_damage_mutation",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_no_projectile_spawn",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_no_network",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "arena_counter_lock",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "signature_counter_lock",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "branch_nested_quiet_override",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_status_hook",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "orchestrator_selftest_hook",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "name": "tactical_identity_unchanged",
+          "pass": true,
+          "detail": "778/778"
+        },
+        {
+          "name": "arena_identity_unchanged",
+          "pass": true,
+          "detail": "659/659"
+        },
+        {
+          "name": "counter_identity_unchanged",
+          "pass": true,
+          "detail": "3890/3890"
+        },
+        {
+          "name": "micro_sequence_identity_unchanged",
+          "pass": true,
+          "detail": "3743/3743"
+        },
+        {
+          "name": "pwa_assets_all_present",
+          "pass": true,
+          "detail": "560/560; missing=0"
+        }
+      ]
+    },
+    "http_smoke": {
+      "version": "2.15.26",
+      "pass": true,
+      "passed": 10,
+      "total": 10,
+      "results": [
+        {
+          "path": "/",
+          "status": 200,
+          "content_type": "text/html",
+          "pass": true
+        },
+        {
+          "path": "index.html",
+          "status": 200,
+          "content_type": "text/html",
+          "pass": true
+        },
+        {
+          "path": "js/game.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "pass": true
+        },
+        {
+          "path": "sw.js",
+          "status": 200,
+          "content_type": "text/javascript",
+          "pass": true
+        },
+        {
+          "path": "manifest.json",
+          "status": 200,
+          "content_type": "application/json",
+          "pass": true
+        },
+        {
+          "path": "css/game.css",
+          "status": 200,
+          "content_type": "text/css",
+          "pass": true
+        },
+        {
+          "path": "assets/icon.svg",
+          "status": 200,
+          "content_type": "image/svg+xml",
+          "pass": true
+        },
+        {
+          "path": "assets/player_ship.webp",
+          "status": 200,
+          "content_type": "image/webp",
+          "pass": true
+        },
+        {
+          "path": "assets/bg_rust_canyon.webp",
+          "status": 200,
+          "content_type": "image/webp",
+          "pass": true
+        },
+        {
+          "path": "assets_ch2/bosses/scarab_imperator/meta.json",
+          "status": 200,
+          "content_type": "application/json",
+          "pass": true
+        }
+      ]
+    },
+    "node_syntax": {
+      "pass": true,
+      "passed": 2,
+      "total": 2,
+      "tests": [
+        {
+          "name": "node_check_game",
+          "pass": true
+        },
+        {
+          "name": "node_check_sw",
+          "pass": true
+        }
+      ]
+    }
+  },
+  "browser_automation": {
+    "attempted": true,
+    "pass": false,
+    "reason": "ERR_BLOCKED_BY_ADMINISTRATOR on localhost and file://; not counted as a product failure"
+  },
+  "physical_device_test": {
+    "performed": false
+  }
+}

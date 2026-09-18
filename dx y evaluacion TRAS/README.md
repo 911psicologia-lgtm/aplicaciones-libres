@@ -1,4 +1,4 @@
-# TRAS App — versión multiarchivo (v0.16.6)
+# TRAS App — versión multiarchivo (v0.16.28)
 
 **Test de Representaciones de la Vida Afectiva y Social de Niños, Niñas y Adolescentes**
 Autor del instrumento: José Alonso Andrade Salazar · © 2015
@@ -9,6 +9,11 @@ diagnóstica: organiza la administración, el registro y la interpretación cual
 deja por escrito esa advertencia en cada informe.
 
 ---
+
+
+## Cambios actuales de la v0.16.28
+
+Esta versión corrige la persistencia de la modalidad TRAS en expedientes e importaciones. Consulte `CHANGELOG_v0.16.28.md` para el detalle técnico: selector explícito Extensa/Resumida, migración segura de JSON legados, control de conflictos al fusionar casos y esquema de caso v4.
 
 ## Cambios de la v0.16.6
 
@@ -407,3 +412,9 @@ En **Centro de informes → Devolución terapéutica para adolescente** se confi
 La salida no es un informe técnico. Es una página autónoma para la persona adolescente, con tarjetas desplegables, recursos, ruta terapéutica seleccionable y un botón para preparar los temas de la siguiente sesión. El HTML exportado puede subirse directamente a Cloudflare Pages.
 
 La opción trans/diversa solo se sugiere cuando el campo explícito de sexo/género contiene esa información. En cualquier otro caso se mantiene la plantilla neutra o la selección manual del profesional.
+
+## v0.16.28 · Modalidad TRAS en el expediente
+
+Desde v0.16.28, cada caso conserva de forma explícita la modalidad de aplicación del TRAS (`trasMode: "extenso" | "resumido"`) y si esa modalidad fue realmente confirmada (`trasModeConfigured`). Los expedientes legados que no contenían ese dato no se convierten silenciosamente a una modalidad: el menú lateral los identifica y exige confirmar Extensa (59 ítems) o Resumida (38 ítems) antes de entrar a Entrevista, Revisión o Interpretación.
+
+La importación de un JSON antiguo utiliza una inferencia conservadora solo cuando existen datos inequívocos de modalidad extensa (por ejemplo, respuestas en ciclos A/B o más de 38 respuestas núcleo). En los casos ambiguos se solicita una decisión explícita. La fusión de expedientes preserva la modalidad ya configurada y advierte cuando el archivo entrante usa otra.

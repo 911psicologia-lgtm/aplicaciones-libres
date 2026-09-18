@@ -1,0 +1,33 @@
+SWARM//RIFT v2.15.30 — BUILD MANIFEST
+=====================================
+VERSION=2.15.30
+BUILD=ADAPTIVE_HIVE_PACING_ECOLOGY
+BASE=v2.15.29_ADAPTIVE_HIVE_RHYTHM_FORECASTING
+TELEMETRY_SCHEMA=12
+
+ACTIVE ADAPTIVE LAYERS
+- Adaptive Hive Director
+- Contextual Orchestration
+- Stability Coordination
+- Rhythm Forecasting
+- Pacing Ecology
+- Signature Priority Pilot
+- Tactical Identity Geometry
+- Arena Morphology
+- Counter-Evolution
+- Coevolution Microsequences
+- Legible Feint Branching
+
+NEW IN THIS BUILD
+- duration-aware headroom
+- predictive family fatigue
+- dynamic rhythm spacing
+- 10 Hz batched orchestrator maintenance
+- pacing telemetry / diagnostics
+
+NOT ACTIVATED
+- Reactive Armor
+- Symbiotic Assist
+- RIFT Disruption
+- RIFT Rebirth
+- extra soft gates

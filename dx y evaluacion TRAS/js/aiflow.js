@@ -380,7 +380,7 @@ registerAiFlow('informe', {
       resumen_clinico: c.hc.resumen || '',
       alcance: c.scope || 'ambos',
       tras: {
-        modo_aplicacion: c.trasMode === 'resumido' ? 'resumido (38 items: ciclos C y D)' : 'extenso ajustado (59 items; se retiraron items redundantes por area)',
+        modo_aplicacion: c.trasModeConfigured === false ? 'modalidad no confirmada en expediente legado' : (c.trasMode === 'resumido' ? 'resumido (38 items: ciclos C y D)' : 'extenso ajustado (59 items; se retiraron items redundantes por area)'),
         areas,
         patrones_globales: c.patterns || '',
         analisis_consolidado_previo: c.consolidated || '',

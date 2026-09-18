@@ -1,0 +1,50 @@
+VALIDACIÓN — SWARM//RIFT v2.15.27
+
+Sintaxis
+- node --check js/game.js: PASS
+- node --check sw.js: PASS
+
+Feature Test v2.15.27
+- 22/22 PASS
+- versión/schema/mode
+- 20 mundos
+- matrices de identidad 10/10
+- self-test Director
+- self-test Contextual Orchestrator
+- migración run desde v2.15.26
+- utilidad contextual alta
+- gate de baja utilidad
+- tracking por fase
+- cooldown por tipo
+- Phase Attention Cap
+- RECOVERY defiere Arena Morphology
+- A1 Recovery Boost
+- sampling FULL/BALANCED/RECOVERY
+- cache bust v21527
+- migración meta/telemetría
+- heavy countermeasures continúan en Shadow
+- sin tráfico de red dentro de Adaptive Hive
+- sin inflación estadística
+
+Mobile Combat Ergonomics
+- PASS en 5 perfiles de referencia.
+- safe areas, combat bounds, action rail, direct touch preservados.
+
+PWA
+- 560/560 recursos declarados presentes.
+- 0 faltantes.
+
+HTTP smoke
+- 10/10 respuestas HTTP 200.
+
+Assets
+- 551/551 assets (assets + assets_ch2) idénticos a v2.15.26.
+
+Preservación heredada
+- 833 archivos heredados.
+- 830 idénticos bit a bit.
+- 3 modificados intencionalmente: index.html, js/game.js, sw.js.
+- 0 archivos heredados perdidos.
+
+Limitación declarada
+- No se afirma una sesión humana prolongada de balance en dispositivo físico.

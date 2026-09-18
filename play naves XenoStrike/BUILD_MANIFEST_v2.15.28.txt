@@ -1,0 +1,39 @@
+SWARM//RIFT — Insecta Siege
+BUILD MANIFEST v2.15.28
+Build: ADAPTIVE HIVE STABILITY COORDINATION
+
+Base canonical build: v2.15.27 ADAPTIVE HIVE CONTEXTUAL ORCHESTRATION
+Inherited files: 848
+Inherited identical: 845
+Inherited modified intentionally: 3 (index.html, js/game.js, sw.js)
+Inherited missing: 0
+New v2.15.28 documentation/audit files before manifest: 9
+Expected final files including BUILD_MANIFEST and CONTENT_SHA256: 859
+
+Core changes:
+- Predictive intervention reservations and conflict matrix.
+- Adaptive pressure recovery envelope.
+- Phase-aware intervention count + salience budget.
+- Transition breathing/reset for obsolete reservations.
+- Exact Counter-Evolution duration reservation.
+- Telemetry schema 10 and explicit v2.15.27 migration.
+
+Preserved constraints:
+- 20 worlds / 20 bosses.
+- No HP inflation.
+- No damage/cadence/projectile-density boost.
+- No player build/power/rank mutation.
+- Reactive Armor / Symbiotic Assist / RIFT Disruption / RIFT Rebirth / extra soft gates remain inactive.
+- Mobile Combat Ergonomics block unchanged.
+- PWA/offline and all inherited assets preserved.
+
+Validation references:
+- FEATURE_TEST_v2.15.28.json
+- VALIDACION_v2.15.28.txt
+- AUTOAUDIT_v2.15.28.txt
+- NODE_CHECK_v2.15.28.txt
+- PWA_AUDIT_v2.15.28.json
+- HTTP_SMOKE_v2.15.28.json
+- MOBILE_ERGONOMICS_TEST_v2.15.28.json
+
+Physical-device prolonged play/balance session: not performed and not claimed.

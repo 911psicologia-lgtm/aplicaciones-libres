@@ -1,0 +1,45 @@
+MUSIC PLAY FREE HAPPY · R10.9
+QUEUE VISIBILITY + PODCAST CONTINUE
+2026-09-09
+
+Base obligatoria:
+- R10.8 Queue · Repeat · Podcasts.
+- Se conserva IndexedDB `mpf-minimal-db`, DB_VERSION 6 y Recovery Guard.
+- No hay migraciones destructivas.
+
+1. COLA VISIBLE Y ADMINISTRABLE
+- Botón de cola en minirreproductor con contador de pendientes.
+- Botón Cola en el reproductor completo.
+- Panel separa:
+  a) Sonando ahora.
+  b) Cola manual prioritaria.
+  c) Continuación automática del contexto/modo actual.
+- La cola manual permite reproducir ahora, subir, bajar, quitar y vaciar.
+- No modifica el orden de la playlist original.
+
+2. PODCAST · CONTINUAR ESCUCHANDO
+- Cada episodio guarda `resumePosition`, `resumeDuration` y `resumeUpdatedAt`.
+- Solo se ofrece continuidad cuando supera 20 s y aún no está prácticamente terminado.
+- Al completar el episodio se limpia el punto de continuidad.
+- Las tarjetas de podcast muestran el episodio pendiente y porcentaje aproximado.
+- El hub Podcasts incorpora “Continuar escuchando”.
+
+3. CONTROLES DE PODCAST
+- Retroceso 15 s.
+- Avance 30 s.
+- Velocidad global de podcast: 1×, 1.25×, 1.5×, 1.75× y 2×.
+- Local/directo y YouTube aplican velocidad cuando el motor lo permite.
+- SoundCloud conserva el ajuste para otras fuentes pero su widget controla su propia velocidad.
+- Media Session usa 15/30 s para podcasts.
+
+4. RECOVERY
+- Payload Recovery v4.
+- Incluye progreso de episodios por formar parte de cada track normalizado.
+- Incluye `podcastRate`.
+- Restauración sigue siendo compatible por `schema` con Recovery anteriores.
+
+5. PRINCIPIO DE SEGURIDAD
+- No cambiar DB_NAME.
+- No incrementar DB_VERSION sin necesidad.
+- No borrar object stores.
+- Toda futura versión debe partir de esta R10.9 o una descendiente verificada.

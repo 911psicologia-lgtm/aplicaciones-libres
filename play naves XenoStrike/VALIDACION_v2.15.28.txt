@@ -1,0 +1,13 @@
+VALIDACIÓN v2.15.28 — ADAPTIVE HIVE STABILITY COORDINATION
+
+Feature/structural checks: 33/33 PASS
+Targeted coordinator cases: 12/12 boolean checks PASS
+node --check js/game.js: PASS
+node --check sw.js: PASS
+PWA resources: 560/560 present
+HTTP smoke: 10/10 HTTP 200
+Inherited preservation: 845/848 identical, 3 intentional code/cache changes, 0 missing
+Assets: 551/551 inherited assets byte-identical
+Mobile/input ergonomics block: byte-identical to v2.15.27
+No external telemetry/network calls in Adaptive Hive block.
+No physical-device prolonged balance session claimed.

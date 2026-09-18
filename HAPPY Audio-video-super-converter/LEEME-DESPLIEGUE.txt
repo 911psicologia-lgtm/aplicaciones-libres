@@ -97,3 +97,21 @@ revisa tu conexión y recarga: los trozos ya descargados quedan en la
 caché del navegador (con el service worker activo, normalmente ni se
 vuelven a pedir). Un HTTP 404 de un fragmento sigue significando que
 falta ffmpeg/ en el despliegue: vuelve a subir dist/ completo.
+
+────────────────────────────────────────────────────────────────────
+ENLACES DE YOUTUBE Y OTRAS PLATAFORMAS (novedad v5)
+────────────────────────────────────────────────────────────────────
+La descarga de enlaces usa servidores públicos de código abierto
+(cobalt) porque cada plataforma solo permite descargar desde sus
+propios servidores. La app viene con 3 instancias y las prueba en
+orden; si una se queda sin responder, corta sola (30 s sin datos) y
+pasa a la siguiente. En Ajustes tienes el botón «Probar servidores
+ahora» para ver cuál está viva desde tu red y dejarla primero, y un
+campo para poner tu propia instancia (con clave API opcional).
+
+GRABACIÓN DE ESTUDIO (novedad v5)
+El micrófono graba ahora en PCM de estudio: 48 kHz · 16 bits sin
+recomprimir (la opción recomendada es «Directo · máxima fidelidad»).
+Si vas a grabar en un sitio con ruido, elige «Normal» o «Fuerte» en
+Reducción de ruido. No requiere nada especial del servidor: funciona
+igual en Cloudflare Pages.

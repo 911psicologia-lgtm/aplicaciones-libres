@@ -1,0 +1,319 @@
+{
+  "pass": 10,
+  "total": 10,
+  "tests": [
+    {
+      "name": "headroom blocks long sequence before phase exit",
+      "ok": true,
+      "extra": {
+        "ok": false,
+        "reason": "phase_duration_headroom",
+        "cost": 30,
+        "utility": 1,
+        "rhythm": {
+          "zone": "CLIMAX",
+          "phase": 2,
+          "elapsed": 7,
+          "phaseMin": 10,
+          "progress": 0.7,
+          "timeToNext": 5,
+          "nativeGate": false,
+          "exitRisk": false
+        },
+        "headroom": {
+          "ok": false,
+          "remaining": 5,
+          "required": 8.55,
+          "duration": 8
+        }
+      }
+    },
+    {
+      "name": "signature priority survives exit headroom",
+      "ok": true,
+      "extra": {
+        "ok": true,
+        "reason": "eligible",
+        "cost": 22,
+        "utility": 1,
+        "context": {
+          "score": 1,
+          "rawScore": 1,
+          "why": "director+rhythm_exit_risk+signature_debt",
+          "state": "A3",
+          "phase": 2,
+          "confidence": 0.95,
+          "spatial": 0.9,
+          "risk": 1,
+          "coverage": 0.55,
+          "repeat": 1,
+          "rhythm": {
+            "zone": "EXIT_RISK",
+            "phase": 2,
+            "elapsed": 7,
+            "phaseMin": 10,
+            "progress": 0.7,
+            "timeToNext": 1,
+            "nativeGate": false,
+            "exitRisk": true
+          }
+        },
+        "phasePolicy": {
+          "total": 4,
+          "major": 1,
+          "salience": 62
+        },
+        "pressure": 0,
+        "family": "SPECTACLE",
+        "familyFatigue": 0,
+        "fatigueForecast": {
+          "ok": true,
+          "family": "SPECTACLE",
+          "current": 0,
+          "projected": 0.3,
+          "gate": 0.94
+        },
+        "headroom": {
+          "ok": true,
+          "remaining": 1,
+          "required": 0
+        },
+        "spacing": 1.458,
+        "rhythm": {
+          "zone": "EXIT_RISK",
+          "phase": 2,
+          "elapsed": 7,
+          "phaseMin": 10,
+          "progress": 0.7,
+          "timeToNext": 1,
+          "nativeGate": false,
+          "exitRisk": true
+        }
+      }
+    },
+    {
+      "name": "projected family fatigue blocks before saturation",
+      "ok": true,
+      "extra": {
+        "ok": false,
+        "reason": "forecast_family_fatigue",
+        "cost": 30,
+        "utility": 1,
+        "family": "SEQUENCE",
+        "current": 0.7,
+        "projected": 1,
+        "gate": 0.94
+      }
+    },
+    {
+      "name": "rhythm spacing blocks rapid follow-up",
+      "ok": true,
+      "extra": {
+        "ok": false,
+        "reason": "rhythm_spacing",
+        "cost": 16,
+        "utility": 1,
+        "spacing": 1.05,
+        "sinceLast": 0.4,
+        "rhythm": {
+          "zone": "BUILD",
+          "phase": 3,
+          "elapsed": 4,
+          "phaseMin": 10,
+          "progress": 0.4,
+          "timeToNext": 8,
+          "nativeGate": false,
+          "exitRisk": false
+        }
+      }
+    },
+    {
+      "name": "nested feint bypasses parent spacing/fatigue/headroom",
+      "ok": true,
+      "extra": {
+        "ok": true,
+        "reason": "eligible",
+        "cost": 10,
+        "utility": 1,
+        "context": {
+          "score": 1,
+          "rawScore": 1,
+          "why": "director+rhythm_exit_risk+sequence_branch",
+          "state": "A3",
+          "phase": 2,
+          "confidence": 0.95,
+          "spatial": 0.9,
+          "risk": 1,
+          "coverage": 0.55,
+          "repeat": 1,
+          "rhythm": {
+            "zone": "EXIT_RISK",
+            "phase": 2,
+            "elapsed": 7,
+            "phaseMin": 10,
+            "progress": 0.7,
+            "timeToNext": 0.5,
+            "nativeGate": false,
+            "exitRisk": true
+          }
+        },
+        "phasePolicy": {
+          "total": 4,
+          "major": 1,
+          "salience": 62
+        },
+        "pressure": 0,
+        "family": "SEQUENCE",
+        "familyFatigue": 0.99,
+        "fatigueForecast": {
+          "ok": true,
+          "family": "SEQUENCE",
+          "current": 0,
+          "projected": 0
+        },
+        "headroom": {
+          "ok": true,
+          "remaining": 0.5,
+          "required": 0
+        },
+        "spacing": 0,
+        "rhythm": {
+          "zone": "EXIT_RISK",
+          "phase": 2,
+          "elapsed": 7,
+          "phaseMin": 10,
+          "progress": 0.7,
+          "timeToNext": 0.5,
+          "nativeGate": false,
+          "exitRisk": true
+        }
+      }
+    },
+    {
+      "name": "maintenance is batched around 10Hz",
+      "ok": true,
+      "extra": {
+        "p0": 0,
+        "p1": 1,
+        "b0": 50,
+        "b1": 50.75625
+      }
+    },
+    {
+      "name": "spacing expands with pressure and device recovery",
+      "ok": true,
+      "extra": {
+        "s0": 1.05,
+        "s1": 1.621,
+        "s2": 1.913
+      }
+    },
+    {
+      "name": "final phase ignores nonexistent transition headroom",
+      "ok": true,
+      "extra": {
+        "ok": true,
+        "remaining": 0.2,
+        "required": 0
+      }
+    },
+    {
+      "name": "commit records pacing metadata",
+      "ok": true,
+      "extra": {
+        "type": "COUNTER_TRIAL",
+        "at": 10,
+        "phase": 3,
+        "cost": 16,
+        "utility": 1,
+        "rawUtility": 1,
+        "budgetAfter": 66,
+        "phaseSpendAfter": 16,
+        "pressureAfter": 0.2,
+        "family": "ADAPTIVE",
+        "familyFatigueAfter": 0.24,
+        "rhythm": "BUILD",
+        "spacing": 1.05,
+        "headroom": {
+          "ok": true,
+          "remaining": 8,
+          "required": 0
+        },
+        "fatigueForecast": {
+          "ok": true,
+          "family": "ADAPTIVE",
+          "current": 0,
+          "projected": 0.24,
+          "gate": 0.94
+        },
+        "reserveUntil": 15.75,
+        "major": false,
+        "tier": "FULL",
+        "reason": "test"
+      }
+    },
+    {
+      "name": "duplicate reservation coalesces",
+      "ok": true,
+      "extra": {
+        "a": {
+          "type": "COUNTER_TRIAL",
+          "at": 10,
+          "until": 16,
+          "phase": 3,
+          "major": false
+        },
+        "b": {
+          "type": "COUNTER_TRIAL",
+          "at": 10,
+          "until": 16,
+          "phase": 3,
+          "major": false
+        },
+        "state": {
+          "budget": 82,
+          "quietUntil": 0,
+          "recent": [],
+          "events": [],
+          "spent": {},
+          "denied": {},
+          "commits": 0,
+          "phaseCounts": {},
+          "phaseTotals": {},
+          "phaseMajors": {},
+          "phaseSpend": {},
+          "lastByType": {},
+          "lastUtility": {},
+          "utilityEma": {},
+          "contextCache": null,
+          "familyFatigue": {},
+          "pressure": 0,
+          "reservations": [
+            {
+              "type": "COUNTER_TRIAL",
+              "at": 10,
+              "until": 16,
+              "phase": 3,
+              "major": false
+            }
+          ],
+          "lastPhase": 3,
+          "phaseEntries": 0,
+          "lastCommitAt": -999,
+          "maintenanceAcc": 0,
+          "maintenancePasses": 0,
+          "conflictDeferrals": 0,
+          "pressureDeferrals": 0,
+          "phaseSalienceDenials": 0,
+          "familyFatigueDenials": 0,
+          "phaseExitDeferrals": 0,
+          "phaseEntryDeferrals": 0,
+          "headroomDenials": 0,
+          "forecastFatigueDenials": 0,
+          "rhythmSpacingDenials": 0,
+          "coalescedReservations": 1
+        }
+      }
+    }
+  ]
+}

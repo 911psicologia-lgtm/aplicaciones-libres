@@ -1,0 +1,33 @@
+SWARM//RIFT v2.15.27 — ADAPTIVE HIVE CONTEXTUAL ORCHESTRATION
+
+BASE
+- Evolución incremental de v2.15.26 ADAPTIVE HIVE INTERVENTION ORCHESTRATOR.
+- 20 mundos, 20 bosses y sistemas heredados preservados.
+
+NUEVO
+1. Context Utility Gate 0–1 para intervenciones perceptibles.
+2. Umbral 0.50 normal / 0.58 major.
+3. Phase Attention Budget: máximo 5 intervenciones y 2 mayores por fase.
+4. Caps por familia adaptativa.
+5. Cooldown independiente por tipo de intervención.
+6. Coste adaptado a tier de rendimiento.
+7. Muestreo: FULL 1.00 s / BALANCED 1.18 s / RECOVERY 1.45 s.
+8. Graceful degradation: RECOVERY aplaza Arena Morphology y Feint Branching antes de tocar sistemas esenciales.
+9. Recuperación del presupuesto +25% durante A1.
+10. Telemetría local schema 9.
+11. Nuevo hook __SWARM_HIVE_CONTEXTUAL_ORCHESTRATOR_SELFTEST().
+
+SIGUE EN SHADOW
+- Reactive Armor
+- Symbiotic Assist
+- RIFT Disruption
+- RIFT Rebirth
+- extra soft gates
+
+NO SE MODIFICA
+- HP / maxHP
+- daño base
+- cadencia
+- powers / ranks / upgrades
+- build del jugador
+- densidad global de proyectiles

@@ -1,0 +1,53 @@
+VALIDACIÓN RIZOMA ZOMBIE STRIKE v3.61.0
+
+VERSIÓN: v3.61.0 — Guardian Combat Persona + Intent Chains
+
+RESULTADOS
+- Sintaxis js/game.js: OK
+- Sintaxis sw.js: OK
+- manifest.json: válido
+- Versionado index / JS / SW / manifest: 3.61.0 sincronizado
+- Mundos: 20 exactos
+- Curva base boss HP monotónica: OK
+  M1  = 11.200
+  M5  = 19.500
+  M10 = 38.900
+  M15 = 77.800
+  M20 = 155.500
+- Assets heredados desde v3.60: 842
+- Assets faltantes: 0
+- Assets modificados byte/CRC respecto de v3.60: 0
+- Referencias de assets detectadas: 787 únicas
+- Referencias faltantes: 0
+- IDs HTML: 230
+- IDs duplicados: 0
+- Botones HTML: 71
+- Botones sin type=button: 0
+- Personalidades tardías: 10/10 (M11–M20)
+- Motion hints validados contra los modos reales de cada mundo: 10/10 OK
+- HTTP local 200: index, game.js, styles.css, manifest, service worker y boss M20
+
+CONTINUIDAD DE COMBATE
+Funciones idénticas byte a byte respecto de v3.60:
+- damageEnemy
+- bossPattern
+- boss2Pattern
+- boss2Special
+- triggerBossSpecial
+- updateBossMotion
+- updateBossApproach
+- updateContinuityEnemyDirector
+- evaluateAdaptiveBossShadow
+- resurrectBoss
+- addEnemyBullet
+
+CAMBIOS INTENCIONALES
+- bossPhaseEcologyProfile: aplica ajuste de ritmo por personalidad.
+- ensureBossTacticalArbiter / markBossTacticalStart / updateBossTacticalArbiter: memoria de intención y follow-up.
+- startBossSignatureSequence: selección signature sesgada por personalidad con anti-repetición.
+- nextBossMotionMode: consume un único motion hint coherente con la intención; luego vuelve al mazo normal.
+- HUD/Guía: muestra intención y personalidad de forma subordinada a estados de mayor prioridad.
+
+NO SE AFIRMA
+- Campaña física completa M1–M20 en Android/iOS.
+- Test visual manual en todos los tamaños de pantalla.

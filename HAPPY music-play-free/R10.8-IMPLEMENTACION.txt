@@ -1,0 +1,45 @@
+MUSIC PLAY FREE HAPPY · R10.8
+Build: 2026.09.09-r10.8-queue-repeat-podcasts
+
+BASE DE SEGURIDAD
+- R10.8 deriva de R10.7.1 Recovery Guard.
+- Mantiene DB_NAME mpf-minimal-db y DB_VERSION existente; no borra ni reinicializa IndexedDB/OPFS.
+- Recovery JSON evoluciona a v3 e incluye manualQueueIds, repeatOneId y playlists con contentType.
+- La restauración mantiene compatibilidad con copias anteriores del schema music-play-backup.
+
+COLA REAL
+- manualQueueIds queda separada de queueIds/baseQueueIds, que representan contexto y modos automáticos.
+- Reproducir a continuación inserta al frente de la cola manual.
+- Añadir a la cola agrega al final.
+- La cola manual tiene prioridad al terminar una pista, antes de Mix, Aleatorio, Radio o Cola Viva.
+- Consumir una canción manual no destruye el contexto de reproducción que estaba activo.
+
+REPEAT ONE
+- Cada fila incorpora ↻1 junto a Favorito y Añadir/Opciones.
+- Solo una canción puede quedar marcada para repetición continua.
+- El fin natural repite la pista; pulsar Siguiente continúa funcionando de forma explícita.
+- El estado se persiste en preferencias y Recovery.
+
+PLAYLISTS Y BÚSQUEDA
+- Desde el detalle de una playlist, volver a pulsar Biblioteca/Playlists regresa al hub de listas.
+- Buscar desde una playlist conserva searchOriginPlaylistId.
+- Resultados: primero playlists relacionadas (nombre o canciones coincidentes), después canciones y álbumes.
+- La playlist de origen se prioriza y se identifica mediante una banda contextual removible.
+
+PODCASTS
+- Las colecciones incorporan contentType: music | podcast | musicVideo.
+- Podcasts se muestran separados de Mis listas, tanto en Biblioteca como en Inicio.
+- Inicio incorpora Podcasts después de Artistas y Música en video como último bloque de descubrimiento.
+- Una playlist existente puede marcarse/desmarcarse como Podcast desde su menú.
+- Nueva > Podcast abre importación especializada.
+- YouTube: una playlist puede guardarse manualmente como Podcast. Si el helper/API devuelve status.podcastStatus=enabled, se clasifica automáticamente como podcast.
+- Cloudflare helper consulta playlists con part=snippet,status y devuelve podcastStatus cuando está disponible.
+- Spotify: los enlaces /show/ se guardan como colección Podcast externa. No se intenta reproducir ni descargar audio protegido; se conserva el enlace original.
+- Spotify /episode/ se guarda como referencia de episodio.
+
+MÚSICA EN VIDEO
+- Inicio incorpora una sección Música en video basada en videos de YouTube presentes en la biblioteca y excluye elementos pertenecientes a Podcasts.
+- Reutiliza el reproductor y metadatos existentes; no crea otra biblioteca paralela.
+
+FUERA DE R10.8
+- Grabar tu podcast, mezcla con música local, ducking, edición y exportación quedan reservados para una fase posterior.

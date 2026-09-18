@@ -1,0 +1,28 @@
+SWARM//RIFT BUILD MANIFEST — v2.15.26
+
+Build name: ADAPTIVE HIVE INTERVENTION ORCHESTRATOR
+Canonical base: v2.15.25 ADAPTIVE_HIVE_FEINT_BRANCHING
+Base ZIP SHA-256: 71fc298df6aee9a07fedc51ab3736518e0873f92133b93d86268acd30927d63d
+Target version: 2.15.26
+Final expected file count: 833
+CONTENT_SHA256 entries expected: 832 (all final files except CONTENT_SHA256_v2.15.26.txt itself)
+
+Inherited preservation:
+- inherited files: 819
+- identical inherited files: 816
+- changed inherited files: index.html, js/game.js, sw.js
+- missing inherited files: 0
+- inherited assets identical: 551/551
+
+Validation:
+- node syntax: 2/2 PASS
+- orchestrator unit: 22/22 PASS
+- structural: 28/28 PASS
+- HTTP smoke: 10/10 PASS
+- total counted checks: 62/62 PASS
+- PWA declared resources present: 560/560
+
+Browser automation note:
+- Chromium navigation blocked by environment administrator policy for localhost and file://.
+- No graphical browser pass is claimed.
+- No physical-device prolonged playtest is claimed.
