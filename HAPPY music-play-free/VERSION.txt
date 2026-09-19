@@ -1,42 +1,88 @@
-MUSIC PLAY · HAPPY — R10.23 (2026-09-18)
+MUSIC PLAY · HAPPY — R10.25 (2026-09-18)
 
-CORRECCIÓN · MicroTicker siempre vivo
-1. EQ SIEMPRE animado — nunca está completamente muerto:
-   · playing → animación completa (6 keyframes, .7-1.1s, gradient accent)
-   · paused → heartbeat suave (2s, barras al 40-55%, opacity .5-.7)
-   · idle → pulse muy lento (3s, barras al 20-30%, casi imperceptible)
-2. La animación se reinicia correctamente con force reflow al cambiar estado.
-3. El ticker se siente integrado: a ratos tiene movimiento fuerte (playing),
-   a ratos se aquieta con un latido suave (paused), y ante un evento vuelve
-   a cobrar vida.
+NUEVO · 20 MIXES CON WATCH URLs CANÓNICOS
+1. BASE_MIXES completamente reescrito con 20 watch URLs canónicos:
+   Salsa, Country, Reggae, Rock en español, Metal, Cumbia, Vallenato,
+   Bachata, Jazz, Pop, Hip-Hop, EDM, Merengue, Reggaetón, Blues,
+   R&B/Soul, Clásica, Instrumental, Folk, Gospel.
+2. Sin parámetros si=, feature=, list=, index=. Solo watch?v=VIDEO_ID.
+3. Validación real: validateMix() usa oembed para comprobar que el
+   videoId existe y es accesible. Estados: AVAILABLE, UNAVAILABLE,
+   REGION_BLOCKED, LOAD_ERROR, UNKNOWN.
+4. Caché de validación 10 min. validateAllMixes() en background.
+5. Mix no disponible → tarjeta con overlay "No disponible", no bloquea.
+6. Reintentar validación desde menú ⋮ del mix.
 
-CORRECCIÓN · State sync (Radio Live vs canción local)
-1. checkStateChanges() cada 1.2s detecta:
-   · Cambio de Radio Live (activar/desactivar) → Queue.forceRefresh() +
-     collectFromSources() inmediato. Antes se quedaba mostrando la canción
-     local aunque la radio ya estuviera sonando.
-   · Cambio de canción → refresh inmediato.
-   · Cambio de engine → refresh inmediato.
-   · Cambio play/pause → emite evento ▶ REANUDACIÓN / ⏸ PAUSA.
-2. Sources.local() y Sources.youtube() ahora verifican
-   window.MP_LIVE_RADIO?.isActive?.() → si la radio está activa, no muestran
-   info local/youtube. Sources.radio() tiene prioridad 25 (mayor que local 30).
+NUEVO · IMPORTADOR UNIVERSAL DE YOUTUBE
+1. normalizeYouTubeUrl(): reconoce watch, youtu.be, playlist, music.youtube.
+   Extrae videoId/playlistId, ignora si=, feature=, etc.
+2. analyzeImport(): clasifica URL — video suelto o playlist (necesita
+   clasificación del usuario).
+3. promptClassification(): diálogo "¿Podcast o Playlist musical?".
+4. importClassifiedPlaylist(): usa getYouTubePlaylistIds() existente
+   (con paginación) para obtener todos los videos. Crea tracks
+   individuales por cada videoId con watchUrl canónico.
+5. Estructura PodcastShow: playlist como contenedor, cada video como
+   PodcastEpisode individual (videoId, watchUrl, title, thumbnail, position).
+6. Reproducción: tocar episodio 4 → youtube.com/watch?v=VIDEO_ID_EP4.
+   No se reproduce el playlist URL como si fuera un episodio.
 
-CORRECCIÓN · Ticker más ancho
-1. brand-mark (símbolo ♫ izquierdo) reducido de 48×48px → 36×36px.
-2. icon-status-btn (★ ⧉ ⋯) reducido de 42×42px → 32×32px.
-3. topbar gap reducido de 12px → 8px.
-4. max-width del ticker aumentado: calc(100vw - 170px) (antes 200px).
-5. En móvil: brand-mark 32×32, iconos 30×30, ticker calc(100vw - 145px).
-6. Resultado: el ticker tiene ~30% más espacio para mostrar información.
+NUEVO · SINCRONIZACIÓN
+1. syncPlaylist() en menú ⋮ de playlist → "↻ Actualizar desde YouTube".
+2. Detecta videos nuevos sin duplicar existentes.
+3. Conserva progreso, favoritos, escuchados, clasificación.
+4. Actualiza título/thumbnail si cambiaron.
+5. Videos eliminados → marcados, no borrados del historial.
+
+NUEVO · PODCASTS Y PLAYLISTS BASE
+1. Pensar la Crianza (PODCAST ORIGINAL) — importada como podcast con
+   episodios individuales. Sincronizable.
+2. Segunda playlist base (PLk6voQWRP6ky9T37XUEtrTRH2A944YBJd) — podcast.
+3. 3 playlists base musicales (PLk6voQWRP6kwSGKPs6j_gHMVGVS20TnpT,
+   PLk6voQWRP6kzXw6_xcITOdRFfze7Wgx0-, PLk6voQWRP6kwudByDCsMhFvB4CCkkDb52).
+4. PLk6voQWRP6kwSGKPs6j_gHMVGVS20TnpT guardada una sola vez (normalización).
+5. Seed automático al iniciar + importación en background.
+
+DEDUPLICACIÓN
+- Playlist identificada por playlistId (no URL completa).
+- Episodio/canción identificado por videoId.
+- ...?list=ABC&si=111 y ...?list=ABC&si=222 = misma playlist.
+
+DÉCADAS (de R10.24, conservado)
+- Detección de año: ID3 > YouTube título (no fecha subida) > inferencia.
+- Sistema de confianza: {year, decade, source, confidence}.
+- Corrección manual (MANUAL) nunca sobrescrita.
+- Escaneo incremental con caché.
+- Viaje por década (orden aleatorio).
+- PRINCIPIO: no falsificar el año.
+
+MICROTICKER (de R10.23, conservado)
+- EQ siempre vivo: playing=full, paused=heartbeat, idle=pulse.
+- State sync: Radio Live vs canción local.
+- Iconos ★ ⧉ ⋯ reducidos (32px), brand-mark reducido (36px).
+
+ARQUITECTURA
+- basecontent.js: BASE_MIXES (20 canónicos), BASE_PODCASTS, BASE_PLAYLISTS,
+  normalizeYouTubeUrl, validateMix, validateAllMixes, ensureMixTrack,
+  playMix, analyzeImport, importClassifiedPlaylist, promptClassification,
+  syncPlaylist, seedBaseContent.
+- decades.js: MP_DECADES (detección, caché, confianza, viaje).
+- microticker.js: MP_SMART_MICROTICKER (EQ siempre vivo, state sync).
+- app.js: getYouTubePlaylistIds expuesto en window para basecontent.
+  renderHomeMixes/renderHomeDecades. openMixMenu con reintentar validación.
+  openTrackSheet con Editar año. openPlaylistMenuSheet con Actualizar desde YouTube.
 
 COMPATIBILIDAD
-- applicationId com.happy.musicplay; versionCode 24; versionName 10.23.
+- applicationId com.happy.musicplay; versionCode 26; versionName 10.25.
 - Misma firma SHA-256: actualización directa compatible.
 - IndexedDB v7; Recovery v6 sin cambios.
 - Requiere Android 7.0+ (minSdk 24).
 
-NO SE MODIFICARON
-- Reproductor local, playlists, favoritos, Radio Live, historial, buscador,
-  YouTube, mini reproductor, pantalla flotante, navegación, almacenamiento.
-  El ticker es una capa aditiva.
+LIMITACIONES REALES
+- Validación de mixes: depende de oembed de YouTube. Si YouTube bloquea
+  oembed (rate limit), algunos mixes pueden quedar en UNKNOWN temporalmente.
+- Importación de playlists: depende de getYouTubePlaylistIds() que usa
+  un helper same-origin (./api/youtube-playlist) o fallback a IFrame API.
+  Si ambos fallan (CORS, red), la playlist queda enlazada pero sin episodios.
+- Sincronización: no puede detectar videos que YouTube eliminó si la API
+  no los retorna — quedan en el historial pero sin marca UNAVAILABLE.

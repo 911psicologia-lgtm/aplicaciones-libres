@@ -12,12 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.23-ticker-alive" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.25-mixes-canonical" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.23-ticker-alive" />
-  <link rel="stylesheet" href="./radio.css?v=r10.23-ticker-alive" />
-  <link rel="stylesheet" href="./sp.css?v=r10.23-ticker-alive" />
+  <link rel="stylesheet" href="./styles.css?v=r10.25-mixes-canonical" />
+  <link rel="stylesheet" href="./radio.css?v=r10.25-mixes-canonical" />
+  <link rel="stylesheet" href="./sp.css?v=r10.25-mixes-canonical" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -144,6 +144,23 @@
           <section id="homeMusicVideoSection" class="home-section is-hidden">
             <div class="section-row"><div><small>DESDE YOUTUBE</small><h2>Música en video</h2></div><span class="section-hint">Según tu biblioteca</span></div>
             <div id="homeMusicVideo" class="horizontal-cards"></div>
+          </section>
+
+          <!-- R10.25 · TUS MEZCLAS -->
+          <section id="homeMixesSection" class="home-section">
+            <div class="section-row"><div><small>MEZCLAS</small><h2>Tus mezclas</h2></div><button id="homeCreateMixBtn" class="text-action" type="button">+ Crear mezcla</button></div>
+            <span class="section-hint" style="padding:0 2px 4px">Un ritmo para cada momento</span>
+            <div id="homeMixes" class="horizontal-cards"></div>
+            <div id="homeUserMixesWrap" class="is-hidden" style="margin-top:10px">
+              <span class="section-hint" style="padding:0 2px 4px">Mis mezclas</span>
+              <div id="homeUserMixes" class="horizontal-cards"></div>
+            </div>
+          </section>
+
+          <!-- R10.25 · DÉCADAS -->
+          <section id="homeDecadesSection" class="home-section">
+            <div class="section-row"><div><small>TU MÚSICA EN EL TIEMPO</small><h2>Décadas</h2></div><span id="homeDecadesHint" class="section-hint">Redescubre tu biblioteca por época</span></div>
+            <div id="homeDecades" class="horizontal-cards"></div>
           </section>
 
           <div class="mini-stats" id="summaryBar">
@@ -322,7 +339,7 @@
     <input id="folderInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" webkitdirectory directory multiple hidden />
     <input id="backupInput" type="file" accept="application/json,.json" hidden />
     <input id="m3uInput" type="file" accept="audio/x-mpegurl,application/vnd.apple.mpegurl,.m3u,.m3u8" hidden />
-    <!-- R10.23 · crossorigin="anonymous" para que Web Audio API pueda procesar
+    <!-- R10.25 · crossorigin="anonymous" para que Web Audio API pueda procesar
          también YouTube/enlaces directos sin taint (cuando el CDN entrega CORS). -->
     <audio id="audio" preload="metadata" playsinline></audio>
     <audio id="directAudio" preload="metadata" playsinline crossorigin="anonymous"></audio>
@@ -331,9 +348,11 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.23-ticker-alive"></script>
-  <script src="./radio.js?v=r10.23-ticker-alive"></script>
-  <script src="./sp.js?v=r10.23-ticker-alive"></script>
-  <script src="./microticker.js?v=r10.23-ticker-alive"></script>
+  <script src="./app.js?v=r10.25-mixes-canonical"></script>
+  <script src="./radio.js?v=r10.25-mixes-canonical"></script>
+  <script src="./sp.js?v=r10.25-mixes-canonical"></script>
+  <script src="./basecontent.js?v=r10.25-mixes-canonical"></script>
+  <script src="./decades.js?v=r10.25-mixes-canonical"></script>
+  <script src="./microticker.js?v=r10.25-mixes-canonical"></script>
 </body>
 </html>

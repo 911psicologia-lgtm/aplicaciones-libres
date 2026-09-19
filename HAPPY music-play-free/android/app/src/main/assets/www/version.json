@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.18-r10.23-ticker-alive",
-  "version": "R10.23",
-  "label": "MicroTicker siempre vivo: EQ con heartbeat en pausa + pulse en idle · sync Radio Live · brand-mark e iconos reducidos para ticker más ancho",
+  "build": "2026.09.18-r10.25-mixes-canonical",
+  "version": "R10.25",
+  "label": "20 mixes con watch URLs canónicos + validación real · importador universal YouTube con clasificación Podcast/Música · sincronización · podcasts y playlists base · décadas · MicroTicker siempre vivo",
   "date": "2026-09-18"
 }

@@ -10,8 +10,8 @@ android {
         applicationId "com.happy.musicplay"
         minSdk 24
         targetSdk 34
-        versionCode 24
-        versionName "10.23"
+        versionCode 26
+        versionName "10.25"
     }
 
     signingConfigs {

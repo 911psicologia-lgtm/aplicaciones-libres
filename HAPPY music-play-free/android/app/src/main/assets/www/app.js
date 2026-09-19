@@ -1,8 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.17-r10.23-ticker-alive';
-const APP_VERSION = 'R10.23';
+const BUILD = '2026.09.17-r10.25-mixes-canonical';
+const APP_VERSION = 'R10.25';
 // R10.15 · Detección del APK (WebView + HappyNative). En el APK se suprime la
 // instalación PWA, el mini ⧉ interno se sustituye por la ventana flotante real
 // y la importación de carpetas usa el selector nativo de árbol.
@@ -59,6 +59,8 @@ const els = {
   onboardingFileBtn: $('#onboardingFileBtn'), onboardingFolderBtn: $('#onboardingFolderBtn'), onboardingLinkBtn: $('#onboardingLinkBtn'), onboardingMusicBtn: $('#onboardingMusicBtn'), onboardingPlayBtn: $('#onboardingPlayBtn'), onboardingStartBtn: $('#onboardingStartBtn'),
   resumeCard: $('#resumeCard'), resumeArtwork: $('#resumeArtwork'), resumeTitle: $('#resumeTitle'), resumeArtist: $('#resumeArtist'), resumePlayIcon: $('#resumePlayIcon'),
   homeRecent: $('#homeRecent'), homePlaylists: $('#homePlaylists'), homeAlbums: $('#homeAlbums'), homeAlbumsSection: $('#homeAlbumsSection'), homeRhythms: $('#homeRhythms'), homeRhythmsSection: $('#homeRhythmsSection'), homeArtists: $('#homeArtists'), homeArtistsSection: $('#homeArtistsSection'), homePodcasts: $('#homePodcasts'), homePodcastsSection: $('#homePodcastsSection'), homeAllPodcastsBtn: $('#homeAllPodcastsBtn'), homePending: $('#homePending'), homePendingSection: $('#homePendingSection'), homeDaily: $('#homeDaily'), homeDailySection: $('#homeDailySection'), homeDailyHint: $('#homeDailyHint'), homeMusicVideo: $('#homeMusicVideo'), homeMusicVideoSection: $('#homeMusicVideoSection'), homeSearchBtn: $('#homeSearchBtn'), homeAllPlaylistsBtn: $('#homeAllPlaylistsBtn'), homeAllAlbumsBtn: $('#homeAllAlbumsBtn'),
+  homeMixes: $('#homeMixes'), homeMixesSection: $('#homeMixesSection'), homeCreateMixBtn: $('#homeCreateMixBtn'), homeUserMixes: $('#homeUserMixes'), homeUserMixesWrap: $('#homeUserMixesWrap'),
+  homeDecades: $('#homeDecades'), homeDecadesSection: $('#homeDecadesSection'), homeDecadesHint: $('#homeDecadesHint'),
   countTracks: $('#countTracks'), countPlaylists: $('#countPlaylists'), countFavorites: $('#countFavorites'), countMost: $('#countMost'), listenTimeHome: $('#listenTimeHome'), favoritesShortcut: $('#favoritesShortcut'), mostPlayedShortcut: $('#mostPlayedShortcut'), recentShortcut: $('#recentShortcut'), repeatShortcut: $('#repeatShortcut'), rediscoverShortcut: $('#rediscoverShortcut'), radioShortcut: $('#radioShortcut'), surpriseShortcut: $('#surpriseShortcut'), mixShortcut: $('#mixShortcut'),
   globalSearchInput: $('#globalSearchInput'), searchLinkHint: $('#searchLinkHint'), searchEmpty: $('#searchEmpty'), searchResults: $('#searchResults'), searchNewBtn: $('#searchNewBtn'),
   libraryMainHead: $('#libraryMainHead'), librarySearchBtn: $('#librarySearchBtn'), libraryAddBtn: $('#libraryAddBtn'), libraryTabs: $('#libraryTabs'), libraryTabPlaylists: $('#libraryTabPlaylists'), libraryTabSongs: $('#libraryTabSongs'), libraryTabAlbums: $('#libraryTabAlbums'), librarySortSelect: $('#librarySortSelect'), librarySortRow: $('#librarySortRow'), libraryCountLabel: $('#libraryCountLabel'),
@@ -604,7 +606,7 @@ async function reorderPlaylistTrack(playlistId,draggedId,targetId,placeAfter=fal
   const pl=state.playlists.find(p=>p.id===playlistId);if(!pl||draggedId===targetId)return false;const ids=[...(pl.trackIds||[])],from=ids.indexOf(draggedId),target=ids.indexOf(targetId);if(from<0||target<0)return false;ids.splice(from,1);let at=ids.indexOf(targetId)+(placeAfter?1:0);at=Math.max(0,Math.min(ids.length,at));ids.splice(at,0,draggedId);pl.trackIds=ids;pl.updatedAt=now();await persistPlaylist(pl);renderPlaylists();toast('Orden de playlist actualizado');return true;
 }
 function bindLongPressReorder(row,front,track,options={}){
-  // R10.23 · Reorder más flexible:
+  // R10.25 · Reorder más flexible:
   //  · Solo requiere fromPlaylist (no smart) — igual que antes.
   //  · Tiempo de activación reducido de 430ms → 320ms (más responsivo).
   //  · Umbral de cancelación subido de 9px → 14px (más tolerante a temblor).
@@ -621,7 +623,7 @@ function bindLongPressReorder(row,front,track,options={}){
     if(!active)return;
     active=false;
     front._reorderActive=false;
-    // R10.23 · ventana de gracia más larga (700ms) para que el click que
+    // R10.25 · ventana de gracia más larga (700ms) para que el click que
     // sigue al pointerup no dispare playTrack.
     front._gestureConsumedUntil=performance.now()+700;
     row.classList.remove('reorder-source');
@@ -652,7 +654,7 @@ function bindLongPressReorder(row,front,track,options={}){
   front.addEventListener('pointermove',e=>{
     const dx=e.clientX-sx,dy=e.clientY-sy;
     if(!active){
-      // R10.23 · tolerancia de 14px antes de cancelar el long-press
+      // R10.25 · tolerancia de 14px antes de cancelar el long-press
       if(Math.hypot(dx,dy)>14)cancelTimer();
       return;
     }
@@ -681,7 +683,7 @@ function bindLongPressReorder(row,front,track,options={}){
 }
 function makeTrackRow(track,options={fromPlaylist:false}){
   const row=document.createElement('div');row.className=`track-row${track.id===state.currentId?' active':''}`;row.dataset.id=track.id;
-  // R10.23 · marca la row como reorderable para mostrar el hint visual (punto
+  // R10.25 · marca la row como reorderable para mostrar el hint visual (punto
   // accent en la esquina del artwork cuando el usuario hace hover).
   if(options.fromPlaylist&&!options.smart)row.dataset.reorderable='1';
   const source=sourceLabel(track),sub=[track.artist,track.album].filter(Boolean).join(' · ')||track.genre||track.folder||track.remoteUrl||'Audio local';
@@ -689,7 +691,7 @@ function makeTrackRow(track,options={fromPlaylist:false}){
   const artFallback=track.sourceKind==='youtube'?'▶':track.sourceKind==='soundcloud'?'☁':'♪',podProgress=isPodcastTrack(track)?podcastProgressLabel(track):'';
   row.innerHTML=`<div class="track-backdrop"><span>→ Cola</span><span>${swipeLeftLabel(track,options)}</span></div><div class="track-front"><div class="track-art">${artFallback}</div><div class="track-text"><div class="track-title">${safeText(track.title)}</div><div class="track-sub">${safeText(sub)}</div></div><div class="track-meta"><span class="track-time">${track.duration?formatTime(track.duration):''}</span><div class="badges">${sourceBadge}${podProgress?`<span class="badge podcast-resume-badge">▶ ${safeText(podProgress.replace('Continuar ',''))}</span>`:''}${track.replayCount?`<span class="badge">↻ ${track.replayCount}</span>`:''}</div></div><div class="row-actions"><button class="row-quick row-repeat${state.repeatOneId===track.id?' active':''}" title="${state.repeatOneId===track.id?'Desactivar repetir canción':'Repetir esta canción'}" aria-label="Repetir esta canción">↻<sup>1</sup></button><button class="row-quick row-heart${track.favorite?' active':''}" title="${track.favorite?'Quitar favorito':'Favorito'}">${track.favorite?'♥':'♡'}</button><button class="row-quick ${options.fromPlaylist?'row-more':'row-add-pl'}" title="${options.fromPlaylist?'Opciones':'Añadir a playlist'}">${options.fromPlaylist?'⋯':'＋'}</button></div></div>`;
   const front=$('.track-front',row),art=$('.track-art',row);hydrateArtwork(track,art,artFallback);bindSwipe(front,track,options);bindLongPressReorder(row,front,track,options);
-  // R10.23 · Un toque simple SIEMPRE reproduce. El menú (openTrackSheet) se
+  // R10.25 · Un toque simple SIEMPRE reproduce. El menú (openTrackSheet) se
   // abre solo con: botón ⋯, menú contextual (larga presión nativa del navegador)
   // o gesto de mantener pulsado (>520ms) sin arrastrar. Antes, un handler de
   // pointerdown con setTimeout(520) disparaba el sheet cuando el dedo quedaba
@@ -710,7 +712,7 @@ function makeTrackRow(track,options={fromPlaylist:false}){
   $('.row-heart',row).addEventListener('click',e=>{e.stopPropagation();toggleFavorite(track.id);});
   const q=options.fromPlaylist?$('.row-more',row):$('.row-add-pl',row);if(q)q.addEventListener('click',e=>{e.stopPropagation();options.fromPlaylist?openTrackSheet(track,options):openPlaylistPickerSheet(track.id);});
   front.addEventListener('contextmenu',e=>{e.preventDefault();if(front._reorderActive||(front._gestureConsumedUntil&&performance.now()<front._gestureConsumedUntil))return;openTrackSheet(track,options);});
-  // R10.23 · Long-press opcional para abrir el menú (sin arrastrar).
+  // R10.25 · Long-press opcional para abrir el menú (sin arrastrar).
   // Reescrito: solo dispara si NO hay movimiento, y marca _gestureConsumedUntil
   // para que el click posterior NO también dispare playTrack. Antes el click y
   // el longpress competían.
@@ -1060,7 +1062,7 @@ async function setSoundMode(mode){
       await prepareAdaptiveSound(t);
     }
   }
-  // R10.23 · Activar también el BOOST nativo en ExoPlayer (Radio Live + YouTube BG)
+  // R10.25 · Activar también el BOOST nativo en ExoPlayer (Radio Live + YouTube BG)
   if(IS_NATIVE_APK&&window.HappyNative&&window.HappyNative.setBoost){
     try{window.HappyNative.setBoost(mode===SOUND_MODES.boost);}catch(e){}
   }
@@ -1211,11 +1213,112 @@ function renderHome(){
   const pending=pendingListenTracks();if(els.homePendingSection)els.homePendingSection.classList.toggle('is-hidden',!pending.length);if(els.homePending){els.homePending.innerHTML='';for(const t of pending.slice(0,8))els.homePending.appendChild(createPendingCard(t));}
   const daily=dailyRecommendationTracks();if(els.homeDailySection)els.homeDailySection.classList.toggle('is-hidden',!daily.length);if(els.homeDailyHint)els.homeDailyHint.textContent=dailyRecommendationHint();if(els.homeDaily){els.homeDaily.innerHTML='';for(const t of daily.slice(0,8)){const b=createMediaCard(t);b.onclick=()=>playTrack(t.id,daily.map(x=>x.id));els.homeDaily.appendChild(b);}}
   const videos=homeMusicVideoTracks().slice(0,8);if(els.homeMusicVideoSection)els.homeMusicVideoSection.classList.toggle('is-hidden',!videos.length);if(els.homeMusicVideo){els.homeMusicVideo.innerHTML='';for(const t of videos){const b=createMediaCard(t);b.classList.add('video-media-card');els.homeMusicVideo.appendChild(b);}}
+  // R10.25 · Tus Mezclas + Décadas
+  renderHomeMixes();
+  renderHomeDecades();
+}
+// R10.25 · Render Mezclas
+function renderHomeMixes(){
+  if(!els.homeMixes)return;
+  const base=window.MP_BASE_CONTENT?.BASE_MIXES||[];
+  els.homeMixes.innerHTML='';
+  for(const mix of base){
+    const card=document.createElement('button');
+    card.className='media-card mix-card';
+    card.type='button';
+    const status=window.MP_BASE_CONTENT?.getMixStatus?.(mix)||'unknown';
+    if(status==='unavailable'||status==='region_blocked'||status==='load_error')card.classList.add('mix-status-unavailable');
+    card.innerHTML=`<div class="media-card-art mix-art" style="background:linear-gradient(135deg,${mix.accent},color-mix(in srgb,${mix.accent} 60%,#000))">${mix.emoji||'🎵'}<span class="mix-badge">MIX</span></div><strong>${safeText(mix.name)}</strong><small>${safeText(mix.genre)}</small>`;
+    card.onclick=()=>{window.MP_BASE_CONTENT?.playMix?.(mix);try{window.MP_SMART_MICROTICKER?.event?.('MIX',mix.name,2200);}catch{}};
+    const menu=document.createElement('button');
+    menu.className='mix-menu-btn';menu.textContent='⋮';menu.setAttribute('aria-label','Opciones');
+    menu.onclick=e=>{e.stopPropagation();openMixMenu(mix);};
+    card.appendChild(menu);
+    els.homeMixes.appendChild(card);
+  }
+  const userMixes=window.MP_BASE_CONTENT?.getUserMixes?.()||[];
+  if(els.homeUserMixesWrap)els.homeUserMixesWrap.classList.toggle('is-hidden',!userMixes.length);
+  if(els.homeUserMixes){
+    els.homeUserMixes.innerHTML='';
+    for(const um of userMixes){
+      const card=document.createElement('button');
+      card.className='media-card mix-card user-mix-card';card.type='button';
+      card.innerHTML='<div class="media-card-art mix-art" style="background:linear-gradient(135deg,var(--accent),var(--accent-2))">✦<span class="mix-badge">MIX</span></div><strong>'+safeText(um.name)+'</strong><small>'+um.mixIds.length+' géneros</small>';
+      card.onclick=()=>window.MP_BASE_CONTENT?.playUserMix?.(um);
+      els.homeUserMixes.appendChild(card);
+    }
+  }
+}
+function renderHomeDecades(){
+  if(!els.homeDecades)return;
+  const dec=window.MP_DECADES;
+  if(!dec){els.homeDecadesSection?.classList.add('is-hidden');return;}
+  const counts=dec.getDecadeCounts();
+  const active=dec.getActiveDecades();
+  els.homeDecadesSection.classList.toggle('is-hidden',active.length===0);
+  if(els.homeDecadesHint){
+    const total=Object.values(counts).reduce((a,b)=>a+b,0);
+    const identified=total-(counts[dec.UNIDENTIFIED]||0);
+    els.homeDecadesHint.textContent=dec.isScanning()?'Analizando años de tu biblioteca…':(identified>0?identified+' de '+total+' clasificadas':'Redescubre tu biblioteca por época');
+  }
+  els.homeDecades.innerHTML='';
+  for(const d of active){
+    const count=counts[d]||0;
+    if(count===0&&d!==dec.UNIDENTIFIED)continue;
+    const card=document.createElement('button');
+    card.className='media-card decade-card';card.type='button';
+    const label=dec.decadeLabel(d);
+    const emoji=d==='unknown'?'◌':(d.startsWith('20')?'💿':'📼');
+    const grad=d==='unknown'?'linear-gradient(135deg,var(--surface-3),var(--surface-2))':'linear-gradient(135deg,var(--accent),var(--accent-2))';
+    card.innerHTML=`<div class="media-card-art decade-art" style="background:${grad}">${emoji}</div><strong>${safeText(label)}</strong><small>${count} ${count===1?'canción':'canciones'}</small>`;
+    card.onclick=()=>openDecadeSheet(d);
+    els.homeDecades.appendChild(card);
+  }
+}
+function openDecadeSheet(decade){
+  const dec=window.MP_DECADES;if(!dec)return;
+  const tracks=dec.getTracksByDecade(decade);
+  if(!tracks.length){toast('No hay canciones en esta década');return;}
+  const label=dec.decadeLabel(decade);
+  const sorted=[...tracks].sort((a,b)=>{const ya=(dec.getTrackDecade(a.id)?.year)||0,yb=(dec.getTrackDecade(b.id)?.year)||0;return ya-yb;});
+  const items=sorted.slice(0,40).map(t=>{const ti=dec.getTrackDecade(t.id);const year=ti?.year||'—';const origin=t.sourceKind==='local'||t.sourceKind==='direct'?'LOCAL':'YOUTUBE';return `<button class="sheet-btn" data-decade-play="${safeText(t.id)}"><span class="decade-row"><span class="decade-row-info"><strong>${safeText(t.title)}</strong><small>${safeText(t.artist||sourceLabel(t))} · ${year} · ${origin}${t.duration?' · '+formatTime(t.duration):''}</small></span><span class="decade-row-go">▶</span></span></button>`;}).join('');
+  openSheet(`<h2 class="sheet-title">${safeText(label)}</h2><p class="sheet-copy">${tracks.length} ${tracks.length===1?'canción':'canciones'} en esta época</p><div class="sheet-stack"><button class="sheet-btn" data-decade-action="play">▶ Reproducir década<small>En orden por año</small></button><button class="sheet-btn" data-decade-action="shuffle">🔀 Aleatorio<small>Sin repetir la vuelta</small></button><button class="sheet-btn" data-decade-action="journey">🎬 Viaje por ${safeText(label)}<small>Orden aleatorio, sin repetir</small></button><button class="sheet-btn" data-decade-action="queue">＋ Añadir a cola<small>${tracks.length} canciones</small></button></div><div class="sheet-copy" style="margin-top:8px">Canciones de esta época</div><div class="sheet-stack">${items}</div>`,root=>{
+    const ids=sorted.map(t=>t.id);
+    $('[data-decade-action="play"]',root).onclick=()=>{closeDialog(els.sheetDialog);if(ids[0])playTrack(ids[0],ids);};
+    $('[data-decade-action="shuffle"]',root).onclick=async()=>{closeDialog(els.sheetDialog);await setPlaybackMode(PLAY_MODES.shuffle,{autoplay:true,contextIds:ids});};
+    $('[data-decade-action="journey"]',root).onclick=()=>{closeDialog(els.sheetDialog);dec.playDecadeJourney(decade);};
+    $('[data-decade-action="queue"]',root).onclick=()=>{closeDialog(els.sheetDialog);ids.forEach(id=>queueTrack(id));toast(ids.length+' añadidas a la cola');};
+    $$('[data-decade-play]',root).forEach(b=>b.onclick=()=>{closeDialog(els.sheetDialog);const id=b.dataset.decadePlay;if(ids.includes(id))playTrack(id,ids);});
+  });
+}
+function openMixMenu(mix){
+  openSheet(`<h2 class="sheet-title">${safeText(mix.name)}</h2><p class="sheet-copy">${safeText(mix.genre)} · Mix</p><div class="sheet-stack"><button class="sheet-btn" data-mix-action="play">▶ Reproducir<small>Escuchar ahora</small></button><button class="sheet-btn" data-mix-action="next">→ Reproducir a continuación<small>Tendrá prioridad</small></button><button class="sheet-btn" data-mix-action="queue">≡ Añadir a la cola<small>Se reproducirá después</small></button><button class="sheet-btn" data-mix-action="favorite">♡ Guardar como favorito<small>Marcar este mix</small></button><button class="sheet-btn" data-mix-action="retry">↻ Reintentar validación<small>Comprobar disponibilidad</small></button></div>`,root=>{
+    $('[data-mix-action="play"]',root).onclick=()=>{closeDialog(els.sheetDialog);window.MP_BASE_CONTENT?.playMix?.(mix);};
+    $('[data-mix-action="next"]',root).onclick=()=>{closeDialog(els.sheetDialog);const tid=window.MP_BASE_CONTENT?.ensureMixTrack?.(mix);if(tid)queueTrack(tid,{next:true});};
+    $('[data-mix-action="queue"]',root).onclick=()=>{closeDialog(els.sheetDialog);const tid=window.MP_BASE_CONTENT?.ensureMixTrack?.(mix);if(tid)queueTrack(tid);};
+    $('[data-mix-action="favorite"]',root).onclick=()=>{closeDialog(els.sheetDialog);const tid=window.MP_BASE_CONTENT?.ensureMixTrack?.(mix);if(tid){const t=state.tracks.find(x=>x.id===tid);if(t){t.favorite=!t.favorite;saveRemoteTrack(t);render();toast(t.favorite?'★ Mix en favoritos':'♡ Quitado de favoritos');}}};
+    $('[data-mix-action="retry"]',root).onclick=async()=>{closeDialog(els.sheetDialog);toast('Validando…');await window.MP_BASE_CONTENT?.validateMix?.(mix);renderHomeMixes();};
+  });
+}
+function openCreateMixSheet(){
+  const base=window.MP_BASE_CONTENT?.BASE_MIXES||[];
+  const items=base.map((m,i)=>`<label class="sheet-btn mix-pick" data-mix-pick="${i}"><input type="checkbox" data-mix-idx="${i}" style="margin-right:8px"/><span><strong>${safeText(m.name)}</strong><small>${safeText(m.genre)}</small></span></label>`).join('');
+  openSheet(`<h2 class="sheet-title">+ Crear mezcla</h2><p class="sheet-copy">Selecciona dos o más géneros para combinarlos en una cola alternada.</p><input id="mixNameInput" class="sheet-input" maxlength="60" placeholder="Nombre de tu mezcla (ej: Salsa + Cumbia)"/><div class="sheet-stack">${items}</div><div class="sheet-stack"><button class="sheet-btn" data-mix-create>Crear mezcla</button></div>`,root=>{
+    $$('[data-mix-pick]',root).forEach(l=>l.onclick=e=>{if(e.target.tagName!=='INPUT'){const cb=$('input',l);if(cb)cb.checked=!cb.checked;}l.classList.toggle('selected',$('input',l)?.checked);});
+    $('[data-mix-create]',root).onclick=()=>{
+      const name=$('#mixNameInput',root).value.trim()||'Mi mezcla';
+      const picked=$$('input[data-mix-idx]:checked',root).map(cb=>base[Number(cb.dataset.mixIdx)]);
+      if(picked.length<2){toast('Selecciona al menos 2 géneros');return;}
+      const mixIds=picked.map(m=>window.MP_BASE_CONTENT.ensureMixTrack(m)).filter(Boolean);
+      window.MP_BASE_CONTENT.createUserMix(name,mixIds);
+      closeDialog(els.sheetDialog);toast('Mezcla "'+name+'" creada');renderHomeMixes();
+    };
+  });
 }
 function renderSearch(){
   const q=(state.globalSearch||'').trim();els.searchResults.innerHTML='';const info=analyzeLink(q);els.searchLinkHint.classList.toggle('is-hidden',!q||info.kind==='invalid'||(!/^https?:/i.test(q)));els.searchEmpty.classList.toggle('is-hidden',!!q);if(!q)return;
   const needle=q.toLowerCase();
-  // R10.23 · Búsqueda más flexible: acentos insensibles (normaliza NFD y
+  // R10.25 · Búsqueda más flexible: acentos insensibles (normaliza NFD y
   // quita diacríticos) + token matching (cada palabra del query debe aparecer
   // en algún campo, no la cadena completa) → "juan luis" encuentra "Juanes /
   // Luis Miguel" aunque no estén en ese orden exacto.
@@ -1247,7 +1350,7 @@ function renderSearch(){
   const addSection=(title,node)=>{if(!node.length)return;const sec=document.createElement('section');sec.className='search-result-section';sec.innerHTML=`<div class="search-result-title">${title}</div>`;for(const el of node)sec.appendChild(el);els.searchResults.appendChild(sec);};
   if(state.searchOriginPlaylistId){const origin=state.playlists.find(pl=>pl.id===state.searchOriginPlaylistId);if(origin){const banner=document.createElement('div');banner.className='search-context-banner';banner.innerHTML=`<span>≡</span><div><small>BÚSQUEDA DESDE PLAYLIST</small><strong>${safeText(origin.name)}</strong></div><button type="button">×</button>`;$('button',banner).onclick=()=>{state.searchOriginPlaylistId='';renderSearch();};els.searchResults.appendChild(banner);}}
   addSection('Playlists',playlistHits.map(({pl,nameMatch,contained,origin})=>{const tracks2=getPlaylistTracks(pl),b=document.createElement('button');b.className=`playlist-card search-playlist-hit${origin?' search-origin-hit':''}`;const icon=playlistContentType(pl)==='podcast'?'🎙':'≡';const reason=origin&&contained.length?`Lista actual · ${contained.length} coincidencia${contained.length===1?'':'s'}`:nameMatch&&contained.length?`Nombre + ${contained.length} coincidencia${contained.length===1?'':'s'}`:nameMatch?'Coincide por nombre':`${contained.length} ${contained.length===1?'canción coincide':'canciones coinciden'}`;b.innerHTML=`<span class="playlist-card-icon">${icon}</span><span class="playlist-card-copy"><strong>${safeText(pl.name)}</strong><small>${safeText(reason)}</small></span><span class="playlist-card-go">›</span>`;hydratePlaylistArtwork(tracks2,$('.playlist-card-icon',b),icon);b.onclick=()=>openPlaylistDetail(pl.id);return b;}));
-  // R10.23 · El contexto de reproducción es la lista de resultados de búsqueda,
+  // R10.25 · El contexto de reproducción es la lista de resultados de búsqueda,
   // no la cola anterior. Antes se pasaba undefined y makeTrackRow caía a
   // getFilteredTracks() (biblioteca filtrada) → al tocar una canción de
   // búsqueda, la cola se mantenía en la canción anterior.
@@ -1415,7 +1518,7 @@ function exitFloatMini(){
   requestAnimationFrame(()=>restoreRemoteDockPosition());
   renderPlayer();
 }
-// R10.23 · Pantalla reducida flotante — DEFINITIVO:
+// R10.25 · Pantalla reducida flotante — DEFINITIVO:
 // En APK: ⧉ abre la VENTANA FLOTANTE NATIVA (TYPE_APPLICATION_OVERLAY) que se
 //   superpone a TODAS las apps, no solo al WebView. Sobrevive al bloqueo de
 //   pantalla y a salir de la app. Es el "mini-cuadro de reproducción que queda
@@ -1426,7 +1529,7 @@ let _happyNativeServiceStarted = false;
 function toggleFloatMini(){
   if(window.MP_LIVE_RADIO?.isActive?.())return window.MP_LIVE_RADIO.openFloat();
   if(IS_NATIVE_APK&&window.HappyNative?.openFloat){
-    // R10.23 · En APK, abrir SOLO la ventana flotante nativa (system overlay).
+    // R10.25 · En APK, abrir SOLO la ventana flotante nativa (system overlay).
     // Ya NO mostramos el overlay HTML porque duplica y causa la deformación.
     try{const t=getCurrentTrack(),s=happyEngineSnapshot();window.HappyNative.openFloat(JSON.stringify({trackId:t?.id||'',posMs:Math.round((s.pos||0)*1000),playing:!!s.playing}));}catch{window.HappyNative.openFloat('');}
     _happyNativeServiceStarted=true;
@@ -2193,7 +2296,7 @@ function schedulePrefetchNextYouTube(){
     setTimeout(()=>{idleYield(1500).then(()=>resolveYouTubeMedia(next.remoteId).catch(()=>null)).finally(()=>ytPrefetching.delete(next.id));},2500);
   }catch{}
 }
-// R10.23 · Refresh periódico de la URL del YouTube track actual para evitar
+// R10.25 · Refresh periódico de la URL del YouTube track actual para evitar
 // que caduque mientras suena (las URLs firmadas de YouTube duran ~6h, pero
 // algunas instancias devuelven URLs más cortas). Cada 25 min, re-resuelve
 // y actualiza state.ytMedia en silencio — si la pista sigue sonando, el
@@ -2217,9 +2320,9 @@ function startYtUrlRefresh(){
         if(state.ytEngine==='native'){
           state.ytMedia={...state.ytMedia,...res};
         }
-        console.debug('R10.23 · URL de YouTube refrescada en background');
+        console.debug('R10.25 · URL de YouTube refrescada en background');
       }
-    }catch(e){console.debug('R10.23 · yt url refresh error',e);}
+    }catch(e){console.debug('R10.25 · yt url refresh error',e);}
   },5*60*1000); // cada 5 min revisa si necesita refresh
 }
 function stopYtUrlRefresh(){if(ytUrlRefreshTimer){clearInterval(ytUrlRefreshTimer);ytUrlRefreshTimer=null;}}
@@ -2312,7 +2415,7 @@ async function playYouTubeNative(track,startAt=0){
   renderPlayer();startProgressTimer();setupMediaSession();syncMediaPlaybackState();
   toast(wantVideo?'Video en reproducción nativa · el audio sigue con pantalla bloqueada':'Audio nativo · sigue sonando con la pantalla bloqueada',3400);
   schedulePrefetchNextYouTube();
-  startYtUrlRefresh(); // R10.23 · refresh periódico de URL para evitar caducidad
+  startYtUrlRefresh(); // R10.25 · refresh periódico de URL para evitar caducidad
   return true;
 }
 async function ytHandleNativeError(){
@@ -2375,11 +2478,11 @@ async function ytSwapToAudioServiceForBackground(){
   let media=state.ytMedia;
   const pos=Number(els.ytVideo.currentTime)||0;
   const wasPlaying=state.playing||!els.ytVideo.paused;
-  // R10.23 · DEFINITIVE FIX: si no hay audioUrl, re-resolver AHORA antes de
+  // R10.25 · DEFINITIVE FIX: si no hay audioUrl, re-resolver AHORA antes de
   // delegar. Antes, si la resolución inicial solo devolvió muxedUrl (video),
   // al bloquear la pantalla no había audioUrl para delegar -> fallo silencioso.
   if(!media?.audioUrl&&track.remoteId){
-    console.debug('R10.23 · re-resolviendo audioUrl para background YouTube...');
+    console.debug('R10.25 · re-resolviendo audioUrl para background YouTube...');
     try{
       const res=await resolveYouTubeMedia(track.remoteId,{force:true});
       if(res?.audioUrl){
@@ -2387,12 +2490,12 @@ async function ytSwapToAudioServiceForBackground(){
         state.ytMedia=media;
         ytStreamCache.set(track.remoteId,{data:res,at:now()});
       }
-    }catch(e){console.debug('R10.23 · re-resolución falló',e);}
+    }catch(e){console.debug('R10.25 · re-resolución falló',e);}
   }
   // Si seguimos sin audioUrl, caer al ytAudio del WebView (audio-only nativo)
   // que al menos no necesita decoder de video y sobrevive mejor al lock screen.
   if(!media?.audioUrl){
-    console.debug('R10.23 · sin audioUrl — cayendo a ytAudio WebView');
+    console.debug('R10.25 · sin audioUrl — cayendo a ytAudio WebView');
     return ytSwapToAudioForBackground();
   }
   try{els.ytVideo.pause();}catch{}
@@ -2746,7 +2849,7 @@ async function exportPlaylistM3U(pl){
 }
 function openPlaylistMenuSheet(){
   const pl=getActivePlaylist();if(!pl)return;const isPodcast=playlistContentType(pl)==='podcast',unit=isPodcast?'episodios':'canciones';
-  openSheet(`<h2 class="sheet-title">${safeText(pl.name)}</h2><p class="sheet-copy">Acciones rápidas para ${isPodcast?'este podcast':'esta playlist'}.</p><div class="sheet-stack"><button class="sheet-btn" data-add-library>＋ Añadir ${unit}<small>Buscar dentro de tu biblioteca</small></button><button class="sheet-btn" data-add-file>♪ Añadir archivo<small>Importar y dejarlo listo para esta colección</small></button><button class="sheet-btn" data-add-folder>⌂ Añadir carpeta<small>Importar una colección directamente aquí</small></button>${isPodcast?'':`<button class="sheet-btn" data-random>⇄ Reproducir aleatorio<small>Sin repetir hasta completar la vuelta</small></button>`}<button class="sheet-btn" data-search-pl>⌕ Buscar en ${isPodcast?'el podcast':'la playlist'}<small>Encuentra ${isPodcast?'episodio o autor':'canción o artista'}</small></button>${isPodcast?'':`<button class="sheet-btn" data-modes>✦ Comenzar Mix / modos<small>Radio, Redescubrir, Sorpréndeme y Cola Viva</small></button>`}<button class="sheet-btn" data-next-pl>→ Reproducir a continuación<small>Inserta la colección después de lo actual</small></button><button class="sheet-btn" data-queue-pl>≡ Añadir a la cola<small>Conserva lo que ya está sonando</small></button><button class="sheet-btn" data-content-type>${isPodcast?'♪ Tratar como playlist musical':'🎙 Marcar como podcast'}<small>${isPodcast?'Vuelve a mostrarla entre tus playlists musicales':'La separa de música y la muestra en Podcasts'}</small></button><button class="sheet-btn" data-pin>${pl.pinned?'⌂ Quitar de Inicio':'⌂ Fijar en Inicio'}<small>${pl.pinned?'Dejar de mostrarla entre tus accesos':'Acceso rápido en la portada'}</small></button><button class="sheet-btn" data-export>⇩ Exportar M3U8<small>Completa títulos de YouTube antes de exportar</small></button><button class="sheet-btn" data-rename>✎ Renombrar<small>Cambiar el nombre</small></button><button class="sheet-btn" data-link>🔗 Añadir enlace<small>Sumar otra fuente dentro de esta colección</small></button><button class="sheet-btn" data-delete>🗑 Eliminar ${isPodcast?'podcast':'playlist'}<small>No elimina los audios de la biblioteca</small></button></div>`,root=>{
+  openSheet(`<h2 class="sheet-title">${safeText(pl.name)}</h2><p class="sheet-copy">Acciones rápidas para ${isPodcast?'este podcast':'esta playlist'}.</p><div class="sheet-stack"><button class="sheet-btn" data-add-library>＋ Añadir ${unit}<small>Buscar dentro de tu biblioteca</small></button><button class="sheet-btn" data-add-file>♪ Añadir archivo<small>Importar y dejarlo listo para esta colección</small></button><button class="sheet-btn" data-add-folder>⌂ Añadir carpeta<small>Importar una colección directamente aquí</small></button>${isPodcast?'':`<button class="sheet-btn" data-random>⇄ Reproducir aleatorio<small>Sin repetir hasta completar la vuelta</small></button>`}<button class="sheet-btn" data-search-pl>⌕ Buscar en ${isPodcast?'el podcast':'la playlist'}<small>Encuentra ${isPodcast?'episodio o autor':'canción o artista'}</small></button>${isPodcast?'':`<button class="sheet-btn" data-modes>✦ Comenzar Mix / modos<small>Radio, Redescubrir, Sorpréndeme y Cola Viva</small></button>`}<button class="sheet-btn" data-next-pl>→ Reproducir a continuación<small>Inserta la colección después de lo actual</small></button><button class="sheet-btn" data-queue-pl>≡ Añadir a la cola<small>Conserva lo que ya está sonando</small></button><button class="sheet-btn" data-content-type>${isPodcast?'♪ Tratar como playlist musical':'🎙 Marcar como podcast'}<small>${isPodcast?'Vuelve a mostrarla entre tus playlists musicales':'La separa de música y la muestra en Podcasts'}</small></button><button class="sheet-btn" data-pin>${pl.pinned?'⌂ Quitar de Inicio':'⌂ Fijar en Inicio'}<small>${pl.pinned?'Dejar de mostrarla entre tus accesos':'Acceso rápido en la portada'}</small></button><button class="sheet-btn" data-export>⇩ Exportar M3U8<small>Completa títulos de YouTube antes de exportar</small></button><button class="sheet-btn" data-sync>↻ Actualizar desde YouTube<small>Buscar episodios/canciones nuevos</small></button><button class="sheet-btn" data-rename>✎ Renombrar<small>Cambiar el nombre</small></button><button class="sheet-btn" data-link>🔗 Añadir enlace<small>Sumar otra fuente dentro de esta colección</small></button><button class="sheet-btn" data-delete>🗑 Eliminar ${isPodcast?'podcast':'playlist'}<small>No elimina los audios de la biblioteca</small></button></div>`,root=>{
     $('[data-add-library]',root).onclick=()=>{closeDialog(els.sheetDialog);setTimeout(()=>openAddSongsToPlaylistSheet(pl.id),40);};
     $('[data-add-file]',root).onclick=()=>{closeDialog(els.sheetDialog);pickFiles({targetPlaylistId:pl.id,label:`Archivos para ${pl.name}`});};
     $('[data-add-folder]',root).onclick=()=>{closeDialog(els.sheetDialog);pickFolder({targetPlaylistId:pl.id,label:`Carpeta para ${pl.name}`});};
@@ -2758,6 +2861,7 @@ function openPlaylistMenuSheet(){
     $('[data-content-type]',root).onclick=async()=>{pl.contentType=isPodcast?'music':'podcast';pl.updatedAt=now();await persistPlaylist(pl);closeDialog(els.sheetDialog);renderPlaylists();renderHome();toast(isPodcast?'Movido a playlists musicales':'Marcado como podcast');};
     $('[data-pin]',root).onclick=async()=>{closeDialog(els.sheetDialog);await togglePlaylistPin(pl);};
     $('[data-export]',root).onclick=async()=>{closeDialog(els.sheetDialog);await exportPlaylistM3U(pl);};
+    $('[data-sync]',root).onclick=()=>{closeDialog(els.sheetDialog);window.MP_BASE_CONTENT?.syncPlaylist?.(pl);};
     $('[data-rename]',root).onclick=()=>{root.innerHTML=`<h2 class="sheet-title">Renombrar</h2><input id="renamePlaylist" class="sheet-input" maxlength="60" value="${safeText(pl.name)}"/><button class="sheet-btn" data-save-name>Guardar</button>`;const input=$('#renamePlaylist',root);input.focus();$('[data-save-name]',root).onclick=async()=>{const v=input.value.trim();if(!v)return;pl.name=v.slice(0,60);pl.updatedAt=now();await persistPlaylist(pl);closeDialog(els.sheetDialog);renderPlaylists();renderHome();};};
     $('[data-link]',root).onclick=()=>{closeDialog(els.sheetDialog);openLinkSheet('',pl.id,{preferPodcast:isPodcast});};
     $('[data-delete]',root).onclick=async()=>{closeDialog(els.sheetDialog);await deletePlaylist(pl);};
@@ -2772,8 +2876,13 @@ function openTrackSheet(track,options={}){
   const pls=state.playlists.map(pl=>`<button class="sheet-btn" data-pl="${pl.id}">${playlistContentType(pl)==='podcast'?'🎙':'≡'} ${safeText(pl.name)}<small>Añadir esta ${playlistContentType(pl)==='podcast'?'pieza':'canción'}</small></button>`).join('');
   const external=track.remoteUrl?`<button class="sheet-btn" data-a="original">↗ Abrir fuente<small>${safeText(track.remoteUrl)}</small></button>`:'';
   const repeatActive=state.repeatOneId===track.id;
-  openSheet(`<h2 class="sheet-title">${safeText(track.title)}</h2><p class="sheet-copy">${safeText(track.artist||sourceLabel(track))} · ${sourceLabel(track)}</p><div class="sheet-stack">${playable(track)?'<button class="sheet-btn" data-a="play">▶ Reproducir<small>Escuchar ahora</small></button>':''}<button class="sheet-btn" data-a="next">→ Reproducir a continuación<small>Tendrá prioridad sobre Mix, Radio o Aleatorio</small></button><button class="sheet-btn" data-a="queue">≡ Añadir a la cola<small>Se reproducirá respetando el orden manual</small></button><button class="sheet-btn${repeatActive?' selected':''}" data-a="repeat">↻1 ${repeatActive?'Desactivar repetición':'Repetir esta canción'}<small>${repeatActive?'Volver a la secuencia normal':'Repetir hasta que lo desactives'}</small></button><button class="sheet-btn" data-a="fav">${track.favorite?'♥ Quitar favorito':'♡ Favorito'}<small>Marcar esta canción</small></button>${external}${options.fromPlaylist&&!options.smart?'<button class="sheet-btn" data-a="remove-pl">− Quitar de playlist<small>No elimina la canción</small></button>':''}<button class="sheet-btn" data-a="delete">🗑 Eliminar<small>Quitar de MUSIC PLAY</small></button><div class="sheet-copy">Añadir a playlist</div>${pls}<button class="sheet-btn" data-a="new-pl">＋ Nueva playlist<small>Crear y añadir</small></button></div>`,root=>{
-    const q=s=>$(`[data-a="${s}"]`,root);q('play')&&(q('play').onclick=()=>{closeDialog(els.sheetDialog);playTrack(track.id,getFilteredTracks().filter(playable).map(t=>t.id));});q('next').onclick=()=>{closeDialog(els.sheetDialog);queueTrack(track.id,{next:true});};q('queue').onclick=()=>{closeDialog(els.sheetDialog);queueTrack(track.id);};q('repeat').onclick=()=>{closeDialog(els.sheetDialog);toggleRepeatOne(track.id);};q('fav').onclick=()=>{closeDialog(els.sheetDialog);toggleFavorite(track.id);};q('original')&&(q('original').onclick=()=>window.open(track.remoteUrl,'_blank','noopener'));q('remove-pl')&&(q('remove-pl').onclick=()=>{closeDialog(els.sheetDialog);removeFromPlaylist(track.id,state.activePlaylistId);});q('delete').onclick=()=>{closeDialog(els.sheetDialog);removeTrack(track.id);};$$('[data-pl]',root).forEach(b=>b.onclick=()=>{closeDialog(els.sheetDialog);addTrackToPlaylist(track.id,b.dataset.pl);});q('new-pl').onclick=()=>{closeDialog(els.sheetDialog);openCreatePlaylistSheet(track.id);};
+  const dec=window.MP_DECADES;
+  const decInfo=dec?.getTrackDecade?.(track.id);
+  const decLabel=decInfo?(decInfo.year?decInfo.year+' · '+dec.decadeLabel(decInfo.decade):(decInfo.source==='MANUAL'?'Manual':'Sin identificar')):'Sin identificar';
+  const yearBtn='<button class="sheet-btn" data-a="year">📅 Editar año<small>Actual: '+safeText(decLabel)+'</small></button>';
+  openSheet(`<h2 class="sheet-title">${safeText(track.title)}</h2><p class="sheet-copy">${safeText(track.artist||sourceLabel(track))} · ${sourceLabel(track)}</p><div class="sheet-stack">${playable(track)?'<button class="sheet-btn" data-a="play">▶ Reproducir<small>Escuchar ahora</small></button>':''}<button class="sheet-btn" data-a="next">→ Reproducir a continuación<small>Tendrá prioridad sobre Mix, Radio o Aleatorio</small></button><button class="sheet-btn" data-a="queue">≡ Añadir a la cola<small>Se reproducirá respetando el orden manual</small></button><button class="sheet-btn${repeatActive?' selected':''}" data-a="repeat">↻1 ${repeatActive?'Desactivar repetición':'Repetir esta canción'}<small>${repeatActive?'Volver a la secuencia normal':'Repetir hasta que lo desactives'}</small></button><button class="sheet-btn" data-a="fav">${track.favorite?'♥ Quitar favorito':'♡ Favorito'}<small>Marcar esta canción</small></button>${yearBtn}${external}${options.fromPlaylist&&!options.smart?'<button class="sheet-btn" data-a="remove-pl">− Quitar de playlist<small>No elimina la canción</small></button>':''}<button class="sheet-btn" data-a="delete">🗑 Eliminar<small>Quitar de MUSIC PLAY</small></button><div class="sheet-copy">Añadir a playlist</div>${pls}<button class="sheet-btn" data-a="new-pl">＋ Nueva playlist<small>Crear y añadir</small></button></div>`,root=>{
+    const q=s=>$(`[data-a="${s}"]`,root);q('play')&&(q('play').onclick=()=>{closeDialog(els.sheetDialog);playTrack(track.id,getFilteredTracks().filter(playable).map(t=>t.id));});q('next').onclick=()=>{closeDialog(els.sheetDialog);queueTrack(track.id,{next:true});};q('queue').onclick=()=>{closeDialog(els.sheetDialog);queueTrack(track.id);};q('repeat').onclick=()=>{closeDialog(els.sheetDialog);toggleRepeatOne(track.id);};q('fav').onclick=()=>{closeDialog(els.sheetDialog);toggleFavorite(track.id);};q('year')&&(q('year').onclick=()=>{closeDialog(els.sheetDialog);const input=prompt('Año de lanzamiento (ej: 1986)\n\nDeja vacío para quitar la corrección manual.',decInfo?.year||'');if(input===null)return;const trimmed=input.trim();if(trimmed===''){dec?.clearManualYear?.(track.id);toast('Año manual borrado');}else{const y=parseInt(trimmed,10);if(!Number.isFinite(y)||y<1900||y>2100){toast('Año no válido');return;}dec?.setManualYear?.(track.id,y);toast('Año: '+y+' → '+dec.yearToDecade(y));}render();});
+    q('original')&&(q('original').onclick=()=>window.open(track.remoteUrl,'_blank','noopener'));q('remove-pl')&&(q('remove-pl').onclick=()=>{closeDialog(els.sheetDialog);removeFromPlaylist(track.id,state.activePlaylistId);});q('delete').onclick=()=>{closeDialog(els.sheetDialog);removeTrack(track.id);};$$('[data-pl]',root).forEach(b=>b.onclick=()=>{closeDialog(els.sheetDialog);addTrackToPlaylist(track.id,b.dataset.pl);});q('new-pl').onclick=()=>{closeDialog(els.sheetDialog);openCreatePlaylistSheet(track.id);};
   });
 }
 function openCreatePlaylistSheet(preselect=null){openSheet(`<h2 class="sheet-title">Nueva playlist</h2><p class="sheet-copy">Una lista propia, aunque mezcle archivos y enlaces.</p><input id="playlistNameInput" class="sheet-input" maxlength="60" placeholder="Ej: Rock, Estudio, Viaje"/><div class="sheet-stack"><button class="sheet-btn" data-save>Guardar playlist<small>Se queda en este dispositivo</small></button></div>`,root=>{const input=$('#playlistNameInput',root);input.focus();$('[data-save]',root).onclick=async()=>{const pl=await createPlaylist(input.value);if(!pl)return toast('Escribe un nombre');if(preselect)await addTrackToPlaylist(preselect,pl.id);closeDialog(els.sheetDialog);showView('playlist');};});}
@@ -3339,7 +3448,10 @@ async function registerSW(){
 function bindEvents(){
   els.homeBtn.onclick=()=>showView('home');els.moreBtn.onclick=openMoreMenu;if(els.boostBtn)els.boostBtn.onclick=()=>{const next=state.soundMode===SOUND_MODES.boost?SOUND_MODES.auto:SOUND_MODES.boost;setSoundMode(next);};
   els.navHome.onclick=()=>showView('home');els.navSearch.onclick=()=>showView('search');els.navLibrary.onclick=()=>{if(state.activeView==='library'&&state.libraryTab==='playlists'&&state.playlistDetailOpen){closePlaylistDetail();return;}showView('library');};if(els.navRadio)els.navRadio.onclick=()=>showView('radio');if(els.floatMiniBtn)els.floatMiniBtn.onclick=toggleFloatMini;
-  els.homeSearchBtn.onclick=()=>showView('search');els.homeAllPlaylistsBtn.onclick=()=>{state.libraryTab='playlists';state.playlistDetailOpen=false;showView('library');};els.homeAllAlbumsBtn.onclick=()=>{state.libraryTab='albums';state.playlistDetailOpen=false;showView('library');};if(els.homeAllPodcastsBtn)els.homeAllPodcastsBtn.onclick=openPodcastHub;
+  els.homeSearchBtn.onclick=()=>showView('search');els.homeAllPlaylistsBtn.onclick=()=>{state.libraryTab='playlists';state.playlistDetailOpen=false;showView('library');};els.homeAllAlbumsBtn.onclick=()=>{state.libraryTab='albums';state.playlistDetailOpen=false;showView('library');};if(els.homeAllPodcastsBtn)els.homeAllPodcastsBtn.onclick=openPodcastHub;if(els.homeCreateMixBtn)els.homeCreateMixBtn.onclick=openCreateMixSheet;
+  // R10.25 · Refrescar décadas y mezclas validadas
+  window.addEventListener('mp:decades-updated',()=>{if(state.activeView==='home')renderHomeDecades();});
+  window.addEventListener('mp:mix-validated',()=>{if(state.activeView==='home')renderHomeMixes();});
   els.favoritesShortcut.onclick=()=>openSmartCollection(SMART_IDS.favorites);els.mostPlayedShortcut.onclick=()=>openSmartCollection(SMART_IDS.most);els.recentShortcut.onclick=()=>openSmartCollection(SMART_IDS.recent);els.repeatShortcut.onclick=()=>openSmartCollection(SMART_IDS.repeat);els.rediscoverShortcut.onclick=()=>setPlaybackMode(PLAY_MODES.rediscover,{autoplay:true});els.radioShortcut.onclick=()=>setPlaybackMode(PLAY_MODES.radio,{autoplay:true});els.surpriseShortcut.onclick=()=>setPlaybackMode(PLAY_MODES.surprise,{autoplay:true});els.mixShortcut.onclick=()=>setPlaybackMode(PLAY_MODES.smart,{autoplay:true});
   els.onboardingInstallBtn.onclick=handleInstallClick;els.onboardingFileBtn.onclick=pickFiles;els.onboardingFolderBtn.onclick=pickFolder;els.onboardingLinkBtn.onclick=()=>openLinkSheet();els.onboardingMusicBtn.onclick=()=>{state.libraryTab='songs';showView('library');};els.onboardingPlayBtn.onclick=togglePlay;if(els.onboardingStartBtn)els.onboardingStartBtn.onclick=async()=>{state.firstRunComplete=true;await persistPrefs();renderHome();openLoadSheet();};
 
@@ -3422,7 +3534,7 @@ async function init(){
   render();
   els.audio.volume=state.volume;if(els.directAudio)els.directAudio.volume=state.volume;
   setupMediaSession();
-  // R10.23 · Sincronizar el estado BOOST nativo con el preferido al iniciar
+  // R10.25 · Sincronizar el estado BOOST nativo con el preferido al iniciar
   if(IS_NATIVE_APK&&window.HappyNative?.setBoost){
     try{window.HappyNative.setBoost(state.soundMode===SOUND_MODES.boost);}catch{}
   }
@@ -3587,12 +3699,15 @@ if (IS_NATIVE_APK) {
 
 window.MP = Object.freeze({
   version: APP_VERSION, build: BUILD, state, db, els,
-  toast, openSheet, closeDialog, showLoader, hideLoader,
+  toast, openSheet, closeDialog, showLoader, hideLoader, updateLoaderProgress,
   formatTime, safeText, now, sleep, remoteHash, hashId, safeFileName, downloadText,
   normalizeTrack, normalizePlaylist, persistPlaylist, persistPrefs,
   saveTrackAndSource, createPlaylist, addTrackToPlaylist, getTrackFile,
-  playTrack, showView, render, renderHome, stopAllEngines, toggleFloatMini
+  playTrack, showView, render, renderHome, stopAllEngines, toggleFloatMini,
+  queueTrack, saveRemoteTrack, isPodcastTrack
 });
+// R10.25 · Exponer getYouTubePlaylistIds para que basecontent.js pueda importar playlists
+window.getYouTubePlaylistIds = getYouTubePlaylistIds;
 
 init().catch(err=>{console.error(err);els.intro?.classList.add('hide');els.app?.classList.remove('is-hidden');toast('La app abrió en modo seguro');});
 
