@@ -12,12 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.25-mixes-canonical" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.20-float-fix" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.25-mixes-canonical" />
-  <link rel="stylesheet" href="./radio.css?v=r10.25-mixes-canonical" />
-  <link rel="stylesheet" href="./sp.css?v=r10.25-mixes-canonical" />
+  <link rel="stylesheet" href="./styles.css?v=r10.20-float-fix" />
+  <link rel="stylesheet" href="./radio.css?v=r10.20-float-fix" />
+  <link rel="stylesheet" href="./sp.css?v=r10.20-float-fix" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -42,13 +42,7 @@
         <span class="brand-mark">♫</span>
         <span class="brand-copy"><strong>MUSIC PLAY</strong><small>tu biblioteca musical</small></span>
       </button>
-      <div id="mpMicroTicker" class="mp-microticker mt-discreet" role="status" aria-live="polite" aria-atomic="true">
-        <div class="mt-eq idle" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <div class="mt-content">
-          <span class="mt-cat"></span>
-          <span class="mt-text"></span>
-        </div>
-      </div>
+      <div id="mpMicroTicker" class="mp-microticker mt-discreet" role="status" aria-live="polite"><div class="mt-eq idle" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="mt-content"><span class="mt-cat"></span><span class="mt-dance" aria-hidden="true"></span></div></div>
       <div class="top-actions" aria-label="Acciones de aplicación">
         <button id="updateBtn" class="icon-status-btn update-btn is-hidden" type="button" title="Actualización disponible" aria-label="Actualizar MUSIC PLAY">↻<span class="status-dot" aria-hidden="true"></span></button>
         <button id="boostBtn" class="icon-status-btn boost-btn" type="button" title="HAPPY BOOST · mejora de audio" aria-label="Activar HAPPY BOOST">★</button>
@@ -84,12 +78,6 @@
         </div>
 
         <div id="matureHome" class="mature-home is-hidden">
-          <button id="resumeCard" class="resume-card is-hidden" type="button">
-            <div id="resumeArtwork" class="resume-art">♫</div>
-            <div class="resume-copy"><small>SEGUIR ESCUCHANDO</small><strong id="resumeTitle">—</strong><span id="resumeArtist">—</span></div>
-            <span id="resumePlayIcon" class="resume-play">▶</span>
-          </button>
-
           <div class="smart-rail home-smart" aria-label="Accesos de escucha">
             <button id="favoritesShortcut" class="smart-card favorite-card" type="button"><span class="smart-icon">♥</span><span><strong>Favoritos</strong><small><b id="countFavorites">0</b> guardadas</small></span><span class="smart-go">›</span></button>
             <button id="mostPlayedShortcut" class="smart-card hot-card" type="button"><span class="smart-icon">🔥</span><span><strong>+ Escuchadas</strong><small><b id="countMost">0</b> personales</small></span><span class="smart-go">›</span></button>
@@ -146,23 +134,8 @@
             <div id="homeMusicVideo" class="horizontal-cards"></div>
           </section>
 
-          <!-- R10.25 · TUS MEZCLAS -->
-          <section id="homeMixesSection" class="home-section">
-            <div class="section-row"><div><small>MEZCLAS</small><h2>Tus mezclas</h2></div><button id="homeCreateMixBtn" class="text-action" type="button">+ Crear mezcla</button></div>
-            <span class="section-hint" style="padding:0 2px 4px">Un ritmo para cada momento</span>
-            <div id="homeMixes" class="horizontal-cards"></div>
-            <div id="homeUserMixesWrap" class="is-hidden" style="margin-top:10px">
-              <span class="section-hint" style="padding:0 2px 4px">Mis mezclas</span>
-              <div id="homeUserMixes" class="horizontal-cards"></div>
-            </div>
-          </section>
-
-          <!-- R10.25 · DÉCADAS -->
-          <section id="homeDecadesSection" class="home-section">
-            <div class="section-row"><div><small>TU MÚSICA EN EL TIEMPO</small><h2>Décadas</h2></div><span id="homeDecadesHint" class="section-hint">Redescubre tu biblioteca por época</span></div>
-            <div id="homeDecades" class="horizontal-cards"></div>
-          </section>
-
+          <section id="homeDecadesSection" class="home-section"><div class="section-row"><div><small>TU MÚSICA EN EL TIEMPO</small><h2>Décadas</h2></div><span id="homeDecadesHint" class="section-hint">Redescubre tu biblioteca por época</span></div><div id="homeDecades" class="horizontal-cards"></div></section>
+          <section id="homeDiscoverySection" class="home-section"><div class="section-row"><div><small>DESCUBRE QUÉ HAY DE NUEVO</small><h2>Novedades</h2></div></div><span class="section-hint" style="padding:0 2px 4px">Lanzamientos y videos recientes</span><div id="homeDiscoveryGenres" class="discovery-genres"></div><div id="homeDiscoveryFeatured" class="horizontal-cards" style="margin-top:8px"></div></section>
           <div class="mini-stats" id="summaryBar">
             <span><b id="countTracks">0</b> audios</span><span><b id="countPlaylists">0</b> listas</span><span><b id="listenTimeHome">0m</b> escuchados</span>
           </div>
@@ -339,7 +312,7 @@
     <input id="folderInput" type="file" accept="audio/*,video/*,.wma,.wmv,.avi,.mkv,.mov,.3gp" webkitdirectory directory multiple hidden />
     <input id="backupInput" type="file" accept="application/json,.json" hidden />
     <input id="m3uInput" type="file" accept="audio/x-mpegurl,application/vnd.apple.mpegurl,.m3u,.m3u8" hidden />
-    <!-- R10.25 · crossorigin="anonymous" para que Web Audio API pueda procesar
+    <!-- R10.20 · crossorigin="anonymous" para que Web Audio API pueda procesar
          también YouTube/enlaces directos sin taint (cuando el CDN entrega CORS). -->
     <audio id="audio" preload="metadata" playsinline></audio>
     <audio id="directAudio" preload="metadata" playsinline crossorigin="anonymous"></audio>
@@ -348,11 +321,12 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.25-mixes-canonical"></script>
-  <script src="./radio.js?v=r10.25-mixes-canonical"></script>
-  <script src="./sp.js?v=r10.25-mixes-canonical"></script>
-  <script src="./basecontent.js?v=r10.25-mixes-canonical"></script>
-  <script src="./decades.js?v=r10.25-mixes-canonical"></script>
-  <script src="./microticker.js?v=r10.25-mixes-canonical"></script>
+  <script src="./app.js?v=r10.34-track-visible"></script>
+  <script src="./radio.js?v=r10.34-track-visible"></script>
+  <script src="./sp.js?v=r10.34-track-visible"></script>
+  <script src="./basecontent.js?v=r10.34-track-visible"></script>
+  <script src="./decades.js?v=r10.34-track-visible"></script>
+  <script src="./microticker.js?v=r10.34-track-visible"></script>
+  <script src="./discovery.js?v=r10.34-track-visible"></script>
 </body>
 </html>

@@ -1,88 +1,77 @@
-MUSIC PLAY · HAPPY — R10.25 (2026-09-18)
+MUSIC PLAY · HAPPY — R10.20 (2026-09-17)
 
-NUEVO · 20 MIXES CON WATCH URLs CANÓNICOS
-1. BASE_MIXES completamente reescrito con 20 watch URLs canónicos:
-   Salsa, Country, Reggae, Rock en español, Metal, Cumbia, Vallenato,
-   Bachata, Jazz, Pop, Hip-Hop, EDM, Merengue, Reggaetón, Blues,
-   R&B/Soul, Clásica, Instrumental, Folk, Gospel.
-2. Sin parámetros si=, feature=, list=, index=. Solo watch?v=VIDEO_ID.
-3. Validación real: validateMix() usa oembed para comprobar que el
-   videoId existe y es accesible. Estados: AVAILABLE, UNAVAILABLE,
-   REGION_BLOCKED, LOAD_ERROR, UNKNOWN.
-4. Caché de validación 10 min. validateAllMixes() en background.
-5. Mix no disponible → tarjeta con overlay "No disponible", no bloquea.
-6. Reintentar validación desde menú ⋮ del mix.
+CORRECCIÓN · Pantalla reducida flotante (deformación)
+1. Al activar ⧉ en APK, se OCULTABA la barra mini-player inferior → deformación
+   visual (barra más ancha que larga, compitiendo con el panel flotante).
+2. Ahora: la barra mini-player inferior se OCULTA (display:none) cuando el
+   float-mini está activo — no más duplicidad.
+3. Los controles fm-controls ahora son estrictamente horizontales
+   (flex-direction:row, flex-wrap:nowrap, flex:0 0 auto en botones).
 
-NUEVO · IMPORTADOR UNIVERSAL DE YOUTUBE
-1. normalizeYouTubeUrl(): reconoce watch, youtu.be, playlist, music.youtube.
-   Extrae videoId/playlistId, ignora si=, feature=, etc.
-2. analyzeImport(): clasifica URL — video suelto o playlist (necesita
-   clasificación del usuario).
-3. promptClassification(): diálogo "¿Podcast o Playlist musical?".
-4. importClassifiedPlaylist(): usa getYouTubePlaylistIds() existente
-   (con paginación) para obtener todos los videos. Crea tracks
-   individuales por cada videoId con watchUrl canónico.
-5. Estructura PodcastShow: playlist como contenedor, cada video como
-   PodcastEpisode individual (videoId, watchUrl, title, thumbnail, position).
-6. Reproducción: tocar episodio 4 → youtube.com/watch?v=VIDEO_ID_EP4.
-   No se reproduce el playlist URL como si fuera un episodio.
+CORRECCIÓN · Pantalla reducida flotante (overlay nativo real)
+1. En APK, ⧉ ahora abre la VENTANA FLOTANTE NATIVA (TYPE_APPLICATION_OVERLAY)
+   que se superpone a TODAS las apps, no solo al WebView.
+2. Sobrevive al bloqueo de pantalla y a salir de la app — es el "mini-cuadro
+   de reproducción que queda flotante siempre" que pide el usuario.
+3. Ya NO mostramos el overlay HTML en APK porque duplicaba el nativo y causaba
+   la deformación reportada.
+4. En PWA/navegador, ⧉ sigue abriendo el overlay HTML dentro de la pestaña.
 
-NUEVO · SINCRONIZACIÓN
-1. syncPlaylist() en menú ⋮ de playlist → "↻ Actualizar desde YouTube".
-2. Detecta videos nuevos sin duplicar existentes.
-3. Conserva progreso, favoritos, escuchados, clasificación.
-4. Actualiza título/thumbnail si cambiaron.
-5. Videos eliminados → marcados, no borrados del historial.
+CORRECCIÓN · YouTube en pantalla bloqueada (definitivo)
+1. ytSwapToAudioServiceForBackground() ahora RE-RESUELVE la audioUrl si no
+   existe antes de delegar al servicio nativo. Antes, si la resolución inicial
+   solo devolvió muxedUrl (video), al bloquear la pantalla no había audioUrl
+   para delegar → fallo silencioso.
+2. Si la re-resolución falla, cae al ytAudio del WebView (audio-only nativo)
+   que al menos no necesita decoder de video y sobrevive mejor al lock screen.
+3. Nuevo startYtUrlRefresh(): cada 5 minutos revisa si la URL del YouTube
+   track actual necesita refresh (>25 min en caché). Re-resuelve en silencio
+   y actualiza state.ytMedia sin interrumpir la reproducción.
+4. Esto garantiza que cuando el usuario bloquee el celular, la audioUrl esté
+   fresca y el swap al servicio nativo sea instantáneo.
 
-NUEVO · PODCASTS Y PLAYLISTS BASE
-1. Pensar la Crianza (PODCAST ORIGINAL) — importada como podcast con
-   episodios individuales. Sincronizable.
-2. Segunda playlist base (PLk6voQWRP6ky9T37XUEtrTRH2A944YBJd) — podcast.
-3. 3 playlists base musicales (PLk6voQWRP6kwSGKPs6j_gHMVGVS20TnpT,
-   PLk6voQWRP6kzXw6_xcITOdRFfze7Wgx0-, PLk6voQWRP6kwudByDCsMhFvB4CCkkDb52).
-4. PLk6voQWRP6kwSGKPs6j_gHMVGVS20TnpT guardada una sola vez (normalización).
-5. Seed automático al iniciar + importación en background.
+NUEVO · 20 emisoras base incorporadas
+1. 10 emisoras colombianas: Candela Cali, HJUT Bogotá, Radio UNAL, Radioacktiva,
+   Radio Tiempo Cali, Olímpica Stereo Cali, Bésame Cali, LOS40 Colombia,
+   La X Medellín, Radio Planeta.
+2. 10 emisoras internacionales: KEXP, FIP, NTS Radio 1, Worldwide FM,
+   Radio Swiss Jazz, WQXR 105.9, Jazz24, Groove Salad (SomaFM), Resonance FM,
+   France Culture.
+3. Se siembran como favoritas en el primer arranque (no sobreescriben
+   favoritos existentes del usuario).
+4. Aparecen en Radio → Favoritas con badge "built-in".
 
-DEDUPLICACIÓN
-- Playlist identificada por playlistId (no URL completa).
-- Episodio/canción identificado por videoId.
-- ...?list=ABC&si=111 y ...?list=ABC&si=222 = misma playlist.
-
-DÉCADAS (de R10.24, conservado)
-- Detección de año: ID3 > YouTube título (no fecha subida) > inferencia.
-- Sistema de confianza: {year, decade, source, confidence}.
-- Corrección manual (MANUAL) nunca sobrescrita.
-- Escaneo incremental con caché.
-- Viaje por década (orden aleatorio).
-- PRINCIPIO: no falsificar el año.
-
-MICROTICKER (de R10.23, conservado)
-- EQ siempre vivo: playing=full, paused=heartbeat, idle=pulse.
-- State sync: Radio Live vs canción local.
-- Iconos ★ ⧉ ⋯ reducidos (32px), brand-mark reducido (36px).
-
-ARQUITECTURA
-- basecontent.js: BASE_MIXES (20 canónicos), BASE_PODCASTS, BASE_PLAYLISTS,
-  normalizeYouTubeUrl, validateMix, validateAllMixes, ensureMixTrack,
-  playMix, analyzeImport, importClassifiedPlaylist, promptClassification,
-  syncPlaylist, seedBaseContent.
-- decades.js: MP_DECADES (detección, caché, confianza, viaje).
-- microticker.js: MP_SMART_MICROTICKER (EQ siempre vivo, state sync).
-- app.js: getYouTubePlaylistIds expuesto en window para basecontent.
-  renderHomeMixes/renderHomeDecades. openMixMenu con reintentar validación.
-  openTrackSheet con Editar año. openPlaylistMenuSheet con Actualizar desde YouTube.
+REVISIÓN · Bluetooth / conexiones
+1. MediaSessionCompat (androidx.media:media:1.7.0) activa con:
+   · FLAG_HANDLES_MEDIA_BUTTONS
+   · FLAG_HANDLES_TRANSPORT_CONTROLS
+   → soporta AVRCP (pantalla del auto, auriculares Bluetooth).
+2. Callbacks: onPlay, onPause, onSkipToNext, onSkipToPrevious.
+3. Metadata: título, artista, álbum, duración → se muestra en la pantalla
+   del auto y en auriculares Bluetooth compatibles.
+4. PlaybackState: PLAYING/PAUSED + posición + velocidad → barra de progreso
+   en la pantalla del auto.
+5. ExoPlayer (androidx.media3:media3-exoplayer:1.3.1) con AudioAttributes
+   USAGE_MEDIA / AUDIO_CONTENT_TYPE_MUSIC → gestiona foco de audio, ducking
+   y salida Bluetooth A2DP automáticamente.
+6. setHandleAudioBecomingNoisy(true) → pausa al desconectar auriculares.
+7. setWakeMode(C.WAKE_MODE_NETWORK) → mantiene CPU + red durante playback.
 
 COMPATIBILIDAD
-- applicationId com.happy.musicplay; versionCode 26; versionName 10.25.
-- Misma firma SHA-256: actualización directa compatible.
+- applicationId com.happy.musicplay; versionCode 21; versionName 10.20.
+- Misma firma SHA-256 que R10.16-R10.19: actualización directa compatible.
+  SHA256: 2de569bf5517c2f73771844a890c7706b952561932215c710c1c9d5e538a881c
 - IndexedDB v7; Recovery v6 sin cambios.
-- Requiere Android 7.0+ (minSdk 24).
+- Requiere Android 7.0+ (minSdk 24). TYPE_APPLICATION_OVERLAY requiere
+  Android 6.0+ (siempre satisfecho).
 
-LIMITACIONES REALES
-- Validación de mixes: depende de oembed de YouTube. Si YouTube bloquea
-  oembed (rate limit), algunos mixes pueden quedar en UNKNOWN temporalmente.
-- Importación de playlists: depende de getYouTubePlaylistIds() que usa
-  un helper same-origin (./api/youtube-playlist) o fallback a IFrame API.
-  Si ambos fallan (CORS, red), la playlist queda enlazada pero sin episodios.
-- Sincronización: no puede detectar videos que YouTube eliminó si la API
-  no los retorna — quedan en el historial pero sin marca UNAVAILABLE.
+LÍMITE HONESTO · YouTube background
+La continuidad de YouTube en pantalla bloqueada depende de que el resolvedor
+(Invidious/Piped) devuelva una audioUrl directa vigente. Si todas las
+instancias están caídas o bloqueadas, el swap al servicio nativo no tendrá
+URL que delegar y caerá al ytAudio del WebView (que puede pausarse al
+bloquear). Esto es una limitación técnica real: YouTube no permite
+background playback oficialmente fuera de YouTube Premium, y dependemos de
+resolvedores de terceros. R10.20 maximiza las posibilidades de éxito con
+re-resolución al bloquear + refresh periódico, pero no puede garantizar
+100% de éxito si los resolvedores fallan.

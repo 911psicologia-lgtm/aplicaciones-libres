@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.18-r10.25-mixes-canonical",
-  "version": "R10.25",
-  "label": "20 mixes con watch URLs canónicos + validación real · importador universal YouTube con clasificación Podcast/Música · sincronización · podcasts y playlists base · décadas · MicroTicker siempre vivo",
-  "date": "2026-09-18"
+  "build": "2026.09.20-r10.34-track-visible",
+  "version": "R10.34",
+  "label": "FIX ROOT CAUSE: .track-front y .mini-track ya NO tienen display:none — playlists y mini-player visibles",
+  "date": "2026-09-20"
 }
