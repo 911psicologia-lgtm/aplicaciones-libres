@@ -298,7 +298,7 @@
         <div class="time-row"><span id="timeNow">0:00</span><span id="timeTotal">0:00</span></div>
         <div class="player-main-controls"><button id="shuffleBtn" type="button" class="player-btn toggle-btn">⇄</button><button id="fullPrevBtn" type="button" class="player-btn big-btn">⏮</button><button id="fullPlayBtn" type="button" class="play-btn xl">▶</button><button id="fullNextBtn" type="button" class="player-btn big-btn">⏭</button><button id="favoriteBtn" type="button" class="player-btn toggle-btn">♡</button></div>
         <div id="podcastControls" class="podcast-controls is-hidden" aria-label="Controles de podcast"><button id="podcastBackBtn" type="button" class="micro-btn">↶ 15s</button><button id="podcastRateBtn" type="button" class="micro-btn">1×</button><button id="podcastForwardBtn" type="button" class="micro-btn">30s ↷</button></div>
-        <div class="player-secondary-controls"><label>Volumen<input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" /></label><div class="current-track-actions"><button id="repeatCurrentBtn" type="button" class="micro-btn">↻1 Repetir</button><button id="queueManagerBtn" type="button" class="micro-btn">≡ Cola <span id="queueManagerCount"></span></button><button id="addCurrentToPlaylist" type="button" class="micro-btn">＋ Playlist</button><button id="soundModeBtn" type="button" class="micro-btn">◉ Sonido Auto</button><button id="shareCurrentBtn" type="button" class="micro-btn">↗ Compartir</button></div></div>
+        <div class="player-secondary-controls"><label class="vol-label">🔊 <input id="volumeRange" type="range" min="0" max="1" step="0.01" value="0.92" /></label><div class="current-track-actions"><button id="repeatCurrentBtn" type="button" class="icon-ctrl" title="Repetir">↻</button><button id="queueManagerBtn" type="button" class="icon-ctrl" title="Cola">≡</button><button id="addCurrentToPlaylist" type="button" class="icon-ctrl" title="Playlist">＋</button><button id="soundModeBtn" type="button" class="icon-ctrl" title="Sonido">◉</button><button id="lyricsBtn" type="button" class="icon-ctrl" title="Letra">📝</button><button id="shareCurrentBtn" type="button" class="icon-ctrl" title="Compartir">↗</button></div><div id="lyricsPanel" class="lyrics-panel"><div id="lyricsContent" class="lyrics-content"></div></div></div>
       </form>
     </dialog>
 
@@ -321,12 +321,13 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.34-track-visible"></script>
-  <script src="./radio.js?v=r10.34-track-visible"></script>
-  <script src="./sp.js?v=r10.34-track-visible"></script>
-  <script src="./basecontent.js?v=r10.34-track-visible"></script>
-  <script src="./decades.js?v=r10.34-track-visible"></script>
-  <script src="./microticker.js?v=r10.34-track-visible"></script>
-  <script src="./discovery.js?v=r10.34-track-visible"></script>
+  <script src="./app.js?v=r10.36-icon-fix"></script>
+  <script src="./radio.js?v=r10.36-icon-fix"></script>
+  <script src="./sp.js?v=r10.36-icon-fix"></script>
+  <script src="./basecontent.js?v=r10.36-icon-fix"></script>
+  <script src="./decades.js?v=r10.36-icon-fix"></script>
+  <script src="./microticker.js?v=r10.36-icon-fix"></script>
+  <script src="./discovery.js?v=r10.36-icon-fix"></script>
+  <script src="./lyrics.js?v=r10.36-icon-fix"></script>
 </body>
 </html>

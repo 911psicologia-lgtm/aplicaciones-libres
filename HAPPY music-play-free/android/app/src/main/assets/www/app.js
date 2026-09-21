@@ -1,8 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.20-r10.34-track-visible';
-const APP_VERSION = 'R10.34';
+const BUILD = '2026.09.21-r10.36-icon-fix';
+const APP_VERSION = 'R10.36';
 // R10.15 · Detección del APK (WebView + HappyNative). En el APK se suprime la
 // instalación PWA, el mini ⧉ interno se sustituye por la ventana flotante real
 // y la importación de carpetas usa el selector nativo de árbol.
@@ -1231,7 +1231,7 @@ function openDecadeSheet(decade){const dec=window.MP_DECADES;if(!dec)return;cons
 function openTickerModeSheet(){const cur=window.MP_SMART_MICROTICKER?.getMode?.()||'discreet';const modes=[['off','·','Apagado','No mostrar'],['discreet','·','Discreto','Solo animación'],['dynamic','★','Dinámico','Con eventos']];
   openSheet('<h2 class="sheet-title">▤ MicroTicker</h2><p class="sheet-copy">Animación decorativa de cabecera</p><div class="sheet-stack">'+modes.map(m=>'<button class="sheet-btn'+(m[0]===cur?' selected':'')+'" data-ticker-mode="'+m[0]+'">'+m[1]+' '+m[2]+'<small>'+m[3]+'</small></button>').join('')+'</div>',root=>{$$('[data-ticker-mode]',root).forEach(b=>b.onclick=()=>{const mode=b.dataset.tickerMode;closeDialog(els.sheetDialog);window.MP_SMART_MICROTICKER?.setMode?.(mode);try{localStorage.setItem('mp-ticker-mode',mode);}catch{}toast('MicroTicker · '+(modes.find(m=>m[0]===mode)?.[2]||mode));});});}
 function openDiscoveryConfigSheet(){const cur=window.MP_DISCOVERY?.getWorkerUrl?.()||'';
-  openSheet('<h2 class="sheet-title">📡 Novedades · Configurar</h2><p class="sheet-copy">Pega la URL de tu Cloudflare Worker para activar Novedades.</p><input id="discoveryUrlInput" class="sheet-input" value="'+safeText(cur)+'" placeholder="https://music-discovery.tu-subdominio.workers.dev"/><div class="sheet-stack"><button class="sheet-btn" data-save-url>Guardar URL</button></div>',root=>{
+  openSheet('<h2 class="sheet-title">📡 Novedades · Configurar</h2><p class="sheet-copy">Pega la URL de tu Cloudflare Worker.</p><input id="discoveryUrlInput" class="sheet-input" value="'+safeText(cur)+'" placeholder="https://music-discovery.workers.dev"/><div class="sheet-stack"><button class="sheet-btn" data-save-url>Guardar URL</button></div>',root=>{
     $('[data-save-url]',root).onclick=()=>{const url=$('#discoveryUrlInput',root).value.trim();window.MP_DISCOVERY?.setWorkerUrl?.(url);closeDialog(els.sheetDialog);toast(url?'Worker configurado ✓':'Worker desactivado');};});}
 function renderSearch(){
   const q=(state.globalSearch||'').trim();els.searchResults.innerHTML='';const info=analyzeLink(q);els.searchLinkHint.classList.toggle('is-hidden',!q||info.kind==='invalid'||(!/^https?:/i.test(q)));els.searchEmpty.classList.toggle('is-hidden',!!q);if(!q)return;
@@ -1282,9 +1282,9 @@ function renderPlayer(){
   const t=getCurrentTrack();els.miniPlayer.classList.toggle('is-hidden',!t);if(!t)return;
   els.miniTitle.textContent=t.title;els.miniArtist.textContent=t.artist||sourceLabel(t);els.fullTitle.textContent=t.title;els.fullArtist.textContent=[t.artist,t.album,sourceLabel(t)].filter(Boolean).join(' · ');
   els.favoriteBtn.textContent=t.favorite?'♥':'♡';els.favoriteBtn.classList.toggle('active',t.favorite);els.miniFavoriteBtn.textContent=t.favorite?'♥':'♡';els.miniFavoriteBtn.classList.toggle('active',t.favorite);
-  if(els.repeatCurrentBtn){const active=state.repeatOneId===t.id;els.repeatCurrentBtn.classList.toggle('active',active);els.repeatCurrentBtn.textContent=active?'↻1 Activo':'↻1 Repetir';els.repeatCurrentBtn.title=active?'Desactivar repetición de esta canción':'Repetir esta canción continuamente';}
+  if(els.repeatCurrentBtn){const active=state.repeatOneId===t.id;els.repeatCurrentBtn.classList.toggle('active',active);els.repeatCurrentBtn.title=active?'Desactivar repetición':'Repetir canción';}
   const pending=cleanManualQueue().length;
-  if(els.queueManagerCount)els.queueManagerCount.textContent=pending?`· ${pending}`:'';
+  if(els.queueManagerCount){els.queueManagerCount.textContent=pending?String(pending):'';els.queueManagerCount.classList.toggle('is-hidden',pending===0);}
   if(els.miniQueueCount){els.miniQueueCount.textContent=String(pending);els.miniQueueCount.classList.toggle('is-hidden',pending===0);}
   if(els.miniQueueBtn){els.miniQueueBtn.classList.toggle('active',pending>0);els.miniQueueBtn.title=pending?`Ver cola · ${pending} pendiente${pending===1?'':'s'}`:'Ver cola de reproducción';}
   const podcast=isPodcastTrack(t);
@@ -1292,7 +1292,7 @@ function renderPlayer(){
   if(els.podcastRateBtn){els.podcastRateBtn.textContent=`${state.podcastRate}×`;els.podcastRateBtn.title=state.currentEngine==='soundcloud'?'SoundCloud controla su velocidad':`Velocidad del podcast · ${state.podcastRate}×`;}
   const g=state.playing?'⏸':'▶';els.playBtn.textContent=g;els.fullPlayBtn.textContent=g;
   const modeMeta=PLAY_MODE_META[state.playbackMode]||PLAY_MODE_META.normal;els.shuffleBtn.textContent=modeMeta.icon;els.shuffleBtn.classList.toggle('active',state.playbackMode!==PLAY_MODES.normal);els.shuffleBtn.title=`Modo: ${modeMeta.name}`;els.shuffleBtn.setAttribute('aria-label',`Modo de reproducción: ${modeMeta.name}`);
-  if(els.soundModeBtn){els.soundModeBtn.textContent=t.sourceKind==='local'||state.soundMode===SOUND_MODES.boost?soundModeLabel():'○ Sonido fuente';els.soundModeBtn.title=t.sourceKind==='local'||state.soundMode===SOUND_MODES.boost?'Ajuste de sonido':'La fuente externa controla su propio sonido';}
+  if(els.soundModeBtn){els.soundModeBtn.classList.toggle('active',state.soundMode===SOUND_MODES.boost);els.soundModeBtn.title=t.sourceKind==='local'||state.soundMode===SOUND_MODES.boost?'Ajuste de sonido':'Fuente externa';}
   if(els.boostBtn){const on=state.soundMode===SOUND_MODES.boost;els.boostBtn.classList.toggle('on',on);els.boostBtn.title=on?'HAPPY BOOST activo · toca para volver a Auto':'Activar HAPPY BOOST';}
   els.volumeRange.value=String(state.volume);updateProgress();const fallback=t.sourceKind==='youtube'?'▶':t.sourceKind==='soundcloud'?'☁':'♪';hydrateArtwork(t,els.miniArtwork,fallback);hydrateArtwork(t,els.playerArtwork,fallback);
   if(state.floatMini)syncFloatMiniMeta();
@@ -2471,7 +2471,6 @@ function loadScript(src,id){return new Promise((resolve,reject)=>{if(id&&documen
 function loadYouTubeApi(){if(window.YT?.Player)return Promise.resolve(window.YT);if(ytApiPromise)return ytApiPromise;ytApiPromise=new Promise((resolve,reject)=>{const prev=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=()=>{try{prev?.();}catch{}resolve(window.YT);};loadScript('https://www.youtube.com/iframe_api','youtube-iframe-api').catch(reject);setTimeout(()=>{if(window.YT?.Player)resolve(window.YT);},1800);setTimeout(()=>{if(!window.YT?.Player)reject(new Error('YouTube API timeout'));},12000);});return ytApiPromise;}
 async function fetchYouTubeMeta(videoId){const fallback=`https://i.ytimg.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg`;try{const url=`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`;const r=await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);if(!r.ok)throw 0;const d=await r.json();return{title:d.title||'',artist:d.author_name||'YouTube',thumbnail:d.thumbnail_url||fallback};}catch{return{title:'',artist:'YouTube',thumbnail:fallback};}}
 async function playYouTube(track,startAt=0){
-  // R10.32 · IFrame FIRST, native as fallback.
   const mode=state.ytNativeMode||'auto';
   if(mode==='iframe')return playYouTubeIframe(track,startAt);
   const okIframe=await playYouTubeIframe(track,startAt);
@@ -3603,6 +3602,7 @@ async function importFolderViaNative(options = {}) {
 if (IS_NATIVE_APK) {
   setInterval(happyPushMediaState, 900);
   window.addEventListener('mp:playstate', happyPushMediaState);
+  window.addEventListener('mp:playstate', ()=>{try{window.MP_LYRICS?.loadCurrent?.();}catch{}});
 }
 
 window.MP = Object.freeze({

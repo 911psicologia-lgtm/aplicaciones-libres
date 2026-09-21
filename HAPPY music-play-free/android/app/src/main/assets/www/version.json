@@ -1,6 +1,6 @@
 {
-  "build": "2026.09.20-r10.34-track-visible",
-  "version": "R10.34",
-  "label": "FIX ROOT CAUSE: .track-front y .mini-track ya NO tienen display:none — playlists y mini-player visibles",
-  "date": "2026-09-20"
+  "build": "2026.09.21-r10.36-icon-fix",
+  "version": "R10.36",
+  "label": "Controles icon-only sin texto · repeatCurrentBtn y soundModeBtn ya no sobreescriben con texto",
+  "date": "2026-09-21"
 }
