@@ -187,17 +187,17 @@ const BADGES = [
   // ★ V13 — botón Sorpréndeme (aventura al azar)
   {id:'surprise1',  icon:'🎲', name:'Primera Sorpresa', desc:'Toca el dado Sorpréndeme y juega una misión al azar', c:p=>(p.stats.surpriseGames||0)>=1},
   {id:'surprise10', icon:'🗺️', name:'Aventurero',      desc:'Usa Sorpréndeme 10 veces. ¡Qué explorador!', c:p=>(p.stats.surpriseGames||0)>=10},
-  // ★ V14 — Taller de Juegos (trazar, adivinar, armar, unir, reto finde)
-  {id:'trace1',  icon:'✏️', name:'Primer Trazo',          desc:'Traza tu primera letra en Traza la Letra', c:p=>(p.stats.traceGames||0)>=1},
-  {id:'trace10', icon:'🖋️', name:'Mano de Artista',      desc:'Completa 10 rondas de Traza la Letra', c:p=>(p.stats.traceGames||0)>=10},
-  {id:'hang1',   icon:'🔤', name:'Adivinador',           desc:'Completa tu primera palabra secreta', c:p=>(p.stats.hangGames||0)>=1},
-  {id:'hang10',  icon:'🥇', name:'Detective de Palabras', desc:'Completa 10 juegos de Adivina la Palabra', c:p=>(p.stats.hangGames||0)>=10},
-  {id:'puzzle1', icon:'🖼️', name:'Primer Rompecabezas',  desc:'Arma tu primer rompecabezas', c:p=>(p.stats.puzzleGames||0)>=1},
-  {id:'puzzle10',icon:'🧩', name:'Maestro del Puzzle',   desc:'Arma 10 rompecabezas. ¡Cerebro de campeón!', c:p=>(p.stats.puzzleGames||0)>=10},
-  {id:'dots1',   icon:'⭐', name:'Punto a Punto',        desc:'Completa tu primer dibujo uniendo puntos', c:p=>(p.stats.dotsGames||0)>=1},
-  {id:'dots10',  icon:'🎨', name:'Artista de Líneas',    desc:'Completa 10 dibujos de unir puntos', c:p=>(p.stats.dotsGames||0)>=10},
-  {id:'weekend1',icon:'🎪', name:'Reto del Finde',       desc:'Completa tu primer Reto de fin de semana', c:p=>(p.stats.weekendGames||0)>=1},
-  {id:'weekend4',icon:'🗼', name:'Estrella del Fin de Semana', desc:'Completa 4 retos de fin de semana', c:p=>(p.stats.weekendGames||0)>=4},
+  // ★ V14 — juegos de mesa nuevos + retos del finde
+  {id:'dots1',  icon:'🌟', name:'Primera Constelación', desc:'Une tu primera figura de puntos', c:p=>(p.stats.dotFigs||0)>=1},
+  {id:'dots10', icon:'🪐', name:'Maestro de Puntos',    desc:'Une 10 figuras de puntos', c:p=>(p.stats.dotFigs||0)>=10},
+  {id:'trace1',  icon:'🖍️', name:'Primer Trazo',       desc:'Traza tu primera letra con el dedo', c:p=>(p.stats.traceLetters||0)>=1},
+  {id:'trace10', icon:'✍️', name:'Manos Mágicas',      desc:'Traza 10 letras', c:p=>(p.stats.traceLetters||0)>=10},
+  {id:'puzzle1',  icon:'🧩', name:'Pieza a Pieza',     desc:'Arma tu primer rompecabezas', c:p=>(p.stats.puzzleGames||0)>=1},
+  {id:'puzzle10', icon:'🏗️', name:'Mente Encajable',   desc:'Arma 10 rompecabezas', c:p=>(p.stats.puzzleGames||0)>=10},
+  {id:'hang1',  icon:'🪁', name:'Detective de Palabras', desc:'Adivina tu primera palabra secreta', c:p=>(p.stats.hangWins||0)>=1},
+  {id:'hang10', icon:'🔍', name:'Ojo de Águila',       desc:'Adivina 10 palabras', c:p=>(p.stats.hangWins||0)>=10},
+  {id:'finde1', icon:'🏅', name:'Héroe del Finde',     desc:'Completa un reto del fin de semana', c:p=>(p.stats.finde&&p.stats.finde.total||0)>=1},
+  {id:'finde3', icon:'👑', name:'Trío Perfecto',       desc:'Completa los 3 retos en un mismo finde', c:p=>(p.stats.finde&&p.stats.finde.perfect||0)>=1},
 ];
 
 /* Rivales IA para el ranking */
@@ -237,13 +237,18 @@ function migrateProfile(p) {
   if (!p.lastSpin) p.lastSpin = '';
   if (!p.mastery) p.mastery = {}; // v7: veces que acierta cada palabra
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','traceGames','hangGames','puzzleGames','dotsGames','weekendGames'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','dotFigs','dotGames','traceLetters','puzzleGames','hangGames','hangWins'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
-  if (!p.stats.weekendDone) p.stats.weekendDone = {}; // v14: días de reto del finde completado
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
   if (!p.stats.screenHist) p.stats.screenHist = {}; // v13: minutos de uso por fecha {AAAA-MM-DD: min} para el gráfico semanal
   if (!p.stats.limitShown) p.stats.limitShown = {date:''}; // v13: aviso de límite diario ya mostrado hoy
+  // v14: retos del finde {key: sábado, done:{traza,une,puz}, claimed:{...}, total, perfect}
+  if (!p.stats.finde) p.stats.finde = {key:'', done:{}, claimed:{}, total:0, perfect:0};
+  if (p.stats.finde.done == null) p.stats.finde.done = {};
+  if (p.stats.finde.claimed == null) p.stats.finde.claimed = {};
+  if (p.stats.finde.total == null) p.stats.finde.total = 0;
+  if (p.stats.finde.perfect == null) p.stats.finde.perfect = 0;
   // v13: settings globales capsMode/dailyLimit NO se migran — se leen con fallback (patrón v11/v12: undefined = apagado/normal)
   if (!p.stats.missionsByDay) p.stats.missionsByDay = {}; // v7: misiones por día (gráfico)
   if (!p.stats.wotdDays) p.stats.wotdDays = {}; // v11: días en que escuchó la Palabra del día

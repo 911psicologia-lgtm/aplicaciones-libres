@@ -17,6 +17,8 @@ CONTENIDO DE ESTA CARPETA (la app ya compilada y lista para subir)
   assets/…                    ← JavaScript + CSS compilados
   ffmpeg/…                    ← motor local (4 fragmentos del núcleo)
   _headers                    ← cabeceras (solo se usa en CF Pages)
+  _worker.js                  ← proxy propio de enlaces (OPCIONAL, v6;
+                                solo actúa si activas el modo avanzado)
   LEEME-DESPLIEGUE.txt        ← este archivo (puedes borrarlo)
 
   ✅ IMPORTANTE: index.html debe quedar EN LA RAÍZ de lo que subas.
@@ -115,3 +117,40 @@ recomprimir (la opción recomendada es «Directo · máxima fidelidad»).
 Si vas a grabar en un sitio con ruido, elige «Normal» o «Fuerte» en
 Reducción de ruido. No requiere nada especial del servidor: funciona
 igual en Cloudflare Pages.
+
+────────────────────────────────────────────────────────────────────
+PROXY PROPIO DE ENLACES (novedad v6) — RECOMENDADO ACTIVARLO
+────────────────────────────────────────────────────────────────────
+Las instancias públicas de descarga cambian mucho (se caen, ponen
+límites por IP o bloquean CORS). Por eso la app ahora tiene una CADENA
+AUTOMÁTICA: 1) servidores cobalt directos, 2) el PROPIO de tu sitio
+(_worker.js) y 3) la red abierta Piped para YouTube, con extracción
+local del audio con FFmpeg si el servidor no publica pista de audio.
+
+El paso 2 funciona sin configurar nada más, PERO hay que activar el
+«modo avanzado» de _worker.js en Cloudflare (2 minutos, sin comandos):
+
+  • Cloudflare Pages:  tu proyecto → Configuración → Functions →
+    «_worker.js» (modo avanzado) → activar. Vuelve a subir este ZIP
+    completo (incluye _worker.js en la raíz) y listo.
+  • Workers con activos:  en wrangler.toml añade junto a [assets]:
+
+        main = "_worker.js"
+
+  ¿Cómo sabes que quedó activo? Abre en tu sitio la ruta
+  /api/link/health — debe responder {"ok":true,"via":"worker"}.
+  Si responde el texto del archivo o un 404, sigue en modo directo
+  (la app funciona igual; el proxy solo añade resiliencia).
+
+QUÉ GANAS AL ACTIVARLO:
+  • Las descargas de enlaces reintentan desde la red de Cloudflare
+    (otra IP): si tu operador o la instancia te bloqueó, funciona.
+  • Sin CORS: ningún servidor puede impedir la conversación.
+  • Los túneles sin cifrado (http://) pasan a servirse por HTTPS.
+  • Lista blanca incorporada: el proxy NO es un proxy abierto.
+
+¿ECO EN TUS GRABACIONES? (novedad v6)
+En la grabadora queda activada por defecto la casilla «Suprimir el eco
+de los altavoces»: elimina el eco que se cuela cuando algo suena por
+los altavoces mientras grabas. Si usas auriculares puedes apagarla
+para una señal 100 % cruda.

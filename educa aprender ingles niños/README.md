@@ -2,48 +2,43 @@
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
 **fotos reales**, **79 mundos / 782 palabras**, **16 juegos y estudios**
-(⚡ **Rápido** · 🧸 **Explora** · Completa · Empareja · Memoria · Escucha ·
+(⚡ **Rápido** · 🧸 **Explora** · 🌟 **Unir puntos** · 🖍️ **Trazo mágico** · 🖼️ **Puzzle** · 🪁 **Adivina** · Completa · Empareja · Memoria · Escucha ·
 🎤 Di la palabra · 🕵️ Intruso · 🧩 **Oraciones** · 🔵 **Rimas** ·
-📚 Diccionario · Repaso **priorizado** · ✏️ **Traza** · 🔤 **Adivina** ·
-🖼️ **Rompecabezas 4/9/12** · ⭐ **Puntos**), **tour de bienvenida**,
+📚 Diccionario · Repaso **priorizado**), **tour de bienvenida**,
 **🔒 puerta parental**, **🏆 hitos de palabras dominadas**,
 **🗓️ calendario de estrellas**, **🖨️ informe de padres imprimible con
 consejos AAP**, **🔊 selector de voz en inglés**, **PWA instalable sin
 conexión**, avatar con tu propia foto, Tienda de 12 avatares, Ruleta diaria,
 ⭐ Mundo destacado y 🎓 Diplomas imprimibles.
 
-> 🎪 **Novedades v14 — «Taller de Juegos» (pedido explícito del usuario, cero regresiones):**
-> 1. ✏️ **Traza la letra**: canvas con letra gigante y guía tenue; el niño
->    pinta con el dedo (pointer events), barra de progreso de cobertura y
->    éxito **tolerante** (50% basta). 6 letras por ronda, cada una con su
->    palabra y foto real (A de Apple, B de Ball…). Botón 🧹 Borrar.
->    Insignias «Primer Trazo» y «Mano de Artista».
-> 2. 🔤 **Adivina la palabra** (ahorcado suave): foto-pista + casillas +
->    teclado A-Z. **Sin dibujos tristes**: los 5 corazones de siempre marcan
->    los intentos y al perder se enseña la palabra y queda para el Repaso.
->    5 palabras por ronda. Insignias «Adivinador» y «Detective de Palabras».
-> 3. 🖼️ **Rompecabezas 4 · 9 · 12 piezas**: el niño elige el tamaño
->    (2×2, 3×3, 4×3) con fotos reales de la app; mecánica amable «toca una,
->    toca otra», sin arrastrar ni tiempo. Modelo de referencia visible.
->    Insignias «Primer Rompecabezas» y «Maestro del Puzzle».
-> 4. ⭐ **Une los puntos**: 6 figuras (estrella, casa, pez, corazón, tienda,
->    árbol) con puntos numerados; el objetivo pulsa y si toca mal solo
->    parpadea — **sin castigos**. Al cerrar la figura se rellena y se
->    pronuncia la palabra en inglés. Insignias «Punto a Punto» y
->    «Artista de Líneas».
-> 5. 🎪 **Reto del fin de semana**: chip naranja en el mapa. Sábados y
->    domingos abre una misión mixta de 10 preguntas de muchos mundos con
->    **bono +30 🪙 +25 ✨**; entre semana muestra cuántos días faltan y un
->    cartel amable. Insignias «Reto del Finde» y «Estrella del Fin de
->    Semana».
-> 6. ⏱️ **Tiempos del límite pulidos**: chips más finos (**10 y 90 min**
->    nuevos), **aviso previo 5 minutos antes** del límite (toast, 1×/día),
->    línea «Hoy: X min · quedan Y» en la Zona de padres y el aviso del búho
->    muestra los **minutos reales del día**.
-> 7. 🏅 **106 insignias** (10 nuevas) y migración automática. Caché PWA
->    `pequeworld-v14` (el botón azul de actualización avisa a las
->    instalaciones previas). Los juegos creativos (trazar, armar, unir) **no
->    infla** la estadística de «misiones perfectas».
+> 🏅 **Novedades v14 — «Mesa de Juegos Nuevos» (misma vía admisible, cero regresiones):**
+> 1. 🌟 **Unir Puntos**: el clásico come-cocos de puntos, con **modo 🔢 Números
+>    (1–10) y modo 🔤 Letras A–J** y **6 figuras** (Estrella, Casita, Corazón,
+>    Cohete, Barquito y Gatito). El punto que toca pulsa; si toca otro, solo
+>    tiembla — **cero castigos**. Al cerrar la figura se rellena de color,
+>    habla su número/letra y cae confeti (+8 XP +4 🪙).
+> 2. 🖍️ **Trazo Mágico**: trazar las letras **A–J** con el dedo siguiendo
+>    «bolitas doradas» sobre la guía escolar punteada. Si el dedo se sale del
+>    camino, no pasa nada: se sigue intentando. Cada letra completada brilla
+>    en oro y dice su palabra (A de Ant 🐜…). Cuenta para el reto del finde.
+> 3. 🖼️ **Rompecabezas**: fotos reales del vocabulario con **3 niveles:
+>    Fácil 4 · Medio 9 · Difícil 12 piezas**. Se toca una pieza y otra para
+>    intercambiarlas. La foto se encuadra completa (contain) antes de
+>    cortarse — **0% de recorte**, la política v9 intacta.
+> 4. 🪁 **Adivina la palabra**: el ahorcado de siempre, **versión amable sin
+>    nubes tristes**: 5 globos 🎈 que se vuelan 💨 al fallar, pista en español
+>    al toque y la palabra se dice en voz alta al ganar. Palabras del nivel
+>    actual (3–9 letras). Derrota amable: consuelo +2 XP y reintentar.
+> 5. 🏅 **Retos del finde**: de sábado y domingo aparece en el mapa un banner
+>    dorado con **3 retos ilustrados**: «Traza 3 letras», «Une 2 figuras» y
+>    «Arma 1 rompecabezas» — los juegos nuevos empujan el progreso solos.
+>    Cada reto reclamado da +15 🪙 +15 XP; los 3 el mismo finde dan la
+>    **corona 👑** (+10 extra) y la insignia «Trío Perfecto». De lunes a
+>    viernes el banner duerme.
+> 6. 🏆 **106 insignias** (10 nuevas: constelaciones, trazos, piezas,
+>    detective y héroes del finde) con migración automática de perfiles
+>    antiguos. Caché PWA `pequeworld-v14` (aviso de actualización para las
+>    instalaciones previas). Todo 100% local, sin conexión.
 
 > 🎲 **Novedades v13 (necesarias e innovadoras — misma vía admisible, cero regresiones):**
 > 1. 🎲 **Sorpréndeme**: chip violeta en el mapa. Un toque y la app elige una
@@ -309,7 +304,7 @@ pequeworld/
 - ⭐ Mundo destacado del día (monedas x2)
 - 🏆 **Hitos de palabras dominadas (10→500) con álbum** (v8)
 - 🛍️ Tienda de 12 avatares coleccionables
-- 🏅 106 insignias · 🎓 Diplomas imprimibles · 📊 Ranking con rivales IA
+- 🏅 90 insignias · 🎓 Diplomas imprimibles · 📊 Ranking con rivales IA
 - 📚 Diccionario con progreso por palabra (🌱/✅/🏆)
 - 🖨️ **Informe de progreso para la familia** (v8)
 

@@ -3,9 +3,9 @@
    Sin conexión también funciona: cache-first para todo lo local.
    Solo se registra en http/https (localhost o servidor); el uso
    con doble clic (file://) sigue funcionando como siempre.
-   v14: bump de caché (pequeworld-v14) — «Taller de Juegos»:
-   trazar letras, adivinar palabras, rompecabezas 4/9/12,
-   unir puntos, reto de fin de semana y límites pulidos.
+   v14: bump de caché (pequeworld-v14) — Mesa de Juegos Nuevos:
+   Unir Puntos (números y A–J), Trazo Mágico, Rompecabezas 4/9/12,
+   Adivina la palabra y Retos del finde (sáb/dom).
    ⚠️ Importante: subir CACHE en CADA versión — así el navegador
    detecta el sw.js nuevo y dispara el aviso de actualización.
    ═══════════════════════════════════════════════════════════ */

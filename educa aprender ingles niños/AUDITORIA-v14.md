@@ -1,89 +1,97 @@
-# 🔍 AUDITORÍA v14 — «Taller de Juegos»
+# 🔍 Auditoría interna v14 — «Mesa de Juegos Nuevos»
 
-**Fecha:** 2026-09-16 · **Alcance:** las 6 novedades pedidas explícitamente por
-el usuario (trazado de letras, ahorcado, retos de fin de semana, rompecabezas
-de 4/9/12 cuadros, unir con puntos, pulir tiempos del límite).
+**Fecha:** 2026-09-19/20 · **Alcance:** 5 novedades (4 juegos + retos del finde) · **Riesgo:** controlado, 100% aditivo
 
-## 1) Criterio de admisión (heredado de v11–v13)
+## 1. Origen y criterio de admisión
 
-1. **Pedidos por el usuario** — las 6 funciones provienen literalmente del
-   mensaje «juego nuevo de trazado de letras, ahorcado, retos de fin de
-   semana, rompecabezas de 4 9 y 12 cuadros, unir con puntos, pulir tiempos
-   del límite».
-2. **Motor intacto** — los 5 juegos nuevos usan `bootGameMission` +
-   `coreReward/coreFail/endMission` (mismo flujo de XP, monedas, estrellas,
-   cofre, rachas e insignias). Ni una línea del render de misiones normal
-   cambió de comportamiento; solo se añadió el reset de `optsGrid`
-   (className/display) y el guard `G.countPerfect !== false`.
-3. **100% local** — sin red, sin cuentas, sin dependencias nuevas.
-4. **Cero regresiones** — 7 suites verdes (ver §5).
+El usuario aprobó explícitamente: «SÍ AGREGA añadir el modo A–J a "Unir
+puntos", más figuras, o retos del finde con fotos (p. ej. "traza 3 letras
+el sábado"). Y OTRAS FUNCIONES ADICIONALES DE REFUERZO A TU JUICIO».
+Se reactiva así el alcance de juegos pedido originalmente para la ronda
+anterior (trazado, ahorcado, rompecabezas, unir puntos, retos de finde),
+que las rondas v12/v13 no habían cubierto porque entregaron otras
+novedades admisibles (Explorar/calendario y Sorpréndeme/límite/gráfico/MAYÚSCULAS).
 
-## 2) Diseño infantil (3–7 años)
+**Criterio de admisión (heredado v11–v13):** novedad genuina (no duplica),
+aditiva (no toca el motor `G` ni flujos probados), 100% local (localStorage),
+UI en español envolviendo contenido en inglés, para edades 3–7 (metas
+grandes, fallo sin castigo, sin tiempo), y medible (stats + insignias).
 
-| Juego | Adaptación |
-|---|---|
-| ✏️ Traza | Cobertura tolerante (50%), guía tenue, punto de inicio verde, 🧹 Borrar, sin vidas en riesgo |
-| 🔤 Adivina | **Ahorcado sin ahorcado**: nada de muñecos ni cuerdas; foto-pista siempre visible, 5 corazones, al perder se enseña la palabra (momento de enseñar) |
-| 🖼️ Rompecabezas | Sin arrastre (toca-toca), sin tiempo, sin errores, modelo de referencia visible, 3 tamaños elegidos por el niño |
-| ⭐ Puntos | Sin penalización: si toca mal, el punto correcto parpadea; pulso suave del objetivo |
-| 🎪 Reto finde | Entre semana NO bloquea: cartel que invita a volver el sábado; nunca compite con la meta diaria |
-| ⏱️ Límites | Aviso previo en toast (no modal),nunca interrumpe misiones (guard v11 intacto) |
+## 2. Descartes documentados (anti-duplicar)
 
-## 3) Economía y anti-inflación
+- «Retos del finde con fotos de la cámara» → descartado: la cámara ya es
+  identidad de perfil (v3); exigir fotos de actividades reales no es
+  verificable 100% en local y añade fricción AAP. Se interpretó «con fotos»
+  como tarjetas ilustradas (emoji grande + gradiente), consistente con la app.
+- «Pulir tiempos del límite» → ya entregado en v13 (límite diario AAP);
+  rehacerlo duplicaría dominio.
+- Gamificación de puntos por tiempo en los juegos nuevos → descartada a
+  propósito: sin reloj (compatible con el «sin presión» del Modo Explorar
+  v12 y el descanso v11).
 
-- `coreReward` estándar por letra/palabra/pieza/figura (+12 XP, +2 🪙, maestría
-  de la palabra — alimenta Diccionario y hitos).
-- Los juegos **creativos** (trace/puzzle/dots) marcan `G.countPerfect=false`:
-  completarlos no infla «misiones perfectas» (💎). El ahorcado y el reto del
-  finde sí pueden ser perfectos (son quiz reales).
-- Bono del finde: +30 🪙 +25 ✨ **por terminar** la misión mixta (una vez por
-  intento, no por pregunta).
+## 3. Diseño anti-regresión
 
-## 4) Cambios por archivo
+- **Nuevo archivo `js/games4.js`** (único archivo JS nuevo) + `css/games4.css`
+  → cero riesgo de colisión con games/games2/games3. Registrados en
+  index.html (antes de main.js) y en el precache del SW (probado).
+- **Un solo punto de enganche en ui.js**: las 4 tarjetas nuevas en
+  `renderGamesZone` (con guard `typeof` defensivo, patrón v12) y una línea
+  `if (typeof renderFindeBanner === 'function') renderFindeBanner();` en
+  `renderMap`. El resto de ui.js/game.js intacto.
+- **Insignias**: +10 (106 total) vía `BADGES` con condiciones nuevas sobre
+  campos nuevos (`dotFigs`, `traceLetters`, `puzzleGames`, `hangWins`,
+  `stats.finde`) — las 96 anteriores no cambian.
+- **Migrate**: `migrateProfile` añade campos v14 con defaults 0; verificado
+  con perfil «antiguo» sin campos.
+- **Ceros castigos**: unir puntos solo tiembla; trazo no penaliza salirse;
+  adivina usa globos (no muñeco) y derrota amable con consuelo.
+- **0% recorte (política v9)**: el rompecabezas encuadra la foto con
+  `drawImage` contain en lienzo cuadrado ANTES de trocearla.
 
-| Archivo | Cambio |
-|---|---|
-| `js/games4.js` | **NUEVO** (628 líneas): TRACE_ABC (26 letras con foto), TR (estado trazado + rasterizado de guía + cobertura), HG (ahorcado), PZ (rompecabezas + geometría 2×2/3×3/4×3), DOTS_SHAPES (6 figuras), DT, reto finde (`isWeekendToday`/`daysToWeekend` + chip) y ganchos `PW_WEEKEND`/`PW_FORCE_WEEKEND` |
-| `css/games4.css` | **NUEVO**: estilos de canvas, slots, teclado A-Z, grid de piezas, chip finde, 4 tarjetas gz, reduced-motion y responsive (baja altura) |
-| `js/game.js` | endMission: stats de 5 juegos nuevos + bono finde + guard countPerfect; retryMission: 5 ramas; renderQuestion: reset de optsGrid (className/display) |
-| `js/data_meta.js` | +10 insignias (106 total): trace1/10, hang1/10, puzzle1/10, dots1/10, weekend1/4; migrateProfile: 5 stats nuevos + `weekendDone` |
-| `js/ui.js` | renderGamesZone: +4 tarjetas (Traza/Adivina/Rompecabezas/Puntos); renderMap: renderWeekendChip; límites pulidos (chips 10/90, pre-aviso, limitInfo, modal con minutos reales) |
-| `index.html` | título v14 + `css/games4.css` + `js/games4.js` |
-| `sw.js` | CACHE `pequeworld-v14` + 2 archivos nuevos en CORE |
+## 4. Retos del finde — decisiones de estado
 
-## 5) Verificación (evidencia)
+- Clave de fin de semana = **fecha del sábado local** (sáb y dom comparten
+  clave; de lunes a viernes se calcula el sábado siguiente). Sin UTC
+  (misma lección v9 [C-2]).
+- Estado: `stats.finde = {key, done:{traza,une,puz}, claimed:{...}, total, perfect}`.
+  Cambio de clave → reset de done/claimed conservando total/perfect.
+- Los juegos empujan con `PW_FINDE.bump(id)` (traza/une/puz) — acoplamiento
+  mínimo y comprobable.
+- Arnés: `PW_FINDE.force(clave)` / `unforce()` simulan el fin de semana
+  para pruebas en día laborable (patrón `window.PW_*` de v11–v13).
 
-- `node --check` **15/15** JS.
-- **v14_test.cjs NUEVO — 63 checks TODO VERDE**: trazado real por eventos
-  pointer (cobertura 0.5→éxito), ahorcado con fallo y victoria, rompecabezas
-  resuelto tocando piezas reales (5 fotos), puntos tocados sobre el canvas
-  (fallo amable incluido), reto finde forzado (10 preguntas + bono +
-  weekendDone), 7 chips + info restante + pre-aviso + modal con minutos
-  reales, migrate, 106 insignias, **0 errores JS**.
-- Regresión: **v9_test TODO VERDE** (16 tarjetas, 106 insignias, caché v14),
-  **v11 VERDE**, **v12 VERDE**, **v13 VERDE** (7 chips), **v10_pwa 17/17**
-  (caché v14 + FABs), **v9_resp OK 390/820/1366/1920**, **v8_validate 0
-  imágenes faltantes**.
-- Capturas verificadas visualmente en `download/vistas_previas_v14/`
-  (trazado, ahorcado, puzzle, puntos, reto, mapa con chips, límites).
+## 5. Hallazgos y fixes durante la construcción
 
-## 6) Riesgos y mitigaciones
+1. `PW_PUZZLE.word()` apuntaba a `_pzWord.en` en vez de `_pzWord.it.en`
+   (fue detectado por el smoke: devolvía «»). Corregido y probado.
+2. `PW_TRACE.feed` solo aceptaba pares `[x,y]`; el arnés usa los objetos
+   `{x,y}` de `checkpoint()` → normalización añadida en ambos lados.
+3. **v12_test ya estaba roto desde v13** (no era culpa de v14): el chip 🎲
+   «Sorpréndeme» comparte la clase `.cont-btn`, y el selector genérico de
+   v12_test chocó en modo estricto de Playwright. Afinado a
+   `#continueChip .cont-btn` (el chip de Sorpréndeme es `#surpriseChip`).
+4. El toque «real» del arnés sobre el primer punto SVG avanza next 0→1
+   (no 0→2): aserción del arnés corregida, la app siempre estuvo bien.
 
-- **getImageData en canvas** (trazado): solo se dibujan letras (sin imágenes
-  externas) → sin taint de canvas; envuelto en try/catch con fallback.
-- **Cola de celebraciones**: rachas + misión encolan celebraciones; el arnés
-  las descarta y en la app se cierran solas (3,2 s) — comportamiento ya
-  existente, sin cambios.
-- **strict-mode de tests**: los selectores de chips se acotaron
-  (`#continueChip .cont-btn`) al convivir 3 chips en el mapa.
-- **Semáforo de teclado en móviles bajos**: grid 7×4 con `aspect-ratio` y
-  media queries de altura (<700px reduce canvas).
-- Descartado (fuera de pedido y con riesgo de duplicar): galería de dibujos
-  guardados (no hay almacenamiento de imágenes nuevas pedido) y editor de
-  figuras personalizadas.
+## 6. Verificación (evidencias)
 
-## 7) Conclusión
+- `node --check` 15/15 archivos JS.
+- **v14_test.cjs (nuevo): 72 checks TODO VERDE** — UI real: tarjetas,
+  toques SVG reales, puntero real sobre canvas, teclado A–Z real, claims
+  reales de retos, persistencia tras reload, migrate, caché v14, 0 errores JS.
+- Regresión completa: v9_test TODO VERDE (0 errores, 16 tarjetas, 106
+  insignias, caché v14) · v11_test verde · v12_test verde (selector afinado)
+  · v13_test verde · v10_pwa_test 17/17 (caché v14) · v9_resp 4 vistas OK
+  · v8_validate completa.
+- 8 capturas verificadas visualmente en `download/vistas_previas_v14/`.
 
-v14 entrega **exactamente las 6 funciones pedidas**, con adaptación infantil
-documentada, economía verificada, 106 insignias y **cero regresiones** en las
-7 suites. ZIP raíz-plano en `download/PequeWorld-v14.zip`.
+## 7. Riesgos residuales (aceptados y monitoreados)
+
+- El banner del finde añade un bloque al mapa en sáb/dom → v9_resp (4
+  resoluciones) pasó sin overflow ni solapes; los FABs son fixed y no se ven
+  afectados.
+- Palabras con mayúsculas/mezcladas o espacios no entran al pool de
+  Adivina (filtro estricto) → el pool siempre tiene palabras del nivel
+  (verificado en los 3 niveles).
+- `stats.finde.done` puede acumular > target (p. ej. trazar 10 letras un
+  sábado) → el HUD y el claim usan `Math.min(done, target)`; sin efectos.

@@ -141,8 +141,6 @@ function renderQuestion() {
   // Opciones
   const og = $('optsGrid');
   og.innerHTML = '';
-  og.className = 'opts-grid';   // v14: restaura tras juegos con teclado/grid propio
-  og.style.display = '';        // v14: restaura tras juegos con canvas (Traza/Puntos)
   q.opts.forEach(opt => {
     const b = document.createElement('button');
     b.className = 'opt-btn';
@@ -302,17 +300,15 @@ function endMission() {
   const tot = G.questions.length;
   const pct = Math.round((G.ok / tot) * 100);
   const stars = pct >= 90 ? 3 : pct >= 60 ? 2 : pct >= 30 ? 1 : 0;
-  // v14: 🎪 el Reto del fin de semana lleva bono de monedas y XP
-  const wkBonus = G.mtype === 'weekend';
-  const xpGained = G.ok * 12 + (stars * 30) + (pct === 100 ? 50 : 0) + (wkBonus ? 25 : 0);
+  const xpGained = G.ok * 12 + (stars * 30) + (pct === 100 ? 50 : 0);
   // ⭐ v7: mundo destacado del día → monedas x2
   const feat = (typeof isFeaturedWorld === 'function') && isFeaturedWorld(G.mtype);
-  const coinsGained = Math.round((G.ok * 2 + (stars * 10) + (pct === 100 ? 25 : 0)) * (feat ? 2 : 1)) + (wkBonus ? 30 : 0);
+  const coinsGained = Math.round((G.ok * 2 + (stars * 10) + (pct === 100 ? 25 : 0)) * (feat ? 2 : 1));
 
   updateProfile(p => {
     p.xp = (p.xp || 0) + xpGained;
     p.coins = (p.coins || 0) + coinsGained;
-    if (pct === 100 && G.countPerfect !== false) p.stats.perfect = (p.stats.perfect || 0) + 1; // v14: los juegos creativos no infla «perfectas»
+    if (pct === 100) p.stats.perfect = (p.stats.perfect || 0) + 1;
     p.stats.missions = (p.stats.missions || 0) + 1;
     p.stats.daysPlayed[todayStr()] = true;
     // v7: misiones por día (gráfico de actividad de la Zona de padres)
@@ -325,16 +321,6 @@ function endMission() {
     if (G.mtype === 'quick') p.stats.quickGames = (p.stats.quickGames || 0) + 1; // v8
     if (G.mtype === 'sentence') p.stats.sentGames = (p.stats.sentGames || 0) + 1; // v8
     if (G.mtype === 'rhyme') p.stats.rhymeGames = (p.stats.rhymeGames || 0) + 1; // v8
-    // v14 — Taller de Juegos
-    if (G.mtype === 'trace') p.stats.traceGames = (p.stats.traceGames || 0) + 1;
-    if (G.mtype === 'hang') p.stats.hangGames = (p.stats.hangGames || 0) + 1;
-    if (G.mtype === 'puzzle') p.stats.puzzleGames = (p.stats.puzzleGames || 0) + 1;
-    if (G.mtype === 'dots') p.stats.dotsGames = (p.stats.dotsGames || 0) + 1;
-    if (G.mtype === 'weekend') {
-      p.stats.weekendGames = (p.stats.weekendGames || 0) + 1;
-      p.stats.weekendDone = p.stats.weekendDone || {};
-      p.stats.weekendDone[todayStr()] = true;
-    }
     if (G.mtype === 'review') {
       p.stats.reviews = (p.stats.reviews || 0) + 1;
       p.stats.learnedWords = (p.stats.learnedWords || 0) + (G.learned || 0);
@@ -419,7 +405,7 @@ function endMission() {
       icon: pct === 100 ? uiTag('ui_trophy', '🏆', 'cel-img') : uiTag('ui_medal_gold', '🥇', 'cel-img'),
       title: pct === 100 ? '¡PERFECTO!' : '¡Misión completada!',
       sub: `${G.ok}/${tot} correctas · ${stars} ⭐${streakBonus}${feat ? ' · ⭐ Destacado x2🪙' : ''}`,
-      rewards: [`⭐ +${stars}`, `🪙 +${coinsGained}`, `✨ +${xpGained} XP`, ...(feat ? ['🌟 ¡Mundo destacado: monedas x2!'] : []), ...(wkBonus ? ['🎪 ¡Bono del finde incluido!'] : []), ...(G.streak >= 5 ? [`🔥 Racha x${G.streak} activa!`] : [])],
+      rewards: [`⭐ +${stars}`, `🪙 +${coinsGained}`, `✨ +${xpGained} XP`, ...(feat ? ['🌟 ¡Mundo destacado: monedas x2!'] : []), ...(G.streak >= 5 ? [`🔥 Racha x${G.streak} activa!`] : [])],
       confetti: stars, dur: 3200
     });
   }
@@ -497,10 +483,5 @@ function retryMission() {
   if (G.mtype === 'quick') return startQuickSession(); // v8
   if (G.mtype === 'sentence') return startSentenceMission(); // v8
   if (G.mtype === 'rhyme') return startRhymeMission(); // v8
-  if (G.mtype === 'trace') return startTraceMission(); // v14
-  if (G.mtype === 'hang') return startHangMission(); // v14
-  if (G.mtype === 'puzzle') return startPuzzleMission(); // v14 (reabre el selector)
-  if (G.mtype === 'dots') return startDotsMission(); // v14
-  if (G.mtype === 'weekend') return startWeekendMission(); // v14
   if (G.mtype) startMission(G.mtype);
 }
