@@ -4,7 +4,7 @@
 // network-first para la navegación (con fallback al index.html guardado).
 // Sin telemetría, sin servidores externos: solo guarda lo que la propia app usa.
 
-const CACHE = 'sc-cache-v1'
+const CACHE = 'sc-cache-v7'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

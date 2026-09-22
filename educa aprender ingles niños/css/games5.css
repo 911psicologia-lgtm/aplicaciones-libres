@@ -1,0 +1,134 @@
+/* ═══════════════════════════════════════════════════════════
+   PequeWorld — COMPAÑERO, CANTO Y CAZA (v15)
+   Mascota Peque · Canta el ABC · Cazaletras (+ corazones del
+   Diccionario). Respeta prefers-reduced-motion (patrón v10+).
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 1) CHIP + PANEL DE LA MASCOTA ── */
+.pet-chip{
+  display:flex;align-items:center;gap:10px;width:100%;
+  background:linear-gradient(135deg,rgba(255,214,79,.16),rgba(255,167,38,.10));
+  border:2px solid rgba(255,214,79,.4);border-radius:18px;
+  padding:10px 14px;margin:6px 0;cursor:pointer;font-family:inherit;
+  transition:transform .15s, box-shadow .15s;color:var(--text);text-align:left
+}
+.pet-chip:active{transform:scale(.97)}
+.pet-chip:hover{box-shadow:0 4px 16px rgba(255,167,38,.25)}
+.pet-chip-em{font-size:1.7em;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.pet-chip-txt{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.pet-chip-txt b{font-size:.95em}
+.pet-chip-bar{
+  height:8px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden
+}
+.pet-chip-bar span{
+  display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#FFD54F,#FFA726);transition:width .4s
+}
+.pet-panel{text-align:center}
+.pet-big{
+  font-size:4.2em;line-height:1.15;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));
+  animation:petBounce 2.4s ease-in-out infinite
+}
+@keyframes petBounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.04)}}
+.pet-stage{font-weight:900;font-size:1.05em;margin:2px 0 10px;color:var(--gold)}
+.pet-name-row{display:flex;gap:8px;justify-content:center;margin:8px 0 12px}
+.pet-name-row input{
+  background:rgba(255,255,255,.10);border:2px solid rgba(255,255,255,.2);
+  border-radius:12px;color:var(--text);font-family:inherit;font-weight:800;
+  padding:9px 12px;width:170px;font-size:.95em;text-align:center
+}
+.pet-name-row input:focus{outline:none;border-color:var(--gold)}
+.pet-progress{
+  height:14px;border-radius:99px;background:rgba(255,255,255,.12);
+  overflow:hidden;margin:6px auto 6px;max-width:300px
+}
+.pet-fill{
+  display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#FFD54F,#FFA726);transition:width .5s
+}
+.pet-msg{
+  margin-top:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:10px 14px;font-weight:700;font-size:.9em
+}
+
+/* ── 2) CANTA EL ABC ── */
+.abc-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:8px 0
+}
+.abc-tile{
+  background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.16);
+  border-radius:12px;color:var(--text);font-family:inherit;cursor:pointer;
+  padding:7px 2px 5px;display:flex;flex-direction:column;align-items:center;gap:1px;
+  transition:all .15s
+}
+.abc-tile b{font-size:1.15em;font-weight:900;line-height:1.1}
+.abc-tile span{font-size:1.05em;line-height:1.2}
+.abc-tile:active{transform:scale(.9)}
+.abc-tile.on{
+  background:linear-gradient(135deg,#FFD54F,#FFA726);border-color:#FFD54F;
+  color:#4E342E;transform:scale(1.09);box-shadow:0 4px 14px rgba(255,167,38,.4)
+}
+.abc-tile.on span{filter:none}
+.abc-hud{
+  text-align:center;font-size:.85em;font-weight:800;color:var(--muted);
+  min-height:1.6em;margin-top:4px
+}
+.abc-again{
+  background:none;border:none;color:var(--gold);font-family:inherit;
+  font-weight:900;cursor:pointer;font-size:1em
+}
+
+/* ── 3) CAZALETRAS ── */
+.hunt-target{
+  display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 10px
+}
+.hunt-target b{
+  font-size:3.2em;font-weight:900;line-height:1;
+  color:var(--gold);text-shadow:0 3px 10px rgba(0,0,0,.35)
+}
+.hunt-say{
+  background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.2);
+  border-radius:99px;font-size:1.4em;padding:8px 14px;cursor:pointer;font-family:inherit;
+  transition:transform .15s
+}
+.hunt-say:active{transform:scale(.9)}
+.hunt-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:340px;margin:0 auto
+}
+.hunt-tile{
+  aspect-ratio:1;background:rgba(255,255,255,.10);border:2px solid rgba(255,255,255,.18);
+  border-radius:14px;color:var(--text);font-family:inherit;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .15s
+}
+.hunt-tile b{font-size:1.5em;font-weight:900}
+.hunt-tile:active{transform:scale(.9)}
+.hunt-tile.ok{
+  background:linear-gradient(135deg,#FFD54F,#FFA726);border-color:#FFD54F;
+  color:#4E342E;transform:scale(.94);box-shadow:0 3px 12px rgba(255,167,38,.4)
+}
+.hunt-tile.shake{animation:huntShake .4s}
+@keyframes huntShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.hunt-hud{text-align:center;font-size:.88em;font-weight:800;color:var(--muted);margin-top:8px;min-height:1.5em}
+.hunt-dots{color:var(--gold);letter-spacing:3px}
+
+/* ── 4) ❤️ CORAZONES DEL DICCIONARIO (fichas en games2.js) ── */
+.dict-tile{position:relative}
+.dt-fav{
+  position:absolute;top:4px;right:6px;font-size:.95em;line-height:1;
+  opacity:.30;transition:transform .15s, opacity .15s;cursor:pointer;
+  user-select:none;-webkit-user-select:none;filter:grayscale(1)
+}
+.dt-fav.on{opacity:1;filter:none;transform:scale(1.12)}
+.dt-fav:active{transform:scale(1.3)}
+.dict-empty-fav{
+  grid-column:1/-1;text-align:center;padding:26px 14px;font-weight:800;
+  background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.18);
+  border-radius:18px;font-size:1.05em
+}
+
+/* ── Accesibilidad de movimiento (patrón v10/v11) ── */
+@media (prefers-reduced-motion: reduce){
+  .pet-big{animation:none}
+  .abc-tile.on{transform:none}
+  .hunt-tile.shake{animation:none}
+}

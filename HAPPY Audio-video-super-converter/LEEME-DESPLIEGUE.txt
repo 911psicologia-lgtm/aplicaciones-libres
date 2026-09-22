@@ -17,8 +17,6 @@ CONTENIDO DE ESTA CARPETA (la app ya compilada y lista para subir)
   assets/…                    ← JavaScript + CSS compilados
   ffmpeg/…                    ← motor local (4 fragmentos del núcleo)
   _headers                    ← cabeceras (solo se usa en CF Pages)
-  _worker.js                  ← proxy propio de enlaces (OPCIONAL, v6;
-                                solo actúa si activas el modo avanzado)
   LEEME-DESPLIEGUE.txt        ← este archivo (puedes borrarlo)
 
   ✅ IMPORTANTE: index.html debe quedar EN LA RAÍZ de lo que subas.
@@ -87,7 +85,7 @@ NOVEDAD (auditoría DSEBI): PWA y archivos nuevos imprescindibles
       motor local tras la primera visita.
 
   ⚠️ Sube TAMBIÉN estos dos archivos junto a index.html (ya vienen en
-  el ZIP, no los borres). Si falta sw.js la app funciona igual, pero
+    el ZIP, no los borres). Si falta sw.js la app funciona igual, pero
   pierde la instalación y el modo offline.
 
 ────────────────────────────────────────────────────────────────────
@@ -101,15 +99,34 @@ vuelven a pedir). Un HTTP 404 de un fragmento sigue significando que
 falta ffmpeg/ en el despliegue: vuelve a subir dist/ completo.
 
 ────────────────────────────────────────────────────────────────────
-ENLACES DE YOUTUBE Y OTRAS PLATAFORMAS (novedad v5)
+ENLACES DE YOUTUBE Y OTRAS PLATAFORMAS — CADENA v7
 ────────────────────────────────────────────────────────────────────
-La descarga de enlaces usa servidores públicos de código abierto
-(cobalt) porque cada plataforma solo permite descargar desde sus
-propios servidores. La app viene con 3 instancias y las prueba en
-orden; si una se queda sin responder, corta sola (30 s sin datos) y
-pasa a la siguiente. En Ajustes tienes el botón «Probar servidores
-ahora» para ver cuál está viva desde tu red y dejarla primero, y un
-campo para poner tu propia instancia (con clave API opcional).
+La descarga de enlaces usa una CADENA AUTOADAPTATIVA con salud
+persistente (se guarda en tu navegador y aprende de cada intento real):
+
+  1) TUS servidores cobalt (si configuras alguno en Ajustes).
+  2) EL MOTOR DE RESCATE (nuevo, funciona hoy mismo):
+     · Arranque con CORS verificado → progreso en vivo.
+     · Entrega: si el servidor permite leer los bytes, el archivo entra
+       en la cola de la app; si no, la app dispara la DESCARGA NATIVA
+       del navegador (el archivo llega a tu carpeta «Descargas» con el
+       nombre correcto del video — es un límite del servidor, no de la
+       app; luego puedes arrastrarlo a la app para convertirlo).
+  3) Servidores cobalt públicos de respaldo, ordenados por salud.
+
+SALUD PERSISTENTE (anti-recidivas): cada canal que falla pierde puntos
+y queda en «enfriamiento» (no se reintenta hasta que expire); cada uno
+que funciona sube puestos. La app se repara sola cuando el ecosistema
+cambia — no hace falta actualizar nada.
+
+En Ajustes: «Probar canales ahora» comprueba en vivo el motor de
+rescate y tus servidores; campo para tu propia instancia cobalt (con
+clave API opcional) si prefieres tu propio servidor.
+
+IMPORTANTE: los servicios de descarga de YouTube cambian sin aviso
+(los públicos de código abierto están mayormente rotos desde 2025).
+Por eso la cadena ya no depende de ellos: el motor de rescate con
+entrega nativa es el canal principal para YouTube.
 
 GRABACIÓN DE ESTUDIO (novedad v5)
 El micrófono graba ahora en PCM de estudio: 48 kHz · 16 bits sin
@@ -118,39 +135,10 @@ Si vas a grabar en un sitio con ruido, elige «Normal» o «Fuerte» en
 Reducción de ruido. No requiere nada especial del servidor: funciona
 igual en Cloudflare Pages.
 
-────────────────────────────────────────────────────────────────────
-PROXY PROPIO DE ENLACES (novedad v6) — RECOMENDADO ACTIVARLO
-────────────────────────────────────────────────────────────────────
-Las instancias públicas de descarga cambian mucho (se caen, ponen
-límites por IP o bloquean CORS). Por eso la app ahora tiene una CADENA
-AUTOMÁTICA: 1) servidores cobalt directos, 2) el PROPIO de tu sitio
-(_worker.js) y 3) la red abierta Piped para YouTube, con extracción
-local del audio con FFmpeg si el servidor no publica pista de audio.
-
-El paso 2 funciona sin configurar nada más, PERO hay que activar el
-«modo avanzado» de _worker.js en Cloudflare (2 minutos, sin comandos):
-
-  • Cloudflare Pages:  tu proyecto → Configuración → Functions →
-    «_worker.js» (modo avanzado) → activar. Vuelve a subir este ZIP
-    completo (incluye _worker.js en la raíz) y listo.
-  • Workers con activos:  en wrangler.toml añade junto a [assets]:
-
-        main = "_worker.js"
-
-  ¿Cómo sabes que quedó activo? Abre en tu sitio la ruta
-  /api/link/health — debe responder {"ok":true,"via":"worker"}.
-  Si responde el texto del archivo o un 404, sigue en modo directo
-  (la app funciona igual; el proxy solo añade resiliencia).
-
-QUÉ GANAS AL ACTIVARLO:
-  • Las descargas de enlaces reintentan desde la red de Cloudflare
-    (otra IP): si tu operador o la instancia te bloqueó, funciona.
-  • Sin CORS: ningún servidor puede impedir la conversación.
-  • Los túneles sin cifrado (http://) pasan a servirse por HTTPS.
-  • Lista blanca incorporada: el proxy NO es un proxy abierto.
-
-¿ECO EN TUS GRABACIONES? (novedad v6)
-En la grabadora queda activada por defecto la casilla «Suprimir el eco
-de los altavoces»: elimina el eco que se cuela cuando algo suena por
-los altavoces mientras grabas. Si usas auriculares puedes apagarla
-para una señal 100 % cruda.
+¿ECO EN TUS GRABACIONES? (reforzado en v7)
+La casilla «Cancelar el eco de los altavoces» viene ACTIVADA por
+defecto y ahora se aplica siempre que la actives, aunque tu navegador
+tuviera guardada la preferencia antigua. Elimina el eco que se cuela
+cuando algo suena por los altavoces mientras grabas. Si usas
+auriculares puedes apagarla para una señal 100 % cruda (la app te
+avisará de que con altavoces sonará eco).

@@ -1,4 +1,4 @@
-# 🌈 PequeWorld v14 — Inglés para Niños (3-7 años)
+# 🌈 PequeWorld v15 — Inglés para Niños (3-7 años)
 
 App de aprendizaje de primeras palabras en inglés: **multiarchivo**, con
 **fotos reales**, **79 mundos / 782 palabras**, **16 juegos y estudios**
@@ -11,7 +11,25 @@ consejos AAP**, **🔊 selector de voz en inglés**, **PWA instalable sin
 conexión**, avatar con tu propia foto, Tienda de 12 avatares, Ruleta diaria,
 ⭐ Mundo destacado y 🎓 Diplomas imprimibles.
 
-> 🏅 **Novedades v14 — «Mesa de Juegos Nuevos» (misma vía admisible, cero regresiones):**
+> 💛 **Novedades v15 — «Mi compañero, favoritas y canto» (misma vía admisible, cero regresiones):**
+> 1. 🐣 **Mi compañero Peque**: una mascota que **crece con el XP total** del
+>    niño en 5 etapas (🥚 Huevo → 🐣 Recién nacido → 🐥 Explorador → 🦅 Campeón
+>    → 🐲 Leyenda). Chip permanente en el mapa con barra de progreso, panel con
+>    **nombre editable**, frase cariñosa hablada y 3 insignias. Sin hambre ni
+>    castigos: solo compañía.
+> 2. ❤️ **Favoritas del Diccionario**: cada ficha del Diccionario tiene su
+>    **corazón** para marcar palabras queridas; un chip «❤️ Favoritas (n)»
+>    muestra SOLO las marcadas de todos los niveles y mundos. 2 insignias.
+> 3. 🎵 **Canta el ABC**: la **canción del abecedario** sintetizada localmente
+>    (WebAudio, cero archivos externos) con las **26 fichas iluminándose en
+>    tiempo** con la melodía; cada ficha tocada dice su letra y palabra ejemplo
+>    (A de Ant 🐜…). Al cantarla completa: +8 XP +4 🪙. 2 insignias.
+> 4. 🎯 **Cazaletras**: juego de **discriminación visual de letras** (pré-lectura):
+>    encuentra las 3 fichas iguales a la letra grande entre 10, con
+>    **pares de confusión reales** (b/d/p/q, M/W…). Error = solo tiembla.
+>    5 rondas por sesión, +6 XP +3 🪙. 2 insignias.
+>
+> 🏅 **Novedades v14 — «Mesa de Juegos Nuevos»:**
 > 1. 🌟 **Unir Puntos**: el clásico come-cocos de puntos, con **modo 🔢 Números
 >    (1–10) y modo 🔤 Letras A–J** y **6 figuras** (Estrella, Casita, Corazón,
 >    Cohete, Barquito y Gatito). El punto que toca pulsa; si toca otro, solo
