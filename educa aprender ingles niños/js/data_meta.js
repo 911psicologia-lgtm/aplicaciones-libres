@@ -198,6 +198,17 @@ const BADGES = [
   {id:'hang10', icon:'🔍', name:'Ojo de Águila',       desc:'Adivina 10 palabras', c:p=>(p.stats.hangWins||0)>=10},
   {id:'finde1', icon:'🏅', name:'Héroe del Finde',     desc:'Completa un reto del fin de semana', c:p=>(p.stats.finde&&p.stats.finde.total||0)>=1},
   {id:'finde3', icon:'👑', name:'Trío Perfecto',       desc:'Completa los 3 retos en un mismo finde', c:p=>(p.stats.finde&&p.stats.finde.perfect||0)>=1},
+  // ★ V15 — mascota, favoritas, canción y cazaletras (umbrales inline:
+  //   data_meta.js carga ANTES que games5.js, así que no depende de él)
+  {id:'pet1',  icon:'🐣', name:'¡Nació!',            desc:'Tu compañero salió del huevo (200 XP)', c:p=>(p.xp||0)>=200},
+  {id:'pet2',  icon:'🦅', name:'Amigos para siempre',desc:'Tu compañero es Campeón (1500 XP)', c:p=>(p.xp||0)>=1500},
+  {id:'pet3',  icon:'🐲', name:'¡Leyenda!',          desc:'Tu compañero alcanzó la cima (3000 XP)', c:p=>(p.xp||0)>=3000},
+  {id:'fav1',  icon:'❤️', name:'Primer corazón',     desc:'Marca tu primera palabra favorita', c:p=>p.favs&&Object.keys(p.favs).length>=1},
+  {id:'fav10', icon:'💛', name:'Coleccionista',      desc:'Marca 10 palabras favoritas', c:p=>p.favs&&Object.keys(p.favs).length>=10},
+  {id:'abc1',  icon:'🎵', name:'Primera canción',    desc:'Canta el ABC completo una vez', c:p=>(p.stats.abcGames||0)>=1},
+  {id:'abc5',  icon:'🌟', name:'Estrella musical',   desc:'Canta el ABC 5 veces', c:p=>(p.stats.abcGames||0)>=5},
+  {id:'hunt1', icon:'🎯', name:'Ojo de lince',       desc:'Completa tu primera sesión de Cazaletras', c:p=>(p.stats.huntGames||0)>=1},
+  {id:'hunt10',icon:'📖', name:'Lector experto',     desc:'Completa 10 sesiones de Cazaletras', c:p=>(p.stats.huntGames||0)>=10},
 ];
 
 /* Rivales IA para el ranking */
@@ -237,7 +248,7 @@ function migrateProfile(p) {
   if (!p.lastSpin) p.lastSpin = '';
   if (!p.mastery) p.mastery = {}; // v7: veces que acierta cada palabra
   if (!p.stats) p.stats = {};
-  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','dotFigs','dotGames','traceLetters','puzzleGames','hangGames','hangWins'].forEach(k => {
+  ['missions','perfect','totalCorrect','chests','dailyGoals','spellGames','matchGames','reviews','learnedWords','memGames','listenGames','spins','avatarBought','sayGames','oddGames','dictVisits','quickGames','sentGames','rhymeGames','dictOk','dictTry','exploreVisits','surpriseGames','dotFigs','dotGames','traceLetters','puzzleGames','hangGames','hangWins','abcGames','huntGames'].forEach(k => {
     if (p.stats[k] == null) p.stats[k] = 0;
   });
   if (!p.stats.daysPlayed) p.stats.daysPlayed = {};
@@ -249,6 +260,9 @@ function migrateProfile(p) {
   if (p.stats.finde.claimed == null) p.stats.finde.claimed = {};
   if (p.stats.finde.total == null) p.stats.finde.total = 0;
   if (p.stats.finde.perfect == null) p.stats.finde.perfect = 0;
+  // v15: favoritas del diccionario, nombre de la mascota (vacío = «Peque»)
+  if (!p.favs) p.favs = {};
+  if (!p.petName) p.petName = '';
   // v13: settings globales capsMode/dailyLimit NO se migran — se leen con fallback (patrón v11/v12: undefined = apagado/normal)
   if (!p.stats.missionsByDay) p.stats.missionsByDay = {}; // v7: misiones por día (gráfico)
   if (!p.stats.wotdDays) p.stats.wotdDays = {}; // v11: días en que escuchó la Palabra del día
@@ -272,7 +286,7 @@ function defaultProfile(name, avatar='avatar_1') {
     best: {},
     mistakes: {},
     mastery: {},
-    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, sayGames:0, oddGames:0, dictVisits:0, quickGames:0, sentGames:0, rhymeGames:0, dictOk:0, dictTry:0, daysPlayed:{}, missionsByDay:{}},
+    stats: {missions:0, perfect:0, totalCorrect:0, chests:0, dailyGoals:0, spellGames:0, matchGames:0, reviews:0, learnedWords:0, memGames:0, listenGames:0, spins:0, avatarBought:0, sayGames:0, oddGames:0, dictVisits:0, quickGames:0, sentGames:0, rhymeGames:0, dictOk:0, dictTry:0, daysPlayed:{}, missionsByDay:{}, abcGames:0, huntGames:0},
     milestones: {},
     tourDone: false,
     dailyGoal: {date:'', count:0, claimed:false}

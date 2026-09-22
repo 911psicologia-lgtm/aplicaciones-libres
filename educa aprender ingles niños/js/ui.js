@@ -326,6 +326,9 @@ function renderMap() {
   // v13: chip 🎲 «Sorpréndeme» (misión al azar)
   renderSurpriseChip(p);
 
+  // v15: chip 🐣 Mi compañero (mascota que crece con XP)
+  if (typeof renderPetChip === 'function') renderPetChip(p);
+
   // v14: retos del finde (banner sáb/dom; duerme de lunes a viernes)
   if (typeof renderFindeBanner === 'function') renderFindeBanner();
 
@@ -414,6 +417,9 @@ function renderGamesZone(p) {
     ...(typeof startTrace === 'function'  ? [{cls: 'gz-trace',  ico: '🖍️', name: 'Trazo mágico', sub: 'letras A–J', fn: () => startTrace()}] : []),
     ...(typeof startPuzzle === 'function' ? [{cls: 'gz-puzzle', ico: '🖼️', name: 'Puzzle', sub: '4 · 9 · 12 piezas', fn: () => startPuzzle()}] : []),
     ...(typeof startHang === 'function'   ? [{cls: 'gz-hang',   ico: '🪁', name: 'Adivina', sub: 'la palabra secreta', fn: () => startHang()}] : []),
+    // ★ v15: canción del ABC y cazaletras (defensivo si faltara games5.js)
+    ...(typeof startAbcSong === 'function' ? [{cls: 'gz-abc',  ico: '🎵', name: 'Canta el ABC', sub: 'canción y letras', fn: () => startAbcSong()}] : []),
+    ...(typeof startHunt === 'function'   ? [{cls: 'gz-hunt', ico: '🎯', name: 'Cazaletras', sub: 'encuentra la letra', fn: () => startHunt()}] : []),
     {cls: 'gz-spell', ico: '🔤', name: 'Completa', sub: 'la palabra', fn: () => startSpellMission()},
     {cls: 'gz-match', ico: '🧩', name: 'Empareja', sub: 'foto + palabra', fn: () => startMatchMission()},
     {cls: 'gz-mem',   ico: '🃏', name: 'Memoria', sub: 'encuentra parejas', fn: () => startMemoryMission()},

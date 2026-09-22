@@ -261,8 +261,14 @@ window.chooseOddAnswer = function (el, q, evt) {
 /* ══════════ 3) 📚 MI DICCIONARIO ══════════ */
 /* v9 [A-e]: en tablets modestas renderizar las 782 fichas de golpe provoca
    una pausa de 1-2 s. Se muestran por lotes con botón «Ver más». */
-const DICT = { lvl: 0, world: '', shown: 350 };
+const DICT = { lvl: 0, world: '', shown: 350, fav: false }; // v15: fav = modo «solo favoritas»
 const DICT_CHUNK = 350;
+
+/* v15: nº de palabras marcadas con corazón del perfil activo */
+function dictFavCount() {
+  const p = activeProfile();
+  return p && p.favs ? Object.keys(p.favs).length : 0;
+}
 
 function dictMastery(en) {
   const p = activeProfile();
@@ -273,6 +279,7 @@ window.openDictionary = function () {
   beep(true);
   DICT.lvl = currentLevel || 0;
   DICT.world = '';
+  DICT.fav = false; // v15: el modo favoritas nunca entra encendido
   DICT.shown = DICT_CHUNK; // v9: reinicia el lote al abrir
   renderDictionary();
   showScreen('dictScreen');
@@ -282,8 +289,32 @@ window.openDictionary = function () {
 };
 
 window.closeDictionary = function () { navTo(0); };
-window.dictSetLevel = function (l) { DICT.lvl = l; DICT.world = ''; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
-window.dictSetWorld = function (id) { DICT.world = id; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
+window.dictSetLevel = function (l) { DICT.lvl = l; DICT.world = ''; DICT.fav = false; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
+window.dictSetWorld = function (id) { DICT.world = id; DICT.fav = false; DICT.shown = DICT_CHUNK; renderDictionary(); beep(true); };
+
+/* v15: enciende/apaga el modo «solo favoritas». Cualquier chip de nivel
+   o mundo lo apaga (arriba); aquí solo alterna. */
+window.dictToggleFavMode = function () {
+  DICT.fav = !DICT.fav;
+  DICT.shown = DICT_CHUNK;
+  renderDictionary();
+  beep(true);
+};
+
+/* v15: marca/desmarca un corazón. El corazón es un <span> dentro del
+   botón de la ficha (botón dentro de botón sería HTML inválido), así
+   que SIEMPRE detiene la propagación para no disparar el audio. */
+window.dictToggleFav = function (en, el) {
+  beep(true);
+  updateProfile(p => {
+    p.favs = p.favs || {};
+    if (p.favs[en]) delete p.favs[en];
+    else p.favs[en] = true;
+  });
+  if (el) el.classList.toggle('on', !!(activeProfile().favs || {})[en]);
+  renderDictionary(); // refresca contador del chip (y el filtro si está activo)
+  checkBadges(); // fav1 / fav10
+};
 window.dictMore = function () { DICT.shown += DICT_CHUNK; renderDictionary(); beep(true); }; // v9
 
 window.speakDictItem = function (en, es, el) {
@@ -317,14 +348,32 @@ function renderDictionary() {
   wc.innerHTML = `<button class="dict-chip${DICT.world === '' ? ' on' : ''}" onclick="dictSetWorld('')">Todos los mundos</button>` +
     worlds.map(w => `<button class="dict-chip${DICT.world === w.id ? ' on' : ''}" onclick="dictSetWorld('${w.id}')">${w.icon} ${w.name}</button>`).join('');
 
+  // v15: fila de favoritas (chip contador) — siempre visible arriba
+  const favN = dictFavCount();
+  if ($('dictFavChips')) {
+    $('dictFavChips').innerHTML =
+      `<button class="dict-chip${DICT.fav ? ' on' : ''}" onclick="dictToggleFavMode()">❤️ Favoritas${favN ? ` (${favN})` : ''}</button>`;
+  }
+
   const wsrc = DICT.world ? WORLDS.filter(w => w.id === DICT.world) : worlds;
   const list = [];
-  wsrc.forEach(w => w.items.forEach(it => list.push({ w, it })));
+  if (DICT.fav) {
+    // v15: solo las marcadas con corazón, de TODOS los niveles y mundos
+    const favs = p.favs || {};
+    WORLDS.forEach(w => w.items.forEach(it => { if (favs[it.en]) list.push({ w, it }); }));
+  } else {
+    wsrc.forEach(w => w.items.forEach(it => list.push({ w, it })));
+  }
+  if (DICT.fav && !list.length) {
+    $('dictGrid').innerHTML = `<div class="dict-empty-fav">❤️ Aún no tienes favoritas.<br><span class="small">Toca el corazón de cualquier palabra para guardarla aquí.</span></div>`;
+    return;
+  }
   const shown = list.slice(0, DICT.shown); // v9 [A-e]: render por lotes
   $('dictGrid').innerHTML = shown.map(({ w, it }) => {
     const m = dictMastery(it.en);
     const cls = m >= 3 ? 'mastered' : m >= 1 ? 'learned' : 'new';
     const tag = m >= 3 ? '🏆' : m >= 1 ? '✅' : '🌱';
+    const isFav = !!(p.favs || {})[it.en];
     const en = (it.en || '').replace(/'/g, "\\'");
     const es = (it.es || '').replace(/'/g, "\\'");
     const vis = it.img
@@ -333,7 +382,7 @@ function renderDictionary() {
         ? `<span class="dt-num">${it.num != null ? it.num : '★'}</span>`
         : `<span class="dt-em">${it.em || '✨'}</span>`);
     return `<button class="dict-tile ${cls}" onclick="speakDictItem('${en}','${es}',this)">
-      ${vis}<span class="dt-en">${it.en}</span><span class="dt-es">${it.es || ''}</span><span class="dt-tag">${tag}</span>
+      ${vis}<span class="dt-en">${it.en}</span><span class="dt-es">${it.es || ''}</span><span class="dt-tag">${tag}</span><span class="dt-fav${isFav ? ' on' : ''}" role="button" aria-label="Marcar favorita" onclick="event.stopPropagation();dictToggleFav('${en}',this)">❤</span>
     </button>`;
   }).join('') +
   (list.length > shown.length
