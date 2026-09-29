@@ -813,7 +813,6 @@ html.mini-float-on::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 .yt-guide a{color:var(--accent);word-break:break-all}
 .yt-guide .sheet-btn{margin-top:4px}
 
-/* R10.39 · Ticker + icon-only + lyrics + discovery + SP */
 .mp-microticker{flex:1 1 auto;min-width:0;max-width:calc(100vw-170px);display:flex;align-items:center;gap:9px;padding:5px 12px;border-radius:11px;background:color-mix(in srgb,var(--surface-2) 70%,transparent);border:1px solid var(--line);overflow:hidden;height:32px;position:relative}
 .mp-microticker.mt-off{display:none}
 .mt-eq{flex:0 0 auto;display:flex;align-items:flex-end;gap:2px;height:16px;width:16px;padding:1px 0}
@@ -871,3 +870,20 @@ html.mini-float-on::after{content:'';position:fixed;inset:0;background:rgba(0,0,
 .sp-chip-icon[disabled]{opacity:.4;cursor:default}
 .sp-script{max-height:200px!important;overflow-y:auto!important}
 .sp-view .mini-player{display:none!important}
+/* R10.40 · Tu Energía Musical */
+.energy-container{display:grid;gap:10px}
+.energy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.energy-stat{display:grid;place-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.energy-stat-num{font-size:20px;font-weight:900;color:var(--accent)}
+.energy-stat-label{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.energy-artists{display:grid;gap:6px}
+.energy-artist{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);cursor:pointer;transition:background .15s}
+.energy-artist:hover{background:var(--surface-3)}
+.energy-artist-icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:14px;color:#fff;flex:0 0 auto}
+.energy-artist-info{flex:1;min-width:0}
+.energy-artist-info strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.energy-artist-info small{font-size:10px;color:var(--muted)}
+.energy-artist-go{font-size:16px;color:var(--accent);flex:0 0 auto}
+.energy-express{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 15%,var(--surface-2)),var(--surface-2));border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));color:var(--text);font-weight:800;cursor:pointer;font-size:14px}
+.energy-express small{font-size:10px;color:var(--muted);font-weight:600}
+.energy-empty{font-size:11px;color:var(--muted);padding:12px 4px;text-align:center}

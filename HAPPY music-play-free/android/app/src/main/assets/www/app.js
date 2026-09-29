@@ -1,8 +1,8 @@
 (() => {
 'use strict';
 
-const BUILD = '2026.09.21-r10.39-location';
-const APP_VERSION = 'R10.39';
+const BUILD = '2026.09.21-r10.40-energy';
+const APP_VERSION = 'R10.40';
 // R10.15 · Detección del APK (WebView + HappyNative). En el APK se suprime la
 // instalación PWA, el mini ⧉ interno se sustituye por la ventana flotante real
 // y la importación de carpetas usa el selector nativo de árbol.
@@ -1213,6 +1213,7 @@ function renderHome(){
   const daily=dailyRecommendationTracks();if(els.homeDailySection)els.homeDailySection.classList.toggle('is-hidden',!daily.length);if(els.homeDailyHint)els.homeDailyHint.textContent=dailyRecommendationHint();if(els.homeDaily){els.homeDaily.innerHTML='';for(const t of daily.slice(0,8)){const b=createMediaCard(t);b.onclick=()=>playTrack(t.id,daily.map(x=>x.id));els.homeDaily.appendChild(b);}}
   const videos=homeMusicVideoTracks().slice(0,8);if(els.homeMusicVideoSection)els.homeMusicVideoSection.classList.toggle('is-hidden',!videos.length);if(els.homeMusicVideo){els.homeMusicVideo.innerHTML='';for(const t of videos){const b=createMediaCard(t);b.classList.add('video-media-card');els.homeMusicVideo.appendChild(b);}}
   renderHomeDecades();
+  window.MP_ENERGY?.renderEnergyHome?.();
   window.MP_DISCOVERY?.renderDiscoveryHome?.();
 }
 function renderHomeDecades(){
@@ -1223,7 +1224,7 @@ function renderHomeDecades(){
     const card=document.createElement('button');card.className='media-card decade-card';card.type='button';const label=dec.decadeLabel(d);const emoji=d==='unknown'?'◌':(d.startsWith('20')?'💿':'📼');const grad=d==='unknown'?'linear-gradient(135deg,var(--surface-3),var(--surface-2))':'linear-gradient(135deg,var(--accent),var(--accent-2))';
     card.innerHTML='<div class="media-card-art decade-art" style="background:'+grad+'">'+emoji+'</div><strong>'+safeText(label)+'</strong><small>'+count+' '+(count===1?'canción':'canciones')+'</small>';card.onclick=()=>openDecadeSheet(d);els.homeDecades.appendChild(card);}
 }
-function openDecadeSheet(decade){const dec=window.MP_DECADES;if(!dec)return;const tracks=dec.getTracksByDecade(decade);if(!tracks.length){toast('No hay canciones');return;}const label=dec.decadeLabel(decade);const sorted=[...tracks].sort((a,b)=>{const ya=(dec.getTrackDecade(a.id)?.year)||0,yb=(dec.getTrackDecide(b.id)?.year)||0;return ya-yb;});
+function openDecadeSheet(decade){const dec=window.MP_DECADES;if(!dec)return;const tracks=dec.getTracksByDecade(decade);if(!tracks.length){toast('No hay canciones');return;}const label=dec.decadeLabel(decade);const sorted=[...tracks].sort((a,b)=>{const ya=(dec.getTrackDecade(a.id)?.year)||0,yb=(dec.getTrackDecade(b.id)?.year)||0;return ya-yb;});
   const items=sorted.slice(0,40).map(t=>{const ti=dec.getTrackDecade(t.id);const year=ti?.year||'—';const origin=t.sourceKind==='local'||t.sourceKind==='direct'?'LOCAL':'YOUTUBE';return '<button class="sheet-btn" data-decade-play="'+safeText(t.id)+'"><span class="decade-row"><span class="decade-row-info"><strong>'+safeText(t.title)+'</strong><small>'+safeText(t.artist||sourceLabel(t))+' · '+year+' · '+origin+'</small></span><span class="decade-row-go">▶</span></span></button>';}).join('');
   openSheet('<h2 class="sheet-title">'+safeText(label)+'</h2><div class="sheet-stack"><button class="sheet-btn" data-decade-action="play">▶ Reproducir</button><button class="sheet-btn" data-decade-action="shuffle">🔀 Aleatorio</button><button class="sheet-btn" data-decade-action="journey">🎬 Viaje</button></div><div class="sheet-stack">'+items+'</div>',root=>{const ids=sorted.map(t=>t.id);$('[data-decade-action="play"]',root).onclick=()=>{closeDialog(els.sheetDialog);if(ids[0])playTrack(ids[0],ids);};$('[data-decade-action="shuffle"]',root).onclick=async()=>{closeDialog(els.sheetDialog);await setPlaybackMode(PLAY_MODES.shuffle,{autoplay:true,contextIds:ids});};$('[data-decade-action="journey"]',root).onclick=()=>{closeDialog(els.sheetDialog);dec.playDecadeJourney(decade);};$$('[data-decade-play]',root).forEach(b=>b.onclick=()=>{closeDialog(els.sheetDialog);const id=b.dataset.decadePlay;if(ids.includes(id))playTrack(id,ids);});});}
 function openTickerModeSheet(){const cur=window.MP_SMART_MICROTICKER?.getMode?.()||'discreet';const modes=[['off','·','Apagado','No mostrar'],['discreet','·','Discreto','Solo animación'],['dynamic','★','Dinámico','Con eventos']];openSheet('<h2 class="sheet-title">▤ MicroTicker</h2><div class="sheet-stack">'+modes.map(m=>'<button class="sheet-btn'+(m[0]===cur?' selected':'')+'" data-ticker-mode="'+m[0]+'">'+m[1]+' '+m[2]+'<small>'+m[3]+'</small></button>').join('')+'</div>',root=>{$$('[data-ticker-mode]',root).forEach(b=>b.onclick=()=>{const mode=b.dataset.tickerMode;closeDialog(els.sheetDialog);window.MP_SMART_MICROTICKER?.setMode?.(mode);try{localStorage.setItem('mp-ticker-mode',mode);}catch{}toast('MicroTicker · '+(modes.find(m=>m[0]===mode)?.[2]||mode));});});}

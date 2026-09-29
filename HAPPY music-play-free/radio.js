@@ -7,7 +7,7 @@ const IS_NATIVE=!!(window.HappyNative&&location.hostname==='appassets.androidpla
 const RETRIES=[1000,2000,4000,8000],MAX_RESULTS=20,MAX_RECENT=30,MAX_CACHE=200;
 const MIRRORS=['https://de1.api.radio-browser.info','https://nl1.api.radio-browser.info','https://at1.api.radio-browser.info'];
 const STORE={favorites:'radioFavorites',recent:'radioRecent',cache:'radioCache',recordings:'radioRecordings'};
-// R10.20 · Emisoras base incorporadas (no se borran al limpiar favoritos).
+// R10.40 · Emisoras base incorporadas (no se borran al limpiar favoritos).
 // Se siembran como favoritas en el primer arranque o cuando el usuario pulsa
 // "Restaurar emisoras base" en el menú de radio.
 const BUILT_IN_STATIONS=[
@@ -53,16 +53,14 @@ async function discover(){try{const rows=await fetchJson('https://all.api.radio-
 function path(params){return `/json/stations/search?${new URLSearchParams({...params,hidebroken:'true',is_https:'true',order:'clickcount',reverse:'true',limit:String(MAX_RESULTS)})}`;}
 async function mirrored(paths){let last;for(let o=0;o<state.servers.length;o++){const i=(state.serverIndex+o)%state.servers.length,b=state.servers[i];try{const groups=await Promise.all(paths.map(p=>fetchJson(b+p)));state.serverIndex=i;return groups.flat();}catch(e){last=e;}}throw last||Error('Directorio no disponible');}
 function dedupe(rows){const out=[],seen=new Set();for(const raw of rows){if(Number(raw?.lastcheckok)===0)continue;const s=normalize(raw);if(!s||!s.streamUrl.startsWith('https:'))continue;const key=id(s);if(seen.has(key)||seen.has(s.streamUrl))continue;seen.add(key);seen.add(s.streamUrl);out.push(state.favorites.get(key)?{...s,...state.favorites.get(key),favorite:true}:s);if(out.length>=MAX_RESULTS)break;}return out;}
-async function searchStations(query='',scope='search'){state.query=clean(query,80);state.scope=scope;busy(true);try{let rows=[];if(scope==='favorites')rows=[...state.favorites.values()].sort((a,b)=>(b.lastPlayedAt||0)-(a.lastPlayedAt||0));else if(scope==='recent')rows=[...state.recent];else if(scope==='colombia'||!state.query)rows=await mirrored([path({countrycode:'CO'})]);
-      else if(scope==='nearby'){busy(false);return;}
-      else if(scope.startsWith('city:')){busy(false);return;}else{const q=state.query;rows=await mirrored([path({name:q}),path({state:q}),path({country:q}),path({tag:q})]);}const stations=(scope==='favorites'||scope==='recent')?rows.map(normalize).filter(Boolean).slice(0,MAX_RESULTS):dedupe(rows);state.set=stations;state.index=stations.findIndex(x=>id(x)===id(state.station));if(!['favorites','recent'].includes(scope)&&stations.length)cacheRows(stations);renderResults();announce(stations.length?`${stations.length} emisoras disponibles`:'No se encontraron emisoras');}catch{let cached=[...state.cache.values()],q=state.query.toLowerCase();if(q)cached=cached.filter(s=>[s.name,s.state,s.country,s.tags,s.language].join(' ').toLowerCase().includes(q));if(scope==='favorites')cached=[...state.favorites.values()];if(scope==='recent')cached=state.recent;state.set=cached.slice(0,MAX_RESULTS);renderResults();announce('Directorio temporalmente fuera de línea');toast('Sin conexión con el directorio · mostrando datos guardados',4000);}finally{busy(false);}}
+async function searchStations(query='',scope='search'){state.query=clean(query,80);state.scope=scope;busy(true);try{let rows=[];if(scope==='favorites')rows=[...state.favorites.values()].sort((a,b)=>(b.lastPlayedAt||0)-(a.lastPlayedAt||0));else if(scope==='recent')rows=[...state.recent];else if(scope==='colombia'||!state.query)rows=await mirrored([path({countrycode:'CO'})]);else{const q=state.query;rows=await mirrored([path({name:q}),path({state:q}),path({country:q}),path({tag:q})]);}const stations=(scope==='favorites'||scope==='recent')?rows.map(normalize).filter(Boolean).slice(0,MAX_RESULTS):dedupe(rows);state.set=stations;state.index=stations.findIndex(x=>id(x)===id(state.station));if(!['favorites','recent'].includes(scope)&&stations.length)cacheRows(stations);renderResults();announce(stations.length?`${stations.length} emisoras disponibles`:'No se encontraron emisoras');}catch{let cached=[...state.cache.values()],q=state.query.toLowerCase();if(q)cached=cached.filter(s=>[s.name,s.state,s.country,s.tags,s.language].join(' ').toLowerCase().includes(q));if(scope==='favorites')cached=[...state.favorites.values()];if(scope==='recent')cached=state.recent;state.set=cached.slice(0,MAX_RESULTS);renderResults();announce('Directorio temporalmente fuera de línea');toast('Sin conexión con el directorio · mostrando datos guardados',4000);}finally{busy(false);}}
 function busy(on){const h=el('radioStatus');if(h)h.textContent=on?'Buscando emisoras…':'';if(on&&el('radioResults'))el('radioResults').innerHTML='<div class="radio-loading"><span></span><small>Consultando Radio Browser</small></div>';}
 function announce(m){if(el('radioAriaStatus'))el('radioAriaStatus').textContent=clean(m,240);}
 function stationRow(s,i){const fav=state.favorites.has(id(s)),cur=state.active&&id(s)===id(state.station);return `<article class="radio-station${cur?' current':''}"><span class="radio-station-art"${s.favicon?` style="background-image:url('${esc(s.favicon)}')"`:''}>${s.favicon?'':'◉'}</span><div class="radio-station-copy"><strong>${esc(s.name)}</strong><span>${esc(locationLabel(s))}</span><small>${esc(quality(s))}</small></div><button class="radio-station-action" data-radio-play="${i}" aria-label="${cur&&state.status==='playing'?'Pausar':'Reproducir'}">${cur&&state.status==='playing'?'⏸':'▶'}</button><button class="radio-station-action favorite" data-radio-favorite="${i}" aria-label="Favorito">${fav?'♥':'♡'}</button></article>`;}
 function renderResults(){const h=el('radioResults');if(!h)return;const rows=currentSet();if(!rows.length){h.innerHTML='<div class="radio-empty"><span>◉</span><strong>Busca una emisora o abre tus favoritas</strong><small>La emisión necesita Internet; tus favoritas y recientes quedan guardadas.</small></div>';return;}h.innerHTML=rows.map(stationRow).join('');h.querySelectorAll('[data-radio-play]').forEach(b=>b.onclick=()=>playFrom(Number(b.dataset.radioPlay)));h.querySelectorAll('[data-radio-favorite]').forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFavorite(rows[Number(b.dataset.radioFavorite)]);});}
 function nativePost(type,payload={}){try{window.HappyNative?.postFromWeb?.(JSON.stringify({type,payload}));return true;}catch{return false;}}
 async function stopCompeting(){try{mp()?.stopAllEngines?.({preserveLiveRadio:true});}catch{}}
-function setStatus(status,message=''){state.status=status;state.active=!['idle','stopped'].includes(status)&&!!state.station;document.documentElement.classList.toggle('live-radio-active',state.active);el('radioLiveBadge')?.classList.toggle('is-hidden',!state.active);if(message){announce(message);if(['error','retrying','playing'].includes(status))toast(message,status==='error'?4200:2200);}renderResults();renderPlayer();}
+function setStatus(status,message=''){state.status=status;state.active=!['idle','stopped'].includes(status)&&!!state.station;document.documentElement.classList.toggle('live-radio-active',state.active);el('radioLiveBadge')?.classList.toggle('is-hidden',!state.active);if(message){announce(message);if(['error','retrying','playing'].includes(status))toast(message,status==='error'?4200:2200);}renderResults();renderPlayer();try{window.MP_SMART_MICROTICKER?.event?.(status==='playing'?'✓ RADIO CONECTADA':status==='retrying'?'RADIO · RECONECTANDO…':status==='error'?'RADIO · ERROR':status==='connecting'?'RADIO · CONECTANDO…':'',status==='playing'?(state.station?.name||''):(message||''),status==='playing'?2200:3000);try{window.dispatchEvent(new CustomEvent('mp:playstate',{detail:{playing:status==='playing',radio:true}}));}catch{}}catch{}}
 async function recent(s){const x={...s,lastPlayedAt:Date.now(),lastKnownWorkingAt:Date.now(),playCount:(s.playCount||0)+1,favorite:state.favorites.has(id(s))};state.station=x;state.recent=[x,...state.recent.filter(y=>id(y)!==id(x))].slice(0,MAX_RECENT);await put(STORE.recent,x);}
 function register(s){if(s.source!=='radio-browser'||!s.stationuuid)return;const b=state.servers[state.serverIndex]||MIRRORS[0];fetch(`${b}/json/url/${encodeURIComponent(s.stationuuid)}`,{cache:'no-store'}).catch(()=>{});}
 async function playFrom(i){const set=currentSet(),s=set[i];if(!s)return;if(state.active&&id(s)===id(state.station)&&state.status==='playing')return pause();return play(s,set,i);}
@@ -74,7 +72,7 @@ function togglePlay(){state.status==='playing'?pause():resume();}function next()
 async function prepareExternalSwitch(){if(!state.active)return true;if(state.recording&&!confirm('Hay una grabación en curso. ¿Detenerla y cambiar de fuente?'))return false;if(state.recording)await stopRecording();forceStop();return true;}
 function clearState(){clearTimeout(state.retryTimer);state.active=false;state.status='idle';document.documentElement.classList.remove('live-radio-active');el('radioLiveBadge')?.classList.add('is-hidden');removeLiveControls();renderResults();mp()?.render?.();}
 function forceStop(){clearTimeout(state.retryTimer);if(IS_NATIVE)nativePost('radio/stop');else{const a=el('liveRadioAudio');try{a?.pause();a?.removeAttribute('src');a?.load();}catch{}}clearState();}
-async function toggleFavorite(raw=state.station){const s=normalize(raw);if(!s)return;const key=id(s),has=state.favorites.has(key);if(has){state.favorites.delete(key);await del(STORE.favorites,key);toast('Emisora quitada de favoritas');}else{state.favorites.set(key,{...s,favorite:true});await put(STORE.favorites,{...s,favorite:true});toast('Emisora guardada en favoritas');}renderResults();renderPlayer();}
+async function toggleFavorite(raw=state.station){const s=normalize(raw);if(!s)return;const key=id(s),has=state.favorites.has(key);if(has){state.favorites.delete(key);await del(STORE.favorites,key);toast('Emisora quitada de favoritas');}else{state.favorites.set(key,{...s,favorite:true});await put(STORE.favorites,{...s,favorite:true});toast('Emisora guardada en favoritas');}renderResults();renderPlayer();try{window.MP_SMART_MICROTICKER?.event?.(status==='playing'?'✓ RADIO CONECTADA':status==='retrying'?'RADIO · RECONECTANDO…':status==='error'?'RADIO · ERROR':status==='connecting'?'RADIO · CONECTANDO…':'',status==='playing'?(state.station?.name||''):(message||''),status==='playing'?2200:3000);try{window.dispatchEvent(new CustomEvent('mp:playstate',{detail:{playing:status==='playing',radio:true}}));}catch{}}catch{}}
 async function share(){const s=state.station;if(!s)return;const target=s.homepage||s.streamUrl;try{if(navigator.share)return await navigator.share({title:s.name,text:`${s.name} — HAPPY Radio`,url:target});await navigator.clipboard.writeText(target);toast('Enlace copiado');}catch{}}
 function renderPlayer(){if(!state.active||!state.station)return false;const s=state.station,playing=state.status==='playing',fav=state.favorites.has(id(s));el('miniPlayer')?.classList.remove('is-hidden');const txt=(i,v)=>{if(el(i))el(i).textContent=v;};txt('miniTitle',s.name);txt('miniArtist',`EN VIVO · ${quality(s)}`);txt('fullTitle',s.name);txt('fullArtist',`${locationLabel(s)} · ${quality(s)}`);txt('playBtn',playing?'⏸':'▶');txt('fullPlayBtn',playing?'⏸':'▶');txt('miniFavoriteBtn',fav?'♥':'♡');txt('favoriteBtn',fav?'♥':'♡');for(const a of [el('miniArtwork'),el('playerArtwork')]){if(!a)continue;a.textContent=s.favicon?'':'◉';a.style.backgroundImage=s.favicon?`url("${s.favicon.replace(/["\\]/g,'')}")`:'';a.style.backgroundSize='cover';a.style.backgroundPosition='center';}liveControls();return true;}
 function liveControls(){const p=document.querySelector('.player-secondary-controls');if(!p)return;let n=el('radioLiveControls');if(!n){n=document.createElement('div');n.id='radioLiveControls';n.className='radio-recording-controls';p.appendChild(n);}const ms=state.recording?Date.now()-state.recordingStartedAt:0,m=Math.floor(ms/60000),s=String(Math.floor(ms/1000)%60).padStart(2,'0'),recordable=!!state.station&&!state.station.hls&&/^(MP3|AAC\+?|OGG|VORBIS|OPUS)$/.test(state.station.codec||'');n.innerHTML=`<button id="radioRecordBtn" class="radio-record-btn${state.recording?' active':''}" type="button" ${recordable?'':'disabled'}>${state.recording?`● GRABANDO ${m}:${s}`:'● Grabar'}</button><button id="radioLiveShareBtn" class="radio-share-btn" type="button">↗ Compartir</button>`;el('radioRecordBtn')?.addEventListener('click',()=>state.recording?stopRecording():startRecording());el('radioLiveShareBtn')?.addEventListener('click',share);clearInterval(state.recordingTimer);if(state.recording)state.recordingTimer=setInterval(renderPlayer,1000);}
@@ -97,128 +95,10 @@ function panel(kind){const internet=kind==='internet';el('radioInternetPanel')?.
 function fm(){if(IS_NATIVE){if(el('radioFmMessage'))el('radioFmMessage').textContent='Comprobando el proveedor del fabricante…';nativePost('radio/fm/discover');}else if(el('radioFmMessage'))el('radioFmMessage').textContent='La radio por señal requiere un sintonizador externo compatible; esta versión usa radio por Internet.';}
 function handleNativeEvent(input){let msg=input;try{if(typeof msg==='string')msg=JSON.parse(msg);}catch{return;}const type=msg?.type,p=msg?.payload||{};if(type==='native/radio/state'){if(p.state==='playing')setStatus('playing','Sonando en vivo');else if(p.state==='paused')setStatus('paused');else if(p.state==='connecting')setStatus('connecting');else if(p.state==='retrying')setStatus('retrying',p.userMessage||'Reconectando…');else if(p.state==='error')setStatus('error',p.userMessage||'La emisora no está respondiendo');else if(p.state==='idle')clearState();}else if(type==='native/radio/recording'){state.recording=!!p.active;if(state.recording&&!state.recordingStartedAt)state.recordingStartedAt=Date.now()-(Number(p.elapsedMs)||0);renderPlayer();}else if(type==='native/radio/recording-complete'){state.recording=false;const r={id:clean(p.id,160)||`radio-rec-${Date.now()}`,name:clean(p.outputName,180)||'Grabación de radio',stationName:clean(p.stationName,100)||state.station?.name||'Radio',createdAt:Number(p.createdAt)||Date.now(),durationMs:Number(p.durationMs)||0,outputUri:clean(p.outputUri,500),mime:clean(p.mime,80),platform:'android'};state.recordings.unshift(r);mp()?.db?.put(STORE.recordings,r).catch(()=>{});renderRecordings();renderPlayer();toast('Grabación guardada en Música/HAPPY/Radio',4200);}else if(type==='native/radio/error')setStatus('error',clean(p.userMessage,220)||'Error de radio');else if(type==='native/radio/fm-capabilities'&&el('radioFmMessage'))el('radioFmMessage').textContent=p.available?(clean(p.message,220)||'Sintonizador disponible'):'Este equipo no expone un sintonizador FM compatible. Puedes escuchar emisoras por Internet';}
 function exportData(){return{version:1,favorites:[...state.favorites.values()],recent:state.recent.slice(0,MAX_RECENT),recordings:state.recordings.map(({blob,...r})=>r)};}async function importData(d){if(!d)return;for(const x of d.favorites||[]){const s=normalize(x);if(s){state.favorites.set(id(s),{...s,favorite:true});await put(STORE.favorites,{...s,favorite:true});}}for(const x of (d.recent||[]).slice(0,MAX_RECENT)){const s=normalize(x);if(s){state.recent=[s,...state.recent.filter(y=>id(y)!==id(s))].slice(0,MAX_RECENT);await put(STORE.recent,s);}}for(const r of d.recordings||[]){if(r?.id&&!state.recordings.some(x=>x.id===r.id)){state.recordings.push(r);await mp()?.db?.put(STORE.recordings,r).catch(()=>{});}}renderResults();renderRecordings();}const hasData=()=>!!(state.favorites.size||state.recent.length||state.recordings.length);
-function bind(){if(state.initialized)return;state.initialized=true;el('navRadio')?.addEventListener('click',()=>mp()?.showView?.('radio'));el('radioInternetTab')?.addEventListener('click',()=>panel('internet'));el('radioFmTab')?.addEventListener('click',()=>panel('fm'));el('radioFmRetry')?.addEventListener('click',fm);el('radioManualBtn')?.addEventListener('click',manual);let timer;el('radioSearchInput')?.addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>searchStations(e.target.value,'search'),420);});document.querySelectorAll('[data-radio-scope]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-radio-scope]').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.radioScope==='colombia'){el('radioSearchInput').value='';searchStations('','colombia');}else if(b.dataset.radioScope==='nearby'){detectLocationAndSearch();}else if(b.dataset.radioScope==='city'){openCitySelector();}else{searchStations('',b.dataset.radioScope);}});
-  el('radioLocationBtn')?.addEventListener('click',detectLocationAndSearch);const a=el('liveRadioAudio');a?.addEventListener('playing',()=>{state.retryIndex=0;setStatus('playing','Sonando en vivo');});a?.addEventListener('pause',()=>{if(state.active&&state.status!=='retrying')setStatus('paused');});a?.addEventListener('error',retry);window.addEventListener('mp:viewchange',e=>{if(e.detail==='radio'&&!state.ready){state.ready=true;searchStations('','colombia');}if(e.detail==='library')renderRecordings();});if(el('radioNetworkNote'))el('radioNetworkNote').textContent=IS_NATIVE?'Android · audio nativo en segundo plano y pantalla bloqueada':'En PC continúa mientras el equipo no entre en suspensión. En móvil, la app Android ofrece mayor continuidad.';}
+function bind(){if(state.initialized)return;state.initialized=true;el('navRadio')?.addEventListener('click',()=>mp()?.showView?.('radio'));el('radioInternetTab')?.addEventListener('click',()=>panel('internet'));el('radioFmTab')?.addEventListener('click',()=>panel('fm'));el('radioFmRetry')?.addEventListener('click',fm);el('radioManualBtn')?.addEventListener('click',manual);let timer;el('radioSearchInput')?.addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>searchStations(e.target.value,'search'),420);});document.querySelectorAll('[data-radio-scope]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-radio-scope]').forEach(x=>x.classList.toggle('active',x===b));if(b.dataset.radioScope==='colombia')el('radioSearchInput').value='';searchStations('',b.dataset.radioScope);});const a=el('liveRadioAudio');a?.addEventListener('playing',()=>{state.retryIndex=0;setStatus('playing','Sonando en vivo');});a?.addEventListener('pause',()=>{if(state.active&&state.status!=='retrying')setStatus('paused');});a?.addEventListener('error',retry);window.addEventListener('mp:viewchange',e=>{if(e.detail==='radio'&&!state.ready){state.ready=true;searchStations('','colombia');}if(e.detail==='library')renderRecordings();});if(el('radioNetworkNote'))el('radioNetworkNote').textContent=IS_NATIVE?'Android · audio nativo en segundo plano y pantalla bloqueada':'En PC continúa mientras el equipo no entre en suspensión. En móvil, la app Android ofrece mayor continuidad.';}
 async function init(){bind();for(let i=0;i<50&&!mp()?.db?.instance;i++)await new Promise(r=>setTimeout(r,100));await loadStores();await seedBuiltInStations();await discover();renderRecordings();renderResults();if(mp()?.state?.activeView==='radio'&&!state.ready){state.ready=true;searchStations('','colombia');}}
-// R10.20 · Siembra las emisoras base como favoritas en el primer arranque.
+// R10.40 · Siembra las emisoras base como favoritas en el primer arranque.
 // Solo añade las que no existan ya (no duplica ni sobreescribe favoritos del usuario).
-// R10.39 · Colombian cities for quick selection
-const CO_CITIES = [
-  {name:'Bogotá', state:'Bogota', lat:4.7110, lon:-74.0721},
-  {name:'Medellín', state:'Antioquia', lat:6.2442, lon:-75.5812},
-  {name:'Cali', state:'Valle Del Cauca', lat:3.4516, lon:-76.5320},
-  {name:'Barranquilla', state:'Atlantico', lat:10.9685, lon:-74.7813},
-  {name:'Bucaramanga', state:'Santander', lat:7.1254, lon:-73.1198},
-  {name:'Cartagena', state:'Bolivar', lat:10.3910, lon:-75.4794},
-  {name:'Cúcuta', state:'Norte De Santander', lat:7.8891, lon:-72.4967},
-  {name:'Pereira', state:'Risaralda', lat:4.8133, lon:-75.6961},
-  {name:'Santa Marta', state:'Magdalena', lat:11.2408, lon:-74.1990},
-  {name:'Manizales', state:'Caldas', lat:5.0703, lon:-75.5138},
-  {name:'Ibagué', state:'Tolima', lat:4.4389, lon:-75.2322},
-  {name:'Villavicencio', state:'Meta', lat:4.1420, lon:-73.6266},
-];
-
-// R10.39 · Detect user location via GPS and find nearby stations
-async function detectLocationAndSearch() {
-  if(!navigator.geolocation) return toast('Tu dispositivo no soporta geolocalización',4000);
-  busy(true);
-  el('radioStatus') && (el('radioStatus').textContent = 'Detectando tu ubicación…');
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const lat = pos.coords.latitude, lon = pos.coords.longitude;
-    // Try to find the nearest Colombian city
-    let nearestCity = null, minDist = Infinity;
-    for(const city of CO_CITIES) {
-      const dist = Math.hypot(city.lat - lat, city.lon - lon);
-      if(dist < minDist) { minDist = dist; nearestCity = city; }
-    }
-    // Search Radio Browser API by coordinates (radius 100km)
-    try {
-      state.query = ''; state.scope = 'nearby';
-      const coordPath = `/json/stations/bycoordinates?latitude=${lat}&longitude=${lon}&radius=100&hidebroken=true&is_https=true&order=clickcount&reverse=true&limit=${MAX_RESULTS}`;
-      let rows = await mirrored([coordPath]);
-      if(!rows.length && nearestCity) {
-        // Fallback: search by state/department
-        rows = await mirrored([path({state:nearestCity.state, countrycode:'CO'})]);
-      }
-      const stations = dedupe(rows);
-      state.set = stations;
-      state.index = stations.findIndex(x => id(x) === id(state.station));
-      if(stations.length) cacheRows(stations);
-      renderResults();
-      const locationName = nearestCity ? nearestCity.name : `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
-      announce(`${stations.length} emisoras cerca de ${locationName}`);
-      toast(`📍 Emisoras cerca de ${locationName} · ${stations.length} encontradas`, 3500);
-      // Update the active scope button
-      document.querySelectorAll('[data-radio-scope]').forEach(x => x.classList.remove('active'));
-      const locBtn = document.querySelector('[data-radio-scope="nearby"]');
-      if(locBtn) locBtn.classList.add('active');
-      if(el('radioSearchInput')) el('radioSearchInput').value = '';
-    } catch(e) {
-      announce('No se pudieron obtener emisoras cercanas');
-      toast('No se encontraron emisoras cerca · intenta buscar por ciudad',4000);
-    } finally {
-      busy(false);
-    }
-  }, err => {
-    busy(false);
-    const msg = err.code === 1 ? 'Permiso de ubicación denegado · selecciona una ciudad manualmente' 
-             : err.code === 2 ? 'Ubicación no disponible'
-             : 'Error al obtener ubicación';
-    toast(msg, 4000);
-    // Fallback: show city selector
-    openCitySelector();
-  }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 });
-}
-
-// R10.39 · City selector sheet
-function openCitySelector() {
-  const cityButtons = CO_CITIES.map((city, i) => 
-    `<button class="sheet-btn" data-city-idx="${i}">📍 ${city.name}<small>${city.state}</small></button>`
-  ).join('');
-  mp()?.openSheet?.(`<h2 class="sheet-title">📍 Selecciona tu ciudad</h2>
-    <p class="sheet-copy">Elige una ciudad colombiana para ver sus emisoras locales.</p>
-    <div class="sheet-stack">
-      <button class="sheet-btn" data-gps>📡 Usar mi ubicación (GPS)</button>
-    </div>
-    <div class="sheet-copy" style="margin-top:8px">Ciudades de Colombia</div>
-    <div class="sheet-stack">${cityButtons}</div>`, root => {
-    $('[data-gps]', root).onclick = () => { closeDialog(el('sheetDialog')); detectLocationAndSearch(); };
-    $$('[data-city-idx]', root).forEach(b => b.onclick = () => {
-      closeDialog(el('sheetDialog'));
-      const city = CO_CITIES[parseInt(b.dataset.cityIdx)];
-      searchByCity(city);
-    });
-  });
-}
-
-// R10.39 · Search stations by city
-async function searchByCity(city) {
-  busy(true);
-  state.query = ''; state.scope = 'city:' + city.name;
-  try {
-    // Search by state/department name and also by coordinates
-    const rows = await mirrored([
-      path({state: city.state, countrycode: 'CO'}),
-      path({name: city.name, countrycode: 'CO'}),
-    ]);
-    const stations = dedupe(rows);
-    state.set = stations;
-    state.index = stations.findIndex(x => id(x) === id(state.station));
-    if(stations.length) cacheRows(stations);
-    renderResults();
-    announce(`${stations.length} emisoras en ${city.name}`);
-    toast(`📍 ${city.name} · ${stations.length} emisoras`, 3000);
-    // Update active button
-    document.querySelectorAll('[data-radio-scope]').forEach(x => x.classList.remove('active'));
-    if(el('radioSearchInput')) el('radioSearchInput').value = '';
-  } catch(e) {
-    announce('No se pudieron obtener emisoras');
-    toast('Sin conexión · intenta más tarde', 3000);
-  } finally {
-    busy(false);
-  }
-}
-
 async function seedBuiltInStations(){
   const flagKey='mp-radio-builtin-seeded-v1';
   let alreadySeeded=false;
@@ -236,7 +116,7 @@ async function seedBuiltInStations(){
     }
   }
   if(added>0){
-    console.debug(`R10.20 · ${added} emisoras base añadidas a favoritas`);
+    console.debug(`R10.40 · ${added} emisoras base añadidas a favoritas`);
     try{localStorage.setItem(flagKey,'1');}catch{}
   }
 }

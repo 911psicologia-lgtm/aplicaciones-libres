@@ -40,21 +40,21 @@ public class NativeBridge {
         FloatingPlayerService.handleWebMessage(activity, message == null ? "{}" : message);
     }
 
-    /** R10.39 · HAPPY BOOST nativo — activa/desactiva EQ+BassBoost+Loudness+Virtualizer
+    /** R10.40 · HAPPY BOOST nativo — activa/desactiva EQ+BassBoost+Loudness+Virtualizer
      *  en el audio session de ExoPlayer (Radio Live + YouTube delegado al servicio). */
     @JavascriptInterface
     public void setBoost(boolean enabled) {
         FloatingPlayerService.handleBoost(enabled);
     }
 
-    /** R10.39 · Consulta si el BOOST nativo está activo (para sincronizar UI al arrancar). */
+    /** R10.40 · Consulta si el BOOST nativo está activo (para sincronizar UI al arrancar). */
     @JavascriptInterface
     public boolean isBoostEnabled() {
         return FloatingPlayerService.isBoostEnabled();
     }
 
     @JavascriptInterface
-    public String appVersion() { return "R10.39"; }
+    public String appVersion() { return "R10.40"; }
 
     @JavascriptInterface
     public String ping() { return "happy"; }

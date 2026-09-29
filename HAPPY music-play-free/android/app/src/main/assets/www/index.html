@@ -12,12 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.39-location" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.20-float-fix" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.39-location" />
-  <link rel="stylesheet" href="./radio.css?v=r10.39-location" />
-  <link rel="stylesheet" href="./sp.css?v=r10.39-location" />
+  <link rel="stylesheet" href="./styles.css?v=r10.20-float-fix" />
+  <link rel="stylesheet" href="./radio.css?v=r10.20-float-fix" />
+  <link rel="stylesheet" href="./sp.css?v=r10.20-float-fix" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -135,6 +135,7 @@
           </section>
 
           <section id="homeDecadesSection" class="home-section"><div class="section-row"><div><small>TU MÚSICA EN EL TIEMPO</small><h2>Décadas</h2></div><span id="homeDecadesHint" class="section-hint">Redescubre tu biblioteca por época</span></div><div id="homeDecades" class="horizontal-cards"></div></section>
+          <section id="homeEnergySection" class="home-section"><div class="section-row"><div><small>TU ENERGÍA MUSICAL</small><h2>Tu ritmo</h2></div></div><div id="homeEnergy" class="energy-container"></div></section>
           <section id="homeDiscoverySection" class="home-section"><div class="section-row"><div><small>DESCUBRE QUÉ HAY DE NUEVO</small><h2>Novedades</h2></div></div><span class="section-hint" style="padding:0 2px 4px">Lanzamientos y videos recientes</span><div id="homeDiscoveryGenres" class="discovery-genres"></div><div id="homeDiscoveryFeatured" class="horizontal-cards" style="margin-top:8px"></div></section>
           <div class="mini-stats" id="summaryBar">
             <span><b id="countTracks">0</b> audios</span><span><b id="countPlaylists">0</b> listas</span><span><b id="listenTimeHome">0m</b> escuchados</span>
@@ -225,7 +226,7 @@
         <div class="radio-segments" role="tablist"><button id="radioInternetTab" class="active" type="button" aria-selected="true">Internet</button><button id="radioFmTab" type="button" aria-selected="false">FM del equipo</button></div>
         <div id="radioInternetPanel">
           <label class="radio-search"><span>⌕</span><input id="radioSearchInput" type="search" placeholder="Buscar emisora, ciudad, país o género" autocomplete="off"></label>
-          <div class="radio-quick-actions"><button data-radio-scope="colombia" class="active">Colombia</button><button data-radio-scope="nearby" title="Usar mi ubicación">📍 Mi ubicación</button><button data-radio-scope="city" title="Seleccionar ciudad">🏙 Ciudad</button><button data-radio-scope="favorites">Favoritas</button><button data-radio-scope="recent">Recientes</button></div>
+          <div class="radio-quick-actions"><button data-radio-scope="colombia" class="active">Colombia</button><button data-radio-scope="favorites">Favoritas</button><button data-radio-scope="recent">Recientes</button></div>
           <div id="radioStatus" class="radio-status" aria-live="polite"></div>
           <div id="radioAriaStatus" class="sr-only" aria-live="polite"></div>
           <div id="radioResults" class="radio-results"></div>
@@ -321,13 +322,14 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.39-location"></script>
-  <script src="./radio.js?v=r10.39-location"></script>
-  <script src="./sp.js?v=r10.39-location"></script>
-  <script src="./basecontent.js?v=r10.39-location"></script>
-  <script src="./decades.js?v=r10.39-location"></script>
-  <script src="./microticker.js?v=r10.39-location"></script>
-  <script src="./discovery.js?v=r10.39-location"></script>
-  <script src="./lyrics.js?v=r10.39-location"></script>
+  <script src="./app.js?v=r10.40-energy"></script>
+  <script src="./radio.js?v=r10.40-energy"></script>
+  <script src="./sp.js?v=r10.40-energy"></script>
+  <script src="./basecontent.js?v=r10.40-energy"></script>
+  <script src="./decades.js?v=r10.40-energy"></script>
+  <script src="./microticker.js?v=r10.40-energy"></script>
+  <script src="./discovery.js?v=r10.40-energy"></script>
+  <script src="./lyrics.js?v=r10.40-energy"></script>
+  <script src="./energy.js?v=r10.40-energy"></script>
 </body>
 </html>

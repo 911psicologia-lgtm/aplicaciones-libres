@@ -1,1 +1,6 @@
-{"build":"2026.09.21-r10.39-location","version":"R10.39","label":"Radio: GPS + selector de ciudad + emisoras cercanas + todas las correcciones","date":"2026-09-21"}
+{
+  "build": "2026.09.21-r10.40-energy",
+  "version": "R10.40",
+  "label": "Tu Energía Musical (racha + top artistas + sesión express) · sin GPS · todas las correcciones",
+  "date": "2026-09-21"
+}
