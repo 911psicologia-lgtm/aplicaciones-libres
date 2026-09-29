@@ -12,12 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="MUSIC PLAY" />
   <title>MUSIC PLAY · HAPPY</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=r10.20-float-fix" />
+  <link rel="manifest" href="./manifest.webmanifest?v=r10.39-location" />
   <link rel="icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="./styles.css?v=r10.20-float-fix" />
-  <link rel="stylesheet" href="./radio.css?v=r10.20-float-fix" />
-  <link rel="stylesheet" href="./sp.css?v=r10.20-float-fix" />
+  <link rel="stylesheet" href="./styles.css?v=r10.39-location" />
+  <link rel="stylesheet" href="./radio.css?v=r10.39-location" />
+  <link rel="stylesheet" href="./sp.css?v=r10.39-location" />
 </head>
 <body>
   <noscript>Esta aplicación necesita JavaScript.</noscript>
@@ -225,7 +225,7 @@
         <div class="radio-segments" role="tablist"><button id="radioInternetTab" class="active" type="button" aria-selected="true">Internet</button><button id="radioFmTab" type="button" aria-selected="false">FM del equipo</button></div>
         <div id="radioInternetPanel">
           <label class="radio-search"><span>⌕</span><input id="radioSearchInput" type="search" placeholder="Buscar emisora, ciudad, país o género" autocomplete="off"></label>
-          <div class="radio-quick-actions"><button data-radio-scope="colombia" class="active">Colombia</button><button data-radio-scope="favorites">Favoritas</button><button data-radio-scope="recent">Recientes</button></div>
+          <div class="radio-quick-actions"><button data-radio-scope="colombia" class="active">Colombia</button><button data-radio-scope="nearby" title="Usar mi ubicación">📍 Mi ubicación</button><button data-radio-scope="city" title="Seleccionar ciudad">🏙 Ciudad</button><button data-radio-scope="favorites">Favoritas</button><button data-radio-scope="recent">Recientes</button></div>
           <div id="radioStatus" class="radio-status" aria-live="polite"></div>
           <div id="radioAriaStatus" class="sr-only" aria-live="polite"></div>
           <div id="radioResults" class="radio-results"></div>
@@ -321,13 +321,13 @@
     <div id="ytProbeHost" class="probe-host" aria-hidden="true"></div>
   </div>
 
-  <script src="./app.js?v=r10.36-icon-fix"></script>
-  <script src="./radio.js?v=r10.36-icon-fix"></script>
-  <script src="./sp.js?v=r10.36-icon-fix"></script>
-  <script src="./basecontent.js?v=r10.36-icon-fix"></script>
-  <script src="./decades.js?v=r10.36-icon-fix"></script>
-  <script src="./microticker.js?v=r10.36-icon-fix"></script>
-  <script src="./discovery.js?v=r10.36-icon-fix"></script>
-  <script src="./lyrics.js?v=r10.36-icon-fix"></script>
+  <script src="./app.js?v=r10.39-location"></script>
+  <script src="./radio.js?v=r10.39-location"></script>
+  <script src="./sp.js?v=r10.39-location"></script>
+  <script src="./basecontent.js?v=r10.39-location"></script>
+  <script src="./decades.js?v=r10.39-location"></script>
+  <script src="./microticker.js?v=r10.39-location"></script>
+  <script src="./discovery.js?v=r10.39-location"></script>
+  <script src="./lyrics.js?v=r10.39-location"></script>
 </body>
 </html>

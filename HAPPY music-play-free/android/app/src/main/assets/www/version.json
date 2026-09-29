@@ -1,6 +1,1 @@
-{
-  "build": "2026.09.21-r10.36-icon-fix",
-  "version": "R10.36",
-  "label": "Controles icon-only sin texto · repeatCurrentBtn y soundModeBtn ya no sobreescriben con texto",
-  "date": "2026-09-21"
-}
+{"build":"2026.09.21-r10.39-location","version":"R10.39","label":"Radio: GPS + selector de ciudad + emisoras cercanas + todas las correcciones","date":"2026-09-21"}
