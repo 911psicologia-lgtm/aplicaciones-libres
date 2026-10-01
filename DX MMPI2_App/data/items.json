@@ -1,0 +1,2270 @@
+[
+  {
+    "num": 1,
+    "text": "Me gustan las revistas de mecánica"
+  },
+  {
+    "num": 2,
+    "text": "Tengo buen apetito"
+  },
+  {
+    "num": 3,
+    "text": "Casi siempre me levanto por las mañanas descansado y como nuevo"
+  },
+  {
+    "num": 4,
+    "text": "Creo que me gustaría el trabajo de bibliotecario"
+  },
+  {
+    "num": 5,
+    "text": "El ruido me despierta fácilmente"
+  },
+  {
+    "num": 6,
+    "text": "Mi padre es un buen hombre o (si ya ha fallecido) mi padre fue un buen hombre."
+  },
+  {
+    "num": 7,
+    "text": "Me gusta leer artículos sobre crímenes en los periódicos"
+  },
+  {
+    "num": 8,
+    "text": "Normalmente tengo bastante calientes los pies y las manos"
+  },
+  {
+    "num": 9,
+    "text": "En mi vida diaria hay muchas cosas que me resultan interesantes"
+  },
+  {
+    "num": 10,
+    "text": "Actualmente tengo tanta capacidad de trabajo como antes"
+  },
+  {
+    "num": 11,
+    "text": "La mayor parte del tiempo me parece tener un nudo en la garganta"
+  },
+  {
+    "num": 12,
+    "text": "Mi vida sexual es satisfactoria"
+  },
+  {
+    "num": 13,
+    "text": "La gente debiera intentar comprender sus sueños y guiarse por ellos o tomarlos como aviso"
+  },
+  {
+    "num": 14,
+    "text": "Me divierten las historias de detectives y misterio"
+  },
+  {
+    "num": 15,
+    "text": "Trabajo bajo una tensión muy grande"
+  },
+  {
+    "num": 16,
+    "text": "De vez en cuando pienso cosas demasiado malas para hablar de ellas"
+  },
+  {
+    "num": 17,
+    "text": "2Estoy seguro de que la vida es dura para mí"
+  },
+  {
+    "num": 18,
+    "text": "Sufro ataques de náuseas y vómitos"
+  },
+  {
+    "num": 19,
+    "text": "Cuando acepto un nuevo empleo, me gusta que se me indique confidencialmente a quién debo halagar"
+  },
+  {
+    "num": 20,
+    "text": "Muy rara vez sufro de estreñimiento"
+  },
+  {
+    "num": 21,
+    "text": "A veces he deseado muchísimo abandonar el hogar"
+  },
+  {
+    "num": 22,
+    "text": "Nadie parece comprenderme"
+  },
+  {
+    "num": 23,
+    "text": "A veces tengo accesos de ira y llanto que no puedo controlar"
+  },
+  {
+    "num": 24,
+    "text": "A veces estoy poseído por espíritus diabólicos"
+  },
+  {
+    "num": 25,
+    "text": "Me gustaría ser cantante"
+  },
+  {
+    "num": 26,
+    "text": "Cuando estoy en dificultades o problemas, creo que lo mejor es callarme"
+  },
+  {
+    "num": 27,
+    "text": "Cuando alguien me hace una faena, siento deseos de devolvérsela, si me es posible; y esto, por cuestión de principios"
+  },
+  {
+    "num": 28,
+    "text": "Me molesta el estómago varias veces a la semana."
+  },
+  {
+    "num": 29,
+    "text": "A veces siento deseos de maldecir o jurar"
+  },
+  {
+    "num": 30,
+    "text": "A menudo tengo pesadillas nocturnas"
+  },
+  {
+    "num": 31,
+    "text": "Me cuesta bastante concentrarme en una tarea o trabajo"
+  },
+  {
+    "num": 32,
+    "text": "He tenido muy peculiares y extrañas experiencias"
+  },
+  {
+    "num": 33,
+    "text": "Raras veces me preocupo por mi salud"
+  },
+  {
+    "num": 34,
+    "text": "Nunca he tenido dificultades a causa de mi conducta sexual"
+  },
+  {
+    "num": 35,
+    "text": "En algunas ocasiones, cuando era joven, robé algunas cosas."
+  },
+  {
+    "num": 36,
+    "text": "Casi siempre tengo tos."
+  },
+  {
+    "num": 37,
+    "text": "A veces siento deseos de destrozar las cosas"
+  },
+  {
+    "num": 38,
+    "text": "He tenido periodos de días, semanas o meses en los que no podía preocuparme por las cosas, porque no tenía ánimos para nada"
+  },
+  {
+    "num": 39,
+    "text": "Mi sueño es irregular e intranquilo."
+  },
+  {
+    "num": 40,
+    "text": "La mayor parte del tiempo parece dolerme la cabeza por todas partes"
+  },
+  {
+    "num": 41,
+    "text": "No digo siempre la verdad"
+  },
+  {
+    "num": 42,
+    "text": "Si los demás no la hubieran tomado conmigo, habría tenido más éxito"
+  },
+  {
+    "num": 43,
+    "text": "Mis razonamientos son ahora mejores que nunca"
+  },
+  {
+    "num": 44,
+    "text": "Una vez a la semana, o más a menudo, siento calor por todo el cuerpo sin causa aparente"
+  },
+  {
+    "num": 45,
+    "text": "Tengo tan buena salud física como la mayor parte de mis amigos"
+  },
+  {
+    "num": 46,
+    "text": "Prefiero hacerme el desentendido con amigos del colegio o personas conocidas que no veo desde hace tiempo, a menos que ellos me hablen primero"
+  },
+  {
+    "num": 47,
+    "text": "Casi nunca he sufrido dolores en el pecho o en el corazón"
+  },
+  {
+    "num": 48,
+    "text": "En muchas ocasiones me gustaría más sentarme y soñar despierto que hacer cualquier cosa"
+  },
+  {
+    "num": 49,
+    "text": "Soy una persona muy sociable."
+  },
+  {
+    "num": 50,
+    "text": "Con frecuencia he tenido que recibir órdenes de personas que sabían menos que yo."
+  },
+  {
+    "num": 51,
+    "text": "Diariamente no leo todos los artículos editoriales del periódico."
+  },
+  {
+    "num": 52,
+    "text": "No he llevado un tipo de vida adecuado y normal."
+  },
+  {
+    "num": 53,
+    "text": "Con frecuencia me parece sentir, ardores, punzadas, hormigueo o quedarse «dormidas» algunas partes de mi cuerpo."
+  },
+  {
+    "num": 54,
+    "text": "A mi familia no le gusta el trabajo que he elegido (o el trabajo que pienso elegir para mi futuro)."
+  },
+  {
+    "num": 55,
+    "text": "A veces insisto tanto en una cosa que los demás pierden la paciencia conmigo."
+  },
+  {
+    "num": 56,
+    "text": "Me gustaría ser tan feliz como parecen ser los demás."
+  },
+  {
+    "num": 57,
+    "text": "Muy raras veces siento dolor en la nuca."
+  },
+  {
+    "num": 58,
+    "text": "Pienso que una gran mayoría de la gente exagera sus desgracias para lograr la simpatía y ayuda de los demás,"
+  },
+  {
+    "num": 59,
+    "text": "Tengo molestias en la boca del estómago casi a diario."
+  },
+  {
+    "num": 60,
+    "text": "Cuando estoy con gente me molesta oír cosas muy extrañas."
+  },
+  {
+    "num": 61,
+    "text": "Soy una persona importante."
+  },
+  {
+    "num": 62,
+    "text": "A menudo he deseado ser mujer, (o si Vd. es mujer) nunca me ha pesado ser mujer."
+  },
+  {
+    "num": 63,
+    "text": "Mis sentimientos no son heridos fácilmente."
+  },
+  {
+    "num": 64,
+    "text": "Me gusta leer novelas de amor."
+  },
+  {
+    "num": 65,
+    "text": "La mayor parte del tiempo me siento triste."
+  },
+  {
+    "num": 66,
+    "text": "Sería mejor si se anulasen casi todas las leyes."
+  },
+  {
+    "num": 67,
+    "text": "Me gusta la poesía."
+  },
+  {
+    "num": 68,
+    "text": "A veces hago rabiar (jugando) a los animales."
+  },
+  {
+    "num": 69,
+    "text": "Creo que me gustaría trabajar de guardabosques."
+  },
+  {
+    "num": 70,
+    "text": "En una discusión o debate me dejo vencer fácilmente,"
+  },
+  {
+    "num": 71,
+    "text": "En la actualidad me es difícil no perder Ia esperanza de llegar a ser- alguien."
+  },
+  {
+    "num": 72,
+    "text": "A veces mi alma abandona mi cuerpo."
+  },
+  {
+    "num": 73,
+    "text": "Sin duda alguna no tengo confianza en mi mismo."
+  },
+  {
+    "num": 74,
+    "text": "Me gustaría ser florista,"
+  },
+  {
+    "num": 75,
+    "text": "Normalmente siento que la vida vale la pena vivirla."
+  },
+  {
+    "num": 76,
+    "text": "Cuesta mucho trabajo convencer a la mayoría de la gente de la verdad,"
+  },
+  {
+    "num": 77,
+    "text": "De vez en cuando dejo para mañana lo que debiera hacer hoy."
+  },
+  {
+    "num": 78,
+    "text": "Le agrado a la mayor parte de la gente que me conoce."
+  },
+  {
+    "num": 79,
+    "text": "No me importa que se diviertan a costa mía."
+  },
+  {
+    "num": 80,
+    "text": "Me gustaría ser enfermero,"
+  },
+  {
+    "num": 81,
+    "text": "Creo que la mayoría de la gente mentiría con tal de conseguir lo que quiere. 82 Hago muchas cosas de las que luego me arrepiento. (Me arrepiento más frecuentemente que otras personas de las cosas que hago),"
+  },
+  {
+    "num": 82,
+    "text": "Hago muchas cosas de las que luego me arrepiento. (Me arrepiento más frecuentemente que otras personas de las cosas que hago),"
+  },
+  {
+    "num": 83,
+    "text": "Tengo muy pocos disgustos con los miembros de mi familia."
+  },
+  {
+    "num": 84,
+    "text": "Cuando era joven me echaron de clase una o más veces por mi mal comportamiento,"
+  },
+  {
+    "num": 85,
+    "text": "A veces siento fuertes deseos de hacer algo dañino o escandaloso."
+  },
+  {
+    "num": 86,
+    "text": "Me gusta asistir a reuniones o fiestas animadas y alegres."
+  },
+  {
+    "num": 87,
+    "text": "Me he enfrentado a problemas con tantas opciones de solución que me ha sido imposible llegar a una decisión"
+  },
+  {
+    "num": 88,
+    "text": "Creo que la mujer debe tener tanta libertad sexual corno el hombre."
+  },
+  {
+    "num": 89,
+    "text": "Los conflictos más graves que tengo son conmigo misino."
+  },
+  {
+    "num": 90,
+    "text": "Quiero a mi padre, (o si ya ha fallecido) quise a mi padre."
+  },
+  {
+    "num": 91,
+    "text": "Nunca o rara vez tengo espasmos o calambres musculares"
+  },
+  {
+    "num": 92,
+    "text": "Parece que no me importa mucho lo que me pueda suceder."
+  },
+  {
+    "num": 93,
+    "text": "A veces, cuando no me encuentro bien, estoy de mal humor."
+  },
+  {
+    "num": 94,
+    "text": "Muchas veces siento haber hecho algo malo o erróneo."
+  },
+  {
+    "num": 95,
+    "text": "Casi siempre soy feliz."
+  },
+  {
+    "num": 96,
+    "text": "Veo a mi alrededor cosas, animales o personas que otros no ven."
+  },
+  {
+    "num": 97,
+    "text": "La mayor parte del tiempo mi cabeza o mi nariz parecen estar congestionadas."
+  },
+  {
+    "num": 98,
+    "text": "Hay algunas personas tan mandonas que me dan ganas de hacer lo contrario de lo que me piden, aunque sepa que tienen razón."
+  },
+  {
+    "num": 99,
+    "text": "Alguien me la tiene jurada."
+  },
+  {
+    "num": 100,
+    "text": "Nunca he hecho algo peligroso sólo por la emoción de hacerlo."
+  },
+  {
+    "num": 101,
+    "text": "A menudo siento como si tuviera una venda puesta fuertemente alrededor de mi cabeza."
+  },
+  {
+    "num": 102,
+    "text": "Algunas veces me enfado."
+  },
+  {
+    "num": 103,
+    "text": "Me divierte más el juego o una partida cuando apuesto."
+  },
+  {
+    "num": 104,
+    "text": "La mayoría de la gente es honrada por temor a ser descubierta."
+  },
+  {
+    "num": 105,
+    "text": "En el colegio, algunas veces, fui enviado al director a causa de mi mal comportamiento."
+  },
+  {
+    "num": 106,
+    "text": "Mi manera de hablar es como siempre (ni más rápida, ni más lenta, ni balbuceante, ni ronca)."
+  },
+  {
+    "num": 107,
+    "text": "Mis modales en la mesa no son tan correctos en mi casa como cuando salgo a comer fuera."
+  },
+  {
+    "num": 108,
+    "text": "Cualquier persona que sea capaz y esté dispuesta a trabajar duro, tiene muchas probabilidades de obtener éxito."
+  },
+  {
+    "num": 109,
+    "text": "Me parece que soy tan listo y capaz como la mayor parte de los que me rodean."
+  },
+  {
+    "num": 110,
+    "text": "La mayoría de la gente utilizaría medios algo injustos para no perder un beneficio o ventaja."
+  },
+  {
+    "num": 111,
+    "text": "Tengo muchos problemas con el estómago."
+  },
+  {
+    "num": 112,
+    "text": "Me gustan los dramas."
+  },
+  {
+    "num": 113,
+    "text": "Sé quién es el responsable de la mayoría de mis problemas."
+  },
+  {
+    "num": 114,
+    "text": "A veces me siento tan atraído por las cosas personales de otro (como zapatos, guantes, etc.) que desearía cogerlos o robarlos, aunque no me sean útiles."
+  },
+  {
+    "num": 115,
+    "text": "Cuando veo sangre no me da miedo ni me pongo malo."
+  },
+  {
+    "num": 116,
+    "text": "Frecuentemente no puedo comprender por qué he estado tan irritable y malhumorado."
+  },
+  {
+    "num": 117,
+    "text": "Nunca he vomitado o escupido sangre."
+  },
+  {
+    "num": 118,
+    "text": "No me preocupa contraer enfermedades."
+  },
+  {
+    "num": 119,
+    "text": "Me gusta coger flores o cultivar plantas en casa."
+  },
+  {
+    "num": 120,
+    "text": "Frecuentemente encuentro necesario defender lo que es justo."
+  },
+  {
+    "num": 121,
+    "text": "Nunca me he entregado a prácticas sexuales fuera de lo común."
+  },
+  {
+    "num": 122,
+    "text": "A veces mis pensamientos han ido más deprisa y por delante de mis palabras."
+  },
+  {
+    "num": 123,
+    "text": "Si pudiera entrar en un espectáculo sin pagar y estuviera seguro de no ser visto, probablemente lo haría."
+  },
+  {
+    "num": 124,
+    "text": "Generalmente me pregunto qué razón oculta puede tener otra persona cuando me hace un favor."
+  },
+  {
+    "num": 125,
+    "text": "Creo que mi vida hogareña es tan agradable como la de la mayoría de la gente que conozco."
+  },
+  {
+    "num": 126,
+    "text": "Creo en la obligación o exigencia de la ley,"
+  },
+  {
+    "num": 127,
+    "text": "Las críticas y las reprensiones me hieren profundamente."
+  },
+  {
+    "num": 128,
+    "text": "Me gusta cocinar."
+  },
+  {
+    "num": 129,
+    "text": "La mayor parte de mi conducta está controlada por el comportamiento de los que me rodean."
+  },
+  {
+    "num": 130,
+    "text": "Ciertamente a veces siento que soy un inútil."
+  },
+  {
+    "num": 131,
+    "text": "Cuando era un muchacho pertenecía a una panda que intentaba mantenerse unida ante cualquier adversidad,"
+  },
+  {
+    "num": 132,
+    "text": "Creo que existe otra vida después de ésta."
+  },
+  {
+    "num": 133,
+    "text": "Me gustaría ser militar."
+  },
+  {
+    "num": 134,
+    "text": "A veces siento deseos de liarme a puñetazos con alguien."
+  },
+  {
+    "num": 135,
+    "text": "Frecuentemente pierdo o desaprovecho oportunidades por no decidirme a tiempo."
+  },
+  {
+    "num": 136,
+    "text": "Me molesta que la gente me pida consejo o que me interrumpa cuando estoy trabajando en algo importante."
+  },
+  {
+    "num": 137,
+    "text": "Solía llevar un diario personal."
+  },
+  {
+    "num": 138,
+    "text": "Creo que están tramando algo contra mí."
+  },
+  {
+    "num": 139,
+    "text": "En un juego o partida me gusta más ganar que perder."
+  },
+  {
+    "num": 140,
+    "text": "Casi todas las noches me duermo sin ideas o pensamientos preocupantes."
+  },
+  {
+    "num": 141,
+    "text": "Durante los últimos años he gozado casi siempre de buena salud,"
+  },
+  {
+    "num": 142,
+    "text": "Nunca he sufrido un ataque o convulsiones."
+  },
+  {
+    "num": 143,
+    "text": "Ahora no estoy ganando ni perdiendo peso."
+  },
+  {
+    "num": 144,
+    "text": "Creo que me están persiguiendo."
+  },
+  {
+    "num": 145,
+    "text": "Creo que frecuentemente he sido castigado sin motivo alguno."
+  },
+  {
+    "num": 146,
+    "text": "Lloro con facilidad."
+  },
+  {
+    "num": 147,
+    "text": "Actualmente no comprendo lo que leo con la misma facilidad de antes."
+  },
+  {
+    "num": 148,
+    "text": "Nunca en mi vida me he sentido mejor que ahora."
+  },
+  {
+    "num": 149,
+    "text": "A veces siento dolorida la parte superior de la cabeza."
+  },
+  {
+    "num": 150,
+    "text": "Algunas veces siento deseos de hacer daño, a mí mismo o a alguien."
+  },
+  {
+    "num": 151,
+    "text": "Me molesta que alguien se haya burlado tan hábilmente de mí que yo haya tenido que reconocer que lo logro."
+  },
+  {
+    "num": 152,
+    "text": "No me canso fácilmente."
+  },
+  {
+    "num": 153,
+    "text": "Me gusta conocer a gente importante porque esto hace sentirme importante,"
+  },
+  {
+    "num": 154,
+    "text": "Siento miedo cuando miro hacia abajo desde un lugar alto."
+  },
+  {
+    "num": 155,
+    "text": "No me preocuparía si algún familiar mío tuviera problemas con la ley."
+  },
+  {
+    "num": 156,
+    "text": "Sólo me encuentro feliz cuando ando errante o viajo de un lado para otro."
+  },
+  {
+    "num": 157,
+    "text": "No me preocupa lo que los demás piensen de mí."
+  },
+  {
+    "num": 158,
+    "text": "Me siento incómodo cuando tengo que hacer una payasada en una fiesta, incluso aunque otros la estén haciendo."
+  },
+  {
+    "num": 159,
+    "text": "Nunca me he desmayado."
+  },
+  {
+    "num": 160,
+    "text": "Me gustaba ir al colegio."
+  },
+  {
+    "num": 161,
+    "text": "Frecuentemente tengo que esforzarme para no demostrar que soy tímido,"
+  },
+  {
+    "num": 162,
+    "text": "Alguien ha estado intentando envenenarme."
+  },
+  {
+    "num": 163,
+    "text": "Las serpientes no me dan mucho miedo."
+  },
+  {
+    "num": 164,
+    "text": "Nunca o rara vez tengo mareos."
+  },
+  {
+    "num": 165,
+    "text": "Mi memoria parece estar en buenas condiciones."
+  },
+  {
+    "num": 166,
+    "text": "Me preocupan los temas sexuales."
+  },
+  {
+    "num": 167,
+    "text": "Me es difícil entablar una conversación cuando conozco a alguien por primera vez."
+  },
+  {
+    "num": 168,
+    "text": "He tenido épocas durante las cuales he realizado actividades que luego no recordaba haberlas hecho."
+  },
+  {
+    "num": 169,
+    "text": "Cuando estoy aburrido me gusta provocar algo excitante o divertido."
+  },
+  {
+    "num": 170,
+    "text": "Tengo miedo de volverme loco."
+  },
+  {
+    "num": 171,
+    "text": "Estoy en contra de dar dinero a los mendigos."
+  },
+  {
+    "num": 172,
+    "text": "Frecuentemente noto que tiemblan mis manos cuando intento hacer algo."
+  },
+  {
+    "num": 173,
+    "text": "Puedo leer mucho tiempo sin que se me cansen los ojos."
+  },
+  {
+    "num": 174,
+    "text": "Me gusta leer y estudiar acerca de las cosas en las que estoy trabajando."
+  },
+  {
+    "num": 175,
+    "text": "Siento debilidad general la mayor parte del tiempo."
+  },
+  {
+    "num": 176,
+    "text": "Me duele la cabeza muy pocas veces."
+  },
+  {
+    "num": 177,
+    "text": "Mis manos no se han vuelto torpes ni he perdido habilidad."
+  },
+  {
+    "num": 178,
+    "text": "A veces, cuando me encuentro en una situación incómoda, empiezo a sudar tanto que me llega a molestar muchísimo."
+  },
+  {
+    "num": 179,
+    "text": "No he tenido dificultades para mantener el equilibrio al caminar,"
+  },
+  {
+    "num": 180,
+    "text": "Algo no marcha bien en mi cabeza."
+  },
+  {
+    "num": 181,
+    "text": "No tengo accesos de alergia o asma."
+  },
+  {
+    "num": 182,
+    "text": "He tenido ataques en los que perdía el control de mis movimientos o de la palabra, pero sabía lo que pasaba a mi alrededor."
+  },
+  {
+    "num": 183,
+    "text": "No me agradan todas las personas que conozco."
+  },
+  {
+    "num": 184,
+    "text": "Muy pocas veces sueño despierta."
+  },
+  {
+    "num": 185,
+    "text": "Me gustaría no ser tan tímido."
+  },
+  {
+    "num": 186,
+    "text": "No me da miedo manejar dinero."
+  },
+  {
+    "num": 187,
+    "text": "Si fuera periodista me gustaría mucho escribir sobre teatro."
+  },
+  {
+    "num": 188,
+    "text": "Disfruto con muy diferentes clases de juegos y diversiones."
+  },
+  {
+    "num": 189,
+    "text": "Me gusta coquetear."
+  },
+  {
+    "num": 190,
+    "text": "Mi familia me trata más como a un niño que como a un adulto."
+  },
+  {
+    "num": 191,
+    "text": "Me gustaría ser periodista."
+  },
+  {
+    "num": 192,
+    "text": "Mi madre es una buena mujer, (o si ya ha fallecido) mi madre fue una buena mujer."
+  },
+  {
+    "num": 193,
+    "text": "Cuando camino evito cuidadosamente pisar las rayas o grietas de la acera."
+  },
+  {
+    "num": 194,
+    "text": "Nunca he tenido erupciones en la piel que me hayan preocupado."
+  },
+  {
+    "num": 195,
+    "text": "En comparación con otros hogares, en mi familia hay poco compañerismo y cariño."
+  },
+  {
+    "num": 196,
+    "text": "Frecuentemente me encuentro preocupado por algo."
+  },
+  {
+    "num": 197,
+    "text": "Creo que me gustaría el trabajo de contratista de obras."
+  },
+  {
+    "num": 198,
+    "text": "A menudo oigo voces sin saber de dónde vienen."
+  },
+  {
+    "num": 199,
+    "text": "Me gusta la ciencia."
+  },
+  {
+    "num": 200,
+    "text": "No me cuesta pedir ayuda a mis amigos, incluso aunque no pueda devolverles el favor."
+  },
+  {
+    "num": 201,
+    "text": "Me gusta mucho cazar."
+  },
+  {
+    "num": 202,
+    "text": "A menudo mis padres han puesto reparos al tipo de gente con el que me juntaba."
+  },
+  {
+    "num": 203,
+    "text": "A veces chismorrea un poco."
+  },
+  {
+    "num": 204,
+    "text": "Aparentemente oigo can bien como la mayoría de la gente."
+  },
+  {
+    "num": 205,
+    "text": "Alguno de mis familiares tiene costumbres que me molestan y me irritan muchísimo."
+  },
+  {
+    "num": 206,
+    "text": "A veces me siento capaz de tomar2 decisiones con extraordinaria facilidad."
+  },
+  {
+    "num": 207,
+    "text": "Me gustaría pertenecer a varios clubes o asociaciones,"
+  },
+  {
+    "num": 208,
+    "text": "Rara vez noto los latidos de mi corazón y pocas veces se me corta la respiración."
+  },
+  {
+    "num": 209,
+    "text": "Me gusta hablar sobre temas sexuales."
+  },
+  {
+    "num": 210,
+    "text": "Me gusta visitar lugares donde nunca he estado."
+  },
+  {
+    "num": 211,
+    "text": "Me han sugerido un programa de vida basado en el deber y desde entonces lo he seguido cuidadosamente."
+  },
+  {
+    "num": 212,
+    "text": "A veces he estorbado a alguien que trataba de hacer algo, no porque eso importara mucho, sino por cuestión de principios."
+  },
+  {
+    "num": 213,
+    "text": "Me enfado fácilmente, pero se me pasa pronto."
+  },
+  {
+    "num": 214,
+    "text": "He sido bastante libre e independiente de la disciplina familiar."
+  },
+  {
+    "num": 215,
+    "text": "Me preocupo mucho por las cosas."
+  },
+  {
+    "num": 216,
+    "text": "Alguien ha estado intentando robarme."
+  },
+  {
+    "num": 217,
+    "text": "Casi todos mis familiares simpatizan conmigo."
+  },
+  {
+    "num": 218,
+    "text": "Tengo períodos de tanta intranquilidad que no puedo estar sentado mucho tiempo en una silla."
+  },
+  {
+    "num": 219,
+    "text": "He sufrido desengaños amorosos."
+  },
+  {
+    "num": 220,
+    "text": "Nunca me preocupo por mi apariencia física."
+  },
+  {
+    "num": 221,
+    "text": "Frecuentemente sueño sobre cosas que es mejor mantenerlas en secreto."
+  },
+  {
+    "num": 222,
+    "text": "A los niños se les debería enseñar lo principal acerca de la vida sexual."
+  },
+  {
+    "num": 223,
+    "text": "Creo que no soy más nervioso que la mayoría de la gente."
+  },
+  {
+    "num": 224,
+    "text": "Tengo pocos o ningún dolor."
+  },
+  {
+    "num": 225,
+    "text": "Mi manera de hacer las cosas tiende a ser mal interpretada por los demás."
+  },
+  {
+    "num": 226,
+    "text": "Algunas veces, sin razón alguna, o incluso cuando las cosas me van mal, me siento animadamente feliz, como «flotando entre nubes»."
+  },
+  {
+    "num": 227,
+    "text": "No culpo a nadie por tratar de apoderarse de todo lo que pueda en este mundo."
+  },
+  {
+    "num": 228,
+    "text": "Hay personas que están intentando apoderarse de mis pensamientos e ideas."
+  },
+  {
+    "num": 229,
+    "text": "He tenido momentos de tanta turbación que interrumpí mis actividades, y no sabía qué estaba ocurriendo a mi alrededor."
+  },
+  {
+    "num": 230,
+    "text": "Puedo mostrarme amistoso con la gente que hace cosas que yo considero incorrectas."
+  },
+  {
+    "num": 231,
+    "text": "Me gusta estar en un grupo en el que se gastan bromas unos a otros."
+  },
+  {
+    "num": 232,
+    "text": "En las elecciones, algunas veces voto a candidatos que conozco muy poco."
+  },
+  {
+    "num": 233,
+    "text": "Me cuesta empezar a hacer cualquier cosa."
+  },
+  {
+    "num": 234,
+    "text": "Creo que estoy condenado."
+  },
+  {
+    "num": 235,
+    "text": "En el colegio me costaba aprender."
+  },
+  {
+    "num": 236,
+    "text": "Si fuera artista me gustaría dibujar flores."
+  },
+  {
+    "num": 237,
+    "text": "No me preocupa tener mejor apariencia física."
+  },
+  {
+    "num": 238,
+    "text": "Sudo muy fácilmente, incluso en días fríos."
+  },
+  {
+    "num": 239,
+    "text": "Soy una persona plenamente segura de mí misma."
+  },
+  {
+    "num": 240,
+    "text": "A veces no he podido evitar el robar algo o llevarme algo de una tienda."
+  },
+  {
+    "num": 241,
+    "text": "Es más seguro no confiar en nadie."
+  },
+  {
+    "num": 242,
+    "text": "Me pongo muy excitado una vez por semana o con más frecuencia."
+  },
+  {
+    "num": 243,
+    "text": "Cuando estoy con un grupo de gente, tengo dificultades para pensar en temas adecuados de conversación."
+  },
+  {
+    "num": 244,
+    "text": "Cuando me siento abatido, algo emocionante me saca casi siempre de este estado."
+  },
+  {
+    "num": 245,
+    "text": "Cuando salgo de casa no me preocupa si la puerta y las ventanas quedan bien cerradas."
+  },
+  {
+    "num": 246,
+    "text": "Creo que mis pecados son imperdonables."
+  },
+  {
+    "num": 247,
+    "text": "Se me adormecen una o más partes de mi piel."
+  },
+  {
+    "num": 248,
+    "text": "No culpo a aquella persona que se aprovecha de otra que se expone a ello."
+  },
+  {
+    "num": 249,
+    "text": "Mi vista es ahora tan buena como lo ha sido durante años."
+  },
+  {
+    "num": 250,
+    "text": "A veces me ha divertido tanto el ingenio de un pícaro que he deseado que tuviera éxito."
+  },
+  {
+    "num": 251,
+    "text": "A menudo me ha dado la sensación de que gente extraña me estaba mirando con ojos críticos."
+  },
+  {
+    "num": 252,
+    "text": "Para mí todo tiene el mismo sabor o gusto."
+  },
+  {
+    "num": 253,
+    "text": "Todos los días tomo una cantidad excesivamente grande de agua."
+  },
+  {
+    "num": 254,
+    "text": "La mayor parte de la gente hace amigos porque es probable que le sean útiles."
+  },
+  {
+    "num": 255,
+    "text": "Casi nunca noto que me zumben o me silben los oídos."
+  },
+  {
+    "num": 256,
+    "text": "De vez en cuando siento odio hacia familiares que normalmente quiero."
+  },
+  {
+    "num": 257,
+    "text": "Si fuera periodista me gustaría mucho hacer reportajes sobre deportes."
+  },
+  {
+    "num": 258,
+    "text": "Puedo dormir de día, pero no por la noche."
+  },
+  {
+    "num": 259,
+    "text": "Estoy seguro de que la gente habla de mí."
+  },
+  {
+    "num": 260,
+    "text": "De vez en cuando me divierten las bromas o chistes sucios."
+  },
+  {
+    "num": 261,
+    "text": "Comparado con mis amigos, tengo muy pocos miedos."
+  },
+  {
+    "num": 262,
+    "text": "Si en un grupo me pidieran que comenzara una discusión o diera mi opinión acerca de algo que conozco bien, no sentiría ninguna vergüenza."
+  },
+  {
+    "num": 263,
+    "text": "Siento siempre aversión por la justicia cuando un criminal sale libre gracias a la habilidad de un abogado astuto,"
+  },
+  {
+    "num": 264,
+    "text": "He abusado de bebidas alcohólicas."
+  },
+  {
+    "num": 265,
+    "text": "Por lo general no le hablo a la gente mientras no me hablan primero."
+  },
+  {
+    "num": 266,
+    "text": "Nunca he tenido problemas con la ley:"
+  },
+  {
+    "num": 267,
+    "text": "Tengo épocas en las que me siento más animado que de costumbre sin que exista una razón especial."
+  },
+  {
+    "num": 268,
+    "text": "Me gustaría no ser perturbado por pensamientos sexuales."
+  },
+  {
+    "num": 269,
+    "text": "Si varias personas se encuentran inculpadas, lo mejor que pueden hacer es ponerse de acuerdo en lo que van a decir y no cambiarlo después,"
+  },
+  {
+    "num": 270,
+    "text": "Personalmente no me molesta ver sufrir a los animales."
+  },
+  {
+    "num": 271,
+    "text": "Creo que mi sensibilidad es más intensa que la de la mayoría de la gente."
+  },
+  {
+    "num": 272,
+    "text": "En ningún momento de mi vida me ha gustado jugar con las muñecas."
+  },
+  {
+    "num": 273,
+    "text": "A menudo la vida me resulta difícil."
+  },
+  {
+    "num": 274,
+    "text": "Soy tan susceptible respecto a algunos temas que ni siquiera puedo hablar de ellos."
+  },
+  {
+    "num": 275,
+    "text": "En el colegio me costaba mucho hablar delante de los demás."
+  },
+  {
+    "num": 276,
+    "text": "Quiero a mi madre, (o si ya ha fallecido) quise a mi madre."
+  },
+  {
+    "num": 277,
+    "text": "Incluso cuando estoy con gente, me siento solo la mayor parte de¡ tiempo."
+  },
+  {
+    "num": 278,
+    "text": "Tengo toda la comprensión que debiera recibir."
+  },
+  {
+    "num": 279,
+    "text": "Me niego a participar en algunos juegos porque no soy hábil en ellos."
+  },
+  {
+    "num": 280,
+    "text": "Me parece que hago amigos tan fácilmente como los demás."
+  },
+  {
+    "num": 281,
+    "text": "No me gusta tener gente a mi alrededor"
+  },
+  {
+    "num": 282,
+    "text": "Me han dicho que camino cuando estoy dormido."
+  },
+  {
+    "num": 283,
+    "text": "Quien provoca la tentación dejando una cosa valiosa sin protegerla es tan culpable del robo como el mismo ladrón."
+  },
+  {
+    "num": 284,
+    "text": "Pienso que casi todo el mundo mentiría para evitarse problemas."
+  },
+  {
+    "num": 285,
+    "text": "Soy más sensible que la mayoría de la gente."
+  },
+  {
+    "num": 286,
+    "text": "A la mayor parte de la gente le molesta ayudar a los demás, aunque no lo diga."
+  },
+  {
+    "num": 287,
+    "text": "Muchos de mis sueños se relacionan con temas sexuales."
+  },
+  {
+    "num": 288,
+    "text": "Mis padres y familiares encuentran más defectos en mí de los que debieran."
+  },
+  {
+    "num": 289,
+    "text": "Me siento avergonzado con facilidad."
+  },
+  {
+    "num": 290,
+    "text": "Me preocupan el dinero y los negocios."
+  },
+  {
+    "num": 291,
+    "text": "Nunca he estado enamorado."
+  },
+  {
+    "num": 292,
+    "text": "Algunos de mis familiares han hecho ciertas cosas que me han asustado."
+  },
+  {
+    "num": 293,
+    "text": "Casi nunca sueño."
+  },
+  {
+    "num": 294,
+    "text": "Frecuentemente me salen manchas rojas en el cuello."
+  },
+  {
+    "num": 295,
+    "text": "Nunca he tenido parálisis ni sufrido una debilidad desacostumbrada en alguno de mis músculos."
+  },
+  {
+    "num": 296,
+    "text": "Algunas veces pierdo o me cambia la voz aunque no esté resfriado."
+  },
+  {
+    "num": 297,
+    "text": "Mi padre o mi madre me obligaron frecuentemente a obedecer, incluso cuando yo pensaba que no tenían razón."
+  },
+  {
+    "num": 298,
+    "text": "A veces percibo olores muy raros."
+  },
+  {
+    "num": 299,
+    "text": "No puedo concentrarme en una sola cosa."
+  },
+  {
+    "num": 300,
+    "text": "Tengo motivos para sentirme celoso de uno o más miembros de mi familia."
+  },
+  {
+    "num": 301,
+    "text": "La mayor parte del tiempo me siento preocupado por algo o alguien."
+  },
+  {
+    "num": 302,
+    "text": "Pierdo fácilmente la paciencia con la gente."
+  },
+  {
+    "num": 303,
+    "text": "Muchísimas veces me gustaría estar muerto,"
+  },
+  {
+    "num": 304,
+    "text": "Algunas veces me siento tan inquieto que me cuesta dormirme por las noches."
+  },
+  {
+    "num": 305,
+    "text": "Sin duda he tenido que preocuparme por más cosas de las que me correspondían."
+  },
+  {
+    "num": 306,
+    "text": "Nadie se preocupa mucho por lo que le suceda a otro."
+  },
+  {
+    "num": 307,
+    "text": "A veces oigo tan bien que me llega a molestar."
+  },
+  {
+    "num": 308,
+    "text": "Olvido enseguida lo que me dicen."
+  },
+  {
+    "num": 309,
+    "text": "Normalmente tengo que detenerme a pensar antes de actuar, incluso en asuntos sin importancia."
+  },
+  {
+    "num": 310,
+    "text": "A menudo cruzo la calle para evitar encontrarme con alguna persona."
+  },
+  {
+    "num": 311,
+    "text": "Con frecuencia siento como si las cosas no fueran reales."
+  },
+  {
+    "num": 312,
+    "text": "La única parte interesante de los diarios son las caricaturas de la sección cómica."
+  },
+  {
+    "num": 313,
+    "text": "Tengo la costumbre de contar objetos sin importancia, como las bombillas de un anuncio luminoso o cosas similares."
+  },
+  {
+    "num": 314,
+    "text": "No tengo enemigos que deseen realmente hacerme daño"
+  },
+  {
+    "num": 315,
+    "text": "Tiendo a ponerme en guardia con aquellos que se muestran más amables de lo que yo esperaba."
+  },
+  {
+    "num": 316,
+    "text": "Tengo pensamientos extraños y raros."
+  },
+  {
+    "num": 317,
+    "text": "Me pongo nervioso e inquieto cuando tengo que hacer un viaje corto."
+  },
+  {
+    "num": 318,
+    "text": "Normalmente espero tener éxito en las cosas que hago."
+  },
+  {
+    "num": 319,
+    "text": "Oigo cosas extrañas cuando estoy solo."
+  },
+  {
+    "num": 320,
+    "text": "He tenido miedo de cosas o personas que sabía que no podían hacerme daño."
+  },
+  {
+    "num": 321,
+    "text": "No me da miedo entrar solo en un salón donde hay gente reunida hablando."
+  },
+  {
+    "num": 322,
+    "text": "Me da miedo utilizar cuchillos u objetos muy afilados o puntiagudos."
+  },
+  {
+    "num": 323,
+    "text": "Algunas veces disfruto hiriendo a personas que amo."
+  },
+  {
+    "num": 324,
+    "text": "Fácilmente puedo atemorizar a la gente, y a veces lo hago por diversión."
+  },
+  {
+    "num": 325,
+    "text": "Es más difícil para mi concentrarme de lo que parece ser para otras personas."
+  },
+  {
+    "num": 326,
+    "text": "En varias ocasiones he dejado de hacer algo porque he dudado de mi habilidad."
+  },
+  {
+    "num": 327,
+    "text": "Se me ocurren palabras feas, a veces horribles, y no puedo deshacerme de ellas."
+  },
+  {
+    "num": 328,
+    "text": "Algunas veces me ronda por la cabeza un pensamiento sin importancia y me molesta durante días."
+  },
+  {
+    "num": 329,
+    "text": "Casi todos los días ocurre algo que me asusta."
+  },
+  {
+    "num": 330,
+    "text": "A veces estoy lleno de energía."
+  },
+  {
+    "num": 331,
+    "text": "Tiendo a tomarme las cosas demasiado en serio."
+  },
+  {
+    "num": 332,
+    "text": "A veces he disfrutado al ser herido por una persona querida."
+  },
+  {
+    "num": 333,
+    "text": "La gente dice cosas ofensivas y vulgares de mí."
+  },
+  {
+    "num": 334,
+    "text": "Me siento incómodo en lugares cerrados."
+  },
+  {
+    "num": 335,
+    "text": "En general no soy tímido."
+  },
+  {
+    "num": 336,
+    "text": "Alguien controla mi mente."
+  },
+  {
+    "num": 337,
+    "text": "En las reuniones sociales o fiestas es más probable que me siente solo o con una persona antes que reunirme con un grupo."
+  },
+  {
+    "num": 338,
+    "text": "La gente me decepciona con mucha frecuencia."
+  },
+  {
+    "num": 339,
+    "text": "A veces he sentido que las dificultades me abrumaban hasta tal punto que no podía superarlas."
+  },
+  {
+    "num": 340,
+    "text": "Me gusta mucho ir al baile."
+  },
+  {
+    "num": 341,
+    "text": "En ocasiones mi mente parece funcionar más lentamente que de costumbre."
+  },
+  {
+    "num": 342,
+    "text": "Cuando viajo, a menuda hablo con personas que no conozco."
+  },
+  {
+    "num": 343,
+    "text": "Me gustan los niños."
+  },
+  {
+    "num": 344,
+    "text": "Me gusta apostar cuando se trata de poco dinero."
+  },
+  {
+    "num": 345,
+    "text": "Si me dieran la oportunidad, podría hacer algunas cosas que beneficiarían mucho a la humanidad."
+  },
+  {
+    "num": 346,
+    "text": "Con frecuencia me he encontrado con personas supuestamente expertas, que no resultaron ser mejores que yo,"
+  },
+  {
+    "num": 347,
+    "text": "Me siento un fracasado cuando me hablan de¡ éxito de alguien a quien conozco bien."
+  },
+  {
+    "num": 348,
+    "text": "Con frecuencia pienso: «Me gustaría volver a ser niño»."
+  },
+  {
+    "num": 349,
+    "text": "Nunca soy tan feliz como cuando estoy solo."
+  },
+  {
+    "num": 350,
+    "text": "Si me dieran la oportunidad podría ser un buen líder."
+  },
+  {
+    "num": 351,
+    "text": "Me siento incómodo cuando escucho anécdotas groseras."
+  },
+  {
+    "num": 352,
+    "text": "Normalmente la gente pide más respeto para sus propios derechos que el que está dispuesto a conceder a los demás."
+  },
+  {
+    "num": 353,
+    "text": "Me gustan las reuniones sociales por el simple hecho de estar con gente."
+  },
+  {
+    "num": 354,
+    "text": "Intento recordar anécdotas interesantes para contárselas a otros."
+  },
+  {
+    "num": 355,
+    "text": "Una o más veces en mi vida he sentido que alguien, hipnotizándome, me obligaba a hacer algo."
+  },
+  {
+    "num": 356,
+    "text": "Me cuesta bastante interrumpir, aunque sea por poco tiempo, una tarea que ya he iniciado,"
+  },
+  {
+    "num": 357,
+    "text": "Normalmente no participo en los chismes y habladurías del grupo a que pertenezco."
+  },
+  {
+    "num": 358,
+    "text": "Con frecuencia he encontrado personas envidiosas de mis buenas ideas, simplemente porque a ellas no se les habían ocurrido antes,"
+  },
+  {
+    "num": 359,
+    "text": "Me gusta la animación de una multitud."
+  },
+  {
+    "num": 360,
+    "text": "No me importa conocer personas extrañas."
+  },
+  {
+    "num": 361,
+    "text": "Alguien ha tratado de influir en mi mente."
+  },
+  {
+    "num": 362,
+    "text": "Recuerdo haber fingido estar enfermo para evitar algo."
+  },
+  {
+    "num": 363,
+    "text": "Mis preocupaciones parece que desaparecen cuando estoy con un grupo de amigas."
+  },
+  {
+    "num": 364,
+    "text": "Cuando las cosas van mal, fácilmente tiendo a darme por vencido."
+  },
+  {
+    "num": 365,
+    "text": "Me gusta que la gente conozca mi punto de vista sobre las cosas."
+  },
+  {
+    "num": 366,
+    "text": "He tenido épocas en las que me sentía tan animado que me parecía que, durante días, no necesitaría dormir."
+  },
+  {
+    "num": 367,
+    "text": "Siempre que puedo, evito encontrarme entre mucha gente."
+  },
+  {
+    "num": 368,
+    "text": "Me acobardo ante las dificultades o crisis."
+  },
+  {
+    "num": 369,
+    "text": "Me inclino a dejar de hacer algo que deseo cuando los demás piensan que no vale la pena realizarlo."
+  },
+  {
+    "num": 370,
+    "text": "Me gustan las fiestas y reuniones sociales."
+  },
+  {
+    "num": 371,
+    "text": "A menudo he deseado pertenecer al sexo opuesto."
+  },
+  {
+    "num": 372,
+    "text": "No me enfado fácilmente."
+  },
+  {
+    "num": 373,
+    "text": "Nunca hablo de las cosas malas que he hecho."
+  },
+  {
+    "num": 374,
+    "text": "La mayoría de la gente utilizarla medios algo injustos para salir adelante en la vida."
+  },
+  {
+    "num": 375,
+    "text": "Me pongo nervioso cuando la gente me hace preguntas personales."
+  },
+  {
+    "num": 376,
+    "text": "Siento que no puedo planificar mi propio futuro."
+  },
+  {
+    "num": 377,
+    "text": "No estoy satisfecho con mi manera de ser."
+  },
+  {
+    "num": 378,
+    "text": "Me enfado cuando mis amigos o familiares me aconsejan sobre como vivir mi vida."
+  },
+  {
+    "num": 379,
+    "text": "Me pegaron mucho cuando era niño."
+  },
+  {
+    "num": 380,
+    "text": "Me siento incómodo cuando la gente me halaga."
+  },
+  {
+    "num": 381,
+    "text": "No me agrada oír a la gente dar opiniones sobre la vida."
+  },
+  {
+    "num": 382,
+    "text": "Frecuentemente discrepo profundamente de personas muy próximas a mí."
+  },
+  {
+    "num": 383,
+    "text": "Cuando las cosas se ponen realmente mal, sé que puedo contar con la ayuda de mi familia."
+  },
+  {
+    "num": 384,
+    "text": "Cuando era pequeño me gustaba jugar a las «casitas»."
+  },
+  {
+    "num": 385,
+    "text": "El fuego no me da miedo."
+  },
+  {
+    "num": 386,
+    "text": "A veces me he alejado de alguna persona porque temía hacer o decir algo de lo que luego tendría que lamentarme."
+  },
+  {
+    "num": 387,
+    "text": "Solamente cuando bebo puedo expresar mis verdaderos sentimientos,"
+  },
+  {
+    "num": 388,
+    "text": "Muy rara vez tengo momentos de abatimiento."
+  },
+  {
+    "num": 389,
+    "text": "Frecuentemente me dicen que tengo mal genio."
+  },
+  {
+    "num": 390,
+    "text": "Quisiera poder olvidarme de cosas que he dicho y que quizás hayan herido los sentimientos de otras personas."
+  },
+  {
+    "num": 391,
+    "text": "Me siento incapaz de contarle a alguien todas mis cosas."
+  },
+  {
+    "num": 392,
+    "text": "Una de las cosas que más temo son los relámpagos."
+  },
+  {
+    "num": 393,
+    "text": "Me gusta tener a los demás intrigados acerca de lo que voy a hacer."
+  },
+  {
+    "num": 394,
+    "text": "Frecuentemente en mis proyectos he encontrado tantas dificultades, que he tenido que abandonarlos."
+  },
+  {
+    "num": 395,
+    "text": "Me da miedo estar solo en la oscuridad."
+  },
+  {
+    "num": 396,
+    "text": "A veces me he sentido muy mal por no haber sido comprendido cuando trataba de evitar que alguien cometiera un error,"
+  },
+  {
+    "num": 397,
+    "text": "Los temporales de viento muy fuerte me atemorizan."
+  },
+  {
+    "num": 398,
+    "text": "Frecuentemente pido consejos a los demás."
+  },
+  {
+    "num": 399,
+    "text": "El futuro es demasiado incierto como para que una persona haga planes importantes."
+  },
+  {
+    "num": 400,
+    "text": "Con frecuencia, incluso cuando todo me va bien, siento que nada me importa."
+  },
+  {
+    "num": 401,
+    "text": "No le temo al agua."
+  },
+  {
+    "num": 402,
+    "text": "A menudo tenga que «consultar con la almohada» antes de tomar una decisión."
+  },
+  {
+    "num": 403,
+    "text": "Frecuentemente la gente ha mal interpretado mis intenciones cuando trataba de corregirles o ayudarles."
+  },
+  {
+    "num": 404,
+    "text": "No tengo dificultades al tragar."
+  },
+  {
+    "num": 405,
+    "text": "Normalmente soy una persona tranquila y no me altero fácilmente."
+  },
+  {
+    "num": 406,
+    "text": "Me gustaría mucho vencer a un pillo con sus mismas armas."
+  },
+  {
+    "num": 407,
+    "text": "Merezco un severo castigo por mis pecados."
+  },
+  {
+    "num": 408,
+    "text": "Me afectan tanto los desengaños que luego no puedo alejarlos de mi pensamiento."
+  },
+  {
+    "num": 409,
+    "text": "Me molesta que alguien me observe cuando trabajo, aunque sepa que puedo hacerlo bien."
+  },
+  {
+    "num": 410,
+    "text": "A menudo me molesta tanto que alguien trate de «colarse» delante de mí en una fila, que no puedo dejar de llamarle la atención,"
+  },
+  {
+    "num": 411,
+    "text": "A veces pienso que no valgo para nada."
+  },
+  {
+    "num": 412,
+    "text": "Cuando era un muchacho frecuentemente hacía «novillos» en clase."
+  },
+  {
+    "num": 413,
+    "text": "Uno o varios de mis familiares son muy nerviosos."
+  },
+  {
+    "num": 414,
+    "text": "A veces he tenido que ser rudo con personas groseras o inoportunas."
+  },
+  {
+    "num": 415,
+    "text": "Me preocupo mucho por posibles desgracias."
+  },
+  {
+    "num": 416,
+    "text": "Tengo opiniones políticas muy definidas."
+  },
+  {
+    "num": 417,
+    "text": "Me gustaría ser piloto de competiciones automovilísticas,"
+  },
+  {
+    "num": 418,
+    "text": "Es correcto bordear los límites de la ley con tal de no violarla claramente."
+  },
+  {
+    "num": 419,
+    "text": "Me desagradan tanto algunas personas que me alegro interiormente cuando pagan las consecuencias por algo que han hecho."
+  },
+  {
+    "num": 420,
+    "text": "Me pone nervioso tener que esperar."
+  },
+  {
+    "num": 421,
+    "text": "Tiendo a dejar algo que deseo hacer cuando los demás piensan que no es la manera correcta de hacerlo."
+  },
+  {
+    "num": 422,
+    "text": "Cuando era joven me apasionaba todo lo emocionante."
+  },
+  {
+    "num": 423,
+    "text": "Con frecuencia me esfuerzo por triunfar sobre alguien que se enfrenta a mi."
+  },
+  {
+    "num": 424,
+    "text": "Me molesta que la gente me mire en la calle, en el autobús, en las tiendas, etc."
+  },
+  {
+    "num": 425,
+    "text": "El hombre que más se ocupó de mí cuando era niño (mi padre, mi padrastro, etc.) fue muy rígido conmigo,"
+  },
+  {
+    "num": 426,
+    "text": "Me gustaba «jugar a la china» (empujar una piedra plana en el suelo a la «pata coja») y saltar a la cuerda (a la «comba»)."
+  },
+  {
+    "num": 427,
+    "text": "Nunca he tenido visiones."
+  },
+  {
+    "num": 428,
+    "text": "Varias veces he cambiado de modo de pensar con respecto a mi trabajo."
+  },
+  {
+    "num": 429,
+    "text": "Nunca tomo drogas o pastillas para dormir, a no ser por orden del médico,"
+  },
+  {
+    "num": 430,
+    "text": "Frecuentemente me lamento por tener mal genio o ser tan gruñón."
+  },
+  {
+    "num": 431,
+    "text": "En el colegio, mis calificaciones en conducta fueron generalmente malas,"
+  },
+  {
+    "num": 432,
+    "text": "Me fascina el fuego."
+  },
+  {
+    "num": 433,
+    "text": "Cuando estoy en una situación difícil sólo digo aquella parte de la verdad que probablemente no me va a perjudicar."
+  },
+  {
+    "num": 434,
+    "text": "Si me hallara en dificultades junto con varios amigos que fueran tan culpables como yo, preferiría echarme toda la culpa antes que descubrirlos."
+  },
+  {
+    "num": 435,
+    "text": "A menudo tengo miedo de la oscuridad."
+  },
+  {
+    "num": 436,
+    "text": "Cuando un hombre está con una mujer, generalmente está pensando cosas relacionadas con el sexo."
+  },
+  {
+    "num": 437,
+    "text": "Generalmente les «hablo claro» a las personas que estoy intentando corregir o mejorar."
+  },
+  {
+    "num": 438,
+    "text": "Me aterroriza la idea de un terremoto."
+  },
+  {
+    "num": 439,
+    "text": "Rápidamente me convencen por completo de una buena idea,"
+  },
+  {
+    "num": 440,
+    "text": "Generalmente hago las cosas por mí mismo, en vez de buscar alguien que me diga cómo hacerlas."
+  },
+  {
+    "num": 441,
+    "text": "Temo encontrarme en un lugar pequeño o cerrado."
+  },
+  {
+    "num": 442,
+    "text": "Debo admitir que a veces he estado demasiado preocupado por algo sin importancia."
+  },
+  {
+    "num": 443,
+    "text": "No trato de disimular la pobre opinión o lástima que me merece una persona hasta tal punto que ésta desconozca mi modo de sentir."
+  },
+  {
+    "num": 444,
+    "text": "Soy una persona con mucha tensión,"
+  },
+  {
+    "num": 445,
+    "text": "Frecuentemente he trabajado bajo órdenes de personas que parecen haber arreglado las cosas de tal modo, que ellas son las que reciben el reconocimiento de una buena labor y, en cambio, son capaces de atribuir los errores a sus subordinados."
+  },
+  {
+    "num": 446,
+    "text": "A veces me es difícil defender mis derechos, por ser yo mismo tan reservado."
+  },
+  {
+    "num": 447,
+    "text": "La suciedad me espanta o me disgusta."
+  },
+  {
+    "num": 448,
+    "text": "Vivo una vida de ensueños, acerca de la cual no digo nada a nadie."
+  },
+  {
+    "num": 449,
+    "text": "Algunos de mis familiares tienen muy mal genio."
+  },
+  {
+    "num": 450,
+    "text": "No puedo hacer ninguna cosa bien."
+  },
+  {
+    "num": 451,
+    "text": "A menudo me he sentido culpable porque he fingido mayor pesar de¡ que realmente sentía."
+  },
+  {
+    "num": 452,
+    "text": "Como norma defiendo firmemente mis propias opiniones."
+  },
+  {
+    "num": 453,
+    "text": "No temo a las arañas."
+  },
+  {
+    "num": 454,
+    "text": "No tengo ninguna esperanza en mi porvenir."
+  },
+  {
+    "num": 455,
+    "text": "Mis familiares y parientes más cercanos se llevan bastante bien."
+  },
+  {
+    "num": 456,
+    "text": "Me gustaría vestir ropa cara."
+  },
+  {
+    "num": 457,
+    "text": "La gente puede hacerme cambiar de opinión muy fácilmente, incluso en materias en las que creía tener un criterio firme."
+  },
+  {
+    "num": 458,
+    "text": "Ciertos animales me ponen nervioso."
+  },
+  {
+    "num": 459,
+    "text": "Puedo soportar el dolor tanto como los demás."
+  },
+  {
+    "num": 460,
+    "text": "Varias veces he sido el último en darme por vencido al tratar de hacer algo."
+  },
+  {
+    "num": 461,
+    "text": "Me pone de mal humor que la gente me meta prisas."
+  },
+  {
+    "num": 462,
+    "text": "No tengo miedo a los ratones."
+  },
+  {
+    "num": 463,
+    "text": "Varias veces a la semana siento como si fuera a suceder algo espantoso."
+  },
+  {
+    "num": 464,
+    "text": "Me siento cansado una buena parte del tiempo."
+  },
+  {
+    "num": 465,
+    "text": "Me gusta reparar las cerraduras de las puertas."
+  },
+  {
+    "num": 466,
+    "text": "Algunas veces estoy seguro de que los demás pueden saber lo que estoy pensando."
+  },
+  {
+    "num": 467,
+    "text": "Me gusta leer temas científicos."
+  },
+  {
+    "num": 468,
+    "text": "Me da miedo estar solo en los lugares amplios y abiertos."
+  },
+  {
+    "num": 469,
+    "text": "A veces siento que estoy al borde de una crisis nerviosa."
+  },
+  {
+    "num": 470,
+    "text": "Un gran número de personas es culpable de mala conducta sexual,"
+  },
+  {
+    "num": 471,
+    "text": "A menudo he sentido miedo durante la noche."
+  },
+  {
+    "num": 472,
+    "text": "Me molesta mucho olvidar dónde pongo las cosas."
+  },
+  {
+    "num": 473,
+    "text": "La persona hacia quien sentía más afecto y admiración cuando era niño fue una mujer (madre, hermana, tía u otra mujer)."
+  },
+  {
+    "num": 474,
+    "text": "Me gustan más las historias de aventuras que las románticas."
+  },
+  {
+    "num": 475,
+    "text": "A menudo me siento confundido y olvido lo que quiero decir."
+  },
+  {
+    "num": 476,
+    "text": "Soy muy torpe y poco hábil."
+  },
+  {
+    "num": 477,
+    "text": "Realmente me gustan los deportes bruscos (como el rugby o el fútbol)."
+  },
+  {
+    "num": 478,
+    "text": "Odio a toda mi familia."
+  },
+  {
+    "num": 479,
+    "text": "Algunas personas piensan que es difícil llegar a conocerme."
+  },
+  {
+    "num": 480,
+    "text": "Paso solo la mayor parte del tiempo libre."
+  },
+  {
+    "num": 481,
+    "text": "Cuando alguien hace algo que me molesta, se lo hago saber."
+  },
+  {
+    "num": 482,
+    "text": "Frecuentemente me cuesta decidir qué debo hacer."
+  },
+  {
+    "num": 483,
+    "text": "La gente no me encuentra atractivo."
+  },
+  {
+    "num": 484,
+    "text": "La gente no se muestra muy amable conmigo."
+  },
+  {
+    "num": 485,
+    "text": "A menudo siento que no soy tan bueno como otras personas."
+  },
+  {
+    "num": 486,
+    "text": "Soy muy terco (tozudo, insistente)."
+  },
+  {
+    "num": 487,
+    "text": "He disfrutado tomando drogas."
+  },
+  {
+    "num": 488,
+    "text": "La enfermedad mental es un signo de debilidad."
+  },
+  {
+    "num": 489,
+    "text": "Tengo problemas con las drogas o con el alcohol."
+  },
+  {
+    "num": 490,
+    "text": "Los fantasmas o los espíritus pueden influir sobre la gente para el bien o para el mal."
+  },
+  {
+    "num": 491,
+    "text": "Me siento incapaz cuando tengo que tomar una decisión importante."
+  },
+  {
+    "num": 492,
+    "text": "Procuro siempre ser amable aún cuando otros se muestren molestos o críticos."
+  },
+  {
+    "num": 493,
+    "text": "Cuando tengo algún problema me alivia hablarlo con alguien."
+  },
+  {
+    "num": 494,
+    "text": "Los objetivos más importantes de mi vida están a mi alcance."
+  },
+  {
+    "num": 495,
+    "text": "Creo que la gente debiera guardarse sus problemas personales para sí misma."
+  },
+  {
+    "num": 496,
+    "text": "En estos días no estoy sintiendo mucha presión o estrés."
+  },
+  {
+    "num": 497,
+    "text": "Me molesta mucho pensar en hacer cambios en mi vida."
+  },
+  {
+    "num": 498,
+    "text": "Mis mayores problemas se deben al comportamiento de alguien cercano a mí."
+  },
+  {
+    "num": 499,
+    "text": "Detesto ir al médico, aunque esté enfermo."
+  },
+  {
+    "num": 500,
+    "text": "Aunque no estoy contento con mi vida, ya no puedo hacer nada para cambiarla."
+  },
+  {
+    "num": 501,
+    "text": "A menudo es más provechoso hablar de los problemas y las preocupaciones con alguien, que tomar calmantes y medicamentos."
+  },
+  {
+    "num": 502,
+    "text": "Tengo algunos hábitos que me hacen daño realmente."
+  },
+  {
+    "num": 503,
+    "text": "Cuando hay que resolver problemas, habitualmente dejo que otros se hagan cargo de ellos."
+  },
+  {
+    "num": 504,
+    "text": "Reconozco que tengo algunos defectos que no seré capaz de cambiar."
+  },
+  {
+    "num": 505,
+    "text": "Estoy tan harto de lo que tengo que hacer diariamente que me dan ganas de abandonarlo todo."
+  },
+  {
+    "num": 506,
+    "text": "Recientemente he pensado en matarme."
+  },
+  {
+    "num": 507,
+    "text": "Frecuentemente me irrito mucho cuando la gente interrumpe mi trabajo."
+  },
+  {
+    "num": 508,
+    "text": "A menudo siento que puedo leer la mente de los demás."
+  },
+  {
+    "num": 509,
+    "text": "Me pone nervioso el tener que tomar decisiones importantes."
+  },
+  {
+    "num": 510,
+    "text": "Me dicen que corno demasiado rápidamente."
+  },
+  {
+    "num": 511,
+    "text": "Una vez por semana, o con más frecuencia, me suelo emborrachar o drogar."
+  },
+  {
+    "num": 512,
+    "text": "He sufrido una pérdida importante en mi vida que no voy a poder superar."
+  },
+  {
+    "num": 513,
+    "text": "A veces me enfado y me altero tanto que no sé lo que me pasa."
+  },
+  {
+    "num": 514,
+    "text": "Cuando alguien me pide que haga algo, me cuesta decir que no."
+  },
+  {
+    "num": 515,
+    "text": "Nunca me siento más feliz que cuando estoy solo."
+  },
+  {
+    "num": 516,
+    "text": "Mi vida está vacía y no tiene sentido."
+  },
+  {
+    "num": 517,
+    "text": "Tengo dificultades para seguir en el trabajo."
+  },
+  {
+    "num": 518,
+    "text": "He cometido bastantes errores graves en mi vida."
+  },
+  {
+    "num": 519,
+    "text": "Me enfado conmigo mismo cuando cedo ante la gente."
+  },
+  {
+    "num": 520,
+    "text": "Últimamente he estado pensando mucho en suicidarme."
+  },
+  {
+    "num": 521,
+    "text": "Me gusta tomar decisiones y darle trabajo a los demás."
+  },
+  {
+    "num": 522,
+    "text": "Aunque me falte la familia, sé que siempre habrá alguien que cuide de mi."
+  },
+  {
+    "num": 523,
+    "text": "Me molesta mucho tener que hacer colas en los cines, restaurantes o espectáculos deportivos."
+  },
+  {
+    "num": 524,
+    "text": "Nadie lo sabe, pero he intentado suicidarme."
+  },
+  {
+    "num": 525,
+    "text": "Todo está sucediendo demasiado rápidamente a mi alrededor."
+  },
+  {
+    "num": 526,
+    "text": "Sé que soy una carga para los demás,"
+  },
+  {
+    "num": 527,
+    "text": "Después de un mal día, generalmente necesito tomar un poco de alcohol para relajarme."
+  },
+  {
+    "num": 528,
+    "text": "Muchos de los problemas que estoy teniendo se deben a la mala suerte."
+  },
+  {
+    "num": 529,
+    "text": "A veces me parece que no puedo dejar de hablar."
+  },
+  {
+    "num": 530,
+    "text": "En ocasiones me hago daño o me hiero deliberadamente sin saber por qué."
+  },
+  {
+    "num": 531,
+    "text": "Trabajo muchas horas, aunque mi trabajo no lo requiera."
+  },
+  {
+    "num": 532,
+    "text": "Habitualmente me siento mejor después de llorar bastante."
+  },
+  {
+    "num": 533,
+    "text": "Olvido donde dejo las cosas."
+  },
+  {
+    "num": 534,
+    "text": "Si pudiera comenzar mi vida de nuevo, no la cambiaría mucho."
+  },
+  {
+    "num": 535,
+    "text": "Me irrito mucho cuando la gente de la cual dependo para un trabajo no hace el suyo a tiempo."
+  },
+  {
+    "num": 536,
+    "text": "Si me altero, estoy seguro de que me va a doler la cabeza."
+  },
+  {
+    "num": 537,
+    "text": "Me gusta negociar en situaciones difíciles."
+  },
+  {
+    "num": 538,
+    "text": "La mayoría de los maridos son infieles a sus esposas de vez en cuando."
+  },
+  {
+    "num": 539,
+    "text": "Últimamente he perdido el interés en resolver mis propios problemas."
+  },
+  {
+    "num": 540,
+    "text": "Estando bajo los efectos del alcohol me he enfurecido y he destrozado muebles o vajilla."
+  },
+  {
+    "num": 541,
+    "text": "Trabajo mejor cuando tengo un plazo fijo que cumplir."
+  },
+  {
+    "num": 542,
+    "text": "Me he enfadado tanto con alguien que he estado a punto de explotar."
+  },
+  {
+    "num": 543,
+    "text": "A veces me asaltan pensamientos terribles sobre mi familia."
+  },
+  {
+    "num": 544,
+    "text": "La gente me dice que tengo problemas con el alcohol, pero no estoy de acuerdo."
+  },
+  {
+    "num": 545,
+    "text": "Siempre tengo muy poco tiempo para hacer las cosas."
+  },
+  {
+    "num": 546,
+    "text": "Últimamente mis pensamientos giran, cada vez más, en torno a la muerte y la vida en el más allá."
+  },
+  {
+    "num": 547,
+    "text": "A menudo guardo y conservo cosas que probablemente nunca usaré."
+  },
+  {
+    "num": 548,
+    "text": "A veces me he enfadado tanto con alguien que he llegado a herirlo."
+  },
+  {
+    "num": 549,
+    "text": "Últimamente siento que me están evaluando en todo lo que hago"
+  },
+  {
+    "num": 550,
+    "text": "En la actualidad tengo muy poca relación con mis parientes."
+  },
+  {
+    "num": 551,
+    "text": "En ocasiones me parece oír mis propios pensamientos."
+  },
+  {
+    "num": 552,
+    "text": "Cuando estoy triste, visitar a mis amigos logra siempre sacarme de ese estado."
+  },
+  {
+    "num": 553,
+    "text": "Mucho de lo que me está pasando ahora parece haberme sucedido antes."
+  },
+  {
+    "num": 554,
+    "text": "Cuando las cosas se me ponen difíciles me dan ganas de dejarlo todo."
+  },
+  {
+    "num": 555,
+    "text": "No puedo entrar solo en una habitación oscura, incluso en mi propio hogar."
+  },
+  {
+    "num": 556,
+    "text": "Me preocupa bastante el dinero."
+  },
+  {
+    "num": 557,
+    "text": "El varón debiera ser el jefe de la familia."
+  },
+  {
+    "num": 558,
+    "text": "El único lugar donde me siento relajado es en mi propia casa,"
+  },
+  {
+    "num": 559,
+    "text": "La gente con quien trabajo no comprende mis problemas."
+  },
+  {
+    "num": 560,
+    "text": "Estoy satisfecho con la cantidad de dinero que gano."
+  },
+  {
+    "num": 561,
+    "text": "Normalmente me encuentro con suficiente energía para realizar mi trabajo."
+  },
+  {
+    "num": 562,
+    "text": "Me cuesta aceptar halagos."
+  },
+  {
+    "num": 563,
+    "text": "En la mayoría de los matrimonios uno o ambos cónyuges son infelices."
+  },
+  {
+    "num": 564,
+    "text": "Casi nunca pierdo el control de mí mismo."
+  },
+  {
+    "num": 565,
+    "text": "Últimamente tengo que hacer un gran esfuerzo para recordar lo que la gente me dice."
+  },
+  {
+    "num": 566,
+    "text": "Cuando estoy triste o abatido, generalmente es mi trabajo el que sale perjudicado."
+  },
+  {
+    "num": 567,
+    "text": "La mayoría de las parejas casadas no se demuestran mucho afecto."
+  }
+]

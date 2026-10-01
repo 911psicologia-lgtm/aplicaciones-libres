@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMPI-2 · Aplicación clínica</title>
+  <meta name="description" content="Aplicación clínica para la aplicación, corrección e interpretación del MMPI-2 con baremos españoles">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+  <!-- Pantallas -->
+  <div id="app"></div>
+
+  <!-- Modal overlay para menú hamburguesa -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Vendor scripts (librerías externas) -->
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="vendor/docx.umd.min.js"></script>
+
+  <!-- Datos embebidos (cargados vía fetch al inicio) -->
+  <script>
+    window.__DATA_LOADED__ = false;
+    async function loadData() {
+      const [items, baremos, criterios] = await Promise.all([
+        fetch('data/items.json').then(r => r.json()),
+        fetch('data/baremos.json').then(r => r.json()),
+        fetch('data/criterios.json').then(r => r.json()),
+      ]);
+      window.__ITEMS__ = items;
+      window.__BAREMOS__ = baremos;
+      window.__CRITERIOS__ = criterios;
+      window.__DATA_LOADED__ = true;
+      // Notificar que los datos están listos
+      document.dispatchEvent(new CustomEvent('data:ready'));
+    }
+    loadData().catch(err => {
+      console.error('Error cargando datos:', err);
+      document.getElementById('app').innerHTML = '<div class="error-screen"><h2>Error al cargar datos</h2><p>No se pudieron cargar los archivos de baremos/ítems. Verifica que la carpeta /data/ esté completa.</p></div>';
+    });
+  </script>
+
+  <!-- App scripts (módulos) -->
+  <script src="js/lib/storage.js"></script>
+  <script src="js/lib/mmpi2.js"></script>
+  <script src="js/lib/export.js"></script>
+  <script src="js/lib/signature.js"></script>
+  <script src="js/screens/splash.js"></script>
+  <script src="js/screens/setup.js"></script>
+  <script src="js/screens/dashboard.js"></script>
+  <script src="js/screens/case.js"></script>
+  <script src="js/screens/capture.js"></script>
+  <script src="js/screens/report.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
