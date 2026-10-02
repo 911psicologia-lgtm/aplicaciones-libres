@@ -492,6 +492,307 @@ const Export = {
     });
     return charts;
   },
+
+  /* ============================================
+     EXPORTS del informe IA (JSON devuelto por IA externa)
+     - HTML standalone con estilo pericial
+     - Word (.docx) con docx.js
+     - Excel (.xlsx) con SheetJS
+     - JSON del propio objeto IA
+     ============================================ */
+
+  /* ---------- Export AI Report: HTML ---------- */
+  exportAIReportHTML(parsed, caseData, evaluator) {
+    const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
+    const p = caseData.patient || {};
+    const ev = evaluator || {};
+    const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const sections = (parsed.secciones || []).map((sec, idx) => {
+      const secTitle = this._esc(sec.titulo || ('Sección ' + (idx + 1)));
+      const body = this._esc(sec.contenido || '');
+      const paragraphs = body.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+      const bodyHTML = paragraphs.length > 1
+        ? paragraphs.map(par => `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${par.replace(/\n/g, '<br>')}</p>`).join('')
+        : `<p style="margin:0;line-height:1.6;text-align:justify">${body.replace(/\n/g, '<br>')}</p>`;
+      return `<section style="margin-bottom:22px;page-break-inside:avoid">
+        <h2 style="font-size:16px;font-weight:700;color:#1F3864;border-left:4px solid #2F5496;padding-left:10px;margin-bottom:10px">${secTitle}</h2>
+        <div style="padding-left:14px">${bodyHTML}</div>
+      </section>`;
+    }).join('');
+
+    const sigHTML = ev.signature
+      ? `<img src="${ev.signature}" alt="firma" style="max-height:80px"/>`
+      : '<em>Sin firma registrada</em>';
+
+    const refsHTML = (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length)
+      ? `<section style="margin-top:24px;border-top:1px solid #ccc;padding-top:12px">
+          <h2 style="font-size:14px;color:#1F3864;margin-bottom:8px">Referencias</h2>
+          <ul style="margin:0;padding-left:20px;font-size:12px;line-height:1.6">
+            ${parsed.referencias.map(r => `<li>${this._esc(typeof r === 'string' ? r : JSON.stringify(r))}</li>`).join('')}
+          </ul>
+        </section>`
+      : '';
+
+    const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>${this._esc(titulo)} — ${this._esc(p.name || 'Evaluado')}</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; color:#1F2937; max-width:980px; margin:0 auto; padding:48px 56px; line-height:1.65; background:#fff; }
+  h1 { color:#1F3864; font-size:22px; font-weight:700; letter-spacing:1px; text-align:center; }
+  .meta { display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; font-family:Arial,sans-serif; font-size:11px; color:#4B5563; max-width:540px; margin:10px auto 0; text-align:left; }
+  .meta div span { display:block; color:#6B7280; text-transform:uppercase; letter-spacing:0.5px; font-size:9px; }
+  header.head { text-align:center; border-bottom:3px double #1F3864; padding-bottom:18px; margin-bottom:24px; }
+  footer { margin-top:28px; padding-top:14px; border-top:1px solid #ccc; font-family:Arial,sans-serif; font-size:11px; color:#6B7280; text-align:center; }
+  footer .sig-line { margin:32px auto 0; padding-top:4px; border-top:1px solid #1F2937; width:220px; font-size:11px; color:#1F2937; }
+  @media print { body { padding:24px; } }
+</style>
+</head>
+<body>
+  <header class="head">
+    <h1>${this._esc(titulo)}</h1>
+    <div class="meta">
+      <div><span>Evaluado</span>${this._esc(p.name || '—')}</div>
+      <div><span>Edad</span>${p.age != null ? p.age + ' años' : '—'}</div>
+      <div><span>Sexo</span>${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')}</div>
+      <div><span>Documento</span>${this._esc(p.document || '—')}</div>
+      <div><span>Fecha de aplicación</span>${this._fmtDate(p.applicationDate)}</div>
+      <div><span>Contexto</span>${this._esc(p.context || '—')}</div>
+    </div>
+  </header>
+  ${sections}
+  ${refsHTML}
+  <footer>
+    <div>Fecha de emisión: ${today}</div>
+    <div class="sig-line">
+      ${this._esc(ev.name || 'Evaluador/a')}
+      <div style="font-size:10px;color:#6B7280;margin-top:2px">
+        ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
+      </div>
+    </div>
+    <div style="margin-top:8px">${sigHTML}</div>
+  </footer>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.html`);
+  },
+
+  /* ---------- Export AI Report: Word (.docx) ---------- */
+  async exportAIReportWord(parsed, caseData, evaluator) {
+    if (!window.docx) throw new Error('docx.js no disponible');
+    const {
+      Document, Packer, Paragraph, TextRun, HeadingLevel,
+      AlignmentType, ImageRun, BorderStyle,
+    } = window.docx;
+    const p = caseData.patient || {};
+    const ev = evaluator || {};
+    const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
+    const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const children = [];
+
+    children.push(new Paragraph({
+      heading: HeadingLevel.TITLE,
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: titulo, bold: true, color: '1F3864' })],
+    }));
+
+    const metaLines = [
+      ['Evaluado', p.name || '—'],
+      ['Edad', p.age != null ? p.age + ' años' : '—'],
+      ['Sexo', p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')],
+      ['Documento', p.document || '—'],
+      ['Fecha de aplicación', this._fmtDate(p.applicationDate)],
+      ['Contexto', p.context || '—'],
+    ];
+    for (const [k, v] of metaLines) {
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 60 },
+        children: [
+          new TextRun({ text: k + ': ', bold: true, size: 18, color: '6B7280' }),
+          new TextRun({ text: String(v), size: 18 }),
+        ],
+      }));
+    }
+    children.push(new Paragraph({
+      border: { bottom: { style: BorderStyle.DOUBLE, size: 6, color: '1F3864' } },
+      spacing: { after: 240 },
+      children: [new TextRun({ text: ' ' })],
+    }));
+
+    for (const sec of (parsed.secciones || [])) {
+      const secTitle = sec.titulo || '';
+      const body = sec.contenido || '';
+      if (secTitle) {
+        children.push(new Paragraph({
+          heading: HeadingLevel.HEADING_2,
+          spacing: { before: 240, after: 120 },
+          children: [new TextRun({ text: secTitle, color: '1F3864' })],
+        }));
+      }
+      const paragraphs = body.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+      if (paragraphs.length === 0) {
+        children.push(new Paragraph({ children: [new TextRun({ text: body })] }));
+      } else {
+        for (const par of paragraphs) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.JUSTIFIED,
+            spacing: { after: 120 },
+            children: [new TextRun({ text: par })],
+          }));
+        }
+      }
+    }
+
+    if (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length) {
+      children.push(new Paragraph({
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 240, after: 120 },
+        children: [new TextRun({ text: 'Referencias', color: '1F3864' })],
+      }));
+      for (const r of parsed.referencias) {
+        children.push(new Paragraph({
+          spacing: { after: 60 },
+          children: [new TextRun({ text: typeof r === 'string' ? r : JSON.stringify(r), size: 18 })],
+        }));
+      }
+    }
+
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 360, after: 60 },
+      children: [new TextRun({ text: 'Fecha de emisión: ' + today, size: 18, color: '6B7280' })],
+    }));
+
+    if (ev.signature) {
+      try {
+        const sigBuffer = await this._dataURLToUint8Array(ev.signature);
+        children.push(new Paragraph({
+          alignment: AlignmentType.CENTER,
+          spacing: { before: 120 },
+          children: [new ImageRun({
+            data: sigBuffer,
+            transformation: { width: 200, height: 70 },
+          })],
+        }));
+        children.push(new Paragraph({
+          alignment: AlignmentType.CENTER,
+          border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1F3864' } },
+          spacing: { after: 120 },
+          children: [new TextRun({ text: ' ' })],
+        }));
+        children.push(new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [new TextRun({ text: ev.name || 'Evaluador/a', bold: true, size: 18 })],
+        }));
+        const lic = [ev.license, ev.registry].filter(Boolean).join(' · ');
+        if (lic) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: lic, size: 16, color: '6B7280' })],
+          }));
+        }
+      } catch (e) {
+        console.warn('No se pudo incrustar la firma en Word IA:', e);
+      }
+    } else if (ev.name) {
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1F3864' } },
+        spacing: { before: 240, after: 120 },
+        children: [new TextRun({ text: ' ' })],
+      }));
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: ev.name, bold: true, size: 18 })],
+      }));
+    }
+
+    const doc = new Document({
+      sections: [{ properties: {}, children }],
+    });
+    const blob = await Packer.toBlob(doc);
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.docx`);
+  },
+
+  /* ---------- Export AI Report: Excel ---------- */
+  exportAIReportExcel(parsed, caseData, evaluator) {
+    if (!window.XLSX) throw new Error('SheetJS no disponible');
+    const p = caseData.patient || {};
+    const ev = evaluator || {};
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1: Datos del informe
+    const datos = [
+      ['INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2'],
+      ['Generado:', new Date().toLocaleString('es-ES')],
+      [],
+      ['EVALUADO'],
+      ['Nombre', p.name || ''],
+      ['Edad', p.age != null ? p.age : ''],
+      ['Sexo', p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '')],
+      ['Documento', p.document || ''],
+      ['Fecha de aplicación', this._fmtDate(p.applicationDate)],
+      ['Contexto', p.context || ''],
+      [],
+      ['EVALUADOR'],
+      ['Nombre', ev.name || ''],
+      ['Tarjeta profesional', ev.license || ''],
+      ['Registro profesional', ev.registry || ''],
+      ['Correo', ev.email || ''],
+      [],
+      ['TÍTULO DEL INFORME'],
+      [parsed.titulo || ''],
+      [],
+      ['SECCIONES DEL INFORME'],
+    ];
+    for (const sec of (parsed.secciones || [])) {
+      datos.push([]);
+      datos.push([sec.titulo || '']);
+      datos.push([sec.contenido || '']);
+    }
+    if (parsed.referencias && parsed.referencias.length) {
+      datos.push([]);
+      datos.push(['REFERENCIAS']);
+      for (const r of parsed.referencias) {
+        datos.push([typeof r === 'string' ? r : JSON.stringify(r)]);
+      }
+    }
+    const wsDatos = XLSX.utils.aoa_to_sheet(datos);
+    wsDatos['!cols'] = [{ wch: 32 }, { wch: 100 }];
+    XLSX.utils.book_append_sheet(wb, wsDatos, 'Informe IA');
+
+    // Sheet 2: Secciones (tabla indexada)
+    const seccionesAOA = [['#', 'Título de sección', 'Contenido']];
+    (parsed.secciones || []).forEach((sec, i) => {
+      seccionesAOA.push([i + 1, sec.titulo || '', sec.contenido || '']);
+    });
+    const wsSec = XLSX.utils.aoa_to_sheet(seccionesAOA);
+    wsSec['!cols'] = [{ wch: 5 }, { wch: 40 }, { wch: 100 }];
+    XLSX.utils.book_append_sheet(wb, wsSec, 'Secciones');
+
+    const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.xlsx`);
+  },
+
+  /* ---------- Export AI Report: JSON ---------- */
+  exportAIReportJSON(parsed, caseData) {
+    const p = caseData.patient || {};
+    const data = {
+      type: 'mmpi2_ai_report',
+      generatedAt: new Date().toISOString(),
+      patient: { name: p.name || '', document: p.document || '' },
+      report: parsed,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.json`);
+  },
 };
 
 window.Export = Export;

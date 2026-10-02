@@ -53,6 +53,9 @@ const AIPrompt = {
     sections.push(this._evaluatorBlock(ev));
     sections.push(this._resultsBlock(results, country));
     sections.push(this._narrativeBlock(caseData.narrative, p, country));
+    // Bloque de comparación con MMPI-2 anterior (si existe)
+    const prevBlock = this._previousMmpiBlock(p.previousMMPI, results);
+    if (prevBlock) sections.push(prevBlock);
     sections.push(this._styleGuidance());
     sections.push(this._outputSpec());
     sections.push(this._finalInstruction(p, country, ev));
@@ -143,6 +146,9 @@ const AIPrompt = {
     const countryLabel = country === 'US'
       ? 'EE. UU. (Minnesota N=2.600)'
       : 'España (TEA Ediciones, 4.ª ed. 2019)';
+    const onlineNote = country === 'US'
+      ? '  - Nota: las escalas marcadas "ES-ONLINE" no tienen baremo público en este extracto y se require conversión con software especializado.'
+      : '  - Nota: las escalas marcadas "ES-ONLINE" requieren TEAcorrige para conversión PD→T.';
 
     const header = [
       '═ RESULTADOS DEL MMPI-2 (TODAS LAS ESCALAS) ═',
@@ -152,7 +158,12 @@ const AIPrompt = {
       '  - PD+K = puntuación directa corregida por K (solo escalas Hs, Pd, Pt, Sc, Ma)',
       '  - T    = puntuación tipificada (media 50, desviación 10)',
       '  - Banda = rango interpretativo según T',
-      '  - Nota: las escalas marcadas "ES-ONLINE" requieren TEAcorrige para conversión PD→T.',
+      onlineNote,
+      '  - IMPORTANTE sobre PD=0: cuando una escala muestra PD=0 junto a un valor T numérico,',
+      '    significa que el evaluado respondió 0 ítems en la dirección claveada de la escala.',
+      '    El valor T es la conversión normativa del PD=0 (habitualmente el extremo bajo de la distribución).',
+      '    Estos resultados son VÁLIDOS y no constituyen errores: una escala con PD=0 y T documentado',
+      '    refleja que el evaluado no endosó ningún ítem clave de esa escala.',
       '',
       'Tabla de resultados (79 escalas en orden canónico):',
       '',
@@ -250,7 +261,56 @@ const AIPrompt = {
       '  · No emitir diagnósticos categóricos sin integrar contexto; usar formulación tentativa cuando proceda.',
       '',
       'Importante: no inventes datos del evaluado que no estén en el contexto. Si una sección no tiene información suficiente, indícalo con «No consta» o describe la limitación metodológica.',
+      '',
+      'RESTRICCIÓN DE AUTORÍA: el informe debe aparecer como un documento profesional original del evaluador.',
+      'NO incluyas texto que indique que el documento fue generado con IA, por IA o con apoyo de IA externa.',
+      'No menciones «IA», «generado automáticamente», «modelo de lenguaje» ni fórmulas similares en el cuerpo del informe.',
+      'El pie del informe no debe contener disclaimer sobre uso de IA. La autoría corresponde exclusivamente al evaluador suscribiente.',
     ].join('\n');
+  },
+
+  /* ---------- 7b. Bloque de comparación con MMPI-2 anterior ---------- */
+  _previousMmpiBlock(prevText, results) {
+    if (!prevText || !prevText.trim()) return '';
+    // Analizar las T previas del texto
+    const prevMap = this._parsePreviousMMPI(prevText);
+    const codes = Object.keys(prevMap);
+    if (codes.length === 0) return '';
+    const lines = [
+      '═ COMPARACIÓN CON MMPI-2 ANTERIOR ═',
+      'El evaluado cuenta con una aplicación previa del MMPI-2 cuyas puntuaciones T han sido aportadas por el evaluador:',
+      '',
+      '| Escala | T anterior | T actual | Cambio (Δ) |',
+      '|--------|-------------|----------|------------|',
+    ];
+    for (const code of codes) {
+      const prevT = prevMap[code];
+      const cur = results[code];
+      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
+      const delta = (curT != null) ? (curT - prevT) : null;
+      const deltaStr = (delta == null) ? '—' : ((delta > 0 ? '+' : '') + delta);
+      const curStr = (curT == null) ? '—' : String(curT);
+      lines.push(`| ${code.padEnd(6)} | ${String(prevT).padStart(11)} | ${curStr.padStart(8)} | ${deltaStr.padStart(10)} |`);
+    }
+    lines.push('');
+    lines.push('Integra la comparación en la sección 11 «Comparación con evaluaciones anteriores» del informe.');
+    lines.push('Señala cambios clínicamente relevantes (Δ ≥ 10 puntos T) en las escalas básicas, indicando si la evolución es de mejora, empeoramiento o estabilidad.');
+    return lines.join('\n');
+  },
+
+  /* ---------- 7c. Parser de texto libre de T previas ---------- */
+  _parsePreviousMMPI(text) {
+    const out = {};
+    if (!text) return out;
+    // Aceptar formatos: "Hs=78", "Hs:78", "Hs = 78", "Hs 78"
+    const re = /([A-Za-z][A-Za-z0-9-]{0,5})\s*[:=]\s*(\d{1,3})/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const code = m[1].charAt(0).toUpperCase() + m[1].slice(1);
+      const t = parseInt(m[2], 10);
+      if (t >= 20 && t <= 120) out[code] = t;
+    }
+    return out;
   },
 
   /* ---------- 8. Especificación del JSON de salida ---------- */
@@ -290,7 +350,7 @@ const AIPrompt = {
       '  8. Subescalas clínicamente relevantes — Harris-Lingoes con elevaciones más notables (D1-D5, Hy1-Hy5, Pd1-Pd5, Pa1-Pa3, Sc1-Sc6, Ma1-Ma4, Si1-Si3). Selecciona las más relevantes.',
       '  9. Ítems críticos — Si no se dispone de información de ítems críticos, indícalo e integra la información disponible de las escalas de contenido.',
       ' 10. Integración clínica del perfil — Síntesis narrativa que conecta las elevaciones con la historia del caso, el contexto pericial y las configuraciones clínicas detectadas. Esta es la sección más importante.',
-      ' 11. Comparación con evaluaciones anteriores — Si no hay evaluaciones previas, indícalo.',
+      ' 11. Comparación con evaluaciones anteriores — Si se aportaron puntuaciones T de una aplicación previa del MMPI-2, integra la comparación escala por escala, destacando cambios clínicamente relevantes (Δ ≥ 10 puntos T) y la evolución del perfil. Si no hay evaluaciones previas, indícalo.',
       ' 12. Conclusiones — Conclusiones numeradas, claras, integrando validez + perfil + contexto.',
       ' 13. Recomendaciones — Recomendaciones accionables, numeradas, dirigidas al destinatario del informe (clínico, forense o laboral).',
       '',

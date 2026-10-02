@@ -31,6 +31,9 @@ const Report = {
   ],
   _CHART_IDS: ['chart-basic', 'chart-content', 'chart-supp', 'chart-sub'],
 
+  /* Códigos básicos para el gráfico de comparación con MMPI-2 anterior */
+  _COMPARE_CODES: ['Hs','D','Hy','Pd','Pa','Pt','Sc','Ma','Si'],
+
   render() {
     const cur = Storage.getCurrentCase();
     if (!cur || !cur.results) {
@@ -68,15 +71,27 @@ const Report = {
 
         <div class="screen-content wide">
 
-          <!-- Export bar -->
+          <!-- Export bar + Baremo switcher -->
           <div class="card no-print">
-            <div class="card-body flex gap-8" style="flex-wrap:wrap;align-items:center">
-              <span style="font-weight:600;color:var(--color-primary-dark);margin-right:8px">Exportar:</span>
-              <button class="btn btn-secondary btn-sm" id="exp-html">HTML</button>
-              <button class="btn btn-secondary btn-sm" id="exp-word">Word</button>
-              <button class="btn btn-secondary btn-sm" id="exp-excel">Excel</button>
-              <button class="btn btn-secondary btn-sm" id="exp-json">JSON</button>
-              <button class="btn btn-primary btn-sm" id="exp-print" style="margin-left:auto">Imprimir / PDF</button>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
+              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
+                <label for="baremo-select" style="font-weight:600;color:var(--color-primary-dark);margin-right:4px">Baremo:</label>
+                <select id="baremo-select" class="form-select" style="width:auto;min-width:280px">
+                  <option value="US" ${country === 'US' ? 'selected' : ''}>EE.UU. (Minnesota N=2.600)</option>
+                  <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
+                </select>
+                <span class="form-hint" style="margin-left:8px">Recalcula todas las T al cambiar.</span>
+              </div>
+              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
+                <span style="font-weight:600;color:var(--color-primary-dark);margin-right:8px">Exportar:</span>
+                <button class="btn btn-secondary btn-sm" id="exp-html">HTML</button>
+                <button class="btn btn-secondary btn-sm" id="exp-word">Word</button>
+                <button class="btn btn-secondary btn-sm" id="exp-excel">Excel</button>
+                <button class="btn btn-secondary btn-sm" id="exp-json">JSON</button>
+                <button class="btn btn-secondary btn-sm" id="exp-answer-sheet">⤓ Hoja de Respuestas (PDF)</button>
+                <button class="btn btn-secondary btn-sm" id="exp-profile-sheet">⤓ Perfil de Escalas (PDF)</button>
+                <button class="btn btn-primary btn-sm" id="exp-print" style="margin-left:auto">Imprimir / PDF</button>
+              </div>
             </div>
           </div>
 
@@ -170,8 +185,14 @@ const Report = {
               ${this._chartContainerHTML('chart-content', this._CHART_TITLES[1])}
               ${this._chartContainerHTML('chart-supp',    this._CHART_TITLES[2])}
               ${this._chartContainerHTML('chart-sub',      this._CHART_TITLES[3])}
+              ${p.previousMMPI ? this._chartContainerHTML('chart-compare', 'Comparación con MMPI-2 anterior') : ''}
             </div>
           </div>
+
+          ${p.previousMMPI ? this._renderComparisonSection(cur.results, p.previousMMPI) : ''}
+
+          <!-- Análisis de Resultados (tabla exhaustiva) -->
+          ${this._renderAnalysisTable(cur.results, p.previousMMPI)}
 
           <div class="card">
             <div class="card-body" style="font-size:12px;color:var(--color-text-muted)">
@@ -213,6 +234,9 @@ const Report = {
     bindEvent('exp-excel', 'click', () => this._exportExcel());
     bindEvent('exp-json', 'click', () => this._exportJSON());
     bindEvent('exp-print', 'click', () => window.print());
+    bindEvent('exp-answer-sheet', 'click', () => this._downloadAnswerSheet());
+    bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
+    bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
 
     bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
     bindEvent('ai-generate', 'click', () => this._generateAIReport());
@@ -225,6 +249,8 @@ const Report = {
       if (out) {
         try { out.innerHTML = this._renderAIReport(cur2.aiReport); }
         catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
+        // Bind AI export buttons (created dynamically)
+        this._bindAIExportButtons();
       }
     }
 
@@ -383,6 +409,8 @@ const Report = {
     const out = document.getElementById('ai-report-output');
     if (!out) { window.toast('No se encuentra el contenedor del informe', 'error'); return; }
     out.innerHTML = this._renderAIReport(parsed);
+    // Bind AI export buttons (created dynamically after render)
+    this._bindAIExportButtons();
 
     // Persist on the case so it survives navigation
     const cur = Storage.getCurrentCase();
@@ -403,7 +431,40 @@ const Report = {
     if (ta) ta.value = '';
     const out = document.getElementById('ai-report-output');
     if (out) out.innerHTML = '';
+    const cur = Storage.getCurrentCase();
+    if (cur && cur.aiReport) {
+      delete cur.aiReport;
+      cur.updatedAt = new Date().toISOString();
+      Storage.saveCase(cur);
+      Storage.setCurrentCase(cur);
+    }
     window.toast('Informe IA limpio', 'info');
+  },
+
+  /* ---------- Bind AI export buttons (after _renderAIReport) ---------- */
+  _bindAIExportButtons() {
+    bindEvent('ai-exp-html', 'click', () => this._exportAIReport('html'));
+    bindEvent('ai-exp-word', 'click', () => this._exportAIReport('word'));
+    bindEvent('ai-exp-excel', 'click', () => this._exportAIReport('excel'));
+    bindEvent('ai-exp-json', 'click', () => this._exportAIReport('json'));
+  },
+
+  _exportAIReport(format) {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.aiReport) { window.toast('No hay informe IA generado para exportar', 'warning'); return; }
+    const ev = Storage.getEvaluator() || {};
+    try {
+      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev); window.toast('Informe IA · HTML descargado', 'success'); }
+      else if (format === 'word') {
+        window.Export.exportAIReportWord(cur.aiReport, cur, ev)
+          .then(() => window.toast('Informe IA · Word descargado', 'success'))
+          .catch(e => window.toast('Error: ' + e.message, 'error'));
+      } else if (format === 'excel') { window.Export.exportAIReportExcel(cur.aiReport, cur, ev); window.toast('Informe IA · Excel descargado', 'success'); }
+      else if (format === 'json') { window.Export.exportAIReportJSON(cur.aiReport, cur); window.toast('Informe IA · JSON descargado', 'success'); }
+    } catch (e) {
+      console.error('Error exportando informe IA:', e);
+      window.toast('Error: ' + e.message, 'error');
+    }
   },
 
   _extractJSON(text) {
@@ -520,14 +581,26 @@ const Report = {
           font-size: 11px;
           color: #1F2937;
         }
+        .ai-report-footer .signature-img {
+          max-height: 70px;
+          margin: 12px auto 0;
+          display: block;
+        }
         @media print {
           .ai-report-doc { box-shadow: none; border: none; padding: 24px; }
+          .ai-export-bar { display: none !important; }
         }
       </style>
       <div class="card">
-        <div class="card-header no-print" style="display:flex;justify-content:space-between;align-items:center;background:var(--color-bg)">
-          <h3 style="color:var(--color-primary-dark)">Informe contextualizado generado por IA</h3>
-          <button class="btn btn-primary btn-sm no-print" onclick="window.print()">Imprimir / PDF</button>
+        <div class="card-header no-print" style="display:flex;justify-content:space-between;align-items:center;background:var(--color-bg);flex-wrap:wrap;gap:8px">
+          <h3 style="color:var(--color-primary-dark)">Informe contextualizado</h3>
+          <div class="flex gap-8" style="flex-wrap:wrap">
+            <button class="btn btn-secondary btn-sm" id="ai-exp-html">⤓ HTML</button>
+            <button class="btn btn-secondary btn-sm" id="ai-exp-word">⤓ Word</button>
+            <button class="btn btn-secondary btn-sm" id="ai-exp-excel">⤓ Excel</button>
+            <button class="btn btn-secondary btn-sm" id="ai-exp-json">⤓ JSON</button>
+            <button class="btn btn-primary btn-sm" onclick="window.print()">Imprimir / PDF</button>
+          </div>
         </div>
         <div class="card-body" style="padding:16px">
           <div class="ai-report-doc">
@@ -544,8 +617,8 @@ const Report = {
             </header>
             ${sectionsHTML}
             <footer class="ai-report-footer">
-              <div>Documento generado con apoyo de IA externa a partir de los resultados del MMPI-2.</div>
               <div>Fecha de emisión: ${today}</div>
+              ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
               <div class="signature-line">
                 ${this._esc(ev.name || 'Evaluador/a')}
                 <div style="font-size:10px;color:#6B7280;margin-top:2px">
@@ -848,6 +921,104 @@ const Report = {
     ];
 
     this._charts = cfgs.map(c => this._makeLineChart(c.id, c.codes, R)).filter(Boolean);
+
+    // Comparison chart (si hay MMPI-2 anterior)
+    const p = cur.patient || {};
+    if (p.previousMMPI) {
+      const cmp = this._makeComparisonChart('chart-compare', this._COMPARE_CODES, R, p.previousMMPI);
+      if (cmp) this._charts.push(cmp);
+    }
+  },
+
+  _makeComparisonChart(canvasId, codes, results, prevText) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return null;
+    const prevMap = this._parsePreviousMMPI(prevText);
+    if (Object.keys(prevMap).length === 0) return null;
+
+    const curT = codes.map(code => {
+      const s = results[code];
+      return (s && typeof s.t === 'number') ? s.t : null;
+    });
+    const prevT = codes.map(code => (prevMap[code] != null) ? prevMap[code] : null);
+
+    const ref = val => codes.map(() => val);
+
+    const config = {
+      type: 'line',
+      data: {
+        labels: codes.slice(),
+        datasets: [
+          {
+            label: 'T actual',
+            data: curT,
+            borderColor: '#1F3864',
+            backgroundColor: 'rgba(31, 56, 100, 0.1)',
+            pointBackgroundColor: '#1F3864',
+            pointRadius: 5,
+            borderWidth: 2,
+            fill: false,
+            tension: 0,
+            spanGaps: false,
+          },
+          {
+            label: 'T anterior',
+            data: prevT,
+            borderColor: '#9CA3AF',
+            backgroundColor: 'rgba(156, 163, 175, 0.1)',
+            pointBackgroundColor: '#9CA3AF',
+            pointStyle: 'rectRot',
+            pointRadius: 5,
+            borderWidth: 2,
+            borderDash: [6, 4],
+            fill: false,
+            tension: 0,
+            spanGaps: false,
+          },
+          {
+            label: 'T=65 (corte clínico)',
+            data: ref(65),
+            borderColor: '#C00000',
+            borderWidth: 1,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: { font: { size: 11 }, boxWidth: 12, padding: 8 },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx2) => `${ctx2.dataset.label}: ${ctx2.parsed.y}`,
+            },
+          },
+        },
+        scales: {
+          y: {
+            min: 30, max: 90,
+            ticks: { stepSize: 10, font: { size: 10 }, color: '#6B7280' },
+            grid: { color: '#E5E7EB' },
+            title: { display: true, text: 'Puntuación T', font: { size: 11 }, color: '#1F2937' },
+          },
+          x: {
+            ticks: { font: { size: 11 }, color: '#1F2937' },
+            grid: { display: false },
+          },
+        },
+      },
+    };
+
+    try { return new Chart(ctx.getContext('2d'), config); }
+    catch (e) { console.warn('No se pudo crear el gráfico de comparación', e); return null; }
   },
 
   _makeLineChart(canvasId, codes, results) {
@@ -1005,6 +1176,667 @@ const Report = {
         window.toast('Caso JSON descargado', 'success');
       } catch (e) { window.toast('Error: ' + e.message, 'error'); }
     });
+  },
+
+  /* ---------- Baremo switcher: recalcular T al cambiar país ---------- */
+  async _recalcCountry(newCountry) {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.responses || !cur.patient) {
+      window.toast('No hay caso activo para recalcular', 'error');
+      return;
+    }
+    if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
+    const country = newCountry === 'ES' ? 'ES' : 'US';
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
+    try {
+      window.toast('Recalculando resultados…', 'info');
+      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
+      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
+      cur.results = results;
+      cur.narrative = narrative;
+      cur.patient.country = country;
+      cur.updatedAt = new Date().toISOString();
+      Storage.saveCase(cur);
+      Storage.setCurrentCase(cur);
+      window.toast(`Baremo cambiado a ${countryLabel}. Resultados recalculados.`, 'success');
+      // Re-render entire report
+      setTimeout(() => App.navigate('report'), 200);
+    } catch (e) {
+      console.error('Error al recalcular baremo:', e);
+      window.toast('Error al recalcular: ' + e.message, 'error');
+    }
+  },
+
+  /* ---------- Descargar Hoja de Respuestas (PDF vía print) ---------- */
+  _downloadAnswerSheet() {
+    const cur = Storage.getCurrentCase();
+    if (!cur) { window.toast('No hay caso activo', 'error'); return; }
+    const p = cur.patient || {};
+    const ev = Storage.getEvaluator() || {};
+    const responses = cur.responses || [];
+    const items = window.__ITEMS__ || [];
+    if (!items.length) { window.toast('No se pudieron cargar los ítems', 'error'); return; }
+
+    const today = (p.applicationDate || new Date().toISOString().slice(0, 10));
+    const todayFmt = this._fmtDate(today);
+
+    // Construir filas de la tabla (567 ítems) con marca V/F
+    const rowsHTML = items.map((it, i) => {
+      const resp = responses[i];
+      const isV = resp === 1;
+      const isF = resp === 2;
+      const vMark = isV ? '<span class="mark">X</span>' : '<span class="mark-empty">·</span>';
+      const fMark = isF ? '<span class="mark">X</span>' : '<span class="mark-empty">·</span>';
+      const num = it.num || (i + 1);
+      return `<tr><td class="num">${num}</td><td class="text">${this._esc(it.text || '')}</td><td class="resp">${vMark}</td><td class="resp">${fMark}</td></tr>`;
+    }).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Hoja de Respuestas MMPI-2 — ${this._esc(p.name || 'Paciente')}</title>
+<style>
+  @page { size: A4; margin: 14mm 12mm; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #1F2937; font-size: 10px; line-height: 1.4; }
+  h1 { color: #1F3864; font-size: 16px; text-align: center; margin: 0 0 4px; letter-spacing: 1px; }
+  .subtitle { text-align: center; font-size: 11px; color: #6B7280; margin-bottom: 10px; }
+  .header-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; border: 1.5px solid #1F3864; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; font-size: 10px; }
+  .header-grid .label { color: #6B7280; text-transform: uppercase; font-size: 8px; letter-spacing: 0.5px; font-weight: 700; }
+  .header-grid .value { font-size: 11px; font-weight: 600; color: #1F2937; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: #1F3864; color: #fff; padding: 4px 6px; font-size: 10px; text-align: left; border: 1px solid #1F3864; }
+  thead th.resp { width: 28px; text-align: center; }
+  tbody td { border: 1px solid #D1D5DB; padding: 2px 6px; vertical-align: top; }
+  tbody td.num { width: 32px; text-align: right; font-weight: 700; color: #1F3864; }
+  tbody td.text { font-size: 9px; }
+  tbody td.resp { text-align: center; width: 28px; }
+  .mark { color: #1F3864; font-weight: 900; font-size: 13px; font-family: 'Courier New', monospace; }
+  .mark-empty { color: #D1D5DB; }
+  .footer { margin-top: 10px; border-top: 1px solid #1F3864; padding-top: 6px; font-size: 9px; color: #6B7280; text-align: center; }
+  @media print {
+    tbody tr { page-break-inside: avoid; }
+    thead { display: table-header-group; }
+  }
+</style>
+</head>
+<body>
+  <h1>HOJA DE RESPUESTAS · MMPI-2</h1>
+  <div class="subtitle">Inventario Multifásico de Personalidad de Minnesota-2 — 567 ítems (V/F)</div>
+  <div class="header-grid">
+    <div><div class="label">Evaluado</div><div class="value">${this._esc(p.name || '—')}</div></div>
+    <div><div class="label">Documento</div><div class="value">${this._esc(p.document || '—')}</div></div>
+    <div><div class="label">Fecha nacimiento</div><div class="value">${this._fmtDate(p.dob)}</div></div>
+    <div><div class="label">Edad</div><div class="value">${p.age != null ? p.age + ' años' : '—'}</div></div>
+    <div><div class="label">Sexo</div><div class="value">${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '—')}</div></div>
+    <div><div class="label">Fecha de aplicación</div><div class="value">${todayFmt}</div></div>
+    <div><div class="label">Evaluador</div><div class="value">${this._esc(ev.name || '—')}</div></div>
+    <div><div class="label">Registro profesional</div><div class="value">${this._esc(ev.registry || ev.license || '—')}</div></div>
+    <div style="grid-column: 1 / span 2"><div class="label">Contacto</div><div class="value">${this._esc([ev.email, ev.phone, ev.address].filter(Boolean).join(' · '))}</div></div>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Nº</th><th>Enunciado del ítem</th><th class="resp">V</th><th class="resp">F</th>
+    </tr></thead>
+    <tbody>${rowsHTML}</tbody>
+  </table>
+  <div class="footer">
+    Documento generado el ${new Date().toLocaleString('es-ES')}. Marca «X» indica la respuesta registrada por el evaluado.
+  </div>
+  <script>
+    window.onload = function() { setTimeout(function(){ window.print(); }, 250); };
+  </script>
+</body>
+</html>`;
+
+    this._openPrintWindow(html);
+  },
+
+  /* ---------- Descargar Perfil de Escalas (PDF vía canvas + print) ---------- */
+  _downloadProfileSheet() {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.results) { window.toast('No hay resultados para dibujar el perfil', 'error'); return; }
+    const p = cur.patient || {};
+    const ev = Storage.getEvaluator() || {};
+    const R = cur.results;
+    const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota N=2.600)' : 'España (TEA Ediciones, 4.ª ed. 2019)';
+
+    // Dibujar el perfil en un canvas off-screen (alto nivel de detalle para impresión)
+    const canvas = document.createElement('canvas');
+    const W = 1400, H = 900;
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) { window.toast('No se pudo obtener el contexto Canvas', 'error'); return; }
+
+    try {
+      this._drawProfileCanvas(ctx, W, H, R);
+    } catch (e) {
+      console.error('Error dibujando perfil:', e);
+      window.toast('Error al dibujar el perfil: ' + e.message, 'error');
+      return;
+    }
+
+    const dataURL = canvas.toDataURL('image/png');
+    const todayFmt = this._fmtDate(p.applicationDate || new Date().toISOString().slice(0, 10));
+
+    const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Perfil de Escalas MMPI-2 — ${this._esc(p.name || 'Paciente')}</title>
+<style>
+  @page { size: A4 landscape; margin: 10mm; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #1F2937; font-size: 11px; }
+  h1 { color: #1F3864; font-size: 18px; text-align: center; margin: 0 0 4px; letter-spacing: 1px; }
+  .subtitle { text-align: center; font-size: 11px; color: #6B7280; margin-bottom: 8px; }
+  .header-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 16px; border: 1.5px solid #1F3864; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; font-size: 10px; }
+  .header-grid .label { color: #6B7280; text-transform: uppercase; font-size: 8px; letter-spacing: 0.5px; font-weight: 700; }
+  .header-grid .value { font-size: 11px; font-weight: 600; color: #1F2937; }
+  .profile-img { width: 100%; max-width: 1100px; display: block; margin: 8px auto; border: 1px solid #1F3864; }
+  .footer { margin-top: 10px; border-top: 1px solid #1F3864; padding-top: 6px; font-size: 9px; color: #6B7280; text-align: center; }
+</style>
+</head>
+<body>
+  <h1>PERFIL DE ESCALAS · MMPI-2</h1>
+  <div class="subtitle">Puntuaciones T (media 50, DT 10) — Baremo: ${this._esc(countryLabel)}</div>
+  <div class="header-grid">
+    <div><div class="label">Evaluado</div><div class="value">${this._esc(p.name || '—')}</div></div>
+    <div><div class="label">Documento</div><div class="value">${this._esc(p.document || '—')}</div></div>
+    <div><div class="label">Edad / Sexo</div><div class="value">${p.age != null ? p.age + ' años' : '—'} / ${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '—')}</div></div>
+    <div><div class="label">Fecha de aplicación</div><div class="value">${todayFmt}</div></div>
+    <div><div class="label">Evaluador</div><div class="value">${this._esc(ev.name || '—')}</div></div>
+    <div><div class="label">Registro</div><div class="value">${this._esc(ev.registry || ev.license || '—')}</div></div>
+  </div>
+  <img class="profile-img" src="${dataURL}" alt="Perfil MMPI-2">
+  <div class="footer">
+    Líneas de referencia: T=50 (media) y T=65 (corte clínico). Puntos rojos = T≥70 · naranjas = 60–69 · amarillos = 56–59 · grises = 40–55 · azules ≤39.
+  </div>
+  <script>
+    window.onload = function() { setTimeout(function(){ window.print(); }, 400); };
+  </script>
+</body>
+</html>`;
+
+    this._openPrintWindow(html);
+  },
+
+  /* ---------- Abrir ventana nueva con HTML y disparar impresión ---------- */
+  _openPrintWindow(html) {
+    try {
+      const w = window.open('', '_blank', 'width=900,height=700');
+      if (!w) {
+        // Bloqueado por el navegador: usar iframe oculto como fallback
+        this._printViaIframe(html);
+        return;
+      }
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+    } catch (e) {
+      console.error('Error abriendo ventana de impresión:', e);
+      this._printViaIframe(html);
+    }
+  },
+
+  _printViaIframe(html) {
+    try {
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      document.body.appendChild(iframe);
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(html);
+      doc.close();
+      setTimeout(() => {
+        try { iframe.contentWindow.focus(); iframe.contentWindow.print(); }
+        catch (e) { console.error('Impresión iframe fallida:', e); }
+        setTimeout(() => { if (iframe.parentNode) iframe.parentNode.removeChild(iframe); }, 1500);
+      }, 600);
+    } catch (e) {
+      console.error('Impresión iframe fallida:', e);
+      window.toast('No se pudo abrir la ventana de impresión. Permita popups y reintente.', 'error');
+    }
+  },
+
+  /* ---------- Dibujar perfil MMPI-2 en canvas (estilo lápiz/marcador) ---------- */
+  _drawProfileCanvas(ctx, W, H, results) {
+    // Definir grupos y colores de trazo (estilo lápiz)
+    const groups = [
+      { title: 'VALIDEZ + CLÍNICAS BÁSICAS', codes: this._BASIC_CODES, color: '#1F3864' },
+      { title: 'ESCALAS DE CONTENIDO',       codes: this._CONTENT_CODES, color: '#2F5496' },
+      { title: 'ESCALAS SUPLEMENTARIAS',    codes: this._SUPP_CODES,  color: '#4F6D9C' },
+      { title: 'SUBESCALAS HARRIS-LINGOES', codes: this._SUB_CODES,   color: '#5F7FB0' },
+    ];
+
+    // Layout: márgenes
+    const marginLeft = 80, marginRight = 40, marginTop = 30, marginBottom = 220;
+    const plotW = W - marginLeft - marginRight;
+    const plotH = H - marginTop - marginBottom;
+    const tMin = 30, tMax = 90;
+
+    // Fondo blanco
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, W, H);
+
+    // Título superior
+    ctx.fillStyle = '#1F3864';
+    ctx.font = 'bold 22px Georgia, serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('PERFIL DE ESCALAS · MMPI-2', marginLeft, marginTop - 8);
+
+    // ---- Rejilla + ejes ----
+    // Líneas horizontales cada 5 T (de 30 a 90)
+    ctx.strokeStyle = '#E5E7EB';
+    ctx.lineWidth = 1;
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#6B7280';
+    for (let t = tMin; t <= tMax; t += 5) {
+      const y = marginTop + plotH * (1 - (t - tMin) / (tMax - tMin));
+      ctx.beginPath();
+      ctx.moveTo(marginLeft, y);
+      ctx.lineTo(W - marginRight, y);
+      ctx.stroke();
+      ctx.textAlign = 'right';
+      ctx.fillText('T=' + t, marginLeft - 6, y + 4);
+    }
+    // Líneas verticales en cada columna (de cada escala)
+    const totalCols = groups.reduce((a, g) => a + g.codes.length, 0);
+    const colW = plotW / totalCols;
+    ctx.strokeStyle = '#F3F4F6';
+    for (let i = 0; i <= totalCols; i++) {
+      const x = marginLeft + i * colW;
+      ctx.beginPath();
+      ctx.moveTo(x, marginTop);
+      ctx.lineTo(x, marginTop + plotH);
+      ctx.stroke();
+    }
+    // Línea T=50 (media) y T=65 (corte clínico) más visibles
+    const y50 = marginTop + plotH * (1 - (50 - tMin) / (tMax - tMin));
+    const y65 = marginTop + plotH * (1 - (65 - tMin) / (tMax - tMin));
+    ctx.strokeStyle = '#9CA3AF';
+    ctx.setLineDash([8, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(marginLeft, y50); ctx.lineTo(W - marginRight, y50); ctx.stroke();
+    ctx.strokeStyle = '#C00000';
+    ctx.beginPath(); ctx.moveTo(marginLeft, y65); ctx.lineTo(W - marginRight, y65); ctx.stroke();
+    ctx.setLineDash([]);
+    // Etiquetas de líneas de referencia
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#9CA3AF';
+    ctx.textAlign = 'left';
+    ctx.fillText('T=50 (media)', W - marginRight + 4, y50 + 4);
+    ctx.fillStyle = '#C00000';
+    ctx.fillText('T=65 (corte)', W - marginRight + 4, y65 + 4);
+
+    // ---- Trazar perfiles por grupo ----
+    let colIdx = 0;
+    // Listar primero las posiciones X de cada escala (para etiquetas y puntos)
+    const scalePositions = {};
+    for (const g of groups) {
+      for (const code of g.codes) {
+        scalePositions[code] = marginLeft + (colIdx + 0.5) * colW;
+        colIdx++;
+      }
+    }
+
+    // Etiquetas X (códigos) en la parte inferior
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#1F2937';
+    ctx.textAlign = 'center';
+    for (const g of groups) {
+      for (const code of g.codes) {
+        const x = scalePositions[code];
+        ctx.save();
+        ctx.translate(x, marginTop + plotH + 12);
+        ctx.rotate(-Math.PI / 4);
+        ctx.fillText(code, 0, 0);
+        ctx.restore();
+      }
+    }
+
+    // Trazar línea de cada grupo + puntos
+    for (const g of groups) {
+      const pts = [];
+      for (const code of g.codes) {
+        const r = results[code];
+        const t = (r && typeof r.t === 'number') ? r.t : null;
+        if (t == null) continue;
+        const x = scalePositions[code];
+        const y = marginTop + plotH * (1 - (t - tMin) / (tMax - tMin));
+        pts.push({ x, y, t, code });
+      }
+      if (pts.length === 0) continue;
+
+      // Línea conectando los puntos
+      ctx.strokeStyle = g.color;
+      ctx.lineWidth = 2.2;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      pts.forEach((p, i) => { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+      ctx.stroke();
+
+      // Puntos
+      for (const p of pts) {
+        let color = '#6B7280'; // modal 40-55
+        if (p.t >= 70) color = '#C00000';     // rojo
+        else if (p.t >= 60) color = '#ED7D31'; // naranja
+        else if (p.t >= 56) color = '#FFC000'; // amarillo
+        else if (p.t <= 39) color = '#2F5496'; // azul
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#1F2937';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        // Etiqueta del T sobre el punto
+        ctx.fillStyle = '#1F2937';
+        ctx.font = 'bold 9px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(String(p.t), p.x, p.y - 8);
+      }
+    }
+
+    // ---- Leyenda de grupos + bandas (en la parte inferior) ----
+    let legendY = marginTop + plotH + 110;
+    ctx.font = 'bold 11px Arial';
+    ctx.fillStyle = '#1F2937';
+    ctx.textAlign = 'left';
+    ctx.fillText('Leyenda de bandas T:', marginLeft, legendY);
+    const bands = [
+      { label: 'Muy alto (≥70)', color: '#C00000' },
+      { label: 'Alto (60-69)',    color: '#ED7D31' },
+      { label: 'Prom. sup. (56-59)', color: '#FFC000' },
+      { label: 'Modal (40-55)',   color: '#6B7280' },
+      { label: 'Bajo (≤39)',      color: '#2F5496' },
+    ];
+    let lx = marginLeft + 130;
+    for (const b of bands) {
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.arc(lx, legendY - 4, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1F2937';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.fillStyle = '#1F2937';
+      ctx.font = '10px Arial';
+      ctx.fillText(b.label, lx + 10, legendY);
+      lx += 10 + ctx.measureText(b.label).width + 22;
+    }
+
+    // Línea separadora + leyenda de grupos (colores de trazos)
+    legendY += 26;
+    ctx.font = 'bold 11px Arial';
+    ctx.fillStyle = '#1F2937';
+    ctx.fillText('Grupos trazados:', marginLeft, legendY);
+    let gx = marginLeft + 130;
+    for (const g of groups) {
+      ctx.strokeStyle = g.color;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(gx, legendY - 4);
+      ctx.lineTo(gx + 18, legendY - 4);
+      ctx.stroke();
+      ctx.fillStyle = '#1F2937';
+      ctx.font = '10px Arial';
+      ctx.fillText(g.title, gx + 24, legendY);
+      gx += 24 + ctx.measureText(g.title).width + 16;
+    }
+
+    // Pie con datos del paciente
+    legendY += 30;
+    ctx.strokeStyle = '#1F3864';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(marginLeft, legendY);
+    ctx.lineTo(W - marginRight, legendY);
+    ctx.stroke();
+    legendY += 16;
+    const p = (Storage.getCurrentCase() || {}).patient || {};
+    const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA)';
+    ctx.font = '10px Arial';
+    ctx.fillStyle = '#6B7280';
+    ctx.textAlign = 'left';
+    const line1 = `Evaluado: ${p.name || '—'}   ·   Documento: ${p.document || '—'}   ·   Edad: ${p.age != null ? p.age : '—'}   ·   Sexo: ${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '—')}`;
+    ctx.fillText(line1, marginLeft, legendY);
+    const line2 = `Baremo: ${countryLabel}   ·   Fecha de aplicación: ${this._fmtDate(p.applicationDate)}   ·   Generado: ${new Date().toLocaleString('es-ES')}`;
+    ctx.fillText(line2, marginLeft, legendY + 14);
+  },
+
+  /* ---------- Parser del texto libre de T previas (mismo formato que ai-prompt.js) ---------- */
+  _parsePreviousMMPI(text) {
+    const out = {};
+    if (!text) return out;
+    const re = /([A-Za-z][A-Za-z0-9-]{0,5})\s*[:=]\s*(\d{1,3})/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const code = m[1].charAt(0).toUpperCase() + m[1].slice(1);
+      const t = parseInt(m[2], 10);
+      if (t >= 20 && t <= 120) out[code] = t;
+    }
+    return out;
+  },
+
+  /* ---------- Sección de comparación con MMPI-2 anterior ---------- */
+  _renderComparisonSection(results, prevText) {
+    const prevMap = this._parsePreviousMMPI(prevText);
+    const codes = Object.keys(prevMap);
+    if (!codes.length) return '';
+
+    const rows = codes.map(code => {
+      const prevT = prevMap[code];
+      const cur = results[code];
+      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
+      const delta = (curT != null) ? (curT - prevT) : null;
+      let deltaClass = 'delta-stable';
+      let deltaStr = '—';
+      if (delta != null) {
+        const abs = Math.abs(delta);
+        if (abs >= 10) deltaClass = delta > 0 ? 'delta-worse' : 'delta-better';
+        else if (abs >= 5) deltaClass = delta > 0 ? 'delta-slight-worse' : 'delta-slight-better';
+        deltaStr = (delta > 0 ? '+' : '') + delta;
+      }
+      const curStr = (curT == null) ? '—' : String(curT);
+      return `<tr>
+        <td style="font-weight:600">${this._esc(code)}</td>
+        <td class="center">${this._esc(cur ? (cur.name || '—') : '—')}</td>
+        <td class="center">${prevT}</td>
+        <td class="center">${curStr}</td>
+        <td class="center ${deltaClass}">${deltaStr}</td>
+      </tr>`;
+    }).join('');
+
+    // Calcular estadísticas de cambio
+    const changes = codes.map(c => {
+      const cur = results[c];
+      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
+      return (curT != null) ? (curT - prevMap[c]) : null;
+    }).filter(v => v != null);
+    const improved = changes.filter(d => d <= -10).length;
+    const worsened = changes.filter(d => d >= 10).length;
+    const stable = changes.length - improved - worsened;
+
+    return `
+      <div class="card">
+        <div class="card-header"><h3>Comparación con MMPI-2 anterior</h3></div>
+        <div class="card-body">
+          <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 12px">
+            Evolución del perfil entre la aplicación previa aportada por el evaluador y la actual.
+            Cambio (Δ) = T actual − T anterior. Δ ≥ +10 empeoramiento · Δ ≤ −10 mejora · |Δ| &lt; 10 estable.
+          </p>
+          <div class="table-container">
+            <table class="data-table">
+              <thead><tr>
+                <th>Código</th><th>Escala</th>
+                <th class="center">T anterior</th>
+                <th class="center">T actual</th>
+                <th class="center">Cambio (Δ)</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+          <div style="padding:12px 20px;border-top:1px solid var(--color-border);background:var(--color-bg);font-size:13px;line-height:1.55">
+            <strong style="color:var(--color-primary-dark)">Resumen de cambios:</strong>
+            <span>${improved} escala(s) mejorada(s) (Δ ≤ −10) · ${stable} estable(s) · ${worsened} empeorada(s) (Δ ≥ +10).</span>
+          </div>
+        </div>
+      </div>
+      <style>
+        .delta-better { color: #15803D; font-weight: 700; }
+        .delta-worse { color: #C00000; font-weight: 700; }
+        .delta-slight-better { color: #16A34A; }
+        .delta-slight-worse { color: #D97706; }
+        .delta-stable { color: #6B7280; }
+      </style>
+    `;
+  },
+
+  /* ---------- Tabla exhaustiva de Análisis de Resultados ---------- */
+  _renderAnalysisTable(results, prevText) {
+    const prevMap = prevText ? this._parsePreviousMMPI(prevText) : {};
+    const hasPrev = Object.keys(prevMap).length > 0;
+    const totalCols = hasPrev ? 9 : 8;
+    const groupOrder = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias', 'Subescalas'];
+    const groupTitles = {
+      Validez: 'Escalas de Validez',
+      Clínicas: 'Escalas Clínicas Básicas',
+      Contenido: 'Escalas de Contenido',
+      Suplementarias: 'Escalas Suplementarias',
+      Subescalas: 'Subescalas Harris-Lingoes',
+    };
+
+    const groups = this._groupScales(results);
+
+    const groupSections = groupOrder.map(gName => {
+      const scales = groups[gName] || [];
+      if (!scales.length) return '';
+      // Ordenar por código dentro del grupo (copia local para no mutar el original)
+      const sorted = scales.slice().sort((a, b) => (a.code || '').localeCompare(b.code || ''));
+      const rows = sorted.map(s => {
+        const tNum = typeof s.t === 'number';
+        const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
+        const pdDisplay = (s.pd != null) ? s.pd : '—';
+        const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
+        const band = s.band ? s.band.label : '—';
+        const level = s.band ? s.band.level : null;
+        // Color de celda T
+        let tCellClass = '';
+        if (level === 5) tCellClass = 't-very-high-bg';
+        else if (level === 4) tCellClass = 't-high-bg';
+        else if (level === 3) tCellClass = 't-mod-high-bg';
+        else if (level === 2) tCellClass = 't-modal-bg';
+        else if (level === 1) tCellClass = 't-low-bg';
+
+        // Cambio vs previo (solo si hay prevMap)
+        let deltaCell = '';
+        if (hasPrev) {
+          if (prevMap[s.code] != null && tNum) {
+            const delta = s.t - prevMap[s.code];
+            let cls = 'delta-stable';
+            const abs = Math.abs(delta);
+            if (abs >= 10) cls = delta > 0 ? 'delta-worse' : 'delta-better';
+            else if (abs >= 5) cls = delta > 0 ? 'delta-slight-worse' : 'delta-slight-better';
+            const sign = delta > 0 ? '+' : '';
+            deltaCell = `<td class="center ${cls}">${sign}${delta}</td>`;
+          } else {
+            deltaCell = '<td class="center" style="color:var(--color-text-muted)">—</td>';
+          }
+        }
+
+        return `<tr>
+          <td style="font-weight:600">${this._esc(s.code)}</td>
+          <td>${this._esc(s.name)}</td>
+          <td class="center">${pdDisplay}</td>
+          <td class="center">${pdKDisplay}</td>
+          <td class="center ${tCellClass}" style="font-weight:700">${tDisplay}</td>
+          <td class="center">${this._esc(band)}</td>
+          <td class="center">${level != null ? this._levelLabel(level) : '—'}</td>
+          <td style="font-size:12px">${this._esc(s.interpretation || '')}</td>
+          ${deltaCell}
+        </tr>`;
+      }).join('');
+
+      // Resumen por grupo
+      const veryHigh = sorted.filter(s => s.band && s.band.level === 5).length;
+      const high     = sorted.filter(s => s.band && s.band.level === 4).length;
+      const modHigh  = sorted.filter(s => s.band && s.band.level === 3).length;
+      const modal    = sorted.filter(s => s.band && s.band.level === 2).length;
+      const low      = sorted.filter(s => s.band && s.band.level === 1).length;
+      const online   = sorted.filter(s => s.status === 'ES-ONLINE').length;
+      const sinDatos  = sorted.filter(s => !s.band).length;
+      const lastColSpan = hasPrev ? 2 : 3;
+
+      const summary = `<tr style="background:var(--color-bg);font-weight:700">
+        <td colspan="4" style="text-align:right">Resumen del grupo «${gName}» (${sorted.length} escalas):</td>
+        <td class="center">↑${veryHigh}</td>
+        <td class="center">↑${high}</td>
+        <td class="center">→${modal}</td>
+        <td colspan="${lastColSpan}" style="font-size:12px">
+          ↓${low} · PS+${modHigh} · N/D ${sinDatos}${online ? ' · TEAcorrige: ' + online : ''}
+        </td>
+      </tr>`;
+
+      return `
+        <tr class="group-header"><td colspan="${totalCols}">${this._esc(groupTitles[gName])}</td></tr>
+        ${rows}
+        ${summary}
+      `;
+    }).join('');
+
+    return `
+      <style>
+        .analysis-table th, .analysis-table td { font-size: 12px; padding: 4px 8px; }
+        .analysis-table .group-header td { background: var(--color-primary-dark); color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 6px 8px; }
+        .analysis-table .t-very-high-bg { background: #FEE2E2; color: #991B1B; }
+        .analysis-table .t-high-bg { background: #FED7AA; color: #9A3412; }
+        .analysis-table .t-mod-high-bg { background: #FEF3C7; color: #92400E; }
+        .analysis-table .t-modal-bg { background: #DCFCE7; color: #166534; }
+        .analysis-table .t-low-bg { background: #DBEAFE; color: #1E40AF; }
+        .analysis-table .delta-better { color: #15803D; font-weight: 700; }
+        .analysis-table .delta-worse { color: #C00000; font-weight: 700; }
+        .analysis-table .delta-slight-better { color: #16A34A; }
+        .analysis-table .delta-slight-worse { color: #D97706; }
+        .analysis-table .delta-stable { color: #6B7280; }
+      </style>
+      <div class="card">
+        <div class="card-header"><h3>Análisis de Resultados</h3></div>
+        <div class="card-body" style="padding:0">
+          <div class="table-container">
+            <table class="data-table analysis-table">
+              <thead><tr>
+                <th>Código</th><th>Escala</th>
+                <th class="center">PD</th><th class="center">PD+K</th>
+                <th class="center">T</th><th class="center">Banda</th>
+                <th class="center">Nivel</th><th>Interpretación</th>
+                ${hasPrev ? '<th class="center">Δ vs previo</th>' : ''}
+              </tr></thead>
+              <tbody>${groupSections}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  _levelLabel(level) {
+    switch (level) {
+      case 5: return 'Muy alto';
+      case 4: return 'Alto';
+      case 3: return 'PS';
+      case 2: return 'Modal';
+      case 1: return 'Bajo';
+      default: return '—';
+    }
   },
 
   /* ---------- Utils ---------- */

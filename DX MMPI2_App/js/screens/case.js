@@ -97,11 +97,19 @@ const Case = {
                   <label class="form-label">Contexto pericial (opcional)</label>
                   <textarea id="p-legal-context" class="form-textarea" rows="3" placeholder="Si procede del ámbito forense: input del abogado, objeto del peritaje, preguntas periciales a responder…">${this._esc(p.legalContext || '')}</textarea>
                 </div>
+                <div class="form-field full">
+                  <label class="form-label">MMPI-2 anterior (opcional)</label>
+                  <textarea id="p-previous-mmpi" class="form-textarea" rows="3" placeholder="Pegue las puntuaciones T de una aplicación previa en formato «Escala=T», separadas por comas, p. ej.: Hs=78, D=55, Hy=68, Pd=66, Pa=65, Pt=52, Sc=50, Ma=42, Si=45">${this._esc(p.previousMMPI || '')}</textarea>
+                  <span class="form-hint">Si existen resultados previos del MMPI-2, el informe generará un gráfico comparativo y una tabla de cambios (Δ).</span>
+                </div>
               </div>
 
             </div>
-            <div class="card-footer flex justify-between items-center">
-              <button class="btn btn-ghost" id="case-cancel">Cancelar</button>
+            <div class="card-footer flex justify-between items-center" style="flex-wrap:wrap;gap:8px">
+              <div class="flex gap-8" style="flex-wrap:wrap">
+                <button class="btn btn-ghost" id="case-cancel">Cancelar</button>
+                <button class="btn btn-secondary btn-sm" id="case-download-template">⤓ Descargar Excel para respuestas</button>
+              </div>
               <button class="btn btn-primary" id="case-continue">Continuar a captura ›</button>
             </div>
           </div>
@@ -116,6 +124,7 @@ const Case = {
     bindEvent('case-back', 'click', () => App.navigate('dashboard'));
     bindEvent('case-cancel', 'click', () => App.navigate('dashboard'));
     bindEvent('case-continue', 'click', () => this._save());
+    bindEvent('case-download-template', 'click', () => this._downloadTemplate());
 
     const dobEl = document.getElementById('p-dob');
     if (dobEl) {
@@ -161,6 +170,7 @@ const Case = {
       reason: document.getElementById('p-reason').value,
       caseHistory: document.getElementById('p-case-history').value,
       legalContext: document.getElementById('p-legal-context').value,
+      previousMMPI: document.getElementById('p-previous-mmpi').value,
     };
 
     Storage.saveCase(cur);
@@ -178,6 +188,66 @@ const Case = {
     const m = today.getMonth() - d.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age--;
     return age >= 0 ? age : null;
+  },
+
+  /* ---- Descargar plantilla Excel para captura de respuestas ---- */
+  _downloadTemplate() {
+    if (!window.XLSX) { window.toast('SheetJS no está cargado', 'error'); return; }
+    try {
+      // Recoger datos actuales del formulario (sin guardar el caso todavía)
+      const name = (document.getElementById('p-name') || {}).value?.trim() || '';
+      const doc = (document.getElementById('p-doc') || {}).value?.trim() || '';
+      const dob = (document.getElementById('p-dob') || {}).value || '';
+      const sexSel = (document.getElementById('p-sex') || {}).value || '';
+      const appDate = (document.getElementById('p-appdate') || {}).value || (new Date().toISOString().slice(0, 10));
+      const ev = Storage.getEvaluator() || {};
+
+      const items = window.__ITEMS__ || [];
+      const sexLabel = sexSel === 'M' ? 'Mujer' : (sexSel === 'H' ? 'Hombre' : '');
+
+      // Construir filas: cabecera con datos del paciente + evaluador, luego tabla de ítems
+      const aoa = [];
+      aoa.push(['MMPI-2 · HOJA DE RESPUESTAS']);
+      aoa.push(['Plantilla generada el', new Date().toLocaleString('es-ES')]);
+      aoa.push([]);
+      aoa.push(['DATOS DEL EVALUADO']);
+      aoa.push(['Nombre', name || '']);
+      aoa.push(['Documento', doc]);
+      aoa.push(['Fecha de nacimiento', dob]);
+      aoa.push(['Sexo', sexLabel]);
+      aoa.push(['Fecha de aplicación', appDate]);
+      aoa.push([]);
+      aoa.push(['EVALUADOR']);
+      aoa.push(['Nombre', ev.name || '']);
+      aoa.push(['Tarjeta profesional', ev.license || '']);
+      aoa.push(['Registro profesional', ev.registry || '']);
+      aoa.push(['Correo', ev.email || '']);
+      aoa.push([]);
+      aoa.push(['INSTRUCCIONES: Marcar 1 = Verdadero (V), 2 = Falso (F). No dejar ítems en blanco.']);
+      aoa.push(['Ítem', 'Enunciado', 'Respuesta (1=V, 2=F)']);
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        aoa.push([it.num || (i + 1), it.text || '', '']);
+      }
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      ws['!cols'] = [{ wch: 8 }, { wch: 70 }, { wch: 22 }];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Respuestas');
+      const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const safe = (name || 'paciente').replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _-]/g, '').trim().replace(/\s+/g, '_');
+      const a = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.download = `MMPI2_Plantilla_${safe}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+      window.toast('Plantilla Excel descargada', 'success');
+    } catch (e) {
+      console.error('Error generando plantilla Excel:', e);
+      window.toast('Error al generar la plantilla: ' + e.message, 'error');
+    }
   },
 
   _esc(s) {
