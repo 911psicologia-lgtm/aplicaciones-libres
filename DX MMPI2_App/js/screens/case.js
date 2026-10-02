@@ -52,6 +52,14 @@ const Case = {
                     </select>
                   </div>
                   <div class="form-field">
+                    <label class="form-label">Baremo (país) <span class="required">*</span></label>
+                    <select id="p-country" class="form-select">
+                      <option value="US" ${p.country !== 'ES' ? 'selected' : ''}>Estados Unidos (Minnesota N=2.600) — Recomendado para Latinoamérica</option>
+                      <option value="ES" ${p.country === 'ES' ? 'selected' : ''}>España (TEA Ediciones, N=500)</option>
+                    </select>
+                    <span class="form-hint">El baremo EE.UU. es el utilizado en Argentina y México según Silin & Sanz</span>
+                  </div>
+                  <div class="form-field">
                     <label class="form-label">Contexto de evaluación</label>
                     <select id="p-context" class="form-select">
                       <option value="Clínico" ${p.context === 'Clínico' ? 'selected' : ''}>Clínico</option>
@@ -91,14 +99,16 @@ const Case = {
   },
 
   mount() {
-    document.getElementById('ham-btn').addEventListener('click', () => App.openMenu());
-    document.getElementById('case-back').addEventListener('click', () => App.navigate('dashboard'));
-    document.getElementById('case-cancel').addEventListener('click', () => App.navigate('dashboard'));
-    document.getElementById('case-continue').addEventListener('click', () => this._save());
+    bindEvent('ham-btn', 'click', () => App.openMenu());
+    bindEvent('case-back', 'click', () => App.navigate('dashboard'));
+    bindEvent('case-cancel', 'click', () => App.navigate('dashboard'));
+    bindEvent('case-continue', 'click', () => this._save());
 
     const dobEl = document.getElementById('p-dob');
-    dobEl.addEventListener('change', () => this._recomputeAge());
-    dobEl.addEventListener('input', () => this._recomputeAge());
+    if (dobEl) {
+      dobEl.addEventListener('change', () => this._recomputeAge());
+      dobEl.addEventListener('input', () => this._recomputeAge());
+    }
   },
 
   _recomputeAge() {
@@ -131,6 +141,7 @@ const Case = {
       dob: document.getElementById('p-dob').value,
       age: this._computeAge(document.getElementById('p-dob').value),
       sex,
+      country: (document.getElementById('p-country') || {}).value || 'US',
       context: document.getElementById('p-context').value,
       applicationDate: document.getElementById('p-appdate').value,
       history: document.getElementById('p-history').value,

@@ -96,7 +96,17 @@ const Setup = {
       this._updateSigStatus();
     }
 
-    document.getElementById('setup-save').addEventListener('click', () => this._save());
+    const saveBtn = document.getElementById('setup-save');
+    if (saveBtn) saveBtn.addEventListener('click', () => this._save());
+    
+    const sigClear = document.getElementById('sig-clear');
+    if (sigClear) sigClear.addEventListener('click', () => {
+      if (this._pad) {
+        this._pad.clear();
+        this._updateSigStatus();
+      }
+    });
+    
     const cancel = document.getElementById('setup-cancel');
     if (cancel) cancel.addEventListener('click', () => App.navigate('dashboard'));
   },

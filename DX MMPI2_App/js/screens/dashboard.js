@@ -87,14 +87,30 @@ const Dashboard = {
   },
 
   mount() {
-    document.getElementById('ham-btn').addEventListener('click', () => App.openMenu());
-    document.getElementById('dash-new').addEventListener('click', () => this._newCase());
-    const e1 = document.getElementById('dash-new-empty'); if (e1) e1.addEventListener('click', () => this._newCase());
-    document.getElementById('dash-new2').addEventListener('click', () => this._newCase());
-    document.getElementById('dash-edit-evaluator').addEventListener('click', () => App.navigate('setup'));
-    document.getElementById('dash-all-cases').addEventListener('click', () => App.openMenu());
-    document.getElementById('dash-all-cases2').addEventListener('click', () => App.openMenu());
-    document.getElementById('dash-export-json').addEventListener('click', () => {
+    const hamBtn = document.getElementById('ham-btn');
+    if (hamBtn) hamBtn.addEventListener('click', () => App.openMenu());
+    
+    const dashNew = document.getElementById('dash-new');
+    if (dashNew) dashNew.addEventListener('click', () => this._newCase());
+    
+    const e1 = document.getElementById('dash-new-empty');
+    if (e1) e1.addEventListener('click', () => this._newCase());
+    
+    const dashNew2 = document.getElementById('dash-new2');
+    if (dashNew2) dashNew2.addEventListener('click', () => this._newCase());
+    
+    const editEvaluator = document.getElementById('dash-edit-evaluator');
+    if (editEvaluator) editEvaluator.addEventListener('click', () => App.navigate('setup'));
+    
+    // These buttons only exist when there are cases
+    const dashAllCases = document.getElementById('dash-all-cases');
+    if (dashAllCases) dashAllCases.addEventListener('click', () => App.openMenu());
+    
+    const dashAllCases2 = document.getElementById('dash-all-cases2');
+    if (dashAllCases2) dashAllCases2.addEventListener('click', () => App.openMenu());
+    
+    const exportJson = document.getElementById('dash-export-json');
+    if (exportJson) exportJson.addEventListener('click', () => {
       const data = Storage.exportAll();
       window.Export.exportJSON(data, `MMPI2_export_${Date.now()}.json`);
       window.toast('Exportación JSON descargada', 'success');

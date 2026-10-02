@@ -150,7 +150,21 @@ const MMPI2 = {
     return results;
   },
 
-  /* ---- Lookup T por sexo ---- */
+  /* ---- Current country (ES or US) ---- */
+  _country: 'ES',
+
+  setCountry(country) {
+    this._country = country;
+    if (country === 'US') {
+      window.__BAREMOS__ = window.__BAREMOS_US__;
+    } else {
+      window.__BAREMOS__ = window.__BAREMOS_ES__;
+    }
+  },
+
+  getCountry() { return this._country; },
+
+  /* ---- Lookup T por sexo y país ---- */
   lookupT(scaleCode, pd, sex, useK) {
     if (this.ONLINE_SCALES.has(scaleCode)) {
       return 'REQUIERE TEAcorrige / TABLA OFICIAL';
@@ -215,8 +229,9 @@ const MMPI2 = {
   },
 
   /* ---- Calcular todo (PD + K + T) ---- */
-  async computeAll(responses, sex) {
+  async computeAll(responses, sex, country) {
     await this.init();
+    if (country) this.setCountry(country);
     const pds = this.computeAllPDs(responses);
     const tScores = this.computeAllT(pds, sex);
     // Merge
@@ -279,8 +294,9 @@ const MMPI2 = {
   },
 
   /* ---- Síntesis narrativa automática ---- */
-  buildNarrative(results, patientName, age, sex) {
+  buildNarrative(results, patientName, age, sex, country) {
     const sexLabel = sex === 'M' ? 'mujer' : 'varón';
+    const countryLabel = country === 'US' ? 'estadounidense (recomendado para Latinoamérica)' : 'español (TEA Ediciones)';
     const elevated = Object.values(results).filter(r => typeof r.t === 'number' && r.t >= 70);
     const high = Object.values(results).filter(r => typeof r.t === 'number' && r.t >= 60 && r.t < 70);
     const low = Object.values(results).filter(r => typeof r.t === 'number' && r.t <= 39);
@@ -309,6 +325,7 @@ const MMPI2 = {
       narrative += `${online.length} escala(s) marcadas como ES-ONLINE (requieren TEAcorrige): ${online.map(r => r.code).join(', ')}. `;
     }
     
+    narrative += `Baremo utilizado: ${countryLabel}. `;
     narrative += 'Revise el detalle por escala en las tablas siguientes y las configuraciones clínicas del perfil para un análisis integrado.';
     
     return narrative;

@@ -60,13 +60,13 @@ const Capture = {
   },
 
   mount() {
-    document.getElementById('ham-btn').addEventListener('click', () => App.openMenu());
-    document.getElementById('cap-back').addEventListener('click', () => {
+    bindEvent('ham-btn', 'click', () => App.openMenu());
+    bindEvent('cap-back', 'click', () => {
       this._persist();
       App.navigate('case');
     });
-    document.getElementById('mode-test').addEventListener('click', () => this._setMode('test'));
-    document.getElementById('mode-excel').addEventListener('click', () => this._setMode('excel'));
+    bindEvent('mode-test', 'click', () => this._setMode('test'));
+    bindEvent('mode-excel', 'click', () => this._setMode('excel'));
 
     this._setMode(this._mode, true);
     this._updateProgress();
@@ -137,8 +137,8 @@ const Capture = {
   },
 
   _bindTest() {
-    document.getElementById('prev-item').addEventListener('click', () => this._goto(this._currentIdx - 1));
-    document.getElementById('next-item').addEventListener('click', () => this._goto(this._currentIdx + 1));
+    bindEvent('prev-item', 'click', () => this._goto(this._currentIdx - 1));
+    bindEvent('next-item', 'click', () => this._goto(this._currentIdx + 1));
     document.querySelectorAll('[data-resp]').forEach(btn => {
       btn.addEventListener('click', () => {
         const r = parseInt(btn.getAttribute('data-resp'), 10);
@@ -154,11 +154,11 @@ const Capture = {
         }
       });
     });
-    document.getElementById('cap-slider').addEventListener('input', (e) => {
+    bindEvent('cap-slider', 'input', (e) => {
       const n = parseInt(e.target.value, 10);
       this._goto(n - 1);
     });
-    document.getElementById('cap-reset').addEventListener('click', () => {
+    bindEvent('cap-reset', 'click', () => {
       if (!confirm('¿Borrar todas las respuestas capturadas?')) return;
       this._responses = new Array(this._totalItems).fill(null);
       this._currentIdx = 0;
@@ -166,7 +166,7 @@ const Capture = {
       this._updateProgress();
       this._persist();
     });
-    document.getElementById('cap-finish').addEventListener('click', () => this._finish());
+    bindEvent('cap-finish', 'click', () => this._finish());
   },
 
   _renderTestItem() {
@@ -242,13 +242,13 @@ Columna A  | Columna B
         </div>
       </div>
     `;
-    document.getElementById('xlsx-input').addEventListener('change', (e) => this._onFile(e));
-    document.getElementById('xlsx-clear').addEventListener('click', () => {
+    bindEvent('xlsx-input', 'change', (e) => this._onFile(e));
+    bindEvent('xlsx-clear', 'click', () => {
       this._responses = new Array(this._totalItems).fill(null);
       this._renderExcel();
       this._updateProgress();
     });
-    document.getElementById('xlsx-process').addEventListener('click', () => this._finish());
+    bindEvent('xlsx-process', 'click', () => this._finish());
   },
 
   _onFile(e) {
@@ -261,25 +261,81 @@ Columna A  | Columna B
         const data = new Uint8Array(ev.target.result);
         const wb = XLSX.read(data, { type: 'array' });
         const sheet = wb.Sheets[wb.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false });
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: null });
         const parsed = new Array(this._totalItems).fill(null);
-        let count = 0, skipped = 0, startRow = 0;
+        let count = 0, skipped = 0;
 
-        // Detect header: if first row has non-numeric first cell, skip it
-        if (rows.length > 0) {
-          const first = rows[0];
-          const firstCell = first && first[0];
-          if (typeof firstCell === 'string' && isNaN(parseInt(firstCell, 10))) startRow = 1;
+        // Auto-detect column layout: find the column with item numbers and the column with responses
+        // Strategy: scan ALL rows, find columns where:
+        //  - item col has integers 1..567 (consistent sequence) and FEW values that are 1 or 2
+        //  - resp col has ONLY values 1 or 2 (or empty)
+        let itemCol = -1, respCol = -1;
+        let bestItemScore = 0, bestRespScore = 0;
+        
+        // First pass: detect response column (highest count of 1s and 2s)
+        for (let c = 0; c < 10; c++) {
+          let respScore = 0;
+          for (let i = 0; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r || c >= r.length) continue;
+            const v = r[c];
+            if (v == null || v === '') continue;
+            const respVal = typeof v === 'number' ? v : parseInt(v, 10);
+            if ((respVal === 1 || respVal === 2) && (typeof v !== 'string' || /^[12]$/.test(v.trim()))) {
+              respScore++;
+            }
+          }
+          if (respScore > bestRespScore && respScore >= 100) {
+            bestRespScore = respScore;
+            respCol = c;
+          }
         }
 
-        for (let i = startRow; i < rows.length; i++) {
+        // Second pass: detect item column (excluding respCol)
+        for (let c = 0; c < 10; c++) {
+          if (c === respCol) continue;  // Skip the response column
+          let itemScore = 0;
+          for (let i = 0; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r || c >= r.length) continue;
+            const v = r[c];
+            if (v == null || v === '') continue;
+            const numVal = typeof v === 'number' ? v : parseInt(v, 10);
+            if (Number.isInteger(numVal) && numVal >= 1 && numVal <= 567 && (typeof v !== 'string' || /^\d+$/.test(v.trim()))) {
+              itemScore++;
+            }
+          }
+          if (itemScore > bestItemScore && itemScore >= 100) {
+            bestItemScore = itemScore;
+            itemCol = c;
+          }
+        }
+
+        // Fallback: if no resp column found, use the next column after items
+        if (respCol === -1) respCol = (itemCol + 1);
+        if (itemCol === -1) itemCol = 0;
+
+        console.log(`Excel parser: itemCol=${itemCol} (${bestItemScore} items), respCol=${respCol} (${bestRespScore} resp)`);
+
+        for (let i = 0; i < rows.length; i++) {
           const r = rows[i];
-          if (!r || r.length < 2) continue;
-          const num = parseInt(r[0], 10);
-          let resp = r[1];
+          if (!r) continue;
+          const numRaw = r[itemCol];
+          const respRaw = r[respCol];
+          if (numRaw == null && respRaw == null) continue;
+          
+          const num = typeof numRaw === 'number' ? numRaw : parseInt(numRaw, 10);
+          if (!Number.isInteger(num) || num < 1 || num > this._totalItems) {
+            skipped++;
+            continue;
+          }
+          
+          let resp = respRaw;
           if (typeof resp === 'string') resp = parseInt(resp, 10);
-          if (!Number.isInteger(num) || num < 1 || num > this._totalItems) { skipped++; continue; }
-          if (resp !== 1 && resp !== 2) { skipped++; continue; }
+          if (resp !== 1 && resp !== 2) {
+            skipped++;
+            continue;
+          }
           parsed[num - 1] = resp;
           count++;
         }

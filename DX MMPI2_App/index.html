@@ -29,14 +29,17 @@
   <script>
     window.__DATA_LOADED__ = false;
     async function loadData() {
-      const [items, baremos, criterios] = await Promise.all([
+      const [items, baremosES, baremosUS, criterios] = await Promise.all([
         fetch('data/items.json').then(r => r.json()),
         fetch('data/baremos.json').then(r => r.json()),
+        fetch('data/baremo_us.json').then(r => r.json()),
         fetch('data/criterios.json').then(r => r.json()),
       ]);
       window.__ITEMS__ = items;
-      window.__BAREMOS__ = baremos;
+      window.__BAREMOS_ES__ = baremosES;
+      window.__BAREMOS_US__ = baremosUS;
       window.__CRITERIOS__ = criterios;
+      window.__BAREMOS__ = baremosES; // Default to ES
       window.__DATA_LOADED__ = true;
       // Notificar que los datos están listos
       document.dispatchEvent(new CustomEvent('data:ready'));
@@ -48,6 +51,7 @@
   </script>
 
   <!-- App scripts (módulos) -->
+  <script src="js/lib/utils.js"></script>
   <script src="js/lib/storage.js"></script>
   <script src="js/lib/mmpi2.js"></script>
   <script src="js/lib/export.js"></script>
