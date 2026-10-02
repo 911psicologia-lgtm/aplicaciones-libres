@@ -182,6 +182,9 @@ const Report = {
             </div>
           </div>
 
+          <!-- Análisis con IA externa -->
+          ${this._aiAnalysisSection()}
+
         </div>
       </div>
     `;
@@ -211,7 +214,349 @@ const Report = {
     bindEvent('exp-json', 'click', () => this._exportJSON());
     bindEvent('exp-print', 'click', () => window.print());
 
+    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
+    bindEvent('ai-generate', 'click', () => this._generateAIReport());
+    bindEvent('ai-clear', 'click', () => this._clearAIReport());
+
+    // Restore previously-generated AI report if it exists
+    const cur2 = Storage.getCurrentCase();
+    if (cur2 && cur2.aiReport) {
+      const out = document.getElementById('ai-report-output');
+      if (out) {
+        try { out.innerHTML = this._renderAIReport(cur2.aiReport); }
+        catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
+      }
+    }
+
     this._renderCharts();
+  },
+
+  /* ---------- AI Analysis section ---------- */
+  _AI_QUICK_LINKS: [
+    { label: 'Z.AI',            url: 'https://chat.z.ai',                icon: '◆' },
+    { label: 'ChatGPT',         url: 'https://chat.openai.com',          icon: '✦' },
+    { label: 'Google Gemini',   url: 'https://gemini.google.com',        icon: '✧' },
+    { label: 'Claude',          url: 'https://claude.ai',                icon: '◉' },
+    { label: 'Microsoft Copilot', url: 'https://copilot.microsoft.com',  icon: '✺' },
+    { label: 'DeepSeek',        url: 'https://chat.deepseek.com',        icon: '◈' },
+    { label: 'Perplexity',      url: 'https://www.perplexity.ai',        icon: '⌖' },
+  ],
+
+  _aiAnalysisSection() {
+    const quickBtns = this._AI_QUICK_LINKS.map(ai =>
+      `<a href="${this._esc(ai.url)}" target="_blank" rel="noopener noreferrer"
+            class="btn btn-secondary btn-sm" style="justify-content:flex-start;min-width:140px;text-decoration:none">
+          <span style="font-size:14px;margin-right:4px">${ai.icon}</span>
+          <span>${this._esc(ai.label)}</span>
+       </a>`
+    ).join('');
+
+    return `
+      <div class="card no-print" style="border:2px solid var(--color-success)">
+        <div class="card-header" style="background:var(--color-success);color:#fff">
+          <h3 style="color:#fff">✦ Análisis con IA externa</h3>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px;line-height:1.55;color:var(--color-text);margin-bottom:16px">
+            Genere un <strong>informe contextualizado profesional</strong> (estilo informe pericial de ~11 páginas)
+            usando una IA externa. Copie el prompt completo (incluye todos los datos del caso, las 79 escalas del
+            MMPI-2 y la síntesis interpretativa), péguelo en una IA, recupere el JSON resultante y péguelo abajo.
+          </p>
+
+          <button class="btn btn-success btn-lg w-full" id="ai-copy-prompt"
+                  style="font-size:15px;padding:14px 20px;margin-bottom:6px">
+            ⧉ Copiar Prompt
+          </button>
+          <div style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-bottom:18px">
+            El prompt no se muestra; se copia al portapapeles.
+          </div>
+
+          <div style="margin-bottom:18px">
+            <div style="font-size:12px;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">
+              Acceso rápido a IAs
+            </div>
+            <div class="flex" style="flex-wrap:wrap;gap:8px">
+              ${quickBtns}
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px">
+            <label class="form-label" for="ai-json-input" style="display:block;margin-bottom:6px">
+              Pegue aquí el JSON devuelto por la IA
+            </label>
+            <textarea id="ai-json-input" class="form-textarea" rows="10"
+              style="font-family:'Courier New',monospace;font-size:12px;line-height:1.45"
+              placeholder='{"titulo":"INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2","secciones":[{"titulo":"1. Motivo y objetivo de la evaluación","contenido":"..."}, ...]}'></textarea>
+          </div>
+
+          <div class="flex" style="gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" id="ai-generate">✓ Generar informe contextualizado</button>
+            <button class="btn btn-ghost btn-sm" id="ai-clear">Limpiar</button>
+            <span style="font-size:12px;color:var(--color-text-muted);margin-left:auto">
+              La IA no almacena ni transmite datos desde esta app; el prompt se procesa localmente.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rendered AI report (printable) -->
+      <div id="ai-report-output" class="ai-report-container"></div>
+    `;
+  },
+
+  _copyAIPrompt() {
+    const cur = Storage.getCurrentCase();
+    if (!cur) { window.toast('No hay caso activo', 'error'); return; }
+    if (!cur.results) { window.toast('El caso no tiene resultados procesados', 'error'); return; }
+    if (!window.AIPrompt || typeof AIPrompt.build !== 'function') {
+      window.toast('Módulo de prompt IA no disponible', 'error');
+      return;
+    }
+    const ev = Storage.getEvaluator() || {};
+    let prompt;
+    try {
+      prompt = AIPrompt.build(cur, ev);
+    } catch (e) {
+      console.error('AIPrompt.build error:', e);
+      window.toast('Error al construir el prompt: ' + e.message, 'error');
+      return;
+    }
+
+    const done = () => {
+      window.toast('Prompt copiado. Abre una IA externa, pega el prompt, genera el JSON y pégalo aquí abajo.', 'success', 6500);
+    };
+    const fail = () => { window.toast('No se pudo copiar al portapapeles. Intenta de nuevo.', 'error'); };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(prompt).then(done).catch(() => this._fallbackCopy(prompt, done, fail));
+    } else {
+      this._fallbackCopy(prompt, done, fail);
+    }
+  },
+
+  _fallbackCopy(text, onDone, onFail) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.setAttribute('readonly', '');
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (ok) onDone(); else onFail();
+    } catch (e) {
+      onFail();
+    }
+  },
+
+  _generateAIReport() {
+    const ta = document.getElementById('ai-json-input');
+    if (!ta) { window.toast('No se encuentra el campo de entrada JSON', 'error'); return; }
+    const raw = (ta.value || '').trim();
+    if (!raw) {
+      window.toast('Pegue primero el JSON devuelto por la IA', 'warning');
+      return;
+    }
+
+    // Extraer el primer objeto JSON de la respuesta (por si la IA envolvió en ```json ... ```)
+    const cleaned = this._extractJSON(raw);
+    let parsed;
+    try {
+      parsed = JSON.parse(cleaned);
+    } catch (e) {
+      console.error('JSON parse error:', e);
+      window.toast('JSON inválido. Verifique el formato y vuelva a intentarlo. Detalle: ' + e.message, 'error', 6500);
+      return;
+    }
+
+    if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.secciones)) {
+      window.toast('El JSON no tiene la estructura esperada (falta el arreglo "secciones")', 'error');
+      return;
+    }
+    if (parsed.secciones.length === 0) {
+      window.toast('El JSON no contiene secciones', 'error');
+      return;
+    }
+
+    const out = document.getElementById('ai-report-output');
+    if (!out) { window.toast('No se encuentra el contenedor del informe', 'error'); return; }
+    out.innerHTML = this._renderAIReport(parsed);
+
+    // Persist on the case so it survives navigation
+    const cur = Storage.getCurrentCase();
+    if (cur) {
+      cur.aiReport = parsed;
+      cur.updatedAt = new Date().toISOString();
+      Storage.saveCase(cur);
+      Storage.setCurrentCase(cur);
+    }
+
+    window.toast('Informe contextualizado generado', 'success');
+    // Scroll suave al informe generado
+    setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+  },
+
+  _clearAIReport() {
+    const ta = document.getElementById('ai-json-input');
+    if (ta) ta.value = '';
+    const out = document.getElementById('ai-report-output');
+    if (out) out.innerHTML = '';
+    window.toast('Informe IA limpio', 'info');
+  },
+
+  _extractJSON(text) {
+    let s = text.trim();
+    // Quitar fences markdown ```json ... ``` o ``` ... ```
+    if (s.startsWith('```')) {
+      s = s.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+    }
+    // Si hay texto antes del primer { o después del último }, recortar
+    const start = s.indexOf('{');
+    const end = s.lastIndexOf('}');
+    if (start >= 0 && end > start) {
+      s = s.substring(start, end + 1);
+    }
+    return s;
+  },
+
+  _renderAIReport(parsed) {
+    const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
+    const cur = Storage.getCurrentCase() || {};
+    const p = cur.patient || {};
+    const ev = Storage.getEvaluator() || {};
+    const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const sectionsHTML = (parsed.secciones || []).map((sec, idx) => {
+      const secTitle = this._esc(sec.titulo || ('Sección ' + (idx + 1)));
+      const secBody = this._esc(sec.contenido || '');
+      // Detectar párrafos por doble salto de línea o nueva línea
+      const paragraphs = secBody
+        .split(/\n{2,}|\r\n{2,}/)
+        .map(par => par.trim())
+        .filter(Boolean);
+      const bodyHTML = paragraphs.length > 1
+        ? paragraphs.map(par => `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${par.replace(/\n/g, '<br>')}</p>`).join('')
+        : `<p style="margin:0;line-height:1.6;text-align:justify">${secBody.replace(/\n/g, '<br>')}</p>`;
+      return `
+        <section class="ai-report-section">
+          <h2 class="ai-report-section-title">${secTitle}</h2>
+          <div class="ai-report-section-body">${bodyHTML}</div>
+        </section>
+      `;
+    }).join('');
+
+    return `
+      <style>
+        .ai-report-container { margin-top: 24px; }
+        .ai-report-doc {
+          background: #FFFFFF;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          padding: 48px 56px;
+          font-family: Georgia, 'Times New Roman', serif;
+          color: #1F2937;
+          font-size: 14px;
+          line-height: 1.65;
+          box-shadow: var(--shadow-md);
+        }
+        .ai-report-header {
+          text-align: center;
+          border-bottom: 3px double var(--color-primary-dark);
+          padding-bottom: 18px;
+          margin-bottom: 24px;
+        }
+        .ai-report-header h1 {
+          font-size: 22px;
+          font-weight: 700;
+          color: var(--color-primary-dark);
+          letter-spacing: 1px;
+          margin-bottom: 8px;
+          font-family: Georgia, serif;
+        }
+        .ai-report-meta {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 6px 24px;
+          font-family: Arial, sans-serif;
+          font-size: 11px;
+          color: #4B5563;
+          margin-top: 10px;
+          text-align: left;
+          max-width: 540px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .ai-report-meta div span { color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; font-size: 9px; display: block; }
+        .ai-report-section { margin-bottom: 22px; page-break-inside: avoid; }
+        .ai-report-section-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--color-primary-dark);
+          border-left: 4px solid var(--color-primary);
+          padding-left: 10px;
+          margin-bottom: 10px;
+          font-family: Georgia, serif;
+        }
+        .ai-report-section-body { padding-left: 14px; font-family: Georgia, serif; }
+        .ai-report-section-body p { text-align: justify; }
+        .ai-report-footer {
+          margin-top: 28px;
+          padding-top: 14px;
+          border-top: 1px solid var(--color-border);
+          font-family: Arial, sans-serif;
+          font-size: 11px;
+          color: #6B7280;
+          text-align: center;
+        }
+        .ai-report-footer .signature-line {
+          margin-top: 32px;
+          padding-top: 4px;
+          border-top: 1px solid #1F2937;
+          width: 220px;
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 11px;
+          color: #1F2937;
+        }
+        @media print {
+          .ai-report-doc { box-shadow: none; border: none; padding: 24px; }
+        }
+      </style>
+      <div class="card">
+        <div class="card-header no-print" style="display:flex;justify-content:space-between;align-items:center;background:var(--color-bg)">
+          <h3 style="color:var(--color-primary-dark)">Informe contextualizado generado por IA</h3>
+          <button class="btn btn-primary btn-sm no-print" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+        <div class="card-body" style="padding:16px">
+          <div class="ai-report-doc">
+            <header class="ai-report-header">
+              <h1>${this._esc(titulo)}</h1>
+              <div class="ai-report-meta">
+                <div><span>Evaluado</span>${this._esc(p.name || '—')}</div>
+                <div><span>Edad</span>${p.age != null ? p.age + ' años' : '—'}</div>
+                <div><span>Sexo</span>${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')}</div>
+                <div><span>Documento</span>${this._esc(p.document || '—')}</div>
+                <div><span>Fecha de aplicación</span>${this._fmtDate(p.applicationDate)}</div>
+                <div><span>Contexto</span>${this._esc(p.context || '—')}</div>
+              </div>
+            </header>
+            ${sectionsHTML}
+            <footer class="ai-report-footer">
+              <div>Documento generado con apoyo de IA externa a partir de los resultados del MMPI-2.</div>
+              <div>Fecha de emisión: ${today}</div>
+              <div class="signature-line">
+                ${this._esc(ev.name || 'Evaluador/a')}
+                <div style="font-size:10px;color:#6B7280;margin-top:2px">
+                  ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    `;
   },
 
   /* ---------- Grouping ---------- */

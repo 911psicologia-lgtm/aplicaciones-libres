@@ -86,6 +86,19 @@ const Case = {
                 </div>
               </div>
 
+              <div class="form-section">
+                <div class="form-section-title">Contexto narrativo del caso</div>
+                <div class="form-field full">
+                  <label class="form-label">Historia del caso</label>
+                  <textarea id="p-case-history" class="form-textarea" rows="5" placeholder="Narrativa detallada del caso: antecedentes biográficos, situación actual, eventos relevantes, demandas del entorno, observaciones del evaluador en entrevista…">${this._esc(p.caseHistory || '')}</textarea>
+                  <span class="form-hint">Texto en párrafos. Se incorpora al prompt para IA externa para contextualizar el informe.</span>
+                </div>
+                <div class="form-field full">
+                  <label class="form-label">Contexto pericial (opcional)</label>
+                  <textarea id="p-legal-context" class="form-textarea" rows="3" placeholder="Si procede del ámbito forense: input del abogado, objeto del peritaje, preguntas periciales a responder…">${this._esc(p.legalContext || '')}</textarea>
+                </div>
+              </div>
+
             </div>
             <div class="card-footer flex justify-between items-center">
               <button class="btn btn-ghost" id="case-cancel">Cancelar</button>
@@ -146,6 +159,8 @@ const Case = {
       applicationDate: document.getElementById('p-appdate').value,
       history: document.getElementById('p-history').value,
       reason: document.getElementById('p-reason').value,
+      caseHistory: document.getElementById('p-case-history').value,
+      legalContext: document.getElementById('p-legal-context').value,
     };
 
     Storage.saveCase(cur);
