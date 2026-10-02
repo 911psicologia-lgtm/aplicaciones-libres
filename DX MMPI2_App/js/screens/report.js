@@ -14,6 +14,9 @@
 const Report = {
   _charts: [],    // Chart.js instances
   _chartImgs: [], // {title, dataURL} capturadas para export
+  _aiCharts: [],    // Chart.js instances for AI report (AI-PROMPT-V2)
+  _aiChartSpecs: [],// [{id, block}] pendientes de renderizar
+  _aiChartSeq: 0,   // contador para IDs únicos de canvas IA
 
   /* Códigos por grupo para los gráficos (orden canónico MMPI-2) */
   _BASIC_CODES:    ['L','F','K','Hs','D','Hy','Pd','Mf','Pa','Pt','Sc','Ma','Si'],
@@ -247,8 +250,11 @@ const Report = {
     if (cur2 && cur2.aiReport) {
       const out = document.getElementById('ai-report-output');
       if (out) {
-        try { out.innerHTML = this._renderAIReport(cur2.aiReport); }
-        catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
+        try {
+          out.innerHTML = this._renderAIReport(cur2.aiReport);
+          // Render Chart.js charts after DOM insertion (AI-PROMPT-V2)
+          this._renderAICharts();
+        } catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
         // Bind AI export buttons (created dynamically)
         this._bindAIExportButtons();
       }
@@ -312,7 +318,7 @@ const Report = {
             </label>
             <textarea id="ai-json-input" class="form-textarea" rows="10"
               style="font-family:'Courier New',monospace;font-size:12px;line-height:1.45"
-              placeholder='{"titulo":"INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2","secciones":[{"titulo":"1. Motivo y objetivo de la evaluación","contenido":"..."}, ...]}'></textarea>
+              placeholder='{"titulo":"INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2","metadatos":{...},"secciones":[{"numero":1,"titulo":"Encabezado institucional","bloques":[{"tipo":"parrafo","contenido":"..."}]}], "referencias":["..."], "firma":{...}}'></textarea>
           </div>
 
           <div class="flex" style="gap:8px;align-items:center;flex-wrap:wrap">
@@ -398,17 +404,26 @@ const Report = {
     }
 
     if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.secciones)) {
-      window.toast('El JSON no tiene la estructura esperada (falta el arreglo "secciones")', 'error');
+      window.toast('El JSON no tiene la estructura esperada (falta el arreglo "secciones" con "bloques")', 'error');
       return;
     }
     if (parsed.secciones.length === 0) {
       window.toast('El JSON no contiene secciones', 'error');
       return;
     }
+    // Detectar si al menos una sección trae `bloques` (nuevo formato AI-PROMPT-V2)
+    // o si todas vienen con `contenido` (formato legacy).
+    const hasBloques = parsed.secciones.some(s => Array.isArray(s.bloques) && s.bloques.length);
+    if (!hasBloques && !parsed.secciones.some(s => typeof s.contenido === 'string')) {
+      window.toast('El JSON no contiene "bloques" ni "contenido" en sus secciones', 'error');
+      return;
+    }
 
     const out = document.getElementById('ai-report-output');
     if (!out) { window.toast('No se encuentra el contenedor del informe', 'error'); return; }
     out.innerHTML = this._renderAIReport(parsed);
+    // Render Chart.js charts after DOM insertion (AI-PROMPT-V2 — bloques tipo `grafico`)
+    this._renderAICharts();
     // Bind AI export buttons (created dynamically after render)
     this._bindAIExportButtons();
 
@@ -429,6 +444,8 @@ const Report = {
   _clearAIReport() {
     const ta = document.getElementById('ai-json-input');
     if (ta) ta.value = '';
+    // Destruir gráficos IA antes de limpiar el contenedor (AI-PROMPT-V2)
+    this._destroyAICharts();
     const out = document.getElementById('ai-report-output');
     if (out) out.innerHTML = '';
     const cur = Storage.getCurrentCase();
@@ -483,30 +500,75 @@ const Report = {
   },
 
   _renderAIReport(parsed) {
+    // Reiniciar specs de gráficos IA pendientes (se renderizan tras insertar HTML)
+    this._aiChartSeq = 0;
+    this._aiChartSpecs = [];
+
     const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
+    const meta = parsed.metadatos || {};
     const cur = Storage.getCurrentCase() || {};
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
+    // Metadatos: prioriza parsed.metadatos, con fallback a datos del paciente del caso
+    const metaNombre      = meta.evaluado        || p.name || '—';
+    const metaDocumento   = meta.documento       || p.document || '—';
+    const metaEdad        = meta.edad            || (p.age != null ? p.age + ' años' : '—');
+    const metaSexo        = meta.sexo            || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—'));
+    const metaFechaApp    = meta.fecha_aplicacion|| this._fmtDate(p.applicationDate) || '—';
+    const metaFechaInf    = meta.fecha_informe   || today;
+    const metaContexto    = meta.contexto        || p.context || '—';
+    const metaEvaluador   = meta.evaluador       || ev.name || '—';
+
+    // Render de cada sección: si trae `bloques` (AI-PROMPT-V2) los itera; si trae
+    // `contenido` (formato legacy) lo degrada a un bloque parrafo.
     const sectionsHTML = (parsed.secciones || []).map((sec, idx) => {
-      const secTitle = this._esc(sec.titulo || ('Sección ' + (idx + 1)));
-      const secBody = this._esc(sec.contenido || '');
-      // Detectar párrafos por doble salto de línea o nueva línea
-      const paragraphs = secBody
-        .split(/\n{2,}|\r\n{2,}/)
-        .map(par => par.trim())
-        .filter(Boolean);
-      const bodyHTML = paragraphs.length > 1
-        ? paragraphs.map(par => `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${par.replace(/\n/g, '<br>')}</p>`).join('')
-        : `<p style="margin:0;line-height:1.6;text-align:justify">${secBody.replace(/\n/g, '<br>')}</p>`;
+      const secNumero = (sec.numero != null) ? sec.numero : (idx + 1);
+      const secTitulo = sec.titulo || ('Sección ' + secNumero);
+      let bodyHTML = '';
+      if (Array.isArray(sec.bloques) && sec.bloques.length) {
+        bodyHTML = sec.bloques.map(b => this._renderAIBlock(b, secNumero)).join('');
+      } else if (typeof sec.contenido === 'string' && sec.contenido.trim()) {
+        bodyHTML = this._renderAIBlock({ tipo: 'parrafo', contenido: sec.contenido }, secNumero);
+      } else {
+        bodyHTML = '<p style="color:#9CA3AF;font-style:italic">[Sección sin contenido]</p>';
+      }
       return `
         <section class="ai-report-section">
-          <h2 class="ai-report-section-title">${secTitle}</h2>
+          <h2 class="ai-report-section-title">
+            <span class="ai-sec-num">${this._esc(String(secNumero))}.</span> ${this._esc(secTitulo)}
+          </h2>
           <div class="ai-report-section-body">${bodyHTML}</div>
         </section>
       `;
     }).join('');
+
+    // Referencias (clave raíz opcional: array de strings)
+    const refsHTML = (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length)
+      ? `<section class="ai-report-section">
+          <h2 class="ai-report-section-title"><span class="ai-sec-num">·</span> Referencias</h2>
+          <div class="ai-report-section-body">
+            <ol class="ai-referencias">
+              ${parsed.referencias.map(r => `<li>${this._esc(typeof r === 'string' ? r : JSON.stringify(r))}</li>`).join('')}
+            </ol>
+          </div>
+        </section>`
+      : '';
+
+    // Firma (clave raíz opcional: objeto con datos del evaluador)
+    const firma = parsed.firma;
+    const firmaHTML = (firma && typeof firma === 'object')
+      ? this._renderAIFirma(firma)
+      : `<div class="ai-report-firma">
+          ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
+          <div class="signature-line">
+            ${this._esc(ev.name || 'Evaluador/a')}
+            <div style="font-size:10px;color:#6B7280;margin-top:2px">
+              ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
+            </div>
+          </div>
+        </div>`;
 
     return `
       <style>
@@ -545,7 +607,7 @@ const Report = {
           color: #4B5563;
           margin-top: 10px;
           text-align: left;
-          max-width: 540px;
+          max-width: 600px;
           margin-left: auto;
           margin-right: auto;
         }
@@ -560,9 +622,27 @@ const Report = {
           margin-bottom: 10px;
           font-family: Georgia, serif;
         }
+        .ai-report-section-title .ai-sec-num { color: var(--color-primary); margin-right: 4px; }
         .ai-report-section-body { padding-left: 14px; font-family: Georgia, serif; }
-        .ai-report-section-body p { text-align: justify; }
-        .ai-report-footer {
+        .ai-report-section-body p { text-align: justify; margin: 0 0 10px; line-height: 1.6; }
+        .ai-report-section-body p:last-child { margin-bottom: 0; }
+        .ai-tabla-wrap { margin: 8px 0 14px; page-break-inside: avoid; }
+        .ai-tabla-titulo { font-size: 12px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 4px; font-family: Arial, sans-serif; }
+        .ai-tabla { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11px; }
+        .ai-tabla thead th { background: var(--color-primary-dark, #1F3864); color: #fff; padding: 6px 8px; text-align: left; border: 1px solid #1F3864; }
+        .ai-tabla tbody td { padding: 5px 8px; border: 1px solid #D1D5DB; vertical-align: top; }
+        .ai-tabla tbody tr:nth-child(even) td { background: #F9FAFB; }
+        .ai-grafico-wrap { margin: 10px 0 16px; page-break-inside: avoid; }
+        .ai-grafico-figura { font-size: 11px; font-weight: 700; color: var(--color-primary-dark); font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ai-grafico-titulo { font-size: 12px; font-weight: 600; color: #1F2937; margin-bottom: 6px; font-family: Arial, sans-serif; }
+        .ai-grafico-canvas-wrap { width: 100%; height: 380px; }
+        .ai-lista-wrap { margin: 6px 0 12px; }
+        .ai-lista-titulo { font-size: 12px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 4px; font-family: Arial, sans-serif; }
+        .ai-lista { margin: 0; padding-left: 22px; }
+        .ai-lista li { margin-bottom: 4px; line-height: 1.55; }
+        .ai-referencias { margin: 0; padding-left: 22px; font-size: 12px; font-family: Arial, sans-serif; }
+        .ai-referencias li { margin-bottom: 4px; line-height: 1.5; }
+        .ai-report-firma {
           margin-top: 28px;
           padding-top: 14px;
           border-top: 1px solid var(--color-border);
@@ -571,24 +651,26 @@ const Report = {
           color: #6B7280;
           text-align: center;
         }
-        .ai-report-footer .signature-line {
+        .ai-report-firma .signature-line {
           margin-top: 32px;
           padding-top: 4px;
           border-top: 1px solid #1F2937;
-          width: 220px;
+          width: 260px;
           margin-left: auto;
           margin-right: auto;
-          font-size: 11px;
+          font-size: 12px;
           color: #1F2937;
         }
-        .ai-report-footer .signature-img {
+        .ai-report-firma .signature-img {
           max-height: 70px;
           margin: 12px auto 0;
           display: block;
         }
+        .ai-firma-sub { font-size: 10px; color: #6B7280; margin-top: 2px; }
         @media print {
           .ai-report-doc { box-shadow: none; border: none; padding: 24px; }
           .ai-export-bar { display: none !important; }
+          .ai-grafico-canvas-wrap { height: 320px; }
         }
       </style>
       <div class="card">
@@ -607,29 +689,300 @@ const Report = {
             <header class="ai-report-header">
               <h1>${this._esc(titulo)}</h1>
               <div class="ai-report-meta">
-                <div><span>Evaluado</span>${this._esc(p.name || '—')}</div>
-                <div><span>Edad</span>${p.age != null ? p.age + ' años' : '—'}</div>
-                <div><span>Sexo</span>${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')}</div>
-                <div><span>Documento</span>${this._esc(p.document || '—')}</div>
-                <div><span>Fecha de aplicación</span>${this._fmtDate(p.applicationDate)}</div>
-                <div><span>Contexto</span>${this._esc(p.context || '—')}</div>
+                <div><span>Evaluado</span>${this._esc(metaNombre)}</div>
+                <div><span>Edad</span>${this._esc(metaEdad)}</div>
+                <div><span>Sexo</span>${this._esc(metaSexo)}</div>
+                <div><span>Documento</span>${this._esc(metaDocumento)}</div>
+                <div><span>Fecha de aplicación</span>${this._esc(metaFechaApp)}</div>
+                <div><span>Contexto</span>${this._esc(metaContexto)}</div>
+                <div><span>Evaluador</span>${this._esc(metaEvaluador)}</div>
+                <div><span>Fecha del informe</span>${this._esc(metaFechaInf)}</div>
               </div>
             </header>
             ${sectionsHTML}
+            ${refsHTML}
             <footer class="ai-report-footer">
-              <div>Fecha de emisión: ${today}</div>
-              ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
-              <div class="signature-line">
-                ${this._esc(ev.name || 'Evaluador/a')}
-                <div style="font-size:10px;color:#6B7280;margin-top:2px">
-                  ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
-                </div>
-              </div>
+              <div>Fecha de emisión: ${this._esc(metaFechaInf)}</div>
+              ${firmaHTML}
             </footer>
           </div>
         </div>
       </div>
     `;
+  },
+
+  /* ---------- AI block rendering helpers (AI-PROMPT-V2) ---------- */
+
+  _renderAIBlock(block, secNumero) {
+    if (!block || typeof block !== 'object') return '';
+    const tipo = (block.tipo || '').toLowerCase();
+    try {
+      switch (tipo) {
+        case 'parrafo':     return this._renderAIParrafo(block);
+        case 'tabla':       return this._renderAITabla(block);
+        case 'grafico':     return this._renderAIGrafico(block);
+        case 'lista':       return this._renderAILista(block);
+        case 'referencias': return this._renderAIReferencias(block);
+        case 'firma':       return this._renderAIFirma(block);
+        default:
+          // Tipo desconocido: si tiene contenido, lo degradamos a párrafo
+          if (block.contenido != null) return this._renderAIParrafo(block);
+          return '';
+      }
+    } catch (e) {
+      console.warn('Error renderizando bloque IA (' + tipo + '):', e, block);
+      return `<p style="color:#C00000;font-size:11px;font-family:Arial,sans-serif">[Error renderizando bloque de tipo "${this._esc(tipo || 'desconocido')}"]</p>`;
+    }
+  },
+
+  _renderAIParrafo(block) {
+    const contenido = (block.contenido || '').trim();
+    if (!contenido) return '';
+    const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+    if (paragraphs.length > 1) {
+      return paragraphs.map(par =>
+        `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(par).replace(/\n/g, '<br>')}</p>`
+      ).join('');
+    }
+    return `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(contenido).replace(/\n/g, '<br>')}</p>`;
+  },
+
+  _renderAITabla(block) {
+    const titulo = block.titulo || '';
+    const columnas = Array.isArray(block.columnas) ? block.columnas : [];
+    const filas = Array.isArray(block.filas) ? block.filas : [];
+    if (!columnas.length && !filas.length) return '';
+
+    const head = columnas.length
+      ? `<thead><tr>${columnas.map(c => `<th>${this._esc(c)}</th>`).join('')}</tr></thead>`
+      : '';
+    const body = filas.map(row => {
+      const cells = Array.isArray(row) ? row : [row];
+      return `<tr>${cells.map(c => `<td>${this._esc(c == null ? '' : String(c))}</td>`).join('')}</tr>`;
+    }).join('');
+
+    return `<div class="ai-tabla-wrap">
+      ${titulo ? `<div class="ai-tabla-titulo">${this._esc(titulo)}</div>` : ''}
+      <table class="ai-tabla">
+        ${head}
+        <tbody>${body}</tbody>
+      </table>
+    </div>`;
+  },
+
+  _renderAIGrafico(block) {
+    const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+    const titulo = block.titulo || '';
+    const canvasId = 'ai-graf-' + (++this._aiChartSeq);
+    // Guardamos el spec para renderizarlo tras la inserción en el DOM
+    this._aiChartSpecs.push({ id: canvasId, block });
+    return `<div class="ai-grafico-wrap">
+      ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
+      ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
+      <div class="ai-grafico-canvas-wrap" style="position:relative;height:380px">
+        <canvas id="${canvasId}" class="ai-grafico-canvas"></canvas>
+      </div>
+    </div>`;
+  },
+
+  _renderAILista(block) {
+    const titulo = block.titulo || '';
+    const items = Array.isArray(block.items) ? block.items : [];
+    if (!items.length) return '';
+    const itemsHTML = items.map(it =>
+      `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`
+    ).join('');
+    return `<div class="ai-lista-wrap">
+      ${titulo ? `<div class="ai-lista-titulo">${this._esc(titulo)}</div>` : ''}
+      <ul class="ai-lista">${itemsHTML}</ul>
+    </div>`;
+  },
+
+  _renderAIReferencias(block) {
+    const items = Array.isArray(block.items) ? block.items : [];
+    if (!items.length) return '';
+    const itemsHTML = items.map(it =>
+      `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`
+    ).join('');
+    return `<div class="ai-referencias-wrap"><ol class="ai-referencias">${itemsHTML}</ol></div>`;
+  },
+
+  _renderAIFirma(block) {
+    const ev = Storage.getEvaluator() || {};
+    const nombre = block.nombre || ev.name || 'Evaluador/a';
+    const profesion = block.profesion || 'Psicólogo/a';
+    const registro = block.registro || ev.registry || '';
+    const institucion = block.institucion || ev.institution || '';
+    const direccion = block.direccion || ev.address || '';
+    const correo = block.correo || ev.email || '';
+    const telefono = block.telefono || ev.phone || '';
+    const extras = [direccion, correo, telefono].filter(Boolean);
+    return `<div class="ai-report-firma">
+      ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
+      <div class="signature-line">
+        ${this._esc(nombre)}
+        <div class="ai-firma-sub">${this._esc(profesion)}${registro ? ' · ' + this._esc(registro) : ''}</div>
+        ${institucion ? `<div class="ai-firma-sub">${this._esc(institucion)}</div>` : ''}
+        ${extras.length ? `<div class="ai-firma-sub">${extras.map(s => this._esc(s)).join(' · ')}</div>` : ''}
+      </div>
+    </div>`;
+  },
+
+  /* ---------- Chart.js rendering for AI report grafico blocks ---------- */
+
+  _renderAICharts() {
+    if (!window.Chart) { console.warn('Chart.js no disponible — no se renderizan gráficos IA'); return; }
+    this._destroyAICharts();
+    if (!this._aiChartSpecs || !this._aiChartSpecs.length) return;
+    for (const spec of this._aiChartSpecs) {
+      try {
+        const canvas = document.getElementById(spec.id);
+        if (!canvas) { console.warn('Canvas IA no encontrado:', spec.id); continue; }
+        const chart = this._buildAIChart(canvas, spec.block);
+        if (chart) this._aiCharts.push(chart);
+      } catch (e) {
+        console.warn('Error renderizando gráfico IA:', spec.id, e);
+      }
+    }
+  },
+
+  _buildAIChart(canvas, block) {
+    const tipo = (block.grafico_tipo || 'linea').toLowerCase();
+    const ejeY = block.eje_y || { min: 30, max: 100, variable: 'Puntuación T' };
+    const refs = Array.isArray(block.lineas_referencia) ? block.lineas_referencia : [];
+    const series = Array.isArray(block.series) ? block.series : [];
+
+    // Construir etiquetas x (unión de todas las x presentes en las series, en orden de aparición)
+    const labels = [];
+    for (const s of series) {
+      for (const pt of (s.puntos || [])) {
+        if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
+      }
+    }
+    if (!labels.length) return null;
+
+    const palette = ['#1F3864', '#C00000', '#2E7D32', '#ED7D31', '#7030A0', '#0097A7'];
+    const isLinea = (tipo === 'linea');
+    const isBarH = (tipo === 'barras_h');
+    const chartType = isLinea ? 'line' : 'bar';
+    const indexAxis = isBarH ? 'y' : 'x';
+
+    const datasets = series.map((s, i) => {
+      const color = palette[i % palette.length];
+      const data = labels.map(lbl => {
+        const pt = (s.puntos || []).find(p => p.x === lbl);
+        return pt ? (typeof pt.y === 'number' ? pt.y : parseFloat(pt.y)) : null;
+      });
+      if (isLinea) {
+        return {
+          label: s.nombre || ('Serie ' + (i + 1)),
+          data,
+          borderColor: color,
+          backgroundColor: color + '20',
+          pointBackgroundColor: color,
+          pointBorderColor: color,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 2,
+          fill: false,
+          tension: 0,
+          spanGaps: false,
+        };
+      }
+      // barras_h o barras_agrupadas
+      return {
+        label: s.nombre || ('Serie ' + (i + 1)),
+        data,
+        backgroundColor: color,
+        borderColor: color,
+        borderWidth: 1,
+      };
+    });
+
+    // Líneas de referencia (solo para gráficos de línea)
+    const refDatasets = [];
+    if (isLinea) {
+      for (const r of refs) {
+        const rv = Number(r);
+        if (!isFinite(rv)) continue;
+        const isCrit = (rv >= 65);
+        refDatasets.push({
+          label: 'T=' + rv,
+          data: labels.map(() => rv),
+          borderColor: isCrit ? '#C00000' : '#9CA3AF',
+          borderWidth: 1,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          fill: false,
+          tension: 0,
+        });
+      }
+    }
+
+    const yMin = (typeof ejeY.min === 'number') ? ejeY.min : 30;
+    const yMax = (typeof ejeY.max === 'number') ? ejeY.max : 100;
+
+    const config = {
+      type: chartType,
+      data: { labels, datasets: [...datasets, ...refDatasets] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: { font: { size: 10 }, boxWidth: 12, padding: 8 },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx2) => {
+                const v = (indexAxis === 'y') ? ctx2.parsed.x : ctx2.parsed.y;
+                return `${ctx2.dataset.label}: ${v}`;
+              },
+            },
+          },
+          title: {
+            display: !!block.titulo,
+            text: block.titulo || '',
+            font: { size: 12 },
+            color: '#1F2937',
+          },
+        },
+        scales: {
+          y: {
+            min: yMin, max: yMax,
+            ticks: { font: { size: 10 }, color: '#6B7280' },
+            grid: { color: '#E5E7EB' },
+            title: {
+              display: !!ejeY.variable,
+              text: ejeY.variable || '',
+              font: { size: 11 },
+              color: '#1F2937',
+            },
+          },
+          x: {
+            ticks: { font: { size: 9 }, color: '#1F2937', maxRotation: isBarH ? 0 : 45, minRotation: 0, autoSkip: false },
+            grid: { display: false },
+          },
+        },
+      },
+    };
+
+    try {
+      return new Chart(canvas.getContext('2d'), config);
+    } catch (e) {
+      console.warn('No se pudo crear el Chart IA:', e);
+      return null;
+    }
+  },
+
+  _destroyAICharts() {
+    for (const c of this._aiCharts) { try { c.destroy(); } catch (e) {} }
+    this._aiCharts = [];
+    this._aiChartSpecs = [];
   },
 
   /* ---------- Grouping ---------- */

@@ -10,8 +10,11 @@ const MMPI2 = {
   // K-correction factors
   K_FACTORS: { Hs: 0.5, Pd: 0.4, Pt: 1.0, Sc: 1.0, Ma: 0.2 },
   PDK_SCALES: new Set(['Hs', 'Pd', 'Pt', 'Sc', 'Ma']),
-  // Escalas que requieren TEAcorrige (sin baremo público)
-  ONLINE_SCALES: new Set(['Fp', 'S', 'Ho']),
+  // Escalas sin baremo público — tratamiento distinto según país
+  // Para ES: requieren TEAcorrige (4.ª ed. española 2019)
+  // Para US: no están en nuestros baremos extraídos pero PD es válida; T no disponible
+  ONLINE_SCALES_ES: new Set(['Fp', 'S', 'Ho']),
+  ONLINE_SCALES_US: new Set(), // US: ninguna escala está bloqueada (todas tienen lookup)
 
   // Definición de escalas (orden preservado)
   SCALES: [
@@ -164,10 +167,24 @@ const MMPI2 = {
 
   getCountry() { return this._country; },
 
+  /* ---- ¿Está una escala bloqueada para el país actual? ---- */
+  isOnlineScale(scaleCode) {
+    if (this._country === 'US') return this.ONLINE_SCALES_US.has(scaleCode);
+    return this.ONLINE_SCALES_ES.has(scaleCode);
+  },
+
+  /* ---- Mensaje para escalas sin T disponible ---- */
+  getOnlineMessage(scaleCode) {
+    if (this._country === 'US') {
+      return 'PD calculada. Conversión a T no disponible en el baremo extraído; utilice el sistema de corrección oficial de Minnesota (Pearson Assessments).';
+    }
+    return 'Escala española vigente (4.ª ed. 2019). Conversión PD→T requiere TEAcorrige. No se ha publicado matriz completa en extracto abierto.';
+  },
+
   /* ---- Lookup T por sexo y país ---- */
   lookupT(scaleCode, pd, sex, useK) {
-    if (this.ONLINE_SCALES.has(scaleCode)) {
-      return 'REQUIERE TEAcorrige / TABLA OFICIAL';
+    if (this.isOnlineScale(scaleCode)) {
+      return this.getOnlineMessage(scaleCode);
     }
     const baremos = window.__BAREMOS__?.[scaleCode];
     if (!baremos) return null;
@@ -202,9 +219,9 @@ const MMPI2 = {
       }
       const pdToUse = scale.pdk ? pdData.pdK : pdData.pd;
       const t = this.lookupT(scale.code, pdToUse, sex, scale.pdk);
-      if (this.ONLINE_SCALES.has(scale.code)) {
+      if (this.isOnlineScale(scale.code)) {
         results[scale.code] = { 
-          t: 'REQUIERE TEAcorrige / TABLA OFICIAL',
+          t: this.getOnlineMessage(scale.code),
           pd: pdData.pd,
           pdK: pdData.pdK,
           status: 'ES-ONLINE' 
@@ -270,8 +287,8 @@ const MMPI2 = {
       return 'Sin T documentada';
     }
     if (typeof t === 'string') {
-      // REQUIERE TEAcorrige
-      return 'Escala española vigente (4.ª ed. 2019). Conversión PD→T requiere TEAcorrige. No se ha publicado matriz completa en extracto abierto.';
+      // Escala sin T disponible (mensaje depende del país)
+      return t;
     }
     const criterios = window.__CRITERIOS__?.[scaleCode];
     if (!criterios) return 'Texto interpretativo no disponible';
@@ -303,7 +320,6 @@ const MMPI2 = {
     const online = Object.values(results).filter(r => r.status === 'ES-ONLINE');
     
     let narrative = `La persona evaluada, ${patientName}, ${age} años, sexo ${sexLabel}, presenta el siguiente perfil: `;
-    
     if (elevated.length === 0) {
       narrative += 'ninguna escala en rango Muy Alto (T≥70). ';
     } else {
@@ -322,7 +338,11 @@ const MMPI2 = {
     }
     
     if (online.length > 0) {
-      narrative += `${online.length} escala(s) marcadas como ES-ONLINE (requieren TEAcorrige): ${online.map(r => r.code).join(', ')}. `;
+      if (country === 'US') {
+        narrative += `${online.length} escala(s) sin conversión T en el baremo extraído (utilizar sistema oficial Minnesota): ${online.map(r => r.code).join(', ')}. `;
+      } else {
+        narrative += `${online.length} escala(s) marcadas como ES-ONLINE (requieren TEAcorrige): ${online.map(r => r.code).join(', ')}. `;
+      }
     }
     
     narrative += `Baremo utilizado: ${countryLabel}. `;

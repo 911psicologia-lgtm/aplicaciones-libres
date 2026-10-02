@@ -501,38 +501,66 @@ const Export = {
      - JSON del propio objeto IA
      ============================================ */
 
-  /* ---------- Export AI Report: HTML ---------- */
+  /* ---------- Export AI Report: HTML (AI-PROMPT-V2 con bloques) ---------- */
   exportAIReportHTML(parsed, caseData, evaluator) {
     const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
+    const meta = parsed.metadatos || {};
     const p = caseData.patient || {};
     const ev = evaluator || {};
     const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
-    const sections = (parsed.secciones || []).map((sec, idx) => {
-      const secTitle = this._esc(sec.titulo || ('Sección ' + (idx + 1)));
-      const body = this._esc(sec.contenido || '');
-      const paragraphs = body.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
-      const bodyHTML = paragraphs.length > 1
-        ? paragraphs.map(par => `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${par.replace(/\n/g, '<br>')}</p>`).join('')
-        : `<p style="margin:0;line-height:1.6;text-align:justify">${body.replace(/\n/g, '<br>')}</p>`;
+    const metaNombre    = meta.evaluado        || p.name || '—';
+    const metaEdad      = meta.edad            || (p.age != null ? p.age + ' años' : '—');
+    const metaSexo      = meta.sexo            || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—'));
+    const metaDocumento = meta.documento       || p.document || '—';
+    const metaFechaApp  = meta.fecha_aplicacion|| this._fmtDate(p.applicationDate) || '—';
+    const metaContexto  = meta.contexto        || p.context || '—';
+    const metaEvaluador = meta.evaluador       || ev.name || '—';
+    const metaFechaInf  = meta.fecha_informe   || today;
+
+    const sectionsHTML = (parsed.secciones || []).map((sec, idx) => {
+      const secNumero = (sec.numero != null) ? sec.numero : (idx + 1);
+      const secTitulo = sec.titulo || ('Sección ' + secNumero);
+      let bodyHTML = '';
+      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
+      if (bloques.length === 0 && typeof sec.contenido === 'string' && sec.contenido.trim()) {
+        bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
+      }
+      bodyHTML = bloques.map(b => this._aiBlockToHTML(b)).join('');
       return `<section style="margin-bottom:22px;page-break-inside:avoid">
-        <h2 style="font-size:16px;font-weight:700;color:#1F3864;border-left:4px solid #2F5496;padding-left:10px;margin-bottom:10px">${secTitle}</h2>
+        <h2 style="font-size:16px;font-weight:700;color:#1F3864;border-left:4px solid #2F5496;padding-left:10px;margin-bottom:10px">${secNumero}. ${this._esc(secTitulo)}</h2>
         <div style="padding-left:14px">${bodyHTML}</div>
       </section>`;
     }).join('');
 
-    const sigHTML = ev.signature
-      ? `<img src="${ev.signature}" alt="firma" style="max-height:80px"/>`
-      : '<em>Sin firma registrada</em>';
-
     const refsHTML = (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length)
       ? `<section style="margin-top:24px;border-top:1px solid #ccc;padding-top:12px">
           <h2 style="font-size:14px;color:#1F3864;margin-bottom:8px">Referencias</h2>
-          <ul style="margin:0;padding-left:20px;font-size:12px;line-height:1.6">
-            ${parsed.referencias.map(r => `<li>${this._esc(typeof r === 'string' ? r : JSON.stringify(r))}</li>`).join('')}
-          </ul>
+          <ol style="margin:0;padding-left:22px;font-size:12px;line-height:1.6">
+            ${parsed.referencias.map(r => `<li style="margin-bottom:4px">${this._esc(typeof r === 'string' ? r : JSON.stringify(r))}</li>`).join('')}
+          </ol>
         </section>`
       : '';
+
+    const firma = parsed.firma || {};
+    const sigHTML = ev.signature
+      ? `<img src="${ev.signature}" alt="firma" style="max-height:80px"/>`
+      : '';
+    const firmaNombre    = firma.nombre    || ev.name || 'Evaluador/a';
+    const firmaProfesion = firma.profesion || 'Psicólogo/a';
+    const firmaRegistro  = firma.registro  || ev.registry || '';
+    const firmaInstitucion = firma.institucion || ev.institution || '';
+    const firmaExtras = [firma.direccion || ev.address, firma.correo || ev.email, firma.telefono || ev.phone].filter(Boolean);
+
+    const firmaHTML = `<div style="text-align:center;margin-top:24px">
+      ${sigHTML}
+      <div style="margin:16px auto 0;padding-top:4px;border-top:1px solid #1F2937;width:260px;font-size:12px;color:#1F2937">
+        <strong>${this._esc(firmaNombre)}</strong>
+        <div style="font-size:10px;color:#6B7280;margin-top:2px">${this._esc(firmaProfesion)}${firmaRegistro ? ' · ' + this._esc(firmaRegistro) : ''}</div>
+        ${firmaInstitucion ? `<div style="font-size:10px;color:#6B7280">${this._esc(firmaInstitucion)}</div>` : ''}
+        ${firmaExtras.length ? `<div style="font-size:10px;color:#6B7280">${firmaExtras.map(s => this._esc(s)).join(' · ')}</div>` : ''}
+      </div>
+    </div>`;
 
     const html = `<!DOCTYPE html>
 <html lang="es">
@@ -542,11 +570,23 @@ const Export = {
 <style>
   body { font-family: Georgia, 'Times New Roman', serif; color:#1F2937; max-width:980px; margin:0 auto; padding:48px 56px; line-height:1.65; background:#fff; }
   h1 { color:#1F3864; font-size:22px; font-weight:700; letter-spacing:1px; text-align:center; }
-  .meta { display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; font-family:Arial,sans-serif; font-size:11px; color:#4B5563; max-width:540px; margin:10px auto 0; text-align:left; }
+  .meta { display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; font-family:Arial,sans-serif; font-size:11px; color:#4B5563; max-width:600px; margin:10px auto 0; text-align:left; }
   .meta div span { display:block; color:#6B7280; text-transform:uppercase; letter-spacing:0.5px; font-size:9px; }
   header.head { text-align:center; border-bottom:3px double #1F3864; padding-bottom:18px; margin-bottom:24px; }
   footer { margin-top:28px; padding-top:14px; border-top:1px solid #ccc; font-family:Arial,sans-serif; font-size:11px; color:#6B7280; text-align:center; }
-  footer .sig-line { margin:32px auto 0; padding-top:4px; border-top:1px solid #1F2937; width:220px; font-size:11px; color:#1F2937; }
+  .ai-tabla { width:100%; border-collapse:collapse; font-family:Arial,sans-serif; font-size:11px; margin:6px 0 12px; }
+  .ai-tabla thead th { background:#1F3864; color:#fff; padding:6px 8px; text-align:left; border:1px solid #1F3864; }
+  .ai-tabla tbody td { padding:5px 8px; border:1px solid #D1D5DB; vertical-align:top; }
+  .ai-tabla tbody tr:nth-child(even) td { background:#F9FAFB; }
+  .ai-tabla-titulo { font-size:12px; font-weight:700; color:#1F3864; margin-bottom:4px; font-family:Arial,sans-serif; }
+  .ai-grafico-wrap { margin:10px 0 16px; page-break-inside:avoid; }
+  .ai-grafico-figura { font-size:11px; font-weight:700; color:#1F3864; text-transform:uppercase; letter-spacing:0.5px; font-family:Arial,sans-serif; }
+  .ai-grafico-titulo { font-size:12px; font-weight:600; color:#1F2937; margin-bottom:4px; font-family:Arial,sans-serif; }
+  .ai-grafico-note { font-size:10px; color:#6B7280; font-style:italic; margin-bottom:4px; }
+  .ai-lista-wrap { margin:6px 0 12px; }
+  .ai-lista-titulo { font-size:12px; font-weight:700; color:#1F3864; margin-bottom:4px; font-family:Arial,sans-serif; }
+  ul.ai-lista, ol.ai-lista { margin:0; padding-left:22px; }
+  ul.ai-lista li, ol.ai-lista li { margin-bottom:4px; line-height:1.55; }
   @media print { body { padding:24px; } }
 </style>
 </head>
@@ -554,25 +594,21 @@ const Export = {
   <header class="head">
     <h1>${this._esc(titulo)}</h1>
     <div class="meta">
-      <div><span>Evaluado</span>${this._esc(p.name || '—')}</div>
-      <div><span>Edad</span>${p.age != null ? p.age + ' años' : '—'}</div>
-      <div><span>Sexo</span>${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')}</div>
-      <div><span>Documento</span>${this._esc(p.document || '—')}</div>
-      <div><span>Fecha de aplicación</span>${this._fmtDate(p.applicationDate)}</div>
-      <div><span>Contexto</span>${this._esc(p.context || '—')}</div>
+      <div><span>Evaluado</span>${this._esc(metaNombre)}</div>
+      <div><span>Edad</span>${this._esc(metaEdad)}</div>
+      <div><span>Sexo</span>${this._esc(metaSexo)}</div>
+      <div><span>Documento</span>${this._esc(metaDocumento)}</div>
+      <div><span>Fecha de aplicación</span>${this._esc(metaFechaApp)}</div>
+      <div><span>Contexto</span>${this._esc(metaContexto)}</div>
+      <div><span>Evaluador</span>${this._esc(metaEvaluador)}</div>
+      <div><span>Fecha del informe</span>${this._esc(metaFechaInf)}</div>
     </div>
   </header>
-  ${sections}
+  ${sectionsHTML}
   ${refsHTML}
   <footer>
-    <div>Fecha de emisión: ${today}</div>
-    <div class="sig-line">
-      ${this._esc(ev.name || 'Evaluador/a')}
-      <div style="font-size:10px;color:#6B7280;margin-top:2px">
-        ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
-      </div>
-    </div>
-    <div style="margin-top:8px">${sigHTML}</div>
+    <div>Fecha de emisión: ${this._esc(metaFechaInf)}</div>
+    ${firmaHTML}
   </footer>
 </body>
 </html>`;
@@ -581,15 +617,128 @@ const Export = {
     this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.html`);
   },
 
-  /* ---------- Export AI Report: Word (.docx) ---------- */
+  /* ---------- Helpers de render de bloques IA a HTML ---------- */
+  _aiBlockToHTML(block) {
+    if (!block || typeof block !== 'object') return '';
+    const tipo = (block.tipo || '').toLowerCase();
+    try {
+      switch (tipo) {
+        case 'parrafo':     return this._aiParrafoHTML(block);
+        case 'tabla':       return this._aiTablaHTML(block);
+        case 'grafico':     return this._aiGraficoHTML(block);
+        case 'lista':       return this._aiListaHTML(block);
+        case 'referencias': return this._aiReferenciasHTML(block);
+        case 'firma':       return '';
+        default:
+          if (block.contenido != null) return this._aiParrafoHTML(block);
+          return '';
+      }
+    } catch (e) {
+      console.warn('Error renderizando bloque IA (HTML):', e, block);
+      return '';
+    }
+  },
+
+  _aiParrafoHTML(block) {
+    const contenido = (block.contenido || '').trim();
+    if (!contenido) return '';
+    const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+    if (paragraphs.length > 1) {
+      return paragraphs.map(par =>
+        `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(par).replace(/\n/g, '<br>')}</p>`
+      ).join('');
+    }
+    return `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(contenido).replace(/\n/g, '<br>')}</p>`;
+  },
+
+  _aiTablaHTML(block) {
+    const titulo = block.titulo || '';
+    const columnas = Array.isArray(block.columnas) ? block.columnas : [];
+    const filas = Array.isArray(block.filas) ? block.filas : [];
+    if (!columnas.length && !filas.length) return '';
+    const head = columnas.length
+      ? `<thead><tr>${columnas.map(c => `<th style="background:#1F3864;color:#fff;padding:6px 8px;text-align:left;border:1px solid #1F3864">${this._esc(c)}</th>`).join('')}</tr></thead>`
+      : '';
+    const body = filas.map(row => {
+      const cells = Array.isArray(row) ? row : [row];
+      return `<tr>${cells.map(c => `<td style="padding:5px 8px;border:1px solid #D1D5DB;vertical-align:top">${this._esc(c == null ? '' : String(c))}</td>`).join('')}</tr>`;
+    }).join('');
+    return `<div style="margin:8px 0 14px;page-break-inside:avoid">
+      ${titulo ? `<div class="ai-tabla-titulo">${this._esc(titulo)}</div>` : ''}
+      <table class="ai-tabla">${head}<tbody>${body}</tbody></table>
+    </div>`;
+  },
+
+  _aiGraficoHTML(block) {
+    const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+    const titulo = block.titulo || '';
+    const series = Array.isArray(block.series) ? block.series : [];
+    const ejeY = block.eje_y || {};
+
+    if (!series.length) {
+      return `<div class="ai-grafico-wrap">
+        ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
+        ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
+        <p style="color:#9CA3AF;font-style:italic">[Gráfico sin datos]</p>
+      </div>`;
+    }
+    // Representación tabular de los datos del gráfico (sin dependencia de JS en HTML exportado)
+    const labels = [];
+    for (const s of series) {
+      for (const pt of (s.puntos || [])) {
+        if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
+      }
+    }
+    const columnas = ['Escala'].concat(series.map(s => s.nombre || 'T'));
+    const filas = labels.map(lbl => {
+      const row = [lbl];
+      for (const s of series) {
+        const pt = (s.puntos || []).find(p => p.x === lbl);
+        row.push(pt ? String(pt.y) : '—');
+      }
+      return row;
+    });
+    const ejeNote = (ejeY.variable && (ejeY.min != null || ejeY.max != null))
+      ? `Eje Y: ${ejeY.variable} (${ejeY.min != null ? ejeY.min : 'auto'}–${ejeY.max != null ? ejeY.max : 'auto'}). Líneas de referencia: ${(block.lineas_referencia || []).join(', ') || '—'}.`
+      : '';
+    return `<div class="ai-grafico-wrap">
+      ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
+      ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
+      ${ejeNote ? `<div class="ai-grafico-note">${this._esc(ejeNote)}</div>` : ''}
+      <div class="ai-grafico-note">Representación tabular de los datos del gráfico:</div>
+      ${this._aiTablaHTML({ titulo: '', columnas, filas })}
+    </div>`;
+  },
+
+  _aiListaHTML(block) {
+    const titulo = block.titulo || '';
+    const items = Array.isArray(block.items) ? block.items : [];
+    if (!items.length) return '';
+    return `<div class="ai-lista-wrap">
+      ${titulo ? `<div class="ai-lista-titulo">${this._esc(titulo)}</div>` : ''}
+      <ul class="ai-lista">${items.map(it => `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`).join('')}</ul>
+    </div>`;
+  },
+
+  _aiReferenciasHTML(block) {
+    const items = Array.isArray(block.items) ? block.items : [];
+    if (!items.length) return '';
+    return `<ol class="ai-lista">${items.map(it => `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`).join('')}</ol>`;
+  },
+
+  /* ---------- Export AI Report: Word (.docx) (AI-PROMPT-V2 con bloques) ---------- */
   async exportAIReportWord(parsed, caseData, evaluator) {
     if (!window.docx) throw new Error('docx.js no disponible');
     const {
       Document, Packer, Paragraph, TextRun, HeadingLevel,
-      AlignmentType, ImageRun, BorderStyle,
+      Table, TableRow, TableCell, WidthType, AlignmentType,
+      ImageRun, BorderStyle,
     } = window.docx;
+    const docx = { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel, BorderStyle };
+
     const p = caseData.patient || {};
     const ev = evaluator || {};
+    const meta = parsed.metadatos || {};
     const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
     const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -602,12 +751,14 @@ const Export = {
     }));
 
     const metaLines = [
-      ['Evaluado', p.name || '—'],
-      ['Edad', p.age != null ? p.age + ' años' : '—'],
-      ['Sexo', p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—')],
-      ['Documento', p.document || '—'],
-      ['Fecha de aplicación', this._fmtDate(p.applicationDate)],
-      ['Contexto', p.context || '—'],
+      ['Evaluado',   meta.evaluado        || p.name || '—'],
+      ['Edad',       meta.edad            || (p.age != null ? p.age + ' años' : '—')],
+      ['Sexo',       meta.sexo            || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—'))],
+      ['Documento',  meta.documento       || p.document || '—'],
+      ['Fecha de aplicación', meta.fecha_aplicacion || this._fmtDate(p.applicationDate) || '—'],
+      ['Contexto',   meta.contexto        || p.context || '—'],
+      ['Evaluador',  meta.evaluador       || ev.name || '—'],
+      ['Fecha del informe', meta.fecha_informe || today],
     ];
     for (const [k, v] of metaLines) {
       children.push(new Paragraph({
@@ -625,40 +776,38 @@ const Export = {
       children: [new TextRun({ text: ' ' })],
     }));
 
+    // Render de cada sección con sus bloques
     for (const sec of (parsed.secciones || [])) {
-      const secTitle = sec.titulo || '';
-      const body = sec.contenido || '';
-      if (secTitle) {
+      const secNumero = (sec.numero != null) ? sec.numero : '';
+      const secTitulo = sec.titulo || '';
+      if (secTitulo) {
         children.push(new Paragraph({
           heading: HeadingLevel.HEADING_2,
           spacing: { before: 240, after: 120 },
-          children: [new TextRun({ text: secTitle, color: '1F3864' })],
+          children: [new TextRun({ text: (secNumero ? secNumero + '. ' : '') + secTitulo, color: '1F3864' })],
         }));
       }
-      const paragraphs = body.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
-      if (paragraphs.length === 0) {
-        children.push(new Paragraph({ children: [new TextRun({ text: body })] }));
-      } else {
-        for (const par of paragraphs) {
-          children.push(new Paragraph({
-            alignment: AlignmentType.JUSTIFIED,
-            spacing: { after: 120 },
-            children: [new TextRun({ text: par })],
-          }));
-        }
+      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
+      if (bloques.length === 0 && typeof sec.contenido === 'string' && sec.contenido.trim()) {
+        bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
+      }
+      for (const block of bloques) {
+        this._aiBlockToDocx(children, block, docx);
       }
     }
 
+    // Referencias (clave raíz)
     if (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length) {
       children.push(new Paragraph({
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 240, after: 120 },
         children: [new TextRun({ text: 'Referencias', color: '1F3864' })],
       }));
-      for (const r of parsed.referencias) {
+      for (let i = 0; i < parsed.referencias.length; i++) {
+        const r = parsed.referencias[i];
         children.push(new Paragraph({
           spacing: { after: 60 },
-          children: [new TextRun({ text: typeof r === 'string' ? r : JSON.stringify(r), size: 18 })],
+          children: [new TextRun({ text: (i + 1) + '. ' + (typeof r === 'string' ? r : JSON.stringify(r)), size: 18 })],
         }));
       }
     }
@@ -669,6 +818,8 @@ const Export = {
       children: [new TextRun({ text: 'Fecha de emisión: ' + today, size: 18, color: '6B7280' })],
     }));
 
+    // Firma
+    const firma = parsed.firma || {};
     if (ev.signature) {
       try {
         const sigBuffer = await this._dataURLToUint8Array(ev.signature);
@@ -680,36 +831,40 @@ const Export = {
             transformation: { width: 200, height: 70 },
           })],
         }));
-        children.push(new Paragraph({
-          alignment: AlignmentType.CENTER,
-          border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1F3864' } },
-          spacing: { after: 120 },
-          children: [new TextRun({ text: ' ' })],
-        }));
-        children.push(new Paragraph({
-          alignment: AlignmentType.CENTER,
-          children: [new TextRun({ text: ev.name || 'Evaluador/a', bold: true, size: 18 })],
-        }));
-        const lic = [ev.license, ev.registry].filter(Boolean).join(' · ');
-        if (lic) {
-          children.push(new Paragraph({
-            alignment: AlignmentType.CENTER,
-            children: [new TextRun({ text: lic, size: 16, color: '6B7280' })],
-          }));
-        }
       } catch (e) {
         console.warn('No se pudo incrustar la firma en Word IA:', e);
       }
-    } else if (ev.name) {
+    }
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1F3864' } },
+      spacing: { before: 240, after: 120 },
+      children: [new TextRun({ text: ' ' })],
+    }));
+    const firmaNombre    = firma.nombre    || ev.name || 'Evaluador/a';
+    const firmaProfesion = firma.profesion || 'Psicólogo/a';
+    const firmaRegistro  = firma.registro  || ev.registry || '';
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: firmaNombre, bold: true, size: 18 })],
+    }));
+    if (firmaProfesion || firmaRegistro) {
       children.push(new Paragraph({
         alignment: AlignmentType.CENTER,
-        border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '1F3864' } },
-        spacing: { before: 240, after: 120 },
-        children: [new TextRun({ text: ' ' })],
+        children: [new TextRun({ text: firmaProfesion + (firmaRegistro ? ' · ' + firmaRegistro : ''), size: 16, color: '6B7280' })],
       }));
+    }
+    if (firma.institucion) {
       children.push(new Paragraph({
         alignment: AlignmentType.CENTER,
-        children: [new TextRun({ text: ev.name, bold: true, size: 18 })],
+        children: [new TextRun({ text: firma.institucion, size: 16, color: '6B7280' })],
+      }));
+    }
+    const firmaExtras = [firma.direccion || ev.address, firma.correo || ev.email, firma.telefono || ev.phone].filter(Boolean);
+    if (firmaExtras.length) {
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: firmaExtras.join(' · '), size: 16, color: '6B7280' })],
       }));
     }
 
@@ -720,11 +875,166 @@ const Export = {
     this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.docx`);
   },
 
-  /* ---------- Export AI Report: Excel ---------- */
+  /* ---------- Helper: render de un bloque IA a elementos docx ---------- */
+  _aiBlockToDocx(children, block, docx) {
+    if (!block || typeof block !== 'object') return;
+    const { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle } = docx;
+    const tipo = (block.tipo || '').toLowerCase();
+    try {
+      if (tipo === 'parrafo' || (!tipo && block.contenido != null)) {
+        const contenido = (block.contenido || '').trim();
+        if (!contenido) return;
+        const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+        if (paragraphs.length === 0) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.JUSTIFIED,
+            spacing: { after: 120 },
+            children: [new TextRun({ text: contenido })],
+          }));
+        } else {
+          for (const par of paragraphs) {
+            children.push(new Paragraph({
+              alignment: AlignmentType.JUSTIFIED,
+              spacing: { after: 120 },
+              children: [new TextRun({ text: par })],
+            }));
+          }
+        }
+      } else if (tipo === 'tabla') {
+        const columnas = Array.isArray(block.columnas) ? block.columnas : [];
+        const filas = Array.isArray(block.filas) ? block.filas : [];
+        if (!columnas.length && !filas.length) return;
+        if (block.titulo) {
+          children.push(new Paragraph({
+            spacing: { before: 120, after: 60 },
+            children: [new TextRun({ text: block.titulo, bold: true, size: 20, color: '1F3864' })],
+          }));
+        }
+        const numCols = Math.max(columnas.length, 1);
+        const colWidth = Math.floor(9000 / numCols);
+        const mkCell = (text, isHeader) => new TableCell({
+          children: [new Paragraph({
+            children: [new TextRun({
+              text: String(text == null ? '' : text),
+              bold: !!isHeader,
+              size: 18,
+              color: isHeader ? 'FFFFFF' : '1F2937',
+            })],
+          })],
+          shading: isHeader ? { fill: '1F3864' } : undefined,
+          width: { size: colWidth, type: WidthType.DXA },
+          margins: { top: 40, bottom: 40, left: 80, right: 80 },
+        });
+        const rows = [];
+        if (columnas.length) {
+          rows.push(new TableRow({ children: columnas.map(c => mkCell(c, true)) }));
+        }
+        for (const row of filas) {
+          const cells = Array.isArray(row) ? row.slice() : [row];
+          while (cells.length < numCols) cells.push('');
+          rows.push(new TableRow({ children: cells.map(c => mkCell(c, false)) }));
+        }
+        if (rows.length) {
+          children.push(new Table({
+            width: { size: 9000, type: WidthType.DXA },
+            rows,
+          }));
+          children.push(new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: ' ' })] }));
+        }
+      } else if (tipo === 'grafico') {
+        const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+        const tituloG = block.titulo || '';
+        if (figura || tituloG) {
+          children.push(new Paragraph({
+            spacing: { before: 120, after: 60 },
+            children: [
+              ...(figura ? [new TextRun({ text: figura + ': ', bold: true, size: 18, color: '1F3864' })] : []),
+              new TextRun({ text: tituloG, italics: true, size: 18, color: '6B7280' }),
+            ],
+          }));
+        }
+        // Representación tabular de los datos del gráfico
+        const series = Array.isArray(block.series) ? block.series : [];
+        if (series.length) {
+          const labels = [];
+          for (const s of series) {
+            for (const pt of (s.puntos || [])) {
+              if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
+            }
+          }
+          const columnas = ['Escala'].concat(series.map(s => s.nombre || 'T'));
+          const filas = labels.map(lbl => {
+            const row = [lbl];
+            for (const s of series) {
+              const pt = (s.puntos || []).find(p => p.x === lbl);
+              row.push(pt ? String(pt.y) : '—');
+            }
+            return row;
+          });
+          this._aiBlockToDocx(children, { tipo: 'tabla', titulo: '', columnas, filas }, docx);
+        }
+      } else if (tipo === 'lista') {
+        if (block.titulo) {
+          children.push(new Paragraph({
+            spacing: { before: 120, after: 60 },
+            children: [new TextRun({ text: block.titulo, bold: true, size: 20, color: '1F3864' })],
+          }));
+        }
+        const items = Array.isArray(block.items) ? block.items : [];
+        for (const it of items) {
+          children.push(new Paragraph({
+            spacing: { after: 60 },
+            bullet: { level: 0 },
+            children: [new TextRun({ text: typeof it === 'string' ? it : JSON.stringify(it), size: 20 })],
+          }));
+        }
+      } else if (tipo === 'referencias') {
+        const items = Array.isArray(block.items) ? block.items : [];
+        for (let i = 0; i < items.length; i++) {
+          children.push(new Paragraph({
+            spacing: { after: 60 },
+            children: [new TextRun({ text: (i + 1) + '. ' + (typeof items[i] === 'string' ? items[i] : JSON.stringify(items[i])), size: 18 })],
+          }));
+        }
+      } else if (tipo === 'firma') {
+        if (block.nombre) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: block.nombre, bold: true, size: 18 })],
+          }));
+        }
+        if (block.profesion || block.registro) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: (block.profesion || '') + (block.registro ? ' · ' + block.registro : ''), size: 16, color: '6B7280' })],
+          }));
+        }
+        if (block.institucion) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: block.institucion, size: 16, color: '6B7280' })],
+          }));
+        }
+        const extras = [block.direccion, block.correo, block.telefono].filter(Boolean);
+        if (extras.length) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: extras.join(' · '), size: 16, color: '6B7280' })],
+          }));
+        }
+      }
+    } catch (e) {
+      console.warn('Error renderizando bloque IA (Word):', e, block);
+    }
+  },
+
+  /* ---------- Export AI Report: Excel (AI-PROMPT-V2 con bloques) ---------- */
   exportAIReportExcel(parsed, caseData, evaluator) {
     if (!window.XLSX) throw new Error('SheetJS no disponible');
     const p = caseData.patient || {};
     const ev = evaluator || {};
+    const meta = parsed.metadatos || {};
+    const firma = parsed.firma || {};
     const wb = XLSX.utils.book_new();
 
     // Sheet 1: Datos del informe
@@ -733,18 +1043,21 @@ const Export = {
       ['Generado:', new Date().toLocaleString('es-ES')],
       [],
       ['EVALUADO'],
-      ['Nombre', p.name || ''],
-      ['Edad', p.age != null ? p.age : ''],
-      ['Sexo', p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '')],
-      ['Documento', p.document || ''],
-      ['Fecha de aplicación', this._fmtDate(p.applicationDate)],
-      ['Contexto', p.context || ''],
+      ['Nombre', meta.evaluado || p.name || ''],
+      ['Edad', meta.edad || (p.age != null ? p.age : '')],
+      ['Sexo', meta.sexo || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : ''))],
+      ['Documento', meta.documento || p.document || ''],
+      ['Fecha de aplicación', meta.fecha_aplicacion || this._fmtDate(p.applicationDate)],
+      ['Contexto', meta.contexto || p.context || ''],
+      ['Fecha del informe', meta.fecha_informe || ''],
       [],
       ['EVALUADOR'],
-      ['Nombre', ev.name || ''],
-      ['Tarjeta profesional', ev.license || ''],
-      ['Registro profesional', ev.registry || ''],
-      ['Correo', ev.email || ''],
+      ['Nombre', firma.nombre || ev.name || ''],
+      ['Profesión', firma.profesion || ''],
+      ['Registro', firma.registro || ev.registry || ''],
+      ['Institución', firma.institucion || ev.institution || ''],
+      ['Correo', firma.correo || ev.email || ''],
+      ['Teléfono', firma.telefono || ev.phone || ''],
       [],
       ['TÍTULO DEL INFORME'],
       [parsed.titulo || ''],
@@ -753,32 +1066,133 @@ const Export = {
     ];
     for (const sec of (parsed.secciones || [])) {
       datos.push([]);
-      datos.push([sec.titulo || '']);
-      datos.push([sec.contenido || '']);
+      const secNumero = (sec.numero != null) ? sec.numero : '';
+      datos.push([(secNumero ? secNumero + '. ' : '') + (sec.titulo || '')]);
+      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
+      if (bloques.length === 0 && typeof sec.contenido === 'string' && sec.contenido.trim()) {
+        bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
+      }
+      for (const block of bloques) {
+        this._aiBlockToExcelAOA(datos, block);
+      }
     }
     if (parsed.referencias && parsed.referencias.length) {
       datos.push([]);
       datos.push(['REFERENCIAS']);
-      for (const r of parsed.referencias) {
-        datos.push([typeof r === 'string' ? r : JSON.stringify(r)]);
+      for (let i = 0; i < parsed.referencias.length; i++) {
+        datos.push([(i + 1) + '.', typeof parsed.referencias[i] === 'string' ? parsed.referencias[i] : JSON.stringify(parsed.referencias[i])]);
       }
     }
     const wsDatos = XLSX.utils.aoa_to_sheet(datos);
-    wsDatos['!cols'] = [{ wch: 32 }, { wch: 100 }];
+    wsDatos['!cols'] = [{ wch: 32 }, { wch: 60 }];
     XLSX.utils.book_append_sheet(wb, wsDatos, 'Informe IA');
 
-    // Sheet 2: Secciones (tabla indexada)
-    const seccionesAOA = [['#', 'Título de sección', 'Contenido']];
+    // Sheet 2: Secciones (tabla indexada con tipo de bloque y resumen)
+    const seccionesAOA = [['#', 'Título de sección', 'Tipo de bloque', 'Resumen']];
     (parsed.secciones || []).forEach((sec, i) => {
-      seccionesAOA.push([i + 1, sec.titulo || '', sec.contenido || '']);
+      const secNumero = sec.numero != null ? sec.numero : (i + 1);
+      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
+      if (bloques.length === 0) {
+        const resumen = (sec.contenido || '').substring(0, 200);
+        seccionesAOA.push([secNumero, sec.titulo || '', 'parrafo (legacy)', resumen]);
+      } else {
+        bloques.forEach((b, bi) => {
+          const tipo = (b.tipo || 'parrafo').toLowerCase();
+          let resumen = '';
+          if (tipo === 'parrafo') resumen = (b.contenido || '').substring(0, 200);
+          else if (tipo === 'tabla') resumen = 'Tabla: ' + (b.titulo || '') + ' (' + (b.columnas || []).length + ' col, ' + (b.filas || []).length + ' filas)';
+          else if (tipo === 'grafico') resumen = 'Figura ' + (b.figura != null ? b.figura : '?') + ': ' + (b.titulo || '') + ' [' + (b.grafico_tipo || 'linea') + ']';
+          else if (tipo === 'lista') resumen = 'Lista: ' + (b.titulo || '') + ' (' + (b.items || []).length + ' items)';
+          else if (tipo === 'firma') resumen = 'Firma: ' + (b.nombre || '');
+          else if (tipo === 'referencias') resumen = 'Referencias (' + (b.items || []).length + ')';
+          else resumen = JSON.stringify(b).substring(0, 200);
+          seccionesAOA.push([bi === 0 ? secNumero : '', bi === 0 ? (sec.titulo || '') : '', tipo, resumen]);
+        });
+      }
     });
     const wsSec = XLSX.utils.aoa_to_sheet(seccionesAOA);
-    wsSec['!cols'] = [{ wch: 5 }, { wch: 40 }, { wch: 100 }];
+    wsSec['!cols'] = [{ wch: 5 }, { wch: 36 }, { wch: 16 }, { wch: 80 }];
     XLSX.utils.book_append_sheet(wb, wsSec, 'Secciones');
 
     const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.xlsx`);
+  },
+
+  /* ---------- Helper: render de un bloque IA a filas AOA de Excel ---------- */
+  _aiBlockToExcelAOA(datos, block) {
+    if (!block || typeof block !== 'object') return;
+    const tipo = (block.tipo || '').toLowerCase();
+    try {
+      if (tipo === 'parrafo' || (!tipo && block.contenido != null)) {
+        const contenido = (block.contenido || '').trim();
+        if (!contenido) return;
+        const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
+        if (paragraphs.length === 0) {
+          datos.push([contenido]);
+        } else {
+          for (const par of paragraphs) datos.push([par]);
+        }
+      } else if (tipo === 'tabla') {
+        const columnas = Array.isArray(block.columnas) ? block.columnas : [];
+        const filas = Array.isArray(block.filas) ? block.filas : [];
+        if (block.titulo) datos.push(['[Tabla]', block.titulo]);
+        if (columnas.length) datos.push(columnas);
+        for (const row of filas) {
+          const cells = Array.isArray(row) ? row.slice() : [row];
+          while (columnas.length && cells.length < columnas.length) cells.push('');
+          datos.push(cells.map(c => c == null ? '' : String(c)));
+        }
+        datos.push([]); // separador
+      } else if (tipo === 'grafico') {
+        const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+        datos.push(['[Gráfico]', figura + (block.titulo ? ' — ' + block.titulo : '') + ' (' + (block.grafico_tipo || 'linea') + ')']);
+        const series = Array.isArray(block.series) ? block.series : [];
+        const labels = [];
+        for (const s of series) {
+          for (const pt of (s.puntos || [])) {
+            if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
+          }
+        }
+        if (labels.length) {
+          datos.push(['Escala'].concat(series.map(s => s.nombre || 'T')));
+          for (const lbl of labels) {
+            const row = [lbl];
+            for (const s of series) {
+              const pt = (s.puntos || []).find(p => p.x === lbl);
+              row.push(pt ? pt.y : '');
+            }
+            datos.push(row);
+          }
+        }
+        datos.push([]); // separador
+      } else if (tipo === 'lista') {
+        if (block.titulo) datos.push(['[Lista]', block.titulo]);
+        const items = Array.isArray(block.items) ? block.items : [];
+        for (const it of items) {
+          datos.push(['•', typeof it === 'string' ? it : JSON.stringify(it)]);
+        }
+        datos.push([]); // separador
+      } else if (tipo === 'referencias') {
+        const items = Array.isArray(block.items) ? block.items : [];
+        for (let i = 0; i < items.length; i++) {
+          datos.push([(i + 1) + '.', typeof items[i] === 'string' ? items[i] : JSON.stringify(items[i])]);
+        }
+        datos.push([]);
+      } else if (tipo === 'firma') {
+        datos.push(['[Firma]', '']);
+        datos.push(['Nombre', block.nombre || '']);
+        datos.push(['Profesión', block.profesion || '']);
+        datos.push(['Registro', block.registro || '']);
+        datos.push(['Institución', block.institucion || '']);
+        datos.push(['Dirección', block.direccion || '']);
+        datos.push(['Correo', block.correo || '']);
+        datos.push(['Teléfono', block.telefono || '']);
+        datos.push([]);
+      }
+    } catch (e) {
+      console.warn('Error renderizando bloque IA (Excel):', e, block);
+    }
   },
 
   /* ---------- Export AI Report: JSON ---------- */
