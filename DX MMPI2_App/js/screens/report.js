@@ -49,16 +49,19 @@ const Report = {
     }
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
+    const safeSig = Storage.sanitizeSignatureDataURL(ev.signature);
     const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
     const countryLabel = country === 'US'
-      ? 'EE. UU. (Minnesota N=2.600) — recomendado para Latinoamérica'
-      : 'España (TEA Ediciones, N=500, 4.ª ed. 2019)';
+      ? 'EE. UU. (muestra normativa N=2.600)'
+      : 'España (adaptación TEA; T local bloqueada hasta validación del dataset)';
 
     const narrative = cur.narrative
-      || (window.MMPI2 ? MMPI2.buildNarrative(cur.results, p.name, p.age, p.sex, country) : '');
+      || (window.MMPI2 ? MMPI2.buildNarrative(cur.results, p.name, p.age, p.sex, country, p.protocolValidity || 'NO_EVALUADA') : '');
 
     const groups = this._groupScales(cur.results);
-    const configs = this._detectConfigs(cur.results);
+    const validity = p.protocolValidity || 'NO_EVALUADA';
+    const canInterpret = validity === 'INTERPRETABLE' || validity === 'INTERPRETABLE_CON_CAUTELA';
+    const configs = canInterpret ? this._detectConfigs(cur.results) : [];
 
     return `
       <div class="screen">
@@ -112,6 +115,7 @@ const Report = {
                 <div class="report-info-item"><div class="report-info-label">Contexto</div><div class="report-info-value">${this._esc(p.context || '—')}</div></div>
                 <div class="report-info-item"><div class="report-info-label">Fecha de aplicación</div><div class="report-info-value">${this._fmtDate(p.applicationDate)}</div></div>
                 <div class="report-info-item"><div class="report-info-label">Modalidad</div><div class="report-info-value">${this._esc(cur.captureMode || '—')}</div></div>
+                <div class="report-info-item"><div class="report-info-label">Validez global</div><div class="report-info-value">${this._esc(validity.replaceAll('_',' '))}</div></div>
               </div>
               ${p.history ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Antecedentes</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.history)}</div></div>` : ''}
               ${p.reason ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Motivo de evaluación</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.reason)}</div></div>` : ''}
@@ -132,8 +136,8 @@ const Report = {
               </div>
               <div style="margin-top:16px">
                 <div class="report-info-label">Firma</div>
-                ${ev.signature
-                  ? `<img src="${ev.signature}" alt="firma" style="max-height:70px;margin-top:6px;border-bottom:1px solid var(--color-primary-dark);padding-bottom:4px">`
+                ${safeSig
+                  ? `<img src="${safeSig}" alt="firma" style="max-height:70px;margin-top:6px;border-bottom:1px solid var(--color-primary-dark);padding-bottom:4px">`
                   : '<div style="margin-top:6px;color:var(--color-text-muted);font-style:italic">Sin firma registrada</div>'}
               </div>
             </div>
@@ -158,7 +162,7 @@ const Report = {
           <div class="card">
             <div class="card-header"><h3>Configuraciones clínicas detectadas</h3></div>
             <div class="card-body">
-              ${this._renderConfigs(configs)}
+              ${canInterpret ? this._renderConfigs(configs) : `<p class="text-muted"><strong>Interpretación automática suspendida.</strong> Declare primero la validez global del protocolo como interpretable o interpretable con cautela.</p>`}
             </div>
           </div>
 
@@ -175,7 +179,7 @@ const Report = {
             <div class="card-header"><h3>Recomendaciones clínicas</h3></div>
             <div class="card-body">
               <ul style="margin:0;padding-left:20px;line-height:1.7">
-                ${this._renderRecommendations(cur.results, configs)}
+                ${canInterpret ? this._renderRecommendations(cur.results, configs) : `<li>Recomendaciones automáticas suspendidas hasta declarar la interpretabilidad del protocolo.</li>`}
               </ul>
             </div>
           </div>
@@ -201,8 +205,8 @@ const Report = {
             <div class="card-body" style="font-size:12px;color:var(--color-text-muted)">
               Informe generado el ${new Date().toLocaleString('es-ES')}.
               Baremo utilizado: <strong>${this._esc(countryLabel)}</strong>.
-              Las escalas marcadas ES-ONLINE requieren TEAcorrige para la conversión PD→T.
-              Las líneas de referencia en los gráficos marcan T=50 (media) y T=65 (corte clínico).
+              Las puntuaciones indican su estado/origen en las tablas; las T locales no validadas no deben emplearse como resultado clínico definitivo.
+              Las líneas de referencia de los gráficos son guías visuales y no sustituyen criterios específicos por escala.
             </div>
           </div>
 
@@ -241,7 +245,8 @@ const Report = {
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
     bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
 
-    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
+    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt(false));
+    bindEvent('ai-copy-prompt-id', 'click', () => this._copyAIPrompt(true));
     bindEvent('ai-generate', 'click', () => this._generateAIReport());
     bindEvent('ai-clear', 'click', () => this._clearAIReport());
 
@@ -295,12 +300,16 @@ const Report = {
             MMPI-2 y la síntesis interpretativa), péguelo en una IA, recupere el JSON resultante y péguelo abajo.
           </p>
 
-          <button class="btn btn-success btn-lg w-full" id="ai-copy-prompt"
-                  style="font-size:15px;padding:14px 20px;margin-bottom:6px">
-            ⧉ Copiar Prompt
-          </button>
-          <div style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-bottom:18px">
-            El prompt no se muestra; se copia al portapapeles.
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <button class="btn btn-success" id="ai-copy-prompt" style="font-size:14px;padding:12px 14px">
+              ⧉ Copiar prompt desidentificado
+            </button>
+            <button class="btn btn-secondary" id="ai-copy-prompt-id" style="font-size:14px;padding:12px 14px">
+              ⧉ Copiar con identificadores
+            </button>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-muted);margin-bottom:18px;line-height:1.5">
+            <strong>Privacidad:</strong> el prompt se construye localmente, pero al pegarlo en una IA externa sus datos se transmiten al proveedor elegido. Use por defecto la versión desidentificada y revise consentimiento, autorización y políticas aplicables.
           </div>
 
           <div style="margin-bottom:18px">
@@ -325,7 +334,7 @@ const Report = {
             <button class="btn btn-primary" id="ai-generate">✓ Generar informe contextualizado</button>
             <button class="btn btn-ghost btn-sm" id="ai-clear">Limpiar</button>
             <span style="font-size:12px;color:var(--color-text-muted);margin-left:auto">
-              La IA no almacena ni transmite datos desde esta app; el prompt se procesa localmente.
+              La salida de IA es un borrador que requiere revisión y validación profesional antes de incorporarse al informe.
             </span>
           </div>
         </div>
@@ -336,7 +345,7 @@ const Report = {
     `;
   },
 
-  _copyAIPrompt() {
+  _copyAIPrompt(includeIdentifiers = false) {
     const cur = Storage.getCurrentCase();
     if (!cur) { window.toast('No hay caso activo', 'error'); return; }
     if (!cur.results) { window.toast('El caso no tiene resultados procesados', 'error'); return; }
@@ -345,9 +354,17 @@ const Report = {
       return;
     }
     const ev = Storage.getEvaluator() || {};
+    if (includeIdentifiers && !confirm('Este prompt incluirá identificadores y datos clínicos que serán transmitidos al proveedor externo cuando lo pegues allí. ¿Continuar?')) return;
     let prompt;
     try {
-      prompt = AIPrompt.build(cur, ev);
+      if (includeIdentifiers) {
+        prompt = AIPrompt.build(cur, ev);
+      } else {
+        const safeCase = JSON.parse(JSON.stringify(cur));
+        safeCase.patient = { ...(safeCase.patient || {}), name: 'Evaluado/a', document: 'Desidentificado', dob: '', officialScoreSource: safeCase.patient?.officialScoreSource || '' };
+        const safeEv = { ...ev, name: 'Profesional evaluador', email: '', phone: '', address: '', signature: '' };
+        prompt = AIPrompt.build(safeCase, safeEv);
+      }
     } catch (e) {
       console.error('AIPrompt.build error:', e);
       window.toast('Error al construir el prompt: ' + e.message, 'error');
@@ -355,7 +372,7 @@ const Report = {
     }
 
     const done = () => {
-      window.toast('Prompt copiado. Abre una IA externa, pega el prompt, genera el JSON y pégalo aquí abajo.', 'success', 6500);
+      window.toast('Prompt copiado. Recuerda que al pegarlo en una IA externa los datos incluidos serán enviados a ese proveedor.', 'success', 6500);
     };
     const fail = () => { window.toast('No se pudo copiar al portapapeles. Intenta de nuevo.', 'error'); };
 
@@ -466,22 +483,38 @@ const Report = {
     bindEvent('ai-exp-json', 'click', () => this._exportAIReport('json'));
   },
 
-  _exportAIReport(format) {
+  async _exportAIReport(format) {
     const cur = Storage.getCurrentCase();
     if (!cur || !cur.aiReport) { window.toast('No hay informe IA generado para exportar', 'warning'); return; }
     const ev = Storage.getEvaluator() || {};
     try {
-      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev); window.toast('Informe IA · HTML descargado', 'success'); }
+      const chartImages = this._captureAIChartImages();
+      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev, chartImages); window.toast('Informe IA · HTML descargado con figuras', 'success'); }
       else if (format === 'word') {
-        window.Export.exportAIReportWord(cur.aiReport, cur, ev)
-          .then(() => window.toast('Informe IA · Word descargado', 'success'))
-          .catch(e => window.toast('Error: ' + e.message, 'error'));
+        await window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages);
+        window.toast('Informe IA · Word descargado con figuras', 'success');
       } else if (format === 'excel') { window.Export.exportAIReportExcel(cur.aiReport, cur, ev); window.toast('Informe IA · Excel descargado', 'success'); }
       else if (format === 'json') { window.Export.exportAIReportJSON(cur.aiReport, cur); window.toast('Informe IA · JSON descargado', 'success'); }
     } catch (e) {
       console.error('Error exportando informe IA:', e);
       window.toast('Error: ' + e.message, 'error');
     }
+  },
+
+  _captureAIChartImages() {
+    const out = [];
+    const canvases = Array.from(document.querySelectorAll('.ai-grafico-canvas'));
+    canvases.forEach((canvas, index) => {
+      try {
+        const chart = window.Chart && window.Chart.getChart ? window.Chart.getChart(canvas) : null;
+        if (chart) chart.update('none');
+        out.push({ index, id: canvas.id, dataURL: canvas.toDataURL('image/png', 1.0) });
+      } catch (e) {
+        console.warn('No se pudo capturar figura IA', index + 1, e);
+        out.push({ index, id: canvas.id, dataURL: null, error: String(e.message || e) });
+      }
+    });
+    return out;
   },
 
   _extractJSON(text) {
@@ -561,7 +594,7 @@ const Report = {
     const firmaHTML = (firma && typeof firma === 'object')
       ? this._renderAIFirma(firma)
       : `<div class="ai-report-firma">
-          ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
+          ${Storage.sanitizeSignatureDataURL(ev.signature) ? `<img src="${Storage.sanitizeSignatureDataURL(ev.signature)}" alt="firma" class="signature-img">` : ''}
           <div class="signature-line">
             ${this._esc(ev.name || 'Evaluador/a')}
             <div style="font-size:10px;color:#6B7280;margin-top:2px">
@@ -780,7 +813,7 @@ const Report = {
       ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
       ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
       <div class="ai-grafico-canvas-wrap" style="position:relative;height:380px">
-        <canvas id="${canvasId}" class="ai-grafico-canvas"></canvas>
+        <canvas id="${canvasId}" class="ai-grafico-canvas" role="img" aria-label="${this._esc([figura, titulo].filter(Boolean).join('. ') || 'Gráfico del informe MMPI-2')}"></canvas>
       </div>
     </div>`;
   },
@@ -818,7 +851,7 @@ const Report = {
     const telefono = block.telefono || ev.phone || '';
     const extras = [direccion, correo, telefono].filter(Boolean);
     return `<div class="ai-report-firma">
-      ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
+      ${Storage.sanitizeSignatureDataURL(ev.signature) ? `<img src="${Storage.sanitizeSignatureDataURL(ev.signature)}" alt="firma" class="signature-img">` : ''}
       <div class="signature-line">
         ${this._esc(nombre)}
         <div class="ai-firma-sub">${this._esc(profesion)}${registro ? ' · ' + this._esc(registro) : ''}</div>
@@ -1000,7 +1033,7 @@ const Report = {
     if (!scales || !scales.length) return '';
     const rows = scales.map(s => {
       const tNum = typeof s.t === 'number';
-      const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
+      const tDisplay = tNum ? (s.tDisplay || (s.tDirection ? `${s.t}${s.tDirection}` : s.t)) : (s.t == null ? '—' : 'N/D');
       const pdDisplay = (s.pd != null) ? s.pd : '—';
       const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
       const band = s.band ? s.band.label : '—';
@@ -1012,7 +1045,8 @@ const Report = {
         <td class="center">${pdKDisplay}</td>
         <td class="center ${bandClass}">${tDisplay}</td>
         <td class="center ${bandClass}">${this._esc(band)}</td>
-        <td style="font-size:12px">${this._esc(s.interpretation || '')}</td>
+        <td style="font-size:11px">${this._esc(s.status || '—')}</td>
+        <td style="font-size:12px">${this._esc(typeof s.t === 'number' ? (s.interpretation || '') : (window.MMPI2 ? MMPI2.statusExplanation(s) : ''))}</td>
       </tr>`;
     }).join('');
     const synth = this._groupSynthesis(groupName, scales);
@@ -1023,8 +1057,8 @@ const Report = {
           <div class="table-container">
             <table class="data-table">
               <thead><tr>
-                <th>Código</th><th>Escala</th><th class="center">PD</th><th class="center">PD+K</th>
-                <th class="center">T</th><th class="center">Banda</th><th>Interpretación</th>
+                <th scope="col">Código</th><th scope="col">Escala</th><th class="center" scope="col">PD</th><th class="center" scope="col">PD+K</th>
+                <th class="center" scope="col">T</th><th class="center" scope="col">Banda</th><th scope="col">Estado</th><th scope="col">Interpretación / motivo</th>
               </tr></thead>
               <tbody>${rows}</tbody>
             </table>
@@ -1043,7 +1077,7 @@ const Report = {
     const elevated = scales.filter(s => typeof s.t === 'number' && s.t >= 70);
     const high = scales.filter(s => typeof s.t === 'number' && s.t >= 60 && s.t < 70);
     const low = scales.filter(s => typeof s.t === 'number' && s.t <= 39);
-    const online = scales.filter(s => s.status === 'ES-ONLINE');
+    const unavailable = scales.filter(s => typeof s.t !== 'number');
     const fmtList = arr => arr.map(s => `${s.code} (T=${s.t})`).join(', ');
 
     let parts = [];
@@ -1057,12 +1091,12 @@ const Report = {
       if (K && typeof K.t === 'number') vFacts.push(`K=T${K.t}`);
       if (vFacts.length) parts.push('Validez: ' + vFacts.join(', ') + '.');
       if (F && typeof F.t === 'number' && F.t >= 65) {
-        parts.push('F elevada sugiere posible simulación o pedido de ayuda; conviene contrastar con la entrevista.');
+        parts.push('F elevada requiere examinar conjuntamente VRIN/TRIN, Fb/Fp, omisiones, contexto y respuesta clínica antes de atribuir un estilo de respuesta.');
       } else if (F && typeof F.t === 'number' && F.t < 45) {
-        parts.push('F baja puede indicar postura defensiva o minimización de síntomas.');
+        parts.push('F baja debe integrarse con L, K, S y el contexto antes de inferir minimización.');
       }
       if (L && typeof L.t === 'number' && L.t >= 65) {
-        parts.push('L elevada indica tendencia a presentarse de manera demasiado favorable ("fake good").');
+        parts.push('L elevada requiere integración con K/S y el contexto; por sí sola no establece una conclusión sobre intención del evaluado.');
       }
       if (K && typeof K.t === 'number' && K.t >= 65) {
         parts.push('K elevada refuerza la hipótesis de una postura defensiva cerrada.');
@@ -1089,8 +1123,8 @@ const Report = {
     if (elevated.length === 0 && high.length === 0 && low.length === 0 && groupName !== 'Validez') {
       parts.push('Ninguna escala del grupo presenta desviaciones clínicamente significativas (todas en rango modal 40–59).');
     }
-    if (online.length > 0) {
-      parts.push(`Escalas marcadas ES-ONLINE (requieren TEAcorrige): ${online.map(s => s.code).join(', ')}.`);
+    if (unavailable.length > 0) {
+      parts.push(`Escalas marcadas ES-ONLINE (requieren TEAcorrige): ${unavailable.map(s => s.code).join(', ')}.`);
     }
     return parts.join(' ');
   },
@@ -1143,31 +1177,24 @@ const Report = {
   /* ---------- F-K index ---------- */
   _renderFKIndex(results) {
     const f = results.F, k = results.K;
-    if (!f || !k || typeof f.t !== 'number' || typeof k.t !== 'number') {
-      return '<p style="color:var(--color-text-muted);font-style:italic">No se puede calcular el índice F−K: faltan datos T de F o K (posiblemente marcadas como ES-ONLINE).</p>';
+    if (!f || !k || typeof f.pd !== 'number' || typeof k.pd !== 'number') {
+      return '<p style="color:var(--color-text-muted);font-style:italic">No se puede calcular el índice F−K: faltan puntuaciones directas válidas de F o K.</p>';
     }
-    const diff = f.t - k.t;
-    let interp;
-    if (diff <= -11) {
-      interp = 'F−K ≤ −11: postura defensiva ("fake good"). Las puntuaciones clínicas pueden estar artificialmente bajas; revise la impresión de validez del protocolo.';
-    } else if (diff >= 11) {
-      interp = 'F−K ≥ +11: grito de ayuda o posible exageración de síntomas ("fake bad"). Conviene contrastar con otras fuentes de información.';
-    } else {
-      interp = 'F−K entre −10 y +10: en rango normal. La persona ni exagera ni minimiza significativamente la sintomatología.';
-    }
+    const diff = f.pd - k.pd;
+    const interp = `Diferencia bruta F−K = ${diff}. Se informa descriptivamente; la app no atribuye por sí sola simulación, defensividad ni exageración. Contraste con el manual aplicable, VRIN/TRIN, Fb/Fp y fuentes externas.`;
     const sign = diff > 0 ? '+' : '';
     return `
       <div style="font-size:14px;line-height:1.6">
         <div style="margin-bottom:10px">
-          <strong>F(T)</strong> = ${f.t} &nbsp; | &nbsp;
-          <strong>K(T)</strong> = ${k.t} &nbsp; | &nbsp;
+          <strong>F(PD)</strong> = ${f.pd} &nbsp; | &nbsp;
+          <strong>K(PD)</strong> = ${k.pd} &nbsp; | &nbsp;
           <strong>F − K</strong> = <span style="font-size:16px;color:var(--color-primary-dark)">${sign}${diff}</span>
         </div>
         <div style="padding:10px 14px;background:var(--color-bg);border-left:4px solid var(--color-primary);border-radius:var(--radius-sm);font-size:13px">
           ${this._esc(interp)}
         </div>
         <div style="margin-top:10px;font-size:12px;color:var(--color-text-muted)">
-          El índice F−K se calcula sobre puntuaciones T (no sobre PD brutas). Los puntos de corte clásicos (±11) son orientativos.
+          El índice F−K se calcula aquí sobre puntuaciones directas (PD F − PD K). No se aplica un punto de corte automático como conclusión clínica; debe interpretarse con la fuente normativa y el contexto correspondientes.
         </div>
       </div>
     `;
@@ -1238,7 +1265,7 @@ const Report = {
 
     // Defecto
     if (recs.length === 0) {
-      recs.push('Perfil dentro de límites no patológicos. Complementar con entrevista clínica y antecedentes para emitir juicio profesional definitivo.');
+      recs.push('No se identifican elevaciones que activen las reglas automáticas de recomendación configuradas. Integrar siempre con entrevista, antecedentes y demás fuentes clínicas antes de emitir conclusiones.');
     }
 
     recs.push('Este informe es una herramienta de apoyo y no sustituye el juicio clínico del profesional evaluador.');
@@ -1252,7 +1279,7 @@ const Report = {
       <div class="chart-container">
         <h4 style="margin-bottom:8px;color:var(--color-primary-dark)">${this._esc(title)}</h4>
         <div style="position:relative;height:300px;width:100%">
-          <canvas id="${canvasId}"></canvas>
+          <canvas id="${canvasId}" role="img" aria-label="${this._esc(title)}"></canvas>
         </div>
       </div>
     `;
@@ -1543,8 +1570,11 @@ const Report = {
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');
-      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
-      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
+      let results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
+      if (cur.patient.officialTScores) {
+        results = MMPI2.applyOfficialTScores(results, cur.patient.officialTScores, cur.patient.sex, cur.patient.officialScoreSource || 'Corrección oficial/profesional importada');
+      }
+      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country, cur.patient.protocolValidity || 'NO_EVALUADA');
       cur.results = results;
       cur.narrative = narrative;
       cur.patient.country = country;
@@ -2077,7 +2107,7 @@ const Report = {
       const sorted = scales.slice().sort((a, b) => (a.code || '').localeCompare(b.code || ''));
       const rows = sorted.map(s => {
         const tNum = typeof s.t === 'number';
-        const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
+        const tDisplay = tNum ? (s.tDisplay || (s.tDirection ? `${s.t}${s.tDirection}` : s.t)) : (s.t == null ? '—' : 'N/D');
         const pdDisplay = (s.pd != null) ? s.pd : '—';
         const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
         const band = s.band ? s.band.label : '—';

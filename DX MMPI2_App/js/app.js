@@ -42,8 +42,10 @@ const App = {
     const overlay = document.getElementById('modal-overlay');
     const content = document.getElementById('modal-content');
     if (!overlay || !content) return;
+    this._previousFocus = document.activeElement;
     content.innerHTML = this._renderMenu();
     overlay.classList.remove('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
     // Bind events after insert
     this._bindMenu();
   },
@@ -54,7 +56,9 @@ const App = {
 
   hideModal() {
     const overlay = document.getElementById('modal-overlay');
-    if (overlay) overlay.classList.add('hidden');
+    if (overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden', 'true'); }
+    if (this._previousFocus && typeof this._previousFocus.focus === 'function') { try { this._previousFocus.focus(); } catch (_) {} }
+    this._previousFocus = null;
   },
 
   _renderMenu() {
@@ -68,7 +72,7 @@ const App = {
           const p = c.patient || {};
           const status = c.results ? '✓' : '○';
           const active = currentCase && currentCase.id === c.id ? 'color:var(--color-primary);font-weight:600' : '';
-          return `<div class="menu-item" data-case="${this._esc(c.id)}" style="${active}">
+          return `<div class="menu-item" role="button" tabindex="0" data-case="${this._esc(c.id)}" style="${active}">
             <span class="icon">${status}</span>
             <span class="label">
               ${this._esc(p.name || 'Sin nombre')}
@@ -80,7 +84,7 @@ const App = {
     return `
       <div class="modal-header">
         <h3>Menú</h3>
-        <button class="btn btn-ghost btn-sm" id="menu-close">✕</button>
+        <button class="btn btn-ghost btn-sm" id="menu-close" aria-label="Cerrar menú">✕</button>
       </div>
       <div class="modal-body">
 
@@ -93,7 +97,7 @@ const App = {
               <div class="meta">${this._esc(ev.license || ev.email || '')}</div>
             </div>
           </div>
-          <div class="menu-item" data-action="setup">
+          <div class="menu-item" role="button" tabindex="0" data-action="setup">
             <span class="icon">⚙</span><span class="label">Configuración evaluador</span>
           </div>
         </div>
@@ -105,23 +109,23 @@ const App = {
 
         <div class="menu-section">
           <div class="menu-section-title">Datos</div>
-          <div class="menu-item ${currentCase ? '' : 'disabled'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
+          <div class="menu-item ${currentCase ? '' : 'disabled'}" role="button" tabindex="${currentCase ? '0' : '-1'}" aria-disabled="${currentCase ? 'false' : 'true'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
             <span class="icon">📄</span><span class="label">Exportar caso actual (JSON)</span>
           </div>
-          <div class="menu-item" data-action="export-all">
+          <div class="menu-item" role="button" tabindex="0" data-action="export-all">
             <span class="icon">📦</span><span class="label">Exportar todo (JSON)</span>
           </div>
-          <div class="menu-item" data-action="import">
+          <div class="menu-item" role="button" tabindex="0" data-action="import">
             <span class="icon">📥</span><span class="label">Importar JSON</span>
             <input type="file" id="import-file" accept=".json" style="display:none">
           </div>
         </div>
 
         <div class="menu-section">
-          <div class="menu-item" data-action="about">
+          <div class="menu-item" role="button" tabindex="0" data-action="about">
             <span class="icon">ℹ</span><span class="label">Acerca de</span>
           </div>
-          ${currentCase ? `<div class="menu-item" data-action="back-dashboard"><span class="icon">⌂</span><span class="label">Volver al panel</span></div>` : ''}
+          ${currentCase ? `<div class="menu-item" role="button" tabindex="0" data-action="back-dashboard"><span class="icon">⌂</span><span class="label">Volver al panel</span></div>` : ''}
         </div>
 
       </div>
@@ -148,6 +152,12 @@ const App = {
         Storage.setCurrentCase(c);
         this.hideModal();
         App.navigate(c.results ? 'report' : 'capture');
+      });
+    });
+
+    document.querySelectorAll('[data-action],[data-case]').forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
       });
     });
 
@@ -193,6 +203,7 @@ const App = {
 
   _importJSON(file) {
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { window.toast('El JSON excede el máximo permitido de 5 MB', 'error'); return; }
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
@@ -227,22 +238,24 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 1.0 — Aplicación clínica para la administración, corrección
-          e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
-          con baremos españoles (4.ª ed. 2019).
+          Versión auditada 1.1-safe — Aplicación de apoyo para captura, integración,
+          visualización e informe MMPI-2. Las puntuaciones oficiales pueden importarse
+          desde sistemas de corrección autorizados.
         </p>
         <div style="background:var(--color-bg);border-radius:8px;padding:12px;margin-top:16px;font-size:12px;color:var(--color-text-muted);text-align:left">
-          <strong>Notas:</strong><br>
-          • Las escalas marcadas <em>ES-ONLINE</em> (Fp, S, Ho) requieren TEAcorrige.<br>
-          • Los datos se almacenan localmente en el navegador (localStorage).<br>
-          • Exporte periódicamente para no perder información.
+          <strong>Notas de seguridad y validez:</strong><br>
+          • Una clave ausente o incompleta queda bloqueada; nunca se transforma en PD=0.<br>
+          • El dataset español heredado no se usa para generar T locales hasta nueva validación.<br>
+          • Para uso clínico/pericial, priorice T importadas desde Pearson/TEA u otra corrección autorizada.<br>
+          • Los datos se almacenan localmente en el navegador (localStorage) y no están cifrados en reposo; utilice un perfil/dispositivo protegido y exporte copias seguras.<br>
+          • El análisis con IA externa puede transmitir los datos que usted copie al proveedor elegido; use preferentemente el prompt desidentificado.
         </div>
         <button class="btn btn-primary mt-24" id="about-close">Cerrar</button>
       </div>
     `;
     const content = document.getElementById('modal-content');
     content.innerHTML = `
-      <div class="modal-header"><h3>Acerca de</h3><button class="btn btn-ghost btn-sm" id="about-x">✕</button></div>
+      <div class="modal-header"><h3>Acerca de</h3><button class="btn btn-ghost btn-sm" id="about-x" aria-label="Cerrar ventana">✕</button></div>
       <div class="modal-body">${html}</div>
     `;
     document.getElementById('about-x').addEventListener('click', () => this.hideModal());
@@ -292,7 +305,11 @@ window.showModal = function (html) {
   const content = document.getElementById('modal-content');
   if (!overlay || !content) return;
   content.innerHTML = html;
+  App._previousFocus = document.activeElement;
   overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  const focusable = content.querySelector('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+  if (focusable) setTimeout(() => focusable.focus(), 0);
 };
 
 window.hideModal = function () { App.hideModal(); };

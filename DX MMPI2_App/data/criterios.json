@@ -293,7 +293,7 @@
         76,
         200,
         "Muy Alto (≥76)",
-        "Patrón de interés tradicionalmente femenino. Conflictos acerca de la identidad sexual. Pasivo y afeminado. Inseguro en asertividad. Tendencias homoeróticas."
+        "Patrón de interés tradicionalmente femenino. Conflictos acerca de la identidad sexual. Puede reflejar intereses o autodescripciones menos ajustadas a estereotipos tradicionales de género; no permite inferir orientación sexual ni identidad de género."
       ],
       [
         66,
@@ -1297,13 +1297,13 @@
     ]
   },
   "Ho": {
-    "description": "Escala de Hostilidad Cook-Medley (Ho). Cook & Medley (1954). 50 ítems derivados de la escala Mn (Meehl). Mide el rasgo de hostilidad y cinismo como factor de riesgo cardiovascular. Componentes: cinismo, atribución hostil de intenciones a los demás, respuesta agresiva ante la frustración. Predictora de cardiopatía coronaria y mortalidad.",
+    "description": "Escala de Hostilidad Cook-Medley (Ho). Evalúa componentes de hostilidad y cinismo. La literatura ha estudiado asociaciones con variables de salud; la puntuación individual no permite inferir riesgo médico ni mortalidad.",
     "bands": [
       [
         70,
         200,
         "Muy Alto (≥70)",
-        "Hostilidad y cinismo extremos. Visión misantrópica del mundo, atribución hostil sistemática a las intenciones ajenas, respuesta agresiva frecuente ante la frustración. Alto riesgo cardiovascular y de mortalidad prematura. Deterioro interpersonal marcado."
+        "Hostilidad y cinismo extremos. Visión misantrópica del mundo, atribución hostil sistemática a las intenciones ajenas, respuesta agresiva frecuente ante la frustración. No debe traducirse individualmente en una estimación de riesgo cardiovascular o mortalidad. Deterioro interpersonal marcado."
       ],
       [
         60,
@@ -1327,7 +1327,7 @@
         0,
         39,
         "Bajo (≤39)",
-        "Baja hostilidad. Estilo afable, confianza interpersonal. Factor protector cardiovascular."
+        "Baja hostilidad. Estilo afable, confianza interpersonal. No debe interpretarse como un factor protector médico individual."
       ]
     ]
   },
@@ -1577,107 +1577,89 @@
     ]
   },
   "VRIN": {
-    "description": "VRIN - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "description": "VRIN (Variable Response Inconsistency): escala de validez basada en 49 pares de ítems. Evalúa inconsistencia variable de respuesta. Su corrección requiere el algoritmo/rejilla específica del MMPI-2; esta app no la calcula localmente sin datos autorizados.",
     "bands": [
       [
-        70,
+        80,
         200,
-        "Muy Alto (≥70)",
-        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+        "Muy elevado",
+        "Inconsistencia de respuesta marcada. Antes de interpretar escalas sustantivas, revisar omisiones, condiciones de administración y el conjunto completo de indicadores de validez."
       ],
       [
-        60,
-        69,
-        "Alto (60-69)",
-        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
-      ],
-      [
-        56,
-        59,
-        "Promedio-Superior (56-59)",
-        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+        65,
+        79,
+        "Elevado",
+        "Inconsistencia superior a la esperada; interpretar el protocolo con cautela y revisar patrones de respuesta."
       ],
       [
         40,
-        55,
-        "Modal (40-55)",
-        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+        64,
+        "Rango esperado",
+        "No se observa, por esta puntuación aislada, una señal marcada de inconsistencia variable. Debe integrarse con los demás indicadores de validez."
       ],
       [
         0,
         39,
-        "Bajo (≤39)",
-        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+        "Bajo",
+        "Puntuación baja de inconsistencia variable. No basta por sí sola para concluir validez global del protocolo."
       ]
     ]
   },
   "TRIN": {
-    "description": "TRIN - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "description": "TRIN (True Response Inconsistency): escala de validez basada en 20 pares de ítems. Evalúa tendencia a responder Verdadero o Falso de forma inconsistente con el contenido. Su corrección requiere algoritmo/rejilla específica y conserva dirección T/F.",
     "bands": [
       [
-        70,
+        80,
         200,
-        "Muy Alto (≥70)",
-        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+        "Muy elevado",
+        "Tendencia direccional de respuesta marcada. Conservar y revisar el sufijo T/F de la puntuación oficial y valorar la interpretabilidad del protocolo junto con otros indicadores."
       ],
       [
-        60,
-        69,
-        "Alto (60-69)",
-        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
-      ],
-      [
-        56,
-        59,
-        "Promedio-Superior (56-59)",
-        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+        65,
+        79,
+        "Elevado",
+        "Tendencia direccional superior a la esperada; interpretar con cautela y considerar la dirección T/F."
       ],
       [
         40,
-        55,
-        "Modal (40-55)",
-        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+        64,
+        "Rango esperado",
+        "No se observa, por esta puntuación aislada, una tendencia direccional marcada. Integrar con el resto de escalas de validez."
       ],
       [
         0,
         39,
-        "Bajo (≤39)",
-        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+        "Bajo",
+        "Puntuación baja. No permite concluir por sí sola que el protocolo sea válido."
       ]
     ]
   },
   "Fb": {
-    "description": "Fb - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "description": "Fb (Back F): indicador de respuestas infrecuentes en la segunda parte del MMPI-2. Debe interpretarse junto con F, Fp, VRIN/TRIN, omisiones y contexto; una elevación aislada no demuestra simulación ni invalidez.",
     "bands": [
       [
-        70,
+        80,
         200,
-        "Muy Alto (≥70)",
-        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+        "Muy elevado",
+        "Frecuencia elevada de respuestas infrecuentes en la segunda parte. Revisar F, Fp, VRIN/TRIN, omisiones, fatiga y contexto antes de decidir sobre validez."
       ],
       [
-        60,
-        69,
-        "Alto (60-69)",
-        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
-      ],
-      [
-        56,
-        59,
-        "Promedio-Superior (56-59)",
-        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+        65,
+        79,
+        "Elevado",
+        "Respuestas infrecuentes por encima de lo esperado en la segunda parte; requiere integración con el resto del protocolo."
       ],
       [
         40,
-        55,
-        "Modal (40-55)",
-        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+        64,
+        "Rango esperado",
+        "Sin elevación marcada de este indicador. No determina por sí solo la validez global."
       ],
       [
         0,
         39,
-        "Bajo (≤39)",
-        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+        "Bajo",
+        "Puntuación baja en Fb; interpretar únicamente en relación con F, Fp y los restantes indicadores."
       ]
     ]
   },
@@ -1688,7 +1670,7 @@
         70,
         200,
         "Muy Alto (≥70)",
-        "Depresión subjetiva severa. Se siente marcadamente infeliz y deprimido, sin energía ni interés. Sentimientos marcados de inferioridad y de falta de autoconfianza. Componente subjetivo central de un episodio depresivo mayor."
+        "Depresión subjetiva severa. Se siente marcadamente infeliz y deprimido, sin energía ni interés. Sentimientos marcados de inferioridad y de falta de autoconfianza. Refleja contenido depresivo subjetivo que debe contrastarse clínicamente; no establece por sí solo un diagnóstico."
       ],
       [
         60,
@@ -2767,19 +2749,19 @@
     ]
   },
   "Fp": {
-    "description": "Escala Fp (Infrecuencia Psicopatológica). Desarrollada por Arbisi & Ben-Porath (1995). 21 ítems. Evalúa si el sujeto responde en dirección infrecuente incluso comparado con muestras clínicas. Más específica que F para detectar falseamiento negativo (fingir enfermedad) en contextos clínicos. A diferencia de F, los ítems de Fp fueron seleccionados por ser infrecuentes incluso en pacientes psiquiátricos.",
+    "description": "Fp (Infrecuencia Psicopatológica). Desarrollada por Arbisi y Ben-Porath (1995); 27 ítems en MMPI-2. Evalúa respuestas infrecuentes incluso en muestras clínicas. Debe utilizarse como indicador de validez en conjunto, no como prueba aislada de simulación.",
     "bands": [
       [
         80,
         200,
         "Muy Alto (≥80)",
-        "Protocolo probablemente inválido. Sujeto simula síntomas psiquiátricos (\"fake-bad\") incluso comparado con pacientes psiquiátricos reales. Probable falseamiento negativo deliberado. Considerar validez cuestionable de todo el perfil."
+        "Elevación marcada de respuestas infrecuentes incluso respecto de muestras clínicas. Requiere revisar la validez global y explicaciones alternativas; no demuestra por sí sola simulación deliberada."
       ],
       [
         70,
         79,
         "Alto (70-79)",
-        "Validez cuestionable. Posible exageración o simulación de síntomas psicopatológicos. Requiere cautela interpretativa. Si coexiste con F elevada, refuerza hipótesis de falseamiento negativo."
+        "Elevación que incrementa la necesidad de examinar posible sobrerreporte y otras explicaciones clínicas o contextuales. Interpretar conjuntamente con F, Fb, VRIN/TRIN y antecedentes."
       ],
       [
         56,
@@ -2802,7 +2784,7 @@
     ]
   },
   "S": {
-    "description": "Escala S (Autoconcepto Superlativo). Desarrollada por Butcher & Han (1995). 24 ítems (5 subescalas S1-S5). Evalúa presentación de uno mismo como excepcionalmente virtuoso, moralmente superior y sin defectos. Subescalas: S1 Creencias morales, S2 Satisfacción personal, S3 Paciencia/Denegación de ira, S4 Negación de defectos moralmente reprobables, S5 Confianza en la bondad humana. Detecta defensividad \"fake-good\" más sofisticada que L.",
+    "description": "S (Superlative Self-Presentation): escala de 50 ítems desarrollada para evaluar presentación excesivamente favorable de sí mismo. Debe integrarse con L, K y el contexto de evaluación.",
     "bands": [
       [
         70,

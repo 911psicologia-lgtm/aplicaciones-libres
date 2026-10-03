@@ -1,0 +1,485 @@
+{
+  "version": "2026-10-02-safe-audit-1",
+  "purpose": "Structural validation only. It does not contain copyrighted MMPI-2 scoring keys.",
+  "notes": [
+    "Official publisher materials identify the MMPI-2 as a 567-item instrument and VRIN/TRIN as special paired-response scales.",
+    "Expected component counts are used to prevent missing/incomplete keys from being scored as zero.",
+    "Exact item mappings and proprietary scoring keys are not supplied here."
+  ],
+  "scales": {
+    "L": {
+      "type": "items",
+      "expectedCount": 15,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "F": {
+      "type": "items",
+      "expectedCount": 60,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "K": {
+      "type": "items",
+      "expectedCount": 30,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hs": {
+      "type": "items",
+      "expectedCount": 32,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D": {
+      "type": "items",
+      "expectedCount": 57,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy": {
+      "type": "items",
+      "expectedCount": 60,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd": {
+      "type": "items",
+      "expectedCount": 50,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Mf": {
+      "type": "items",
+      "expectedCount": 56,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pa": {
+      "type": "items",
+      "expectedCount": 40,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pt": {
+      "type": "items",
+      "expectedCount": 48,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc": {
+      "type": "items",
+      "expectedCount": 78,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ma": {
+      "type": "items",
+      "expectedCount": 46,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Si": {
+      "type": "items",
+      "expectedCount": 69,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "ANX": {
+      "type": "items",
+      "expectedCount": 23,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "FRS": {
+      "type": "items",
+      "expectedCount": 23,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "OBS": {
+      "type": "items",
+      "expectedCount": 16,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "DEP": {
+      "type": "items",
+      "expectedCount": 33,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "HEA": {
+      "type": "items",
+      "expectedCount": 36,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "BIZ": {
+      "type": "items",
+      "expectedCount": 24,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "ANG": {
+      "type": "items",
+      "expectedCount": 16,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "CYN": {
+      "type": "items",
+      "expectedCount": 23,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "ASP": {
+      "type": "items",
+      "expectedCount": 22,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "TPA": {
+      "type": "items",
+      "expectedCount": 19,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "LSE": {
+      "type": "items",
+      "expectedCount": 24,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "SOD": {
+      "type": "items",
+      "expectedCount": 24,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "FAM": {
+      "type": "items",
+      "expectedCount": 25,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "WRK": {
+      "type": "items",
+      "expectedCount": 33,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "TRT": {
+      "type": "items",
+      "expectedCount": 26,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "A": {
+      "type": "items",
+      "expectedCount": 39,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "R": {
+      "type": "items",
+      "expectedCount": 37,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Es": {
+      "type": "items",
+      "expectedCount": 52,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "MAC-R": {
+      "type": "items",
+      "expectedCount": 49,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "AAS": {
+      "type": "items",
+      "expectedCount": 13,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "APS": {
+      "type": "items",
+      "expectedCount": 39,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "MDS": {
+      "type": "items",
+      "expectedCount": 14,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ho": {
+      "type": "items",
+      "expectedCount": 50,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "O-H": {
+      "type": "items",
+      "expectedCount": 28,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Do": {
+      "type": "items",
+      "expectedCount": 25,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Re": {
+      "type": "items",
+      "expectedCount": 30,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Mt": {
+      "type": "items",
+      "expectedCount": 41,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "GM": {
+      "type": "items",
+      "expectedCount": 47,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "GF": {
+      "type": "items",
+      "expectedCount": 46,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "PK": {
+      "type": "items",
+      "expectedCount": 46,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Fb": {
+      "type": "items",
+      "expectedCount": 40,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Fp": {
+      "type": "items",
+      "expectedCount": 27,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "S": {
+      "type": "items",
+      "expectedCount": 50,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D1": {
+      "type": "items",
+      "expectedCount": 32,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D2": {
+      "type": "items",
+      "expectedCount": 14,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D3": {
+      "type": "items",
+      "expectedCount": 11,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D4": {
+      "type": "items",
+      "expectedCount": 15,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "D5": {
+      "type": "items",
+      "expectedCount": 10,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy1": {
+      "type": "items",
+      "expectedCount": 6,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy2": {
+      "type": "items",
+      "expectedCount": 12,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy3": {
+      "type": "items",
+      "expectedCount": 15,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy4": {
+      "type": "items",
+      "expectedCount": 17,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Hy5": {
+      "type": "items",
+      "expectedCount": 7,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd1": {
+      "type": "items",
+      "expectedCount": 9,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd2": {
+      "type": "items",
+      "expectedCount": 8,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd3": {
+      "type": "items",
+      "expectedCount": 6,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd4": {
+      "type": "items",
+      "expectedCount": 13,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pd5": {
+      "type": "items",
+      "expectedCount": 12,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pa1": {
+      "type": "items",
+      "expectedCount": 17,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pa2": {
+      "type": "items",
+      "expectedCount": 9,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Pa3": {
+      "type": "items",
+      "expectedCount": 9,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc1": {
+      "type": "items",
+      "expectedCount": 21,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc2": {
+      "type": "items",
+      "expectedCount": 11,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc3": {
+      "type": "items",
+      "expectedCount": 10,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc4": {
+      "type": "items",
+      "expectedCount": 14,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc5": {
+      "type": "items",
+      "expectedCount": 11,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Sc6": {
+      "type": "items",
+      "expectedCount": 20,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ma1": {
+      "type": "items",
+      "expectedCount": 6,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ma2": {
+      "type": "items",
+      "expectedCount": 11,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ma3": {
+      "type": "items",
+      "expectedCount": 8,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Ma4": {
+      "type": "items",
+      "expectedCount": 9,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Si1": {
+      "type": "items",
+      "expectedCount": 14,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Si2": {
+      "type": "items",
+      "expectedCount": 8,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "Si3": {
+      "type": "items",
+      "expectedCount": 17,
+      "verification": "documented_structure",
+      "localKeySource": "legacy_app_unverified"
+    },
+    "VRIN": {
+      "type": "paired",
+      "expectedPairs": 49,
+      "verification": "pearson_official",
+      "localKeySource": "not_available"
+    },
+    "TRIN": {
+      "type": "paired",
+      "expectedPairs": 20,
+      "verification": "pearson_official",
+      "localKeySource": "not_available"
+    }
+  }
+}

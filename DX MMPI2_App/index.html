@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MMPI-2 · Aplicación clínica</title>
-  <meta name="description" content="Aplicación clínica para la aplicación, corrección e interpretación del MMPI-2 con baremos españoles">
+  <meta name="description" content="Aplicación clínica de apoyo para captura, integración y reporte MMPI-2; la corrección oficial puede importarse desde sistemas autorizados.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
@@ -13,42 +14,20 @@
   <div id="app"></div>
 
   <!-- Modal overlay para menú hamburguesa -->
-  <div id="modal-overlay" class="modal-overlay hidden">
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content" id="modal-content"></div>
   </div>
 
   <!-- Toast notifications -->
-  <div id="toast-container" class="toast-container"></div>
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="false"></div>
 
   <!-- Vendor scripts (librerías externas) -->
   <script src="vendor/xlsx.full.min.js"></script>
   <script src="vendor/chart.umd.min.js"></script>
   <script src="vendor/docx.umd.min.js"></script>
 
-  <!-- Datos embebidos (cargados vía fetch al inicio) -->
-  <script>
-    window.__DATA_LOADED__ = false;
-    async function loadData() {
-      const [items, baremosES, baremosUS, criterios] = await Promise.all([
-        fetch('data/items.json').then(r => r.json()),
-        fetch('data/baremos.json').then(r => r.json()),
-        fetch('data/baremo_us.json').then(r => r.json()),
-        fetch('data/criterios.json').then(r => r.json()),
-      ]);
-      window.__ITEMS__ = items;
-      window.__BAREMOS_ES__ = baremosES;
-      window.__BAREMOS_US__ = baremosUS;
-      window.__CRITERIOS__ = criterios;
-      window.__BAREMOS__ = baremosES; // Default to ES
-      window.__DATA_LOADED__ = true;
-      // Notificar que los datos están listos
-      document.dispatchEvent(new CustomEvent('data:ready'));
-    }
-    loadData().catch(err => {
-      console.error('Error cargando datos:', err);
-      document.getElementById('app').innerHTML = '<div class="error-screen"><h2>Error al cargar datos</h2><p>No se pudieron cargar los archivos de baremos/ítems. Verifica que la carpeta /data/ esté completa.</p></div>';
-    });
-  </script>
+  <!-- Datos: bootstrap externo para permitir CSP restrictiva -->
+  <script src="js/lib/data-loader.js"></script>
 
   <!-- App scripts (módulos) -->
   <script src="js/lib/utils.js"></script>

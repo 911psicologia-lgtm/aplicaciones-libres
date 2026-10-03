@@ -78,7 +78,7 @@ const Setup = {
                 </div>
 
                 <div id="sig-upload-pane" style="display:none">
-                  <input type="file" id="sig-file" accept="image/*" style="display:none">
+                  <input type="file" id="sig-file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" style="display:none">
                   <div class="signature-upload-area" id="sig-upload-area"
                        style="border:2px dashed var(--color-border);border-radius:var(--radius-md);padding:24px;text-align:center;cursor:pointer;background:var(--color-bg)">
                     <div style="font-size:32px;color:var(--color-text-muted)">⬆</div>
@@ -205,8 +205,10 @@ const Setup = {
   _onFileSelected(e) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      window.toast('Seleccione un archivo de imagen (PNG, JPG o GIF)', 'error');
+    const allowed = new Set(['image/png', 'image/jpeg']);
+    if (!allowed.has(file.type)) {
+      window.toast('Seleccione una imagen PNG o JPG/JPEG', 'error');
+      e.target.value = '';
       return;
     }
     if (file.size > 2 * 1024 * 1024) {

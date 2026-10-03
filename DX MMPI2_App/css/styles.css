@@ -430,3 +430,18 @@ table.data-table .t-low { background: rgba(47, 84, 150, 0.1); color: var(--color
 .gap-16 { gap: 16px; }
 .gap-24 { gap: 24px; }
 .w-full { width: 100%; }
+
+
+/* Accesibilidad: foco visible y reducción de movimiento */
+:focus-visible {
+  outline: 3px solid currentColor !important;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

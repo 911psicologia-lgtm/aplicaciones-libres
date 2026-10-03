@@ -1,22 +1,19 @@
 /* ============================================
-   MMPI-2 · Motor de cálculo
-   - PD directa por escala
-   - K-correction (Hs 0.5, Pd 0.4, Pt 1.0, Sc 1.0, Ma 0.2)
-   - Lookup T por sexo usando baremos
-   - Texto interpretativo por banda
+   MMPI-2 · Motor de cálculo seguro (auditoría 2026-10)
+
+   PRINCIPIOS:
+   - Fail-closed: ausencia/integridad insuficiente nunca equivale a PD=0.
+   - El país/baremo es argumento explícito del cálculo.
+   - No se aproxima silenciosamente una PD ausente en la tabla normativa.
+   - Las claves heredadas del proyecto se consideran NO VALIDADAS hasta
+     ser cotejadas con material de corrección autorizado.
+   - Permite superponer puntuaciones T obtenidas mediante corrección oficial.
    ============================================ */
 
 const MMPI2 = {
-  // K-correction factors
   K_FACTORS: { Hs: 0.5, Pd: 0.4, Pt: 1.0, Sc: 1.0, Ma: 0.2 },
   PDK_SCALES: new Set(['Hs', 'Pd', 'Pt', 'Sc', 'Ma']),
-  // Escalas sin baremo público — tratamiento distinto según país
-  // Para ES: requieren TEAcorrige (4.ª ed. española 2019)
-  // Para US: no están en nuestros baremos extraídos pero PD es válida; T no disponible
-  ONLINE_SCALES_ES: new Set(['Fp', 'S', 'Ho']),
-  ONLINE_SCALES_US: new Set(), // US: ninguna escala está bloqueada (todas tienen lookup)
 
-  // Definición de escalas (orden preservado)
   SCALES: [
     { group: 'Validez', code: 'L', name: 'L (Mentira)', k: 0, pdk: false },
     { group: 'Validez', code: 'F', name: 'F (Infrecuencia)', k: 0, pdk: false },
@@ -99,161 +96,164 @@ const MMPI2 = {
     { group: 'Subescalas', code: 'Si3', name: 'Si3: Autoalienación/alienación de los otros', k: 0, pdk: false },
   ],
 
-  // Mapeo: código de escala → lista de ítems (item_num, value_for_V=1, value_for_F=2)
-  // Estos se cargan desde el Excel híbrido original
-  SCALE_ITEMS: null, // Se carga en init()
+  SCALE_ITEMS: null,
+  SCALE_REGISTRY: null,
+  _country: 'US',
 
-  // Cargar mapeo de ítems por escala desde Respuestas del Excel híbrido
   async init() {
-    if (this.SCALE_ITEMS) return this.SCALE_ITEMS;
-    // Cargar desde el JSON pre-generado que extrae el mapeo
+    if (this.SCALE_ITEMS && this.SCALE_REGISTRY) return this.SCALE_ITEMS;
     try {
-      const resp = await fetch('data/scale_items.json');
-      this.SCALE_ITEMS = await resp.json();
+      const [keysResp, registryResp] = await Promise.all([
+        fetch('data/scale_items.json'),
+        fetch('data/scale_registry.json'),
+      ]);
+      this.SCALE_ITEMS = await keysResp.json();
+      const registryDoc = await registryResp.json();
+      this.SCALE_REGISTRY = registryDoc.scales || {};
+      this.REGISTRY_META = registryDoc;
     } catch (e) {
-      console.error('Error cargando scale_items.json:', e);
-      this.SCALE_ITEMS = {};
+      console.error('Error cargando datos del motor MMPI-2:', e);
+      this.SCALE_ITEMS = this.SCALE_ITEMS || {};
+      this.SCALE_REGISTRY = this.SCALE_REGISTRY || {};
     }
     return this.SCALE_ITEMS;
   },
 
-  /* ---- Calcular PD directa por escala ---- */
-  computePD(scaleCode, responses) {
-    const items = this.SCALE_ITEMS?.[scaleCode] || [];
-    if (!items.length) return 0;
-    let pd = 0;
-    for (const { item, v, f } of items) {
-      // item es 1-indexed
-      const resp = responses[item - 1];
-      if (resp === 1) pd += v;
-      else if (resp === 2) pd += f;
-      // resp null/undefined → 0
-    }
-    return pd;
-  },
-
-  /* ---- Calcular todas las PDs ---- */
-  computeAllPDs(responses) {
-    const results = {};
-    for (const scale of this.SCALES) {
-      const pd = this.computePD(scale.code, responses);
-      results[scale.code] = { pd };
-    }
-    // Calcular K primero (para usar en correcciones PDK)
-    const kPD = results.K?.pd || 0;
-    // Aplicar K-correction
-    for (const scale of this.SCALES) {
-      const k = scale.k || 0;
-      if (k > 0) {
-        results[scale.code].pdK = results[scale.code].pd + Math.round(kPD * k);
-      } else {
-        results[scale.code].pdK = results[scale.code].pd;
-      }
-    }
-    return results;
-  },
-
-  /* ---- Current country (ES or US) ---- */
-  _country: 'ES',
-
   setCountry(country) {
+    if (!['US', 'ES'].includes(country)) throw new Error('Baremo no reconocido: ' + country);
     this._country = country;
-    if (country === 'US') {
-      window.__BAREMOS__ = window.__BAREMOS_US__;
-    } else {
-      window.__BAREMOS__ = window.__BAREMOS_ES__;
-    }
   },
 
   getCountry() { return this._country; },
 
-  /* ---- ¿Está una escala bloqueada para el país actual? ---- */
-  isOnlineScale(scaleCode) {
-    if (this._country === 'US') return this.ONLINE_SCALES_US.has(scaleCode);
-    return this.ONLINE_SCALES_ES.has(scaleCode);
+  getScaleDefinition(code) {
+    return this.SCALES.find(s => s.code === code) || null;
   },
 
-  /* ---- Mensaje para escalas sin T disponible ---- */
-  getOnlineMessage(scaleCode) {
-    if (this._country === 'US') {
-      return 'PD calculada. Conversión a T no disponible en el baremo extraído; utilice el sistema de corrección oficial de Minnesota (Pearson Assessments).';
+  /* ---- Diagnóstico estructural de claves ---- */
+  validateScaleKey(scaleCode) {
+    const reg = this.SCALE_REGISTRY?.[scaleCode];
+    if (!reg) return { status: 'REGISTRO_NO_DISPONIBLE', calculable: false };
+    if (reg.type === 'paired') {
+      return {
+        status: 'ALGORITMO_ESPECIAL_NO_DISPONIBLE',
+        calculable: false,
+        expectedPairs: reg.expectedPairs ?? null,
+        actualCount: Array.isArray(this.SCALE_ITEMS?.[scaleCode]) ? this.SCALE_ITEMS[scaleCode].length : 0,
+      };
     }
-    return 'Escala española vigente (4.ª ed. 2019). Conversión PD→T requiere TEAcorrige. No se ha publicado matriz completa en extracto abierto.';
+    const items = this.SCALE_ITEMS?.[scaleCode];
+    if (!Array.isArray(items) || items.length === 0) {
+      return { status: 'CLAVE_NO_DISPONIBLE', calculable: false, expectedCount: reg.expectedCount ?? null, actualCount: 0 };
+    }
+    const invalid = items.filter(x => !x || !Number.isInteger(Number(x.item)) || Number(x.item) < 1 || Number(x.item) > 567 || !Number.isFinite(Number(x.v)) || !Number.isFinite(Number(x.f)));
+    if (invalid.length) {
+      return { status: 'CLAVE_ESTRUCTURA_INVALIDA', calculable: false, expectedCount: reg.expectedCount ?? null, actualCount: items.length, invalidCount: invalid.length };
+    }
+    if (Number.isInteger(reg.expectedCount)) {
+      if (items.length < reg.expectedCount) return { status: 'CLAVE_INCOMPLETA', calculable: false, expectedCount: reg.expectedCount, actualCount: items.length };
+      if (items.length > reg.expectedCount) return { status: 'CLAVE_EXCEDIDA', calculable: false, expectedCount: reg.expectedCount, actualCount: items.length };
+    }
+    return { status: 'CLAVE_ESTRUCTURAL_OK_NO_VALIDADA', calculable: true, expectedCount: reg.expectedCount ?? null, actualCount: items.length };
   },
 
-  /* ---- Lookup T por sexo y país ---- */
-  lookupT(scaleCode, pd, sex, useK) {
-    if (this.isOnlineScale(scaleCode)) {
-      return this.getOnlineMessage(scaleCode);
-    }
-    const baremos = window.__BAREMOS__?.[scaleCode];
-    if (!baremos) return null;
-    const sexData = baremos[sex];
-    if (!sexData) return null;
-
-    // Buscar el T correspondiente al PD
-    // Estrategia: encontrar el PD más alto <= pd_target y devolver su T
-    // Si no hay ningún PD <= target, devolver el T del PD más bajo disponible
-    let bestPD = null;
-    let bestT = null;
-    for (const [pdStr, tVal] of Object.entries(sexData)) {
-      const pdVal = parseInt(pdStr, 10);
-      if (pdVal <= pd) {
-        if (bestPD === null || pdVal > bestPD) {
-          bestPD = pdVal;
-          bestT = parseInt(tVal, 10);
-        }
-      }
-    }
-    return bestT;
+  auditKeys() {
+    const expectedCodes = new Set(this.SCALES.map(s => s.code));
+    const spurious = Object.keys(this.SCALE_ITEMS || {}).filter(k => !expectedCodes.has(k));
+    const scales = {};
+    for (const s of this.SCALES) scales[s.code] = this.validateScaleKey(s.code);
+    return {
+      registryVersion: this.REGISTRY_META?.version || 'unknown',
+      spuriousKeyCount: spurious.length,
+      spuriousKeys: spurious,
+      scales,
+    };
   },
 
-  /* ---- Calcular T para todas las escalas ---- */
-  computeAllT(pds, sex) {
+  /* ---- Calcular PD local solo si la clave supera control estructural ---- */
+  computePD(scaleCode, responses) {
+    const check = this.validateScaleKey(scaleCode);
+    if (!check.calculable) return { pd: null, status: check.status, keyCheck: check, omissions: null };
+    const items = this.SCALE_ITEMS[scaleCode];
+    let pd = 0;
+    let omissions = 0;
+    for (const { item, v, f } of items) {
+      const resp = responses?.[Number(item) - 1];
+      if (resp === 1) pd += Number(v);
+      else if (resp === 2) pd += Number(f);
+      else omissions++;
+    }
+    if (omissions > 0) {
+      return { pd: null, status: 'RESPUESTAS_INCOMPLETAS_ESCALA', keyCheck: check, omissions };
+    }
+    return { pd, status: 'PD_LOCAL_NO_VALIDADA', keyCheck: check, omissions: 0 };
+  },
+
+  computeAllPDs(responses) {
     const results = {};
+    for (const scale of this.SCALES) results[scale.code] = this.computePD(scale.code, responses);
+    const kPD = results.K?.pd;
     for (const scale of this.SCALES) {
-      const pdData = pds[scale.code];
-      if (!pdData) {
-        results[scale.code] = { t: null, status: 'SIN_DATOS' };
-        continue;
-      }
-      const pdToUse = scale.pdk ? pdData.pdK : pdData.pd;
-      const t = this.lookupT(scale.code, pdToUse, sex, scale.pdk);
-      if (this.isOnlineScale(scale.code)) {
-        results[scale.code] = { 
-          t: this.getOnlineMessage(scale.code),
-          pd: pdData.pd,
-          pdK: pdData.pdK,
-          status: 'ES-ONLINE' 
-        };
-      } else if (t === null || t === undefined) {
-        results[scale.code] = { 
-          t: null,
-          pd: pdData.pd,
-          pdK: pdData.pdK,
-          status: 'SIN_BAREMO' 
-        };
-      } else {
-        results[scale.code] = { 
-          t,
-          pd: pdData.pd,
-          pdK: pdData.pdK,
-          status: 'T_DOCUMENTADA' 
-        };
-      }
+      const r = results[scale.code];
+      if (!r || r.pd == null) { if (r) r.pdK = null; continue; }
+      const k = scale.k || 0;
+      if (k > 0) {
+        r.pdK = (kPD == null) ? null : r.pd + Math.round(kPD * k);
+        if (r.pdK == null) r.status = 'K_NO_DISPONIBLE';
+      } else r.pdK = r.pd;
     }
     return results;
   },
 
-  /* ---- Calcular todo (PD + K + T) ---- */
-  async computeAll(responses, sex, country) {
-    await this.init();
-    if (country) this.setCountry(country);
-    const pds = this.computeAllPDs(responses);
-    const tScores = this.computeAllT(pds, sex);
-    // Merge
+  /* ---- Lookup exacto. El baremo ES heredado queda bloqueado tras auditoría ---- */
+  lookupT(scaleCode, pd, sex, country) {
+    if (pd == null) return { t: null, status: 'PD_NO_DISPONIBLE' };
+    if (!['US', 'ES'].includes(country)) return { t: null, status: 'BAREMO_NO_RECONOCIDO' };
+    if (country === 'ES') {
+      return { t: null, status: 'BAREMO_ES_NO_VALIDADO_LOCALMENTE' };
+    }
+    const all = window.__BAREMOS_US__ || {};
+    const scaleTable = all[scaleCode];
+    if (!scaleTable) return { t: null, status: 'T_NO_DISPONIBLE' };
+    const sexData = scaleTable[sex];
+    if (!sexData) return { t: null, status: 'T_NO_DISPONIBLE' };
+    const key = String(pd);
+    if (!Object.prototype.hasOwnProperty.call(sexData, key)) {
+      return { t: null, status: 'PD_FUERA_DE_TABLA' };
+    }
+    const t = Number(sexData[key]);
+    if (!Number.isFinite(t)) return { t: null, status: 'BAREMO_DATO_INVALIDO' };
+    return { t, status: 'T_LOCAL_NO_VALIDADA' };
+  },
+
+  computeAllT(pds, sex, country) {
     const results = {};
     for (const scale of this.SCALES) {
+      const pdData = pds[scale.code];
+      if (!pdData || pdData.pd == null) {
+        results[scale.code] = { t: null, pd: pdData?.pd ?? null, pdK: pdData?.pdK ?? null, status: pdData?.status || 'SIN_DATOS' };
+        continue;
+      }
+      const pdToUse = scale.pdk ? pdData.pdK : pdData.pd;
+      if (pdToUse == null) {
+        results[scale.code] = { t: null, pd: pdData.pd, pdK: pdData.pdK, status: pdData.status || 'PD_NO_DISPONIBLE' };
+        continue;
+      }
+      const found = this.lookupT(scale.code, pdToUse, sex, country);
+      results[scale.code] = { t: found.t, pd: pdData.pd, pdK: pdData.pdK, status: found.status, pdStatus: pdData.status, keyCheck: pdData.keyCheck };
+    }
+    return results;
+  },
+
+  async computeAll(responses, sex, country) {
+    await this.init();
+    if (!country) throw new Error('El baremo/país debe indicarse explícitamente (US o ES).');
+    this.setCountry(country);
+    const pds = this.computeAllPDs(responses || []);
+    const tScores = this.computeAllT(pds, sex, country);
+    const results = {};
+    for (const scale of this.SCALES) {
+      const tr = tScores[scale.code] || {};
       results[scale.code] = {
         code: scale.code,
         name: scale.name,
@@ -262,92 +262,139 @@ const MMPI2 = {
         pdk: scale.pdk,
         pd: pds[scale.code]?.pd ?? null,
         pdK: pds[scale.code]?.pdK ?? null,
-        t: tScores[scale.code]?.t ?? null,
-        status: tScores[scale.code]?.status ?? 'SIN_DATOS',
-        band: this.getBand(tScores[scale.code]?.t),
-        interpretation: this.getInterpretation(scale.code, tScores[scale.code]?.t, sex),
+        t: tr.t ?? null,
+        status: tr.status || pds[scale.code]?.status || 'SIN_DATOS',
+        pdStatus: pds[scale.code]?.status || null,
+        keyCheck: pds[scale.code]?.keyCheck || null,
+        band: this.getBand(tr.t, scale.code, sex),
+        interpretation: this.getInterpretation(scale.code, tr.t, sex),
+        source: tr.t != null ? 'Motor local heredado; estructura controlada, puntuación no validada contra sistema oficial' : null,
       };
     }
     return results;
   },
 
-  /* ---- Determinar banda por T ---- */
-  getBand(t) {
-    if (t === null || t === undefined || typeof t === 'string') return null;
-    if (t >= 70) return { label: 'Muy Alto (≥70)', color: 't-very-high', level: 5 };
-    if (t >= 60) return { label: 'Alto (60-69)', color: 't-high', level: 4 };
-    if (t >= 56) return { label: 'Promedio-Superior (56-59)', color: 't-mod-high', level: 3 };
-    if (t >= 40) return { label: 'Modal (40-55)', color: 't-modal', level: 2 };
-    return { label: 'Bajo (≤39)', color: 't-low', level: 1 };
+  /* ---- Importación de T provenientes de corrección oficial ---- */
+  parseOfficialTScores(text) {
+    const out = {};
+    if (!text || typeof text !== 'string') return out;
+    const canonical = new Map(this.SCALES.map(s => [s.code.toLowerCase(), s.code]));
+    // Admite, por ejemplo: Hs=68, D:58, TRIN=57F o TRIN=62T.
+    const re = /([A-Za-z][A-Za-z0-9-]{0,8})\s*[:=]\s*(-?\d+(?:[.,]\d+)?)\s*([TF])?/gi;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const code = canonical.get(m[1].toLowerCase());
+      const t = Number(m[2].replace(',', '.'));
+      const direction = (m[3] || '').toUpperCase();
+      if (code && Number.isFinite(t) && t >= 0 && t <= 150) {
+        out[code] = { t, direction: code === 'TRIN' && ['T','F'].includes(direction) ? direction : null };
+      }
+    }
+    return out;
   },
 
-  /* ---- Obtener texto interpretativo por banda ---- */
+  applyOfficialTScores(results, text, sex, sourceLabel = 'Corrección oficial importada') {
+    const imported = this.parseOfficialTScores(text);
+    for (const [code, entry] of Object.entries(imported)) {
+      if (!results[code]) continue;
+      const t = Number(entry?.t);
+      if (!Number.isFinite(t)) continue;
+      results[code].t = t;
+      results[code].tDirection = entry?.direction || null;
+      results[code].tDisplay = entry?.direction ? `${t}${entry.direction}` : String(t);
+      results[code].status = 'T_OFICIAL_IMPORTADA';
+      results[code].band = this.getBand(t, code, sex);
+      results[code].interpretation = this.getInterpretation(code, t, sex);
+      if (code === 'TRIN' && entry?.direction) {
+        results[code].interpretation += ` Dirección oficial reportada: ${entry.direction}.`;
+      }
+      results[code].source = sourceLabel;
+    }
+    return results;
+  },
+
+  _bandsFor(scaleCode, sex) {
+    const c = window.__CRITERIOS__?.[scaleCode];
+    if (!c) return [];
+    if (sex === 'H' && Array.isArray(c.bands_H)) return c.bands_H;
+    if (sex === 'M' && Array.isArray(c.bands_M)) return c.bands_M;
+    const bands = Array.isArray(c.bands) ? c.bands : [];
+    // Mf heredó dos juegos completos concatenados: H primero, M después.
+    if (scaleCode === 'Mf' && bands.length >= 10) return sex === 'M' ? bands.slice(5, 10) : bands.slice(0, 5);
+    return bands;
+  },
+
+  _bandRecord(scaleCode, t, sex) {
+    if (!Number.isFinite(Number(t))) return null;
+    const tn = Number(t);
+    for (const row of this._bandsFor(scaleCode, sex)) {
+      if (!Array.isArray(row) || row.length < 4) continue;
+      const [min, max] = row;
+      if (tn >= Number(min) && tn <= Number(max)) return row;
+    }
+    return null;
+  },
+
+  getBand(t, scaleCode, sex) {
+    if (!Number.isFinite(Number(t))) return null;
+    const row = this._bandRecord(scaleCode, Number(t), sex);
+    const label = row ? String(row[2]) : (t >= 65 ? 'Elevado' : (t <= 39 ? 'Bajo' : 'Rango intermedio'));
+    let color = 't-modal', level = 2;
+    if (t >= 70) { color = 't-very-high'; level = 5; }
+    else if (t >= 65) { color = 't-high'; level = 4; }
+    else if (t >= 56) { color = 't-mod-high'; level = 3; }
+    else if (t <= 39) { color = 't-low'; level = 1; }
+    return { label, color, level };
+  },
+
   getInterpretation(scaleCode, t, sex) {
-    if (t === null || t === undefined) {
-      return 'Sin T documentada';
-    }
-    if (typeof t === 'string') {
-      // Escala sin T disponible (mensaje depende del país)
-      return t;
-    }
-    const criterios = window.__CRITERIOS__?.[scaleCode];
-    if (!criterios) return 'Texto interpretativo no disponible';
-    
-    // Para escalas con bandas separadas por sexo (L, F, K, Mf)
-    let bands = criterios.bands;
-    if (!bands) {
-      // Intentar bands_H o bands_M (escalas sex-specific)
-      bands = sex === 'H' ? criterios.bands_H : criterios.bands_M;
-    }
-    if (!bands || !bands.length) return 'Texto interpretativo no disponible';
-    
-    // Buscar la banda que contiene t
-    for (const [tMin, tMax, label, text] of bands) {
-      if (t >= tMin && t <= tMax) {
-        return `[${label}] ${text}`;
-      }
-    }
-    return 'Texto interpretativo no disponible';
+    if (!Number.isFinite(Number(t))) return this.statusExplanation(null, 'T_NO_DISPONIBLE');
+    const row = this._bandRecord(scaleCode, Number(t), sex);
+    if (!row) return 'Puntuación disponible; criterio interpretativo específico no validado en esta versión.';
+    return `[${row[2]}] ${row[3]}`;
   },
 
-  /* ---- Síntesis narrativa automática ---- */
-  buildNarrative(results, patientName, age, sex, country) {
-    const sexLabel = sex === 'M' ? 'mujer' : 'varón';
-    const countryLabel = country === 'US' ? 'estadounidense (recomendado para Latinoamérica)' : 'español (TEA Ediciones)';
-    const elevated = Object.values(results).filter(r => typeof r.t === 'number' && r.t >= 70);
-    const high = Object.values(results).filter(r => typeof r.t === 'number' && r.t >= 60 && r.t < 70);
-    const low = Object.values(results).filter(r => typeof r.t === 'number' && r.t <= 39);
-    const online = Object.values(results).filter(r => r.status === 'ES-ONLINE');
-    
-    let narrative = `La persona evaluada, ${patientName}, ${age} años, sexo ${sexLabel}, presenta el siguiente perfil: `;
-    if (elevated.length === 0) {
-      narrative += 'ninguna escala en rango Muy Alto (T≥70). ';
-    } else {
-      const elevList = elevated.map(r => r.code).join(', ');
-      narrative += `${elevated.length} escala(s) en rango Muy Alto (T≥70): ${elevList}. Esto sugiere psicopatología severa en las áreas correspondientes. `;
-    }
-    
-    if (high.length > 0) {
-      const highList = high.map(r => r.code).join(', ');
-      narrative += `${high.length} escala(s) en rango Alto (T 60-69): ${highList}, indicando elevaciones clínicas significativas. `;
-    }
-    
-    if (low.length > 0) {
-      const lowList = low.map(r => r.code).join(', ');
-      narrative += `${low.length} escala(s) en rango Bajo (T≤39): ${lowList}, lo que puede indicar características opuestas a las medidas por esas escalas. `;
-    }
-    
-    if (online.length > 0) {
-      if (country === 'US') {
-        narrative += `${online.length} escala(s) sin conversión T en el baremo extraído (utilizar sistema oficial Minnesota): ${online.map(r => r.code).join(', ')}. `;
-      } else {
-        narrative += `${online.length} escala(s) marcadas como ES-ONLINE (requieren TEAcorrige): ${online.map(r => r.code).join(', ')}. `;
-      }
-    }
-    
-    narrative += `Baremo utilizado: ${countryLabel}. `;
-    narrative += 'Revise el detalle por escala en las tablas siguientes y las configuraciones clínicas del perfil para un análisis integrado.';
-    
+  statusExplanation(result, statusOverride) {
+    const status = statusOverride || result?.status || '';
+    const map = {
+      CLAVE_NO_DISPONIBLE: 'No calculable localmente: clave de corrección no disponible.',
+      CLAVE_INCOMPLETA: 'No calculable localmente: la clave heredada está incompleta.',
+      CLAVE_EXCEDIDA: 'No calculable localmente: la clave heredada no coincide con el número documentado de componentes.',
+      CLAVE_ESTRUCTURA_INVALIDA: 'No calculable localmente: estructura de clave inválida.',
+      ALGORITMO_ESPECIAL_NO_DISPONIBLE: 'No calculable localmente: requiere algoritmo especial de corrección.',
+      RESPUESTAS_INCOMPLETAS_ESCALA: 'No calculable: existen omisiones en componentes de la escala.',
+      BAREMO_ES_NO_VALIDADO_LOCALMENTE: 'PD estructural disponible, pero la tabla española local no superó la auditoría de integridad. Importe la T obtenida con corrección oficial.',
+      T_NO_DISPONIBLE: 'PD disponible, pero no existe conversión T local verificable.',
+      PD_FUERA_DE_TABLA: 'La PD no tiene coincidencia exacta en la tabla local; no se realizó aproximación.',
+      T_LOCAL_NO_VALIDADA: 'T calculada con tabla local heredada; requiere cotejo con corrección oficial antes de uso clínico/pericial.',
+      T_OFICIAL_IMPORTADA: 'Puntuación T importada desde una corrección oficial/profesional declarada por el evaluador.',
+    };
+    return map[status] || 'Puntuación no disponible o no validada.';
+  },
+
+  buildNarrative(results, patientName, age, sex, country, validityDecision = 'NO_EVALUADA') {
+    const sexLabel = sex === 'M' ? 'mujer' : (sex === 'H' ? 'hombre' : 'sexo no consignado');
+    const countryLabel = country === 'US' ? 'norma estadounidense MMPI-2' : 'adaptación española MMPI-2';
+    const numeric = Object.values(results || {}).filter(r => typeof r.t === 'number');
+    const official = numeric.filter(r => r.status === 'T_OFICIAL_IMPORTADA');
+    const local = numeric.filter(r => r.status === 'T_LOCAL_NO_VALIDADA');
+    const unavailable = Object.values(results || {}).filter(r => typeof r.t !== 'number');
+    const elevated = numeric.filter(r => r.t >= 65);
+
+    let narrative = `La persona evaluada, ${patientName || 'sin nombre consignado'}, ${age != null ? age + ' años' : 'edad no consignada'}, ${sexLabel}, cuenta con ${numeric.length} puntuaciones T disponibles. `;
+    if (official.length) narrative += `${official.length} fueron importadas desde una corrección oficial/profesional declarada; `;
+    if (local.length) narrative += `${local.length} proceden del motor local heredado y permanecen marcadas como no validadas; `;
+    if (unavailable.length) narrative += `${unavailable.length} escalas permanecen deliberadamente sin T para evitar estimaciones no documentadas. `;
+    if (elevated.length) narrative += `Se observan puntuaciones elevadas (T≥65) en ${elevated.map(r => r.code).join(', ')}; estas elevaciones requieren integración con validez del protocolo, entrevista y demás fuentes de evaluación. `;
+    else narrative += 'No se observan puntuaciones T≥65 entre las puntuaciones actualmente disponibles. ';
+
+    const decision = validityDecision || 'NO_EVALUADA';
+    if (decision === 'NO_INTERPRETABLE') narrative += 'El protocolo ha sido marcado por el profesional como NO INTERPRETABLE; se suspende la interpretación sustantiva del perfil. ';
+    else if (decision === 'INTERPRETABLE_CON_CAUTELA') narrative += 'El protocolo ha sido marcado como interpretable con cautela; toda conclusión debe explicitar las limitaciones de validez. ';
+    else if (decision === 'INTERPRETABLE') narrative += 'El protocolo ha sido marcado por el profesional como interpretable. ';
+    else narrative += 'La validez global del protocolo aún no ha sido declarada por el profesional; la síntesis es descriptiva y no diagnóstica. ';
+
+    narrative += `Referencia normativa seleccionada: ${countryLabel}. La aplicación no sustituye el sistema oficial de corrección ni el juicio profesional.`;
     return narrative;
   },
 };

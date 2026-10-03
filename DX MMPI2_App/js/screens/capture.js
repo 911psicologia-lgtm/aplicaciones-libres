@@ -44,7 +44,7 @@ const Capture = {
         <div class="capture-toolbar">
           <div class="capture-progress">
             <span id="cap-count" style="font-size:13px;font-weight:600;color:var(--color-primary-dark);min-width:80px">0 / ${this._totalItems}</span>
-            <div class="progress-bar"><div class="progress-bar-fill" id="cap-progress" style="width:0%"></div></div>
+            <div class="progress-bar" role="progressbar" aria-label="Progreso de respuestas" aria-valuemin="0" aria-valuemax="567" aria-valuenow="0" id="cap-progress-wrap"><div class="progress-bar-fill" id="cap-progress" style="width:0%"></div></div>
           </div>
           <div class="flex gap-8">
             <button class="btn btn-secondary btn-sm" id="mode-test">Aplicar test</button>
@@ -254,6 +254,7 @@ Columna A  | Columna B
   _onFile(e) {
     const file = e.target.files[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { window.toast('El Excel supera el límite de 5 MB.', 'error'); return; }
     if (!window.XLSX) { window.toast('SheetJS no está cargado', 'error'); return; }
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -261,7 +262,7 @@ Columna A  | Columna B
         const data = new Uint8Array(ev.target.result);
         const wb = XLSX.read(data, { type: 'array' });
         const sheet = wb.Sheets[wb.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: null });
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: null, range: 0 }).slice(0, 650);
         const parsed = new Array(this._totalItems).fill(null);
         let count = 0, skipped = 0;
 
@@ -364,7 +365,7 @@ Columna A  | Columna B
           <div style="font-weight:600;color:var(--color-success)">✓ ${count} respuestas cargadas</div>
           ${skipped > 0 ? `<div class="text-muted" style="font-size:12px;margin-top:4px">Se omitieron ${skipped} fila(s) inválidas.</div>` : ''}
           <table class="data-table" style="margin-top:12px;font-size:12px;max-width:240px">
-            <thead><tr><th>Ítem</th><th>Resp.</th></tr></thead>
+            <thead><tr><th scope="col">Ítem</th><th scope="col">Resp.</th></tr></thead>
             <tbody>${sample.join('')}</tbody>
           </table>
         </div>
@@ -389,8 +390,7 @@ Columna A  | Columna B
     cur.responses = this._responses.slice();
     cur.captureMode = this._mode === 'excel' ? 'Excel' : 'Test interactivo';
     cur.updatedAt = new Date().toISOString();
-    Storage.saveCase(cur);
-    Storage.setCurrentCase(cur);
+    Storage.scheduleSaveCase(cur, 700);
   },
 
   async _finish() {
@@ -402,11 +402,24 @@ Columna A  | Columna B
       if (!confirm(`Solo se han respondido ${done} de ${this._totalItems} ítems. ¿Procesar de todos modos?`)) return;
     }
     window.toast('Procesando resultados…', 'success');
-    this._persist();
+    cur.responses = this._responses.slice();
+    cur.captureMode = this._mode === 'excel' ? 'Excel' : 'Test interactivo';
+    cur.updatedAt = new Date().toISOString();
+    Storage.flushScheduledCase(cur);
     try {
-      const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex);
+      let results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, cur.patient.country || 'US');
+      if (cur.patient.officialTScores) {
+        results = window.MMPI2.applyOfficialTScores(
+          results,
+          cur.patient.officialTScores,
+          cur.patient.sex,
+          cur.patient.officialScoreSource || 'Corrección oficial/profesional importada'
+        );
+      }
       cur.results = results;
-      cur.narrative = window.MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex);
+      cur.narrative = window.MMPI2.buildNarrative(
+        results, cur.patient.name, cur.patient.age, cur.patient.sex, cur.patient.country || 'US', cur.patient.protocolValidity || 'NO_EVALUADA'
+      );
       cur.completedAt = new Date().toISOString();
       Storage.saveCase(cur);
       Storage.setCurrentCase(cur);

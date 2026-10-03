@@ -1,144 +1,93 @@
-# MMPI-2 · Aplicación clínica
+# MMPI-2 · Aplicación clínica · versión auditada 1.1-safe
 
-Aplicación web para aplicación, corrección e interpretación del MMPI-2 con baremos españoles (TEA Ediciones).
+Aplicación web cliente para **captura, integración, visualización y elaboración de informes MMPI-2**. Esta versión fue reconstruida tras una auditoría del motor psicométrico, datos normativos, módulo de IA, exportaciones, seguridad, accesibilidad y rendimiento.
 
-## 🚀 Despliegue rápido en Cloudflare Pages via GitHub
+> **Uso responsable:** las claves heredadas del proyecto no se consideran automáticamente oficiales. Las escalas con clave ausente/incompleta quedan bloqueadas y nunca se sustituyen por PD=0. Para uso clínico o pericial se recomienda importar las puntuaciones T obtenidas mediante un sistema de corrección autorizado (Pearson, TEA u otro sistema licenciado aplicable).
 
-### Opción A: Drag-and-drop directo
-1. Descomprime `MMPI2_App.zip`
-2. Ve a https://dash.cloudflare.com → Pages → Create a project → Upload assets
-3. Arrastra la carpeta `app/` completa
-4. Click "Deploy site" — listo, sin build step
+## Cambios esenciales de esta versión
 
-### Opción B: Vía GitHub
-1. Crea un nuevo repositorio en GitHub (público o privado)
-2. Sube el contenido de la carpeta `app/` a la raíz del repo
-3. Ve a Cloudflare Pages → Create a project → Connect to Git
-4. Selecciona el repositorio
-5. Build settings:
-   - Framework preset: **None**
-   - Build command: **(vacío)**
-   - Build output directory: **/** (raíz)
-6. Click "Save and Deploy"
+- Motor **fail-closed**: clave ausente/incompleta → `t=null`, nunca PD=0 ficticia.
+- Registro estructural `data/scale_registry.json` con tamaños/componentes documentados.
+- `scale_items.json` activo depurado: solo contiene los 79 códigos reconocidos; el archivo heredado se conserva en `audit/legacy_scale_items_raw.json`.
+- VRIN y TRIN quedan identificadas como algoritmos especiales (49 y 20 pares respectivamente) y bloqueadas localmente mientras no exista implementación autorizada.
+- El baremo/país se pasa explícitamente al motor; se elimina la dependencia operativa del estado global para decidir la norma.
+- Lookup PD→T por coincidencia exacta: no usa silenciosamente el PD inferior más cercano.
+- Dataset español heredado bloqueado para cálculo local de T tras detectar anomalías de integridad.
+- Importación manual de T oficiales (`Hs=68, D=58, TRIN=57F...`) con trazabilidad de fuente.
+- Decisión explícita de validez global antes de configuraciones/recomendaciones automáticas.
+- Índice F−K corregido para trabajar con puntuaciones directas.
+- Prompt IA desidentificado por defecto, aviso real de transferencia a terceros y defensa contra prompt injection.
+- Gráficos del informe IA se exportan realmente a **HTML y Word** como imágenes PNG; la tabla se conserva como alternativa accesible/fallback.
+- Firma limitada a PNG/JPEG, validación de importaciones JSON, CSP, mejoras de teclado/ARIA, guardado diferido y límites de tamaño para Excel/JSON.
 
-La app estará disponible en `https://<tu-proyecto>.pages.dev` en ~30 segundos.
+## Flujo recomendado
 
-## 📁 Estructura de archivos
+1. Crear el caso y capturar las 567 respuestas o cargar el Excel.
+2. Seleccionar explícitamente la referencia normativa pertinente.
+3. Si dispone de corrección oficial, pegar las T en el campo **Puntuaciones T oficiales** e identificar la fuente.
+4. Establecer la decisión de validez del protocolo.
+5. Revisar el informe y el estado/origen de cada puntuación.
+6. Usar el análisis con IA preferentemente mediante **prompt desidentificado**.
+7. Exportar HTML/Word/Excel/JSON.
 
-```
+## Estados psicométricos principales
+
+- `T_OFICIAL_IMPORTADA`: T aportada por el profesional desde una corrección oficial/profesional declarada.
+- `T_LOCAL_NO_VALIDADA`: cálculo local heredado con estructura controlada, pendiente de cotejo oficial.
+- `CLAVE_INCOMPLETA`, `CLAVE_NO_DISPONIBLE`, `ALGORITMO_ESPECIAL_NO_DISPONIBLE`: cálculo local bloqueado.
+- `BAREMO_ES_NO_VALIDADO_LOCALMENTE`: la PD puede existir, pero no se produce T con el dataset español heredado.
+- `PD_FUERA_DE_TABLA`: no existe coincidencia exacta; no se extrapola ni aproxima.
+
+## Estructura relevante
+
+```text
 app/
-├── index.html                  # Punto de entrada
-├── css/
-│   └── styles.css               # Estilos (CSS vanilla)
+├── index.html
+├── css/styles.css
 ├── js/
-│   ├── app.js                   # Router principal + menú hamburguesa
+│   ├── app.js
 │   ├── lib/
-│   │   ├── storage.js           # Persistencia localStorage
-│   │   ├── mmpi2.js             # Motor de cálculo MMPI-2
-│   │   ├── signature.js         # Firma digital (canvas)
-│   │   └── export.js            # Export HTML/Word/Excel/JSON
-│   └── screens/
-│       ├── splash.js            # Pantalla splash (2s)
-│       ├── setup.js             # Config evaluador (primera vez)
-│       ├── dashboard.js         # Panel principal + casos
-│       ├── case.js              # Datos del evaluado
-│       ├── capture.js           # Captura (cargar Excel o aplicar)
-│       └── report.js            # Informe con tablas + gráficos
+│   │   ├── data-loader.js
+│   │   ├── storage.js
+│   │   ├── mmpi2.js
+│   │   ├── export.js
+│   │   ├── signature.js
+│   │   └── ai-prompt.js
+│   └── screens/...
 ├── data/
-│   ├── items.json               # 567 ítems del MMPI-2
-│   ├── baremos.json             # Baremos por sexo (78 escalas)
-│   ├── criterios.json           # Criterios interpretativos (79 escalas)
-│   └── scale_items.json         # Mapeo escala → ítems
-├── assets/
-│   ├── favicon.svg
-│   └── MMPI2_Plantilla_Paciente.xlsx  # Excel para enviar a pacientes
-└── vendor/
-    ├── chart.umd.min.js         # Chart.js (gráficos)
-    ├── xlsx.full.min.js         # SheetJS (Excel import/export)
-    └── docx.umd.min.js          # docx.js (Word export)
+│   ├── items.json
+│   ├── baremo_us.json
+│   ├── baremos.json
+│   ├── criterios.json
+│   ├── scale_items.json
+│   └── scale_registry.json
+├── audit/legacy_scale_items_raw.json
+├── tests/audit-tests.js
+├── tests/export-tests.js
+├── CHANGELOG_AUDITORIA.md
+├── VALIDACION_MMPI2_App.md
+└── FUENTES_PSICOMETRICAS.md
 ```
 
-## 🎯 Uso de la aplicación
+## Persistencia y seguridad
 
-### Primera vez (setup del evaluador)
-1. Splash (2s) → detecta primera vez
-2. Formulario evaluador: nombre, correo, registro profesional, dirección, teléfono, firma digital
-3. Configuración guardada → panel principal
+La versión actual sigue usando `localStorage`. Los datos quedan en el navegador pero **no están cifrados en reposo**. Use un dispositivo/perfil protegido y copias seguras. Migrar a IndexedDB con cifrado y bloqueo de sesión sigue siendo una mejora arquitectónica futura, documentada en el changelog.
 
-### Flujo de un caso
-1. Click "Nuevo caso"
-2. Datos del evaluado (nombre, documento, fecha nacimiento, sexo, contexto, antecedentes, motivo)
-3. Captura de respuestas (2 modos):
-   - **Cargar Excel**: sube el `MMPI2_Plantilla_Paciente.xlsx` con respuestas del paciente
-   - **Aplicar test directo**: 567 ítems uno a uno con botones V/F
-4. Procesamiento automático → informe completo
-5. Exportar: HTML standalone / Word / Excel / JSON
+## Pruebas locales
 
-### Persistencia
-- Todos los casos se guardan en `localStorage` del navegador
-- Menú hamburguesa (top right) → "Mis casos" → ver/editar cualquier caso guardado
-- Export JSON: respaldo completo de la app (evaluador + todos los casos)
+Con Node instalado:
 
-## 📋 Plantilla Excel para pacientes
+```bash
+node tests/audit-tests.js
+node tests/export-tests.js
+```
 
-El archivo `assets/MMPI2_Plantilla_Paciente.xlsx` está diseñado para enviarlo a los pacientes:
-- 567 ítems con texto completo
-- Columna "Respuesta" con validación (solo 1=V o 2=F)
-- Columna "Estado" automática (OK / PENDIENTE / INVÁLIDA)
-- Hoja "Instrucciones" con guía para el paciente
+También se valida sintaxis con `node --check` para todos los JavaScript y parseo JSON para los datasets.
 
-**Flujo:**
-1. Evaluador envía el Excel al paciente (email, descarga, etc.)
-2. Paciente abre, completa sus respuestas (1 o 2 en columna C)
-3. Paciente devuelve el archivo
-4. Evaluador carga el Excel en la app → procesamiento automático → informe
+## Despliegue
 
-## 🔒 Características
+No requiere build. Puede desplegarse como sitio estático en Cloudflare Pages/GitHub Pages. La política CSP está definida en `index.html` y los scripts de bootstrap se cargan desde archivos externos.
 
-- ✅ **Sin backend**: 100% cliente, ideal para Cloudflare Pages
-- ✅ **Sin dependencias build**: HTML+CSS+JS vanilla, sin npm
-- ✅ **Offline-ready**: funciona una vez cargados los datos
-- ✅ **Selector sexo M/H**: recalcula todos los baremos automáticamente
-- ✅ **Datos verificados**: baremos del manual español TEA (N=500 por grupo)
-- ✅ **79 escalas interpretadas**: 0 escalas sin texto interpretativo
-- ✅ **Export multi-formato**: HTML standalone, Word (.docx), Excel (.xlsx), JSON
-- ✅ **Firma digital**: canvas con soporte mouse + táctil
+## Propiedad intelectual
 
-## 📊 Cobertura
-
-| Componente | Cantidad |
-|------------|----------|
-| Ítems MMPI-2 | 567 |
-| Escalas evaluadas | 79 |
-| Baremos (H + M) | 3.109 filas |
-| Textos interpretativos | 17.380 |
-| Configuraciones clínicas | 22 patrones |
-| Criterios por banda T | 407 bandas |
-
-## 🛠️ Stack técnico
-
-- **Frontend**: HTML5, CSS3, JavaScript ES6 (vanilla, sin frameworks)
-- **Persistencia**: localStorage API
-- **Gráficos**: Chart.js 4.4.1
-- **Excel**: SheetJS 0.20.3
-- **Word**: docx.js 8.5.0
-- **Firma**: HTML5 Canvas API
-
-## 📝 Fuentes
-
-- Manual MMPI-2 adaptación española (TEA Ediciones)
-- Apunte Universidad de Concepción (apunte_mmpi_2.pdf)
-- Butcher, J.N. (2011) — A Beginner's Guide to the MMPI-2
-- Graham, J.R. (2006) — MMPI-2: Assessing Personality and Psychopathology
-- Harris & Lingoes (1955) — Subescalas Harris-Lingoes
-- Informe técnico de baremos (Informe_tecnico_tablas_PD_T_MMPI2_espanol.docx)
-
-## ⚠️ Notas clínicas
-
-- Las escalas **Fp, S, Ho** están marcadas como **ES-ONLINE**: sus baremos completos no están publicados en extracto abierto y requieren TEAcorrige (sistema oficial). La app calcula la PD pero muestra el mensaje "REQUIERE TEAcorrige".
-- Las escalas **O-H, MDS, APS, AAS** tienen baremos verificados solo parcialmente para mujeres (tramo T≤62), per el informe técnico.
-- Esta aplicación es una herramienta de apoyo. La interpretación clínica final debe realizarla un profesional acreditado.
-
-## 📄 Licencia
-
-Uso clínico y educativo. Los baremos y criterios provienen de fuentes documentadas; verificar licencia de uso del MMPI-2 con TEA Ediciones para uso comercial.
+El MMPI-2 y sus materiales de corrección están protegidos. University of Minnesota Press indica que no autoriza la creación de algoritmos o sistemas independientes derivados de claves protegidas. Por ese motivo esta reconstrucción **no incorpora claves obtenidas de copias no autorizadas** para completar artificialmente el corrector. Consulte `FUENTES_PSICOMETRICAS.md`.
