@@ -51,9 +51,11 @@ const Report = {
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     // FAIL-CLOSED: el país viene siempre del paciente (no de estado global)
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'US';
     const countryLabel = country === 'US'
-      ? 'EE. UU. (Minnesota N=2.600) — recomendado para Latinoamérica'
+      ? 'EE. UU. (Minnesota N=2.600)'
+      : country === 'MX'
+      ? 'México (Lucio, Reyes-Lagunes & Scott)'
       : 'España (TEA Ediciones, N=500, 4.ª ed. 2019)';
 
     const narrative = cur.narrative
@@ -91,6 +93,7 @@ const Report = {
               <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
                 <label for="baremo-select" style="font-weight:600;color:var(--color-primary-dark);margin-right:4px">Baremo:</label>
                 <select id="baremo-select" class="form-select" style="width:auto;min-width:280px">
+                  <option value="MX" ${country === 'MX' ? 'selected' : ''}>México (Lucio et al.)</option>
                   <option value="US" ${country === 'US' ? 'selected' : ''}>EE.UU. (Minnesota N=2.600)</option>
                   <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
                 </select>
@@ -1666,8 +1669,8 @@ const Report = {
       return;
     }
     if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
-    const country = newCountry === 'ES' ? 'ES' : 'US';
-    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
+    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : country === 'MX' ? 'México (Lucio et al.)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');
       // FAIL-CLOSED: pasar country EXPLÍCITAMENTE a computeAll
@@ -1783,8 +1786,8 @@ const Report = {
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     const R = cur.results;
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
-    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota N=2.600)' : 'España (TEA Ediciones, 4.ª ed. 2019)';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota N=2.600)' : country === 'MX' ? 'México (Lucio, Reyes-Lagunes & Scott)' : 'España (TEA Ediciones, 4.ª ed. 2019)';
 
     // Dibujar el perfil en un canvas off-screen (alto nivel de detalle para impresión)
     const canvas = document.createElement('canvas');
@@ -2086,8 +2089,8 @@ const Report = {
     ctx.stroke();
     legendY += 16;
     const p = (Storage.getCurrentCase() || {}).patient || {};
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
-    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA)';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
+    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : country === 'MX' ? 'México (Lucio et al.)' : 'España (TEA)';
     ctx.font = '10px Arial';
     ctx.fillStyle = '#6B7280';
     ctx.textAlign = 'left';
