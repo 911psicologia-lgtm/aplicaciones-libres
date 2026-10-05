@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MMPI-2 · Aplicación clínica</title>
-  <meta name="description" content="Aplicación clínica de apoyo para captura, integración y reporte MMPI-2; la corrección oficial puede importarse desde sistemas autorizados.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="description" content="Aplicación clínica para la aplicación, corrección e interpretación del MMPI-2 con baremos españoles y estadounidenses">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="no-referrer">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
@@ -13,21 +14,21 @@
   <!-- Pantallas -->
   <div id="app"></div>
 
-  <!-- Modal overlay para menú hamburguesa -->
-  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true">
+  <!-- Modal overlay para menú hamburguesa (role=dialog, aria-modal) -->
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-content" id="modal-content"></div>
   </div>
 
-  <!-- Toast notifications -->
-  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="false"></div>
+  <!-- Toast notifications (aria-live para anunciar cambios) -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Vendor scripts (librerías externas) -->
   <script src="vendor/xlsx.full.min.js"></script>
   <script src="vendor/chart.umd.min.js"></script>
   <script src="vendor/docx.umd.min.js"></script>
 
-  <!-- Datos: bootstrap externo para permitir CSP restrictiva -->
-  <script src="js/lib/data-loader.js"></script>
+  <!-- Boot script: carga inicial de datos (separado para cumplir CSP script-src 'self') -->
+  <script src="js/boot.js"></script>
 
   <!-- App scripts (módulos) -->
   <script src="js/lib/utils.js"></script>
@@ -36,6 +37,7 @@
   <script src="js/lib/export.js"></script>
   <script src="js/lib/signature.js"></script>
   <script src="js/lib/ai-prompt.js"></script>
+  <script src="js/lib/selftest.js"></script>
   <script src="js/screens/splash.js"></script>
   <script src="js/screens/setup.js"></script>
   <script src="js/screens/dashboard.js"></script>

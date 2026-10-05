@@ -15,7 +15,7 @@ const Case = {
           <div class="topbar-title">MMPI-2 · ${cur.id ? 'Editar caso' : 'Nuevo caso'}</div>
           <div class="topbar-actions">
             <button class="btn btn-ghost btn-sm" id="case-back">‹ Volver</button>
-            <button class="hamburger-btn" id="ham-btn" aria-label="Menú"><span></span><span></span><span></span></button>
+            <button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
           </div>
         </div>
 
@@ -28,23 +28,23 @@ const Case = {
               <div class="form-section">
                 <div class="form-grid">
                   <div class="form-field full">
-                    <label class="form-label" for="p-name">Nombre completo <span class="required">*</span></label>
+                    <label class="form-label">Nombre completo <span class="required">*</span></label>
                     <input type="text" id="p-name" class="form-input" value="${this._esc(p.name || '')}" placeholder="Nombre y apellidos">
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-doc">Documento de identidad</label>
+                    <label class="form-label">Documento de identidad</label>
                     <input type="text" id="p-doc" class="form-input" value="${this._esc(p.document || '')}" placeholder="DNI / Pasaporte / CC">
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-dob">Fecha de nacimiento</label>
+                    <label class="form-label">Fecha de nacimiento</label>
                     <input type="date" id="p-dob" class="form-input" value="${this._esc(p.dob || '')}">
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-age">Edad (auto)</label>
+                    <label class="form-label">Edad (auto)</label>
                     <input type="text" id="p-age" class="form-input" value="${p.age != null ? p.age : ''}" readonly style="background:var(--color-bg)">
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-sex">Sexo <span class="required">*</span></label>
+                    <label class="form-label">Sexo <span class="required">*</span></label>
                     <select id="p-sex" class="form-select" required>
                       <option value="">— seleccionar —</option>
                       <option value="M" ${p.sex === 'M' ? 'selected' : ''}>Mujer</option>
@@ -52,15 +52,15 @@ const Case = {
                     </select>
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-country">Baremo (país) <span class="required">*</span></label>
+                    <label class="form-label">Baremo (país) <span class="required">*</span></label>
                     <select id="p-country" class="form-select">
-                      <option value="US" ${p.country !== 'ES' ? 'selected' : ''}>Estados Unidos (Minnesota N=2.600)</option>
+                      <option value="US" ${p.country !== 'ES' ? 'selected' : ''}>Estados Unidos (Minnesota N=2.600) — Recomendado para Latinoamérica</option>
                       <option value="ES" ${p.country === 'ES' ? 'selected' : ''}>España (TEA Ediciones, N=500)</option>
                     </select>
-                    <span class="form-hint">Seleccione únicamente la norma que corresponda a la corrección utilizada. La app no asume equivalencia cultural entre países.</span>
+                    <span class="form-hint">El baremo EE.UU. es el utilizado en Argentina y México según Silin & Sanz</span>
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-context">Contexto de evaluación</label>
+                    <label class="form-label">Contexto de evaluación</label>
                     <select id="p-context" class="form-select">
                       <option value="Clínico" ${p.context === 'Clínico' ? 'selected' : ''}>Clínico</option>
                       <option value="Laboral" ${p.context === 'Laboral' ? 'selected' : ''}>Laboral</option>
@@ -69,7 +69,7 @@ const Case = {
                     </select>
                   </div>
                   <div class="form-field">
-                    <label class="form-label" for="p-appdate">Fecha de aplicación</label>
+                    <label class="form-label">Fecha de aplicación</label>
                     <input type="date" id="p-appdate" class="form-input" value="${this._esc(p.applicationDate || today)}">
                   </div>
                 </div>
@@ -77,11 +77,11 @@ const Case = {
 
               <div class="form-section">
                 <div class="form-field full">
-                  <label class="form-label" for="p-history">Antecedentes</label>
+                  <label class="form-label">Antecedentes</label>
                   <textarea id="p-history" class="form-textarea" rows="4" placeholder="Historia clínica relevante, antecedentes familiares, médicos, psiquiátricos, tratamientos previos…">${this._esc(p.history || '')}</textarea>
                 </div>
                 <div class="form-field full">
-                  <label class="form-label" for="p-reason">Motivo de evaluación</label>
+                  <label class="form-label">Motivo de evaluación</label>
                   <textarea id="p-reason" class="form-textarea" rows="3" placeholder="Razón de la derivación, problema actual, objetivos de la evaluación…">${this._esc(p.reason || '')}</textarea>
                 </div>
               </div>
@@ -89,39 +89,18 @@ const Case = {
               <div class="form-section">
                 <div class="form-section-title">Contexto narrativo del caso</div>
                 <div class="form-field full">
-                  <label class="form-label" for="p-case-history">Historia del caso</label>
+                  <label class="form-label">Historia del caso</label>
                   <textarea id="p-case-history" class="form-textarea" rows="5" placeholder="Narrativa detallada del caso: antecedentes biográficos, situación actual, eventos relevantes, demandas del entorno, observaciones del evaluador en entrevista…">${this._esc(p.caseHistory || '')}</textarea>
                   <span class="form-hint">Texto en párrafos. Se incorpora al prompt para IA externa para contextualizar el informe.</span>
                 </div>
                 <div class="form-field full">
-                  <label class="form-label" for="p-legal-context">Contexto pericial (opcional)</label>
+                  <label class="form-label">Contexto pericial (opcional)</label>
                   <textarea id="p-legal-context" class="form-textarea" rows="3" placeholder="Si procede del ámbito forense: input del abogado, objeto del peritaje, preguntas periciales a responder…">${this._esc(p.legalContext || '')}</textarea>
                 </div>
                 <div class="form-field full">
-                  <label class="form-label" for="p-previous-mmpi">MMPI-2 anterior (opcional)</label>
+                  <label class="form-label">MMPI-2 anterior (opcional)</label>
                   <textarea id="p-previous-mmpi" class="form-textarea" rows="3" placeholder="Pegue las puntuaciones T de una aplicación previa en formato «Escala=T», separadas por comas, p. ej.: Hs=78, D=55, Hy=68, Pd=66, Pa=65, Pt=52, Sc=50, Ma=42, Si=45">${this._esc(p.previousMMPI || '')}</textarea>
                   <span class="form-hint">Si existen resultados previos del MMPI-2, el informe generará un gráfico comparativo y una tabla de cambios (Δ).</span>
-                </div>
-                <div class="form-field full">
-                  <label class="form-label" for="p-official-ts">Puntuaciones T de corrección oficial/profesional (opcional)</label>
-                  <textarea id="p-official-ts" class="form-textarea" rows="4" placeholder="Pegue las T obtenidas en Pearson/Q-global/Q Local/TEA u otra corrección autorizada: L=51, F=43, K=60, Hs=68, D=58…">${this._esc(p.officialTScores || '')}</textarea>
-                  <span class="form-hint">Estas puntuaciones tienen prioridad sobre cualquier cálculo local. La app conserva su origen como trazabilidad y no reconstruye claves protegidas.</span>
-                </div>
-                <div class="form-grid">
-                  <div class="form-field">
-                    <label class="form-label" for="p-official-source">Fuente de las puntuaciones oficiales</label>
-                    <input type="text" id="p-official-source" class="form-input" value="${this._esc(p.officialScoreSource || '')}" placeholder="Ej.: Pearson Q-global, TEAcorrige, corrección manual autorizada">
-                  </div>
-                  <div class="form-field">
-                    <label class="form-label" for="p-validity-decision">Validez global del protocolo</label>
-                    <select id="p-validity-decision" class="form-select">
-                      <option value="NO_EVALUADA" ${!p.protocolValidity || p.protocolValidity === 'NO_EVALUADA' ? 'selected' : ''}>No evaluada todavía</option>
-                      <option value="INTERPRETABLE" ${p.protocolValidity === 'INTERPRETABLE' ? 'selected' : ''}>Interpretable</option>
-                      <option value="INTERPRETABLE_CON_CAUTELA" ${p.protocolValidity === 'INTERPRETABLE_CON_CAUTELA' ? 'selected' : ''}>Interpretable con cautela</option>
-                      <option value="NO_INTERPRETABLE" ${p.protocolValidity === 'NO_INTERPRETABLE' ? 'selected' : ''}>No interpretable</option>
-                    </select>
-                    <span class="form-hint">Decisión profesional posterior a revisar omisiones y escalas de validez. Si se marca “No interpretable”, la app bloquea configuraciones y recomendaciones automáticas.</span>
-                  </div>
                 </div>
               </div>
 
@@ -192,9 +171,6 @@ const Case = {
       caseHistory: document.getElementById('p-case-history').value,
       legalContext: document.getElementById('p-legal-context').value,
       previousMMPI: document.getElementById('p-previous-mmpi').value,
-      officialTScores: document.getElementById('p-official-ts').value,
-      officialScoreSource: document.getElementById('p-official-source').value.trim(),
-      protocolValidity: document.getElementById('p-validity-decision').value || 'NO_EVALUADA',
     };
 
     Storage.saveCase(cur);

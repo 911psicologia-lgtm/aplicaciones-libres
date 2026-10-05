@@ -22,6 +22,15 @@ const App = {
       return;
     }
 
+    // Si hay una pantalla montada con método unmount(), llamarlo antes de cambiar
+    if (this.current && screens[this.current] && typeof screens[this.current].unmount === 'function') {
+      try { screens[this.current].unmount(); } catch (e) { console.warn('Error en unmount:', e); }
+    }
+    // También flush de Storage por si quedan escrituras pendientes
+    if (window.Storage && typeof Storage.flush === 'function') {
+      try { Storage.flush(); } catch (e) {}
+    }
+
     // If navigating to the same screen with new state, force re-render by clearing current first
     if (this.current === screenName && screen._forceRefresh) {
       screen._forceRefresh();
@@ -42,10 +51,8 @@ const App = {
     const overlay = document.getElementById('modal-overlay');
     const content = document.getElementById('modal-content');
     if (!overlay || !content) return;
-    this._previousFocus = document.activeElement;
     content.innerHTML = this._renderMenu();
     overlay.classList.remove('hidden');
-    overlay.setAttribute('aria-hidden', 'false');
     // Bind events after insert
     this._bindMenu();
   },
@@ -56,9 +63,7 @@ const App = {
 
   hideModal() {
     const overlay = document.getElementById('modal-overlay');
-    if (overlay) { overlay.classList.add('hidden'); overlay.setAttribute('aria-hidden', 'true'); }
-    if (this._previousFocus && typeof this._previousFocus.focus === 'function') { try { this._previousFocus.focus(); } catch (_) {} }
-    this._previousFocus = null;
+    if (overlay) overlay.classList.add('hidden');
   },
 
   _renderMenu() {
@@ -72,7 +77,7 @@ const App = {
           const p = c.patient || {};
           const status = c.results ? '✓' : '○';
           const active = currentCase && currentCase.id === c.id ? 'color:var(--color-primary);font-weight:600' : '';
-          return `<div class="menu-item" role="button" tabindex="0" data-case="${this._esc(c.id)}" style="${active}">
+          return `<div class="menu-item" data-case="${this._esc(c.id)}" style="${active}">
             <span class="icon">${status}</span>
             <span class="label">
               ${this._esc(p.name || 'Sin nombre')}
@@ -84,7 +89,7 @@ const App = {
     return `
       <div class="modal-header">
         <h3>Menú</h3>
-        <button class="btn btn-ghost btn-sm" id="menu-close" aria-label="Cerrar menú">✕</button>
+        <button class="btn btn-ghost btn-sm" id="menu-close">✕</button>
       </div>
       <div class="modal-body">
 
@@ -97,7 +102,7 @@ const App = {
               <div class="meta">${this._esc(ev.license || ev.email || '')}</div>
             </div>
           </div>
-          <div class="menu-item" role="button" tabindex="0" data-action="setup">
+          <div class="menu-item" data-action="setup">
             <span class="icon">⚙</span><span class="label">Configuración evaluador</span>
           </div>
         </div>
@@ -109,23 +114,23 @@ const App = {
 
         <div class="menu-section">
           <div class="menu-section-title">Datos</div>
-          <div class="menu-item ${currentCase ? '' : 'disabled'}" role="button" tabindex="${currentCase ? '0' : '-1'}" aria-disabled="${currentCase ? 'false' : 'true'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
+          <div class="menu-item ${currentCase ? '' : 'disabled'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
             <span class="icon">📄</span><span class="label">Exportar caso actual (JSON)</span>
           </div>
-          <div class="menu-item" role="button" tabindex="0" data-action="export-all">
+          <div class="menu-item" data-action="export-all">
             <span class="icon">📦</span><span class="label">Exportar todo (JSON)</span>
           </div>
-          <div class="menu-item" role="button" tabindex="0" data-action="import">
+          <div class="menu-item" data-action="import">
             <span class="icon">📥</span><span class="label">Importar JSON</span>
             <input type="file" id="import-file" accept=".json" style="display:none">
           </div>
         </div>
 
         <div class="menu-section">
-          <div class="menu-item" role="button" tabindex="0" data-action="about">
+          <div class="menu-item" data-action="about">
             <span class="icon">ℹ</span><span class="label">Acerca de</span>
           </div>
-          ${currentCase ? `<div class="menu-item" role="button" tabindex="0" data-action="back-dashboard"><span class="icon">⌂</span><span class="label">Volver al panel</span></div>` : ''}
+          ${currentCase ? `<div class="menu-item" data-action="back-dashboard"><span class="icon">⌂</span><span class="label">Volver al panel</span></div>` : ''}
         </div>
 
       </div>
@@ -152,12 +157,6 @@ const App = {
         Storage.setCurrentCase(c);
         this.hideModal();
         App.navigate(c.results ? 'report' : 'capture');
-      });
-    });
-
-    document.querySelectorAll('[data-action],[data-case]').forEach(el => {
-      el.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
       });
     });
 
@@ -203,23 +202,26 @@ const App = {
 
   _importJSON(file) {
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { window.toast('El JSON excede el máximo permitido de 5 MB', 'error'); return; }
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
         const data = JSON.parse(ev.target.result);
-        if (!data.version) throw new Error('Formato no reconocido');
-        if (data.type === 'single_case' && data.case) {
+        // Usar validateImport (fail-closed) en lugar de suponer estructura
+        const v = Storage.validateImport(data);
+        if (!v.ok) throw new Error(v.error);
+        const valid = v.data;
+        if (valid.type === 'single_case' && valid.case) {
           // Import single case
-          const existing = Storage.getCase(data.case.id);
+          const existing = Storage.getCase(valid.case.id);
           if (existing && !confirm('Ya existe un caso con ese ID. ¿Sobrescribir?')) return;
-          Storage.saveCase(data.case);
-          if (data.evaluator) Storage.setEvaluator(data.evaluator);
+          Storage.saveCase(valid.case);
+          Storage.flush();
+          if (valid.evaluator) Storage.setEvaluator(valid.evaluator);
           window.toast('Caso importado correctamente', 'success');
         } else {
           // Full import
-          if (!confirm(`Se reemplazarán todos los datos locales con ${data.cases?.length || 0} caso(s). ¿Continuar?`)) return;
-          Storage.importAll(data);
+          if (!confirm(`Se reemplazarán todos los datos locales con ${valid.cases?.length || 0} caso(s). ¿Continuar?`)) return;
+          Storage.importAll(valid);
           window.toast('Datos importados correctamente', 'success');
         }
         this.hideModal();
@@ -238,28 +240,49 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión auditada 1.1-safe — Aplicación de apoyo para captura, integración,
-          visualización e informe MMPI-2. Las puntuaciones oficiales pueden importarse
-          desde sistemas de corrección autorizados.
+          Versión 3.0 (Auditoría) — Aplicación clínica para la administración, corrección
+          e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
+          con baremos español (TEA) y estadounidense (Minnesota N=2.600).
         </p>
         <div style="background:var(--color-bg);border-radius:8px;padding:12px;margin-top:16px;font-size:12px;color:var(--color-text-muted);text-align:left">
-          <strong>Notas de seguridad y validez:</strong><br>
-          • Una clave ausente o incompleta queda bloqueada; nunca se transforma en PD=0.<br>
-          • El dataset español heredado no se usa para generar T locales hasta nueva validación.<br>
-          • Para uso clínico/pericial, priorice T importadas desde Pearson/TEA u otra corrección autorizada.<br>
-          • Los datos se almacenan localmente en el navegador (localStorage) y no están cifrados en reposo; utilice un perfil/dispositivo protegido y exporte copias seguras.<br>
-          • El análisis con IA externa puede transmitir los datos que usted copie al proveedor elegido; use preferentemente el prompt desidentificado.
+          <strong>Notas:</strong><br>
+          • Motor de cálculo fail-closed: las escalas sin clave devuelven null (no 0).<br>
+          • Conversión PD→T exacta (sin aproximación); PD fuera de tabla → PD_FUERA_DE_TABLA.<br>
+          • Baremo (ES/US) se pasa explícitamente; sin estado global mutable.<br>
+          • Validación estricta de importación JSON (sex, country, responses).<br>
+          • Las escalas marcadas <em>ES-ONLINE</em> (Fp, S, Ho) requieren TEAcorrige.<br>
+          • Los datos se almacenan localmente en el navegador (localStorage).<br>
+          • Exporte periódicamente para no perder información.
         </div>
-        <button class="btn btn-primary mt-24" id="about-close">Cerrar</button>
+        <button class="btn btn-secondary mt-24 w-full" id="about-selftest">⚙ Ejecutar self-test (14 pruebas)</button>
+        <button class="btn btn-primary mt-24 w-full" id="about-close">Cerrar</button>
       </div>
     `;
     const content = document.getElementById('modal-content');
     content.innerHTML = `
-      <div class="modal-header"><h3>Acerca de</h3><button class="btn btn-ghost btn-sm" id="about-x" aria-label="Cerrar ventana">✕</button></div>
+      <div class="modal-header"><h3 id="modal-title">Acerca de</h3><button class="btn btn-ghost btn-sm" id="about-x">✕</button></div>
       <div class="modal-body">${html}</div>
     `;
     document.getElementById('about-x').addEventListener('click', () => this.hideModal());
     document.getElementById('about-close').addEventListener('click', () => this.hideModal());
+    const stBtn = document.getElementById('about-selftest');
+    if (stBtn) {
+      stBtn.addEventListener('click', async () => {
+        if (typeof window.runSelfTest !== 'function') {
+          window.toast('Self-test no disponible', 'error');
+          return;
+        }
+        window.toast('Ejecutando self-test… (ver consola F12)', 'info');
+        try {
+          const results = await window.runSelfTest();
+          const pass = results.filter(r => r.status === 'PASS').length;
+          const fail = results.filter(r => r.status === 'FAIL').length;
+          window.toast(`Self-test: ${pass} OK, ${fail} fallos`, fail > 0 ? 'warning' : 'success', 6000);
+        } catch (e) {
+          window.toast('Error en self-test: ' + e.message, 'error');
+        }
+      });
+    }
   },
 
   _esc(s) {
@@ -305,11 +328,7 @@ window.showModal = function (html) {
   const content = document.getElementById('modal-content');
   if (!overlay || !content) return;
   content.innerHTML = html;
-  App._previousFocus = document.activeElement;
   overlay.classList.remove('hidden');
-  overlay.setAttribute('aria-hidden', 'false');
-  const focusable = content.querySelector('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
-  if (focusable) setTimeout(() => focusable.focus(), 0);
 };
 
 window.hideModal = function () { App.hideModal(); };

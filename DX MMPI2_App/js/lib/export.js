@@ -55,14 +55,14 @@ const Export = {
   exportHTML(caseData, evaluator) {
     const patient = caseData.patient || {};
     const results = caseData.results || {};
-    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex, patient.country, patient.protocolValidity || caseData.protocolValidity) : '');
+    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex) : '');
     const groups = this._groupScales(results);
-    const sigData = window.Storage?.sanitizeSignatureDataURL ? window.Storage.sanitizeSignatureDataURL(evaluator?.signature) : '';
+    const sigData = evaluator?.signature || '';
 
     const tableFor = (scales, groupName) => {
       if (!scales || !scales.length) return '';
       const rows = scales.map(s => {
-        const tDisplay = (typeof s.t === 'number') ? (s.tDisplay || (s.tDirection ? `${s.t}${s.tDirection}` : s.t)) : (s.t ?? '—');
+        const tDisplay = (typeof s.t === 'number') ? s.t : (s.t ?? '—');
         const pdDisplay = (s.pd ?? '—');
         const pdKDisplay = s.pdk && (s.pdK !== null && s.pdK !== undefined && s.pdK !== s.pd) ? s.pdK : (s.pdk ? s.pdK : '—');
         const band = s.band ? s.band.label : '—';
@@ -165,7 +165,7 @@ const Export = {
 
   <div class="footer">
     Informe generado por MMPI-2 App el ${new Date().toLocaleString('es-ES')}<br>
-    ${patient.country === 'ES' ? 'Adaptación española seleccionada. Las T locales permanecen bloqueadas hasta validar el dataset normativo autorizado.' : 'Referencia normativa seleccionada: EE. UU. Las T locales deben cotejarse con una corrección oficial antes de uso clínico/pericial.'}
+    Baremos españoles (4.ª ed. 2019). Los valores marcados ES-ONLINE requieren TEAcorrige.
   </div>
 </body>
 </html>`;
@@ -205,7 +205,7 @@ const Export = {
 
     const patient = caseData.patient || {};
     const results = caseData.results || {};
-    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex, patient.country, patient.protocolValidity || caseData.protocolValidity) : '');
+    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex) : '');
     const groups = this._groupScales(results);
 
     const children = [];
@@ -259,10 +259,9 @@ const Export = {
     children.push(this._buildMetaTable(evalRows, { Table, TableRow, TableCell, WidthType, BorderStyle }));
 
     // Signature image
-    const safeEvaluatorSignature = window.Storage?.sanitizeSignatureDataURL ? window.Storage.sanitizeSignatureDataURL(evaluator?.signature) : '';
-    if (safeEvaluatorSignature) {
+    if (evaluator?.signature) {
       try {
-        const sigBuffer = await this._dataURLToUint8Array(safeEvaluatorSignature);
+        const sigBuffer = await this._dataURLToUint8Array(evaluator.signature);
         children.push(new Paragraph({
           spacing: { before: 120 },
           children: [new ImageRun({
@@ -400,7 +399,7 @@ const Export = {
     if (!window.XLSX) throw new Error('SheetJS no disponible');
     const patient = caseData.patient || {};
     const results = caseData.results || {};
-    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex, patient.country, patient.protocolValidity || caseData.protocolValidity) : '');
+    const narrative = caseData.narrative || (window.MMPI2 ? window.MMPI2.buildNarrative(results, patient.name, patient.age, patient.sex) : '');
     const groups = this._groupScales(results);
     const wb = XLSX.utils.book_new();
 
@@ -502,15 +501,21 @@ const Export = {
      - JSON del propio objeto IA
      ============================================ */
 
-  /* ---------- Export AI Report: HTML (AI-PROMPT-V2 con bloques) ---------- */
-  exportAIReportHTML(parsed, caseData, evaluator, chartImages = []) {
+  /* ---------- Export AI Report: HTML (AI-PROMPT-V2 con bloques) ----------
+     chartImages (opcional): [{ key, figura, titulo, dataURL }]
+       si se pasa, los bloques `grafico` se renderizan como <img> en vez de tabla. */
+  exportAIReportHTML(parsed, caseData, evaluator, chartImages) {
+    const imgsByFig = {};
+    if (Array.isArray(chartImages)) {
+      for (const ci of chartImages) {
+        if (ci && ci.figura != null) imgsByFig[ci.figura] = ci;
+      }
+    }
     const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
     const meta = parsed.metadatos || {};
     const p = caseData.patient || {};
     const ev = evaluator || {};
     const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-    this._aiExportChartImages = Array.isArray(chartImages) ? chartImages : [];
-    this._aiExportChartCursor = 0;
 
     const metaNombre    = meta.evaluado        || p.name || '—';
     const metaEdad      = meta.edad            || (p.age != null ? p.age + ' años' : '—');
@@ -529,7 +534,7 @@ const Export = {
       if (bloques.length === 0 && typeof sec.contenido === 'string' && sec.contenido.trim()) {
         bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
       }
-      bodyHTML = bloques.map(b => this._aiBlockToHTML(b)).join('');
+      bodyHTML = bloques.map(b => this._aiBlockToHTML(b, imgsByFig)).join('');
       return `<section style="margin-bottom:22px;page-break-inside:avoid">
         <h2 style="font-size:16px;font-weight:700;color:#1F3864;border-left:4px solid #2F5496;padding-left:10px;margin-bottom:10px">${secNumero}. ${this._esc(secTitulo)}</h2>
         <div style="padding-left:14px">${bodyHTML}</div>
@@ -546,9 +551,8 @@ const Export = {
       : '';
 
     const firma = parsed.firma || {};
-    const safeSig = window.Storage?.sanitizeSignatureDataURL ? window.Storage.sanitizeSignatureDataURL(ev.signature) : '';
-    const sigHTML = safeSig
-      ? `<img src="${safeSig}" alt="firma" style="max-height:80px"/>`
+    const sigHTML = ev.signature
+      ? `<img src="${ev.signature}" alt="firma" style="max-height:80px"/>`
       : '';
     const firmaNombre    = firma.nombre    || ev.name || 'Evaluador/a';
     const firmaProfesion = firma.profesion || 'Psicólogo/a';
@@ -621,15 +625,16 @@ const Export = {
     this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.html`);
   },
 
-  /* ---------- Helpers de render de bloques IA a HTML ---------- */
-  _aiBlockToHTML(block) {
+  /* ---------- Helpers de render de bloques IA a HTML ----------
+     _imgsByFig: mapa { figura_num -> {dataURL, titulo} } opcional. */
+  _aiBlockToHTML(block, _imgsByFig) {
     if (!block || typeof block !== 'object') return '';
     const tipo = (block.tipo || '').toLowerCase();
     try {
       switch (tipo) {
         case 'parrafo':     return this._aiParrafoHTML(block);
         case 'tabla':       return this._aiTablaHTML(block);
-        case 'grafico':     return this._aiGraficoHTML(block);
+        case 'grafico':     return this._aiGraficoHTML(block, _imgsByFig);
         case 'lista':       return this._aiListaHTML(block);
         case 'referencias': return this._aiReferenciasHTML(block);
         case 'firma':       return '';
@@ -673,42 +678,56 @@ const Export = {
     </div>`;
   },
 
-  _aiGraficoHTML(block) {
+  _aiGraficoHTML(block, imgsByFig) {
     const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+    const figuraNum = (block.figura != null) ? block.figura : null;
     const titulo = block.titulo || '';
     const series = Array.isArray(block.series) ? block.series : [];
     const ejeY = block.eje_y || {};
-    const chartImage = this._aiExportChartImages?.[this._aiExportChartCursor++] || null;
-    const safeImage = chartImage && typeof chartImage.dataURL === 'string' && /^data:image\/png;base64,/i.test(chartImage.dataURL)
-      ? chartImage.dataURL : '';
 
-    const labels = [];
-    for (const s of series) {
-      for (const pt of (s.puntos || [])) {
-        if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
-      }
+    // ---- Imagen embebida si está disponible ----
+    const img = (imgsByFig && figuraNum != null) ? imgsByFig[figuraNum] : null;
+    let imgHTML = '';
+    if (img && img.dataURL) {
+      imgHTML = `<figure style="margin:8px 0 4px;page-break-inside:avoid">
+        <img src="${this._esc(img.dataURL)}" alt="${this._esc(titulo || figura)}" style="max-width:100%;height:auto;border:1px solid #D1D5DB;border-radius:6px">
+        ${figura ? `<figcaption style="font-size:11px;color:#6B7280;margin-top:4px;text-align:center"><strong>${this._esc(figura)}.</strong> ${this._esc(titulo)}</figcaption>` : ''}
+      </figure>`;
+    } else if (figuraNum != null) {
+      imgHTML = `<p style="color:#9CA3AF;font-style:italic;font-size:11px">[No fue posible generar la imagen de esta figura]</p>`;
     }
-    const columnas = ['Escala'].concat(series.map(s => s.nombre || 'T'));
-    const filas = labels.map(lbl => {
-      const row = [lbl];
+
+    // ---- Tabla de datos (fallback de accesibilidad) ----
+    let tableHTML = '';
+    if (series.length) {
+      const labels = [];
       for (const s of series) {
-        const pt = (s.puntos || []).find(p => p.x === lbl);
-        row.push(pt && Number.isFinite(Number(pt.y)) ? String(pt.y) : '—');
+        for (const pt of (s.puntos || [])) {
+          if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
+        }
       }
-      return row;
-    });
+      const columnas = ['Escala'].concat(series.map(s => s.nombre || 'T'));
+      const filas = labels.map(lbl => {
+        const row = [lbl];
+        for (const s of series) {
+          const pt = (s.puntos || []).find(p => p.x === lbl);
+          row.push(pt ? String(pt.y) : '—');
+        }
+        return row;
+      });
+      tableHTML = this._aiTablaHTML({ titulo: '', columnas, filas });
+    }
+
     const ejeNote = (ejeY.variable && (ejeY.min != null || ejeY.max != null))
       ? `Eje Y: ${ejeY.variable} (${ejeY.min != null ? ejeY.min : 'auto'}–${ejeY.max != null ? ejeY.max : 'auto'}). Líneas de referencia: ${(block.lineas_referencia || []).join(', ') || '—'}.`
       : '';
-    const imageHTML = safeImage
-      ? `<figure style="margin:8px 0 12px;text-align:center"><img src="${safeImage}" alt="${this._esc(titulo || figura || 'Gráfico MMPI-2')}" style="max-width:100%;height:auto;border:1px solid #D1D5DB;border-radius:6px"/><figcaption style="font-size:10px;color:#6B7280;margin-top:4px">${this._esc([figura, titulo].filter(Boolean).join('. '))}</figcaption></figure>`
-      : `<div class="ai-grafico-note" style="color:#B91C1C">[No fue posible generar la imagen de esta figura; se conserva la tabla de datos.]</div>`;
+
     return `<div class="ai-grafico-wrap">
-      ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
-      ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
+      ${figura && !img ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
+      ${titulo && !img ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
       ${ejeNote ? `<div class="ai-grafico-note">${this._esc(ejeNote)}</div>` : ''}
-      ${imageHTML}
-      ${filas.length ? `<div class="ai-grafico-note">Tabla de datos accesible:</div>${this._aiTablaHTML({ titulo: '', columnas, filas })}` : ''}
+      ${imgHTML}
+      ${tableHTML ? `<div class="ai-grafico-note" style="margin-top:4px">Datos subyacentes del gráfico:</div>${tableHTML}` : ''}
     </div>`;
   },
 
@@ -728,17 +747,24 @@ const Export = {
     return `<ol class="ai-lista">${items.map(it => `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`).join('')}</ol>`;
   },
 
-  /* ---------- Export AI Report: Word (.docx) (AI-PROMPT-V2 con bloques) ---------- */
-  async exportAIReportWord(parsed, caseData, evaluator, chartImages = []) {
+  /* ---------- Export AI Report: Word (.docx) (AI-PROMPT-V2 con bloques) ----------
+     chartImages (opcional): [{ figura, titulo, dataURL }] */
+  async exportAIReportWord(parsed, caseData, evaluator, chartImages) {
     if (!window.docx) throw new Error('docx.js no disponible');
     const {
       Document, Packer, Paragraph, TextRun, HeadingLevel,
       Table, TableRow, TableCell, WidthType, AlignmentType,
       ImageRun, BorderStyle,
     } = window.docx;
-    const docx = { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel, ImageRun, BorderStyle };
-    this._aiWordChartImages = Array.isArray(chartImages) ? chartImages : [];
-    this._aiWordChartCursor = 0;
+    const docx = { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel, BorderStyle, ImageRun };
+
+    // Mapa figura -> dataURL
+    const imgsByFig = {};
+    if (Array.isArray(chartImages)) {
+      for (const ci of chartImages) {
+        if (ci && ci.figura != null) imgsByFig[ci.figura] = ci;
+      }
+    }
 
     const p = caseData.patient || {};
     const ev = evaluator || {};
@@ -796,7 +822,7 @@ const Export = {
         bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
       }
       for (const block of bloques) {
-        await this._aiBlockToDocx(children, block, docx);
+        await this._aiBlockToDocx(children, block, docx, imgsByFig);
       }
     }
 
@@ -824,10 +850,9 @@ const Export = {
 
     // Firma
     const firma = parsed.firma || {};
-    const safeAISignature = window.Storage?.sanitizeSignatureDataURL ? window.Storage.sanitizeSignatureDataURL(ev.signature) : '';
-    if (safeAISignature) {
+    if (ev.signature) {
       try {
-        const sigBuffer = await this._dataURLToUint8Array(safeAISignature);
+        const sigBuffer = await this._dataURLToUint8Array(ev.signature);
         children.push(new Paragraph({
           alignment: AlignmentType.CENTER,
           spacing: { before: 120 },
@@ -880,10 +905,11 @@ const Export = {
     this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.docx`);
   },
 
-  /* ---------- Helper: render de un bloque IA a elementos docx ---------- */
-  async _aiBlockToDocx(children, block, docx) {
+  /* ---------- Helper: render de un bloque IA a elementos docx ----------
+     _imgsByFig: mapa { figura_num -> {dataURL, titulo} } opcional para gráficos. */
+  async _aiBlockToDocx(children, block, docx, imgsByFig) {
     if (!block || typeof block !== 'object') return;
-    const { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, ImageRun, BorderStyle } = docx;
+    const { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, ImageRun } = docx;
     const tipo = (block.tipo || '').toLowerCase();
     try {
       if (tipo === 'parrafo' || (!tipo && block.contenido != null)) {
@@ -948,6 +974,7 @@ const Export = {
         }
       } else if (tipo === 'grafico') {
         const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
+        const figuraNum = (block.figura != null) ? block.figura : null;
         const tituloG = block.titulo || '';
         if (figura || tituloG) {
           children.push(new Paragraph({
@@ -958,25 +985,34 @@ const Export = {
             ],
           }));
         }
-        const chartImage = this._aiWordChartImages?.[this._aiWordChartCursor++] || null;
-        const safeImage = chartImage && typeof chartImage.dataURL === 'string' && /^data:image\/png;base64,/i.test(chartImage.dataURL)
-          ? chartImage.dataURL : '';
-        if (safeImage && ImageRun) {
+        // Si hay imagen capturada, embeberla
+        let imgInserted = false;
+        if (imgsByFig && figuraNum != null && imgsByFig[figuraNum] && imgsByFig[figuraNum].dataURL) {
           try {
-            const imgBuffer = await this._dataURLToUint8Array(safeImage);
-            children.push(new Paragraph({
-              alignment: AlignmentType.CENTER,
-              spacing: { after: 90 },
-              children: [new ImageRun({ data: imgBuffer, transformation: { width: 580, height: 300 } })],
-            }));
+            const buf = await this._dataURLToUint8Array(imgsByFig[figuraNum].dataURL);
+            if (ImageRun) {
+              children.push(new Paragraph({
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 80 },
+                children: [new ImageRun({
+                  data: buf,
+                  transformation: { width: 560, height: 320 },
+                })],
+              }));
+              imgInserted = true;
+            }
           } catch (e) {
-            console.warn('No se pudo incrustar gráfico IA en Word:', e);
-            children.push(new Paragraph({ children: [new TextRun({ text: '[No fue posible generar la imagen de esta figura; se conserva la tabla de datos.]', color: 'B91C1C', italics: true, size: 18 })] }));
+            console.warn('No se pudo incrustar imagen del gráfico en Word:', e);
           }
-        } else {
-          children.push(new Paragraph({ children: [new TextRun({ text: '[No fue posible generar la imagen de esta figura; se conserva la tabla de datos.]', color: 'B91C1C', italics: true, size: 18 })] }));
         }
-        // Mantener tabla de datos como alternativa accesible y fallback.
+        if (!imgInserted) {
+          children.push(new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 80 },
+            children: [new TextRun({ text: '[No fue posible generar la imagen de esta figura]', italics: true, color: '9CA3AF', size: 16 })],
+          }));
+        }
+        // Tabla de datos subyacente (accesibilidad / fallback)
         const series = Array.isArray(block.series) ? block.series : [];
         if (series.length) {
           const labels = [];
@@ -990,11 +1026,11 @@ const Export = {
             const row = [lbl];
             for (const s of series) {
               const pt = (s.puntos || []).find(p => p.x === lbl);
-              row.push(pt && Number.isFinite(Number(pt.y)) ? String(pt.y) : '—');
+              row.push(pt ? String(pt.y) : '—');
             }
             return row;
           });
-          await this._aiBlockToDocx(children, { tipo: 'tabla', titulo: '', columnas, filas }, docx);
+          await this._aiBlockToDocx(children, { tipo: 'tabla', titulo: '', columnas, filas }, docx, imgsByFig);
         }
       } else if (tipo === 'lista') {
         if (block.titulo) {

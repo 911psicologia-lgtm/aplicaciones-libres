@@ -59,7 +59,7 @@ const Setup = {
               <div class="form-section">
                 <label class="form-label">Firma digital</label>
                 <p class="form-hint mb-8">
-                  Dibuje su firma con el ratón o el dedo, o cargue una imagen de firma (PNG/JPG).
+                  Dibuje su firma con el ratón o el dedo, o cargue una imagen de firma (PNG o JPEG, máx 500 KB).
                   Se incrustará en cada informe generado.
                 </p>
 
@@ -78,12 +78,12 @@ const Setup = {
                 </div>
 
                 <div id="sig-upload-pane" style="display:none">
-                  <input type="file" id="sig-file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" style="display:none">
+                  <input type="file" id="sig-file" accept="image/png,image/jpeg" style="display:none">
                   <div class="signature-upload-area" id="sig-upload-area"
                        style="border:2px dashed var(--color-border);border-radius:var(--radius-md);padding:24px;text-align:center;cursor:pointer;background:var(--color-bg)">
                     <div style="font-size:32px;color:var(--color-text-muted)">⬆</div>
                     <div style="margin-top:8px;color:var(--color-text)">Haga clic para seleccionar una imagen de firma</div>
-                    <div style="font-size:12px;color:var(--color-text-muted);margin-top:4px">PNG, JPG o GIF. Se recomienda fondo transparente o blanco.</div>
+                    <div style="font-size:12px;color:var(--color-text-muted);margin-top:4px">Solo PNG o JPEG (no SVG). Máximo 500 KB.</div>
                   </div>
                   <div id="sig-upload-preview" style="margin-top:12px;display:none">
                     <div style="font-size:12px;color:var(--color-text-muted);margin-bottom:4px">Vista previa de la firma cargada:</div>
@@ -201,24 +201,45 @@ const Setup = {
     showDraw();
   },
 
-  /* ---------- Manejo del archivo de imagen de firma ---------- */
+  /* ---------- Manejo del archivo de imagen de firma ----------
+     Validación estricta: solo PNG y JPEG (no SVG), máx 500 KB. */
   _onFileSelected(e) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    const allowed = new Set(['image/png', 'image/jpeg']);
-    if (!allowed.has(file.type)) {
-      window.toast('Seleccione una imagen PNG o JPG/JPEG', 'error');
+    // Validar tipo MIME: solo PNG y JPEG
+    const isPNG = (file.type === 'image/png');
+    const isJPEG = (file.type === 'image/jpeg' || file.type === 'image/jpg');
+    if (!isPNG && !isJPEG) {
+      window.toast('Formato no permitido. Seleccione un archivo PNG o JPEG (no SVG).', 'error');
       e.target.value = '';
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      window.toast('La imagen es demasiado grande (máx 2 MB)', 'error');
+    // Rechazar SVG explícitamente (por si el navegador lo clasifica como image/svg+xml)
+    if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+      window.toast('Las imágenes SVG no están permitidas (riesgo de seguridad). Use PNG o JPEG.', 'error');
+      e.target.value = '';
+      return;
+    }
+    // Validar tamaño (máx 500 KB)
+    const MAX_BYTES = 500 * 1024;
+    if (file.size > MAX_BYTES) {
+      window.toast(`La imagen es demasiado grande (${(file.size/1024).toFixed(0)} KB). Máximo permitido: 500 KB.`, 'error');
+      e.target.value = '';
       return;
     }
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
         const dataURL = ev.target.result;
+        // Validar dataURL resultante
+        if (typeof dataURL !== 'string' || !dataURL.startsWith('data:image/')) {
+          window.toast('No se pudo leer la imagen como dataURL.', 'error');
+          return;
+        }
+        if (dataURL.startsWith('data:image/svg')) {
+          window.toast('La imagen cargada es SVG y no está permitida.', 'error');
+          return;
+        }
         this._uploadedSigData = dataURL;
         const preview = document.getElementById('sig-upload-preview');
         const previewImg = document.getElementById('sig-upload-img');

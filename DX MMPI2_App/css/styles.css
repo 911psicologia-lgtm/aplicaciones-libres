@@ -30,6 +30,7 @@
   --radius-md: 10px;
   --radius-lg: 16px;
   --transition: all 0.2s ease;
+  --focus-ring: 0 0 0 3px rgba(47, 84, 150, 0.35);
 }
 html, body {
   height: 100%;
@@ -40,6 +41,24 @@ html, body {
   background: var(--color-bg);
 }
 body { overflow-x: hidden; }
+
+/* :focus-visible: anillo de foco accesible para teclado */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.btn:focus-visible,
+.form-input:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible,
+.resp-btn:focus-visible,
+.menu-item:focus-visible,
+.hamburger-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
+}
 
 /* Ocultar scrollbar pero mantener scroll */
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -430,18 +449,3 @@ table.data-table .t-low { background: rgba(47, 84, 150, 0.1); color: var(--color
 .gap-16 { gap: 16px; }
 .gap-24 { gap: 24px; }
 .w-full { width: 100%; }
-
-
-/* Accesibilidad: foco visible y reducción de movimiento */
-:focus-visible {
-  outline: 3px solid currentColor !important;
-  outline-offset: 3px;
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}

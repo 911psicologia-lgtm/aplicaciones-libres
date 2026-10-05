@@ -17,6 +17,7 @@ const Report = {
   _aiCharts: [],    // Chart.js instances for AI report (AI-PROMPT-V2)
   _aiChartSpecs: [],// [{id, block}] pendientes de renderizar
   _aiChartSeq: 0,   // contador para IDs únicos de canvas IA
+  _mounted: false,  // flag de montado para unmount()
 
   /* Códigos por grupo para los gráficos (orden canónico MMPI-2) */
   _BASIC_CODES:    ['L','F','K','Hs','D','Hy','Pd','Mf','Pa','Pt','Sc','Ma','Si'],
@@ -49,19 +50,23 @@ const Report = {
     }
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
-    const safeSig = Storage.sanitizeSignatureDataURL(ev.signature);
-    const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
+    // FAIL-CLOSED: el país viene siempre del paciente (no de estado global)
+    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
     const countryLabel = country === 'US'
-      ? 'EE. UU. (muestra normativa N=2.600)'
-      : 'España (adaptación TEA; T local bloqueada hasta validación del dataset)';
+      ? 'EE. UU. (Minnesota N=2.600) — recomendado para Latinoamérica'
+      : 'España (TEA Ediciones, N=500, 4.ª ed. 2019)';
 
     const narrative = cur.narrative
-      || (window.MMPI2 ? MMPI2.buildNarrative(cur.results, p.name, p.age, p.sex, country, p.protocolValidity || 'NO_EVALUADA') : '');
+      || (window.MMPI2 ? MMPI2.buildNarrative(cur.results, p.name, p.age, p.sex, country) : '');
 
     const groups = this._groupScales(cur.results);
-    const validity = p.protocolValidity || 'NO_EVALUADA';
-    const canInterpret = validity === 'INTERPRETABLE' || validity === 'INTERPRETABLE_CON_CAUTELA';
-    const configs = canInterpret ? this._detectConfigs(cur.results) : [];
+    const configs = this._detectConfigs(cur.results);
+    // Validity gate: comprobar si el protocolo es interpretable
+    const validity = MMPI2.assessValidity(cur.results);
+    const isInterpretable = validity.status !== 'NO_INTERPRETABLE';
+    const isCautious = validity.status === 'INTERPRETABLE_CON_CAUTELA';
+    // Si no es interpretable, no se generan configuraciones ni recomendaciones
+    const visibleConfigs = isInterpretable ? configs : [];
 
     return `
       <div class="screen">
@@ -71,11 +76,14 @@ const Report = {
             <button class="btn btn-secondary btn-sm" id="rpt-edit">Editar caso</button>
             <button class="btn btn-secondary btn-sm" id="rpt-recapture">Recapturar</button>
             <button class="btn btn-ghost btn-sm" id="rpt-back">‹ Panel</button>
-            <button class="hamburger-btn" id="ham-btn" aria-label="Menú"><span></span><span></span><span></span></button>
+            <button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
           </div>
         </div>
 
         <div class="screen-content wide">
+
+          <!-- Aviso de validez del protocolo -->
+          ${this._renderValidityBanner(validity)}
 
           <!-- Export bar + Baremo switcher -->
           <div class="card no-print">
@@ -115,7 +123,6 @@ const Report = {
                 <div class="report-info-item"><div class="report-info-label">Contexto</div><div class="report-info-value">${this._esc(p.context || '—')}</div></div>
                 <div class="report-info-item"><div class="report-info-label">Fecha de aplicación</div><div class="report-info-value">${this._fmtDate(p.applicationDate)}</div></div>
                 <div class="report-info-item"><div class="report-info-label">Modalidad</div><div class="report-info-value">${this._esc(cur.captureMode || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Validez global</div><div class="report-info-value">${this._esc(validity.replaceAll('_',' '))}</div></div>
               </div>
               ${p.history ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Antecedentes</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.history)}</div></div>` : ''}
               ${p.reason ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Motivo de evaluación</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.reason)}</div></div>` : ''}
@@ -136,8 +143,8 @@ const Report = {
               </div>
               <div style="margin-top:16px">
                 <div class="report-info-label">Firma</div>
-                ${safeSig
-                  ? `<img src="${safeSig}" alt="firma" style="max-height:70px;margin-top:6px;border-bottom:1px solid var(--color-primary-dark);padding-bottom:4px">`
+                ${ev.signature
+                  ? `<img src="${ev.signature}" alt="firma" style="max-height:70px;margin-top:6px;border-bottom:1px solid var(--color-primary-dark);padding-bottom:4px">`
                   : '<div style="margin-top:6px;color:var(--color-text-muted);font-style:italic">Sin firma registrada</div>'}
               </div>
             </div>
@@ -159,12 +166,12 @@ const Report = {
           ${this._renderTableWithSynthesis(groups['Subescalas'], 'Subescalas Harris-Lingoes', 'Subescalas')}
 
           <!-- Configuraciones clínicas detectadas -->
-          <div class="card">
+          ${isInterpretable ? `<div class="card">
             <div class="card-header"><h3>Configuraciones clínicas detectadas</h3></div>
             <div class="card-body">
-              ${canInterpret ? this._renderConfigs(configs) : `<p class="text-muted"><strong>Interpretación automática suspendida.</strong> Declare primero la validez global del protocolo como interpretable o interpretable con cautela.</p>`}
+              ${this._renderConfigs(visibleConfigs)}
             </div>
-          </div>
+          </div>` : ''}
 
           <!-- Índice F-K -->
           <div class="card">
@@ -175,14 +182,14 @@ const Report = {
           </div>
 
           <!-- Recomendaciones clínicas -->
-          <div class="card">
-            <div class="card-header"><h3>Recomendaciones clínicas</h3></div>
+          ${isInterpretable ? `<div class="card">
+            <div class="card-header"><h3>Recomendaciones clínicas ${isCautious ? '(con cautela)' : ''}</h3></div>
             <div class="card-body">
               <ul style="margin:0;padding-left:20px;line-height:1.7">
-                ${canInterpret ? this._renderRecommendations(cur.results, configs) : `<li>Recomendaciones automáticas suspendidas hasta declarar la interpretabilidad del protocolo.</li>`}
+                ${this._renderRecommendations(cur.results, visibleConfigs, isCautious)}
               </ul>
             </div>
-          </div>
+          </div>` : ''}
 
           <!-- Gráficos -->
           <div class="card">
@@ -205,8 +212,8 @@ const Report = {
             <div class="card-body" style="font-size:12px;color:var(--color-text-muted)">
               Informe generado el ${new Date().toLocaleString('es-ES')}.
               Baremo utilizado: <strong>${this._esc(countryLabel)}</strong>.
-              Las puntuaciones indican su estado/origen en las tablas; las T locales no validadas no deben emplearse como resultado clínico definitivo.
-              Las líneas de referencia de los gráficos son guías visuales y no sustituyen criterios específicos por escala.
+              Las escalas marcadas ES-ONLINE requieren TEAcorrige para la conversión PD→T.
+              Las líneas de referencia en los gráficos marcan T=50 (media) y T=65 (corte clínico).
             </div>
           </div>
 
@@ -219,9 +226,10 @@ const Report = {
   },
 
   mount() {
+    this._mounted = true;
     bindEvent('ham-btn', 'click', () => App.openMenu());
-    bindEvent('rpt-back', 'click', () => App.navigate('dashboard'));
-    bindEvent('rpt-edit', 'click', () => App.navigate('case'));
+    bindEvent('rpt-back', 'click', () => this._unmountAndNavigate('dashboard'));
+    bindEvent('rpt-edit', 'click', () => this._unmountAndNavigate('case'));
     bindEvent('rpt-recapture', 'click', () => {
       if (confirm('¿Recapturar respuestas? Se conservarán los datos del paciente. Los resultados actuales se reemplazarán.')) {
         const cur = Storage.getCurrentCase();
@@ -231,6 +239,7 @@ const Report = {
           cur.narrative = null;
           Storage.saveCase(cur);
           Storage.setCurrentCase(cur);
+          Storage.flush();
         }
         App.navigate('capture');
       }
@@ -245,8 +254,7 @@ const Report = {
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
     bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
 
-    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt(false));
-    bindEvent('ai-copy-prompt-id', 'click', () => this._copyAIPrompt(true));
+    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
     bindEvent('ai-generate', 'click', () => this._generateAIReport());
     bindEvent('ai-clear', 'click', () => this._clearAIReport());
 
@@ -266,6 +274,38 @@ const Report = {
     }
 
     this._renderCharts();
+  },
+
+  /* ---- Unmount: destruir todos los Chart.js y hacer flush de Storage ---- */
+  unmount() {
+    this._destroyCharts();
+    this._destroyAICharts();
+    this._mounted = false;
+    if (window.Storage && typeof Storage.flush === 'function') {
+      Storage.flush();
+    }
+  },
+
+  _unmountAndNavigate(target) {
+    this.unmount();
+    App.navigate(target);
+  },
+
+  /* ---------- Validity banner ---------- */
+  _renderValidityBanner(validity) {
+    if (!validity || validity.status === 'INTERPRETABLE') return '';
+    const isNo = (validity.status === 'NO_INTERPRETABLE');
+    const color = isNo ? 'var(--color-danger)' : 'var(--color-warning)';
+    const bg = isNo ? 'rgba(192, 0, 0, 0.08)' : 'rgba(191, 143, 0, 0.08)';
+    const title = isNo ? 'Protocolo NO interpretable' : 'Protocolo interpretable con cautela';
+    const reasons = (validity.reasons || []).map(r => `<li>${this._esc(r)}</li>`).join('');
+    return `<div class="card no-print" style="border:2px solid ${color};background:${bg}">
+      <div class="card-body">
+        <div style="font-weight:700;color:${color};font-size:14px;margin-bottom:6px">⚠ ${this._esc(title)}</div>
+        <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.6;color:var(--color-text)">${reasons}</ul>
+        ${isNo ? '<div style="font-size:12px;color:var(--color-text-muted);margin-top:8px;font-style:italic">Se han omitido las secciones de configuraciones clínicas y recomendaciones mientras el protocolo no sea interpretable.</div>' : ''}
+      </div>
+    </div>`;
   },
 
   /* ---------- AI Analysis section ---------- */
@@ -300,16 +340,12 @@ const Report = {
             MMPI-2 y la síntesis interpretativa), péguelo en una IA, recupere el JSON resultante y péguelo abajo.
           </p>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-            <button class="btn btn-success" id="ai-copy-prompt" style="font-size:14px;padding:12px 14px">
-              ⧉ Copiar prompt desidentificado
-            </button>
-            <button class="btn btn-secondary" id="ai-copy-prompt-id" style="font-size:14px;padding:12px 14px">
-              ⧉ Copiar con identificadores
-            </button>
-          </div>
-          <div style="font-size:12px;color:var(--color-text-muted);margin-bottom:18px;line-height:1.5">
-            <strong>Privacidad:</strong> el prompt se construye localmente, pero al pegarlo en una IA externa sus datos se transmiten al proveedor elegido. Use por defecto la versión desidentificada y revise consentimiento, autorización y políticas aplicables.
+          <button class="btn btn-success btn-lg w-full" id="ai-copy-prompt"
+                  style="font-size:15px;padding:14px 20px;margin-bottom:6px">
+            ⧉ Copiar Prompt
+          </button>
+          <div style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-bottom:18px">
+            El prompt no se muestra; se copia al portapapeles.
           </div>
 
           <div style="margin-bottom:18px">
@@ -334,7 +370,7 @@ const Report = {
             <button class="btn btn-primary" id="ai-generate">✓ Generar informe contextualizado</button>
             <button class="btn btn-ghost btn-sm" id="ai-clear">Limpiar</button>
             <span style="font-size:12px;color:var(--color-text-muted);margin-left:auto">
-              La salida de IA es un borrador que requiere revisión y validación profesional antes de incorporarse al informe.
+              La IA no almacena ni transmite datos desde esta app; el prompt se procesa localmente.
             </span>
           </div>
         </div>
@@ -345,7 +381,7 @@ const Report = {
     `;
   },
 
-  _copyAIPrompt(includeIdentifiers = false) {
+  _copyAIPrompt() {
     const cur = Storage.getCurrentCase();
     if (!cur) { window.toast('No hay caso activo', 'error'); return; }
     if (!cur.results) { window.toast('El caso no tiene resultados procesados', 'error'); return; }
@@ -354,33 +390,60 @@ const Report = {
       return;
     }
     const ev = Storage.getEvaluator() || {};
-    if (includeIdentifiers && !confirm('Este prompt incluirá identificadores y datos clínicos que serán transmitidos al proveedor externo cuando lo pegues allí. ¿Continuar?')) return;
-    let prompt;
-    try {
-      if (includeIdentifiers) {
-        prompt = AIPrompt.build(cur, ev);
-      } else {
-        const safeCase = JSON.parse(JSON.stringify(cur));
-        safeCase.patient = { ...(safeCase.patient || {}), name: 'Evaluado/a', document: 'Desidentificado', dob: '', officialScoreSource: safeCase.patient?.officialScoreSource || '' };
-        const safeEv = { ...ev, name: 'Profesional evaluador', email: '', phone: '', address: '', signature: '' };
-        prompt = AIPrompt.build(safeCase, safeEv);
+    // El prompt se desidentifica por defecto. Si se quiere incluir datos
+    // personales, hay que confirmar explícitamente (política de privacidad).
+    const proceed = (desidentify) => {
+      let prompt;
+      try {
+        prompt = AIPrompt.build(cur, ev, { desidentify });
+      } catch (e) {
+        console.error('AIPrompt.build error:', e);
+        window.toast('Error al construir el prompt: ' + e.message, 'error');
+        return;
       }
-    } catch (e) {
-      console.error('AIPrompt.build error:', e);
-      window.toast('Error al construir el prompt: ' + e.message, 'error');
-      return;
-    }
-
-    const done = () => {
-      window.toast('Prompt copiado. Recuerda que al pegarlo en una IA externa los datos incluidos serán enviados a ese proveedor.', 'success', 6500);
+      const done = () => {
+        const mode = desidentify ? ' (desidentificado)' : ' (CON DATOS PERSONALES)';
+        window.toast('Prompt copiado' + mode + '. Pégalo en una IA externa, recupera el JSON y pégalo aquí.', 'success', 7000);
+      };
+      const fail = () => { window.toast('No se pudo copiar al portapapeles. Intenta de nuevo.', 'error'); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(prompt).then(done).catch(() => this._fallbackCopy(prompt, done, fail));
+      } else {
+        this._fallbackCopy(prompt, done, fail);
+      }
     };
-    const fail = () => { window.toast('No se pudo copiar al portapapeles. Intenta de nuevo.', 'error'); };
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(prompt).then(done).catch(() => this._fallbackCopy(prompt, done, fail));
-    } else {
-      this._fallbackCopy(prompt, done, fail);
-    }
+    // Diálogo de confirmación si el usuario quiere incluir datos personales
+    const askIncludePII = () => {
+      const html = `
+        <div style="padding:20px;max-width:420px">
+          <h3 style="color:var(--color-primary-dark);font-size:16px;margin-bottom:10px">Opciones del prompt IA</h3>
+          <p style="font-size:13px;line-height:1.5;margin-bottom:14px">
+            El prompt puede contener información clínica y datos personales. Al pegarlo en un servicio externo,
+            esos datos serán transmitidos al proveedor seleccionado. Revise consentimiento, autorización y
+            políticas aplicables antes de continuar.
+          </p>
+          <div style="background:var(--color-bg);padding:10px 12px;border-radius:6px;font-size:12px;color:var(--color-text-muted);margin-bottom:16px">
+            <strong>Recomendado:</strong> Desidentificar (sustituye nombre, documento, fecha de nacimiento,
+            correo, teléfono y dirección por marcadores [N/D]). El contexto clínico se conserva.
+          </div>
+          <div class="flex gap-8" style="justify-content:flex-end">
+            <button class="btn btn-primary btn-sm" id="pii-desidentify">Desidentificar (recomendado)</button>
+            <button class="btn btn-danger btn-sm" id="pii-include">Incluir datos personales</button>
+          </div>
+        </div>`;
+      const content = document.getElementById('modal-content');
+      content.innerHTML = `<div class="modal-header"><h3>Prompt IA · Privacidad</h3><button class="btn btn-ghost btn-sm" id="pii-x">✕</button></div><div class="modal-body">${html}</div>`;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      bindEvent('pii-x', 'click', () => App.hideModal());
+      bindEvent('pii-desidentify', 'click', () => { App.hideModal(); proceed(true); });
+      bindEvent('pii-include', 'click', () => {
+        if (confirm('Está a punto de incluir DATOS PERSONALES del evaluado (nombre, documento, contacto) en el prompt. ¿Confirma que cuenta con consentimiento y autorización explícitos?')) {
+          App.hideModal();
+          proceed(false);
+        }
+      });
+    };
+    askIncludePII();
   },
 
   _fallbackCopy(text, onDone, onFail) {
@@ -483,16 +546,18 @@ const Report = {
     bindEvent('ai-exp-json', 'click', () => this._exportAIReport('json'));
   },
 
-  async _exportAIReport(format) {
+  _exportAIReport(format) {
     const cur = Storage.getCurrentCase();
     if (!cur || !cur.aiReport) { window.toast('No hay informe IA generado para exportar', 'warning'); return; }
     const ev = Storage.getEvaluator() || {};
+    // Capturar imágenes de los gráficos IA embebidos en el DOM
+    const chartImages = this._captureAIChartImgs();
     try {
-      const chartImages = this._captureAIChartImages();
-      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev, chartImages); window.toast('Informe IA · HTML descargado con figuras', 'success'); }
+      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev, chartImages); window.toast('Informe IA · HTML descargado', 'success'); }
       else if (format === 'word') {
-        await window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages);
-        window.toast('Informe IA · Word descargado con figuras', 'success');
+        window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages)
+          .then(() => window.toast('Informe IA · Word descargado', 'success'))
+          .catch(e => window.toast('Error: ' + e.message, 'error'));
       } else if (format === 'excel') { window.Export.exportAIReportExcel(cur.aiReport, cur, ev); window.toast('Informe IA · Excel descargado', 'success'); }
       else if (format === 'json') { window.Export.exportAIReportJSON(cur.aiReport, cur); window.toast('Informe IA · JSON descargado', 'success'); }
     } catch (e) {
@@ -501,17 +566,38 @@ const Report = {
     }
   },
 
-  _captureAIChartImages() {
+  /* ---------- Capturar imágenes de los canvas de gráficos IA ----------
+     Recorre todos los canvas con clase `ai-grafico-canvas` y los convierte
+     a dataURL PNG. Devuelve un arreglo {key, figura, titulo, dataURL}. */
+  _captureAIChartImgs() {
     const out = [];
-    const canvases = Array.from(document.querySelectorAll('.ai-grafico-canvas'));
-    canvases.forEach((canvas, index) => {
+    const container = document.getElementById('ai-report-output');
+    if (!container) return out;
+    const canvases = container.querySelectorAll('canvas.ai-grafico-canvas');
+    canvases.forEach((cv) => {
       try {
-        const chart = window.Chart && window.Chart.getChart ? window.Chart.getChart(canvas) : null;
-        if (chart) chart.update('none');
-        out.push({ index, id: canvas.id, dataURL: canvas.toDataURL('image/png', 1.0) });
+        const dataURL = cv.toDataURL('image/png');
+        // Buscar el número de figura en los hermanos anteriores (clase ai-grafico-figura)
+        const wrap = cv.closest('.ai-grafico-wrap');
+        let figura = null;
+        let titulo = '';
+        if (wrap) {
+          const figEl = wrap.querySelector('.ai-grafico-figura');
+          if (figEl) {
+            const m = /Figura\s+(\d+)/i.exec(figEl.textContent || '');
+            if (m) figura = parseInt(m[1], 10);
+          }
+          const titEl = wrap.querySelector('.ai-grafico-titulo');
+          if (titEl) titulo = (titEl.textContent || '').trim();
+        }
+        out.push({
+          key: cv.id,
+          figura,
+          titulo,
+          dataURL,
+        });
       } catch (e) {
-        console.warn('No se pudo capturar figura IA', index + 1, e);
-        out.push({ index, id: canvas.id, dataURL: null, error: String(e.message || e) });
+        console.warn('No se pudo capturar canvas IA:', e);
       }
     });
     return out;
@@ -594,7 +680,7 @@ const Report = {
     const firmaHTML = (firma && typeof firma === 'object')
       ? this._renderAIFirma(firma)
       : `<div class="ai-report-firma">
-          ${Storage.sanitizeSignatureDataURL(ev.signature) ? `<img src="${Storage.sanitizeSignatureDataURL(ev.signature)}" alt="firma" class="signature-img">` : ''}
+          ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
           <div class="signature-line">
             ${this._esc(ev.name || 'Evaluador/a')}
             <div style="font-size:10px;color:#6B7280;margin-top:2px">
@@ -813,7 +899,7 @@ const Report = {
       ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
       ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
       <div class="ai-grafico-canvas-wrap" style="position:relative;height:380px">
-        <canvas id="${canvasId}" class="ai-grafico-canvas" role="img" aria-label="${this._esc([figura, titulo].filter(Boolean).join('. ') || 'Gráfico del informe MMPI-2')}"></canvas>
+        <canvas id="${canvasId}" class="ai-grafico-canvas"></canvas>
       </div>
     </div>`;
   },
@@ -851,7 +937,7 @@ const Report = {
     const telefono = block.telefono || ev.phone || '';
     const extras = [direccion, correo, telefono].filter(Boolean);
     return `<div class="ai-report-firma">
-      ${Storage.sanitizeSignatureDataURL(ev.signature) ? `<img src="${Storage.sanitizeSignatureDataURL(ev.signature)}" alt="firma" class="signature-img">` : ''}
+      ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
       <div class="signature-line">
         ${this._esc(nombre)}
         <div class="ai-firma-sub">${this._esc(profesion)}${registro ? ' · ' + this._esc(registro) : ''}</div>
@@ -1033,7 +1119,7 @@ const Report = {
     if (!scales || !scales.length) return '';
     const rows = scales.map(s => {
       const tNum = typeof s.t === 'number';
-      const tDisplay = tNum ? (s.tDisplay || (s.tDirection ? `${s.t}${s.tDirection}` : s.t)) : (s.t == null ? '—' : 'N/D');
+      const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
       const pdDisplay = (s.pd != null) ? s.pd : '—';
       const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
       const band = s.band ? s.band.label : '—';
@@ -1045,8 +1131,7 @@ const Report = {
         <td class="center">${pdKDisplay}</td>
         <td class="center ${bandClass}">${tDisplay}</td>
         <td class="center ${bandClass}">${this._esc(band)}</td>
-        <td style="font-size:11px">${this._esc(s.status || '—')}</td>
-        <td style="font-size:12px">${this._esc(typeof s.t === 'number' ? (s.interpretation || '') : (window.MMPI2 ? MMPI2.statusExplanation(s) : ''))}</td>
+        <td style="font-size:12px">${this._esc(s.interpretation || '')}</td>
       </tr>`;
     }).join('');
     const synth = this._groupSynthesis(groupName, scales);
@@ -1057,8 +1142,8 @@ const Report = {
           <div class="table-container">
             <table class="data-table">
               <thead><tr>
-                <th scope="col">Código</th><th scope="col">Escala</th><th class="center" scope="col">PD</th><th class="center" scope="col">PD+K</th>
-                <th class="center" scope="col">T</th><th class="center" scope="col">Banda</th><th scope="col">Estado</th><th scope="col">Interpretación / motivo</th>
+                <th scope="col">Código</th><th scope="col">Escala</th><th scope="col" class="center">PD</th><th scope="col" class="center">PD+K</th>
+                <th scope="col" class="center">T</th><th scope="col" class="center">Banda</th><th scope="col">Interpretación</th>
               </tr></thead>
               <tbody>${rows}</tbody>
             </table>
@@ -1077,7 +1162,7 @@ const Report = {
     const elevated = scales.filter(s => typeof s.t === 'number' && s.t >= 70);
     const high = scales.filter(s => typeof s.t === 'number' && s.t >= 60 && s.t < 70);
     const low = scales.filter(s => typeof s.t === 'number' && s.t <= 39);
-    const unavailable = scales.filter(s => typeof s.t !== 'number');
+    const online = scales.filter(s => s.status === 'ES-ONLINE');
     const fmtList = arr => arr.map(s => `${s.code} (T=${s.t})`).join(', ');
 
     let parts = [];
@@ -1091,12 +1176,12 @@ const Report = {
       if (K && typeof K.t === 'number') vFacts.push(`K=T${K.t}`);
       if (vFacts.length) parts.push('Validez: ' + vFacts.join(', ') + '.');
       if (F && typeof F.t === 'number' && F.t >= 65) {
-        parts.push('F elevada requiere examinar conjuntamente VRIN/TRIN, Fb/Fp, omisiones, contexto y respuesta clínica antes de atribuir un estilo de respuesta.');
+        parts.push('F elevada sugiere posible simulación o pedido de ayuda; conviene contrastar con la entrevista.');
       } else if (F && typeof F.t === 'number' && F.t < 45) {
-        parts.push('F baja debe integrarse con L, K, S y el contexto antes de inferir minimización.');
+        parts.push('F baja puede indicar postura defensiva o minimización de síntomas.');
       }
       if (L && typeof L.t === 'number' && L.t >= 65) {
-        parts.push('L elevada requiere integración con K/S y el contexto; por sí sola no establece una conclusión sobre intención del evaluado.');
+        parts.push('L elevada indica tendencia a presentarse de manera demasiado favorable ("fake good").');
       }
       if (K && typeof K.t === 'number' && K.t >= 65) {
         parts.push('K elevada refuerza la hipótesis de una postura defensiva cerrada.');
@@ -1123,8 +1208,8 @@ const Report = {
     if (elevated.length === 0 && high.length === 0 && low.length === 0 && groupName !== 'Validez') {
       parts.push('Ninguna escala del grupo presenta desviaciones clínicamente significativas (todas en rango modal 40–59).');
     }
-    if (unavailable.length > 0) {
-      parts.push(`Escalas marcadas ES-ONLINE (requieren TEAcorrige): ${unavailable.map(s => s.code).join(', ')}.`);
+    if (online.length > 0) {
+      parts.push(`Escalas marcadas ES-ONLINE (requieren TEAcorrige): ${online.map(s => s.code).join(', ')}.`);
     }
     return parts.join(' ');
   },
@@ -1174,40 +1259,55 @@ const Report = {
     `).join('');
   },
 
-  /* ---------- F-K index ---------- */
+  /* ---------- F-K index (PD directas, no T) ---------- */
   _renderFKIndex(results) {
     const f = results.F, k = results.K;
-    if (!f || !k || typeof f.pd !== 'number' || typeof k.pd !== 'number') {
-      return '<p style="color:var(--color-text-muted);font-style:italic">No se puede calcular el índice F−K: faltan puntuaciones directas válidas de F o K.</p>';
+    const fPD = f && (f.pd != null) ? f.pd : null;
+    const kPD = k && (k.pd != null) ? k.pd : null;
+    if (fPD == null || kPD == null) {
+      return '<p style="color:var(--color-text-muted);font-style:italic">No se puede calcular el índice F−K: faltan puntuaciones directas (PD) de F o K (escala sin clave disponible).</p>';
     }
-    const diff = f.pd - k.pd;
-    const interp = `Diferencia bruta F−K = ${diff}. Se informa descriptivamente; la app no atribuye por sí sola simulación, defensividad ni exageración. Contraste con el manual aplicable, VRIN/TRIN, Fb/Fp y fuentes externas.`;
-    const sign = diff > 0 ? '+' : '';
+    const fkIndex = fPD - kPD;
+    let interp;
+    if (fkIndex <= -11) {
+      interp = 'F−K ≤ −11 (PD): postura defensiva ("fake good"). Las puntuaciones clínicas pueden estar artificialmente bajas; revise la impresión de validez del protocolo.';
+    } else if (fkIndex >= 20) {
+      interp = 'F−K ≥ +20 (PD): invalidación probable del protocolo (simulación o exageración marcada). Se recomienda no interpretar las escalas clínicas.';
+    } else if (fkIndex >= 11) {
+      interp = 'F−K entre +11 y +19 (PD): grito de ayuda o posible exageración de síntomas ("fake bad"). Conviene contrastar con otras fuentes de información.';
+    } else {
+      interp = 'F−K entre −10 y +10 (PD): en rango normal. La persona ni exagera ni minimiza significativamente la sintomatología.';
+    }
+    const sign = fkIndex > 0 ? '+' : '';
     return `
       <div style="font-size:14px;line-height:1.6">
         <div style="margin-bottom:10px">
-          <strong>F(PD)</strong> = ${f.pd} &nbsp; | &nbsp;
-          <strong>K(PD)</strong> = ${k.pd} &nbsp; | &nbsp;
-          <strong>F − K</strong> = <span style="font-size:16px;color:var(--color-primary-dark)">${sign}${diff}</span>
+          <strong>F(PD)</strong> = ${fPD} &nbsp; | &nbsp;
+          <strong>K(PD)</strong> = ${kPD} &nbsp; | &nbsp;
+          <strong>F − K</strong> = <span style="font-size:16px;color:var(--color-primary-dark)">${sign}${fkIndex}</span>
         </div>
         <div style="padding:10px 14px;background:var(--color-bg);border-left:4px solid var(--color-primary);border-radius:var(--radius-sm);font-size:13px">
           ${this._esc(interp)}
         </div>
         <div style="margin-top:10px;font-size:12px;color:var(--color-text-muted)">
-          El índice F−K se calcula aquí sobre puntuaciones directas (PD F − PD K). No se aplica un punto de corte automático como conclusión clínica; debe interpretarse con la fuente normativa y el contexto correspondientes.
+          El índice F−K se calcula sobre puntuaciones directas (PD) — no sobre T. Los puntos de corte clásicos (±11, +20) son orientativos y deben interpretarse junto con el resto de escalas de validez.
         </div>
       </div>
     `;
   },
 
   /* ---------- Recommendations ---------- */
-  _renderRecommendations(results, configs) {
+  _renderRecommendations(results, configs, isCautious) {
     const t = code => {
       const r = results[code];
       return (r && typeof r.t === 'number') ? r.t : null;
     };
     const recs = [];
     const L = t('L'), F = t('F'), K = t('K');
+
+    if (isCautious) {
+      recs.push('Interpretar el protocolo con cautela: la puerta de validez detectó indicadores que aconsejan prudencia (ver aviso al inicio del informe).');
+    }
 
     // Validez
     if ((L != null && L > 65) || (K != null && K > 65) || (F != null && F > 80)) {
@@ -1264,8 +1364,8 @@ const Report = {
     }
 
     // Defecto
-    if (recs.length === 0) {
-      recs.push('No se identifican elevaciones que activen las reglas automáticas de recomendación configuradas. Integrar siempre con entrevista, antecedentes y demás fuentes clínicas antes de emitir conclusiones.');
+    if (recs.length === 0 || (isCautious && recs.length === 1)) {
+      recs.push('Perfil dentro de límites no patológicos. Complementar con entrevista clínica y antecedentes para emitir juicio profesional definitivo.');
     }
 
     recs.push('Este informe es una herramienta de apoyo y no sustituye el juicio clínico del profesional evaluador.');
@@ -1279,7 +1379,7 @@ const Report = {
       <div class="chart-container">
         <h4 style="margin-bottom:8px;color:var(--color-primary-dark)">${this._esc(title)}</h4>
         <div style="position:relative;height:300px;width:100%">
-          <canvas id="${canvasId}" role="img" aria-label="${this._esc(title)}"></canvas>
+          <canvas id="${canvasId}"></canvas>
         </div>
       </div>
     `;
@@ -1570,19 +1670,20 @@ const Report = {
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');
-      let results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
-      if (cur.patient.officialTScores) {
-        results = MMPI2.applyOfficialTScores(results, cur.patient.officialTScores, cur.patient.sex, cur.patient.officialScoreSource || 'Corrección oficial/profesional importada');
-      }
-      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country, cur.patient.protocolValidity || 'NO_EVALUADA');
+      // FAIL-CLOSED: pasar country EXPLÍCITAMENTE a computeAll
+      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
+      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
       cur.results = results;
       cur.narrative = narrative;
       cur.patient.country = country;
       cur.updatedAt = new Date().toISOString();
       Storage.saveCase(cur);
       Storage.setCurrentCase(cur);
+      Storage.flush();
       window.toast(`Baremo cambiado a ${countryLabel}. Resultados recalculados.`, 'success');
-      // Re-render entire report
+      // Destruir chart instances antes del re-render
+      this._destroyCharts();
+      this._destroyAICharts();
       setTimeout(() => App.navigate('report'), 200);
     } catch (e) {
       console.error('Error al recalcular baremo:', e);
@@ -1682,7 +1783,7 @@ const Report = {
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     const R = cur.results;
-    const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
+    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota N=2.600)' : 'España (TEA Ediciones, 4.ª ed. 2019)';
 
     // Dibujar el perfil en un canvas off-screen (alto nivel de detalle para impresión)
@@ -1985,7 +2086,7 @@ const Report = {
     ctx.stroke();
     legendY += 16;
     const p = (Storage.getCurrentCase() || {}).patient || {};
-    const country = p.country || (window.MMPI2 ? MMPI2.getCountry() : 'ES');
+    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA)';
     ctx.font = '10px Arial';
     ctx.fillStyle = '#6B7280';
@@ -2060,10 +2161,10 @@ const Report = {
           <div class="table-container">
             <table class="data-table">
               <thead><tr>
-                <th>Código</th><th>Escala</th>
-                <th class="center">T anterior</th>
-                <th class="center">T actual</th>
-                <th class="center">Cambio (Δ)</th>
+                <th scope="col">Código</th><th scope="col">Escala</th>
+                <th scope="col" class="center">T anterior</th>
+                <th scope="col" class="center">T actual</th>
+                <th scope="col" class="center">Cambio (Δ)</th>
               </tr></thead>
               <tbody>${rows}</tbody>
             </table>
@@ -2107,7 +2208,7 @@ const Report = {
       const sorted = scales.slice().sort((a, b) => (a.code || '').localeCompare(b.code || ''));
       const rows = sorted.map(s => {
         const tNum = typeof s.t === 'number';
-        const tDisplay = tNum ? (s.tDisplay || (s.tDirection ? `${s.t}${s.tDirection}` : s.t)) : (s.t == null ? '—' : 'N/D');
+        const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
         const pdDisplay = (s.pd != null) ? s.pd : '—';
         const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
         const band = s.band ? s.band.label : '—';
@@ -2197,11 +2298,11 @@ const Report = {
           <div class="table-container">
             <table class="data-table analysis-table">
               <thead><tr>
-                <th>Código</th><th>Escala</th>
-                <th class="center">PD</th><th class="center">PD+K</th>
-                <th class="center">T</th><th class="center">Banda</th>
-                <th class="center">Nivel</th><th>Interpretación</th>
-                ${hasPrev ? '<th class="center">Δ vs previo</th>' : ''}
+                <th scope="col">Código</th><th scope="col">Escala</th>
+                <th scope="col" class="center">PD</th><th scope="col" class="center">PD+K</th>
+                <th scope="col" class="center">T</th><th scope="col" class="center">Banda</th>
+                <th scope="col" class="center">Nivel</th><th scope="col">Interpretación</th>
+                ${hasPrev ? '<th scope="col" class="center">Δ vs previo</th>' : ''}
               </tr></thead>
               <tbody>${groupSections}</tbody>
             </table>

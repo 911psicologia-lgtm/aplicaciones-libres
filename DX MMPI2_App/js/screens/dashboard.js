@@ -23,7 +23,7 @@ const Dashboard = {
           <div class="topbar-title">MMPI-2 · Panel principal</div>
           <div class="topbar-actions">
             <button class="btn btn-primary btn-sm" id="dash-new">+ Nuevo caso</button>
-            <button class="hamburger-btn" id="ham-btn" aria-label="Menú"><span></span><span></span><span></span></button>
+            <button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
           </div>
         </div>
 
