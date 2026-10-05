@@ -54,11 +54,10 @@ const Case = {
                   <div class="form-field">
                     <label class="form-label">Baremo (país) <span class="required">*</span></label>
                     <select id="p-country" class="form-select">
-                      <option value="MX" ${p.country === 'MX' ? 'selected' : ''}>México (Lucio, Reyes-Lagunes & Scott)</option>
-                      <option value="US" ${p.country === 'US' || (p.country !== 'ES' && p.country !== 'MX') ? 'selected' : ''}>Estados Unidos (Minnesota N=2.600)</option>
+                      <option value="US" ${p.country !== 'ES' ? 'selected' : ''}>Estados Unidos (Minnesota N=2.600) — Recomendado para Latinoamérica</option>
                       <option value="ES" ${p.country === 'ES' ? 'selected' : ''}>España (TEA Ediciones, N=500)</option>
                     </select>
-                    <span class="form-hint">MX = Lucio et al. (1994); US = Minnesota original; ES = TEA España</span>
+                    <span class="form-hint">El baremo EE.UU. es el utilizado en Argentina y México según Silin & Sanz</span>
                   </div>
                   <div class="form-field">
                     <label class="form-label">Contexto de evaluación</label>
