@@ -403,8 +403,7 @@
         542,
         "F"
       ]
-    ],
-    "description": "67 pairs. Add 1 point for each matching pair."
+    ]
   },
   "TRIN": {
     "add_pairs": [
@@ -549,7 +548,6 @@
         "F"
       ]
     ],
-    "constant": 9,
-    "description": "14 add pairs + 9 subtract pairs + add 9 to total."
+    "constant": 9
   }
 }

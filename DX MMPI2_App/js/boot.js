@@ -1,22 +1,27 @@
+/* ============================================
+   boot.js — Carga inicial de datos (V3 · FAIL-CLOSED)
+   Se ejecuta antes que los demás scripts para poblar
+   window.__ITEMS__, window.__BAREMOS_ES__, window.__BAREMOS_US__,
+   window.__CRITERIOS__. NO hay window.__BAREMOS__ global mutable.
+   ============================================ */
+
 window.__DATA_LOADED__ = false;
 
 async function loadData() {
-  const fetchJson = (url) => fetch(url).then(r => r.json());
-  const [items, baremosES, baremosUS, baremosMX, criterios, vrinTrin] = await Promise.all([
-    fetchJson('data/items.json'),
-    fetchJson('data/baremos.json'),
-    fetchJson('data/baremo_us.json'),
-    fetchJson('data/baremo_mx.json').catch(() => ({})),
-    fetchJson('data/criterios.json'),
-    fetchJson('data/vrin_trin_pairs.json').catch(() => ({})),
+  const [items, baremosES, baremosUS, criterios] = await Promise.all([
+    fetch('data/items.json').then(r => r.json()),
+    fetch('data/baremos.json').then(r => r.json()),
+    fetch('data/baremo_us.json').then(r => r.json()),
+    fetch('data/criterios.json').then(r => r.json()),
   ]);
   window.__ITEMS__ = items;
+  // V3 · FAIL-CLOSED: NO hay global __BAREMOS__ mutable.
+  // lookupT toma country como parámetro y selecciona entre ES y US.
   window.__BAREMOS_ES__ = baremosES;
   window.__BAREMOS_US__ = baremosUS;
-  window.__BAREMOS_MX__ = baremosMX;
   window.__CRITERIOS__ = criterios;
-  if (window.MMPI2) window.MMPI2.VRIN_TRIN_PAIRS = vrinTrin;
   window.__DATA_LOADED__ = true;
+  // Notificar que los datos están listos
   document.dispatchEvent(new CustomEvent('data:ready'));
 }
 
