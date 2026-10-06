@@ -130,10 +130,42 @@ const MMPI2 = {
     return this.SCALE_ITEMS;
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- Calcular PD directa por escala (FAIL-CLOSED) ----
      Devuelve null si la escala NO tiene ítems claveados.
      NUNCA convierte undefined/missing a 0. */
   computePD(scaleCode, responses) {
+    if (scaleCode === "VRIN" || scaleCode === "TRIN") return this._computeVRINorTRIN(scaleCode, responses);
     const items = this.SCALE_ITEMS?.[scaleCode];
     if (!Array.isArray(items) || items.length === 0) return null;
     let pd = 0;
@@ -147,6 +179,68 @@ const MMPI2 = {
       // resp null/undefined → 0 (omisión: no suma)
     }
     return pd;
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Calcular todas las PDs (FAIL-CLOSED) ----
@@ -178,10 +272,73 @@ const MMPI2 = {
     return results;
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- ¿Está una escala bloqueada para el país indicado? ---- */
   isOnlineScale(scaleCode, country) {
     if (country === 'US') return this.ONLINE_SCALES_US.has(scaleCode);
+    if (country === 'MX') return false;
     return this.ONLINE_SCALES_ES.has(scaleCode);
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Mensaje para escalas sin T disponible ---- */
@@ -192,10 +349,73 @@ const MMPI2 = {
     return 'Escala española vigente (4.ª ed. 2019). Conversión PD→T requiere TEAcorrige. No se ha publicado matriz completa en extracto abierto.';
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- Selecciona el baremo correspondiente al país ---- */
   _getBaremos(country) {
     if (country === 'US') return window.__BAREMOS_US__ || {};
+    if (country === 'MX') return window.__BAREMOS_MX__ || {};
     return window.__BAREMOS_ES__ || {};
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Lookup T por sexo y país (FAIL-CLOSED)
@@ -220,7 +440,8 @@ const MMPI2 = {
     if (!scaleBaremo) {
       return { t: null, status: S.T_NO_DISPONIBLE };
     }
-    const sexData = scaleBaremo[sex];
+    const bs = this._translateSex(sex, country);
+    const sexData = scaleBaremo[bs] || scaleBaremo["M"] || scaleBaremo["F"] || scaleBaremo["H"];
     if (!sexData) {
       return { t: null, status: S.T_NO_DISPONIBLE };
     }
@@ -235,6 +456,37 @@ const MMPI2 = {
       return { t: null, status: S.PD_FUERA_DE_TABLA };
     }
     return { t: tVal, status: S.T_DOCUMENTADA };
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Calcular T para todas las escalas (FAIL-CLOSED) ---- */
@@ -261,11 +513,42 @@ const MMPI2 = {
     return results;
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- Calcular todo (PD + K + T) — country OBLIGATORIO ---- */
   async computeAll(responses, sex, country) {
     await this.init();
     // Validación estricta: country es obligatorio
-    if (country !== 'ES' && country !== 'US') {
+    if (country !== 'ES' && country !== 'US' && country !== 'MX') {
       throw new Error('computeAll: country es obligatorio (\'ES\' o \'US\')');
     }
     if (sex !== 'H' && sex !== 'M') {
@@ -294,6 +577,37 @@ const MMPI2 = {
     return results;
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- Determinar banda por T ---- */
   getBand(t) {
     if (t === null || t === undefined || typeof t !== 'number') return null;
@@ -302,6 +616,37 @@ const MMPI2 = {
     if (t >= 56) return { label: 'Promedio-Superior (56-59)', color: 't-mod-high', level: 3 };
     if (t >= 40) return { label: 'Modal (40-55)', color: 't-modal', level: 2 };
     return { label: 'Bajo (≤39)', color: 't-low', level: 1 };
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Obtener texto interpretativo por banda ---- */
@@ -335,6 +680,37 @@ const MMPI2 = {
       }
     }
     return 'Texto interpretativo no disponible';
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 
   /* ---- Puerta de validez del protocolo ----
@@ -380,6 +756,37 @@ const MMPI2 = {
     return { status, reasons };
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
   /* ---- Síntesis narrativa automática ---- */
   buildNarrative(results, patientName, age, sex, country) {
     const sexLabel = sex === 'M' ? 'mujer' : (sex === 'H' ? 'varón' : 'sexo no especificado');
@@ -416,6 +823,37 @@ const MMPI2 = {
     narrative += `Baremo utilizado: ${countryLabel}. `;
     narrative += 'Revise el detalle por escala en las tablas siguientes y las configuraciones clínicas del perfil para un análisis integrado.';
     return narrative;
+  },
+
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
   },
 };
 

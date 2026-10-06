@@ -51,7 +51,7 @@ const Report = {
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     // FAIL-CLOSED: el país viene siempre del paciente (no de estado global)
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
     const countryLabel = country === 'US'
       ? 'EE. UU. (Minnesota N=2.600) — recomendado para Latinoamérica'
       : 'España (TEA Ediciones, N=500, 4.ª ed. 2019)';
@@ -1666,7 +1666,7 @@ const Report = {
       return;
     }
     if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
-    const country = newCountry === 'ES' ? 'ES' : 'US';
+    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');
@@ -1783,7 +1783,7 @@ const Report = {
     const p = cur.patient || {};
     const ev = Storage.getEvaluator() || {};
     const R = cur.results;
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota N=2.600)' : 'España (TEA Ediciones, 4.ª ed. 2019)';
 
     // Dibujar el perfil en un canvas off-screen (alto nivel de detalle para impresión)
@@ -2086,7 +2086,7 @@ const Report = {
     ctx.stroke();
     legendY += 16;
     const p = (Storage.getCurrentCase() || {}).patient || {};
-    const country = (p.country === 'ES' || p.country === 'US') ? p.country : 'ES';
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA)';
     ctx.font = '10px Arial';
     ctx.fillStyle = '#6B7280';
