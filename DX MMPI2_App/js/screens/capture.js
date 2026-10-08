@@ -406,7 +406,7 @@ Columna A  | Columna B
     try {
       // FAIL-CLOSED: country es obligatorio y viene del paciente
       const country = (cur.patient.country === 'ES' || cur.patient.country === 'US' || cur.patient.country === 'MX')
-        ? cur.patient.country : 'US';
+        ? cur.patient.country : 'ES';
       const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, country);
       // Anotar omisiones en results._meta para assessValidity()
       const omissions = this._responses.filter(r => r === null).length;
@@ -421,17 +421,7 @@ Columna A  | Columna B
       setTimeout(() => App.navigate('report'), 400);
     } catch (err) {
       console.error(err);
-      let msg = 'No se pudieron procesar los resultados. ';
-      if (err.message && err.message.includes('country')) {
-        msg += 'Verifica que el caso tenga un baremo seleccionado (MX, US o ES).';
-      } else if (err.message && err.message.includes('sex')) {
-        msg += 'Verifica que el sexo del paciente esté especificado.';
-      } else if (!window.MMPI2) {
-        msg += 'El motor de cálculo no se cargó correctamente. Recarga la página.';
-      } else {
-        msg += 'Verifica que las respuestas estén completas y que el motor MMPI-2 esté cargado.';
-      }
-      window.toast(msg, 'error', 6000);
+      window.toast('Error al procesar: ' + err.message, 'error');
     }
   },
 

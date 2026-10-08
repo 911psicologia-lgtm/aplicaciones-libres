@@ -130,10 +130,43 @@ const MMPI2 = {
     return this.SCALE_ITEMS;
   },
 
+  _computeVRINorTRIN(scaleCode, responses) {
+    if (!this.VRIN_TRIN_PAIRS && window.__VRIN_TRIN_PAIRS__) this.VRIN_TRIN_PAIRS = window.__VRIN_TRIN_PAIRS__;
+    if (!this.VRIN_TRIN_PAIRS) return null;
+    const pd = this.VRIN_TRIN_PAIRS[scaleCode];
+    if (!pd) return null;
+    let score = 0;
+    const chk = (i1, d1, i2, d2) => {
+      const r1 = responses?.[i1-1], r2 = responses?.[i2-1];
+      if (r1 == null || r2 == null) return false;
+      const c1 = (r1===1)?'V':(r1===2)?'F':null;
+      const c2 = (r2===1)?'V':(r2===2)?'F':null;
+      return c1===d1 && c2===d2;
+    };
+    if (scaleCode === 'VRIN') {
+      for (const [i1,d1,i2,d2] of (pd.pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+    } else if (scaleCode === 'TRIN') {
+      for (const [i1,d1,i2,d2] of (pd.add_pairs||[])) if (chk(i1,d1,i2,d2)) score++;
+      for (const [i1,d1,i2,d2] of (pd.subtract_pairs||[])) if (chk(i1,d1,i2,d2)) score--;
+      score += (pd.constant||0);
+    }
+    return score;
+  },
+
+  _translateSex(sex, country) {
+    if (country === 'US' || country === 'MX') {
+      if (sex === 'H') return 'M';
+      if (sex === 'M') return 'F';
+    }
+    return sex;
+  },
+
+
   /* ---- Calcular PD directa por escala (FAIL-CLOSED) ----
      Devuelve null si la escala NO tiene ítems claveados.
      NUNCA convierte undefined/missing a 0. */
   computePD(scaleCode, responses) {
+    if (scaleCode === "VRIN" || scaleCode === "TRIN") return this._computeVRINorTRIN(scaleCode, responses);
     const items = this.SCALE_ITEMS?.[scaleCode];
     if (!Array.isArray(items) || items.length === 0) return null;
     let pd = 0;
@@ -181,20 +214,21 @@ const MMPI2 = {
   /* ---- ¿Está una escala bloqueada para el país indicado? ---- */
   isOnlineScale(scaleCode, country) {
     if (country === 'US') return this.ONLINE_SCALES_US.has(scaleCode);
+    if (country === 'MX') return false;
     return this.ONLINE_SCALES_ES.has(scaleCode);
   },
 
   /* ---- Mensaje para escalas sin T disponible ---- */
   getOnlineMessage(scaleCode, country) {
-    if (country === 'US') {
-      return 'PD calculada. Conversión a T no disponible en el baremo extraído; utilice el sistema de corrección oficial de Minnesota (Pearson Assessments).';
-    }
-    return 'Escala española vigente (4.ª ed. 2019). Conversión PD→T requiere TEAcorrige. No se ha publicado matriz completa en extracto abierto.';
+    if (country === 'US') return 'PD calculada. Conversión a T no disponible en el baremo extraído.';
+    if (country === 'MX') return 'PD calculada. Conversión a T no disponible en el baremo mexicano.';
+    return 'Escala española vigente. Conversión PD→T requiere TEAcorrige.';
   },
 
   /* ---- Selecciona el baremo correspondiente al país ---- */
   _getBaremos(country) {
     if (country === 'US') return window.__BAREMOS_US__ || {};
+    if (country === 'MX') return window.__BAREMOS_MX__ || {};
     return window.__BAREMOS_ES__ || {};
   },
 
@@ -206,34 +240,27 @@ const MMPI2 = {
      - Si todo OK → {t:<number>, status:T_DOCUMENTADA}            ---- */
   lookupT(scaleCode, pd, sex, country) {
     const S = this.STATUS;
-    // 1. CLAVE_NO_DISPONIBLE
-    if (pd == null) {
-      return { t: null, status: S.CLAVE_NO_DISPONIBLE };
-    }
-    // 2. Escala online (sin T pública en este baremo)
-    if (this.isOnlineScale(scaleCode, country)) {
-      return { t: this.getOnlineMessage(scaleCode, country), status: 'ES-ONLINE' };
-    }
-    // 3. Baremo no cargado o sin esta escala
+    if (pd == null) return { t: null, status: S.CLAVE_NO_DISPONIBLE };
+    if (this.isOnlineScale(scaleCode, country)) return { t: this.getOnlineMessage(scaleCode, country), status: 'ES-ONLINE' };
     const baremos = this._getBaremos(country);
-    const scaleBaremo = baremos?.[scaleCode];
-    if (!scaleBaremo) {
-      return { t: null, status: S.T_NO_DISPONIBLE };
-    }
-    const sexData = scaleBaremo[sex];
-    if (!sexData) {
-      return { t: null, status: S.T_NO_DISPONIBLE };
-    }
-    // 4. PD_FUERA_DE_TABLA: si la PD exacta no está en la tabla del baremo
-    //    (no se aproxima silenciosamente)
+    const sb = baremos?.[scaleCode];
+    if (!sb) return { t: null, status: S.T_NO_DISPONIBLE };
     const pdKey = String(pd);
-    if (!Object.prototype.hasOwnProperty.call(sexData, pdKey)) {
-      return { t: null, status: S.PD_FUERA_DE_TABLA };
+    const lkIn = (sk) => {
+      const d = sb[sk];
+      if (!d || typeof d !== 'object') return null;
+      if (!Object.prototype.hasOwnProperty.call(d, pdKey)) return null;
+      const t = d[pdKey];
+      return (typeof t === 'number' && isFinite(t)) ? t : null;
+    };
+    const bs = this._translateSex(sex, country);
+    let tVal = lkIn(bs);
+    if (tVal === null) {
+      for (const alt of ['M','F','H']) {
+        if (alt !== bs) { tVal = lkIn(alt); if (tVal !== null) break; }
+      }
     }
-    const tVal = sexData[pdKey];
-    if (typeof tVal !== 'number' || !isFinite(tVal)) {
-      return { t: null, status: S.PD_FUERA_DE_TABLA };
-    }
+    if (tVal === null) return { t: null, status: S.PD_FUERA_DE_TABLA };
     return { t: tVal, status: S.T_DOCUMENTADA };
   },
 
@@ -265,7 +292,7 @@ const MMPI2 = {
   async computeAll(responses, sex, country) {
     await this.init();
     // Validación estricta: country es obligatorio
-    if (country !== 'ES' && country !== 'US') {
+    if (country !== 'ES' && country !== 'US' && country !== 'MX') {
       throw new Error('computeAll: country es obligatorio (\'ES\' o \'US\')');
     }
     if (sex !== 'H' && sex !== 'M') {
