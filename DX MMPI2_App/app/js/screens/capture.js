@@ -42,9 +42,18 @@ const Capture = {
         </div>
 
         <div class="capture-toolbar">
-          <div class="capture-progress">
-            <span id="cap-count" style="font-size:13px;font-weight:600;color:var(--color-primary-dark);min-width:80px">0 / ${this._totalItems}</span>
-            <div class="progress-bar"><div class="progress-bar-fill" id="cap-progress" style="width:0%"></div></div>
+          <div class="capture-progress" style="flex:1">
+            <div class="progress-info" style="display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:4px">
+              <span id="cap-count" style="font-weight:700;color:var(--color-primary-dark)">0 / ${this._totalItems}</span>
+              <span id="cap-percent" style="color:var(--color-text-muted)">0%</span>
+              <span id="cap-save-status" style="color:var(--color-text-muted);font-size:11px">—</span>
+            </div>
+            <div class="progress-bar" style="height:8px;background:var(--color-bg);border-radius:4px;overflow:hidden">
+              <div class="progress-bar-fill" id="cap-progress" style="width:0%;background:linear-gradient(90deg,var(--color-primary),var(--color-primary-dark));transition:width 0.2s ease;height:100%"></div>
+            </div>
+            <div class="progress-milestones" style="display:flex;justify-content:space-between;font-size:10px;color:var(--color-text-muted);margin-top:3px">
+              <span>1</span><span>100</span><span>200</span><span>300</span><span>400</span><span>500</span><span>567</span>
+            </div>
           </div>
           <div class="flex gap-8">
             <button class="btn btn-secondary btn-sm" id="mode-test">Aplicar test</button>
@@ -377,10 +386,34 @@ Columna A  | Columna B
   _updateProgress() {
     const total = this._totalItems;
     const done = this._responses.filter(r => r !== null).length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
     const elCount = document.getElementById('cap-count');
+    const elPct = document.getElementById('cap-percent');
     const elBar = document.getElementById('cap-progress');
     if (elCount) elCount.textContent = `${done} / ${total}`;
-    if (elBar) elBar.style.width = `${(done / total) * 100}%`;
+    if (elPct) elPct.textContent = `${pct}%`;
+    if (elBar) elBar.style.width = `${pct}%`;
+    // Cambiar color cuando se completa
+    if (elBar) {
+      if (done === total) elBar.style.background = 'linear-gradient(90deg,#28a745,#1e7e34)';
+      else if (done >= total * 0.8) elBar.style.background = 'linear-gradient(90deg,#17a2b8,#117a8b)';
+      else elBar.style.background = 'linear-gradient(90deg,var(--color-primary),var(--color-primary-dark))';
+    }
+  },
+
+  _showSavedIndicator() {
+    const el = document.getElementById('cap-save-status');
+    if (!el) return;
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    el.textContent = `✓ Guardado ${hh}:${mm}`;
+    el.style.color = 'var(--color-success)';
+    // Limpiar después de 3s para que no se quede estático
+    clearTimeout(this._saveStatusTimer);
+    this._saveStatusTimer = setTimeout(() => {
+      if (el) { el.textContent = '—'; el.style.color = 'var(--color-text-muted)'; }
+    }, 3000);
   },
 
   _persist() {
@@ -389,8 +422,15 @@ Columna A  | Columna B
     cur.responses = this._responses.slice();
     cur.captureMode = this._mode === 'excel' ? 'Excel' : 'Test interactivo';
     cur.updatedAt = new Date().toISOString();
-    Storage.saveCase(cur);
-    Storage.setCurrentCase(cur);
+    try {
+      Storage.saveCase(cur);
+      Storage.setCurrentCase(cur);
+      this._showSavedIndicator();
+    } catch (e) {
+      console.error('Error persistiendo:', e);
+      const el = document.getElementById('cap-save-status');
+      if (el) { el.textContent = '⚠ Error guardando'; el.style.color = 'var(--color-danger)'; }
+    }
   },
 
   async _finish() {
@@ -406,7 +446,7 @@ Columna A  | Columna B
     try {
       // FAIL-CLOSED: country es obligatorio y viene del paciente
       const country = (cur.patient.country === 'ES' || cur.patient.country === 'US' || cur.patient.country === 'MX')
-        ? cur.patient.country : 'US';
+        ? cur.patient.country : 'ES';
       const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, country);
       // Anotar omisiones en results._meta para assessValidity()
       const omissions = this._responses.filter(r => r === null).length;
@@ -421,17 +461,7 @@ Columna A  | Columna B
       setTimeout(() => App.navigate('report'), 400);
     } catch (err) {
       console.error(err);
-      let msg = 'No se pudieron procesar los resultados. ';
-      if (err.message && err.message.includes('country')) {
-        msg += 'Verifica que el caso tenga un baremo seleccionado (MX, US o ES).';
-      } else if (err.message && err.message.includes('sex')) {
-        msg += 'Verifica que el sexo del paciente esté especificado.';
-      } else if (!window.MMPI2) {
-        msg += 'El motor de cálculo no se cargó correctamente. Recarga la página.';
-      } else {
-        msg += 'Verifica que las respuestas estén completas y que el motor MMPI-2 esté cargado.';
-      }
-      window.toast(msg, 'error', 6000);
+      window.toast('Error al procesar: ' + err.message, 'error');
     }
   },
 

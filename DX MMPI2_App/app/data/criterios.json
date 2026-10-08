@@ -1,0 +1,3039 @@
+{
+  "L": {
+    "description": "",
+    "bands_H": [
+      [
+        80,
+        200,
+        "Muy Alto (≥80)",
+        "Probablemente inválido. Finge un buen ajuste. Resistencia al test o ingenuidad. Negación de faltas."
+      ],
+      [
+        70,
+        79,
+        "Alto (70-79)",
+        "Validez cuestionable. Respuestas al azar. Negación de faltas. Estado confusional. Estilo represivo. Falta de insight."
+      ],
+      [
+        60,
+        69,
+        "Promedio-Superior (60-69)",
+        "Probablemente válido. Configuración defensiva. Sobre-convencionalismo y conformismo. Moralismo. Rígidamente virtuoso."
+      ],
+      [
+        50,
+        59,
+        "Modal (50-59)",
+        "Válido. Acercamiento típico a la situación de test. Comodidad con la propia autoimagen."
+      ],
+      [
+        0,
+        49,
+        "Bajo (≤49)",
+        "Posiblemente finge estar mal. Todas las respuestas verdaderas. Preocupación excesiva por lo patológico. Autoconfianza e independencia. Cínico, sarcástico."
+      ],
+      [
+        60,
+        69,
+        "Promedio-Superior (60-69)",
+        "Probablemente válido. Configuración defensiva. Sobre-convencionalismo y conformismo. Moralismo. Rígidamente virtuosa."
+      ],
+      [
+        0,
+        49,
+        "Bajo (≤49)",
+        "Posiblemente finge estar mal. Todas las respuestas verdaderas. Preocupación excesiva por lo patológico. Autoconfianza e independencia. Cínica, sarcástica."
+      ]
+    ],
+    "bands_M": [
+      [
+        80,
+        200,
+        "Muy Alto (≥80)",
+        "Probablemente inválido. Finge un buen ajuste. Resistencia al test o ingenuidad. Negación de faltas."
+      ],
+      [
+        70,
+        79,
+        "Alto (70-79)",
+        "Validez cuestionable. Respuestas al azar. Negación de faltas. Estado confusional. Estilo represivo. Falta de insight."
+      ],
+      [
+        60,
+        69,
+        "Promedio-Superior (60-69)",
+        "Probablemente válido. Configuración defensiva. Sobre-convencionalismo y conformismo. Moralismo. Rígidamente virtuoso."
+      ],
+      [
+        50,
+        59,
+        "Modal (50-59)",
+        "Válido. Acercamiento típico a la situación de test. Comodidad con la propia autoimagen."
+      ],
+      [
+        0,
+        49,
+        "Bajo (≤49)",
+        "Posiblemente finge estar mal. Todas las respuestas verdaderas. Preocupación excesiva por lo patológico. Autoconfianza e independencia. Cínico, sarcástico."
+      ],
+      [
+        60,
+        69,
+        "Promedio-Superior (60-69)",
+        "Probablemente válido. Configuración defensiva. Sobre-convencionalismo y conformismo. Moralismo. Rígidamente virtuosa."
+      ],
+      [
+        0,
+        49,
+        "Bajo (≤49)",
+        "Posiblemente finge estar mal. Todas las respuestas verdaderas. Preocupación excesiva por lo patológico. Autoconfianza e independencia. Cínica, sarcástica."
+      ]
+    ]
+  },
+  "F": {
+    "description": "",
+    "bands_H": [
+      [
+        91,
+        200,
+        "Muy Alto (≥91)",
+        "Probablemente inválido. Respuestas al azar. Errores de puntuación. Dislexia severa. No cooperativo, finge que está mal. Habilidades marginales de lectura. Resistencia al test."
+      ],
+      [
+        71,
+        90,
+        "Alto (71-90)",
+        "Validez cuestionable. Fingir enfermedad. Procesos psicóticos. Todas las respuestas verdaderas. Pedido de ayuda. Crisis de identidad en la adolescencia. Estado confusional."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Probablemente válido. Deseo de ser no convencional. Compromisos políticos, sociales o religiosos muy fuertes. Retardo en la atención. Extremada honestidad al responder. Agitación en medio de una crisis. Riesgo de acting-out agresivo. Irritabilidad, inquietud, inestabilidad. Psicopatología moderadamente severa. Autocrítico. Agitado, distraído."
+      ],
+      [
+        45,
+        55,
+        "Modal (45-55)",
+        "Protocolo aceptable. Creencias un poco desviadas. Buen funcionamiento. Respuesta típica al test."
+      ],
+      [
+        0,
+        44,
+        "Bajo (≤44)",
+        "Protocolo aceptable. Conformidad. Posiblemente finge estar bien. Convencional. Sincero. Conforme socialmente."
+      ],
+      [
+        91,
+        200,
+        "Muy Alto (≥91)",
+        "Probablemente inválido. Respuestas al azar. Errores de puntuación. Dislexia severa. No cooperativa, finge que está mal. Habilidades marginales de lectura. Resistencia al test."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Probablemente válido. Deseo de ser no convencional. Compromisos políticos, sociales o religiosos muy fuertes. Retardo en la atención. Extremada honestidad al responder. Agitación en medio de una crisis. Riesgo de acting-out agresivo. Irritabilidad, inquietud, inestabilidad. Psicopatología moderadamente severa. Autocrítica. Agitada, distraída."
+      ],
+      [
+        0,
+        44,
+        "Bajo (≤44)",
+        "Protocolo aceptable. Conformidad. Posiblemente finge estar bien. Convencional. Sincera. Conforme socialmente."
+      ]
+    ],
+    "bands_M": [
+      [
+        91,
+        200,
+        "Muy Alto (≥91)",
+        "Probablemente inválido. Respuestas al azar. Errores de puntuación. Dislexia severa. No cooperativo, finge que está mal. Habilidades marginales de lectura. Resistencia al test."
+      ],
+      [
+        71,
+        90,
+        "Alto (71-90)",
+        "Validez cuestionable. Fingir enfermedad. Procesos psicóticos. Todas las respuestas verdaderas. Pedido de ayuda. Crisis de identidad en la adolescencia. Estado confusional."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Probablemente válido. Deseo de ser no convencional. Compromisos políticos, sociales o religiosos muy fuertes. Retardo en la atención. Extremada honestidad al responder. Agitación en medio de una crisis. Riesgo de acting-out agresivo. Irritabilidad, inquietud, inestabilidad. Psicopatología moderadamente severa. Autocrítico. Agitado, distraído."
+      ],
+      [
+        45,
+        55,
+        "Modal (45-55)",
+        "Protocolo aceptable. Creencias un poco desviadas. Buen funcionamiento. Respuesta típica al test."
+      ],
+      [
+        0,
+        44,
+        "Bajo (≤44)",
+        "Protocolo aceptable. Conformidad. Posiblemente finge estar bien. Convencional. Sincero. Conforme socialmente."
+      ],
+      [
+        91,
+        200,
+        "Muy Alto (≥91)",
+        "Probablemente inválido. Respuestas al azar. Errores de puntuación. Dislexia severa. No cooperativa, finge que está mal. Habilidades marginales de lectura. Resistencia al test."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Probablemente válido. Deseo de ser no convencional. Compromisos políticos, sociales o religiosos muy fuertes. Retardo en la atención. Extremada honestidad al responder. Agitación en medio de una crisis. Riesgo de acting-out agresivo. Irritabilidad, inquietud, inestabilidad. Psicopatología moderadamente severa. Autocrítica. Agitada, distraída."
+      ],
+      [
+        0,
+        44,
+        "Bajo (≤44)",
+        "Protocolo aceptable. Conformidad. Posiblemente finge estar bien. Convencional. Sincera. Conforme socialmente."
+      ]
+    ]
+  },
+  "K": {
+    "description": "",
+    "bands_H": [
+      [
+        71,
+        200,
+        "Alto (≥71)",
+        "Marcadamente defensivo. Finge que está bien. Todas las respuestas falsas. Estado de defensa en situaciones de empleo. Timidez, inhibición, falta de compromiso emocional. Confianza en la negación. Falta de insight."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Moderadamente defensivo. No reconocimiento del estrés. Adaptado. Con autoconfianza. Sin intención de buscar ayuda."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Equilibrio entre la auto-protección y la auto-revelación. Recursos suficientes para una intervención."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Respuestas para fingir que se está mal. Todas las respuestas verdaderas. Pedido de ayuda. Defensas inadecuadas. Cinismo, escepticismo. Estado de pánico. Pobreza de autoconcepto. Crítico de sí mismo y de los otros."
+      ],
+      [
+        71,
+        200,
+        "Alto (≥71)",
+        "Marcadamente defensiva. Finge que está bien. Todas las respuestas falsas. Estado de defensa en situaciones de empleo. Timidez, inhibición, falta de compromiso emocional. Confianza en la negación. Falta de insight."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Moderadamente defensiva. No reconocimiento del estrés. Adaptada. Con autoconfianza. Sin intención de buscar ayuda."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Respuestas para fingir que se está mal. Todas las respuestas verdaderas. Pedido de ayuda. Defensas inadecuadas. Cinismo, escepticismo. Estado de pánico. Pobreza de autoconcepto. Crítica de sí misma y de los otros."
+      ]
+    ],
+    "bands_M": [
+      [
+        71,
+        200,
+        "Alto (≥71)",
+        "Marcadamente defensivo. Finge que está bien. Todas las respuestas falsas. Estado de defensa en situaciones de empleo. Timidez, inhibición, falta de compromiso emocional. Confianza en la negación. Falta de insight."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Moderadamente defensivo. No reconocimiento del estrés. Adaptado. Con autoconfianza. Sin intención de buscar ayuda."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Equilibrio entre la auto-protección y la auto-revelación. Recursos suficientes para una intervención."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Respuestas para fingir que se está mal. Todas las respuestas verdaderas. Pedido de ayuda. Defensas inadecuadas. Cinismo, escepticismo. Estado de pánico. Pobreza de autoconcepto. Crítico de sí mismo y de los otros."
+      ],
+      [
+        71,
+        200,
+        "Alto (≥71)",
+        "Marcadamente defensiva. Finge que está bien. Todas las respuestas falsas. Estado de defensa en situaciones de empleo. Timidez, inhibición, falta de compromiso emocional. Confianza en la negación. Falta de insight."
+      ],
+      [
+        56,
+        70,
+        "Promedio-Superior (56-70)",
+        "Moderadamente defensiva. No reconocimiento del estrés. Adaptada. Con autoconfianza. Sin intención de buscar ayuda."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Respuestas para fingir que se está mal. Todas las respuestas verdaderas. Pedido de ayuda. Defensas inadecuadas. Cinismo, escepticismo. Estado de pánico. Pobreza de autoconcepto. Crítica de sí misma y de los otros."
+      ]
+    ]
+  },
+  "Hs": {
+    "description": "Escala 1 (Hs) de Hipocondría: mide preocupación excesiva por funciones corporales. Desarrollada con pacientes neuróticos hipocondríacos. Diferencia entre verdadera enfermedad física y alteración hipocondríaca.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Esquizoide; comportamiento bizarro o alucinaciones somáticas. Inmovilizado por múltiples síntomas y quejas."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Exageración ante cualquier problema real. Autocentramiento y egoísmo extremo. Mordaz. Apariencia cínica, demandante. Actitudes derrotistas. Pesimista. Exageración de problemas físicos. Cambiante. Quejas múltiples."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Puede tener un desorden orgánico específico. Quejumbroso, irritable. Preocupación exagerada por la salud personal, por la dieta, el peso y funcionamiento corporal."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Preocupación pequeña y no específica acerca del cuerpo o salud. Emocionalmente abierto y equilibrado. Realista y contactado con sus emociones."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Puede pasar por alto signos o síntomas de enfermedad. Optimista, vigoroso. Capaz, efectivo."
+      ]
+    ]
+  },
+  "D": {
+    "description": "Escala 2 (D) de Depresión: mide depresión sintomática (estado de ánimo bajo, pérdida de esperanza, insatisfacción). Subescalas Harris-Lingoes: D1 Depresión subjetiva, D2 Retardo psicomotor, D3 Problemas físicos, D4 Inhibición mental, D5 Rumiación.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Retirado, agobiado con problemas, desesperanza. Culposo, sentimientos de desvalorización e inadecuación. Preocupación por la muerte, suicidio. Desánimo, pensamiento y accionar enlentecido."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Retirado, tímido, distante. Tristeza. Falta de energía. Incapacidad de concentración, quejas físicas, problemas con los ritmos de sueño. Auto-depreciación, baja confianza en sí mismo, sentimiento de inadecuación. Estresado, miserable, disfórico."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Inhibido, irritable, tímido, malhumorado. Desanimado, melancólico, infeliz, insatisfecho consigo mismo y con el mundo. Pesimista, preocupado. Introvertido, moralista, responsable, modesto."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Conforme consigo mismo. Estable, bien balanceado. Realista."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Activo y entusiasta. Alegre, optimista. Carencia de inhibición, bajo control. Libre de agitación emocional, autoconfianza."
+      ]
+    ]
+  },
+  "Hy": {
+    "description": "Escala 3 (Hy) de Histeria: mide síntomas de conversión y somatización. Subescalas Harris-Lingoes: Hy1 Negación ansiedad social, Hy2 Necesidad afecto, Hy3 Lasitud-enfermedad, Hy4 Quejas somáticas, Hy5 Inhibición agresión.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Altamente sugestionable. Episodios súbitos de ansiedad y pánico. Desinhibido. Berrinches infantiles. Reacciones de vergüenza por el desarrollo de síntomas físicos."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Usos de negaciones y disociaciones. Síntomas funcionales específicos y quejas. Ingenuo, pobre autoconciencia. Demandante e histriónico. Coqueto."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Autocentrado y superficial. Inmaduro y manipulador. Conforme y moralista. Necesidad de aprobación, inseguro. Demostrativo y extrovertido."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Realista. Abierto a los sentimientos. Lógico, liderazgo."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Cínico, porfiado. Socialmente aislado y apartado. Pocos intereses."
+      ]
+    ]
+  },
+  "Pd": {
+    "description": "Escala 4 (Pd) de Desviación psicopática: mide rasgos antisociales. Subescalas Harris-Lingoes: Pd1 Discordia familiar, Pd2 Problemas autoridad, Pd3 Imperturbabilidad social, Pd4 Alienación social, Pd5 Autoalienación.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Juicio pobre. Inestable. Irresponsable. Autocentrado e inmaduro. Conductas antisociales. Agresivo o atacante."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Pobre tolerancia al aburrimiento o tedio. Problemas con la autoridad. Problemas maritales y laborales recurrentes. Rebelde y hostil. Reacciones emocionales superficiales (culpa, vergüenza). Abuso de sustancias. Historia de bajo nivel de logros. Relaciones superficiales."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Impulsivo y aventurero. Hedonista. Resentido. Desconfiado e impaciente. Sociable. Autoconfiado y asertivo. Imaginativo y creativo."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Sincero. Confiado. Perseverante. Responsable."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Convencional y rígido. No asertivo y pasivo. Moralista. Autocrítico. Sobrecontrolado."
+      ]
+    ]
+  },
+  "Mf": {
+    "description": "",
+    "bands_H": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Patrón de interés tradicionalmente femenino. Conflictos acerca de la identidad sexual. Pasivo y afeminado. Inseguro en asertividad. Tendencias homoeróticas."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Curioso y creativo. Tolerancia a los otros. Individualista. Intereses intelectuales. Empático."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Autocontrolado. Expresivo y demostrativo. Uso del sentido común. Intereses estéticos. Sensibilidad interpersonal."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Práctico. De trato fácil. Realista. Convencional."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Patrón de interés tradicionalmente masculino. Machista, crudo y agresivo. Temerario. Pocos intereses. Orientado a la acción. Autoconfiado."
+      ],
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Patrón de interés tradicionalmente masculino. No amistosa. Dominante. Agresiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Autoconfiada. Lógica. No emocional. Competitiva. Vigorosa."
+      ],
+      [
+        51,
+        59,
+        "Promedio-Superior (51-59)",
+        "Activa. Aventurera. Espontánea. Asertiva."
+      ],
+      [
+        41,
+        50,
+        "Modal (41-50)",
+        "Empática. Capaz. Competente. De trato fácil. Considerada. Idealista."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Patrón de interés tradicionalmente femenino. Insegura y autodepreciativa. Pasiva y sumisa. Falta de ayuda. Dependiente. Autocompasiva y quejas sobre sí misma. (Nota: mujeres con alto nivel educativo pueden describirse mejor como capaces, conscientes, fuertes, inteligentes, consideradas, de trato fácil, autoconscientes y desprejuiciadas)."
+      ]
+    ],
+    "bands_M": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Patrón de interés tradicionalmente femenino. Conflictos acerca de la identidad sexual. Pasivo y afeminado. Inseguro en asertividad. Tendencias homoeróticas."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Curioso y creativo. Tolerancia a los otros. Individualista. Intereses intelectuales. Empático."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Autocontrolado. Expresivo y demostrativo. Uso del sentido común. Intereses estéticos. Sensibilidad interpersonal."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Práctico. De trato fácil. Realista. Convencional."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Patrón de interés tradicionalmente masculino. Machista, crudo y agresivo. Temerario. Pocos intereses. Orientado a la acción. Autoconfiado."
+      ],
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Patrón de interés tradicionalmente masculino. No amistosa. Dominante. Agresiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Autoconfiada. Lógica. No emocional. Competitiva. Vigorosa."
+      ],
+      [
+        51,
+        59,
+        "Promedio-Superior (51-59)",
+        "Activa. Aventurera. Espontánea. Asertiva."
+      ],
+      [
+        41,
+        50,
+        "Modal (41-50)",
+        "Empática. Capaz. Competente. De trato fácil. Considerada. Idealista."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Patrón de interés tradicionalmente femenino. Insegura y autodepreciativa. Pasiva y sumisa. Falta de ayuda. Dependiente. Autocompasiva y quejas sobre sí misma. (Nota: mujeres con alto nivel educativo pueden describirse mejor como capaces, conscientes, fuertes, inteligentes, consideradas, de trato fácil, autoconscientes y desprejuiciadas)."
+      ]
+    ]
+  },
+  "Pa": {
+    "description": "Escala 6 (Pa) de Paranoia: mide sensibilidad interpersonal, ideas persecutorias, desconfianza. Subescalas Harris-Lingoes: Pa1 Ideas persecutorias, Pa2 Hiperestesia, Pa3 Ingenuidad.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Desorden de pensamiento. Creencias erradas. Ideas de referencia. Vengativo y rencoroso. Pueden actuar en concordancia con sus alucinaciones."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Airado y resentido. Desplazamiento de la responsabilidad y las críticas. Hostil y suspicaz. Rígido y terco. Malinterpretación de situaciones sociales."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Marcadamente sensible al desprecio y al rechazo. Defensivo en situaciones sociales iniciales. Moralista; se hace la víctima. Confiado hasta ser traicionado. Trabajo duro."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Racional. Claridad de pensamiento. Cauto. Flexible."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Balanceado y alegre. Prudente y evasivo. Despreciativo. Sospecha de trastorno paranoide."
+      ]
+    ]
+  },
+  "Pt": {
+    "description": "Escala 7 (Pt) de Psicastenia: mide patrón obsesivo-compulsivo, ansiedad generalizada. Llamada \"escala de la angustia\". Subescalas:Pt1 Ansiedad, Pt2 Pensamiento obsesivo, etc.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Rumiación. Rituales rígidos. Agitación. Fobias supersticiosas. Sentimientos de culpa. Temeroso. Ansiedad. Depresión."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Inseguridad y ansiedad. Preocupado y aprehensivo. Sentimientos de equivocación (de fallar). Marcadamente meticuloso e indeciso. Moralista. Tenso y miserable."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Responsable y consciente. Intelectualización. Trabajo duro. Ordenado y perfeccionista. Autocrítico. Introspectivo."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Puntual. Confiable. Confiado. Adaptable. Bien organizado."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Autoconfiado. Libre de inseguridades. Relajado y cómodo. Perseverante y eficiente."
+      ]
+    ]
+  },
+  "Sc": {
+    "description": "Escala 8 (Sc) de Esquizofrenia: mide amplio espectro de creencias extrañas y experiencias inusuales. Es la escala más compleja del MMPI; no diagnosticar esquizofrenia solo por esta escala. Subescalas Harris-Lingoes: Sc1 Alienación social, Sc2 Alienación emocional, Sc3-5 Pérdida control yo (cognitivo, conativo, inhibición), Sc6 Experiencias sensoriales bizarras.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Desorden de pensamiento. Conductas excéntricas. Socialmente excluido. Contacto pobre con la realidad. Alucinatorio y autista."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Creencias inusuales. Conductas bizarras. Retirado y alienado. No convencional. Dudas de sí mismo y confusión de identidad. Dificultades en la concentración y el pensamiento."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Poco interés por la gente. No práctico. Creativo e imaginativo. Preocupación religiosa."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Adaptable. Capaz de relacionarse con otros. Bien ajustado."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Convencional y conservador. Autocontrolado. Sumiso."
+      ]
+    ]
+  },
+  "Ma": {
+    "description": "Escala 9 (Ma) de Hipomanía: mide actividad, euforia, expansividad. T<35 indica depresión sin importar D. Subescalas Harris-Lingoes: Ma1 Amoralidad, Ma2 Hipercinesia, Ma3 Imperturbabilidad, Ma4 Hipertrofia del yo.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Expansivo. Grandiosidad. Irritable. Control pobre del temperamento. Hiperactivo. Distractibilidad. Decisiones impulsivas. Confusión."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Sobredimensionado. Actividad excesiva. Eufórico. Conversador. Incansable (sin descanso) y lábil. Compromisos superficiales. Impacientes."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Gregario y sociable. Pobre tolerancia al tedio. Amplitud de intereses. Trabajo intenso y efectivo. Orientado al logro. Emprendedor."
+      ],
+      [
+        41,
+        55,
+        "Modal (41-55)",
+        "Sociable y amigable. Responsable. Realista. Entusiasta. Equilibrado."
+      ],
+      [
+        0,
+        40,
+        "Bajo (≤40)",
+        "Apático y pesimista. Fácilmente fatigable. Tímido y dependiente. Falta de energías. Autoconfianza pobre. Depresivo."
+      ]
+    ]
+  },
+  "Si": {
+    "description": "Escala 0 (Si) de Introversión Social: mide tendencia a aislarse de la vida social. Subescalas: Si1 Timidez/autoconciencia, Si2 Evitación social, Si3 Autoalienación/alienación de otros.",
+    "bands": [
+      [
+        76,
+        200,
+        "Muy Alto (≥76)",
+        "Distanciado, apartado, lejano. Inseguro e indeciso. Rumiativo."
+      ],
+      [
+        66,
+        75,
+        "Alto (66-75)",
+        "Introvertido. Tímido y reservado. Falta de autoconfianza. Malhumorado. Sumiso. Rígido."
+      ],
+      [
+        56,
+        65,
+        "Promedio-Superior (56-65)",
+        "Reservado. Autoeficiente. Serio. Cauto. Socialmente inepto."
+      ],
+      [
+        45,
+        55,
+        "Modal (45-55)",
+        "Activo. Energético. Amigable. Conversador. Equilibrado."
+      ],
+      [
+        0,
+        44,
+        "Bajo (≤44)",
+        "Cálido. Sociable y gregario. Autoconfiado y asertivo. Indulgente consigo mismo. Exhibicionista. Manipulador."
+      ]
+    ]
+  },
+  "ANX": {
+    "description": "Escala de Contenido ANSIEDAD (ANX). Desarrollada por Butcher, Graham, Williams & Ben-Porath (1990). Consta de 23 ítems que evalúan síntomas generales de ansiedad: tensión, síntomas somáticos (palpitaciones, disnea), insomnio, preocupaciones, dificultad para concentrarse, miedo a perder el control o el juicio, indecisión. Los sujetos con puntuaciones altas reconocen libremente su malestar ansioso y admiten sus síntomas.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Ansiedad clínica severa y generalizada. Tensión marcada, síntomas somáticos de ansiedad (palpitaciones, disnea, opresión torácica), insomnio importante, rumiación preocupante sostenida, deterioro de la concentración y de la capacidad decisional. Temor explícito a perder el juicio o el control. Suele corresponder a cuadros de ansiedad generalizada, trastorno de pánico o angustia de descompensación. Explorar ideación suicida si coexiste DEP elevada."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Ansiedad clínicamente significativa. Síntomas somáticos ansiosos (taquicardia, respiración entrecortada), preocupación excesiva, dificultades para dormir, problemas para tomar decisiones, sensación de tensión sostenida. Reconoce sus síntomas y los admite. Posible trastorno de ansiedad; evaluar interferencia funcional."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia a la preocupación y leve tensión. Reconoce cierto nerviosismo y algunas dificultades de concentración o sueño sin alcance clínico. Rasgos ansiosos de personalidad sin deterioro funcional significativo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Nivel de ansiedad dentro de lo esperado. Sin síntomas ansiosos significativos. Calma, capacidad decisional adecuada, sin quejas somáticas de origen ansioso."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación de ansiedad. Puede reflejar tranquilidad genuina, estilo represivo o defensividad (verificar L/K). En algunos casos, baja conciencia emocional o alexitimia."
+      ]
+    ]
+  },
+  "FRS": {
+    "description": "Escala de Contenido MIEDOS (FRS). 23 ítems que evalúan temores específicos y fóbicos: a la sangre, a los lugares cerrados, al fuego, a las tormentas y desastres naturales, al agua, a la oscuridad, a los animales (serpientes, ratones, arañas), a salir de casa, al dinero, a la suciedad. Las puntuaciones altas indican múltiples temores fóbicos.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Múltiples fobias específicas severas que restringen marcadamente la vida cotidiana. El sujeto evita numerosas situaciones (salir, viajar, lugares cerrados o abiertos, animales, etc.). Posible agorafobia, fobia social o cuadro fóbico múltiple. Alto grado de malestar y limitación funcional."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Varios temores específicos clinicamente significativos que generan evitación y malestar. Probable fobia específica o ansiedad fóbica generalizada. Interfiere con actividades cotidianas puntuales."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunos miedos puntuales sin alcance clínico. Reconoce aprensión ante situaciones específicas (animales, oscuridad, tormentas) que no limitan significativamente su vida."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin miedos fóbicos significativos. Aproximación tranquila a las situaciones cotidianas."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación de miedos. Puede reflejar valentía genuina, negación defensiva (revisar L/K) o baja autocrítica."
+      ]
+    ]
+  },
+  "OBS": {
+    "description": "Escala de Contenido OBSESIVIDAD (OBS). 16 ítems que evalúan pensamientos intrusos, rumiación, dudas, dificultad para tomar decisiones, conductas repetitivas, excesiva preocupación por el orden, el control y los detalles. Los sujetos altos se sienten asfixiados por sus propios pensamientos.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Cuadro obsesivo severo. Rumiación intrusiva intratable, conductas compulsivas manifiestas, indecisión marcada, rigidez cognitiva. Sentimiento subjetivo de asfixia por los propios pensamientos. Posible trastorno obsesivo-compulsivo. Alta interferencia funcional."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Rasgos obsesivos clínicamente significativos. Preocupación excesiva por el orden, los detalles y el control; necesidad de hacer las cosas repetidamente; dificultades para tomar decisiones. Posible TOC o trastorno de personalidad obsesivo."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia al perfeccionismo y la rumiación sin alcance clínico. Ordenado, meticuloso, algo indeciso. Rasgos obsesivos de personalidad adaptativos."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Nivel de obsesividad normal. Capacidad de organizar y decidir sin rumiación paralizante."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Falta de obsesividad. Estilo cognitivo flexible, espontáneo. En exceso puede indicar descuido, impulsividad o falta de planificación."
+      ]
+    ]
+  },
+  "DEP": {
+    "description": "Escala de Contenido DEPRESIÓN (DEP). 33 ítems que evalúan pensamientos y sentimientos depresivos: disforia, tristeza, llanto fácil, desesperanza, desinterés por la vida, ideación suicida, sentimientos de culpa y condena, creencia de haber cometido pecados imperdonables. Difieren de la escala clínica D en que evalúan contenido explícito deprimido.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Depresión clínica severa. Disforia profunda, desesperanza marcada, ideación suicida explícita, sentimientos de culpa y condena, llanto, deseos de estar muerto. Riesgo suicida elevado: evaluar plan, intentos previos y factores protectores. Probable episodio depresivo mayor."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Depresión clínica significativa. Tristeza sostenida, pérdida de interés, rumiación pesimista, sentimientos de inutilidad. Posible episodio depresivo mayor o distimia. Evaluar ideación suicida y funcionalidad."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Disforia leve, cierta desesperanza o tristeza sin alcance clínico. Reconoce periodos de ánimo bajo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Estado de ánimo dentro de lo esperado. Sin síntomas depresivos significativos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación de depresión. Puede reflejar buen ánimo genuino, negación defensiva o estilo expansivo/hipomaniaco (revisar Ma, TRIN)."
+      ]
+    ]
+  },
+  "HEA": {
+    "description": "Escala de Contenido PREOCUPACIONES POR LA SALUD (HEA). 33 ítems que evalúan quejas somáticas múltiples: síntomas gastrointestinales (náuseas, vómitos), neurológicos (convulsiones, vértigo, desmayos, parálisis), sensoriales (visión, audición), cardiovasculares (dolores torácicos), dermatológicos (cabeza, cuello), respiratorios (tos, alergias, asma). Preocupación excesiva por la propia salud.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Quejas somáticas múltiples y severas que abarcan varios sistemas orgánicos. Alta probabilidad de trastorno somatomorfo, hipocondría o síntomas funcionales severos. Preocupación marcada por la salud. Descartar primero patología orgánica real; luego explorar componente psicológico."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Múltiples quejas somáticas que sugieren somatización o preocupación hipocondríaca. Probable trastorno somatomorfo. Interfiere con la actividad cotidiana."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas quejas somáticas y cierta preocupación por la salud sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin quejas somáticas significativas. Salud autopercibida adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación de problemas físicos. Puede reflejar buena salud, negación defensiva o falta de conciencia somática."
+      ]
+    ]
+  },
+  "BIZ": {
+    "description": "Escala de Contenido PENSAMIENTO ESTRAFALARIO (BIZ). 24 ítems que evalúan pensamientos y experiencias psicóticas: alucinaciones auditivas, visuales u olfativas; ideación paranoide (conspiraciones, envenenamientos); creencia de poseer misiones especiales o poderes; reconocimiento de que los pensamientos propios son extraños o peculiares.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Síntomas psicóticos floridos: alucinaciones múltiples, ideación paranoide sistematizada, creencias delirantes de misión o poder especial. Posible trastorno psicótico agudo (esquizofrenia, trastorno esquizoafectivo, episodio psicótico breve). Requiere evaluación urgente y descarte de organicidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Ideación psicótica o paranoide significativa. Experiencias perceptuales inusuales, sospechas de persecución, posible ideación delirante aislada. Riesgo psicótico; requiere evaluación clínica."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Experiencias perceptuales peculiares o creencias inusuales sin alcance psicótico. Pensamiento esotérico; posible ideación esquizotípica."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Pensamiento dentro de lo convencional. Sin experiencias psicóticas."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Pensamiento convencional y realista. Sin rasgos esquizotípicos."
+      ]
+    ]
+  },
+  "ANG": {
+    "description": "Escala de Contenido HOSTILIDAD (ANG). 17 ítems que evalúan problemas con el control de la ira: irritabilidad, malhumor, impaciencia, exaltación, terquedad, ganas de jurar o romper cosas, pérdida de control, antecedentes de abuso físico de personas u objetos.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Problemas graves de control de la ira. Episodios agresivos frecuentes, pérdida de control, antecedentes de violencia física hacia personas u objetos. Alto riesgo de acting out agresivo. Posible trastorno explosivo intermitente o trastorno de conducta."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Dificultades significativas con el control de la ira. Irritable, malhumorado, impulsivo. Riesgo de episodios agresivos. Posible trastorno de personalidad antisocial o límite."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia a la irritabilidad y cierta dificultad para controlar la ira sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Control de la ira adecuado. Sin hostilidad significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación de hostilidad. Estilo apacible; puede indicar represión de la ira (verificar R, O-H)."
+      ]
+    ]
+  },
+  "CYN": {
+    "description": "Escala de Contenido CINISMO (CYN). 23 ítems que evalúan creencias misantrópicas: convicción de que las personas usan a los demás, motivaciones negativas tras los actos ajenos, desconfianza generalizada, hostilidad hacia compañeros, familiares y amigos. Componente cognitivo del cinismo (creencias) más que conductual.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Cinismo extremo y generalizado. Visión misantrópica del mundo; convicción de que todos se aprovechan de los demás. Aislamiento social y hostilidad interpersonal marcadas. Posible trastorno de personalidad paranoide o esquizoide."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Cinismo clínicamente significativo. Desconfianza interpersonal, expectativa de traición, hostilidad hacia el entorno social. Dificultad para establecer relaciones de confianza."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia al escepticismo interpersonal; cierta desconfianza sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Confianza interpersonal razonable. Visión equilibrada del mundo social."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ingenuidad interpersonal. Confianza excesiva; puede ser un rasgo adaptativo o indicar falta de crítica social."
+      ]
+    ]
+  },
+  "ASP": {
+    "description": "Escala de Contenido CONDUCTAS ANTISOCIALES (ASP). 22 ítems que evalúan actitudes y conductas antisociales: problemas con la ley, robos, estafas, disfrute de las fechorías ajenas, creencia de que está justificado actuar de forma similar por la maldad de los demás. Complementa CYN (componente conductual).",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Conducta antisocial severa y generalizada. Historial delictivo, reincidencia, justificación de la transgresión, disfrute vicario de la explotación ajena. Alto riesgo de reincidencia. Posible trastorno antisocial de la personalidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Conductas antisociales significativas. Antecedentes de conflictos con la ley, actitudes transgresoras, justificación de la explotación. Posible trastorno antisocial o borderline."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas actitudes antisociales sin conducta delictiva manifiesta."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Conducta socialmente adaptada. Sin rasgos antisociales significativos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta conformidad social. Estilo convencional y respetuoso de las normas."
+      ]
+    ]
+  },
+  "TPA": {
+    "description": "Escala de Contenido COMPORTAMIENTO TIPO A (TPA). 19 ítems que evalúan el patrón de conducta Tipo A: trabajo duro, prisa, orientación al logro, impaciencia, irritabilidad cuando es interrumpido, sensación de no tener tiempo suficiente. Factor de riesgo cardiovascular.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Patrón Tipo A marcado. Adicción al trabajo, prisa, hostilidad, irritabilidad. Alto riesgo cardiovascular y de agotamiento. Deterioro de las relaciones interpersonales por impaciencia."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Patrón Tipo A clínicamente significativo. Trabajo excesivo, prisa, irritabilidad. Riesgo cardiovascular elevado; posible deterioro familiar y social."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia al logro y al trabajo duro, con cierta impaciencia. Rasgo adaptativo si no genera estrés."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre trabajo y descanso. Sin patrón Tipo A marcado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Estilo relajado, sin prisa. Puede indicar falta de ambición o patrón Tipo B marcado."
+      ]
+    ]
+  },
+  "LSE": {
+    "description": "Escala de Contenido BAJA AUTOESTIMA (LSE). 24 ítems que evalúan actitudes negativas hacia sí mismo: sentimientos de inutilidad, de ser una carga, fealdad, torpeza, falta de atractivo, dificultad para aceptar cumplidos, baja autoconfianza.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Autoestima muy baja. Sentimientos severos de inutilidad y de ser una carga. Múltiples actitudes negativas hacia sí mismo. Componente central de un trastorno depresivo o de personalidad (borderline, dependiente, evitativo)."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Baja autoestima clínicamente significativa. Sentimientos de inadecuación, dificultad para aceptar cumplidos, autocrítica excesiva. Posible trastorno depresivo o de personalidad."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunos sentimientos negativos hacia sí mismo sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Autoestima adecuada. Autoconcepto equilibrado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta autoestima. Confianza en sí mismo; en exceso puede indicar narcisismo o negación (verificar L, K)."
+      ]
+    ]
+  },
+  "SOD": {
+    "description": "Escala de Contenido MALESTAR SOCIAL (SOD). 24 ítems que evalúan incomodidad en situaciones sociales, preferencia por la soledad, sentimientos de timidez y de incomodidad rodeado de gente, tendencia a sentarse solo en grupos. Difiere de Si en que evalúa contenido explícito de malestar social.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Malestar social severo. Evitación marcada de las situaciones sociales, preferencia acusada por la soledad, intensa incomodidad cuando está con otros. Probable fobia social o trastorno de personalidad esquizoide o evitativo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Malestar social clínicamente significativo. Incomodidad sostenida en grupos, preferencia por el aislamiento. Posible fobia social o trastorno de personalidad evitativo."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta incomodidad social sin alcance clínico. Introvertido, prefiere contextos pequeños."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Comodidad social adecuada. Sin malestar significativo en situaciones sociales."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Extraversión social marcada. Comodidad en grupos; en exceso puede indicar búsqueda de atención o histrionismo."
+      ]
+    ]
+  },
+  "FAM": {
+    "description": "Escala de Contenido PROBLEMAS FAMILIARES (FAM). 25 ítems que evalúan discordia familiar: familias carentes de amor, riñas constantes, desagrados, odio hacia miembros de la familia, infancia humillante, matrimonios infelices. Altamente correlacionada con la escala clínica Pd y con MDS.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Discordia familiar severa. Historia familiar marcadamente conflictiva, odio hacia miembros de la familia, infancia humillante, matrimonio muy infeliz. Posible historia de maltrato o abuso. Requiere exploración terapéutica."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Conflictos familiares significativos. Dificultades relacionales sostenidas con la familia de origen o la familia actual. Posible separación, conflictos parentales o conyugales."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas tensiones familiares puntuales sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Relación familiar adecuada. Sin conflictos significativos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Familia armónica o idealización de la familia (verificar L, K). Puede indicar negación de conflictos familiares."
+      ]
+    ]
+  },
+  "WRK": {
+    "description": "Escala de Contenido INTERFERENCIA LABORAL (WRK). 33 ítems que evalúan actitudes y conductas que interfieren con el rendimiento laboral: baja autoconfianza, dificultades de concentración, obsesividad, indecisión, tensión, falta de apoyo familiar en la elección de carrera, actitudes negativas hacia los colegas. Predictora de bajo rendimiento y ausentismo.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Interferencia laboral severa. Múltiples problemas que afectan el desempeño: baja autoconfianza, indecisión, conflictos con colegas, actitudes negativas. Alto riesgo de bajo rendimiento, ausentismo o despido. Requiere intervención."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Dificultades laborales significativas. Indecisión, conflicto con colegas, baja motivación. Riesgo de bajo rendimiento."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas actitudes o dificultades laborales puntuales sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Ajuste laboral adecuado. Actitud positiva hacia el trabajo."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta motivación y ajuste laboral. Estilo trabajador; en exceso puede indicar adicción al trabajo (verificar TPA)."
+      ]
+    ]
+  },
+  "TRT": {
+    "description": "Escala de Contenido INDICADORES NEGATIVOS DE TRATAMIENTO (TRT). 26 ítems que evalúan actitudes negativas hacia los médicos y el tratamiento de salud mental: creencia de que nadie puede ayudar, incomodidad al discutir problemas, falta de motivación para cambiar, resignación. Predictora de baja adherencia y abandono terapéutico.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Actitudes muy negativas hacia el tratamiento. Convicción de que nadie puede ayudar, falta de motivación para cambiar, incomodidad severa al discutir problemas personales. Alto riesgo de abandono terapéutico. Requiere abordaje motivacional específico antes del tratamiento."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Resistencia al tratamiento significativa. Dudas sobre la utilidad de la terapia, dificultad para abrirse, baja motivación. Riesgo de abandono terapéutico."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas reservas ante el tratamiento sin oposición manifiesta."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Actitud neutral o positiva hacia el tratamiento. Disposición a colaborar."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta motivación para el tratamiento. Apertura emocional; en exceso puede indicar dependencia o deseabilidad social."
+      ]
+    ]
+  },
+  "A": {
+    "description": "Escala de Ansiedad de Welsh (A). Desarrollada por Welsh (1956), 39 ítems. Mide la primera dimensión factorial de las escalas básicas del MMPI: ansiedad vs. represión. Puntuaciones altas reflejan malestar emocional, ansiedad, incomodidad, inhibición, sobrecontrol, indecisión, conformismo. Puntuaciones bajas indican ausencia de malestar emocional.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Ansiedad y malestar emocional severos. Inhibición marcada, sobrecontrol, incapacidad para tomar decisiones sin vacilación e inseguridad, conformismo extremo, fácilmente alterable en situaciones sociales. Deterioro funcional asociado al malestar ansioso."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Ansiedad clínica significativa. Inhibido, sobrecontrolado, indeciso, conformista. Malestar emocional sostenido. Posible trastorno de ansiedad."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia a la ansiedad y al sobrecontrol emocional sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre malestar y bienestar emocional. Funcionamiento adaptativo."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ausencia de malestar emocional. Enérgico, competitivo, socialmente abierto. Puede tener baja tolerancia a la frustración, preferir la acción a la contemplación. En exceso, puede indicar estilo impulsivo o desinhibido."
+      ]
+    ]
+  },
+  "R": {
+    "description": "Escala de Represión de Welsh (R). 37 ítems. Mide la segunda dimensión factorial: represión vs. expresividad emocional. Puntuaciones altas: convencional, sumiso, evita situaciones desagradables, estilo represivo. Puntuaciones bajas: enérgico, expresivo, desinhibido, informal, asertivo, dominante.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Represión marcada. Convencional y sumiso en exceso, evita sistemáticamente situaciones desagradables, niega emociones negativas, falta de insight. Estilo represivo rígido; posibles somatizaciones por represión afectiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Estilo represivo clínicamente significativo. Convencional, sumiso, evitación emocional. Dificultad para reconocer y expresar emociones."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia a la represión y al convencionalismo sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre represión y expresión emocional. Adaptabilidad."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Estilo expresivo y desinhibido. Enérgico, asertivo, dominante; en exceso puede ser emotivamente excitable, agresivo o informal en exceso."
+      ]
+    ]
+  },
+  "Es": {
+    "description": "Escala de Fuerza del Yo (Es) de Barron (1953). 52 ítems. Mide adaptabilidad, resistencia, recursos personales y capacidad de funcionamiento efectivo. Buen indicador de salud mental y de capacidad para beneficiarse de psicoterapia. Escala INVERTIDA: puntuaciones altas son positivas; las puntuaciones bajas indican debilidad yoica. OJO: en perfiles defensivos (K alto), Es alta puede no tener el significado positivo habitual.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Fuerza del yo notable. Espontaneidad, buen contacto con la realidad, sentimientos de adecuación personal, capacidad para afrontar el estrés y recuperarse de los problemas. Si el perfil es defensivo (K alto), esta elevación puede no tener el significado positivo habitual. Buen pronóstico terapéutico si no hay defensividad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Fuerza del yo elevada. Recursos personales sólidos, capacidad de afrontamiento, salud mental. Buen pronóstico de tratamiento."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Fuerza del yo ligeramente elevada. Recursos personales adecuados."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Fuerza del yo promedio. Recursos yoicos suficientes para psicoterapia."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Debilidad del yo. Inhibición, quejas de dolencias físicas, incapacidad para enfrentar la presión ambiental, baja autoestima, dificultad para adaptarse. Mal pronóstico terapéutico; requiere soporte activo."
+      ]
+    ]
+  },
+  "MAC-R": {
+    "description": "Escala Revisada de Alcoholismo de MacAndrew (MAC-R). 49 ítems. Desarrollada discriminando alcohólicos varones de pacientes psiquiátricos no alcohólicos. Mide propensión general a la adicción (no solo alcohol). Cutoffs específicos: T≥65 sugiere fuertemente abuso de sustancias; T 50-64 ambiguo con falsos positivos; T<50 contraindica. Puntuaciones altas también: extraversión social, exhibicionismo, asunción de riesgos.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Riesgo muy elevado de abuso de sustancias. Probable patología adictiva establecida. Personalidad extrovertida, exhibicionista, asunción de riesgos. Requiere evaluación específica de consumo y derivación a tratamiento adictológico."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Sugerencia fuerte de abuso de sustancias (T≥65 es el cutoff clásico). T 60-64: zona ambigua con falsos positivos. Explorar consumo actual y antecedentes. Personalidad extrovertida, asunción de riesgos."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Zona intermedia. Posible riesgo adictivo en contextos de estrés o grupo de pares consumidor. Exploración clínica recomendada."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin indicadores de abuso de sustancias. Estilo adaptativo promedio."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Bajo riesgo adictivo. Introvertido, tímido, falta de autoconfianza. Contraindica abuso de sustancias."
+      ]
+    ]
+  },
+  "AAS": {
+    "description": "Escala de Reconocimiento de Adicción (AAS). Butcher (en prensa). 13 ítems que contienen contenido explícito y obvio sobre abuso de sustancias. El sujeto reconoce abiertamente problemas de abuso. Diseñada como complemento de APS (que no contiene ítems obvios). Alta fiabilidad test-retest (0.87). Cuando AAS está elevada, el sujeto admite sus problemas de abuso.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Reconocimiento abierto y severo de problemas de abuso de sustancias. El sujeto admite abuso manifiesto. Alta probabilidad de patología adictiva; requiere derivación a tratamiento."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Reconocimiento significativo de problemas de abuso de sustancias. Admite consumos problemáticos. Probable patología adictiva."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Reconocimiento de algunos consumos problemáticos puntuales sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin reconocimiento de problemas de abuso de sustancias."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Negación clara de abuso de sustancias. No reconoce consumo problemático; si APS está elevada y AAS baja, sospechar minimización (fingir estar bien)."
+      ]
+    ]
+  },
+  "APS": {
+    "description": "Escala de Potencial Adictivo (APS). Butcher (en prensa). 39 ítems SIN contenido obvio de abuso. Mide dimensiones de personalidad y situaciones vitales asociadas con potencial para desarrollar problemas de abuso de sustancias. Fiabilidad test-retest 0.73. No comparte ítems con AAS pero correlaciona r=0.57. Puntuaciones elevadas sugieren alta probabilidad de abuso y ausencia de otros conflictos psicológicos significativos.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Potencial adictivo muy elevado. Personalidad y situación vital asociadas a alto riesgo de abuso de sustancias. Ausencia de otros conflictos psicológicos significativos (el problema principal sería el consumo)."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Potencial adictivo significativo. Probabilidad elevada de abuso de sustancias. Explorar consumo actual."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Potencial adictivo moderado. Algunos rasgos de riesgo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin indicadores de potencial adictivo."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Bajo potencial adictivo. Si hay consumo, puede indicar que los problemas psicológicos del sujeto no están relacionados con abuso de sustancias."
+      ]
+    ]
+  },
+  "MDS": {
+    "description": "Escala de Malestar Marital (MDS). Hjemboe, Almagor & Butcher (1992). 14 ítems empíricos que evalúan discordia en relaciones íntimas: calidad de vida en el hogar, peleas familiares, sexo, amor e intimidad. 9 ítems se solapan con Pd o FAM. Puntuación de corte T 60 indica malestar marital clínicamente significativo. Correlaciona -0.55 con el DAS de Spanner.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Malestar marital severo. Discordia grave y generalizada en la relación íntima: conflictos frecuentes, insatisfacción sexual, falta de amor e intimidad. Posible riesgo de separación. Requiere terapia de pareja o individual."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Malestar marital clínicamente significativo. Dificultades sostenidas en la relación íntima. Por encima del punto de corte T 60."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas tensiones en la relación de pareja sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Ajuste marital adecuado. Sin discordia significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Buena calidad marital. Si T es muy baja, puede indicar negación o idealización de la relación (verificar L, K)."
+      ]
+    ]
+  },
+  "Ho": {
+    "description": "Escala de Hostilidad Cook-Medley (Ho). Cook & Medley (1954). 50 ítems derivados de la escala Mn (Meehl). Mide el rasgo de hostilidad y cinismo como factor de riesgo cardiovascular. Componentes: cinismo, atribución hostil de intenciones a los demás, respuesta agresiva ante la frustración. Predictora de cardiopatía coronaria y mortalidad.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Hostilidad y cinismo extremos. Visión misantrópica del mundo, atribución hostil sistemática a las intenciones ajenas, respuesta agresiva frecuente ante la frustración. Alto riesgo cardiovascular y de mortalidad prematura. Deterioro interpersonal marcado."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Hostilidad clínicamente significativa. Cinismo, sospecha interpersonal, agresividad. Riesgo cardiovascular elevado. Posible trastorno de personalidad."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia al cinismo y a la atribución hostil sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Hostilidad dentro de lo esperado. Sin riesgo cardiovascular asociado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja hostilidad. Estilo afable, confianza interpersonal. Factor protector cardiovascular."
+      ]
+    ]
+  },
+  "O-H": {
+    "description": "Escala de Hostilidad Sobrecontrolada (O-H). Megargee, Cook & Mendelson (1967). 28 ítems. Desarrollada con presos violentos vs. no violentos. Mide la capacidad del individuo para tolerar frustraciones sin tomar represalias. Personas con O-H alto suelen responder adecuadamente la mayoría de las veces, pero ocasionalmente reaccionan agresivamente sin provocación aparente (estallidos de violencia subyacente).",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Sobrecontrol marcado de la hostilidad. Persona que reprime la agresividad de forma rígida y que puede presentar estallidos de violencia aparentemente desproporcionados y sin provocación. Riesgo de acting-out agresivo súbito. Historia posible de violencia puntual en persona normalmente controlada."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Hostilidad sobrecontrolada clínicamente significativa. Represión de la agresividad con riesgo de estallidos puntuales. Explorar historia de violencia."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Tendencia al sobrecontrol de la hostilidad sin estallidos significativos."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Control adecuado de la hostilidad. Capacidad de modulación emocional."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Bajo sobrecontrol de la hostilidad. Puede tratarse tanto de personas crónicamente agresivas como de individuos que expresan la agresividad de forma adecuada. Requiere interpretación en contexto clínico."
+      ]
+    ]
+  },
+  "Do": {
+    "description": "Escala de Dominancia (Do). Gough, McClosky & Meehl (1951/1952). 25 ítems. Mide la tendencia al predominio y control en las relaciones interpersonales. Escala INVERTIDA: puntuaciones altas son positivas (seguridad, iniciativa, liderazgo); las bajas indican sumisión y falta de autoconfianza.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Dominancia marcada. Equilibrio, seguridad, iniciativa social, perseverancia, resolución y liderazgo grupal. En exceso puede acercarse al autoritarismo o dominación excesiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Dominancia elevada. Seguridad en sí mismo, asertividad, liderazgo. Recursos interpersonales sólidos."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Dominancia ligeramente elevada. Iniciativa social adecuada."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre dominancia y sumisión. Estilo interpersonal flexible."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sumisión. Poco asertivo, fácilmente influenciable por otros. Falta de confianza en sí mismo, sentimientos de inadecuación. Posible trastorno de personalidad dependiente."
+      ]
+    ]
+  },
+  "Re": {
+    "description": "Escala de Responsabilidad (Re). Gough, McClosky & Meehl (1952). 30 ítems. Mide el grado en que la persona se ve a sí misma y es vista por los demás como responsable, confiable, con integridad y sentido de la responsabilidad hacia el grupo. Escala INVERTIDA: puntuaciones altas son positivas.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Alto sentido de responsabilidad. Acepta las consecuencias de sus actos, confiable, posee integridad y sentido de responsabilidad hacia el grupo. En exceso puede indicar rigidez moral o sobreconvencionalismo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Responsabilidad elevada. Confiable, íntegro, responsable socialmente. Buen pronóstico de adherencia terapéutica."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Responsabilidad adecuada. Acepta las consecuencias de sus actos."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Responsabilidad dentro de lo esperado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja responsabilidad. No acepta las consecuencias de su conducta, poco confiable, falta de sentido de responsabilidad hacia el grupo. Posible trastorno antisocial de la personalidad."
+      ]
+    ]
+  },
+  "Mt": {
+    "description": "Escala de Desajuste Escolar (Mt). Kleinmuntz (1961). 41 ítems. Discrimina entre estudiantes universitarios con buen y mal ajuste emocional. Detecta dificultades presentes pero NO predice desajustes futuros.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Desajuste escolar severo. Probable inadaptación universitaria con deterioro funcional marcado: pesimismo, ansiedad, ineficacia académica. Riesgo de abandono de los estudios."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Desajuste escolar significativo. Pesimista, ansioso, ineficaz. Dificultades académicas y emocionales."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas dificultades de adaptación escolar sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Buen ajuste escolar. Adaptación académica adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Buen ajuste escolar. Optimista, responsable, consciente."
+      ]
+    ]
+  },
+  "GM": {
+    "description": "Escala de Rol de Género Masculino (GM). Peterson (1989); Grant Dahlstrom. 47 ítems (9 solapados con Mf). Mide las características de rol masculino: autoconfianza, persistencia, amplitud de intereses, ausencia de miedos y preocupaciones. En hombres, alta GM se asocia con autoconfianza; en mujeres, alta GM se asocia con autoconfianza, honestidad y apertura a nuevas experiencias.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Rol masculino muy marcado. Alta autoconfianza, persistencia, amplitud de intereses. En hombres: alta masculinidad instrumental. En mujeres: autoconfianza y apertura. En exceso puede acercarse a la rigidez de rol o al autoritarismo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Rol masculino elevado. Autoconfianza, persistencia, ausencia de miedos. Recursos instrumentales sólidos."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Rol masculino ligeramente elevado. Rasgos instrumentales adaptativos."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio en el rol de género. Sin extremos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Bajo rol masculino. En hombres puede indicar baja autoconfianza, miedos, intereses restringidos. En mujeres puede indicar baja instrumentalidad. Combinar con GF y Mf."
+      ]
+    ]
+  },
+  "GF": {
+    "description": "Escala de Rol de Género Femenino (GF). Peterson (1989). 46 ítems (16 solapados con Mf). Mide las características de rol femenino: religiosidad, evitación de juramentos, franqueza al reconocer faltas. En hombres, alta GF se asocia con religiosidad, autoritarismo, poco control sobre el carácter y susceptibilidad al abuso de sustancias. En mujeres, alta GF se asocia con feminidad expresiva.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Rol femenino muy marcado. Religiosidad, franqueza, expresividad emocional. En hombres puede asociarse con autoritarismo y susceptibilidad al abuso de sustancias. En mujeres: alta feminidad expresiva. En exceso puede indicar rigidez de rol."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Rol femenino elevado. Sensibilidad interpersonal, franqueza. Rasgos expresivos adaptativos."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Rol femenino ligeramente elevado. Sensibilidad interpersonal."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio en el rol de género. Sin extremos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Bajo rol femenino. Dureza emocional, baja expresividad. Combinar con GM y Mf para interpretar adecuadamente."
+      ]
+    ]
+  },
+  "PK": {
+    "description": "Escala de Estrés Postraumático de Keane (PK). Keane, Malloy & Fairbank (1984). 46 ítems. Desarrollada contrastando veteranos de Vietnam con TEPT vs. psiquiátricos no-TEPT. Mide síntomas de trastorno de estrés postraumático: reexperimentación, evitación, hiperactivación. Recomendada como screening; requiere confirmación diagnóstica con entrevista clínica estructurada.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Síntomas severos de estrés postraumático. Probable TEPT: reexperimentación (flashbacks, pesadillas), evitación marcada, hiperactivación (hipervigilancia, sobresalto). Requiere confirmación diagnóstica y derivación a tratamiento especializado en trauma."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Síntomas significativos de TEPT. Múltiples indicadores postraumáticos. Probable TEPT clínico."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunos síntomas postraumáticos sin alcance clínico. Posible estrés post-traumático parcial."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin síntomas postraumáticos significativos."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ausencia de síntomas de estrés postraumático. Si hay antecedentes traumáticos conocidos, puede indicar negación o represión."
+      ]
+    ]
+  },
+  "VRIN": {
+    "description": "VRIN - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+      ]
+    ]
+  },
+  "TRIN": {
+    "description": "TRIN - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+      ]
+    ]
+  },
+  "Fb": {
+    "description": "Fb - ESCALAS DE VALIDEZ SUPLEMENTARIAS. (1) VRIN (Inconsistencia de Respuestas Variables): 67 pares de items con contenido opuesto o similar. Detecta respuestas inconsistentes (al azar, por descuido, por confusión). T≥80 (varones) o ≥75 (mujeres) sugiere protocolo inválido. (2) TRIN (Inconsistencia de Respuestas Verdadero-Falso): 26 pares de items. Detecta tendencia a responder sistemáticamente Verdadero o Falso sin considerar el contenido. T≥80 sugiere protocolo inválido. T alta en dirección V = tendencia a responder Verdadero; T alta en dirección F = tendencia a responder Falso. (3) Fb (Escala F posterior): 40 ítems de la segunda mitad del cuadernillo. Mide severidad psicopológica en la parte final; paralela a F. T≥90 sugiere invalidación; T 80-89 sugiere fingido o psicopatología severa.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "VRIN: cierta inconsistencia en las respuestas; revisar items contradictorios. TRIN: cierta tendencia direccional; interpretar con cautela. Fb: indicadores de psicopatología o fingimiento en la parte final."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "VRIN: respuestas altamente consistentes (puede indicar atención extrema o intento de fingir bien). TRIN: sin tendencia direccional. Fb: sin psicopatología ni fingimiento en la parte final. Si F es alta y Fb baja, sospechar fatiga o fingimiento limitado a la primera parte."
+      ]
+    ]
+  },
+  "D1": {
+    "description": "D1 Depresión Subjetiva (Harris-Lingoes para escala clínica D). Ítems que evalúan sentimientos subjetivos de infelicidad, depresión, falta de energía para afrontar los problemas diarios, pérdida de interés, sentimientos de inferioridad y de falta de autoconfianza. Es el componente subjetivo/cognitivo de la depresión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Depresión subjetiva severa. Se siente marcadamente infeliz y deprimido, sin energía ni interés. Sentimientos marcados de inferioridad y de falta de autoconfianza. Componente subjetivo central de un episodio depresivo mayor."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Depresión subjetiva significativa. Infelicidad, falta de energía, sentimientos de inferioridad. Posible depresión clínica."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algo de infelicidad subjetiva y de falta de energía sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Estado de ánimo subjetivo dentro de lo esperado. Sin disforia significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ausencia de disforia subjetiva. Estado de ánimo positivo; puede indicar negación o estilo expansivo."
+      ]
+    ]
+  },
+  "D2": {
+    "description": "D2 Retardo Psicomotor (Harris-Lingoes para D). Evalúa falta de energía, inmovilidad emocional, evitación social, negación de impulsos hostiles o agresivos. Componente motor/somático de la depresión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Retardo psicomotor severo. Inmovilidad emocional marcada, falta de energía, evitación social, negación de impulsos hostiles. Posible depresión melancólica o trastorno del ánimo con inhibición motora."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Retardo psicomotor significativo. Inhibición motora y emocional. Posible depresión clínica."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta inhibición psicomotora sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Actividad psicomotora adecuada. Sin inhibición."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin retardo psicomotor. Actividad motora preservada o aumentada."
+      ]
+    ]
+  },
+  "D3": {
+    "description": "D3 Disfunción Física / Problemas Físicos (Harris-Lingoes para D). Evalúa preocupación por el funcionamiento físico, tendencia a presentar múltiples síntomas somáticos específicos. Componente somático de la depresión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Disfunción física severa. Preocupación acusada por el funcionamiento físico, múltiples quejas somáticas. Posible trastorno somatomorfo o depresión con síntomas somáticos marcados. Descartar primero patología orgánica."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Disfunción física significativa. Múltiples quejas somáticas. Posible somatización o depresión somatizada."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas quejas somáticas sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin disfunción física significativa. Salud autopercibida adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin disfunción física. Buena salud autopercibida."
+      ]
+    ]
+  },
+  "D4": {
+    "description": "D4 Enlentecimiento Mental / Inhibición Mental (Harris-Lingoes para D). Evalúa falta de energía mental, tensión, dificultades con la concentración, la atención y la memoria, baja autoconfianza, sentimientos de inferioridad, falta de disfrute. Componente cognitivo de la depresión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Enlentecimiento mental severo. Deterioro marcado de concentración, atención y memoria. Sentimientos intensos de inferioridad y de inutilidad. Posible depresión severa con componente cognitivo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Enlentecimiento mental significativo. Dificultades de concentración y memoria. Baja autoconfianza. Posible depresión."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas dificultades de concentración sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Función cognitiva dentro de lo esperado. Sin enlentecimiento mental."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Función cognitiva preservada. Buena concentración y memoria."
+      ]
+    ]
+  },
+  "D5": {
+    "description": "D5 Rumiación (Harris-Lingoes para D). Evalúa rumiación depresiva, llanto, sensación de pérdida de control del pensamiento, conclusiones de que la vida no merece la pena. Componente de pensamiento depresivo recurrente.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Rumiación depresiva severa. Pensamientos recurrentes intratables, llanto frecuente, sensación de pérdida de control del pensamiento, conclusiones de inutilidad vital. Riesgo de ideación suicida elevado."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Rumiación depresiva significativa. Pensamientos depresivos recurrentes, llanto, sensación de descontrol cognitivo."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Alguna rumiación sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin rumiación depresiva significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin rumiación. Pensamiento fluido y controlado."
+      ]
+    ]
+  },
+  "Hy1": {
+    "description": "Hy1 Negación de la Ansiedad Social (Harris-Lingoes para Hy). Evalúa extraversión social, comodidad al interactuar con otros, no influenciabilidad por las normas sociales. Componente de negación histerica de ansiedad social.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Extraversión social extrema. Muy cómodo interactuando con otros, no influenciable por las normas sociales. En exceso puede indicar estilo histriónico o expansivo, o negación defensiva de la ansiedad social."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Extraversión social elevada. Cómodo en situaciones sociales. Estilo sociable, asertivo."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Sociabilidad adecuada. Sin malestar social."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre sociabilidad e introversión."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ansiedad social marcada. Incomodidad al interactuar con otros, susceptibilidad a las normas sociales. Posible fobia social."
+      ]
+    ]
+  },
+  "Hy2": {
+    "description": "Hy2 Necesidad de Afecto (Harris-Lingoes para Hy). Evalúa fuerte necesidad de atención y afecto, temor a que esta necesidad no se satisfaga, presentación de uno mismo como honesto y sensible, negación de sentimientos negativos hacia otros. Componente oral-dependiente de la histeria.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Necesidad severa de afecto y atención. Temor a no recibir afecto. Se presenta como muy honesto y sensible, niega sentimientos negativos hacia otros. Componente oral-dependiente marcado; posible trastorno de personalidad histriónico o dependiente."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Necesidad significativa de afecto. Dependencia emocional. Negación de hostilidad hacia otros."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta necesidad de afecto sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Necesidad de afecto dentro de lo esperado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja necesidad de afecto. Estilo emocionalmente autónomo; en exceso puede indicar frialdad o aislamiento."
+      ]
+    ]
+  },
+  "Hy3": {
+    "description": "Hy3 Lasitud-Malestar / Enfermedad (Harris-Lingoes para Hy). Evalúa sensación de incomodidad y mala salud, debilidad, fatiga, dificultades para concentrarse y dormir, tristeza. Componente somático-depresivo de la histeria.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Lasitud y malestar severos. Sensación marcada de mala salud, debilidad, fatiga, dificultades de concentración y sueño, tristeza. Posible trastorno somatomorfo o conversivo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Lasitud significativa. Múltiples quejas somáticas y de fatiga. Posible somatización."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas quejas de fatiga o malestar sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin lasitud significativa. Salud autopercibida adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin lasitud. Energía y bienestar."
+      ]
+    ]
+  },
+  "Hy4": {
+    "description": "Hy4 Quejas Somáticas (Harris-Lingoes para Hy). Evalúa múltiples quejas somáticas y negación de hostilidad hacia los demás. Componente somático clásico de la histeria de conversión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Múltiples quejas somáticas severas con negación de hostilidad. Posible trastorno de conversión o somatomorfo. Descartar organicidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Múltiples quejas somáticas significativas. Negación de hostilidad. Posible somatización."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas quejas somáticas puntuales sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin quejas somáticas significativas."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin quejas somáticas. Reconocimiento de hostilidad hacia otros."
+      ]
+    ]
+  },
+  "Hy5": {
+    "description": "Hy5 Inhibición de la Agresión (Harris-Lingoes para Hy). Evalúa negación de impulsos agresivos y hostiles, alta sensibilidad a las reacciones ajenas. Componente de represión de la hostilidad característico de la histeria.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Inhibición marcada de la agresión. Niega sistemáticamente impulsos hostiles; muy sensible a las reacciones ajenas. Posible represión de agresividad con riesgo de somatización o de estallidos puntuales."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Inhibición significativa de la agresión. Represión de la hostilidad."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta inhibición de la agresividad sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre expresión e inhibición de la agresión."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja inhibición de la agresión. Expresión libre de la hostilidad; en exceso puede indicar agresividad desinhibida."
+      ]
+    ]
+  },
+  "Pd1": {
+    "description": "Pd1 Discordia Familiar (Harris-Lingoes para Pd). Evalúa descripción de la familia actual o de origen como carente de amor, comprensión y apoyo; sentimientos de que la familia no permitió liberación e independencia. Componente familiar del psicopático.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Discordia familiar severa. Familia descrita como muy carente de amor y apoyo. Historia familiar muy conflictiva. Posible historia de maltrato o desatención."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Discordia familiar significativa. Conflictos familiares sostenidos. Posible trastorno de personalidad con componente familiar."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas tensiones familiares puntuales sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Relación familiar adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Familia armónica o idealización (verificar L, K)."
+      ]
+    ]
+  },
+  "Pd2": {
+    "description": "Pd2 Problemas con la Autoridad (Harris-Lingoes para Pd). Evalúa rechazo de normas parentales y sociales, opiniones definidas sobre lo correcto/incorrecto, admisión de problemas en el colegio o con la ley. Componente antisocial-rebelde del psicopático.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Problemas severos con la autoridad. Rechazo marcado de las normas. Antecedentes de conflictos legales o escolares. Posible trastorno antisocial de la personalidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Problemas significativos con la autoridad. Rebeldía, antecedentes de conflictos."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta rebeldía sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Aceptación razonable de la autoridad."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta conformidad con la autoridad. Estilo convencional y respetuoso."
+      ]
+    ]
+  },
+  "Pd3": {
+    "description": "Pd3 Frialdad Social / Imperturbabilidad Social (Harris-Lingoes para Pd). Evalúa descripción de uno mismo como cómodo y confiado en situaciones sociales, opiniones seguras, defensa vigorosa de las propias creencias. Componente de seguridad social superficial del psicopático.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Frialdad social extrema. Muy cómodo y confiado en situaciones sociales; opiniones muy seguras y defendidas vigorosamente. En exceso puede indicar encanto superficial psicopático o seguridad social defensiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Imperturbabilidad social significativa. Seguridad interpersonal marcada."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Seguridad social adecuada."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre seguridad y timidez social."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Inseguridad social. Incomodidad en situaciones sociales, baja confianza interpersonal."
+      ]
+    ]
+  },
+  "Pd4": {
+    "description": "Pd4 Alienación Social (Harris-Lingoes para Pd). Evalúa sentimientos de alienación, aislamiento y extrañeza; creencia de que los demás no le comprenden; sensación de que la vida le ha tratado mal. Componente de alienación del psicopático.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Alienación social severa. Sentimientos marcados de aislamiento y extrañeza; creencia de incomprensión. Posible trastorno esquizoide o esquizotípico."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Alienación social significativa. Aislamiento, incomprensión subjetiva."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta alienación social sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin alienación social significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin alienación. Sensación de pertenencia y de comprensión interpersonal."
+      ]
+    ]
+  },
+  "Pd5": {
+    "description": "Pd5 Autoalienación (Harris-Lingoes para Pd). Evalúa descripción de uno mismo como incómodo e infeliz, vida poco interesante y sin provecho, vagas lamentaciones, culpa y remordimiento por hechos pasados. Componente de autoalienación depresiva del psicopático.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Autoalienación severa. Muy incómodo e infeliz, vida sin interés ni provecho. Culpa y remordimiento marcados por hechos pasados. Posible depresión con componente disocial."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Autoalienación significativa. Infelicidad, culpa, remordimiento."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta insatisfacción vital sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Satisfacción vital adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta satisfacción vital. Sin culpa ni remordimiento significativos."
+      ]
+    ]
+  },
+  "Pa1": {
+    "description": "Pa1 Ideas Persecutorias (Harris-Lingoes para Pa). Evalúa visión del mundo como lugar amenazante, suspicacia, desconfianza, en casos extremos ilusiones de persecución. Componente paranoide núcleo de la escala Pa.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Ideas persecutorias severas. Visión del mundo como lugar altamente amenazante, suspicacia y desconfianza marcadas. Posibles ilusiones de persecución. Riesgo de trastorno delirante o paranoide."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Ideas persecutorias significativas. Suspicacia, desconfianza interpersonal. Posible trastorno de personalidad paranoide."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta suspicacia sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Confianza interpersonal adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ingenuidad interpersonal marcada. Confianza excesiva."
+      ]
+    ]
+  },
+  "Pa2": {
+    "description": "Pa2 Hipersensibilidad / Hiperestesia (Harris-Lingoes para Pa). Evalúa tensión y sensibilidad mayor que el promedio de las personas, sentimientos de soledad e incomprensión, toma de riesgos o actividades emocionantes para sentirse mejor. Componente sensitivo de la paranoia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Hipersensibilidad severa. Tensión y sensibilidad extremas, profundos sentimientos de soledad e incomprensión. Búsqueda de estimulación para regularse. Posible trastorno de personalidad borderline o paranoide."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Hipersensibilidad significativa. Sensibilidad interpersonal, soledad subjetiva."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta sensibilidad interpersonal sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sensibilidad interpersonal dentro de lo esperado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja sensibilidad interpersonal. Estilo emocionalmente endurecido."
+      ]
+    ]
+  },
+  "Pa3": {
+    "description": "Pa3 Ingenuidad (Harris-Lingoes para Pa). Evalúa actitudes irrealmente optimistas acerca de los demás, presentación de uno mismo como sincero y moral, negación de impulsos hostiles. Componente de ingenuidad polar de la paranoia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Ingenuidad extrema. Actitudes muy optimistas e irreales acerca de los demás. Se presenta como muy moral y sin impulsos hostiles. Posible negación defensiva o rasgos de personalidad dependiente."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Ingenuidad significativa. Confianza excesiva, negación de hostilidad propia."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta confianza interpersonal sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre confianza y suspicacia."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin ingenuidad. Visión realista o cínica de los demás."
+      ]
+    ]
+  },
+  "Sc1": {
+    "description": "Sc1 Alienación Social (Harris-Lingoes para Sc). Evalúa sentimientos de ser maltratado, incomprendido y no querido; en casos extremos creencia de que otros intentan dañarles físicamente. Componente paranoide-alienado de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Alienación social severa. Sentimientos intensos de ser maltratado e incomprendido. Posibles creencias de daño físico. Posible trastorno psicótico o paranoide."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Alienación social significativa. Sensación de incomprensión y maltrato."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta alienación social sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin alienación social significativa."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin alienación. Sensación de comprensión y de trato adecuado."
+      ]
+    ]
+  },
+  "Sc2": {
+    "description": "Sc2 Alienación Emocional / Apatía (Harris-Lingoes para Sc). Evalúa apatía, falta de interés por la vida, deseos de estar muerto. Componente de anhedonia y desesperanza de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Alienación emocional severa. Apatía profunda, falta total de interés por la vida, deseos de estar muerto. Posible depresión psicótica o esquizofrenia con componente deficitario. Evaluar riesgo suicida."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Alienación emocional significativa. Apatía, anhedonia, deseos de muerte."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta apatía sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Interés vital adecuado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Vitalidad e interés por la vida."
+      ]
+    ]
+  },
+  "Sc3": {
+    "description": "Sc3 Ausencia de Control del Yo Cognitivo (Harris-Lingoes para Sc). Evalúa pensamiento extraño y peculiar, dificultades de concentración, sentimientos de irrealidad, pensamiento desorganizado. Componente cognitivo de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Pérdida severa del control cognitivo. Pensamiento extraño y desorganizado, marcadas dificultades de concentración, sentimientos intensos de irrealidad. Posible trastorno psicótico con desorganización cognitiva."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Pérdida significativa del control cognitivo. Pensamiento peculiar, dificultades de concentración."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas peculiaridades cognitivas sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Pensamiento organizado y realista."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Pensamiento bien controlado. Sin peculiaridades cognitivas."
+      ]
+    ]
+  },
+  "Sc4": {
+    "description": "Sc4 Ausencia de Control del Yo Conativo (Harris-Lingoes para Sc). Evalúa pensamiento de que la vida es extraña y pecualiar; preocupación por la propia capacidad para responder al estrés; refugio en la fantasía y la ensoñación; deseos de estar muerto. Componente conativo-volitivo de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Pérdida severa del control conativo. Sentimiento marcado de que la vida es extraña; refugio acusado en la fantasía y la ensoñación; deseos de muerte. Posible trastorno psicótico o esquizoide."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Pérdida significativa del control conativo. Retraimiento a la fantasía, deseo de muerte."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta tendencia a la fantasía sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Contacto adecuado con la realidad y con la acción."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin pérdida de control conativo. Acción efectiva y realista."
+      ]
+    ]
+  },
+  "Sc5": {
+    "description": "Sc5 Ausencia de Control del Yo por Déficit de Inhibición (Harris-Lingoes para Sc). Evalúa falta de control de las propias emociones e impulsos, inquietud, hiperactividad, periodos de risa o llanto con pérdida de control, episodios de amnesia conductual. Componente de desinhibición de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Pérdida severa del control inhibitorio. Desinhibición emocional e impulsiva marcada. Periodos de risa o llanto incontrolables, amnesias conductuales. Posible trastorno psicótico desorganizado o bipolar."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Pérdida significativa del control inhibitorio. Inquietud, impulsividad, episodios de descontrol emocional."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta dificultad inhibitoria sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Control emocional e inhibitorio adecuado."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alto control inhibitorio. Represión emocional marcada; en exceso puede indicar rigidez."
+      ]
+    ]
+  },
+  "Sc6": {
+    "description": "Sc6 Experiencias Sensoriales Extrañas (Harris-Lingoes para Sc). Evalúa sensación de cambios corporales inusuales, alteraciones de la sensibilidad de la piel, otras experiencias sensoriales inusuales, posibles alucinaciones, contenidos de pensamiento insólitos, ideas de referencia. Componente perceptual de la esquizofrenia.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Experiencias sensoriales extrañas severas. Posibles alucinaciones auditivas, visuales u olfativas; contenidos de pensamiento insólitos; ideas de referencia. Posible trastorno psicótico."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Experiencias sensoriales inusuales significativas. Alteraciones perceptuales, contenidos de pensamiento peculiares."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Algunas experiencias perceptuales inusuales sin alcance psicótico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Sin experiencias sensoriales extrañas."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Experiencia perceptual normal. Sin alteraciones sensoriales."
+      ]
+    ]
+  },
+  "Ma1": {
+    "description": "Ma1 Amoralidad (Harris-Lingoes para Ma). Evalúa visión de los demás como egoístas, deshonestos y oportunistas; justificación de actuar de forma similar; satisfacción vicaria de la explotación manipuladora de otros. Componente antisocial de la hipomanía.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Amoralidad severa. Visión muy negativa de los demás, justificación marcada de la explotación, satisfacción vicaria de la manipulación. Posible trastorno antisocial de la personalidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Amoralidad significativa. Cinismo interpersonal, justificación de la explotación."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta suspicacia moral sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Visión moral equilibrada de los demás."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta moralidad. Visión positiva de los demás."
+      ]
+    ]
+  },
+  "Ma2": {
+    "description": "Ma2 Aceleración Psicomotora / Hipercinesia (Harris-Lingoes para Ma). Evalúa habla acelerada, aceleración de los procesos de pensamiento y de las actividades motoras, tensión, inquietud, excitación, aburrimiento fácil, búsqueda de riesgo, excitación o peligro. Componente hipomaniaco motor de la hipomanía.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Aceleración psicomotora severa. Habla y pensamiento muy acelerados, hiperactividad motora marcada, tensión, inquietud, búsqueda de riesgo. Posible episodio maniaco o hipomaniaco."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Aceleración psicomotora significativa. Inquietud, excitación, búsqueda de estimulación."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta aceleración e inquietud sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Actividad psicomotora adecuada. Sin aceleración."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Actividad psicomotora lenta. Sin aceleración; posible enlentecimiento depresivo."
+      ]
+    ]
+  },
+  "Ma3": {
+    "description": "Ma3 Imperturbabilidad / Frialdad Social (Harris-Lingoes para Ma). Evalúa negación de ansiedad social, comodidad al interactuar con otros, poca preocupación por las opiniones, valores y actitudes ajenas. Componente de seguridad social del hipomaníaco.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Imperturbabilidad social extrema. Muy cómodo interactuando con otros; poca preocupación por las opiniones ajenas. En exceso puede indicar encanto superficial psicopático o grandiosidad hipomaniaca."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Imperturbabilidad social significativa. Seguridad interpersonal marcada."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Seguridad social adecuada."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Equilibrio entre seguridad e inseguridad social."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Ansiedad social marcada. Preocupación excesiva por las opiniones ajenas."
+      ]
+    ]
+  },
+  "Ma4": {
+    "description": "Ma4 Autoenvanecimiento / Hipertrofia del Yo (Harris-Lingoes para Ma). Evalúa evaluaciones irreales de las propias capacidades y del propio valor, resentimiento cuando otros no reconocen sus méritos. Componente de grandiosidad del hipomaníaco.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Autoenvanecimiento severo. Evaluaciones muy irreales de las propias capacidades y del propio valor, resentimiento marcado cuando no se le reconoce. Posible trastorno narcisista de la personalidad o episiodio maniaco con grandiosidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Autoenvanecimiento significativo. Sobrevaloración de capacidades, resentimiento."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta seguridad en sí mismo sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Autoevaluación equilibrada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Baja autoevaluación. Posible baja autoestima o autodesprecio."
+      ]
+    ]
+  },
+  "Si1": {
+    "description": "Si1 Timidez / Autoconciencia / Autocohibición (Harris-Lingoes para Si; Hostetler 1989). Evalúa timidez al rodearse de gente, fácil azoramiento, incomodidad en situaciones sociales y en situaciones nuevas. Componente social-ansioso de la introversión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Timidez severa. Muy azarado, muy incómodo en situaciones sociales y en situaciones nuevas. Posible fobia social o trastorno de personalidad evitativo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Timidez significativa. Incomodidad social sostenida."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta timidez sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Comodidad social adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Sin timidez. Comodidad social marcada; en exceso puede indicar estilo expansivo."
+      ]
+    ]
+  },
+  "Si2": {
+    "description": "Si2 Evitación Social (Harris-Lingoes para Si). Evalúa gran aversión y evitación de las actividades de grupo y de las muchedumbres; elude el contacto con otras personas. Componente conductual de evitación social de la introversión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Evitación social severa. Aversión marcada a las actividades de grupo, evitación sistemática del contacto interpersonal. Posible fobia social o trastorno de personalidad esquizoide o evitativo."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Evitación social significativa. Evita grupos y muchedumbres."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta evitación social sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Participación social adecuada."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta participación social. Estilo extrovertido."
+      ]
+    ]
+  },
+  "Si3": {
+    "description": "Si3 Autoalienación (Harris-Lingoes para Si). Evalúa baja autoestima y autoconfianza, sensación de incapacidad para determinar el propio destino, nervios, temores e indecisión, suspicacia respecto a los demás. Componente de baja autoestima y alienación de la introversión.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Autoalienación severa. Baja autoestima y autoconfianza marcadas, sensación de incapacidad para controlar el propio destino, suspicacia interpersonal. Posible depresión o trastorno de personalidad."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Autoalienación significativa. Baja autoestima, indecisión, suspicacia."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Cierta inseguridad sin alcance clínico."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Autoestima y autoconfianza adecuadas."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Alta autoestima y autoconfianza. Sin autoalienación."
+      ]
+    ]
+  },
+  "Fp": {
+    "description": "Escala Fp (Infrecuencia Psicopatológica). Desarrollada por Arbisi & Ben-Porath (1995). 21 ítems. Evalúa si el sujeto responde en dirección infrecuente incluso comparado con muestras clínicas. Más específica que F para detectar falseamiento negativo (fingir enfermedad) en contextos clínicos. A diferencia de F, los ítems de Fp fueron seleccionados por ser infrecuentes incluso en pacientes psiquiátricos.",
+    "bands": [
+      [
+        80,
+        200,
+        "Muy Alto (≥80)",
+        "Protocolo probablemente inválido. Sujeto simula síntomas psiquiátricos (\"fake-bad\") incluso comparado con pacientes psiquiátricos reales. Probable falseamiento negativo deliberado. Considerar validez cuestionable de todo el perfil."
+      ],
+      [
+        70,
+        79,
+        "Alto (70-79)",
+        "Validez cuestionable. Posible exageración o simulación de síntomas psicopatológicos. Requiere cautela interpretativa. Si coexiste con F elevada, refuerza hipótesis de falseamiento negativo."
+      ],
+      [
+        56,
+        69,
+        "Promedio-Superior (56-69)",
+        "Elevación subclínica. Posible sobrerreporte de síntomas inusuales. Si coexiste con patología clínica genuina, puede reflejar severidad del cuadro. Verificar consistencia con escalas clínicas."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Rango esperado. Respuestas típicas, incluso en contexto clínico. Perfil interpretable."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Rango bajo. Negación de síntomas inusuales. Si coexiste con K elevada, sugiere defensividad. En pacientes agudos puede indicar minimización de síntomas."
+      ]
+    ]
+  },
+  "S": {
+    "description": "Escala S (Autoconcepto Superlativo). Desarrollada por Butcher & Han (1995). 24 ítems (5 subescalas S1-S5). Evalúa presentación de uno mismo como excepcionalmente virtuoso, moralmente superior y sin defectos. Subescalas: S1 Creencias morales, S2 Satisfacción personal, S3 Paciencia/Denegación de ira, S4 Negación de defectos moralmente reprobables, S5 Confianza en la bondad humana. Detecta defensividad \"fake-good\" más sofisticada que L.",
+    "bands": [
+      [
+        70,
+        200,
+        "Muy Alto (≥70)",
+        "Defensividad marcada. Presentación de sí mismo como moralmente intachable, sin defectos. \"Fake-good\" sofisticado. Insight limitado, negación de problemas. Riesgo de perfil no válido si coexiste con L y K elevadas."
+      ],
+      [
+        60,
+        69,
+        "Alto (60-69)",
+        "Defensividad moderada. Tendencia a presentarse de forma muy favorable. Negación de limitaciones personales. Conformismo y convencionalismo. Visión idealizada de sí mismo."
+      ],
+      [
+        56,
+        59,
+        "Promedio-Superior (56-59)",
+        "Ligera elevación. Tendencia a presentarse favorablemente. Autoconcepto positivo posiblemente algo inflado. Posible adaptación exitosa o ligeramente defensiva."
+      ],
+      [
+        40,
+        55,
+        "Modal (40-55)",
+        "Rango esperado. Autoconcepto equilibrado. Reconocimiento realista de virtudes y defectos. Franqueza en la autodescripción."
+      ],
+      [
+        0,
+        39,
+        "Bajo (≤39)",
+        "Rango bajo. Reconocimiento franco de limitaciones y defectos. En casos extremos puede indicar baja autoestima o \"fake-bad\". Verificar consistencia con escalas clínicas."
+      ]
+    ]
+  }
+}

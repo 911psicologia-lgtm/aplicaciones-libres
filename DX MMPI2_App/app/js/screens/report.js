@@ -61,11 +61,6 @@ const Report = {
 
     const groups = this._groupScales(cur.results);
     const configs = this._detectConfigs(cur.results);
-    // Contador de escalas documentadas vs faltantes
-    const allResults = Object.values(cur.results).filter(r => r && typeof r === 'object' && r.code);
-    const docCount = allResults.filter(r => r.t != null && typeof r.t === 'number').length;
-    const missCount = allResults.filter(r => r.t == null).length;
-    const totalCount = allResults.length;
     // Validity gate: comprobar si el protocolo es interpretable
     const validity = MMPI2.assessValidity(cur.results);
     const isInterpretable = validity.status !== 'NO_INTERPRETABLE';
@@ -90,32 +85,28 @@ const Report = {
           <!-- Aviso de validez del protocolo -->
           ${this._renderValidityBanner(validity)}
 
+          <!-- A3: Cobertura de baremos — cuántas escalas tienen T documentada -->
+          ${this._renderCoverageCard(cur.results)}
+
           <!-- Export bar + Baremo switcher -->
           <div class="card no-print">
             <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
               <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
                 <label for="baremo-select" style="font-weight:600;color:var(--color-primary-dark);margin-right:4px">Baremo:</label>
                 <select id="baremo-select" class="form-select" style="width:auto;min-width:280px">
-                  <option value="MX" ${country === 'MX' ? 'selected' : ''}>México (Lucio et al.)</option>
+                  <option value="MX" ${country === 'MX' ? 'selected' : ''}>México (Lucio, N≈1.700)</option>
                   <option value="US" ${country === 'US' ? 'selected' : ''}>EE.UU. (Minnesota N=2.600)</option>
                   <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
                 </select>
                 <span class="form-hint" style="margin-left:8px">Recalcula todas las T al cambiar.</span>
               </div>
               <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
-                <div style="display:flex;gap:12px;align-items:center;font-size:13px">
-                  <span style="background:#dcfce7;color:#15803D;padding:4px 12px;border-radius:12px;font-weight:600">✓ ${docCount} documentadas</span>
-                  ${missCount > 0 ? `<span style="background:#fef3c7;color:#92400E;padding:4px 12px;border-radius:12px;font-weight:600">⚠ ${missCount} sin T</span>` : ''}
-                  <span style="color:var(--color-text-muted)">de ${totalCount} escalas</span>
-                </div>
-              </div>
-              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
                 <span style="font-weight:600;color:var(--color-primary-dark);margin-right:8px">Exportar:</span>
                 <button class="btn btn-secondary btn-sm" id="exp-html">HTML</button>
-                <button class="btn btn-secondary btn-sm" id="exp-pdf">PDF</button>
                 <button class="btn btn-secondary btn-sm" id="exp-word">Word</button>
                 <button class="btn btn-secondary btn-sm" id="exp-excel">Excel</button>
                 <button class="btn btn-secondary btn-sm" id="exp-json">JSON</button>
+                <button class="btn btn-secondary btn-sm" id="exp-pdf">PDF nativo</button>
                 <button class="btn btn-secondary btn-sm" id="exp-answer-sheet">⤓ Hoja de Respuestas (PDF)</button>
                 <button class="btn btn-secondary btn-sm" id="exp-profile-sheet">⤓ Perfil de Escalas (PDF)</button>
                 <button class="btn btn-primary btn-sm" id="exp-print" style="margin-left:auto">Imprimir / PDF</button>
@@ -260,10 +251,10 @@ const Report = {
     });
 
     bindEvent('exp-html', 'click', () => this._exportHTML());
-    bindEvent('exp-pdf', 'click', () => window.print());
     bindEvent('exp-word', 'click', () => this._exportWord());
     bindEvent('exp-excel', 'click', () => this._exportExcel());
     bindEvent('exp-json', 'click', () => this._exportJSON());
+    bindEvent('exp-pdf', 'click', () => this._exportPDFNative());
     bindEvent('exp-print', 'click', () => window.print());
     bindEvent('exp-answer-sheet', 'click', () => this._downloadAnswerSheet());
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
@@ -304,6 +295,44 @@ const Report = {
   _unmountAndNavigate(target) {
     this.unmount();
     App.navigate(target);
+  },
+
+  /* ---------- A3: Cobertura de baremos ---------- */
+  _renderCoverageCard(results) {
+    if (!results) return '';
+    const scales = Object.values(results).filter(r => r && typeof r === 'object' && r.code);
+    const total = scales.length;
+    const withT = scales.filter(s => typeof s.t === 'number' && isFinite(s.t)).length;
+    const withoutT = total - withT;
+    const pct = total > 0 ? Math.round((withT / total) * 100) : 0;
+    // Estado de validez de las escalas
+    const noClave = scales.filter(s => s.status === 'CLAVE_NO_DISPONIBLE').length;
+    const fueraTabla = scales.filter(s => s.status === 'PD_FUERA_DE_TABLA').length;
+    const sinT = scales.filter(s => s.status === 'T_NO_DISPONIBLE').length;
+    const online = scales.filter(s => s.status === 'ES-ONLINE').length;
+    const color = pct >= 90 ? 'var(--color-success)' : (pct >= 70 ? 'var(--color-warning)' : 'var(--color-danger)');
+    const bg = pct >= 90 ? 'rgba(40,167,69,0.06)' : (pct >= 70 ? 'rgba(191,143,0,0.06)' : 'rgba(192,0,0,0.06)');
+    let detail = '';
+    if (noClave > 0) detail += `<span style="margin-right:12px"><strong>${noClave}</strong> sin clave</span>`;
+    if (fueraTabla > 0) detail += `<span style="margin-right:12px"><strong>${fueraTabla}</strong> PD fuera de tabla</span>`;
+    if (sinT > 0) detail += `<span style="margin-right:12px"><strong>${sinT}</strong> sin T en este baremo</span>`;
+    if (online > 0) detail += `<span style="margin-right:12px"><strong>${online}</strong> requiere TEAcorrige</span>`;
+    return `<div class="card no-print" style="border-left:4px solid ${color};background:${bg}">
+      <div class="card-body" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <div style="font-weight:700;color:${color};font-size:14px;margin-bottom:4px">📊 Cobertura de baremos</div>
+          <div style="font-size:13px;color:var(--color-text)"><strong>${withT}</strong> de <strong>${total}</strong> escalas tienen T documentada (${pct}%)</div>
+          ${detail ? `<div style="font-size:12px;color:var(--color-text-muted);margin-top:4px">${detail}</div>` : ''}
+        </div>
+        <div style="width:100px;height:100px;position:relative">
+          <svg viewBox="0 0 36 36" style="width:100%;height:100%">
+            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--color-bg)" stroke-width="3"/>
+            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 ${pct/100*31.831} 31.831" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
+            <text x="18" y="20.5" text-anchor="middle" font-size="9" font-weight="700" fill="${color}">${pct}%</text>
+          </svg>
+        </div>
+      </div>
+    </div>`;
   },
 
   /* ---------- Validity banner ---------- */
@@ -1673,6 +1702,78 @@ const Report = {
     });
   },
 
+  /* ---------- B6: PDF nativo (jsPDF + html2canvas) ---------- */
+  _exportPDFNative() {
+    this._withCaseContext(async (c, ev) => {
+      if (!window.jspdf || !window.html2canvas) {
+        window.toast('Librerías PDF no cargadas. Recargue la página.', 'error');
+        return;
+      }
+      // Indicador visual
+      const toastEl = window.toast('Generando PDF… (puede tardar 10-20 s)', 'info', 20000);
+      try {
+        // Generar versión HTML standalone del informe (reutiliza la función existente)
+        const html = window.Export._buildReportHTML(c, ev);
+        // Crear contenedor temporal fuera de pantalla
+        const holder = document.createElement('div');
+        holder.style.cssText = 'position:absolute;left:-99999px;top:0;width:794px;background:#fff;padding:32px;font-family:sans-serif';
+        holder.innerHTML = html;
+        document.body.appendChild(holder);
+        // Esperar a que se rendericen los canvas/charts
+        await new Promise(r => setTimeout(r, 600));
+        // Convertir a canvas
+        const canvas = await window.html2canvas(holder, {
+          scale: 1.5,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          windowWidth: 900,
+        });
+        document.body.removeChild(holder);
+        // Crear PDF
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+        const pdfW = pdf.internal.pageSize.getWidth();
+        const pdfH = pdf.internal.pageSize.getHeight();
+        const imgW = pdfW;
+        const imgH = (canvas.height * imgW) / canvas.width;
+        const imgData = canvas.toDataURL('image/jpeg', 0.85);
+        // Si la imagen cabe en una página, agregarla; si no, dividir
+        if (imgH <= pdfH) {
+          pdf.addImage(imgData, 'JPEG', 0, 0, imgW, imgH);
+        } else {
+          // Paginación: trocear el canvas en páginas
+          let remaining = canvas.height;
+          let ySrc = 0;
+          const pageHpx = Math.floor((canvas.width * pdfH) / imgW);
+          while (remaining > 0) {
+            const sliceH = Math.min(pageHpx, remaining);
+            const pageCanvas = document.createElement('canvas');
+            pageCanvas.width = canvas.width;
+            pageCanvas.height = sliceH;
+            const ctx = pageCanvas.getContext('2d');
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+            ctx.drawImage(canvas, 0, ySrc, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+            const pageData = pageCanvas.toDataURL('image/jpeg', 0.85);
+            const pageImgH = (sliceH * imgW) / canvas.width;
+            if (ySrc > 0) pdf.addPage();
+            pdf.addImage(pageData, 'JPEG', 0, 0, imgW, pageImgH);
+            ySrc += sliceH;
+            remaining -= sliceH;
+          }
+        }
+        const fname = `MMPI2_${this._safeName(c.patient?.name)}_${new Date().toISOString().slice(0,10)}.pdf`;
+        pdf.save(fname);
+        if (toastEl) toastEl.remove();
+        window.toast('PDF nativo descargado ✓', 'success');
+      } catch (e) {
+        console.error('PDF error:', e);
+        if (toastEl) toastEl.remove();
+        window.toast('No se pudo generar el PDF: ' + e.message + '. Use "Imprimir / PDF" como alternativa.', 'error', 8000);
+      }
+    });
+  },
+
   /* ---------- Baremo switcher: recalcular T al cambiar país ---------- */
   async _recalcCountry(newCountry) {
     const cur = Storage.getCurrentCase();
@@ -1681,7 +1782,7 @@ const Report = {
       return;
     }
     if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
-    const country = newCountry === 'ES' ? 'ES' : 'US';
+    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');

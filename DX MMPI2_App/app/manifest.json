@@ -1,0 +1,37 @@
+{
+  "name": "MMPI-2 · Aplicación clínica",
+  "short_name": "MMPI-2",
+  "description": "Aplicación clínica para la aplicación, corrección e interpretación del MMPI-2 con baremos español, estadounidense y mexicano",
+  "version": "3.1.0",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F5F7FA",
+  "theme_color": "#1F3864",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["medical", "productivity", "education"],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nuevo caso",
+      "short_name": "Nuevo",
+      "description": "Crear un nuevo caso clínico",
+      "url": "./index.html?action=new"
+    },
+    {
+      "name": "Ver panel",
+      "short_name": "Panel",
+      "description": "Abrir el panel principal",
+      "url": "./index.html"
+    }
+  ]
+}
