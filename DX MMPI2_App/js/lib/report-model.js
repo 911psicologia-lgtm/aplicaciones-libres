@@ -170,9 +170,13 @@ const ReportModel = {
         const tv = typeof r.t === 'number' ? r.t : null;
         const pdk = r.pdk ? (r.pdK != null ? r.pdK : '—') : '—';
         const desc = o.tbl_descriptors ? [tv == null ? I.statusReason(r) : (tv >= 60 ? I.g((I.KB[c] || {}).s || '', sex) : (tv <= 39 && I.loText(c, sex) ? I.loText(c, sex) : 'Sin elevación'))] : [];
-        return { cells: [c, g === 'Validez' ? I.VALIDITY_NAMES[c] : I.name(c), r.pd != null ? r.pd : '—', pdk, tv != null ? tv : 'N/D', this.levelLabel(tv)].concat(desc), level: this.levelKey(tv) };
+        return { cells: [c, g === 'Validez' ? I.VALIDITY_NAMES[c] : I.name(c), r.pd != null ? r.pd : '—', pdk, tv != null ? (r.verify ? tv + '*' : tv) : 'N/D', this.levelLabel(tv)].concat(desc), level: this.levelKey(tv) };
       });
-      blocks.push({ t: 'table', num: ++tab, caption: `${this.GROUP_TITLES[g]}: puntuaciones directas (PD), corregidas por K (PD+K) y típicas (T)`, columns, rows, tCol: 4, levelCol: 5, footnote: cov.missing.length ? `T documentada en ${cov.documented} de ${cov.total} escalas.` : null });
+      const notes = [];
+      if (cov.missing.length) notes.push(`T documentada en ${cov.documented} de ${cov.total} escalas.`);
+      if (cov.verify.length) notes.push('* T a verificar: la puntuación directa cae en un tramo de la tabla del baremo con inconsistencias; confírmela en el manual o en el sistema oficial de corrección.');
+      if (g === 'Clínicas' && R.Mf && R.Mf.key && R.Mf.key !== 'Mf') notes.push(`Mf corregida con la clave femenina (${R.Mf.key}).`);
+      blocks.push({ t: 'table', num: ++tab, caption: `${this.GROUP_TITLES[g]}: puntuaciones directas (PD), corregidas por K (PD+K) y típicas (T)`, columns, rows, tCol: 4, levelCol: 5, footnote: notes.length ? notes.join(' ') : null });
       // Interpretación
       blocks.push({ t: 'interp', title: 'Interpretación', text: I.groupParagraph(g, R, sex) });
       // Gráfica
@@ -270,11 +274,12 @@ const ReportModel = {
     }
     // 4.5 Comparación
     if (o.sec_compare && p.previousMMPI) {
-      const rowsC = I.comparisonRows(R, p.previousMMPI);
+      const rowsC = I.comparisonRows(R, p.previousMMPI, sex);
       if (rowsC.length) {
         H2(`${sec}.${++an}`, 'Comparación con la aplicación anterior');
         blocks.push({ t: 'table', num: ++tab, caption: 'Cambio entre aplicaciones (Δ = T actual − T anterior)', columns: ['Escala', 'Nombre', 'T anterior', 'T actual', 'Δ', 'Cambio'],
-          rows: rowsC.map(r => ({ cells: [r.code, I.name(r.code), r.prev, r.cur != null ? r.cur : 'N/D', r.delta == null ? '—' : (r.delta > 0 ? '+' : '') + r.delta, r.change], level: r.delta == null ? null : (r.delta >= 10 ? 'vh' : (r.delta <= -10 ? 'lo' : 'm')) })), levelCol: 5 });
+          rows: rowsC.map(r => ({ cells: [r.code, I.name(r.code), r.prev == null ? 'N/D' : (r.approx ? `≈ ${r.prev} (${r.prevRaw} ${r.prevLabel})` : r.prev), r.cur != null ? r.cur : 'N/D', r.delta == null ? '—' : (r.approx ? '≈ ' : '') + (r.delta > 0 ? '+' : '') + r.delta, r.change], level: r.delta == null ? null : (r.delta >= 10 ? 'vh' : (r.delta <= -10 ? 'lo' : 'm')) })), levelCol: 5,
+          footnote: rowsC.some(r => r.approx) ? '≈ Valor anterior convertido de forma aproximada desde el baremo del otro sexo (ver interpretación).' : null });
         blocks.push({ t: 'interp', title: 'Interpretación', text: I.comparisonParagraph(R, p.previousMMPI, sex) });
         if (o.sec_charts) {
           blocks.push({ t: 'chart', num: ++fig, caption: 'Comparación entre la aplicación actual y la anterior', spec: {

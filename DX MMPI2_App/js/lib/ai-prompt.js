@@ -77,7 +77,7 @@ const AIPrompt = {
     sections.push(this._evaluatorBlock(ev, desidentify));
     sections.push(this._resultsBlock(results, country));
     sections.push(this._narrativeBlock(caseData.narrative, p, country));
-    const prevBlock = this._previousMmpiBlock(p.previousMMPI, results);
+    const prevBlock = this._previousMmpiBlock(p.previousMMPI, results, p.sex);
     if (prevBlock) sections.push(prevBlock);
     sections.push(this._documentStructureSpec());
     sections.push(this._requiredTablesSpec(country));
@@ -326,11 +326,10 @@ const AIPrompt = {
   },
 
   /* ---------- 7. Bloque de comparación con MMPI-2 anterior ---------- */
-  _previousMmpiBlock(prevText, results) {
+  _previousMmpiBlock(prevText, results, sex) {
     if (!prevText || !prevText.trim()) return '';
-    const prevMap = this._parsePreviousMMPI(prevText);
-    const codes = Object.keys(prevMap);
-    if (codes.length === 0) return '';
+    const rows = (window.Interpret ? Interpret.comparisonRows(results, prevText, sex) : []);
+    if (rows.length === 0) return '';
     const lines = [
       '═ COMPARACIÓN CON MMPI-2 ANTERIOR ═',
       'El evaluado cuenta con una aplicación previa del MMPI-2 cuyas puntuaciones T han sido aportadas por el evaluador:',
@@ -338,20 +337,18 @@ const AIPrompt = {
       '| Escala | T anterior | T actual | Cambio (Δ) |',
       '|--------|-------------|----------|------------|',
     ];
-    for (const code of codes) {
-      const prevT = prevMap[code];
-      const cur = results[code];
-      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
-      const delta = (curT != null) ? (curT - prevT) : null;
-      const deltaStr = (delta == null) ? '—' : ((delta > 0 ? '+' : '') + delta);
-      const curStr = (curT == null) ? '—' : String(curT);
-      lines.push(`| ${code.padEnd(6)} | ${String(prevT).padStart(11)} | ${curStr.padStart(8)} | ${deltaStr.padStart(10)} |`);
+    for (const r of rows) {
+      const prevStr = r.prev == null ? '—' : (r.approx ? `≈${r.prev} (orig. ${r.prevRaw} ${r.prevLabel})` : String(r.prev));
+      const deltaStr = (r.delta == null) ? '—' : ((r.approx ? '≈' : '') + (r.delta > 0 ? '+' : '') + r.delta);
+      lines.push(`| ${r.code.padEnd(6)} | ${prevStr.padStart(11)} | ${(r.cur == null ? '—' : String(r.cur)).padStart(8)} | ${deltaStr.padStart(10)} |`);
     }
     lines.push('');
+    rows.filter(r => r.note).forEach(r => lines.push('NOTA Mf: ' + r.note + ' Usa el valor equivalente («≈») para la comparación, indícalo como aproximado y NO marques Mf como «no comparable».'));
     lines.push('Integra esta comparación en la sección 13 «Contraste longitudinal» del informe.');
     lines.push('Señala cambios clínicamente relevantes (Δ ≥ 10 puntos T) en las escalas básicas, indicando si la evolución es de mejora, empeoramiento o estabilidad.');
     return lines.join('\n');
   },
+
 
   /* ---------- 8. Especificación de la estructura del documento ---------- */
   _documentStructureSpec() {

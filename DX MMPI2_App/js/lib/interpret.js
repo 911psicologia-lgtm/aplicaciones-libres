@@ -306,7 +306,8 @@ const Interpret = {
     const list = (codes || Object.keys(results)).map(c => results[c]).filter(r => r && r.code);
     const documented = list.filter(r => typeof r.t === 'number');
     const missing = list.filter(r => typeof r.t !== 'number').map(r => ({ code: r.code, reason: this.statusReason(r) }));
-    return { total: list.length, documented: documented.length, missing };
+    const verify = list.filter(r => typeof r.t === 'number' && r.verify).map(r => ({ code: r.code, t: r.t, pd: r.pdk ? r.pdK : r.pd }));
+    return { total: list.length, documented: documented.length, missing, verify };
   },
   statusReason(r) {
     switch (r.status) {
@@ -383,6 +384,9 @@ const Interpret = {
       if (ct) parts.push(ct.sentence);
     }
     const cov = this.coverage(results, codes);
+    if (cov.verify.length) {
+      parts.push(`${cov.verify.length === 1 ? 'La puntuación' : 'Las puntuaciones'} de ${this.join(cov.verify.map(v => `${v.code} (T = ${v.t})`))}, marcada${cov.verify.length === 1 ? '' : 's'} con asterisco, ${cov.verify.length === 1 ? 'cae' : 'caen'} en un tramo de la tabla del baremo con inconsistencias y ${cov.verify.length === 1 ? 'debe' : 'deben'} confirmarse en el manual o en el sistema oficial de corrección antes de sustentar conclusiones.`);
+    }
     if (cov.missing.length) {
       parts.push(`No fue posible obtener la puntuación T de ${this.join(cov.missing.map(m => `${m.code} (${m.reason})`))}.`);
     }
@@ -590,6 +594,15 @@ const Interpret = {
   },
 
   /* ---------- Comparación con aplicación previa ---------- */
+  /* Rótulos de Mf según sexo de la clave/baremo usada en el informe anterior.
+     TEA: Mfv = varones, Mfm = mujeres.  Manual EE. UU.: Mf-m = varones, Mf-f = mujeres.
+     Ojo: «Mfm» (sin guion) es TEA-mujeres; «Mf-m» (con guion) es varones. */
+  MF_ALIASES: {
+    'mfv': 'H', 'mf-v': 'H', 'mfh': 'H', 'mf-h': 'H', 'mf-m': 'H', 'mfvar': 'H',
+    'mfm': 'M', 'mf-f': 'M', 'mff': 'M', 'mf-mu': 'M', 'mfmuj': 'M',
+    'mf': null,
+  },
+
   parsePrevious(text) {
     const out = {};
     if (!text) return out;
@@ -597,34 +610,117 @@ const Interpret = {
     let m;
     while ((m = re.exec(text)) !== null) {
       let code = m[1];
-      const known = Object.values(this.GROUP_ORDER).flat().find(c => c.toLowerCase() === code.toLowerCase());
-      code = known || (code.charAt(0).toUpperCase() + code.slice(1));
       const t = parseInt(m[2], 10);
-      if (t >= 20 && t <= 120) out[code] = t;
+      if (!(t >= 20 && t <= 120)) continue;
+      const low = code.toLowerCase();
+      if (Object.prototype.hasOwnProperty.call(this.MF_ALIASES, low)) {
+        out.Mf = { t, label: code, sex: this.MF_ALIASES[low] };
+        continue;
+      }
+      const known = Object.values(this.GROUP_ORDER).flat().find(c => c.toLowerCase() === low);
+      code = known || (code.charAt(0).toUpperCase() + code.slice(1));
+      out[code] = t;
     }
     return out;
   },
 
-  comparisonRows(results, prevText) {
+  /* Tabla Mf (baremo EE. UU., la única con tablas de Mf íntegras en la app) limpiada:
+     se conserva el tramo monótono principal y se interpola entre puntos. */
+  _mfTable(sex) {
+    const B = (window.__BAREMOS_US__ || {}).Mf || {};
+    const raw = B[sex === 'H' ? 'M' : 'F'];
+    if (!raw || typeof raw !== 'object') return null;
+    const pts = Object.entries(raw).map(([k, v]) => [parseInt(k, 10), v]).filter(([k, v]) => isFinite(k) && typeof v === 'number').sort((a, b) => a[0] - b[0]);
+    const dir = sex === 'H' ? 1 : -1; // varones: T sube con la PD; mujeres: T baja
+    const clean = [pts[0]];
+    for (const p of pts.slice(1)) {
+      const last = clean[clean.length - 1];
+      if ((p[1] - last[1]) * dir > 0) clean.push(p); else break; // corta en el primer salto erróneo
+    }
+    return clean.length >= 5 ? clean : null;
+  },
+  _interp(pts, x, from, to) {
+    // pts: [[a,b],...] ordenado por el índice 'from'; devuelve el valor 'to' interpolado
+    const arr = pts.slice().sort((p, q) => p[from] - q[from]);
+    if (x <= arr[0][from]) { const [p, q] = [arr[0], arr[1]]; return p[to] + (x - p[from]) * (q[to] - p[to]) / (q[from] - p[from]); }
+    for (let i = 0; i < arr.length - 1; i++) {
+      const p = arr[i], q = arr[i + 1];
+      if (x >= p[from] && x <= q[from]) return p[to] + (x - p[from]) * (q[to] - p[to]) / ((q[from] - p[from]) || 1);
+    }
+    const p = arr[arr.length - 2], q = arr[arr.length - 1];
+    return q[to] + (x - q[from]) * (q[to] - p[to]) / (q[from] - p[from]);
+  },
+  /* Convierte una T de Mf obtenida con el baremo de un sexo a la T equivalente del otro sexo.
+     T(origen) → PD estimada → T(destino). Devuelve { t, lo, hi, pd } o null. */
+  mfEquivalent(t, fromSex, toSex) {
+    const A = this._mfTable(fromSex), Bt = this._mfTable(toSex);
+    if (!A || !Bt) return null;
+    const pd = this._interp(A, t, 1, 0);
+    const conv = (x) => Math.round(Math.max(20, Math.min(120, this._interp(Bt, x, 0, 1))));
+    // Margen: ±2 PD (diferencias de clave en 4 ítems y de baremo de origen)
+    const a = conv(pd - 2), b = conv(pd + 2);
+    return { t: conv(pd), lo: Math.min(a, b), hi: Math.max(a, b), pd: Math.round(pd * 10) / 10 };
+  },
+
+  comparisonRows(results, prevText, sex) {
     const prev = this.parsePrevious(prevText);
     return Object.keys(prev).map(code => {
       const cur = this.T(results, code);
-      const d = cur != null ? cur - prev[code] : null;
+      let pv = prev[code], approx = false, note = null, prevLabel = null, prevRaw = null, range = null;
+      if (code === 'Mf' && typeof pv === 'object') {
+        prevLabel = pv.label; prevRaw = pv.t;
+        if (pv.sex && sex && pv.sex !== sex) {
+          const eq = this.mfEquivalent(pv.t, pv.sex, sex);
+          if (eq) {
+            approx = true; range = [eq.lo, eq.hi];
+            note = `La T anterior de Mf (${pv.t}, rótulo «${pv.label}») se obtuvo con la clave y el baremo de ${pv.sex === 'H' ? 'varones' : 'mujeres'}; para compararla se convirtió a su equivalente aproximado en el baremo de ${sex === 'H' ? 'varones' : 'mujeres'} (T ≈ ${eq.t}; rango probable ${eq.lo}–${eq.hi}), estimando la puntuación directa (≈ ${String(eq.pd).replace('.', ',')}) con las tablas estadounidenses. En el baremo de mujeres una T alta indica distancia de los intereses tradicionalmente femeninos y en el de varones, cercanía a ellos, por lo que las cifras originales no son comparables entre sí.`;
+            pv = eq.t;
+          } else { pv = null; note = `La T anterior de Mf («${pv && pv.label}») corresponde al baremo del otro sexo y no pudo convertirse.`; }
+        } else {
+          pv = pv.t;
+        }
+      }
+      const d = (cur != null && pv != null) ? cur - pv : null;
       let change = '—';
       if (d != null) change = d >= 10 ? 'Aumento relevante' : (d <= -10 ? 'Descenso relevante' : (Math.abs(d) >= 5 ? (d > 0 ? 'Aumento leve' : 'Descenso leve') : 'Estable'));
-      return { code, prev: prev[code], cur, delta: d, change };
+      if (approx && d != null) change += ' (aprox.)';
+      return { code, prev: pv, cur, delta: d, change, approx, note, prevLabel, prevRaw, range };
     });
   },
 
   comparisonParagraph(results, prevText, sex) {
-    const rows = this.comparisonRows(results, prevText).filter(r => r.delta != null);
+    const all = this.comparisonRows(results, prevText, sex);
+    const rows = all.filter(r => r.delta != null);
     if (!rows.length) return '';
-    const up = rows.filter(r => r.delta >= 10), down = rows.filter(r => r.delta <= -10), stable = rows.filter(r => Math.abs(r.delta) < 10);
+    const VAL = ['L', 'F', 'K', 'VRIN', 'TRIN', 'Fb', 'Fp', 'S'];
+    const clin = rows.filter(r => !VAL.includes(r.code) && r.code !== 'Mf');
+    const val = rows.filter(r => VAL.includes(r.code));
+    const mf = rows.find(r => r.code === 'Mf');
     const fmt = (r) => `${r.code} (de ${r.prev} a ${r.cur})`;
     const parts = [`Se compararon ${rows.length} escalas con la aplicación anterior; se considera relevante un cambio de 10 o más puntos T.`];
-    if (up.length) parts.push(`Aumentan de forma relevante ${this.join(up.map(fmt))}, lo que indica intensificación del malestar en esas áreas.`);
-    if (down.length) parts.push(`Disminuyen de forma relevante ${this.join(down.map(fmt))}, lo que sugiere mejoría o menor reconocimiento de esas dificultades.`);
-    if (stable.length) parts.push(`${stable.length === rows.length ? 'Todas las escalas' : (stable.length === 1 ? 'La escala restante' : 'Las ' + stable.length + ' escalas restantes')} se ${stable.length === 1 && stable.length !== rows.length ? 'mantiene estable' : 'mantienen estables'} (cambio menor de 10 puntos), lo que apunta a características relativamente persistentes entre ambas aplicaciones.`);
+    if (clin.length) {
+      const up = clin.filter(r => r.delta >= 10), down = clin.filter(r => r.delta <= -10), stable = clin.filter(r => Math.abs(r.delta) < 10);
+      if (up.length) parts.push(`En las escalas clínicas y de contenido ${up.length === 1 ? 'aumenta' : 'aumentan'} de forma relevante ${this.join(up.map(fmt))}, lo que indica intensificación del malestar en esas áreas.`);
+      if (down.length) parts.push(`${down.length === 1 ? 'Disminuye' : 'Disminuyen'} de forma relevante ${this.join(down.map(fmt))}, lo que sugiere mejoría o menor reconocimiento de esas dificultades.`);
+      if (stable.length) parts.push(`${stable.length === clin.length ? 'Todas ellas' : (stable.length === 1 ? 'La escala clínica restante' : 'Las ' + stable.length + ' escalas clínicas restantes')} se ${stable.length === 1 && stable.length !== clin.length ? 'mantiene estable' : 'mantienen estables'} (cambio menor de 10 puntos), lo que apunta a características relativamente persistentes entre ambas aplicaciones.`);
+    }
+    if (val.length) {
+      const ch = val.filter(r => Math.abs(r.delta) >= 10);
+      parts.push(ch.length
+        ? `En las escalas de validez ${ch.length === 1 ? 'cambia' : 'cambian'} de forma relevante ${this.join(ch.map(fmt))}, lo que indica una actitud distinta ante la prueba en cada aplicación y debe tenerse en cuenta al comparar el resto del perfil.`
+        : 'Las escalas de validez se mantienen en niveles similares, lo que indica una actitud semejante ante la prueba en ambas aplicaciones.');
+    }
+    if (mf) {
+      const d = mf.delta, pre = mf.approx ? '≈ ' : '';
+      let txt = `En Masculinidad–feminidad, que no mide psicopatología, la puntuación pasa de ${pre}${mf.prev} a ${mf.cur} (${pre}${d > 0 ? '+' : ''}${d} puntos).`;
+      if (mf.approx && mf.range) {
+        const dLo = mf.cur - mf.range[1], dHi = mf.cur - mf.range[0];
+        const sameBand = (mf.prev >= 65) === (mf.cur >= 65);
+        txt += ` Considerando el margen de la conversión (T anterior entre ${mf.range[0]} y ${mf.range[1]}), la diferencia real estaría entre ${dLo > 0 ? '+' : ''}${dLo} y ${dHi > 0 ? '+' : ''}${dHi} puntos${sameBand ? ', y en ambas aplicaciones la escala se sitúa en el mismo rango, con el mismo sentido interpretativo' : ''}.`;
+      }
+      parts.push(txt);
+    }
+    all.filter(r => r.note).forEach(r => parts.push(r.note));
     parts.push('Los cambios deben leerse considerando el tiempo transcurrido, los tratamientos recibidos y el contexto de cada aplicación.');
     return this._clean(parts.join(' '));
   },

@@ -573,3 +573,4 @@ kbd { display: inline-block; border: 1px solid var(--color-border); border-botto
   .screen-content.wide { max-width: 100%; padding: 0; }
   .toast-container, .modal-overlay { display: none !important; }
 }
+.verify-note { margin-top: 6px; font-size: 12px; color: #92400E; background: #FEF3C7; border-radius: 4px; padding: 6px 8px; }

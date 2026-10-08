@@ -88,7 +88,7 @@ const ReportRender = {
         case 'table': {
           const head = b.columns.map(c => `<th>${e(c)}</th>`).join('');
           const body = b.rows.map(r => '<tr>' + r.cells.map((c, i) => {
-            const isNum = typeof c === 'number' || /^[+−-]?\d+$/.test(String(c)) || String(c) === 'N/D' || String(c) === '—' || /^\d+ \/ /.test(String(c));
+            const isNum = typeof c === 'number' || /^[+−-]?\d+\*?$/.test(String(c)) || String(c) === 'N/D' || String(c) === '—' || /^\d+ \/ /.test(String(c));
             const lv = (r.level && (i === b.tCol || i === b.levelCol)) ? ` lv-${r.level}` : '';
             return `<td class="${isNum ? 'num' : ''}${lv}">${e(c)}</td>`;
           }).join('') + '</tr>').join('');
@@ -220,7 +220,7 @@ const ReportRender = {
           const head = new TableRow({ tableHeader: true, children: b.columns.map((c, i) => cell(c, w[i], { fill: blue, color: 'FFFFFF', bold: true, border: blue })) });
           const rows = b.rows.map(r => new TableRow({ children: r.cells.map((c, i) => {
             const lv = (r.level && (i === b.tCol || i === b.levelCol)) ? r.level : null;
-            const isNum = typeof c === 'number' || /^[+−-]?\d+$/.test(String(c)) || ['N/D', '—'].includes(String(c));
+            const isNum = typeof c === 'number' || /^[+−-]?\d+\*?$/.test(String(c)) || ['N/D', '—'].includes(String(c));
             return cell(c, w[i], { fill: lv ? levelFill[lv] : undefined, color: lv ? levelColor[lv] : undefined, bold: lv === 'vh' || lv === 'h' || lv === 'lo', center: isNum });
           }) }));
           children.push(new Table({ width: { size: FULL, type: WidthType.DXA }, columnWidths: w, rows: [head, ...rows] }));
@@ -306,7 +306,7 @@ const ReportRender = {
   /* ---------- PDF nativo (jsPDF) ---------- */
   _pdfText(s) {
     return String(s == null ? '' : s)
-      .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/−/g, '-').replace(/Δ/g, 'Dif.')
+      .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/−/g, '-').replace(/Δ/g, 'Dif.').replace(/≈/g, '~')
       .replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/ /g, ' ');
   },
 

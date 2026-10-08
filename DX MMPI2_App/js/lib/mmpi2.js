@@ -184,10 +184,20 @@ const MMPI2 = {
 
   /* ---- Calcular todas las PDs (FAIL-CLOSED) ----
      Si una escala no tiene clave → pd=null y pdK=null. */
-  computeAllPDs(responses) {
+  /* Clave de Mf según sexo (V4.1): las mujeres se corrigen con la clave femenina.
+     EE. UU./México → 'Mf-F'; España (TEA) → 'Mfm'. Varones → 'Mf'. */
+  mfKey(sex, country) {
+    if (sex !== 'M') return 'Mf';
+    const k = country === 'ES' ? 'Mfm' : 'Mf-F';
+    const items = this.SCALE_ITEMS && this.SCALE_ITEMS[k];
+    return (Array.isArray(items) && items.length) ? k : 'Mf';
+  },
+
+  computeAllPDs(responses, sex, country) {
     const results = {};
     for (const scale of this.SCALES) {
-      const pd = this.computePD(scale.code, responses);
+      const key = scale.code === 'Mf' ? this.mfKey(sex, country) : scale.code;
+      const pd = this.computePD(key, responses);
       results[scale.code] = { pd };
     }
     // K-correction: si PD de K no está disponible, todas las escalas con
@@ -232,6 +242,37 @@ const MMPI2 = {
     return window.__BAREMOS_ES__ || {};
   },
 
+  /* ---- Integridad de tablas (V4.1) ----
+     Algunas tablas del baremo tienen errores de extracción (tramos que
+     rompen la progresión PD→T). Se calcula la subsecuencia monótona más
+     larga de cada tabla; las PD que quedan fuera se marcan «a verificar». */
+  NON_MONOTONIC_OK: new Set(['TRIN', 'VRIN']),
+  _suspectCache: {},
+  suspectPDs(country, scaleCode, sexKey) {
+    const ck = country + '|' + scaleCode + '|' + sexKey;
+    if (this._suspectCache[ck]) return this._suspectCache[ck];
+    const out = new Set();
+    this._suspectCache[ck] = out;
+    if (this.NON_MONOTONIC_OK.has(scaleCode)) return out;
+    const d = (this._getBaremos(country)[scaleCode] || {})[sexKey];
+    if (!d || typeof d !== 'object') return out;
+    const pts = Object.entries(d).map(([k, v]) => [Number(k), v]).filter(([k, v]) => isFinite(k) && typeof v === 'number').sort((a, b) => a[0] - b[0]);
+    if (pts.length < 4) return out;
+    // Dirección esperada: la de la mayoría de los pasos
+    let up = 0, down = 0;
+    for (let i = 1; i < pts.length; i++) { if (pts[i][1] > pts[i - 1][1]) up++; else if (pts[i][1] < pts[i - 1][1]) down++; }
+    const sign = up >= down ? 1 : -1;
+    // Subsecuencia no decreciente más larga (sobre sign*T), O(n²) (tablas pequeñas)
+    const n = pts.length, L = new Array(n).fill(1), prev = new Array(n).fill(-1);
+    for (let i = 0; i < n; i++) for (let j = 0; j < i; j++) {
+      if (sign * pts[j][1] <= sign * pts[i][1] && L[j] + 1 > L[i]) { L[i] = L[j] + 1; prev[i] = j; }
+    }
+    let best = 0; for (let i = 1; i < n; i++) if (L[i] > L[best]) best = i;
+    const keep = new Set(); for (let i = best; i >= 0; i = prev[i]) keep.add(i);
+    pts.forEach((p, i) => { if (!keep.has(i)) out.add(p[0]); });
+    return out;
+  },
+
   /* ---- Lookup T por sexo y país (FAIL-CLOSED)
      - Si pd es null → {t:null, status:CLAVE_NO_DISPONIBLE}
      - Si la escala está "online" para el país → {t:<mensaje>, status:ES-ONLINE}
@@ -254,13 +295,17 @@ const MMPI2 = {
       return (typeof t === 'number' && isFinite(t)) ? t : null;
     };
     const bs = this._translateSex(sex, country);
+    let usedKey = bs;
     let tVal = lkIn(bs);
     if (tVal === null) {
       for (const alt of ['M','F','H']) {
-        if (alt !== bs) { tVal = lkIn(alt); if (tVal !== null) break; }
+        if (alt !== bs) { tVal = lkIn(alt); if (tVal !== null) { usedKey = alt; break; } }
       }
     }
     if (tVal === null) return { t: null, status: S.PD_FUERA_DE_TABLA };
+    if (this.suspectPDs(country, scaleCode, usedKey).has(Number(pd))) {
+      return { t: tVal, status: 'T_A_VERIFICAR', verify: true };
+    }
     return { t: tVal, status: S.T_DOCUMENTADA };
   },
 
@@ -283,6 +328,7 @@ const MMPI2 = {
       results[scale.code] = {
         t: lk.t,
         status: lk.status,
+        verify: !!lk.verify,
       };
     }
     return results;
@@ -298,7 +344,7 @@ const MMPI2 = {
     if (sex !== 'H' && sex !== 'M') {
       throw new Error('computeAll: sex es obligatorio (\'H\' o \'M\')');
     }
-    const pds = this.computeAllPDs(responses);
+    const pds = this.computeAllPDs(responses, sex, country);
     const tScores = this.computeAllT(pds, sex, country);
     const results = {};
     for (const scale of this.SCALES) {
@@ -314,12 +360,17 @@ const MMPI2 = {
         pdK: pdData.pdK,
         t: tInfo.t,
         status: tInfo.status,
+        verify: !!tInfo.verify,
+        key: scale.code === 'Mf' ? this.mfKey(sex, country) : undefined,
         band: this.getBand(tInfo.t),
         interpretation: this.getInterpretation(scale.code, tInfo.t, sex),
       };
     }
+    results._meta = Object.assign({}, results._meta || {}, { engine: this.ENGINE_VERSION });
     return results;
   },
+
+  ENGINE_VERSION: 2,
 
   /* ---- Determinar banda por T ---- */
   getBand(t) {

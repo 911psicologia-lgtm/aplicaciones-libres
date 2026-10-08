@@ -114,7 +114,7 @@ const Case = {
                 <div class="form-field full">
                   <label class="form-label">MMPI-2 anterior (opcional)</label>
                   <textarea id="p-previous-mmpi" class="form-textarea" rows="3" placeholder="Pegue las puntuaciones T de una aplicación previa en formato «Escala=T», separadas por comas, p. ej.: Hs=78, D=55, Hy=68, Pd=66, Pa=65, Pt=52, Sc=50, Ma=42, Si=45">${this._esc(p.previousMMPI || '')}</textarea>
-                  <span class="form-hint">Si existen resultados previos del MMPI-2, el informe generará un gráfico comparativo y una tabla de cambios (Δ).</span>
+                  <span class="form-hint">Si existen resultados previos del MMPI-2, el informe generará un gráfico comparativo y una tabla de cambios (Δ). Para Mf respete el rótulo del informe anterior: <b>Mfv</b> (baremo de varones) o <b>Mfm</b> (baremo de mujeres). Si no corresponde al sexo del evaluado, la app lo convierte a un valor equivalente aproximado.</span>
                 </div>
               </div>
 
@@ -246,7 +246,7 @@ const Case = {
     if (cur.results && Array.isArray(cur.responses) && (prev.sex !== patient.sex || prev.country !== patient.country)) {
       try {
         const results = await MMPI2.computeAll(cur.responses, patient.sex, patient.country);
-        results._meta = { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length };
+        results._meta = Object.assign(results._meta || {}, { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length });
         cur.results = results;
         window.toast('Resultados recalculados con el nuevo sexo/baremo', 'info');
       } catch (e) {

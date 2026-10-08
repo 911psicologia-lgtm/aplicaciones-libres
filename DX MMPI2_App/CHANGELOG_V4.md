@@ -30,4 +30,10 @@ Orden: 1) Identificación en un solo cuadro con divisiones · 2) Información de
 - Mensajes de error en lenguaje claro.
 - Panel con primeros pasos guiados para usuarios nuevos.
 - Contador de escalas con T documentada y motivo de las faltantes.
+- **Mf entre baremos de distinto sexo**: si el informe anterior trae Mfv (varones) en una mujer, o Mfm (mujeres) en un hombre, la app lo convierte a un equivalente aproximado (T → PD estimada → T del otro sexo, con margen ±2 PD) y lo explica en la comparación y en el prompt de IA.
 - **PWA instalable** que funciona sin conexión (service worker + manifiesto). Al desplegar una versión nueva, regenerar `sw.js` cambia la versión de caché y la app ofrece «Actualizar».
+
+## V4.1 · Correcciones del motor de puntuación
+- **Mf en mujeres** se corrige con la clave femenina (Mf-F para baremos de EE. UU. y México; Mfm para TEA España). Antes se usaba la clave masculina para ambos sexos (diferencia en los ítems 121, 166, 209 y 268).
+- **T a verificar**: la app detecta los tramos de las tablas del baremo con errores de extracción (rompen la progresión PD→T). Si una puntuación cae en uno de ellos, se muestra con asterisco (*), se lista en el panel del informe y se advierte en la interpretación.
+- Los casos guardados con la versión anterior se recalculan automáticamente al abrir su informe; la app avisa el cambio de Mf y si conviene regenerar el informe con IA.

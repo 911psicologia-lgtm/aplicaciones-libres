@@ -40,6 +40,7 @@ const Report = {
     const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'US';
     const validity = Interpret.verdict(cur.results);
     const cov = Interpret.coverage(cur.results);
+    this._needsUpgrade = !!(Array.isArray(cur.responses) && cur.responses.some(r => r === 1 || r === 2) && (!cur.results._meta || (cur.results._meta.engine || 1) < MMPI2.ENGINE_VERSION));
 
     return `
       <div class="screen">
@@ -91,7 +92,10 @@ const Report = {
                     <strong>Escalas con puntuación T documentada: ${cov.documented} de ${cov.total}</strong>
                     ${cov.missing.length
                       ? `<details><summary>Ver las ${cov.missing.length} escala(s) sin T y el motivo</summary><ul>${cov.missing.map(m => `<li><b>${this._esc(m.code)}</b>: ${this._esc(m.reason)}</li>`).join('')}</ul></details>`
-                      : '<span class="text-success"> · resultado completo ✓</span>'}
+                      : (cov.verify.length ? '' : '<span class="text-success"> · resultado completo ✓</span>')}
+                    ${cov.verify.length
+                      ? `<div class="verify-note">⚠ <b>${cov.verify.length} puntuación(es) T a verificar</b> (marcadas con * en el informe): ${cov.verify.map(v => `${this._esc(v.code)} (PD ${v.pd} → T ${v.t})`).join(', ')}. Caen en un tramo de la tabla del baremo con inconsistencias; confírmelas en el manual o en el sistema oficial de corrección.</div>`
+                      : ''}
                   </div>
                 </div>
               </div>
@@ -150,6 +154,7 @@ const Report = {
       return;
     }
     this._mounted = true;
+    if (this._needsUpgrade) { this._upgradeResults(); return; }
     bindEvent('ham-btn', 'click', () => App.openMenu());
     bindEvent('rpt-back', 'click', () => App.navigate('dashboard'));
     bindEvent('rpt-edit', 'click', () => App.navigate('case'));
@@ -190,6 +195,32 @@ const Report = {
     }
 
     this._charts = ReportRender.mountCharts(this._model, document.getElementById('report-doc-wrap'));
+  },
+
+  /* Recalcular casos guardados con una versión anterior del motor
+     (V4.1: clave femenina de Mf y detección de tramos dañados del baremo) */
+  async _upgradeResults() {
+    const cur = Storage.getCurrentCase();
+    if (!cur) return;
+    try {
+      const country = (cur.patient.country === 'ES' || cur.patient.country === 'MX') ? cur.patient.country : 'US';
+      const oldMf = cur.results && cur.results.Mf ? cur.results.Mf.t : null;
+      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
+      results._meta = Object.assign(results._meta || {}, { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length });
+      cur.results = results;
+      cur.narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
+      cur.updatedAt = new Date().toISOString();
+      Storage.saveCase(cur); Storage.setCurrentCase(cur); Storage.flush();
+      const newMf = results.Mf ? results.Mf.t : null;
+      let msg = 'Resultados actualizados con la versión corregida del motor de puntuación.';
+      if (oldMf !== newMf) msg += ` Mf: ${oldMf ?? '—'} → ${newMf ?? '—'}.`;
+      if (cur.aiReport) msg += ' El informe con IA de este caso se generó con los valores anteriores: conviene regenerarlo.';
+      window.toast(msg, 'info', 9000);
+    } catch (e) {
+      window.toast(window.friendlyError(e, 'actualizar los resultados del caso'), 'error', 8000);
+      return;
+    }
+    App.navigate('report');
   },
 
   _setOption(key, value) {
@@ -312,7 +343,7 @@ const Report = {
     const label = { US: 'EE. UU. (Minnesota)', MX: 'México', ES: 'España (TEA)' }[country];
     try {
       const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
-      results._meta = { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length };
+      results._meta = Object.assign(results._meta || {}, { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length });
       cur.results = results;
       cur.narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
       cur.patient.country = country;
@@ -630,7 +661,7 @@ const Report = {
       else if (f === 2) codes = ['Fb', 'Fp', 'S', 'A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho', 'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK'];
       else if (f === 3) codes = I.GROUP_ORDER.Subescalas.filter(c => (I.T(R, c) || 0) >= 56).sort((a, b) => I.T(R, b) - I.T(R, a));
       else if (f === 4 && cur.patient && cur.patient.previousMMPI) {
-        const rows = I.comparisonRows(R, cur.patient.previousMMPI);
+        const rows = I.comparisonRows(R, cur.patient.previousMMPI, cur.patient.sex);
         return { kind: 'compare', labels: rows.map(r => r.code), series: [{ name: 'T actual', data: rows.map(r => r.cur) }, { name: 'T anterior', data: rows.map(r => r.prev) }], refs: [65], yMin: 30 };
       } else codes = ['Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
       codes = codes.filter(c => I.T(R, c) != null);

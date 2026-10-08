@@ -555,7 +555,7 @@ Columna A  | Columna B
       const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, country);
       // Anotar omisiones en results._meta para assessValidity()
       const omissions = this._responses.filter(r => r === null).length;
-      results._meta = { omissions };
+      results._meta = Object.assign(results._meta || {}, { omissions });
       cur.results = results;
       cur.narrative = window.MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
       cur.completedAt = new Date().toISOString();
