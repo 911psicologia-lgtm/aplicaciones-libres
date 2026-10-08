@@ -61,6 +61,11 @@ const Report = {
 
     const groups = this._groupScales(cur.results);
     const configs = this._detectConfigs(cur.results);
+    // Contador de escalas documentadas vs faltantes
+    const allResults = Object.values(cur.results).filter(r => r && typeof r === 'object' && r.code);
+    const docCount = allResults.filter(r => r.t != null && typeof r.t === 'number').length;
+    const missCount = allResults.filter(r => r.t == null).length;
+    const totalCount = allResults.length;
     // Validity gate: comprobar si el protocolo es interpretable
     const validity = MMPI2.assessValidity(cur.results);
     const isInterpretable = validity.status !== 'NO_INTERPRETABLE';
@@ -91,14 +96,23 @@ const Report = {
               <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
                 <label for="baremo-select" style="font-weight:600;color:var(--color-primary-dark);margin-right:4px">Baremo:</label>
                 <select id="baremo-select" class="form-select" style="width:auto;min-width:280px">
+                  <option value="MX" ${country === 'MX' ? 'selected' : ''}>México (Lucio et al.)</option>
                   <option value="US" ${country === 'US' ? 'selected' : ''}>EE.UU. (Minnesota N=2.600)</option>
                   <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
                 </select>
                 <span class="form-hint" style="margin-left:8px">Recalcula todas las T al cambiar.</span>
               </div>
               <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
+                <div style="display:flex;gap:12px;align-items:center;font-size:13px">
+                  <span style="background:#dcfce7;color:#15803D;padding:4px 12px;border-radius:12px;font-weight:600">✓ ${docCount} documentadas</span>
+                  ${missCount > 0 ? `<span style="background:#fef3c7;color:#92400E;padding:4px 12px;border-radius:12px;font-weight:600">⚠ ${missCount} sin T</span>` : ''}
+                  <span style="color:var(--color-text-muted)">de ${totalCount} escalas</span>
+                </div>
+              </div>
+              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
                 <span style="font-weight:600;color:var(--color-primary-dark);margin-right:8px">Exportar:</span>
                 <button class="btn btn-secondary btn-sm" id="exp-html">HTML</button>
+                <button class="btn btn-secondary btn-sm" id="exp-pdf">PDF</button>
                 <button class="btn btn-secondary btn-sm" id="exp-word">Word</button>
                 <button class="btn btn-secondary btn-sm" id="exp-excel">Excel</button>
                 <button class="btn btn-secondary btn-sm" id="exp-json">JSON</button>
@@ -246,6 +260,7 @@ const Report = {
     });
 
     bindEvent('exp-html', 'click', () => this._exportHTML());
+    bindEvent('exp-pdf', 'click', () => window.print());
     bindEvent('exp-word', 'click', () => this._exportWord());
     bindEvent('exp-excel', 'click', () => this._exportExcel());
     bindEvent('exp-json', 'click', () => this._exportJSON());
@@ -1666,7 +1681,7 @@ const Report = {
       return;
     }
     if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
-    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
+    const country = newCountry === 'ES' ? 'ES' : 'US';
     const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
     try {
       window.toast('Recalculando resultados…', 'info');

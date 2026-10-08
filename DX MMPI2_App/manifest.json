@@ -1,0 +1,16 @@
+{
+  "name": "MMPI-2 Clínica",
+  "short_name": "MMPI-2",
+  "description": "Aplicar, corregir e interpretar MMPI-2 con baremos MX/US/ES",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1F3864",
+  "theme_color": "#1F3864",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -9,6 +9,11 @@
   <meta name="referrer" content="no-referrer">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1F3864">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="dark">
+  <meta name="apple-mobile-web-app-title" content="MMPI-2">
 </head>
 <body>
   <!-- Pantallas -->
@@ -28,7 +33,7 @@
   <script src="vendor/docx.umd.min.js"></script>
 
   <!-- Boot script: carga inicial de datos (separado para cumplir CSP script-src 'self') -->
-  
+  <script src="js/boot.js"></script>
 
   <!-- App scripts (módulos) -->
   <script src="js/lib/utils.js"></script>
@@ -45,6 +50,5 @@
   <script src="js/screens/capture.js"></script>
   <script src="js/screens/report.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/boot.js"></script>
 </body>
 </html>

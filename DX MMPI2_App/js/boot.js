@@ -17,3 +17,8 @@ loadData().catch(err => {
   const a = document.getElementById('app');
   if (a) a.innerHTML = '<div class="error-screen"><h2>Error al cargar datos</h2><p>Verifica la carpeta /data/.</p></div>';
 });
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
