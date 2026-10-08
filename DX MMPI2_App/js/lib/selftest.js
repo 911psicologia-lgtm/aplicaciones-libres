@@ -37,9 +37,9 @@ const SelfTest = {
 
     // ---- 1. Escala sin clave → pd===null (no 0) ----
     try {
-      // D3 está ausente de scale_items.json tras limpieza
-      const pd = M.computePD('D3', new Array(567).fill(1));
-      if (pd === null) this._ok('1. Escala sin clave → pd===null', 'D3 → null (correcto)');
+      // Código inexistente en scale_items.json → debe devolver null (nunca 0)
+      const pd = M.computePD('ZZZ_SIN_CLAVE', new Array(567).fill(1));
+      if (pd === null) this._ok('1. Escala sin clave → pd===null', 'ZZZ_SIN_CLAVE → null (correcto)');
       else this._fail('1. Escala sin clave → pd===null', 'Esperaba null, obtuvo: ' + JSON.stringify(pd));
     } catch (e) { this._fail('1. Escala sin clave → pd===null', e.message); }
 
@@ -178,10 +178,10 @@ const SelfTest = {
           if (id === 'ai-report-output') return null;
           return old.call(document, id);
         };
-        const out = Report._captureAIChartImgs();
+        const out = Report._captureAIChartImgs({ secciones: [] });
         document.getElementById = old;
         if (Array.isArray(out) && out.length === 0) {
-          this._ok('8. _captureAIChartImgs devuelve arreglo vacío cuando no hay canvas', 'OK');
+          this._ok('8. _captureAIChartImgs devuelve arreglo vacío cuando no hay gráficos', 'OK');
         } else {
           this._fail('8. _captureAIChartImgs', 'Esperaba [] cuando no hay canvas, obtuvo: ' + JSON.stringify(out));
         }

@@ -1,42 +1,29 @@
 /* ============================================
-   Report screen — informe completo (REPORT-V2)
-   - Datos paciente (con antecedentes, motivo, país/baremo)
-   - Datos evaluador (con firma)
-   - Narrativa automática
-   - Tablas por grupo + "Síntesis del grupo"
-   - Configuraciones clínicas detectadas
-   - Índice F-K
-   - Recomendaciones clínicas
-   - 4 gráficos Chart.js LINE con líneas T=50 y T=65
-   - Exportar HTML / Word / Excel / JSON / Print
+   Report screen — informe MMPI-2 (V4)
+   Estructura (ReportModel):
+     Identificación (cuadro único) → Información del caso (seleccionable)
+     → Perfil de escalas (por grupo: tabla · interpretación · gráfica)
+     → Análisis de resultados (misma dinámica)
+     → Síntesis integradora (sin valores ni siglas)
+     → Recomendaciones → Evaluador y firma
+   Exportación: PDF nativo, Word, HTML, impresión, Excel, JSON
+   + Análisis con IA externa (gráficas reparadas)
    ============================================ */
 
 const Report = {
-  _charts: [],    // Chart.js instances
-  _chartImgs: [], // {title, dataURL} capturadas para export
-  _aiCharts: [],    // Chart.js instances for AI report (AI-PROMPT-V2)
-  _aiChartSpecs: [],// [{id, block}] pendientes de renderizar
-  _aiChartSeq: 0,   // contador para IDs únicos de canvas IA
-  _mounted: false,  // flag de montado para unmount()
+  _charts: [],      // Chart.js del informe principal
+  _aiCharts: [],    // Chart.js del informe IA
+  _aiChartSpecs: [],
+  _aiChartSeq: 0,
+  _mounted: false,
+  _model: null,
 
-  /* Códigos por grupo para los gráficos (orden canónico MMPI-2) */
+  /* Códigos por grupo (usados por la hoja de perfil) */
   _BASIC_CODES:    ['L','F','K','Hs','D','Hy','Pd','Mf','Pa','Pt','Sc','Ma','Si'],
   _CONTENT_CODES:  ['ANX','FRS','OBS','DEP','HEA','BIZ','ANG','CYN','ASP','TPA','LSE','SOD','FAM','WRK','TRT'],
   _SUPP_CODES:     ['A','R','Es','MAC-R','AAS','APS','MDS','Ho','O-H','Do','Re','Mt','GM','GF','PK'],
   _SUB_CODES:      ['D1','D2','D3','D4','D5','Hy1','Hy2','Hy3','Hy4','Hy5','Pd1','Pd2','Pd3','Pd4','Pd5',
                     'Pa1','Pa2','Pa3','Sc1','Sc2','Sc3','Sc4','Sc5','Sc6','Ma1','Ma2','Ma3','Ma4','Si1','Si2','Si3'],
-
-  /* Títulos de los 4 gráficos (también usados al exportar) */
-  _CHART_TITLES: [
-    'Perfil Básico (Validez + Clínicas)',
-    'Perfil de Contenido',
-    'Perfil Suplementario',
-    'Subescalas Harris-Lingoes',
-  ],
-  _CHART_IDS: ['chart-basic', 'chart-content', 'chart-supp', 'chart-sub'],
-
-  /* Códigos básicos para el gráfico de comparación con MMPI-2 anterior */
-  _COMPARE_CODES: ['Hs','D','Hy','Pd','Pa','Pt','Sc','Ma','Si'],
 
   render() {
     const cur = Storage.getCurrentCase();
@@ -44,251 +31,195 @@ const Report = {
       return `<div class="screen"><div class="screen-content"><div class="empty-state">
         <div class="empty-state-icon">⚠</div>
         <h2>Sin resultados</h2>
-        <p>El caso actual no tiene resultados procesados. Capture las respuestas primero.</p>
-        <button class="btn btn-primary" onclick="App.navigate('dashboard')">Ir al panel</button>
+        <p>Este caso todavía no tiene resultados. Complete la captura de respuestas y pulse «Finalizar y procesar».</p>
+        <button class="btn btn-primary" id="rpt-go-capture">Ir a la captura</button>
+        <button class="btn btn-ghost" id="rpt-go-dash">Ir al panel</button>
       </div></div></div>`;
     }
     const p = cur.patient || {};
-    const ev = Storage.getEvaluator() || {};
-    // FAIL-CLOSED: el país viene siempre del paciente (no de estado global)
-    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'ES';
-    const countryLabel = country === 'US'
-      ? 'EE. UU. (Minnesota N=2.600) — recomendado para Latinoamérica'
-      : 'España (TEA Ediciones, N=500, 4.ª ed. 2019)';
-
-    const narrative = cur.narrative
-      || (window.MMPI2 ? MMPI2.buildNarrative(cur.results, p.name, p.age, p.sex, country) : '');
-
-    const groups = this._groupScales(cur.results);
-    const configs = this._detectConfigs(cur.results);
-    // Validity gate: comprobar si el protocolo es interpretable
-    const validity = MMPI2.assessValidity(cur.results);
-    const isInterpretable = validity.status !== 'NO_INTERPRETABLE';
-    const isCautious = validity.status === 'INTERPRETABLE_CON_CAUTELA';
-    // Si no es interpretable, no se generan configuraciones ni recomendaciones
-    const visibleConfigs = isInterpretable ? configs : [];
+    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'US';
+    const validity = Interpret.verdict(cur.results);
+    const cov = Interpret.coverage(cur.results);
 
     return `
       <div class="screen">
         <div class="topbar no-print">
           <div class="topbar-title">MMPI-2 · Informe — ${this._esc(p.name || 'paciente')}</div>
           <div class="topbar-actions flex gap-8">
-            <button class="btn btn-secondary btn-sm" id="rpt-edit">Editar caso</button>
-            <button class="btn btn-secondary btn-sm" id="rpt-recapture">Recapturar</button>
+            <button class="btn btn-secondary btn-sm" id="rpt-edit" title="Editar datos del caso">✎ Datos</button>
+            <button class="btn btn-secondary btn-sm" id="rpt-answers" title="Revisar o corregir respuestas">☑ Respuestas</button>
             <button class="btn btn-ghost btn-sm" id="rpt-back">‹ Panel</button>
             <button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
           </div>
         </div>
 
-        <div class="screen-content wide">
+        <div class="screen-content wide report-layout">
 
-          <!-- Aviso de validez del protocolo -->
           ${this._renderValidityBanner(validity)}
 
-          <!-- Export bar + Baremo switcher -->
-          <div class="card no-print">
-            <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
-              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
-                <label for="baremo-select" style="font-weight:600;color:var(--color-primary-dark);margin-right:4px">Baremo:</label>
-                <select id="baremo-select" class="form-select" style="width:auto;min-width:280px">
-                  <option value="US" ${country === 'US' ? 'selected' : ''}>EE.UU. (Minnesota N=2.600)</option>
-                  <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
-                </select>
-                <span class="form-hint" style="margin-left:8px">Recalcula todas las T al cambiar.</span>
-              </div>
-              <div class="flex gap-8" style="flex-wrap:wrap;align-items:center">
-                <span style="font-weight:600;color:var(--color-primary-dark);margin-right:8px">Exportar:</span>
-                <button class="btn btn-secondary btn-sm" id="exp-html">HTML</button>
-                <button class="btn btn-secondary btn-sm" id="exp-word">Word</button>
-                <button class="btn btn-secondary btn-sm" id="exp-excel">Excel</button>
-                <button class="btn btn-secondary btn-sm" id="exp-json">JSON</button>
-                <button class="btn btn-secondary btn-sm" id="exp-answer-sheet">⤓ Hoja de Respuestas (PDF)</button>
-                <button class="btn btn-secondary btn-sm" id="exp-profile-sheet">⤓ Perfil de Escalas (PDF)</button>
-                <button class="btn btn-primary btn-sm" id="exp-print" style="margin-left:auto">Imprimir / PDF</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Paciente -->
-          <div class="card">
-            <div class="card-header"><h3>Datos del paciente</h3></div>
-            <div class="card-body">
-              <div class="report-info-grid">
-                <div class="report-info-item"><div class="report-info-label">Nombre</div><div class="report-info-value">${this._esc(p.name || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Documento</div><div class="report-info-value">${this._esc(p.document || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Fecha de nacimiento</div><div class="report-info-value">${this._fmtDate(p.dob)}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Edad</div><div class="report-info-value">${p.age != null ? p.age + ' años' : '—'}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Sexo</div><div class="report-info-value">${p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Baremo (país)</div><div class="report-info-value">${this._esc(countryLabel)}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Contexto</div><div class="report-info-value">${this._esc(p.context || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Fecha de aplicación</div><div class="report-info-value">${this._fmtDate(p.applicationDate)}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Modalidad</div><div class="report-info-value">${this._esc(cur.captureMode || '—')}</div></div>
-              </div>
-              ${p.history ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Antecedentes</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.history)}</div></div>` : ''}
-              ${p.reason ? `<div class="report-info-item" style="margin-top:12px"><div class="report-info-label">Motivo de evaluación</div><div class="report-info-value" style="white-space:pre-wrap">${this._esc(p.reason)}</div></div>` : ''}
-            </div>
-          </div>
-
-          <!-- Evaluador -->
-          <div class="card">
-            <div class="card-header"><h3>Evalúa</h3></div>
-            <div class="card-body">
-              <div class="report-info-grid">
-                <div class="report-info-item"><div class="report-info-label">Nombre</div><div class="report-info-value">${this._esc(ev.name || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Tarjeta profesional</div><div class="report-info-value">${this._esc(ev.license || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Registro profesional</div><div class="report-info-value">${this._esc(ev.registry || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Correo</div><div class="report-info-value">${this._esc(ev.email || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Teléfono</div><div class="report-info-value">${this._esc(ev.phone || '—')}</div></div>
-                <div class="report-info-item"><div class="report-info-label">Dirección</div><div class="report-info-value">${this._esc(ev.address || '—')}</div></div>
-              </div>
-              <div style="margin-top:16px">
-                <div class="report-info-label">Firma</div>
-                ${ev.signature
-                  ? `<img src="${ev.signature}" alt="firma" style="max-height:70px;margin-top:6px;border-bottom:1px solid var(--color-primary-dark);padding-bottom:4px">`
-                  : '<div style="margin-top:6px;color:var(--color-text-muted);font-style:italic">Sin firma registrada</div>'}
+          <div class="report-tools no-print">
+            <div class="card">
+              <div class="card-body tools-body">
+                <div class="tools-row">
+                  <span class="tools-label">Exportar informe</span>
+                  <button class="btn btn-primary btn-sm" id="exp-pdf">⤓ PDF</button>
+                  <button class="btn btn-secondary btn-sm" id="exp-word">⤓ Word</button>
+                  <button class="btn btn-secondary btn-sm" id="exp-html">⤓ HTML</button>
+                  <button class="btn btn-secondary btn-sm" id="exp-print">🖶 Imprimir</button>
+                  <details class="more-exp">
+                    <summary class="btn btn-ghost btn-sm">Más ▾</summary>
+                    <div class="more-pop">
+                      <button class="btn btn-ghost btn-sm" id="exp-excel">Datos en Excel</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-json">Caso en JSON</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-answer-sheet">Hoja de respuestas</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-profile-sheet">Hoja de perfil</button>
+                    </div>
+                  </details>
+                </div>
+                <div class="tools-row">
+                  <label for="baremo-select" class="tools-label">Baremo</label>
+                  <select id="baremo-select" class="form-select" style="width:auto;min-width:240px">
+                    <option value="US" ${country === 'US' ? 'selected' : ''}>EE. UU. (Minnesota N = 2.600)</option>
+                    <option value="MX" ${country === 'MX' ? 'selected' : ''}>México (Lucio et al.)</option>
+                    <option value="ES" ${country === 'ES' ? 'selected' : ''}>España (TEA Ediciones)</option>
+                  </select>
+                  <span class="form-hint">Al cambiarlo se recalculan todas las puntuaciones T.</span>
+                </div>
+                <div class="coverage ${cov.missing.length ? 'warn' : 'ok'}" id="coverage">
+                  <div class="coverage-bar"><div style="width:${Math.round(cov.documented / Math.max(1, cov.total) * 100)}%"></div></div>
+                  <div>
+                    <strong>Escalas con puntuación T documentada: ${cov.documented} de ${cov.total}</strong>
+                    ${cov.missing.length
+                      ? `<details><summary>Ver las ${cov.missing.length} escala(s) sin T y el motivo</summary><ul>${cov.missing.map(m => `<li><b>${this._esc(m.code)}</b>: ${this._esc(m.reason)}</li>`).join('')}</ul></details>`
+                      : '<span class="text-success"> · resultado completo ✓</span>'}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Narrativa -->
-          <div class="card">
-            <div class="card-header"><h3>Síntesis interpretativa</h3></div>
-            <div class="card-body">
-              <div class="report-narrative">${this._esc(narrative)}</div>
+            <div class="card">
+              <div class="card-header"><h3>Contenido del informe</h3><span class="form-hint">Marque lo que debe aparecer. Se guarda con el caso.</span></div>
+              <div class="card-body" id="report-options">${this._optionsHTML(cur)}</div>
             </div>
           </div>
 
-          <!-- Tablas por grupo + síntesis -->
-          ${this._renderTableWithSynthesis(groups['Validez'], 'Escalas de Validez', 'Validez')}
-          ${this._renderTableWithSynthesis(groups['Clínicas'], 'Escalas Clínicas Básicas', 'Clínicas')}
-          ${this._renderTableWithSynthesis(groups['Contenido'], 'Escalas de Contenido', 'Contenido')}
-          ${this._renderTableWithSynthesis(groups['Suplementarias'], 'Escalas Suplementarias', 'Suplementarias')}
-          ${this._renderTableWithSynthesis(groups['Subescalas'], 'Subescalas Harris-Lingoes', 'Subescalas')}
+          <div id="report-doc-wrap">${this._docHTML(cur)}</div>
 
-          <!-- Configuraciones clínicas detectadas -->
-          ${isInterpretable ? `<div class="card">
-            <div class="card-header"><h3>Configuraciones clínicas detectadas</h3></div>
-            <div class="card-body">
-              ${this._renderConfigs(visibleConfigs)}
-            </div>
-          </div>` : ''}
-
-          <!-- Índice F-K -->
-          <div class="card">
-            <div class="card-header"><h3>Índice F−K</h3></div>
-            <div class="card-body">
-              ${this._renderFKIndex(cur.results)}
-            </div>
-          </div>
-
-          <!-- Recomendaciones clínicas -->
-          ${isInterpretable ? `<div class="card">
-            <div class="card-header"><h3>Recomendaciones clínicas ${isCautious ? '(con cautela)' : ''}</h3></div>
-            <div class="card-body">
-              <ul style="margin:0;padding-left:20px;line-height:1.7">
-                ${this._renderRecommendations(cur.results, visibleConfigs, isCautious)}
-              </ul>
-            </div>
-          </div>` : ''}
-
-          <!-- Gráficos -->
-          <div class="card">
-            <div class="card-header"><h3>Gráficos del perfil</h3></div>
-            <div class="card-body">
-              ${this._chartContainerHTML('chart-basic',    this._CHART_TITLES[0])}
-              ${this._chartContainerHTML('chart-content', this._CHART_TITLES[1])}
-              ${this._chartContainerHTML('chart-supp',    this._CHART_TITLES[2])}
-              ${this._chartContainerHTML('chart-sub',      this._CHART_TITLES[3])}
-              ${p.previousMMPI ? this._chartContainerHTML('chart-compare', 'Comparación con MMPI-2 anterior') : ''}
-            </div>
-          </div>
-
-          ${p.previousMMPI ? this._renderComparisonSection(cur.results, p.previousMMPI) : ''}
-
-          <!-- Análisis de Resultados (tabla exhaustiva) -->
-          ${this._renderAnalysisTable(cur.results, p.previousMMPI)}
-
-          <div class="card">
-            <div class="card-body" style="font-size:12px;color:var(--color-text-muted)">
-              Informe generado el ${new Date().toLocaleString('es-ES')}.
-              Baremo utilizado: <strong>${this._esc(countryLabel)}</strong>.
-              Las escalas marcadas ES-ONLINE requieren TEAcorrige para la conversión PD→T.
-              Las líneas de referencia en los gráficos marcan T=50 (media) y T=65 (corte clínico).
-            </div>
-          </div>
-
-          <!-- Análisis con IA externa -->
           ${this._aiAnalysisSection()}
-
         </div>
       </div>
     `;
   },
 
+  _optionsHTML(cur) {
+    const o = ReportModel.options(cur);
+    const cat = ReportModel.optionCatalog(cur);
+    return `<div class="opt-grid">${cat.map(g => `
+      <fieldset class="opt-group"><legend>${this._esc(g.group)}</legend>
+        ${g.items.map(it => `<label class="opt ${it.available ? '' : 'disabled'}" title="${it.available ? '' : 'Sin datos registrados en el caso'}">
+          <input type="checkbox" data-opt="${it.key}" ${o[it.key] && it.available ? 'checked' : ''} ${it.available ? '' : 'disabled'}>
+          <span>${this._esc(it.label)}${it.available ? '' : ' <em>(sin datos)</em>'}</span></label>`).join('')}
+      </fieldset>`).join('')}
+      <fieldset class="opt-group"><legend>Firma</legend>
+        <label class="opt-text">Lugar de emisión
+          <input type="text" class="form-input" id="opt-place" value="${this._esc(o.place || (Storage.getEvaluator() || {}).city || '')}" placeholder="Ciudad">
+        </label>
+      </fieldset>
+    </div>`;
+  },
+
+  _docHTML(cur) {
+    const ev = Storage.getEvaluator() || {};
+    this._model = ReportModel.build(cur, ev);
+    return ReportRender.toHTML(this._model);
+  },
+
+  _refreshDoc() {
+    const cur = Storage.getCurrentCase();
+    const wrap = document.getElementById('report-doc-wrap');
+    if (!cur || !wrap) return;
+    this._destroyCharts();
+    wrap.innerHTML = this._docHTML(cur);
+    this._charts = ReportRender.mountCharts(this._model, wrap);
+  },
+
   mount() {
+    if (!document.getElementById('report-doc-wrap')) {
+      bindEvent('rpt-go-capture', 'click', () => App.navigate('capture'));
+      bindEvent('rpt-go-dash', 'click', () => App.navigate('dashboard'));
+      return;
+    }
     this._mounted = true;
     bindEvent('ham-btn', 'click', () => App.openMenu());
-    bindEvent('rpt-back', 'click', () => this._unmountAndNavigate('dashboard'));
-    bindEvent('rpt-edit', 'click', () => this._unmountAndNavigate('case'));
-    bindEvent('rpt-recapture', 'click', () => {
-      if (confirm('¿Recapturar respuestas? Se conservarán los datos del paciente. Los resultados actuales se reemplazarán.')) {
-        const cur = Storage.getCurrentCase();
-        if (cur) {
-          cur.responses = new Array(567).fill(null);
-          cur.results = null;
-          cur.narrative = null;
-          Storage.saveCase(cur);
-          Storage.setCurrentCase(cur);
-          Storage.flush();
-        }
-        App.navigate('capture');
-      }
-    });
+    bindEvent('rpt-back', 'click', () => App.navigate('dashboard'));
+    bindEvent('rpt-edit', 'click', () => App.navigate('case'));
+    bindEvent('rpt-answers', 'click', () => App.navigate('capture', { editing: true }));
 
-    bindEvent('exp-html', 'click', () => this._exportHTML());
+    bindEvent('exp-pdf', 'click', () => this._exportPDF());
     bindEvent('exp-word', 'click', () => this._exportWord());
+    bindEvent('exp-html', 'click', () => this._exportHTML());
+    bindEvent('exp-print', 'click', () => this._printOnly('main'));
     bindEvent('exp-excel', 'click', () => this._exportExcel());
     bindEvent('exp-json', 'click', () => this._exportJSON());
-    bindEvent('exp-print', 'click', () => window.print());
     bindEvent('exp-answer-sheet', 'click', () => this._downloadAnswerSheet());
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
     bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
+
+    // Opciones de contenido
+    document.querySelectorAll('[data-opt]').forEach(cb => cb.addEventListener('change', () => {
+      this._setOption(cb.getAttribute('data-opt'), cb.checked);
+    }));
+    let tPlace = null;
+    bindEvent('opt-place', 'input', (e) => { clearTimeout(tPlace); tPlace = setTimeout(() => this._setOption('place', e.target.value), 500); });
 
     bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
     bindEvent('ai-generate', 'click', () => this._generateAIReport());
     bindEvent('ai-clear', 'click', () => this._clearAIReport());
 
-    // Restore previously-generated AI report if it exists
+    // Restaurar informe IA si existe
     const cur2 = Storage.getCurrentCase();
     if (cur2 && cur2.aiReport) {
       const out = document.getElementById('ai-report-output');
       if (out) {
         try {
           out.innerHTML = this._renderAIReport(cur2.aiReport);
-          // Render Chart.js charts after DOM insertion (AI-PROMPT-V2)
           this._renderAICharts();
         } catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
-        // Bind AI export buttons (created dynamically)
         this._bindAIExportButtons();
       }
     }
 
-    this._renderCharts();
+    this._charts = ReportRender.mountCharts(this._model, document.getElementById('report-doc-wrap'));
   },
 
-  /* ---- Unmount: destruir todos los Chart.js y hacer flush de Storage ---- */
+  _setOption(key, value) {
+    const cur = Storage.getCurrentCase();
+    if (!cur) return;
+    cur.reportOptions = Object.assign(ReportModel.options(cur), { [key]: value });
+    cur.updatedAt = new Date().toISOString();
+    Storage.saveCase(cur);
+    Storage.setCurrentCase(cur);
+    this._refreshDoc();
+  },
+
   unmount() {
     this._destroyCharts();
     this._destroyAICharts();
     this._mounted = false;
-    if (window.Storage && typeof Storage.flush === 'function') {
-      Storage.flush();
-    }
+    if (window.Storage && typeof Storage.flush === 'function') Storage.flush();
   },
 
-  _unmountAndNavigate(target) {
-    this.unmount();
-    App.navigate(target);
+  _destroyCharts() {
+    for (const c of this._charts) { try { c.destroy(); } catch (e) {} }
+    this._charts = [];
+  },
+
+  /* ---------- Impresión (solo informe principal o solo informe IA) ---------- */
+  _printOnly(which) {
+    document.body.classList.add(which === 'ai' ? 'print-ai' : 'print-main');
+    const cleanup = () => { document.body.classList.remove('print-ai', 'print-main'); window.removeEventListener('afterprint', cleanup); };
+    window.addEventListener('afterprint', cleanup);
+    setTimeout(() => { window.print(); setTimeout(cleanup, 1500); }, 50);
   },
 
   /* ---------- Validity banner ---------- */
@@ -303,12 +234,100 @@ const Report = {
       <div class="card-body">
         <div style="font-weight:700;color:${color};font-size:14px;margin-bottom:6px">⚠ ${this._esc(title)}</div>
         <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.6;color:var(--color-text)">${reasons}</ul>
-        ${isNo ? '<div style="font-size:12px;color:var(--color-text-muted);margin-top:8px;font-style:italic">Se han omitido las secciones de configuraciones clínicas y recomendaciones mientras el protocolo no sea interpretable.</div>' : ''}
       </div>
     </div>`;
   },
 
-  /* ---------- AI Analysis section ---------- */
+  /* ---------- Exportaciones del informe principal ---------- */
+  _busy(on) {
+    ['exp-pdf', 'exp-word', 'exp-html'].forEach(id => { const b = document.getElementById(id); if (b) b.disabled = !!on; });
+  },
+
+  _buildForExport() {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.results) throw new Error('No hay resultados para exportar');
+    Storage.flush();
+    const model = ReportModel.build(cur, Storage.getEvaluator() || {});
+    const images = ReportModel.chartImages(model);
+    return { cur, model, images, base: `Informe_MMPI2_${this._safeName(cur.patient && cur.patient.name)}` };
+  },
+
+  async _exportPDF() {
+    this._busy(true);
+    window.toast('Generando PDF…', 'info', 2000);
+    try {
+      await new Promise(r => setTimeout(r, 30));
+      const { model, images, base } = this._buildForExport();
+      const blob = await ReportRender.toPDF(model, images);
+      window.Export._download(blob, base + '.pdf');
+      window.toast('Informe PDF descargado', 'success');
+    } catch (e) { console.error(e); window.toast(window.friendlyError(e, 'generar el PDF'), 'error', 8000); }
+    finally { this._busy(false); }
+  },
+
+  async _exportWord() {
+    this._busy(true);
+    window.toast('Generando Word…', 'info', 2000);
+    try {
+      await new Promise(r => setTimeout(r, 30));
+      const { model, images, base } = this._buildForExport();
+      const blob = await ReportRender.toDocx(model, images);
+      window.Export._download(blob, base + '.docx');
+      window.toast('Informe Word descargado', 'success');
+    } catch (e) { console.error(e); window.toast(window.friendlyError(e, 'generar el documento Word'), 'error', 8000); }
+    finally { this._busy(false); }
+  },
+
+  _exportHTML() {
+    try {
+      const { model, images, base } = this._buildForExport();
+      const html = ReportRender.toStandaloneHTML(model, images);
+      window.Export._download(new Blob([html], { type: 'text/html;charset=utf-8' }), base + '.html');
+      window.toast('Informe HTML descargado', 'success');
+    } catch (e) { console.error(e); window.toast(window.friendlyError(e, 'generar el HTML'), 'error', 8000); }
+  },
+
+  _exportExcel() {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.results) { window.toast('No hay resultados para exportar', 'error'); return; }
+    try { window.Export.exportExcel(cur, Storage.getEvaluator() || {}); window.toast('Datos en Excel descargados', 'success'); }
+    catch (e) { window.toast(window.friendlyError(e, 'generar el Excel'), 'error', 8000); }
+  },
+
+  _exportJSON() {
+    const cur = Storage.getCurrentCase();
+    if (!cur) return;
+    try {
+      const data = Storage.exportCase(cur.id);
+      window.Export.exportJSON(data, `MMPI2_caso_${this._safeName(cur.patient && cur.patient.name)}.json`);
+      window.toast('Caso JSON descargado', 'success');
+    } catch (e) { window.toast(window.friendlyError(e, 'exportar el caso'), 'error'); }
+  },
+
+  /* ---------- Baremo: recalcular T al cambiar país ---------- */
+  async _recalcCountry(newCountry) {
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.responses || !cur.patient) { window.toast('No hay caso activo para recalcular', 'error'); return; }
+    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
+    const label = { US: 'EE. UU. (Minnesota)', MX: 'México', ES: 'España (TEA)' }[country];
+    try {
+      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
+      results._meta = { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length };
+      cur.results = results;
+      cur.narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
+      cur.patient.country = country;
+      cur.updatedAt = new Date().toISOString();
+      Storage.saveCase(cur);
+      Storage.setCurrentCase(cur);
+      Storage.flush();
+      window.toast(`Baremo cambiado a ${label}. Resultados recalculados.`, 'success');
+      App.navigate('report');
+    } catch (e) {
+      console.error('Error al recalcular baremo:', e);
+      window.toast(window.friendlyError(e, 'recalcular con el nuevo baremo'), 'error', 8000);
+    }
+  },
+
   _AI_QUICK_LINKS: [
     { label: 'Z.AI',            url: 'https://chat.z.ai',                icon: '◆' },
     { label: 'ChatGPT',         url: 'https://chat.openai.com',          icon: '✦' },
@@ -329,7 +348,7 @@ const Report = {
     ).join('');
 
     return `
-      <div class="card no-print" style="border:2px solid var(--color-success)">
+      <div class="card no-print ai-section" style="border:2px solid var(--color-success)">
         <div class="card-header" style="background:var(--color-success);color:#fff">
           <h3 style="color:#fff">✦ Análisis con IA externa</h3>
         </div>
@@ -479,7 +498,7 @@ const Report = {
       parsed = JSON.parse(cleaned);
     } catch (e) {
       console.error('JSON parse error:', e);
-      window.toast('JSON inválido. Verifique el formato y vuelva a intentarlo. Detalle: ' + e.message, 'error', 6500);
+      window.toast(window.friendlyError(e, 'leer el informe de la IA'), 'error', 8000);
       return;
     }
 
@@ -544,63 +563,84 @@ const Report = {
     bindEvent('ai-exp-word', 'click', () => this._exportAIReport('word'));
     bindEvent('ai-exp-excel', 'click', () => this._exportAIReport('excel'));
     bindEvent('ai-exp-json', 'click', () => this._exportAIReport('json'));
+    bindEvent('ai-exp-pdf', 'click', () => this._exportAIReport('pdf'));
+    bindEvent('ai-print', 'click', () => this._printOnly('ai'));
   },
 
-  _exportAIReport(format) {
+  async _exportAIReport(format) {
     const cur = Storage.getCurrentCase();
     if (!cur || !cur.aiReport) { window.toast('No hay informe IA generado para exportar', 'warning'); return; }
     const ev = Storage.getEvaluator() || {};
-    // Capturar imágenes de los gráficos IA embebidos en el DOM
-    const chartImages = this._captureAIChartImgs();
     try {
+      // Imágenes generadas fuera de pantalla (no dependen de lo visible)
+      const chartImages = this._captureAIChartImgs(cur.aiReport);
       if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev, chartImages); window.toast('Informe IA · HTML descargado', 'success'); }
       else if (format === 'word') {
-        window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages)
-          .then(() => window.toast('Informe IA · Word descargado', 'success'))
-          .catch(e => window.toast('Error: ' + e.message, 'error'));
+        window.toast('Generando Word…', 'info', 2000);
+        await window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages);
+        window.toast('Informe IA · Word descargado', 'success');
+      } else if (format === 'pdf') {
+        window.toast('Generando PDF…', 'info', 2000);
+        await window.Export.exportAIReportPDF(cur.aiReport, cur, ev, chartImages);
+        window.toast('Informe IA · PDF descargado', 'success');
       } else if (format === 'excel') { window.Export.exportAIReportExcel(cur.aiReport, cur, ev); window.toast('Informe IA · Excel descargado', 'success'); }
       else if (format === 'json') { window.Export.exportAIReportJSON(cur.aiReport, cur); window.toast('Informe IA · JSON descargado', 'success'); }
     } catch (e) {
       console.error('Error exportando informe IA:', e);
-      window.toast('Error: ' + e.message, 'error');
+      window.toast(window.friendlyError(e, 'exportar el informe IA'), 'error', 8000);
     }
   },
 
-  /* ---------- Capturar imágenes de los canvas de gráficos IA ----------
-     Recorre todos los canvas con clase `ai-grafico-canvas` y los convierte
-     a dataURL PNG. Devuelve un arreglo {key, figura, titulo, dataURL}. */
-  _captureAIChartImgs() {
+  /* ---------- Imágenes de los gráficos IA (offscreen) ----------
+     Devuelve [{key, figura, titulo, dataURL, width, height}] */
+  _captureAIChartImgs(parsed) {
     const out = [];
-    const container = document.getElementById('ai-report-output');
-    if (!container) return out;
-    const canvases = container.querySelectorAll('canvas.ai-grafico-canvas');
-    canvases.forEach((cv) => {
+    const blocks = [];
+    for (const sec of (parsed.secciones || [])) for (const b of (sec.bloques || [])) if (b && (b.tipo || '').toLowerCase() === 'grafico') blocks.push(b);
+    blocks.forEach((b, i) => {
       try {
-        const dataURL = cv.toDataURL('image/png');
-        // Buscar el número de figura en los hermanos anteriores (clase ai-grafico-figura)
-        const wrap = cv.closest('.ai-grafico-wrap');
-        let figura = null;
-        let titulo = '';
-        if (wrap) {
-          const figEl = wrap.querySelector('.ai-grafico-figura');
-          if (figEl) {
-            const m = /Figura\s+(\d+)/i.exec(figEl.textContent || '');
-            if (m) figura = parseInt(m[1], 10);
-          }
-          const titEl = wrap.querySelector('.ai-grafico-titulo');
-          if (titEl) titulo = (titEl.textContent || '').trim();
-        }
-        out.push({
-          key: cv.id,
-          figura,
-          titulo,
-          dataURL,
-        });
-      } catch (e) {
-        console.warn('No se pudo capturar canvas IA:', e);
-      }
+        const spec = this._aiBlockToSpec(b);
+        if (!spec) return;
+        const img = window.ReportCharts.toImage(spec, 900);
+        out.push({ key: 'ai-graf-' + (i + 1), figura: b.figura != null ? b.figura : (i + 1), titulo: b.titulo || '', dataURL: img.dataURL, width: img.width, height: img.height });
+      } catch (e) { console.warn('No se pudo generar imagen del gráfico IA', e); }
     });
     return out;
+  },
+
+  /* Convierte un bloque `grafico` de la IA en un spec de ReportCharts.
+     Si la IA no aportó datos utilizables, se construye con los resultados reales del caso. */
+  _aiBlockToSpec(block) {
+    const tipo = (block.grafico_tipo || 'linea').toLowerCase();
+    const series = Array.isArray(block.series) ? block.series : [];
+    const labels = [];
+    const getX = (pt) => pt && (pt.x != null ? pt.x : (pt.escala != null ? pt.escala : (pt.label != null ? pt.label : pt.nombre)));
+    const getY = (pt) => { const v = pt && (pt.y != null ? pt.y : (pt.t != null ? pt.t : (pt.T != null ? pt.T : pt.valor))); const n = typeof v === 'number' ? v : parseFloat(v); return isFinite(n) ? n : null; };
+    for (const s of series) for (const pt of (s.puntos || s.datos || [])) { const x = getX(pt); if (x != null && labels.indexOf(String(x)) === -1) labels.push(String(x)); }
+    let data = series.map(s => ({ name: s.nombre || 'T', data: labels.map(l => { const pt = (s.puntos || s.datos || []).find(p => String(getX(p)) === l); return pt ? getY(pt) : null; }) }));
+    const usable = labels.length > 0 && data.some(d => d.data.some(v => v != null));
+    const cur = Storage.getCurrentCase() || {};
+    const R = cur.results || {};
+    const I = window.Interpret;
+    if (!usable) {
+      // Fallback con datos reales según número de figura
+      const f = Number(block.figura);
+      let codes;
+      if (f === 1) codes = ['L', 'F', 'K', 'Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
+      else if (f === 2) codes = ['Fb', 'Fp', 'S', 'A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho', 'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK'];
+      else if (f === 3) codes = I.GROUP_ORDER.Subescalas.filter(c => (I.T(R, c) || 0) >= 56).sort((a, b) => I.T(R, b) - I.T(R, a));
+      else if (f === 4 && cur.patient && cur.patient.previousMMPI) {
+        const rows = I.comparisonRows(R, cur.patient.previousMMPI);
+        return { kind: 'compare', labels: rows.map(r => r.code), series: [{ name: 'T actual', data: rows.map(r => r.cur) }, { name: 'T anterior', data: rows.map(r => r.prev) }], refs: [65], yMin: 30 };
+      } else codes = ['Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
+      codes = codes.filter(c => I.T(R, c) != null);
+      if (!codes.length) return null;
+      return { kind: tipo === 'barras_h' ? 'barh' : 'profile', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65], yMin: 30 };
+    }
+    const refs = (Array.isArray(block.lineas_referencia) ? block.lineas_referencia : [50, 65]).map(Number).filter(isFinite);
+    if (tipo === 'barras_h') return { kind: 'barh', labels, series: [data[0]], refs };
+    if (tipo === 'barras_agrupadas' || data.length > 1) return { kind: 'compare', labels, series: data.slice(0, 2), refs, yMin: 30 };
+    return { kind: 'profile', labels, series: [data[0]], refs, yMin: 30 };
   },
 
   _extractJSON(text) {
@@ -800,7 +840,8 @@ const Report = {
             <button class="btn btn-secondary btn-sm" id="ai-exp-word">⤓ Word</button>
             <button class="btn btn-secondary btn-sm" id="ai-exp-excel">⤓ Excel</button>
             <button class="btn btn-secondary btn-sm" id="ai-exp-json">⤓ JSON</button>
-            <button class="btn btn-primary btn-sm" onclick="window.print()">Imprimir / PDF</button>
+            <button class="btn btn-primary btn-sm" id="ai-exp-pdf">⤓ PDF</button>
+            <button class="btn btn-secondary btn-sm" id="ai-print">Imprimir</button>
           </div>
         </div>
         <div class="card-body" style="padding:16px">
@@ -951,13 +992,20 @@ const Report = {
 
   _renderAICharts() {
     if (!window.Chart) { console.warn('Chart.js no disponible — no se renderizan gráficos IA'); return; }
+    // Copiar los specs ANTES de destruir: _destroyAICharts() vacía la lista
+    // (este era el motivo de que las gráficas IA salieran en blanco).
+    const specs = (this._aiChartSpecs || []).slice();
     this._destroyAICharts();
-    if (!this._aiChartSpecs || !this._aiChartSpecs.length) return;
-    for (const spec of this._aiChartSpecs) {
+    this._aiChartSpecs = specs;
+    for (const spec of specs) {
       try {
         const canvas = document.getElementById(spec.id);
         if (!canvas) { console.warn('Canvas IA no encontrado:', spec.id); continue; }
-        const chart = this._buildAIChart(canvas, spec.block);
+        const cs = this._aiBlockToSpec(spec.block);
+        if (!cs) continue;
+        const wrap = canvas.parentElement;
+        if (wrap) wrap.style.height = window.ReportCharts.height(cs) + 'px';
+        const chart = window.ReportCharts.mount(canvas, cs);
         if (chart) this._aiCharts.push(chart);
       } catch (e) {
         console.warn('Error renderizando gráfico IA:', spec.id, e);
@@ -965,730 +1013,10 @@ const Report = {
     }
   },
 
-  _buildAIChart(canvas, block) {
-    const tipo = (block.grafico_tipo || 'linea').toLowerCase();
-    const ejeY = block.eje_y || { min: 30, max: 100, variable: 'Puntuación T' };
-    const refs = Array.isArray(block.lineas_referencia) ? block.lineas_referencia : [];
-    const series = Array.isArray(block.series) ? block.series : [];
-
-    // Construir etiquetas x (unión de todas las x presentes en las series, en orden de aparición)
-    const labels = [];
-    for (const s of series) {
-      for (const pt of (s.puntos || [])) {
-        if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
-      }
-    }
-    if (!labels.length) return null;
-
-    const palette = ['#1F3864', '#C00000', '#2E7D32', '#ED7D31', '#7030A0', '#0097A7'];
-    const isLinea = (tipo === 'linea');
-    const isBarH = (tipo === 'barras_h');
-    const chartType = isLinea ? 'line' : 'bar';
-    const indexAxis = isBarH ? 'y' : 'x';
-
-    const datasets = series.map((s, i) => {
-      const color = palette[i % palette.length];
-      const data = labels.map(lbl => {
-        const pt = (s.puntos || []).find(p => p.x === lbl);
-        return pt ? (typeof pt.y === 'number' ? pt.y : parseFloat(pt.y)) : null;
-      });
-      if (isLinea) {
-        return {
-          label: s.nombre || ('Serie ' + (i + 1)),
-          data,
-          borderColor: color,
-          backgroundColor: color + '20',
-          pointBackgroundColor: color,
-          pointBorderColor: color,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          borderWidth: 2,
-          fill: false,
-          tension: 0,
-          spanGaps: false,
-        };
-      }
-      // barras_h o barras_agrupadas
-      return {
-        label: s.nombre || ('Serie ' + (i + 1)),
-        data,
-        backgroundColor: color,
-        borderColor: color,
-        borderWidth: 1,
-      };
-    });
-
-    // Líneas de referencia (solo para gráficos de línea)
-    const refDatasets = [];
-    if (isLinea) {
-      for (const r of refs) {
-        const rv = Number(r);
-        if (!isFinite(rv)) continue;
-        const isCrit = (rv >= 65);
-        refDatasets.push({
-          label: 'T=' + rv,
-          data: labels.map(() => rv),
-          borderColor: isCrit ? '#C00000' : '#9CA3AF',
-          borderWidth: 1,
-          borderDash: [5, 5],
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          fill: false,
-          tension: 0,
-        });
-      }
-    }
-
-    const yMin = (typeof ejeY.min === 'number') ? ejeY.min : 30;
-    const yMax = (typeof ejeY.max === 'number') ? ejeY.max : 100;
-
-    const config = {
-      type: chartType,
-      data: { labels, datasets: [...datasets, ...refDatasets] },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { font: { size: 10 }, boxWidth: 12, padding: 8 },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx2) => {
-                const v = (indexAxis === 'y') ? ctx2.parsed.x : ctx2.parsed.y;
-                return `${ctx2.dataset.label}: ${v}`;
-              },
-            },
-          },
-          title: {
-            display: !!block.titulo,
-            text: block.titulo || '',
-            font: { size: 12 },
-            color: '#1F2937',
-          },
-        },
-        scales: {
-          y: {
-            min: yMin, max: yMax,
-            ticks: { font: { size: 10 }, color: '#6B7280' },
-            grid: { color: '#E5E7EB' },
-            title: {
-              display: !!ejeY.variable,
-              text: ejeY.variable || '',
-              font: { size: 11 },
-              color: '#1F2937',
-            },
-          },
-          x: {
-            ticks: { font: { size: 9 }, color: '#1F2937', maxRotation: isBarH ? 0 : 45, minRotation: 0, autoSkip: false },
-            grid: { display: false },
-          },
-        },
-      },
-    };
-
-    try {
-      return new Chart(canvas.getContext('2d'), config);
-    } catch (e) {
-      console.warn('No se pudo crear el Chart IA:', e);
-      return null;
-    }
-  },
-
   _destroyAICharts() {
     for (const c of this._aiCharts) { try { c.destroy(); } catch (e) {} }
     this._aiCharts = [];
     this._aiChartSpecs = [];
-  },
-
-  /* ---------- Grouping ---------- */
-  _groupScales(results) {
-    const groups = { Validez: [], Clínicas: [], Contenido: [], Suplementarias: [], Subescalas: [] };
-    for (const r of Object.values(results)) {
-      if (!groups[r.group]) groups[r.group] = [];
-      groups[r.group].push(r);
-    }
-    return groups;
-  },
-
-  /* ---------- Table + synthesis ---------- */
-  _renderTableWithSynthesis(scales, title, groupName) {
-    if (!scales || !scales.length) return '';
-    const rows = scales.map(s => {
-      const tNum = typeof s.t === 'number';
-      const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
-      const pdDisplay = (s.pd != null) ? s.pd : '—';
-      const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
-      const band = s.band ? s.band.label : '—';
-      const bandClass = s.band ? s.band.color : '';
-      return `<tr>
-        <td style="font-weight:600">${this._esc(s.code)}</td>
-        <td>${this._esc(s.name)}</td>
-        <td class="center">${pdDisplay}</td>
-        <td class="center">${pdKDisplay}</td>
-        <td class="center ${bandClass}">${tDisplay}</td>
-        <td class="center ${bandClass}">${this._esc(band)}</td>
-        <td style="font-size:12px">${this._esc(s.interpretation || '')}</td>
-      </tr>`;
-    }).join('');
-    const synth = this._groupSynthesis(groupName, scales);
-    return `
-      <div class="card">
-        <div class="card-header"><h3>${this._esc(title)}</h3></div>
-        <div class="card-body" style="padding:0">
-          <div class="table-container">
-            <table class="data-table">
-              <thead><tr>
-                <th scope="col">Código</th><th scope="col">Escala</th><th scope="col" class="center">PD</th><th scope="col" class="center">PD+K</th>
-                <th scope="col" class="center">T</th><th scope="col" class="center">Banda</th><th scope="col">Interpretación</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-          <div style="padding:12px 20px;border-top:1px solid var(--color-border);background:var(--color-bg);font-size:13px;line-height:1.55">
-            <strong style="color:var(--color-primary-dark)">Síntesis del grupo:</strong>
-            <span>${this._esc(synth)}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  },
-
-  /* ---------- Group synthesis paragraph ---------- */
-  _groupSynthesis(groupName, scales) {
-    const elevated = scales.filter(s => typeof s.t === 'number' && s.t >= 70);
-    const high = scales.filter(s => typeof s.t === 'number' && s.t >= 60 && s.t < 70);
-    const low = scales.filter(s => typeof s.t === 'number' && s.t <= 39);
-    const online = scales.filter(s => s.status === 'ES-ONLINE');
-    const fmtList = arr => arr.map(s => `${s.code} (T=${s.t})`).join(', ');
-
-    let parts = [];
-
-    if (groupName === 'Validez') {
-      const byCode = code => scales.find(s => s.code === code);
-      const L = byCode('L'), F = byCode('F'), K = byCode('K');
-      const vFacts = [];
-      if (L && typeof L.t === 'number') vFacts.push(`L=T${L.t}`);
-      if (F && typeof F.t === 'number') vFacts.push(`F=T${F.t}`);
-      if (K && typeof K.t === 'number') vFacts.push(`K=T${K.t}`);
-      if (vFacts.length) parts.push('Validez: ' + vFacts.join(', ') + '.');
-      if (F && typeof F.t === 'number' && F.t >= 65) {
-        parts.push('F elevada sugiere posible simulación o pedido de ayuda; conviene contrastar con la entrevista.');
-      } else if (F && typeof F.t === 'number' && F.t < 45) {
-        parts.push('F baja puede indicar postura defensiva o minimización de síntomas.');
-      }
-      if (L && typeof L.t === 'number' && L.t >= 65) {
-        parts.push('L elevada indica tendencia a presentarse de manera demasiado favorable ("fake good").');
-      }
-      if (K && typeof K.t === 'number' && K.t >= 65) {
-        parts.push('K elevada refuerza la hipótesis de una postura defensiva cerrada.');
-      } else if (K && typeof K.t === 'number' && K.t < 40) {
-        parts.push('K baja indica autocrítica elevada o exageración de problemas.');
-      }
-      if (!vFacts.length) parts.push('No se dispone de T documentada para las escalas de validez básicas.');
-    } else if (groupName === 'Clínicas') {
-      const peak = elevated.concat(high).sort((a, b) => b.t - a.t)[0];
-      if (peak) {
-        parts.push(`Pico clínico más alto: ${peak.code} (T=${peak.t}).`);
-      }
-    }
-
-    if (elevated.length > 0) {
-      parts.push(`Escalas muy elevadas (T≥70): ${fmtList(elevated)}.`);
-    }
-    if (high.length > 0) {
-      parts.push(`Escalas en rango alto (T 60–69): ${fmtList(high)}.`);
-    }
-    if (low.length > 0) {
-      parts.push(`Escalas bajas (T≤39): ${fmtList(low)} — pueden indicar rasgos opuestos a los medidos por la escala.`);
-    }
-    if (elevated.length === 0 && high.length === 0 && low.length === 0 && groupName !== 'Validez') {
-      parts.push('Ninguna escala del grupo presenta desviaciones clínicamente significativas (todas en rango modal 40–59).');
-    }
-    if (online.length > 0) {
-      parts.push(`Escalas marcadas ES-ONLINE (requieren TEAcorrige): ${online.map(s => s.code).join(', ')}.`);
-    }
-    return parts.join(' ');
-  },
-
-  /* ---------- Clinical configurations ---------- */
-  _detectConfigs(results) {
-    const t = code => {
-      const r = results[code];
-      return (r && typeof r.t === 'number') ? r.t : null;
-    };
-    const configs = [];
-    const Hs = t('Hs'), D = t('D'), Hy = t('Hy'), Pd = t('Pd'), Pa = t('Pa'),
-          Sc = t('Sc'), Ma = t('Ma'), L = t('L'), F = t('F'), K = t('K');
-
-    if (Hs != null && Hy != null && D != null && Hs >= 65 && Hy >= 65 && D < 60) {
-      configs.push({ name: 'V de conversión',
-        desc: 'Hs≥65, Hy≥65, D<60. Configuración típica de trastorno de conversión somática: el paciente somatiza sin depresión subyacente evidente.' });
-    }
-    if (F != null && L != null && K != null && F > 70 && L < 50 && K < 50) {
-      configs.push({ name: 'Grito de ayuda',
-        desc: 'F>70, L<50, K<50. Perfil compatible con pedido de ayuda o posible exageración de síntomas; conviene contrastar con entrevista clínica.' });
-    }
-    if (Pd != null && Ma != null && Pd >= 65 && Ma >= 65) {
-      configs.push({ name: 'Configuración 4-9 (trastorno del carácter)',
-        desc: 'Pd≥65, Ma≥65. Configuración característica de acting-out, impulsividad e inestabilidad afectiva.' });
-    }
-    if (Pa != null && Sc != null && Pa >= 65 && Sc >= 65) {
-      configs.push({ name: 'V psicótica / Valle paranoide',
-        desc: 'Pa≥65, Sc≥65. Configuración psicótica paranoide; valorar ideación paranoide y desorganización del pensamiento.' });
-    }
-    if (L != null && K != null && F != null && L > 60 && K > 60 && F < 50) {
-      configs.push({ name: 'Defensivo cerrado',
-        desc: 'L>60, K>60, F<50. Perfil defensivo: el evaluado minimiza problemas; las elevaciones clínicas pueden estar enmascaradas.' });
-    }
-    return configs;
-  },
-
-  _renderConfigs(configs) {
-    if (!configs || !configs.length) {
-      return '<p style="color:var(--color-text-muted);font-style:italic">No se detectan configuraciones clásicas del MMPI-2 en este perfil.</p>';
-    }
-    return configs.map(c => `
-      <div style="padding:10px 14px;margin-bottom:8px;background:var(--color-bg);border-left:4px solid var(--color-primary);border-radius:var(--radius-sm)">
-        <div style="font-weight:600;color:var(--color-primary-dark);margin-bottom:4px">${this._esc(c.name)}</div>
-        <div style="font-size:13px;line-height:1.5">${this._esc(c.desc)}</div>
-      </div>
-    `).join('');
-  },
-
-  /* ---------- F-K index (PD directas, no T) ---------- */
-  _renderFKIndex(results) {
-    const f = results.F, k = results.K;
-    const fPD = f && (f.pd != null) ? f.pd : null;
-    const kPD = k && (k.pd != null) ? k.pd : null;
-    if (fPD == null || kPD == null) {
-      return '<p style="color:var(--color-text-muted);font-style:italic">No se puede calcular el índice F−K: faltan puntuaciones directas (PD) de F o K (escala sin clave disponible).</p>';
-    }
-    const fkIndex = fPD - kPD;
-    let interp;
-    if (fkIndex <= -11) {
-      interp = 'F−K ≤ −11 (PD): postura defensiva ("fake good"). Las puntuaciones clínicas pueden estar artificialmente bajas; revise la impresión de validez del protocolo.';
-    } else if (fkIndex >= 20) {
-      interp = 'F−K ≥ +20 (PD): invalidación probable del protocolo (simulación o exageración marcada). Se recomienda no interpretar las escalas clínicas.';
-    } else if (fkIndex >= 11) {
-      interp = 'F−K entre +11 y +19 (PD): grito de ayuda o posible exageración de síntomas ("fake bad"). Conviene contrastar con otras fuentes de información.';
-    } else {
-      interp = 'F−K entre −10 y +10 (PD): en rango normal. La persona ni exagera ni minimiza significativamente la sintomatología.';
-    }
-    const sign = fkIndex > 0 ? '+' : '';
-    return `
-      <div style="font-size:14px;line-height:1.6">
-        <div style="margin-bottom:10px">
-          <strong>F(PD)</strong> = ${fPD} &nbsp; | &nbsp;
-          <strong>K(PD)</strong> = ${kPD} &nbsp; | &nbsp;
-          <strong>F − K</strong> = <span style="font-size:16px;color:var(--color-primary-dark)">${sign}${fkIndex}</span>
-        </div>
-        <div style="padding:10px 14px;background:var(--color-bg);border-left:4px solid var(--color-primary);border-radius:var(--radius-sm);font-size:13px">
-          ${this._esc(interp)}
-        </div>
-        <div style="margin-top:10px;font-size:12px;color:var(--color-text-muted)">
-          El índice F−K se calcula sobre puntuaciones directas (PD) — no sobre T. Los puntos de corte clásicos (±11, +20) son orientativos y deben interpretarse junto con el resto de escalas de validez.
-        </div>
-      </div>
-    `;
-  },
-
-  /* ---------- Recommendations ---------- */
-  _renderRecommendations(results, configs, isCautious) {
-    const t = code => {
-      const r = results[code];
-      return (r && typeof r.t === 'number') ? r.t : null;
-    };
-    const recs = [];
-    const L = t('L'), F = t('F'), K = t('K');
-
-    if (isCautious) {
-      recs.push('Interpretar el protocolo con cautela: la puerta de validez detectó indicadores que aconsejan prudencia (ver aviso al inicio del informe).');
-    }
-
-    // Validez
-    if ((L != null && L > 65) || (K != null && K > 65) || (F != null && F > 80)) {
-      recs.push('Revisar la validez del protocolo antes de interpretar las puntuaciones clínicas. Considerar reevaluación si L o K están muy elevados, o si F está muy elevado sin corroboración clínica.');
-    }
-
-    // Clínicas básicas
-    const clinCodes = ['Hs','D','Hy','Pd','Pa','Pt','Sc','Ma','Si'];
-    const elevatedClin = clinCodes.filter(c => t(c) != null && t(c) >= 70);
-    if (elevatedClin.length >= 2) {
-      recs.push(`Realizar entrevista clínica estructurada para esclarecer las elevaciones en las escalas clínicas ${elevatedClin.join(', ')}. Valorar criterios diagnósticos DSM-5 / CIE-11.`);
-    } else if (elevatedClin.length === 1) {
-      recs.push(`Explorar en entrevista el área correspondiente a la escala elevada (${elevatedClin[0]}) con instrumentos específicos.`);
-    }
-
-    // Configuraciones detectadas
-    if (configs.some(c => c.name === 'V de conversión')) {
-      recs.push('Descartar primero causa orgánica en presencia de la configuración V de conversión; valorar derivación a salud mental con foco en somatización.');
-    }
-    if (configs.some(c => c.name === 'V psicótica / Valle paranoide')) {
-      recs.push('Valoración urgente por psiquiatría para descartar trastorno psicótico; considerar entrevista con familiares y evaluación de riesgo.');
-    }
-    if (configs.some(c => c.name === 'Configuración 4-9 (trastorno del carácter)')) {
-      recs.push('Abordaje terapéutico cognitivo-conductual o dialéctico-conductual; valorar riesgo de impulsividad y consumo de sustancias.');
-    }
-    if (configs.some(c => c.name === 'Grito de ayuda')) {
-      recs.push('Indagar el contexto vital actual; valorar riesgo autolesivo y nivel de apoyo social y familiar.');
-    }
-    if (configs.some(c => c.name === 'Defensivo cerrado')) {
-      recs.push('Interpretar las puntuaciones con cautela: el perfil defensivo puede estar minimizando la psicopatología. Considerar reevaluación o aplicar escalas de validez adicionales.');
-    }
-
-    // Contenido
-    if (t('DEP') != null && t('DEP') >= 65 || (t('D') != null && t('D') >= 70)) {
-      recs.push('Valorar síntomas depresivos y riesgo suicida con escalas específicas (p. ej. BDI-II, BPRS) y exploración clínica dirigida.');
-    }
-    if (t('ANX') != null && t('ANX') >= 65) {
-      recs.push('Valorar síntomas ansiosos con escalas específicas (p. ej. BAI, STAI) y descartar trastorno de ansiedad generalizada.');
-    }
-    if (t('BIZ') != null && t('BIZ') >= 70) {
-      recs.push('BIZ elevada: explorar pensamiento psicótico o disociativo en entrevista; valorar alcance y frecuencia de las experiencias extrañas.');
-    }
-    if (t('ASP') != null && t('ASP') >= 65) {
-      recs.push('ASP elevada: valorar conducta antisocial y posible trastorno disocial o antisocial de la personalidad.');
-    }
-    if (t('TRT') != null && t('TRT') >= 65) {
-      recs.push('TRT elevada: el paciente muestra indicadores negativos de tratamiento. Trabajar la alianza terapéutica y las expectativas antes de iniciar intervenciones.');
-    }
-
-    // Adicciones
-    const macR = t('MAC-R'), aas = t('AAS'), aps = t('APS');
-    if ((macR != null && macR >= 65) || (aas != null && aas >= 60) || (aps != null && aps >= 65)) {
-      recs.push('Valorar consumo de sustancias con AUDIT/CAGE-AID y entrevista motivacional; considerar derivación a adicciones.');
-    }
-
-    // Defecto
-    if (recs.length === 0 || (isCautious && recs.length === 1)) {
-      recs.push('Perfil dentro de límites no patológicos. Complementar con entrevista clínica y antecedentes para emitir juicio profesional definitivo.');
-    }
-
-    recs.push('Este informe es una herramienta de apoyo y no sustituye el juicio clínico del profesional evaluador.');
-
-    return recs.map(r => `<li style="margin-bottom:6px">${this._esc(r)}</li>`).join('');
-  },
-
-  /* ---------- Charts ---------- */
-  _chartContainerHTML(canvasId, title) {
-    return `
-      <div class="chart-container">
-        <h4 style="margin-bottom:8px;color:var(--color-primary-dark)">${this._esc(title)}</h4>
-        <div style="position:relative;height:300px;width:100%">
-          <canvas id="${canvasId}"></canvas>
-        </div>
-      </div>
-    `;
-  },
-
-  _renderCharts() {
-    if (!window.Chart) { console.warn('Chart.js no disponible'); return; }
-    this._destroyCharts();
-
-    const cur = Storage.getCurrentCase();
-    if (!cur || !cur.results) return;
-    const R = cur.results;
-
-    const cfgs = [
-      { id: 'chart-basic',    codes: this._BASIC_CODES   },
-      { id: 'chart-content',  codes: this._CONTENT_CODES },
-      { id: 'chart-supp',     codes: this._SUPP_CODES    },
-      { id: 'chart-sub',      codes: this._SUB_CODES     },
-    ];
-
-    this._charts = cfgs.map(c => this._makeLineChart(c.id, c.codes, R)).filter(Boolean);
-
-    // Comparison chart (si hay MMPI-2 anterior)
-    const p = cur.patient || {};
-    if (p.previousMMPI) {
-      const cmp = this._makeComparisonChart('chart-compare', this._COMPARE_CODES, R, p.previousMMPI);
-      if (cmp) this._charts.push(cmp);
-    }
-  },
-
-  _makeComparisonChart(canvasId, codes, results, prevText) {
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) return null;
-    const prevMap = this._parsePreviousMMPI(prevText);
-    if (Object.keys(prevMap).length === 0) return null;
-
-    const curT = codes.map(code => {
-      const s = results[code];
-      return (s && typeof s.t === 'number') ? s.t : null;
-    });
-    const prevT = codes.map(code => (prevMap[code] != null) ? prevMap[code] : null);
-
-    const ref = val => codes.map(() => val);
-
-    const config = {
-      type: 'line',
-      data: {
-        labels: codes.slice(),
-        datasets: [
-          {
-            label: 'T actual',
-            data: curT,
-            borderColor: '#1F3864',
-            backgroundColor: 'rgba(31, 56, 100, 0.1)',
-            pointBackgroundColor: '#1F3864',
-            pointRadius: 5,
-            borderWidth: 2,
-            fill: false,
-            tension: 0,
-            spanGaps: false,
-          },
-          {
-            label: 'T anterior',
-            data: prevT,
-            borderColor: '#9CA3AF',
-            backgroundColor: 'rgba(156, 163, 175, 0.1)',
-            pointBackgroundColor: '#9CA3AF',
-            pointStyle: 'rectRot',
-            pointRadius: 5,
-            borderWidth: 2,
-            borderDash: [6, 4],
-            fill: false,
-            tension: 0,
-            spanGaps: false,
-          },
-          {
-            label: 'T=65 (corte clínico)',
-            data: ref(65),
-            borderColor: '#C00000',
-            borderWidth: 1,
-            borderDash: [5, 5],
-            pointRadius: 0,
-            fill: false,
-            tension: 0,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { font: { size: 11 }, boxWidth: 12, padding: 8 },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx2) => `${ctx2.dataset.label}: ${ctx2.parsed.y}`,
-            },
-          },
-        },
-        scales: {
-          y: {
-            min: 30, max: 90,
-            ticks: { stepSize: 10, font: { size: 10 }, color: '#6B7280' },
-            grid: { color: '#E5E7EB' },
-            title: { display: true, text: 'Puntuación T', font: { size: 11 }, color: '#1F2937' },
-          },
-          x: {
-            ticks: { font: { size: 11 }, color: '#1F2937' },
-            grid: { display: false },
-          },
-        },
-      },
-    };
-
-    try { return new Chart(ctx.getContext('2d'), config); }
-    catch (e) { console.warn('No se pudo crear el gráfico de comparación', e); return null; }
-  },
-
-  _makeLineChart(canvasId, codes, results) {
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) return null;
-
-    // T values; null for scales without numeric T (skip in line)
-    const tValues = codes.map(code => {
-      const s = results[code];
-      if (!s) return null;
-      return (typeof s.t === 'number') ? s.t : null;
-    });
-    const labels = codes.slice();
-
-    const ref = val => codes.map(() => val);
-
-    const config = {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'T',
-            data: tValues,
-            borderColor: '#1F3864',
-            backgroundColor: 'rgba(31, 56, 100, 0.1)',
-            pointBackgroundColor: '#1F3864',
-            pointBorderColor: '#1F3864',
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            borderWidth: 2,
-            fill: false,
-            tension: 0,
-            spanGaps: false,
-          },
-          {
-            label: 'T=50 (Media)',
-            data: ref(50),
-            borderColor: '#999999',
-            borderWidth: 1,
-            borderDash: [5, 5],
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            fill: false,
-            tension: 0,
-          },
-          {
-            label: 'T=65 (Corte clínico)',
-            data: ref(65),
-            borderColor: '#C00000',
-            borderWidth: 1,
-            borderDash: [5, 5],
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            fill: false,
-            tension: 0,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: { font: { size: 10 }, boxWidth: 12, padding: 8 },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx2) => `${ctx2.dataset.label}: ${ctx2.parsed.y}`,
-            },
-          },
-        },
-        scales: {
-          y: {
-            min: 30,
-            max: 90,
-            ticks: { stepSize: 10, font: { size: 10 }, color: '#6B7280' },
-            grid: { color: '#E5E7EB' },
-            title: { display: true, text: 'Puntuación T', font: { size: 11 }, color: '#1F2937' },
-          },
-          x: {
-            ticks: { font: { size: 9 }, color: '#1F2937', maxRotation: 45, minRotation: 45 },
-            grid: { display: false },
-          },
-        },
-      },
-    };
-
-    try {
-      return new Chart(ctx.getContext('2d'), config);
-    } catch (e) {
-      console.warn('No se pudo crear el gráfico', canvasId, e);
-      return null;
-    }
-  },
-
-  _destroyCharts() {
-    for (const c of this._charts) { try { c.destroy(); } catch (e) {} }
-    this._charts = [];
-  },
-
-  _captureChartImgs() {
-    const imgs = [];
-    for (let i = 0; i < this._CHART_IDS.length; i++) {
-      const cv = document.getElementById(this._CHART_IDS[i]);
-      if (!cv) continue;
-      try { imgs.push({ title: this._CHART_TITLES[i], dataURL: cv.toDataURL('image/png') }); } catch (e) {}
-    }
-    return imgs;
-  },
-
-  /* ---------- Exports ---------- */
-  _withCaseContext(fn) {
-    const cur = Storage.getCurrentCase();
-    if (!cur || !cur.results) { window.toast('No hay resultados para exportar', 'error'); return; }
-    const ev = Storage.getEvaluator() || {};
-    const caseWithCharts = Object.assign({}, cur, { charts: this._captureChartImgs() });
-    fn(caseWithCharts, ev);
-  },
-
-  _exportHTML() {
-    this._withCaseContext((c, ev) => {
-      try {
-        window.Export.exportHTML(c, ev);
-        window.toast('Informe HTML descargado', 'success');
-      } catch (e) { window.toast('Error: ' + e.message, 'error'); }
-    });
-  },
-
-  _exportWord() {
-    this._withCaseContext(async (c, ev) => {
-      try {
-        await window.Export.exportWord(c, ev);
-        window.toast('Informe Word descargado', 'success');
-      } catch (e) { window.toast('Error: ' + e.message, 'error'); }
-    });
-  },
-
-  _exportExcel() {
-    this._withCaseContext((c, ev) => {
-      try {
-        window.Export.exportExcel(c, ev);
-        window.toast('Informe Excel descargado', 'success');
-      } catch (e) { window.toast('Error: ' + e.message, 'error'); }
-    });
-  },
-
-  _exportJSON() {
-    this._withCaseContext((c, ev) => {
-      try {
-        const data = Storage.exportCase(c.id);
-        window.Export.exportJSON(data, `MMPI2_caso_${this._safeName(c.patient?.name)}.json`);
-        window.toast('Caso JSON descargado', 'success');
-      } catch (e) { window.toast('Error: ' + e.message, 'error'); }
-    });
-  },
-
-  /* ---------- Baremo switcher: recalcular T al cambiar país ---------- */
-  async _recalcCountry(newCountry) {
-    const cur = Storage.getCurrentCase();
-    if (!cur || !cur.responses || !cur.patient) {
-      window.toast('No hay caso activo para recalcular', 'error');
-      return;
-    }
-    if (!window.MMPI2) { window.toast('Motor MMPI-2 no disponible', 'error'); return; }
-    const country = (newCountry === 'ES' || newCountry === 'MX') ? newCountry : 'US';
-    const countryLabel = country === 'US' ? 'EE. UU. (Minnesota)' : 'España (TEA Ediciones)';
-    try {
-      window.toast('Recalculando resultados…', 'info');
-      // FAIL-CLOSED: pasar country EXPLÍCITAMENTE a computeAll
-      const results = await MMPI2.computeAll(cur.responses, cur.patient.sex, country);
-      const narrative = MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
-      cur.results = results;
-      cur.narrative = narrative;
-      cur.patient.country = country;
-      cur.updatedAt = new Date().toISOString();
-      Storage.saveCase(cur);
-      Storage.setCurrentCase(cur);
-      Storage.flush();
-      window.toast(`Baremo cambiado a ${countryLabel}. Resultados recalculados.`, 'success');
-      // Destruir chart instances antes del re-render
-      this._destroyCharts();
-      this._destroyAICharts();
-      setTimeout(() => App.navigate('report'), 200);
-    } catch (e) {
-      console.error('Error al recalcular baremo:', e);
-      window.toast('Error al recalcular: ' + e.message, 'error');
-    }
   },
 
   /* ---------- Descargar Hoja de Respuestas (PDF vía print) ---------- */
@@ -2109,218 +1437,6 @@ const Report = {
       if (t >= 20 && t <= 120) out[code] = t;
     }
     return out;
-  },
-
-  /* ---------- Sección de comparación con MMPI-2 anterior ---------- */
-  _renderComparisonSection(results, prevText) {
-    const prevMap = this._parsePreviousMMPI(prevText);
-    const codes = Object.keys(prevMap);
-    if (!codes.length) return '';
-
-    const rows = codes.map(code => {
-      const prevT = prevMap[code];
-      const cur = results[code];
-      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
-      const delta = (curT != null) ? (curT - prevT) : null;
-      let deltaClass = 'delta-stable';
-      let deltaStr = '—';
-      if (delta != null) {
-        const abs = Math.abs(delta);
-        if (abs >= 10) deltaClass = delta > 0 ? 'delta-worse' : 'delta-better';
-        else if (abs >= 5) deltaClass = delta > 0 ? 'delta-slight-worse' : 'delta-slight-better';
-        deltaStr = (delta > 0 ? '+' : '') + delta;
-      }
-      const curStr = (curT == null) ? '—' : String(curT);
-      return `<tr>
-        <td style="font-weight:600">${this._esc(code)}</td>
-        <td class="center">${this._esc(cur ? (cur.name || '—') : '—')}</td>
-        <td class="center">${prevT}</td>
-        <td class="center">${curStr}</td>
-        <td class="center ${deltaClass}">${deltaStr}</td>
-      </tr>`;
-    }).join('');
-
-    // Calcular estadísticas de cambio
-    const changes = codes.map(c => {
-      const cur = results[c];
-      const curT = (cur && typeof cur.t === 'number') ? cur.t : null;
-      return (curT != null) ? (curT - prevMap[c]) : null;
-    }).filter(v => v != null);
-    const improved = changes.filter(d => d <= -10).length;
-    const worsened = changes.filter(d => d >= 10).length;
-    const stable = changes.length - improved - worsened;
-
-    return `
-      <div class="card">
-        <div class="card-header"><h3>Comparación con MMPI-2 anterior</h3></div>
-        <div class="card-body">
-          <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 12px">
-            Evolución del perfil entre la aplicación previa aportada por el evaluador y la actual.
-            Cambio (Δ) = T actual − T anterior. Δ ≥ +10 empeoramiento · Δ ≤ −10 mejora · |Δ| &lt; 10 estable.
-          </p>
-          <div class="table-container">
-            <table class="data-table">
-              <thead><tr>
-                <th scope="col">Código</th><th scope="col">Escala</th>
-                <th scope="col" class="center">T anterior</th>
-                <th scope="col" class="center">T actual</th>
-                <th scope="col" class="center">Cambio (Δ)</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-          <div style="padding:12px 20px;border-top:1px solid var(--color-border);background:var(--color-bg);font-size:13px;line-height:1.55">
-            <strong style="color:var(--color-primary-dark)">Resumen de cambios:</strong>
-            <span>${improved} escala(s) mejorada(s) (Δ ≤ −10) · ${stable} estable(s) · ${worsened} empeorada(s) (Δ ≥ +10).</span>
-          </div>
-        </div>
-      </div>
-      <style>
-        .delta-better { color: #15803D; font-weight: 700; }
-        .delta-worse { color: #C00000; font-weight: 700; }
-        .delta-slight-better { color: #16A34A; }
-        .delta-slight-worse { color: #D97706; }
-        .delta-stable { color: #6B7280; }
-      </style>
-    `;
-  },
-
-  /* ---------- Tabla exhaustiva de Análisis de Resultados ---------- */
-  _renderAnalysisTable(results, prevText) {
-    const prevMap = prevText ? this._parsePreviousMMPI(prevText) : {};
-    const hasPrev = Object.keys(prevMap).length > 0;
-    const totalCols = hasPrev ? 9 : 8;
-    const groupOrder = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias', 'Subescalas'];
-    const groupTitles = {
-      Validez: 'Escalas de Validez',
-      Clínicas: 'Escalas Clínicas Básicas',
-      Contenido: 'Escalas de Contenido',
-      Suplementarias: 'Escalas Suplementarias',
-      Subescalas: 'Subescalas Harris-Lingoes',
-    };
-
-    const groups = this._groupScales(results);
-
-    const groupSections = groupOrder.map(gName => {
-      const scales = groups[gName] || [];
-      if (!scales.length) return '';
-      // Ordenar por código dentro del grupo (copia local para no mutar el original)
-      const sorted = scales.slice().sort((a, b) => (a.code || '').localeCompare(b.code || ''));
-      const rows = sorted.map(s => {
-        const tNum = typeof s.t === 'number';
-        const tDisplay = tNum ? s.t : (s.t == null ? '—' : 'N/D');
-        const pdDisplay = (s.pd != null) ? s.pd : '—';
-        const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '—') : '—';
-        const band = s.band ? s.band.label : '—';
-        const level = s.band ? s.band.level : null;
-        // Color de celda T
-        let tCellClass = '';
-        if (level === 5) tCellClass = 't-very-high-bg';
-        else if (level === 4) tCellClass = 't-high-bg';
-        else if (level === 3) tCellClass = 't-mod-high-bg';
-        else if (level === 2) tCellClass = 't-modal-bg';
-        else if (level === 1) tCellClass = 't-low-bg';
-
-        // Cambio vs previo (solo si hay prevMap)
-        let deltaCell = '';
-        if (hasPrev) {
-          if (prevMap[s.code] != null && tNum) {
-            const delta = s.t - prevMap[s.code];
-            let cls = 'delta-stable';
-            const abs = Math.abs(delta);
-            if (abs >= 10) cls = delta > 0 ? 'delta-worse' : 'delta-better';
-            else if (abs >= 5) cls = delta > 0 ? 'delta-slight-worse' : 'delta-slight-better';
-            const sign = delta > 0 ? '+' : '';
-            deltaCell = `<td class="center ${cls}">${sign}${delta}</td>`;
-          } else {
-            deltaCell = '<td class="center" style="color:var(--color-text-muted)">—</td>';
-          }
-        }
-
-        return `<tr>
-          <td style="font-weight:600">${this._esc(s.code)}</td>
-          <td>${this._esc(s.name)}</td>
-          <td class="center">${pdDisplay}</td>
-          <td class="center">${pdKDisplay}</td>
-          <td class="center ${tCellClass}" style="font-weight:700">${tDisplay}</td>
-          <td class="center">${this._esc(band)}</td>
-          <td class="center">${level != null ? this._levelLabel(level) : '—'}</td>
-          <td style="font-size:12px">${this._esc(s.interpretation || '')}</td>
-          ${deltaCell}
-        </tr>`;
-      }).join('');
-
-      // Resumen por grupo
-      const veryHigh = sorted.filter(s => s.band && s.band.level === 5).length;
-      const high     = sorted.filter(s => s.band && s.band.level === 4).length;
-      const modHigh  = sorted.filter(s => s.band && s.band.level === 3).length;
-      const modal    = sorted.filter(s => s.band && s.band.level === 2).length;
-      const low      = sorted.filter(s => s.band && s.band.level === 1).length;
-      const online   = sorted.filter(s => s.status === 'ES-ONLINE').length;
-      const sinDatos  = sorted.filter(s => !s.band).length;
-      const lastColSpan = hasPrev ? 2 : 3;
-
-      const summary = `<tr style="background:var(--color-bg);font-weight:700">
-        <td colspan="4" style="text-align:right">Resumen del grupo «${gName}» (${sorted.length} escalas):</td>
-        <td class="center">↑${veryHigh}</td>
-        <td class="center">↑${high}</td>
-        <td class="center">→${modal}</td>
-        <td colspan="${lastColSpan}" style="font-size:12px">
-          ↓${low} · PS+${modHigh} · N/D ${sinDatos}${online ? ' · TEAcorrige: ' + online : ''}
-        </td>
-      </tr>`;
-
-      return `
-        <tr class="group-header"><td colspan="${totalCols}">${this._esc(groupTitles[gName])}</td></tr>
-        ${rows}
-        ${summary}
-      `;
-    }).join('');
-
-    return `
-      <style>
-        .analysis-table th, .analysis-table td { font-size: 12px; padding: 4px 8px; }
-        .analysis-table .group-header td { background: var(--color-primary-dark); color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 6px 8px; }
-        .analysis-table .t-very-high-bg { background: #FEE2E2; color: #991B1B; }
-        .analysis-table .t-high-bg { background: #FED7AA; color: #9A3412; }
-        .analysis-table .t-mod-high-bg { background: #FEF3C7; color: #92400E; }
-        .analysis-table .t-modal-bg { background: #DCFCE7; color: #166534; }
-        .analysis-table .t-low-bg { background: #DBEAFE; color: #1E40AF; }
-        .analysis-table .delta-better { color: #15803D; font-weight: 700; }
-        .analysis-table .delta-worse { color: #C00000; font-weight: 700; }
-        .analysis-table .delta-slight-better { color: #16A34A; }
-        .analysis-table .delta-slight-worse { color: #D97706; }
-        .analysis-table .delta-stable { color: #6B7280; }
-      </style>
-      <div class="card">
-        <div class="card-header"><h3>Análisis de Resultados</h3></div>
-        <div class="card-body" style="padding:0">
-          <div class="table-container">
-            <table class="data-table analysis-table">
-              <thead><tr>
-                <th scope="col">Código</th><th scope="col">Escala</th>
-                <th scope="col" class="center">PD</th><th scope="col" class="center">PD+K</th>
-                <th scope="col" class="center">T</th><th scope="col" class="center">Banda</th>
-                <th scope="col" class="center">Nivel</th><th scope="col">Interpretación</th>
-                ${hasPrev ? '<th scope="col" class="center">Δ vs previo</th>' : ''}
-              </tr></thead>
-              <tbody>${groupSections}</tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    `;
-  },
-
-  _levelLabel(level) {
-    switch (level) {
-      case 5: return 'Muy alto';
-      case 4: return 'Alto';
-      case 3: return 'PS';
-      case 2: return 'Modal';
-      case 1: return 'Bajo';
-      default: return '—';
-    }
   },
 
   /* ---------- Utils ---------- */

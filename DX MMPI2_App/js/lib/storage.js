@@ -12,7 +12,13 @@ const Storage = {
     CASES: 'mmpi2_cases',
     CURRENT_CASE: 'mmpi2_current_case',
     SETUP_DONE: 'mmpi2_setup_done',
+    TRASH: 'mmpi2_trash',
+    LAST_BACKUP: 'mmpi2_last_backup',
+    CASE_DRAFT: 'mmpi2_case_draft',
   },
+
+  /* Último momento en que se escribió con éxito (para el indicador "Guardado") */
+  lastSavedAt: null,
 
   MAX_CASES: 1000,
   DEBOUNCE_MS: 300,
@@ -107,22 +113,116 @@ const Storage = {
     }
     try {
       localStorage.setItem(this.KEYS.CASES, JSON.stringify(cases));
+      this.lastSavedAt = new Date();
+      document.dispatchEvent(new CustomEvent('storage:saved', { detail: { id: caseData.id, at: this.lastSavedAt } }));
     } catch (e) {
       console.error('Storage._flushSave: error escribiendo localStorage', e);
-      throw e;
+      // Conservar el pendiente para reintentar y avisar con lenguaje claro
+      this._savePending = caseData;
+      document.dispatchEvent(new CustomEvent('storage:error', { detail: { error: e } }));
+      if (window.toast && window.friendlyError) {
+        window.toast(window.friendlyError(e, 'guardar'), 'error', 8000);
+      }
     }
   },
 
+  /* ---- Borrado: los casos van a la PAPELERA (recuperables) ---- */
   deleteCase(id) {
     // Cancelar cualquier save pendiente del caso que se borra
     if (this._savePending && this._savePending.id === id) {
       this._savePending = null;
       if (this._saveTimer) { clearTimeout(this._saveTimer); this._saveTimer = null; }
     }
+    this.flush();
     const cases = this.getAllCases();
+    const victim = cases.find(c => c.id === id);
     const filtered = cases.filter(c => c.id !== id);
+    if (victim) {
+      const trash = this.getTrash();
+      victim.deletedAt = new Date().toISOString();
+      trash.push(victim);
+      localStorage.setItem(this.KEYS.TRASH, JSON.stringify(trash));
+    }
     localStorage.setItem(this.KEYS.CASES, JSON.stringify(filtered));
+    const cur = this.getCurrentCase();
+    if (cur && cur.id === id) this.setCurrentCase(null);
+    return victim || null;
   },
+
+  deleteCases(ids) {
+    let n = 0;
+    for (const id of ids) { if (this.deleteCase(id)) n++; }
+    return n;
+  },
+
+  getTrash() {
+    try {
+      const data = localStorage.getItem(this.KEYS.TRASH);
+      return data ? JSON.parse(data) : [];
+    } catch (e) { return []; }
+  },
+
+  restoreCase(id) {
+    const trash = this.getTrash();
+    const c = trash.find(x => x.id === id);
+    if (!c) return null;
+    delete c.deletedAt;
+    const cases = this.getAllCases().filter(x => x.id !== id);
+    cases.push(c);
+    localStorage.setItem(this.KEYS.CASES, JSON.stringify(cases));
+    localStorage.setItem(this.KEYS.TRASH, JSON.stringify(trash.filter(x => x.id !== id)));
+    return c;
+  },
+
+  purgeCase(id) {
+    const trash = this.getTrash().filter(x => x.id !== id);
+    localStorage.setItem(this.KEYS.TRASH, JSON.stringify(trash));
+  },
+
+  emptyTrash() {
+    localStorage.setItem(this.KEYS.TRASH, '[]');
+  },
+
+  /* ---- Duplicar un caso (útil para versiones de prueba) ---- */
+  duplicateCase(id) {
+    this.flush();
+    const src = this.getCase(id);
+    if (!src) return null;
+    const copy = JSON.parse(JSON.stringify(src));
+    copy.id = this.generateId();
+    copy.createdAt = new Date().toISOString();
+    copy.updatedAt = copy.createdAt;
+    copy.patient = Object.assign({}, copy.patient, { name: (copy.patient?.name || 'Sin nombre') + ' (copia)' });
+    const cases = this.getAllCases();
+    cases.push(copy);
+    localStorage.setItem(this.KEYS.CASES, JSON.stringify(cases));
+    return copy;
+  },
+
+  /* ---- Uso de almacenamiento (aprox., en KB) ---- */
+  usageKB() {
+    let bytes = 0;
+    try {
+      for (const k of Object.values(this.KEYS)) {
+        const v = localStorage.getItem(k);
+        if (v) bytes += v.length * 2;
+      }
+    } catch (e) {}
+    return Math.round(bytes / 1024);
+  },
+
+  /* ---- Registro de copias de seguridad ---- */
+  markBackup() {
+    try { localStorage.setItem(this.KEYS.LAST_BACKUP, new Date().toISOString()); } catch (e) {}
+  },
+  getLastBackup() {
+    try { return localStorage.getItem(this.KEYS.LAST_BACKUP); } catch (e) { return null; }
+  },
+
+  /* ---- Borrador del formulario de caso (autoguardado) ---- */
+  saveDraft(d) { try { localStorage.setItem(this.KEYS.CASE_DRAFT, JSON.stringify(d)); } catch (e) {} },
+  getDraft() { try { const d = localStorage.getItem(this.KEYS.CASE_DRAFT); return d ? JSON.parse(d) : null; } catch (e) { return null; } },
+  clearDraft() { try { localStorage.removeItem(this.KEYS.CASE_DRAFT); } catch (e) {} },
 
   /* ---- Caso actual (en curso) ---- */
   getCurrentCase() {
@@ -143,12 +243,37 @@ const Storage = {
   exportAll() {
     // flush antes de exportar
     this.flush();
+    const cases = this.getAllCases();
     return {
-      version: '3.0',
+      version: '4.0',
+      type: 'full_backup',
+      app: 'MMPI-2 App',
       exportDate: new Date().toISOString(),
+      counts: { cases: cases.length, trash: this.getTrash().length },
       evaluator: this.getEvaluator(),
-      cases: this.getAllCases(),
+      cases,
+      trash: this.getTrash(),
     };
+  },
+
+  /* ---- Fusionar una copia de seguridad SIN borrar lo existente ----
+     Si un caso existe con el mismo id, se conserva el más reciente (updatedAt). */
+  mergeAll(data) {
+    const v = this.validateImport(data);
+    if (!v.ok) throw new Error(v.error);
+    const d = v.data;
+    const cases = this.getAllCases();
+    const byId = new Map(cases.map(c => [c.id, c]));
+    let added = 0, updated = 0, kept = 0;
+    for (const c of (d.cases || [])) {
+      const ex = byId.get(c.id);
+      if (!ex) { byId.set(c.id, c); added++; }
+      else if ((c.updatedAt || '') > (ex.updatedAt || '')) { byId.set(c.id, c); updated++; }
+      else kept++;
+    }
+    localStorage.setItem(this.KEYS.CASES, JSON.stringify(Array.from(byId.values())));
+    if (d.evaluator && !this.getEvaluator()) this.setEvaluator(d.evaluator);
+    return { added, updated, kept };
   },
 
   /* ---- Validación de importación (fail-closed) ----
@@ -184,6 +309,13 @@ const Storage = {
         if (err) return { ok: false, error: err };
       }
     }
+    if (data.trash != null) {
+      if (!Array.isArray(data.trash)) return { ok: false, error: '"trash" debe ser un arreglo.' };
+      for (let i = 0; i < data.trash.length; i++) {
+        const err = this._validateCase(data.trash[i], i);
+        if (err) return { ok: false, error: 'Papelera · ' + err };
+      }
+    }
     // Si es un caso único (single_case)
     if (data.type === 'single_case' && data.case) {
       const err = this._validateCase(data.case, 0);
@@ -203,8 +335,8 @@ const Storage = {
       if (p.sex != null && p.sex !== 'M' && p.sex !== 'H') {
         return prefix + '"patient.sex" debe ser "M" o "H".';
       }
-      if (p.country != null && p.country !== 'ES' && p.country !== 'US') {
-        return prefix + '"patient.country" debe ser "ES" o "US".';
+      if (p.country != null && p.country !== 'ES' && p.country !== 'US' && p.country !== 'MX') {
+        return prefix + '"patient.country" debe ser "ES", "US" o "MX".';
       }
     }
     // Validar responses
@@ -215,7 +347,7 @@ const Storage = {
       }
       for (let i = 0; i < c.responses.length; i++) {
         const r = c.responses[i];
-        if (r !== null && r !== 1 && r !== 2) {
+        if (r !== null && r !== undefined && r !== 1 && r !== 2) {
           return prefix + `"responses[${i}]" debe ser 1, 2 o null (valor: ${JSON.stringify(r)}).`;
         }
       }
@@ -244,13 +376,16 @@ const Storage = {
     if (d.cases && Array.isArray(d.cases)) {
       localStorage.setItem(this.KEYS.CASES, JSON.stringify(d.cases));
     }
+    if (Array.isArray(d.trash)) {
+      localStorage.setItem(this.KEYS.TRASH, JSON.stringify(d.trash));
+    }
   },
   exportCase(id) {
     this.flush();
     const caseData = this.getCase(id);
     if (!caseData) return null;
     return {
-      version: '3.0',
+      version: '4.0',
       exportDate: new Date().toISOString(),
       type: 'single_case',
       evaluator: this.getEvaluator(),

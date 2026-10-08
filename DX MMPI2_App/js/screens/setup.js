@@ -34,6 +34,14 @@ const Setup = {
                     <input type="text" id="ev-name" class="form-input" value="${this._esc(ev.name || '')}" placeholder="Dr./Dra. Nombre Apellido" required>
                   </div>
                   <div class="form-field">
+                    <label class="form-label">Profesión / título (aparece bajo la firma)</label>
+                    <input type="text" id="ev-profession" class="form-input" value="${this._esc(ev.profession || '')}" placeholder="Psicólogo/a · Especialista en …">
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">Ciudad (lugar de emisión del informe)</label>
+                    <input type="text" id="ev-city" class="form-input" value="${this._esc(ev.city || '')}" placeholder="Manizales">
+                  </div>
+                  <div class="form-field">
                     <label class="form-label">Correo electrónico <span class="required">*</span></label>
                     <input type="email" id="ev-email" class="form-input" value="${this._esc(ev.email || '')}" placeholder="nombre@dominio.com" required>
                   </div>
@@ -282,6 +290,8 @@ const Setup = {
     const data = {
       name,
       email,
+      profession: (document.getElementById('ev-profession') || {}).value?.trim() || '',
+      city: (document.getElementById('ev-city') || {}).value?.trim() || '',
       license: document.getElementById('ev-license').value.trim(),
       registry: document.getElementById('ev-registry').value.trim(),
       phone: document.getElementById('ev-phone').value.trim(),

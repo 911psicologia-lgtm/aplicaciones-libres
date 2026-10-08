@@ -19,7 +19,7 @@ const Capture = {
         <div class="empty-state-icon">⚠</div>
         <h2>No hay caso activo</h2>
         <p>Debe crear o abrir un caso antes de capturar respuestas.</p>
-        <button class="btn btn-primary" onclick="App.navigate('dashboard')">Ir al panel</button>
+        <button class="btn btn-primary" id="cap-go-dash">Ir al panel</button>
       </div></div></div>`;
     }
     const p = cur.patient;
@@ -42,9 +42,15 @@ const Capture = {
         </div>
 
         <div class="capture-toolbar">
-          <div class="capture-progress">
-            <span id="cap-count" style="font-size:13px;font-weight:600;color:var(--color-primary-dark);min-width:80px">0 / ${this._totalItems}</span>
-            <div class="progress-bar"><div class="progress-bar-fill" id="cap-progress" style="width:0%"></div></div>
+          <div class="capture-progress-wrap">
+            <div class="capture-progress-top">
+              <span id="cap-count" class="cap-count">0 / ${this._totalItems}</span>
+              <span id="cap-pct" class="cap-pct">0 %</span>
+              <span id="cap-remaining" class="cap-remaining"></span>
+              <span id="cap-saved" class="save-indicator" aria-live="polite"></span>
+            </div>
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${this._totalItems}" id="cap-progressbar"><div class="progress-bar-fill" id="cap-progress" style="width:0%"></div></div>
+            <div class="progress-segments" id="cap-segments" aria-hidden="true"></div>
           </div>
           <div class="flex gap-8">
             <button class="btn btn-secondary btn-sm" id="mode-test">Aplicar test</button>
@@ -60,11 +66,50 @@ const Capture = {
   },
 
   mount() {
+    if (!document.getElementById('cap-content')) {
+      bindEvent('cap-go-dash', 'click', () => App.navigate('dashboard'));
+      return;
+    }
+    this._sessionStart = Date.now();
+    this._sessionAnswered = 0;
+    this._answerTimes = [];
+    this._lastAnswerAt = null;
+    this._milestones = new Set();
+    const doneNow = this._responses.filter(r => r !== null).length;
+    [25, 50, 75, 100].forEach(m => { if (doneNow / this._totalItems * 100 >= m) this._milestones.add(m); });
+
     bindEvent('ham-btn', 'click', () => App.openMenu());
     bindEvent('cap-back', 'click', () => {
       this._persist();
+      Storage.flush();
       App.navigate('case');
     });
+    // Indicador de guardado
+    this._onSaved = (e) => {
+      const el = document.getElementById('cap-saved');
+      if (el) el.textContent = '✓ Guardado ' + e.detail.at.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    };
+    this._onSaveError = () => {
+      const el = document.getElementById('cap-saved');
+      if (el) { el.textContent = '⚠ No se pudo guardar'; el.classList.add('text-danger'); }
+    };
+    document.addEventListener('storage:saved', this._onSaved);
+    document.addEventListener('storage:error', this._onSaveError);
+    // Atajos de teclado (modo test)
+    this._onKey = (e) => {
+      if (this._mode !== 'test') return;
+      const tag = (e.target && e.target.tagName) || '';
+      if (/INPUT|TEXTAREA|SELECT/.test(tag) && e.target.type !== 'range') return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === 'v' || k === '1') { e.preventDefault(); this._answer(1); }
+      else if (k === 'f' || k === '2') { e.preventDefault(); this._answer(2); }
+      else if (k === 'arrowright') { e.preventDefault(); this._goto(this._currentIdx + 1); }
+      else if (k === 'arrowleft') { e.preventDefault(); this._goto(this._currentIdx - 1); }
+      else if (k === 'backspace' || k === 'delete' || k === '0') { e.preventDefault(); this._answer(0); }
+      else if (k === 'n') { e.preventDefault(); this._gotoNextUnanswered(); }
+    };
+    document.addEventListener('keydown', this._onKey);
     bindEvent('mode-test', 'click', () => this._setMode('test'));
     bindEvent('mode-excel', 'click', () => this._setMode('excel'));
 
@@ -116,6 +161,7 @@ const Capture = {
             <button class="resp-btn f" data-resp="2">Falso (F)</button>
             <button class="resp-btn" data-resp="0" title="Sin respuesta">— Limpiar</button>
           </div>
+          <div class="kbd-hint">Teclado: <kbd>V</kbd> o <kbd>1</kbd> Verdadero · <kbd>F</kbd> o <kbd>2</kbd> Falso · <kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>N</kbd> siguiente sin responder · <kbd>Supr</kbd> limpiar</div>
         </div>
       </div>
 
@@ -128,38 +174,77 @@ const Capture = {
             <span class="text-muted" style="font-size:11px">${this._totalItems}</span>
           </div>
         </div>
-        <div class="card-footer flex justify-between items-center">
-          <button class="btn btn-ghost" id="cap-reset">Reiniciar respuestas</button>
+        <div class="card-footer flex justify-between items-center" style="flex-wrap:wrap;gap:8px">
+          <div class="flex gap-8" style="flex-wrap:wrap">
+            <button class="btn btn-ghost" id="cap-reset">Reiniciar respuestas</button>
+            <button class="btn btn-secondary btn-sm" id="next-unanswered">Ir al siguiente sin responder ›</button>
+          </div>
           <button class="btn btn-success" id="cap-finish">Finalizar y procesar ✓</button>
         </div>
       </div>
     `;
   },
 
+  unmount() {
+    if (this._onKey) document.removeEventListener('keydown', this._onKey);
+    if (this._onSaved) document.removeEventListener('storage:saved', this._onSaved);
+    if (this._onSaveError) document.removeEventListener('storage:error', this._onSaveError);
+    this._onKey = this._onSaved = this._onSaveError = null;
+    this._persist();
+    Storage.flush();
+  },
+
+  _answer(r) {
+    const prev = this._responses[this._currentIdx];
+    this._responses[this._currentIdx] = (r === 0) ? null : r;
+    if (r !== 0 && prev == null) {
+      const now = Date.now();
+      if (this._lastAnswerAt) {
+        const dt = now - this._lastAnswerAt;
+        if (dt < 120000) { this._answerTimes.push(dt); if (this._answerTimes.length > 40) this._answerTimes.shift(); }
+      }
+      this._lastAnswerAt = now;
+      this._sessionAnswered++;
+      if (this._sessionAnswered > 0 && this._sessionAnswered % 150 === 0) {
+        window.toast('Lleva 150 respuestas seguidas. Si el evaluado lo necesita, es buen momento para una pausa breve: el avance está guardado.', 'info', 7000);
+      }
+    }
+    this._renderTestItem();
+    this._updateProgress();
+    this._persist();
+    if (r !== 0) {
+      setTimeout(() => {
+        if (this._currentIdx < this._totalItems - 1) this._goto(this._currentIdx + 1);
+      }, 120);
+    }
+  },
+
+  _gotoNextUnanswered() {
+    const n = this._totalItems;
+    for (let k = 1; k <= n; k++) {
+      const i = (this._currentIdx + k) % n;
+      if (this._responses[i] === null) { this._goto(i); return; }
+    }
+    window.toast('Todos los ítems están respondidos', 'success');
+  },
+
   _bindTest() {
     bindEvent('prev-item', 'click', () => this._goto(this._currentIdx - 1));
     bindEvent('next-item', 'click', () => this._goto(this._currentIdx + 1));
+    bindEvent('next-unanswered', 'click', () => this._gotoNextUnanswered());
     document.querySelectorAll('[data-resp]').forEach(btn => {
       btn.addEventListener('click', () => {
         const r = parseInt(btn.getAttribute('data-resp'), 10);
-        this._responses[this._currentIdx] = (r === 0) ? null : r;
-        this._renderTestItem();
-        this._updateProgress();
-        this._persist();
-        if (r !== 0) {
-          // Auto-advance
-          setTimeout(() => {
-            if (this._currentIdx < this._totalItems - 1) this._goto(this._currentIdx + 1);
-          }, 120);
-        }
+        this._answer(r);
       });
     });
     bindEvent('cap-slider', 'input', (e) => {
       const n = parseInt(e.target.value, 10);
       this._goto(n - 1);
     });
-    bindEvent('cap-reset', 'click', () => {
-      if (!confirm('¿Borrar todas las respuestas capturadas?')) return;
+    bindEvent('cap-reset', 'click', async () => {
+      const ok = await confirmDialog({ title: 'Reiniciar respuestas', message: '¿Borrar todas las respuestas capturadas de este caso? Esta acción no se puede deshacer.', okText: 'Borrar respuestas', danger: true });
+      if (!ok) return;
       this._responses = new Array(this._totalItems).fill(null);
       this._currentIdx = 0;
       this._renderTestItem();
@@ -183,7 +268,7 @@ const Capture = {
     }
     if (elNum) elNum.textContent = item.num;
     if (elText) elText.textContent = item.text;
-    if (elCur) elCur.textContent = `Ítem ${item.num} de ${this._totalItems}`;
+    if (elCur) elCur.textContent = `Ítem ${item.num} de ${this._totalItems}${this._responses[idx] === null ? '' : ' · respondido'}`;
     if (elSlider) elSlider.value = idx + 1;
 
     const cur = this._responses[idx];
@@ -340,13 +425,17 @@ Columna A  | Columna B
           count++;
         }
 
+        if (count === 0) {
+          window.toast('No se encontraron respuestas en el archivo. Verifique que tenga una columna con el número de ítem (1–567) y otra con la respuesta (1 = V, 2 = F).', 'error', 9000);
+          return;
+        }
         this._responses = parsed;
         this._renderExcelPreview(count, skipped);
         this._updateProgress();
         this._persist();
       } catch (err) {
         console.error(err);
-        window.toast('No se pudo leer el archivo Excel: ' + err.message, 'error');
+        window.toast(window.friendlyError(err, 'leer el archivo Excel'), 'error', 8000);
       }
     };
     reader.readAsArrayBuffer(file);
@@ -362,7 +451,8 @@ Columna A  | Columna B
       <div class="card" style="background:var(--color-bg)">
         <div class="card-body">
           <div style="font-weight:600;color:var(--color-success)">✓ ${count} respuestas cargadas</div>
-          ${skipped > 0 ? `<div class="text-muted" style="font-size:12px;margin-top:4px">Se omitieron ${skipped} fila(s) inválidas.</div>` : ''}
+          ${skipped > 0 ? `<div class="text-muted" style="font-size:12px;margin-top:4px">Se omitieron ${skipped} fila(s) que no eran respuestas válidas (cabeceras o celdas vacías).</div>` : ''}
+          ${count < this._totalItems ? `<div style="font-size:12px;margin-top:6px;color:var(--color-warning)">Faltan ${this._totalItems - count} ítem(s): ${this._responses.map((r, i) => r === null ? i + 1 : null).filter(Boolean).slice(0, 30).join(', ')}${this._totalItems - count > 30 ? '…' : ''}. Puede completarlos en «Aplicar test».</div>` : ''}
           <table class="data-table" style="margin-top:12px;font-size:12px;max-width:240px">
             <thead><tr><th>Ítem</th><th>Resp.</th></tr></thead>
             <tbody>${sample.join('')}</tbody>
@@ -377,10 +467,59 @@ Columna A  | Columna B
   _updateProgress() {
     const total = this._totalItems;
     const done = this._responses.filter(r => r !== null).length;
+    const pct = Math.floor((done / total) * 100);
+    const remaining = total - done;
     const elCount = document.getElementById('cap-count');
     const elBar = document.getElementById('cap-progress');
+    const elPct = document.getElementById('cap-pct');
+    const elRem = document.getElementById('cap-remaining');
+    const elPB = document.getElementById('cap-progressbar');
     if (elCount) elCount.textContent = `${done} / ${total}`;
     if (elBar) elBar.style.width = `${(done / total) * 100}%`;
+    if (elPct) elPct.textContent = `${pct} %`;
+    if (elPB) elPB.setAttribute('aria-valuenow', String(done));
+    if (elRem) {
+      if (remaining === 0) elRem.textContent = '¡Completo! Puede procesar el informe';
+      else {
+        let eta = '';
+        if (this._answerTimes && this._answerTimes.length >= 5) {
+          const avg = this._answerTimes.reduce((a, b) => a + b, 0) / this._answerTimes.length;
+          const mins = Math.max(1, Math.round(avg * remaining / 60000));
+          eta = ` · ≈ ${mins} min restantes`;
+        }
+        elRem.textContent = `Faltan ${remaining}${eta}`;
+      }
+    }
+    // Segmentos por bloques de 100 ítems (mapa de avance)
+    const seg = document.getElementById('cap-segments');
+    if (seg) {
+      const blocks = [];
+      for (let b = 0; b < total; b += 100) {
+        const end = Math.min(total, b + 100);
+        let n = 0;
+        for (let i = b; i < end; i++) if (this._responses[i] !== null) n++;
+        const p = Math.round(n / (end - b) * 100);
+        blocks.push(`<div class="seg ${p === 100 ? 'full' : ''}" title="Ítems ${b + 1}–${end}: ${n}/${end - b}" data-seg="${b}"><div class="seg-fill" style="width:${p}%"></div><span>${b + 1}–${end}</span></div>`);
+      }
+      seg.innerHTML = blocks.join('');
+      seg.querySelectorAll('[data-seg]').forEach(el => el.addEventListener('click', () => {
+        if (this._mode !== 'test') return;
+        const start = parseInt(el.getAttribute('data-seg'), 10);
+        let target = start;
+        for (let i = start; i < Math.min(total, start + 100); i++) { if (this._responses[i] === null) { target = i; break; } }
+        this._goto(target);
+      }));
+    }
+    // Hitos
+    if (this._milestones) {
+      for (const m of [25, 50, 75, 100]) {
+        if (pct >= m && !this._milestones.has(m)) {
+          this._milestones.add(m);
+          const msg = m === 100 ? '¡567 de 567! Ya puede finalizar y procesar el informe.' : `${m} % completado · ${remaining} ítems restantes. El avance se guarda automáticamente.`;
+          window.toast(msg, 'success', 4000);
+        }
+      }
+    }
   },
 
   _persist() {
@@ -399,7 +538,13 @@ Columna A  | Columna B
     const done = this._responses.filter(r => r !== null).length;
     if (done === 0) { window.toast('No hay respuestas para procesar', 'error'); return; }
     if (done < this._totalItems) {
-      if (!confirm(`Solo se han respondido ${done} de ${this._totalItems} ítems. ¿Procesar de todos modos?`)) return;
+      const missing = [];
+      this._responses.forEach((r, i) => { if (r === null) missing.push(i + 1); });
+      const list = missing.slice(0, 25).join(', ') + (missing.length > 25 ? '…' : '');
+      const omit = this._totalItems - done;
+      const warn = omit > 30 ? '\n\nAtención: con más de 30 omisiones el protocolo se considera NO interpretable.' : (omit > 10 ? '\n\nCon más de 10 omisiones el protocolo debe interpretarse con cautela.' : '');
+      const ok = await confirmDialog({ title: 'Faltan respuestas', message: `Hay ${omit} ítem(s) sin responder: ${list}.${warn}\n\n¿Procesar de todos modos?`, okText: 'Procesar igualmente', cancelText: 'Volver y completar' });
+      if (!ok) { if (this._mode === 'test') this._goto(missing[0] - 1); return; }
     }
     window.toast('Procesando resultados…', 'success');
     this._persist();
@@ -421,7 +566,7 @@ Columna A  | Columna B
       setTimeout(() => App.navigate('report'), 400);
     } catch (err) {
       console.error(err);
-      window.toast('Error al procesar: ' + err.message, 'error');
+      window.toast(window.friendlyError(err, 'procesar los resultados'), 'error', 8000);
     }
   },
 

@@ -4,7 +4,18 @@
 
 const Case = {
   render() {
-    const cur = Storage.getCurrentCase() || {};
+    let cur = Storage.getCurrentCase() || {};
+    // Caso nuevo: recuperar borrador autoguardado si existe
+    this._restoredDraft = false;
+    if (!cur.id) {
+      const d = Storage.getDraft();
+      if (d && d.patient && (d.patient.name || d.patient.history || d.patient.reason)) {
+        cur = { patient: d.patient };
+        this._restoredDraft = true;
+      }
+    }
+    this._editing = !!cur.id;
+    this._hasResults = !!cur.results;
     const p = cur.patient || {};
 
     const today = new Date().toISOString().slice(0, 10);
@@ -20,6 +31,8 @@ const Case = {
         </div>
 
         <div class="screen-content" style="max-width:880px">
+          ${this._restoredDraft ? `<div class="info-banner">Se recuperó un borrador sin terminar de este formulario. <button class="link-btn" id="case-discard-draft">Descartar borrador</button></div>` : ''}
+          ${this._editing && this._hasResults ? `<div class="info-banner">Está editando un caso con informe. Al guardar, los resultados se recalculan automáticamente si cambia el sexo o el baremo; el resto de cambios se reflejan en el informe.</div>` : ''}
 
           <div class="card">
             <div class="card-header"><h3>Datos del paciente</h3></div>
@@ -110,8 +123,12 @@ const Case = {
               <div class="flex gap-8" style="flex-wrap:wrap">
                 <button class="btn btn-ghost" id="case-cancel">Cancelar</button>
                 <button class="btn btn-secondary btn-sm" id="case-download-template">⤓ Descargar Excel para respuestas</button>
+                ${this._editing ? '<button class="btn btn-ghost btn-sm text-danger" id="case-delete">🗑 Eliminar caso</button>' : ''}
               </div>
-              <button class="btn btn-primary" id="case-continue">Continuar a captura ›</button>
+              <div class="flex gap-8 items-center" style="flex-wrap:wrap">
+                <span class="save-indicator" id="case-save-ind"></span>
+                <button class="btn btn-primary" id="case-continue">${this._editing && this._hasResults ? 'Guardar cambios y ver informe ›' : (this._editing ? 'Guardar y continuar a captura ›' : 'Continuar a captura ›')}</button>
+              </div>
             </div>
           </div>
 
@@ -122,8 +139,26 @@ const Case = {
 
   mount() {
     bindEvent('ham-btn', 'click', () => App.openMenu());
-    bindEvent('case-back', 'click', () => App.navigate('dashboard'));
-    bindEvent('case-cancel', 'click', () => App.navigate('dashboard'));
+    const back = () => App.navigate(this._editing && this._hasResults ? 'report' : 'dashboard');
+    bindEvent('case-back', 'click', back);
+    bindEvent('case-cancel', 'click', () => { if (!this._editing) Storage.clearDraft(); back(); });
+    bindEvent('case-discard-draft', 'click', () => { Storage.clearDraft(); App.navigate('case'); });
+    bindEvent('case-delete', 'click', async () => {
+      const cur = Storage.getCurrentCase();
+      if (!cur) return;
+      const ok = await confirmDialog({ title: 'Eliminar caso', message: `«${cur.patient?.name || 'Caso'}» se moverá a la papelera. Podrá restaurarlo desde Casos › Papelera.`, okText: 'Mover a la papelera', danger: true });
+      if (!ok) return;
+      Cases.openCase(cur, 'delete');
+      App.navigate('dashboard');
+    });
+    // Autoguardado del formulario: borrador (caso nuevo) o guardado del caso (edición)
+    const fields = ['p-name','p-doc','p-dob','p-sex','p-country','p-context','p-appdate','p-history','p-reason','p-case-history','p-legal-context','p-previous-mmpi'];
+    let t = null;
+    const autosave = () => {
+      clearTimeout(t);
+      t = setTimeout(() => this._autosave(), 600);
+    };
+    fields.forEach(id => { const el = document.getElementById(id); if (el) { el.addEventListener('input', autosave); el.addEventListener('change', autosave); } });
     bindEvent('case-continue', 'click', () => this._save());
     bindEvent('case-download-template', 'click', () => this._downloadTemplate());
 
@@ -146,38 +181,89 @@ const Case = {
     document.getElementById('p-age').value = age >= 0 ? age : '';
   },
 
-  _save() {
+  _collectPatient() {
+    const v = (id) => (document.getElementById(id) || {}).value || '';
+    return {
+      name: v('p-name').trim(),
+      document: v('p-doc').trim(),
+      dob: v('p-dob'),
+      age: this._computeAge(v('p-dob')),
+      sex: v('p-sex'),
+      country: v('p-country') || 'US',
+      context: v('p-context'),
+      applicationDate: v('p-appdate'),
+      history: v('p-history'),
+      reason: v('p-reason'),
+      caseHistory: v('p-case-history'),
+      legalContext: v('p-legal-context'),
+      previousMMPI: v('p-previous-mmpi'),
+    };
+  },
+
+  _autosave() {
+    const ind = document.getElementById('case-save-ind');
+    const patient = this._collectPatient();
+    if (!this._editing) {
+      Storage.saveDraft({ patient, at: new Date().toISOString() });
+      if (ind) ind.textContent = 'Borrador guardado ' + new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      return;
+    }
+    // Edición: solo autoguardar campos de texto (no cambiar sexo/baremo sin recalcular)
+    const cur = Storage.getCurrentCase();
+    if (!cur || !cur.id) return;
+    if (!patient.name) return;
+    const prev = cur.patient || {};
+    if (patient.sex !== prev.sex || patient.country !== prev.country) {
+      if (ind) ind.textContent = 'Pulse «Guardar» para recalcular con el nuevo sexo/baremo';
+      return;
+    }
+    cur.patient = Object.assign({}, prev, patient);
+    cur.updatedAt = new Date().toISOString();
+    Storage.saveCase(cur);
+    Storage.setCurrentCase(cur);
+    if (ind) ind.textContent = '✓ Cambios guardados ' + new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  },
+
+  async _save() {
     const name = document.getElementById('p-name').value.trim();
     const sex = document.getElementById('p-sex').value;
     if (!name) { window.toast('El nombre del paciente es obligatorio', 'error'); return; }
     if (!sex) { window.toast('Debe seleccionar el sexo del paciente (define el baremo)', 'error'); return; }
 
     let cur = Storage.getCurrentCase() || {};
+    const isNew = !cur.id;
     if (!cur.id) {
       cur.id = Storage.generateId();
       cur.createdAt = new Date().toISOString();
     }
     cur.updatedAt = new Date().toISOString();
-    cur.patient = {
-      name,
-      document: document.getElementById('p-doc').value.trim(),
-      dob: document.getElementById('p-dob').value,
-      age: this._computeAge(document.getElementById('p-dob').value),
-      sex,
-      country: (document.getElementById('p-country') || {}).value || 'US',
-      context: document.getElementById('p-context').value,
-      applicationDate: document.getElementById('p-appdate').value,
-      history: document.getElementById('p-history').value,
-      reason: document.getElementById('p-reason').value,
-      caseHistory: document.getElementById('p-case-history').value,
-      legalContext: document.getElementById('p-legal-context').value,
-      previousMMPI: document.getElementById('p-previous-mmpi').value,
-    };
+    const prev = cur.patient || {};
+    const patient = this._collectPatient();
+    patient.name = name; patient.sex = sex;
+    cur.patient = Object.assign({}, prev, patient);
+
+    // Si el caso ya tiene resultados y cambió sexo o baremo → recalcular
+    if (cur.results && Array.isArray(cur.responses) && (prev.sex !== patient.sex || prev.country !== patient.country)) {
+      try {
+        const results = await MMPI2.computeAll(cur.responses, patient.sex, patient.country);
+        results._meta = { omissions: cur.responses.filter(r => r !== 1 && r !== 2).length };
+        cur.results = results;
+        window.toast('Resultados recalculados con el nuevo sexo/baremo', 'info');
+      } catch (e) {
+        window.toast(window.friendlyError(e, 'recalcular los resultados'), 'error', 7000);
+        return;
+      }
+    }
+    if (cur.results) {
+      cur.narrative = MMPI2.buildNarrative(cur.results, patient.name, patient.age, patient.sex, patient.country);
+    }
 
     Storage.saveCase(cur);
     Storage.setCurrentCase(cur);
-    window.toast('Datos del paciente guardados', 'success');
-    setTimeout(() => App.navigate('capture'), 300);
+    Storage.flush();
+    if (isNew) Storage.clearDraft();
+    window.toast(isNew ? 'Caso creado' : 'Cambios guardados', 'success');
+    setTimeout(() => App.navigate(cur.results ? 'report' : 'capture'), 250);
   },
 
   _computeAge(dob) {

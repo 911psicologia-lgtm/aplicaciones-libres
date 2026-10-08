@@ -367,6 +367,7 @@ const Export = {
   },
 
   _buildMetaTable(rows, { Table, TableRow, TableCell, WidthType, BorderStyle }) {
+    const { Paragraph, TextRun } = window.docx; // corrección: antes no se recibían y el Word fallaba
     const trows = rows.map(([k, v]) => new TableRow({
       children: [
         new TableCell({
@@ -504,7 +505,34 @@ const Export = {
   /* ---------- Export AI Report: HTML (AI-PROMPT-V2 con bloques) ----------
      chartImages (opcional): [{ key, figura, titulo, dataURL }]
        si se pasa, los bloques `grafico` se renderizan como <img> en vez de tabla. */
+  /* Mapa {figura -> imagen} a partir de la lista de imágenes del informe IA */
+  _aiImgMap(chartImages) {
+    const m = {};
+    (chartImages || []).forEach(ci => { if (ci && ci.figura != null) m[ci.figura] = ci; });
+    return m;
+  },
+
+  /* V4: el informe IA se exporta con el mismo motor que el informe principal */
   exportAIReportHTML(parsed, caseData, evaluator, chartImages) {
+    const model = window.ReportModel.fromAI(parsed, caseData, evaluator);
+    const html = window.ReportRender.toStandaloneHTML(model, this._aiImgMap(chartImages));
+    this._download(new Blob([html], { type: 'text/html;charset=utf-8' }), `Informe_IA_MMPI2_${this._safeName(caseData.patient && caseData.patient.name)}.html`);
+  },
+
+  async exportAIReportWord(parsed, caseData, evaluator, chartImages) {
+    const model = window.ReportModel.fromAI(parsed, caseData, evaluator);
+    const blob = await window.ReportRender.toDocx(model, this._aiImgMap(chartImages));
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(caseData.patient && caseData.patient.name)}.docx`);
+  },
+
+  async exportAIReportPDF(parsed, caseData, evaluator, chartImages) {
+    const model = window.ReportModel.fromAI(parsed, caseData, evaluator);
+    const blob = await window.ReportRender.toPDF(model, this._aiImgMap(chartImages));
+    this._download(blob, `Informe_IA_MMPI2_${this._safeName(caseData.patient && caseData.patient.name)}.pdf`);
+  },
+
+  /* (versión anterior conservada como respaldo) */
+  exportAIReportHTML_legacy(parsed, caseData, evaluator, chartImages) {
     const imgsByFig = {};
     if (Array.isArray(chartImages)) {
       for (const ci of chartImages) {
@@ -749,7 +777,7 @@ const Export = {
 
   /* ---------- Export AI Report: Word (.docx) (AI-PROMPT-V2 con bloques) ----------
      chartImages (opcional): [{ figura, titulo, dataURL }] */
-  async exportAIReportWord(parsed, caseData, evaluator, chartImages) {
+  async exportAIReportWord_legacy(parsed, caseData, evaluator, chartImages) {
     if (!window.docx) throw new Error('docx.js no disponible');
     const {
       Document, Packer, Paragraph, TextRun, HeadingLevel,

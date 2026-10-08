@@ -1,63 +1,86 @@
-// Service Worker para MMPI-2 Clínica (PWA offline)
-const CACHE_NAME = 'mmpi2-v15';
+/* Service worker · MMPI-2 App (generado) — versión 5fb3da435c
+   Precarga todos los archivos para que la app funcione sin conexión.
+   Estrategia: caché primero; en segundo plano se actualiza la copia. */
+const CACHE = 'mmpi2-5fb3da435c';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './css/styles.css',
-  './js/boot.js',
-  './js/lib/utils.js',
-  './js/lib/storage.js',
-  './js/lib/mmpi2.js',
-  './js/lib/export.js',
-  './js/lib/signature.js',
-  './js/lib/ai-prompt.js',
-  './js/lib/selftest.js',
-  './js/screens/splash.js',
-  './js/screens/setup.js',
-  './js/screens/dashboard.js',
-  './js/screens/case.js',
-  './js/screens/capture.js',
-  './js/screens/report.js',
-  './js/app.js',
-  './vendor/xlsx.full.min.js',
-  './vendor/chart.umd.min.js',
-  './vendor/docx.umd.min.js',
-  './data/items.json',
-  './data/scale_items.json',
-  './data/baremos.json',
-  './data/baremo_us.json',
-  './data/baremo_mx.json',
-  './data/vrin_trin_pairs.json',
-  './data/criterios.json',
+  "./",
+  "./assets/MMPI2_Plantilla_Paciente.xlsx",
+  "./assets/favicon.svg",
+  "./assets/icon-192.png",
+  "./assets/icon-512.png",
+  "./assets/icon-maskable-512.png",
+  "./css/styles.css",
+  "./data/baremo_mx.json",
+  "./data/baremo_us.json",
+  "./data/baremos.json",
+  "./data/criterios.json",
+  "./data/items.json",
+  "./data/scale_items.json",
+  "./data/vrin_trin_pairs.json",
+  "./index.html",
+  "./js/app.js",
+  "./js/boot.js",
+  "./js/lib/ai-prompt.js",
+  "./js/lib/export.js",
+  "./js/lib/interpret.js",
+  "./js/lib/mmpi2.js",
+  "./js/lib/mmpi2_orig.js",
+  "./js/lib/report-charts.js",
+  "./js/lib/report-model.js",
+  "./js/lib/report-render.js",
+  "./js/lib/selftest.js",
+  "./js/lib/signature.js",
+  "./js/lib/storage.js",
+  "./js/lib/utils.js",
+  "./js/screens/capture.js",
+  "./js/screens/case.js",
+  "./js/screens/cases.js",
+  "./js/screens/dashboard.js",
+  "./js/screens/report.js",
+  "./js/screens/setup.js",
+  "./js/screens/splash.js",
+  "./manifest.webmanifest",
+  "./vendor/chart.umd.min.js",
+  "./vendor/docx.umd.min.js",
+  "./vendor/jspdf.plugin.autotable.min.js",
+  "./vendor/jspdf.umd.min.js",
+  "./vendor/xlsx.full.min.js"
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(() => {})
-  );
-  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    ))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('mmpi2-') && k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
+});
+
+self.addEventListener('message', (e) => {
+  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+  // Navegación: servir index.html desde caché si no hay red
+  if (req.mode === 'navigate') {
+    e.respondWith(fetch(req).then((r) => {
+      const copy = r.clone(); caches.open(CACHE).then((c) => c.put('./index.html', copy)); return r;
+    }).catch(() => caches.match('./index.html')));
+    return;
+  }
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request).then(resp => {
-        if (resp.status === 200 && e.request.method === 'GET') {
-          const respClone = resp.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(e.request, respClone));
-        }
-        return resp;
-      }).catch(() => cached);
+    caches.match(req, { ignoreSearch: true }).then((hit) => {
+      const net = fetch(req).then((r) => {
+        if (r && r.ok && r.type === 'basic') { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
+        return r;
+      }).catch(() => hit);
+      return hit || net;
     })
   );
 });

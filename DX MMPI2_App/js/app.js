@@ -15,6 +15,7 @@ const App = {
       case: window.Case,
       capture: window.Capture,
       report: window.Report,
+      cases: window.Cases,
     };
     const screen = screens[screenName];
     if (!screen) {
@@ -63,17 +64,20 @@ const App = {
 
   hideModal() {
     const overlay = document.getElementById('modal-overlay');
-    if (overlay) overlay.classList.add('hidden');
+    if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('centered'); }
+    const content = document.getElementById('modal-content');
+    if (content) content.classList.remove('dialog');
   },
 
   _renderMenu() {
     const ev = Storage.getEvaluator() || {};
-    const cases = Storage.getAllCases().slice().reverse();
+    const cases = Storage.getAllCases().slice().sort((a, b) => (b.updatedAt || b.createdAt || '').localeCompare(a.updatedAt || a.createdAt || ''));
     const currentCase = Storage.getCurrentCase();
+    const nTrash = Storage.getTrash().length;
 
     const casesHTML = cases.length === 0
       ? '<div class="menu-item"><span class="label text-muted">Sin casos guardados</span></div>'
-      : cases.map(c => {
+      : cases.slice(0, 6).map(c => {
           const p = c.patient || {};
           const status = c.results ? '✓' : '○';
           const active = currentCase && currentCase.id === c.id ? 'color:var(--color-primary);font-weight:600' : '';
@@ -108,25 +112,32 @@ const App = {
         </div>
 
         <div class="menu-section">
-          <div class="menu-section-title">Mis casos (${cases.length})</div>
+          <div class="menu-section-title">Casos recientes (${cases.length})</div>
           ${casesHTML}
+          <div class="menu-item" data-action="cases">
+            <span class="icon">🗂</span><span class="label"><strong>Gestionar casos</strong><div class="meta">Buscar, filtrar, editar, duplicar, eliminar</div></span>
+          </div>
+          <div class="menu-item" data-action="trash">
+            <span class="icon">🗑</span><span class="label">Papelera (${nTrash})</span>
+          </div>
         </div>
 
         <div class="menu-section">
-          <div class="menu-section-title">Datos</div>
-          <div class="menu-item ${currentCase ? '' : 'disabled'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
-            <span class="icon">📄</span><span class="label">Exportar caso actual (JSON)</span>
-          </div>
+          <div class="menu-section-title">Copias de seguridad</div>
           <div class="menu-item" data-action="export-all">
-            <span class="icon">📦</span><span class="label">Exportar todo (JSON)</span>
+            <span class="icon">📦</span><span class="label">Descargar copia de seguridad completa<div class="meta">${this._lastBackupLabel()}</div></span>
           </div>
           <div class="menu-item" data-action="import">
-            <span class="icon">📥</span><span class="label">Importar JSON</span>
-            <input type="file" id="import-file" accept=".json" style="display:none">
+            <span class="icon">📥</span><span class="label">Restaurar / importar copia</span>
+            <input type="file" id="import-file" accept=".json,application/json" style="display:none">
+          </div>
+          <div class="menu-item ${currentCase ? '' : 'disabled'}" data-action="export-current" style="${currentCase ? '' : 'opacity:0.5;cursor:not-allowed'}">
+            <span class="icon">📄</span><span class="label">Exportar solo el caso actual</span>
           </div>
         </div>
 
         <div class="menu-section">
+          ${window.__installPrompt ? `<div class="menu-item" data-action="install"><span class="icon">⬇</span><span class="label"><strong>Instalar aplicación</strong><div class="meta">Abrir desde el escritorio y usar sin conexión</div></span></div>` : ''}
           <div class="menu-item" data-action="about">
             <span class="icon">ℹ</span><span class="label">Acerca de</span>
           </div>
@@ -176,6 +187,14 @@ const App = {
         this.hideModal();
         this.navigate('setup');
         break;
+      case 'cases':
+        this.hideModal();
+        this.navigate('cases', { view: 'active' });
+        break;
+      case 'trash':
+        this.hideModal();
+        this.navigate('cases', { view: 'trash' });
+        break;
       case 'export-current': {
         const cur = Storage.getCurrentCase();
         if (!cur) { window.toast('No hay caso actual', 'warning'); return; }
@@ -184,14 +203,19 @@ const App = {
         window.toast('Caso actual exportado', 'success');
         break;
       }
-      case 'export-all': {
-        const data = Storage.exportAll();
-        window.Export.exportJSON(data, `MMPI2_export_${Date.now()}.json`);
-        window.toast('Exportación completa descargada', 'success');
+      case 'export-all':
+        this.downloadBackup();
+        this.hideModal();
         break;
-      }
       case 'about':
         this._showAbout();
+        break;
+      case 'install':
+        if (window.__installPrompt) {
+          window.__installPrompt.prompt();
+          window.__installPrompt.userChoice.finally(() => { window.__installPrompt = null; });
+        }
+        this.hideModal();
         break;
       case 'back-dashboard':
         this.hideModal();
@@ -200,35 +224,87 @@ const App = {
     }
   },
 
+  /* ---- Copia de seguridad completa ---- */
+  downloadBackup() {
+    try {
+      const data = Storage.exportAll();
+      const d = new Date();
+      const stamp = d.toISOString().slice(0, 10) + '_' + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0');
+      window.Export.exportJSON(data, `MMPI2_copia_seguridad_${stamp}.json`);
+      Storage.markBackup();
+      window.toast(`Copia de seguridad descargada (${data.cases.length} caso(s)). Guárdela en un lugar seguro: su nube o un disco externo.`, 'success', 6000);
+    } catch (e) {
+      window.toast(window.friendlyError(e, 'generar la copia de seguridad'), 'error', 7000);
+    }
+  },
+
+  _lastBackupLabel() {
+    const lb = Storage.getLastBackup();
+    if (!lb) return 'Nunca se ha descargado una copia';
+    const days = Math.floor((Date.now() - new Date(lb).getTime()) / 86400000);
+    return days === 0 ? 'Última copia: hoy' : `Última copia: hace ${days} día(s)`;
+  },
+
+  openImportPicker() {
+    const inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.json,application/json';
+    inp.onchange = () => this._importJSON(inp.files[0]);
+    inp.click();
+  },
+
   _importJSON(file) {
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onerror = () => window.toast('No se pudo leer el archivo seleccionado.', 'error');
+    reader.onload = async (ev) => {
       try {
-        const data = JSON.parse(ev.target.result);
+        let data;
+        try { data = JSON.parse(ev.target.result); }
+        catch (e) { throw new SyntaxError('JSON inválido'); }
         // Usar validateImport (fail-closed) en lugar de suponer estructura
         const v = Storage.validateImport(data);
         if (!v.ok) throw new Error(v.error);
         const valid = v.data;
+        this.hideModal();
         if (valid.type === 'single_case' && valid.case) {
-          // Import single case
           const existing = Storage.getCase(valid.case.id);
-          if (existing && !confirm('Ya existe un caso con ese ID. ¿Sobrescribir?')) return;
+          if (existing) {
+            const ok = await window.confirmDialog({ title: 'El caso ya existe', message: `Ya hay un caso «${existing.patient?.name || ''}» con el mismo identificador. ¿Reemplazarlo con la versión del archivo?`, okText: 'Reemplazar' });
+            if (!ok) return;
+          }
           Storage.saveCase(valid.case);
           Storage.flush();
-          if (valid.evaluator) Storage.setEvaluator(valid.evaluator);
+          if (valid.evaluator && !Storage.getEvaluator()) Storage.setEvaluator(valid.evaluator);
           window.toast('Caso importado correctamente', 'success');
         } else {
-          // Full import
-          if (!confirm(`Se reemplazarán todos los datos locales con ${valid.cases?.length || 0} caso(s). ¿Continuar?`)) return;
-          Storage.importAll(valid);
-          window.toast('Datos importados correctamente', 'success');
+          const n = valid.cases?.length || 0;
+          const current = Storage.getAllCases().length;
+          let mode = 'merge';
+          if (current > 0) {
+            const merge = await window.confirmDialog({
+              title: 'Restaurar copia de seguridad',
+              message: `El archivo contiene ${n} caso(s). Ahora tiene ${current} caso(s) en este navegador.\n\n«Combinar» añade los casos del archivo sin borrar los actuales (si un caso está en ambos, se conserva la versión más reciente).\n«Reemplazar todo» borra los casos actuales y deja solo los del archivo.`,
+              okText: 'Combinar (recomendado)', cancelText: 'Más opciones…',
+            });
+            if (!merge) {
+              const replace = await window.confirmDialog({ title: 'Reemplazar todo', message: `Se borrarán los ${current} caso(s) actuales y se cargarán los ${n} del archivo. ¿Continuar?`, okText: 'Reemplazar todo', danger: true });
+              if (!replace) return;
+              mode = 'replace';
+            }
+          }
+          if (mode === 'replace' || current === 0) {
+            Storage.importAll(valid);
+            window.toast(`Copia restaurada: ${n} caso(s)`, 'success');
+          } else {
+            const r = Storage.mergeAll(valid);
+            window.toast(`Copia combinada: ${r.added} nuevo(s), ${r.updated} actualizado(s), ${r.kept} sin cambios`, 'success', 6000);
+          }
         }
-        this.hideModal();
+        if (valid.evaluator && !Storage.isSetupDone()) { Storage.setEvaluator(valid.evaluator); Storage.markSetupDone(); }
         App.navigate(Storage.isSetupDone() ? 'dashboard' : 'setup');
       } catch (err) {
         console.error(err);
-        window.toast('Error al importar: ' + err.message, 'error');
+        window.toast(window.friendlyError(err, 'importar el archivo'), 'error', 8000);
       }
     };
     reader.readAsText(file);
@@ -240,7 +316,7 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 3.0 (Auditoría) — Aplicación clínica para la administración, corrección
+          Versión 4.0 — Aplicación clínica para la administración, corrección
           e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
           con baremos español (TEA) y estadounidense (Minnesota N=2.600).
         </p>
@@ -252,7 +328,8 @@ const App = {
           • Validación estricta de importación JSON (sex, country, responses).<br>
           • Las escalas marcadas <em>ES-ONLINE</em> (Fp, S, Ho) requieren TEAcorrige.<br>
           • Los datos se almacenan localmente en el navegador (localStorage).<br>
-          • Exporte periódicamente para no perder información.
+          • Descargue copias de seguridad periódicas (menú › Copias de seguridad).<br>
+          • Instalable como aplicación y utilizable sin conexión.
         </div>
         <button class="btn btn-secondary mt-24 w-full" id="about-selftest">⚙ Ejecutar self-test (14 pruebas)</button>
         <button class="btn btn-primary mt-24 w-full" id="about-close">Cerrar</button>
