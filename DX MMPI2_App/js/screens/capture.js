@@ -405,7 +405,7 @@ Columna A  | Columna B
     this._persist();
     try {
       // FAIL-CLOSED: country es obligatorio y viene del paciente
-      const country = (cur.patient.country === 'ES' || cur.patient.country === 'US' || cur.patient.country === 'MX')
+      const country = (cur.patient.country === 'ES' || cur.patient.country === 'US')
         ? cur.patient.country : 'ES';
       const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, country);
       // Anotar omisiones en results._meta para assessValidity()
