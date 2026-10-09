@@ -37,3 +37,10 @@ Orden: 1) Identificación en un solo cuadro con divisiones · 2) Información de
 - **Mf en mujeres** se corrige con la clave femenina (Mf-F para baremos de EE. UU. y México; Mfm para TEA España). Antes se usaba la clave masculina para ambos sexos (diferencia en los ítems 121, 166, 209 y 268).
 - **T a verificar**: la app detecta los tramos de las tablas del baremo con errores de extracción (rompen la progresión PD→T). Si una puntuación cae en uno de ellos, se muestra con asterisco (*), se lista en el panel del informe y se advierte en la interpretación.
 - Los casos guardados con la versión anterior se recalculan automáticamente al abrir su informe; la app avisa el cambio de Mf y si conviene regenerar el informe con IA.
+
+## V4.2 · Baremos corregidos con el manual
+- **EE. UU.**: tablas de validez y clínicas de varones (A-1) reemplazadas completas (la app traía en su lugar valores del baremo mexicano); tablas de mujeres (A-2) corregidas en los tramos bajos de Hs, Pd, Pt, Sc y Ma (venían de la tabla sin K) y en TRIN; subescalas Harris-Lingoes de varones Pa1-Ma4 (A-5) y Ma2 de ambos sexos corregidas. Contenido, suplementarias y Si1-Si3 se verificaron y ya eran correctas.
+- **México**: tablas B-1, B-2 (validez y clínicas), B-5, B-6 (contenido) y B-7, B-8 (suplementarias) transcritas del manual. Las subescalas de Harris-Lingoes y Si no tienen tablas mexicanas publicadas: se usan las de EE. UU.
+- **España (TEA)**: sin cambios; los manuales aportados no traen sus tablas. Siguen marcándose las T «a verificar».
+- Puntuaciones bajo el mínimo impreso de cada tabla se asignan a T = 30 (antes quedaban «fuera de tabla»).
+- Los casos guardados se recalculan automáticamente al abrir su informe (motor v3).

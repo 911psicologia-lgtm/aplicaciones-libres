@@ -370,7 +370,7 @@ const MMPI2 = {
     return results;
   },
 
-  ENGINE_VERSION: 2,
+  ENGINE_VERSION: 3,
 
   /* ---- Determinar banda por T ---- */
   getBand(t) {

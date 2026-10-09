@@ -632,10 +632,15 @@ const Interpret = {
     if (!raw || typeof raw !== 'object') return null;
     const pts = Object.entries(raw).map(([k, v]) => [parseInt(k, 10), v]).filter(([k, v]) => isFinite(k) && typeof v === 'number').sort((a, b) => a[0] - b[0]);
     const dir = sex === 'H' ? 1 : -1; // varones: T sube con la PD; mujeres: T baja
-    const clean = [pts[0]];
-    for (const p of pts.slice(1)) {
+    // Quitar mesetas (p. ej. T = 30 repetida en el extremo) para poder invertir la tabla
+    const noPlateau = pts.filter((p, i) => {
+      const nb = dir > 0 ? pts[i + 1] : pts[i - 1];
+      return !(nb && nb[1] === p[1]);
+    });
+    const clean = [noPlateau[0]];
+    for (const p of noPlateau.slice(1)) {
       const last = clean[clean.length - 1];
-      if ((p[1] - last[1]) * dir > 0) clean.push(p); else break; // corta en el primer salto erróneo
+      if ((p[1] - last[1]) * dir > 0) clean.push(p);
     }
     return clean.length >= 5 ? clean : null;
   },
