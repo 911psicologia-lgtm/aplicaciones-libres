@@ -523,14 +523,13 @@ const Report = {
     }
 
     // Extraer el primer objeto JSON de la respuesta (por si la IA envolvió en ```json ... ```)
-    const cleaned = this._extractJSON(raw);
-    let parsed;
-    try {
-      parsed = JSON.parse(cleaned);
-    } catch (e) {
-      console.error('JSON parse error:', e);
-      window.toast(window.friendlyError(e, 'leer el informe de la IA'), 'error', 8000);
-      return;
+    const res = window.JSONRepair ? JSONRepair.parse(raw) : (() => { try { return { ok: true, data: JSON.parse(this._extractJSON(raw)), fixes: [] }; } catch (e) { return { ok: false, fixes: [], error: { message: e.message } }; } })();
+    this._showJSONStatus(res);
+    if (!res.ok) return;
+    const parsed = res.data;
+    if (res.fixes.length) {
+      // Dejar en el cuadro la versión corregida para que quede guardada así
+      try { ta.value = JSON.stringify(parsed, null, 2); } catch (e) {}
     }
 
     if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.secciones)) {
@@ -569,6 +568,28 @@ const Report = {
     window.toast('Informe contextualizado generado', 'success');
     // Scroll suave al informe generado
     setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+  },
+
+  _showJSONStatus(res) {
+    let box = document.getElementById('ai-json-status');
+    const ta = document.getElementById('ai-json-input');
+    if (!box && ta) { box = document.createElement('div'); box.id = 'ai-json-status'; ta.parentNode.appendChild(box); }
+    if (!box) return;
+    if (res.ok && !res.fixes.length) { box.className = 'json-status ok'; box.textContent = '✓ JSON válido.'; return; }
+    if (res.ok) {
+      box.className = 'json-status fixed';
+      box.textContent = '✓ JSON leído tras corregir automáticamente: ' + res.fixes.join('; ') + '.';
+      window.toast('El JSON tenía errores menores y se corrigió automáticamente.', 'info', 6000);
+      return;
+    }
+    const e = res.error || {};
+    box.className = 'json-status bad';
+    box.innerHTML = `<b>✗ No se pudo leer el JSON${e.line ? ` (línea ${e.line}, columna ${e.col})` : ''}.</b>
+      ${e.hint ? `<div>${this._esc(e.hint)}</div>` : ''}
+      ${res.fixes.length ? `<div class="form-hint">Se intentó corregir: ${this._esc(res.fixes.join('; '))}.</div>` : ''}
+      ${e.snippet ? `<pre>${this._esc(e.snippet)}</pre>` : ''}
+      <div class="form-hint">Detalle técnico: ${this._esc(e.message || '')}</div>`;
+    window.toast('El JSON de la IA no es válido. Revise el detalle bajo el cuadro.', 'error', 7000);
   },
 
   _clearAIReport() {
@@ -661,7 +682,7 @@ const Report = {
       else if (f === 2) codes = ['Fb', 'Fp', 'S', 'A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho', 'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK'];
       else if (f === 3) codes = I.GROUP_ORDER.Subescalas.filter(c => (I.T(R, c) || 0) >= 56).sort((a, b) => I.T(R, b) - I.T(R, a));
       else if (f === 4 && cur.patient && cur.patient.previousMMPI) {
-        const rows = I.comparisonRows(R, cur.patient.previousMMPI, cur.patient.sex);
+        const rows = I.comparisonRows(R, cur.patient.previousMMPI, cur.patient);
         return { kind: 'compare', labels: rows.map(r => r.code), series: [{ name: 'T actual', data: rows.map(r => r.cur) }, { name: 'T anterior', data: rows.map(r => r.prev) }], refs: [65], yMin: 30 };
       } else codes = ['Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
       codes = codes.filter(c => I.T(R, c) != null);

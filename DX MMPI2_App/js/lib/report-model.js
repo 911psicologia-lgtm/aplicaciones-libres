@@ -274,16 +274,21 @@ const ReportModel = {
     }
     // 4.5 Comparación
     if (o.sec_compare && p.previousMMPI) {
-      const rowsC = I.comparisonRows(R, p.previousMMPI, sex);
+      const anC = I.comparisonAnalysis(R, p.previousMMPI, p);
+      const rowsC = anC.rows;
       if (rowsC.length) {
         H2(`${sec}.${++an}`, 'Comparación con la aplicación anterior');
         blocks.push({ t: 'table', num: ++tab, caption: 'Cambio entre aplicaciones (Δ = T actual − T anterior)', columns: ['Escala', 'Nombre', 'T anterior', 'T actual', 'Δ', 'Cambio'],
-          rows: rowsC.map(r => ({ cells: [r.code, I.name(r.code), r.prev == null ? 'N/D' : (r.approx ? `≈ ${r.prev} (${r.prevRaw} ${r.prevLabel})` : r.prev), r.cur != null ? r.cur : 'N/D', r.delta == null ? '—' : (r.approx ? '≈ ' : '') + (r.delta > 0 ? '+' : '') + r.delta, r.change], level: r.delta == null ? null : (r.delta >= 10 ? 'vh' : (r.delta <= -10 ? 'lo' : 'm')) })), levelCol: 5,
-          footnote: rowsC.some(r => r.approx) ? '≈ Valor anterior convertido de forma aproximada desde el baremo del otro sexo (ver interpretación).' : null });
-        blocks.push({ t: 'interp', title: 'Interpretación', text: I.comparisonParagraph(R, p.previousMMPI, sex) });
+          rows: rowsC.map(r => ({ cells: [r.code, I.name(r.code), r.prev == null ? `No comparable (${r.prevRaw} ${r.prevLabel})` : (r.approx ? `≈ ${r.prev} (${r.prevRaw} ${r.prevLabel})` : (r.kind !== 'T' ? `${r.prev} (desde PD ${r.prevRaw})` : r.prev)), r.cur != null ? r.cur : 'N/D', r.delta == null ? '—' : (r.approx ? '≈ ' : '') + (r.delta > 0 ? '+' : '') + r.delta, r.change], level: r.delta == null ? null : (r.delta >= 10 ? 'vh' : (r.delta <= -10 ? 'lo' : 'm')) })), levelCol: 5,
+          footnote: [
+            rowsC.some(r => r.approx) ? '≈ Valor anterior convertido de forma aproximada por su puntuación directa implicada (ver interpretación).' : '',
+            !anC.srcCountry ? 'Baremo de la aplicación anterior: no consta.' : `Baremo de la aplicación anterior: ${Previous.COUNTRY_LABEL[anC.srcCountry]}.`,
+            anC.meta.date ? `Fecha de la aplicación anterior: ${Previous._fmtDate(anC.meta.date)}.` : 'Fecha de la aplicación anterior: no consta.',
+          ].filter(Boolean).join(' ') });
+        blocks.push({ t: 'interp', title: 'Interpretación', text: I.comparisonParagraph(R, p.previousMMPI, p) });
         if (o.sec_charts) {
           blocks.push({ t: 'chart', num: ++fig, caption: 'Comparación entre la aplicación actual y la anterior', spec: {
-            kind: 'compare', labels: rowsC.map(r => r.code), series: [{ name: 'T actual', data: rowsC.map(r => r.cur) }, { name: 'T anterior', data: rowsC.map(r => r.prev) }], refs: [65], yMin: 30,
+            kind: 'compare', labels: rowsC.map(r => r.code), series: [{ name: 'T actual', data: rowsC.map(r => r.cur) }, { name: 'T anterior' + (rowsC.some(r => r.approx) ? ' (≈ convertida)' : ''), data: rowsC.map(r => r.prev) }], refs: [65], yMin: 30,
           } });
         }
       }

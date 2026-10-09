@@ -77,7 +77,7 @@ const AIPrompt = {
     sections.push(this._evaluatorBlock(ev, desidentify));
     sections.push(this._resultsBlock(results, country));
     sections.push(this._narrativeBlock(caseData.narrative, p, country));
-    const prevBlock = this._previousMmpiBlock(p.previousMMPI, results, p.sex);
+    const prevBlock = this._previousMmpiBlock(p.previousMMPI, results, p);
     if (prevBlock) sections.push(prevBlock);
     sections.push(this._documentStructureSpec());
     sections.push(this._requiredTablesSpec(country));
@@ -114,7 +114,7 @@ const AIPrompt = {
       'Idioma: ESPAÑOL (castellano, registro formal clínico-pericial).',
       'No inventes datos que no estén en el contexto. Si un dato falta, indícalo explícitamente con «No consta».',
       '',
-      'SALIDA: debes devolver ÚNICAMENTE un objeto JSON válido que siga EXACTAMENTE el esquema descrito más abajo (sección «ESQUEMA JSON DE SALIDA»). Sin texto antes ni después del JSON. Sin bloques de código markdown. Sin comentarios. Sin explicaciones. Comienza directamente con «{» y termina con «}».',
+      'SALIDA: devuelve ÚNICAMENTE un objeto JSON válido que siga EXACTAMENTE el esquema descrito más abajo (sección «ESQUEMA JSON DE SALIDA»), DENTRO DE UN ÚNICO BLOQUE DE CÓDIGO ```json … ``` (así la interfaz del chat no altera los caracteres). Sin texto fuera del bloque. Sin comentarios.',
     ].join('\n');
   },
 
@@ -326,28 +326,42 @@ const AIPrompt = {
   },
 
   /* ---------- 7. Bloque de comparación con MMPI-2 anterior ---------- */
-  _previousMmpiBlock(prevText, results, sex) {
-    if (!prevText || !prevText.trim()) return '';
-    const rows = (window.Interpret ? Interpret.comparisonRows(results, prevText, sex) : []);
-    if (rows.length === 0) return '';
+  _previousMmpiBlock(prevText, results, patient) {
+    if (!prevText || !prevText.trim() || !window.Previous) return '';
+    const an = Previous.analyze(prevText, patient || {}, results);
+    if (!an.rows.length) return '';
+    const m = an.meta;
     const lines = [
       '═ COMPARACIÓN CON MMPI-2 ANTERIOR ═',
-      'El evaluado cuenta con una aplicación previa del MMPI-2 cuyas puntuaciones T han sido aportadas por el evaluador:',
+      'Existe una aplicación previa del MMPI-2 aportada por el evaluador (no aplicada por él). Datos conocidos:',
+      `- Fecha de la aplicación anterior: ${m.date || 'no consta'}`,
+      `- Profesional o fuente: ${m.source || 'no consta'}`,
+      `- Baremo de la aplicación anterior: ${Previous.COUNTRY_LABEL[an.srcCountry || 'unknown']}`,
+      `- Baremo de la aplicación actual: ${Previous.COUNTRY_LABEL[an.curCountry]}`,
       '',
-      '| Escala | T anterior | T actual | Cambio (Δ) |',
-      '|--------|-------------|----------|------------|',
+      'Tabla ya procesada por la aplicación (úsala TAL CUAL; los valores con «≈» ya están convertidos al baremo actual por su puntuación directa implicada):',
+      '| Escala | T anterior (usar) | Valor original | T actual | Δ | Estado |',
+      '|---|---|---|---|---|---|',
     ];
-    for (const r of rows) {
-      const prevStr = r.prev == null ? '—' : (r.approx ? `≈${r.prev} (orig. ${r.prevRaw} ${r.prevLabel})` : String(r.prev));
-      const deltaStr = (r.delta == null) ? '—' : ((r.approx ? '≈' : '') + (r.delta > 0 ? '+' : '') + r.delta);
-      lines.push(`| ${r.code.padEnd(6)} | ${prevStr.padStart(11)} | ${(r.cur == null ? '—' : String(r.cur)).padStart(8)} | ${deltaStr.padStart(10)} |`);
+    for (const r of an.rows) {
+      const prevStr = r.prev == null ? 'no comparable' : (r.approx ? `≈${r.prev} (rango ${r.range[0]}–${r.range[1]})` : String(r.prev));
+      const orig = `${r.label}${r.kind !== 'T' ? ' ' + r.kind : ''} = ${r.raw}`;
+      const dStr = r.delta == null ? '—' : ((r.approx ? '≈' : '') + (r.delta > 0 ? '+' : '') + r.delta);
+      lines.push(`| ${r.code} | ${prevStr} | ${orig} | ${r.cur == null ? '—' : r.cur} | ${dStr} | ${r.status} |`);
     }
     lines.push('');
-    rows.filter(r => r.note).forEach(r => lines.push('NOTA Mf: ' + r.note + ' Usa el valor equivalente («≈») para la comparación, indícalo como aproximado y NO marques Mf como «no comparable».'));
-    lines.push('Integra esta comparación en la sección 13 «Contraste longitudinal» del informe.');
-    lines.push('Señala cambios clínicamente relevantes (Δ ≥ 10 puntos T) en las escalas básicas, indicando si la evolución es de mejora, empeoramiento o estabilidad.');
+    an.rows.filter(r => r.note).forEach(r => lines.push('NOTA: ' + r.note));
+    an.notes.forEach(n => lines.push('NOTA: ' + n));
+    if (an.unknown.length) lines.push('Entradas no reconocidas (ignóralas): ' + an.unknown.join('; '));
+    lines.push('');
+    lines.push('INSTRUCCIONES PARA LA SECCIÓN 13 «Contraste longitudinal»:');
+    lines.push('- Usa la columna «T anterior (usar)». Si un valor lleva «≈», escribe que es una equivalencia aproximada e indica su rango; NO escribas «equivalencia no consta» ni «no comparable» para esas escalas.');
+    lines.push('- Si el baremo anterior «no consta», dilo UNA sola vez como limitación y compara igualmente las cifras como orientativas; no repitas la advertencia escala por escala.');
+    lines.push('- Señala cambios clínicamente relevantes (|Δ| ≥ 10) y trata Mf aparte (no mide psicopatología).');
+    lines.push('- Tabla de la sección: columnas [«Escala», «T anterior», «T actual», «Δ»], escribiendo «≈» delante de los valores convertidos.');
     return lines.join('\n');
   },
+
 
 
   /* ---------- 8. Especificación de la estructura del documento ---------- */
@@ -538,7 +552,7 @@ const AIPrompt = {
       '',
       'Antes de emitir el JSON final, verifica internamente los siguientes 10 puntos (no incluyas este check en el JSON, es solo para tu razonamiento previo):',
       '',
-      '  1. ¿El JSON es válido y comienza con «{» y termina con «}» (sin texto antes ni después, sin markdown fences)?',
+      '  1. ¿El JSON es válido, va dentro de un único bloque ```json, usa comillas rectas (") y no contiene barras invertidas salvo \\n y \\" dentro de textos (las URL se escriben tal cual: https://doi.org/…)?',
       '  2. ¿Están presentes las 15 secciones numeradas (1-15) con `numero`, `titulo` y `bloques`?',
       '  3. ¿Están las 5-6 tablas obligatorias (ficha, validez, clínicas, contenido, suplementarias, subescalas) con columnas y filas explícitas?',
       '  4. ¿Están las 3-4 figuras obligatorias con tipo, eje_y, lineas_referencia y series con puntos {x, y}?',
@@ -561,7 +575,7 @@ const AIPrompt = {
     return [
       '═ ESQUEMA JSON DE SALIDA (ESTRICTO) ═',
       '',
-      'Devuelve ÚNICAMENTE JSON válido. Sin texto antes ni después del JSON. Sin markdown fences. Sin comentarios. El JSON debe tener esta estructura (los valores de ejemplo son ILUSTRATIVOS — sustitúyelos por tu redacción profesional):',
+      'Devuelve ÚNICAMENTE JSON válido dentro de un bloque ```json. Comillas rectas, sin comas finales, sin barras invertidas en URL ni en otros textos (salvo \\n y \\"). Sin comentarios. El JSON debe tener esta estructura (los valores de ejemplo son ILUSTRATIVOS — sustitúyelos por tu redacción profesional):',
       '',
       '{',
       '  "titulo": "INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2",',
@@ -748,7 +762,7 @@ const AIPrompt = {
       '',
       `Redacta el informe completo para ${whoLabel} (edad ${p.age != null ? p.age : 'no consta'}, ${sexLabel}), baremo ${countryLabel}, evaluado por ${ev.name || 'el profesional suscribiente'}.`,
       '',
-      'Devuelve ÚNICAMENTE JSON válido. Sin texto antes ni después del JSON. Sin markdown fences. Sin comentarios. Sin explicaciones.',
+      'Devuelve ÚNICAMENTE JSON válido dentro de un único bloque ```json (nada fuera del bloque). Comillas rectas; sin comas finales; sin barras invertidas fuera de \\n y \\"; URL sin escapar. Si el informe es muy largo, prioriza completar el JSON y cerrarlo correctamente antes que extender párrafos.',
       'Comienza directamente con «{» y termina con «}».',
       'Antes de emitir el JSON, aplica los 10 checks de coherencia listados arriba.',
     ].join('\n');

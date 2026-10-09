@@ -1,7 +1,7 @@
-/* Service worker · MMPI-2 App (generado) — versión 8c9e99e033
+/* Service worker · MMPI-2 App (generado) — versión a5eb869476
    Precarga todos los archivos para que la app funcione sin conexión.
    Estrategia: caché primero; en segundo plano se actualiza la copia. */
-const CACHE = 'mmpi2-8c9e99e033';
+const CACHE = 'mmpi2-a5eb869476';
 const ASSETS = [
   "./",
   "./assets/MMPI2_Plantilla_Paciente.xlsx",
@@ -14,6 +14,15 @@ const ASSETS = [
   "./data/baremo_us.json",
   "./data/baremos.json",
   "./data/criterios.json",
+  "./data/fuentes/mx_B1_men.txt",
+  "./data/fuentes/mx_B2_women.txt",
+  "./data/fuentes/mx_B5_men.txt",
+  "./data/fuentes/mx_B6_women.txt",
+  "./data/fuentes/mx_B7_men.txt",
+  "./data/fuentes/mx_B8_women.txt",
+  "./data/fuentes/us_A1_men.txt",
+  "./data/fuentes/us_A2_women.txt",
+  "./data/fuentes/us_subscales.json",
   "./data/items.json",
   "./data/scale_items.json",
   "./data/vrin_trin_pairs.json",
@@ -23,8 +32,10 @@ const ASSETS = [
   "./js/lib/ai-prompt.js",
   "./js/lib/export.js",
   "./js/lib/interpret.js",
+  "./js/lib/json-repair.js",
   "./js/lib/mmpi2.js",
   "./js/lib/mmpi2_orig.js",
+  "./js/lib/previous.js",
   "./js/lib/report-charts.js",
   "./js/lib/report-model.js",
   "./js/lib/report-render.js",

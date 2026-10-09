@@ -44,3 +44,10 @@ Orden: 1) Identificación en un solo cuadro con divisiones · 2) Información de
 - **España (TEA)**: sin cambios; los manuales aportados no traen sus tablas. Siguen marcándose las T «a verificar».
 - Puntuaciones bajo el mínimo impreso de cada tabla se asignan a T = 30 (antes quedaban «fuera de tabla»).
 - Los casos guardados se recalculan automáticamente al abrir su informe (motor v3).
+
+## V4.3 · Aplicación anterior y JSON de la IA
+- **Aplicación anterior estructurada (opcional)**: fecha, profesional o fuente, baremo usado («No consta» por defecto) y nomenclatura (autodetecta internacional / Manual Moderno: Hi, Es, Fp, Fpsi, Is…). Si no hay aplicación previa, el informe y el prompt omiten la comparación.
+- **Vista previa** de cómo se interpretó cada valor: ✓ reconocida, ≈ convertida (con valor y rango), ✗ no reconocida. Se acabaron los «N/D» silenciosos.
+- **Conversión por valor implicado** (T → PD → T) cuando cambia el baremo (EE. UU. ↔ México) o el sexo de la clave de Mf (Mfv/Mfm). Admite puntuaciones directas («Hs_PD=13» + «K_PD=19», o «Hs_PDK=23») para comparación exacta.
+- El informe y el prompt de IA incluyen un párrafo de limitaciones construido con los metadatos reales (fecha, baremo, escalas convertidas o excluidas).
+- **JSON de la IA tolerante a errores**: repara barras invertidas añadidas por el chat (p. ej. «https\://»), comillas tipográficas, comas finales, saltos de línea y bloques ```json; si no se puede, indica línea, fragmento y causa probable. El prompt pide ahora el JSON dentro de un bloque de código.

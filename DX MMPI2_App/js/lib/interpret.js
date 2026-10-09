@@ -667,41 +667,25 @@ const Interpret = {
     return { t: conv(pd), lo: Math.min(a, b), hi: Math.max(a, b), pd: Math.round(pd * 10) / 10 };
   },
 
-  comparisonRows(results, prevText, sex) {
-    const prev = this.parsePrevious(prevText);
-    return Object.keys(prev).map(code => {
-      const cur = this.T(results, code);
-      let pv = prev[code], approx = false, note = null, prevLabel = null, prevRaw = null, range = null;
-      if (code === 'Mf' && typeof pv === 'object') {
-        prevLabel = pv.label; prevRaw = pv.t;
-        if (pv.sex && sex && pv.sex !== sex) {
-          const eq = this.mfEquivalent(pv.t, pv.sex, sex);
-          if (eq) {
-            approx = true; range = [eq.lo, eq.hi];
-            note = `La T anterior de Mf (${pv.t}, rótulo «${pv.label}») se obtuvo con la clave y el baremo de ${pv.sex === 'H' ? 'varones' : 'mujeres'}; para compararla se convirtió a su equivalente aproximado en el baremo de ${sex === 'H' ? 'varones' : 'mujeres'} (T ≈ ${eq.t}; rango probable ${eq.lo}–${eq.hi}), estimando la puntuación directa (≈ ${String(eq.pd).replace('.', ',')}) con las tablas estadounidenses. En el baremo de mujeres una T alta indica distancia de los intereses tradicionalmente femeninos y en el de varones, cercanía a ellos, por lo que las cifras originales no son comparables entre sí.`;
-            pv = eq.t;
-          } else { pv = null; note = `La T anterior de Mf («${pv && pv.label}») corresponde al baremo del otro sexo y no pudo convertirse.`; }
-        } else {
-          pv = pv.t;
-        }
-      }
-      const d = (cur != null && pv != null) ? cur - pv : null;
-      let change = '—';
-      if (d != null) change = d >= 10 ? 'Aumento relevante' : (d <= -10 ? 'Descenso relevante' : (Math.abs(d) >= 5 ? (d > 0 ? 'Aumento leve' : 'Descenso leve') : 'Estable'));
-      if (approx && d != null) change += ' (aprox.)';
-      return { code, prev: pv, cur, delta: d, change, approx, note, prevLabel, prevRaw, range };
-    });
+  /* Delegado en Previous (V4.3): acepta el paciente completo o solo el sexo */
+  _pat(p) { return (p && typeof p === 'object') ? p : { sex: p, country: 'US' }; },
+  comparisonAnalysis(results, prevText, patient) {
+    return window.Previous ? Previous.analyze(prevText, this._pat(patient), results) : { rows: [], unknown: [], notes: [], meta: {} };
+  },
+  comparisonRows(results, prevText, patient) {
+    return this.comparisonAnalysis(results, prevText, patient).rows;
   },
 
-  comparisonParagraph(results, prevText, sex) {
-    const all = this.comparisonRows(results, prevText, sex);
+  comparisonParagraph(results, prevText, patient) {
+    const an = this.comparisonAnalysis(results, prevText, patient);
+    const all = an.rows;
     const rows = all.filter(r => r.delta != null);
     if (!rows.length) return '';
     const VAL = ['L', 'F', 'K', 'VRIN', 'TRIN', 'Fb', 'Fp', 'S'];
     const clin = rows.filter(r => !VAL.includes(r.code) && r.code !== 'Mf');
     const val = rows.filter(r => VAL.includes(r.code));
     const mf = rows.find(r => r.code === 'Mf');
-    const fmt = (r) => `${r.code} (de ${r.prev} a ${r.cur})`;
+    const fmt = (r) => `${r.code} (de ${r.approx ? '≈ ' : ''}${r.prev} a ${r.cur})`;
     const parts = [`Se compararon ${rows.length} escalas con la aplicación anterior; se considera relevante un cambio de 10 o más puntos T.`];
     if (clin.length) {
       const up = clin.filter(r => r.delta >= 10), down = clin.filter(r => r.delta <= -10), stable = clin.filter(r => Math.abs(r.delta) < 10);
@@ -726,6 +710,8 @@ const Interpret = {
       parts.push(txt);
     }
     all.filter(r => r.note).forEach(r => parts.push(r.note));
+    if (mf && mf.approx) parts.push('Recuérdese que en el baremo de mujeres una T alta en esta escala indica distancia de los intereses tradicionalmente femeninos y en el de varones, cercanía a ellos; por eso las cifras originales entre baremos de distinto sexo no son comparables sin conversión.');
+    if (window.Previous) parts.push(Previous.limitationsParagraph(an));
     parts.push('Los cambios deben leerse considerando el tiempo transcurrido, los tratamientos recibidos y el contexto de cada aplicación.');
     return this._clean(parts.join(' '));
   },
