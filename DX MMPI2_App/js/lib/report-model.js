@@ -27,6 +27,7 @@ const ReportModel = {
       info_caseHistory: !!(p.caseHistory && p.caseHistory.trim()),
       info_legal: !!(p.legalContext && p.legalContext.trim()),
       sec_subscales: true,
+      sec_psy5: true,
       sec_compare: !!(p.previousMMPI && p.previousMMPI.trim()),
       sec_recs: true,
       sec_charts: true,
@@ -58,6 +59,7 @@ const ReportModel = {
       { group: 'Secciones', items: [
         { key: 'sec_charts', label: 'Gráficas', available: true },
         { key: 'sec_subscales', label: 'Subescalas Harris-Lingoes', available: true },
+        { key: 'sec_psy5', label: 'Personalidad PSY-5 y áreas de clúster', available: true },
         { key: 'tbl_descriptors', label: 'Descriptor breve por escala en las tablas', available: true },
         { key: 'sec_compare', label: 'Comparación con MMPI-2 anterior', available: has(p.previousMMPI) },
         { key: 'sec_recs', label: 'Recomendaciones', available: true },
@@ -77,6 +79,7 @@ const ReportModel = {
     Contenido: 'Escalas de contenido',
     Suplementarias: 'Escalas suplementarias',
     Subescalas: 'Subescalas de Harris-Lingoes y de Introversión social',
+    'PSY-5': 'Dimensiones de personalidad psicopatológica (PSY-5)',
   },
 
   _fmtDate(iso) {
@@ -156,7 +159,7 @@ const ReportModel = {
     if (validity.status === 'NO_INTERPRETABLE') {
       blocks.push({ t: 'banner', level: 'danger', text: 'Protocolo no interpretable: ' + (validity.reasons || []).join(' ') + ' Las interpretaciones de las escalas sustantivas se presentan solo a título descriptivo.' });
     }
-    const groups = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias'].concat(o.sec_subscales ? ['Subescalas'] : []);
+    const groups = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias'].concat(o.sec_psy5 && I.GROUP_ORDER['PSY-5'].some(c => R[c] && typeof R[c].t === 'number') ? ['PSY-5'] : []).concat(o.sec_subscales ? ['Subescalas'] : []);
     groups.forEach((g, gi) => {
       const num = `${sec}.${gi + 1}`;
       const codes = I.GROUP_ORDER[g].filter(c => R[c]);
@@ -181,7 +184,7 @@ const ReportModel = {
       blocks.push({ t: 'interp', title: 'Interpretación', text: I.groupParagraph(g, R, sex) });
       // Gráfica
       if (o.sec_charts) {
-        blocks.push({ t: 'chart', num: ++fig, caption: `Perfil de ${this.GROUP_TITLES[g].toLowerCase()}`, spec: {
+        blocks.push({ t: 'chart', num: ++fig, caption: `Perfil de ${this.GROUP_TITLES[g].charAt(0).toLowerCase() + this.GROUP_TITLES[g].slice(1)}`, spec: {
           kind: 'profile', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65], yMin: 30,
         } });
       }
@@ -272,6 +275,23 @@ const ReportModel = {
         } });
       }
     }
+    // 4.x Áreas de personalidad (PSY-5 → clústeres)
+    if (o.sec_psy5 && I.GROUP_ORDER['PSY-5'].some(c => I.T(R, c) != null)) {
+      H2(`${sec}.${++an}`, 'Rasgos de personalidad por áreas (clústeres DSM-5, lectura dimensional)');
+      const areas = I.clusterAreas(R);
+      const lv = { alto: 'Elevado (T ≥ 65)', moderado: 'Moderado (T 60–64)', no: 'Sin elevación', nd: 'Sin datos' };
+      blocks.push({ t: 'table', num: ++tab, caption: 'Correspondencia conceptual entre las dimensiones PSY-5 y los clústeres de personalidad del DSM-5',
+        columns: ['Clúster', 'Escalas PSY-5 de referencia', 'T máxima', 'Nivel', 'Rasgos del área'],
+        rows: areas.map(a => ({ cells: [a.name, a.scales.map(c => `${c} (${I.T(R, c) ?? 'N/D'})`).join(', '), a.max ?? 'N/D', lv[a.level], a.desc.charAt(0).toUpperCase() + a.desc.slice(1)], level: a.max == null ? null : this.levelKey(a.max) })),
+        tCol: 2, levelCol: 3,
+        footnote: 'Correspondencia orientativa (Harkness et al., 2002; Bagby et al., 2005). No constituye diagnóstico de trastorno de personalidad.' });
+      blocks.push({ t: 'interp', title: 'Interpretación', text: I.psy5Paragraph(R, sex, validity) });
+      if (o.sec_charts) {
+        const codes = ['AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR'].filter(c => I.T(R, c) != null);
+        blocks.push({ t: 'chart', num: ++fig, caption: 'Dimensiones de personalidad PSY-5', spec: { kind: 'barh', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65] } });
+      }
+    }
+
     // 4.5 Comparación
     if (o.sec_compare && p.previousMMPI) {
       const anC = I.comparisonAnalysis(R, p.previousMMPI, p);

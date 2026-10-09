@@ -30,6 +30,8 @@ const AIPrompt = {
     // Suplementarias
     'A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho',
     'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK',
+    // PSY-5
+    'AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR',
     // Subescalas Harris-Lingoes
     'D1', 'D2', 'D3', 'D4', 'D5',
     'Hy1', 'Hy2', 'Hy3', 'Hy4', 'Hy5',
@@ -79,6 +81,13 @@ const AIPrompt = {
     sections.push(this._narrativeBlock(caseData.narrative, p, country));
     const prevBlock = this._previousMmpiBlock(p.previousMMPI, results, p);
     if (prevBlock) sections.push(prevBlock);
+    // Áreas de personalidad (PSY-5 → clústeres, orientativo)
+    if (window.Interpret && ['AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR'].some(c => Interpret.T(results, c) != null)) {
+      const areas = Interpret.clusterAreas(results);
+      sections.push(['═ ÁREAS DE PERSONALIDAD (PSY-5 → clústeres DSM-5, lectura dimensional, NO diagnóstica) ═',
+        ...areas.map(a => `- Clúster ${a.name}: ${a.scales.map(c => c + ' T=' + (Interpret.T(results, c) ?? 'N/D')).join(', ')} → nivel ${a.level} (${a.desc})`),
+        'Lectura sugerida por la aplicación: ' + Interpret.psy5Paragraph(results, p.sex, Interpret.verdict(results))].join('\n'));
+    }
     sections.push(this._documentStructureSpec());
     sections.push(this._requiredTablesSpec(country));
     sections.push(this._requiredChartsSpec());
@@ -534,6 +543,7 @@ const AIPrompt = {
       '6. Cada gráfico debe declarar tipo, etiquetas (x), valores (y) y límites del eje Y.',
       '7. Razonamiento CONFIGURACIONAL: nunca emitir afirmaciones del tipo «T=70 = diagnóstico X». Integra la elevación con el resto del perfil, las escalas de validez, las escalas de contenido y el contexto. La interpretación aislada de un T es inaceptable.',
       '8. Subescalas Harris-Lingoes: interpreta siempre en JERARQUÍA con la escala madre (p. ej. Pd1 matiza la lectura del Pd). No las interpretes como escalas independientes.',
+      '8b. PSY-5 (AGGR, PSYC, DISC, NEGE, INTR): interprétalas en la sección 9 como rasgos de personalidad dimensionales. Puedes relacionarlas de forma CONCEPTUAL con los clústeres del DSM-5 (PSYC → clúster A; AGGR y DISC → clúster B; NEGE e INTR → clúster C) usando la tabla «Áreas de personalidad» del bloque de resultados, pero NUNCA como diagnóstico de trastorno de personalidad: indica que se requiere entrevista específica (p. ej., SCID-5-PD), patrón persistente desde la adultez temprana e información de terceros. En contexto de estrés actual intenso, advierte que NEGE e INTR pueden reflejar en parte el estado clínico.',
       '9. Ítems críticos: agrupados TEMÁTICAMENTE (ideación autolítica, sintomatología psicótica, conducta antisocial, etc.), nunca como listado indiscriminado. Si no hay información de ítems críticos, indícalo.',
       '10. F − K: calcula y comenta el índice F − K (puntuaciones directas: PD de F menos PD de K, NO T) en la sección 6, usando el valor provisto en el bloque de resultados.',
       '11. Integración clínica (sección 12) es la sección central y más profunda: debe conectar el perfil con la historia del caso, el contexto pericial y las configuraciones clínicas detectadas. Mínimo 4-6 párrafos densos.',

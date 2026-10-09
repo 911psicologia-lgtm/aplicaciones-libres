@@ -51,3 +51,10 @@ Orden: 1) Identificación en un solo cuadro con divisiones · 2) Información de
 - **Conversión por valor implicado** (T → PD → T) cuando cambia el baremo (EE. UU. ↔ México) o el sexo de la clave de Mf (Mfv/Mfm). Admite puntuaciones directas («Hs_PD=13» + «K_PD=19», o «Hs_PDK=23») para comparación exacta.
 - El informe y el prompt de IA incluyen un párrafo de limitaciones construido con los metadatos reales (fecha, baremo, escalas convertidas o excluidas).
 - **JSON de la IA tolerante a errores**: repara barras invertidas añadidas por el chat (p. ej. «https\://»), comillas tipográficas, comas finales, saltos de línea y bloques ```json; si no se puede, indica línea, fragmento y causa probable. El prompt pide ahora el JSON dentro de un bloque de código.
+
+## V4.4 · Personalidad PSY-5 y auditoría de claves
+- **Escalas PSY-5** (AGGR, PSYC, DISC, NEGE, INTR) calculadas con las claves del Manual (Tabla C-6) y sus baremos (A-12/A-13 EE. UU.; B-7/B-8 México, corregidos). Nueva sección en el perfil y subsección de análisis **«Rasgos de personalidad por áreas (clústeres DSM-5)»**: correspondencia conceptual PSYC→A, AGGR/DISC→B, NEGE/INTR→C, con advertencias de que no es diagnóstico. Incluido en el prompt de IA.
+- **Auditoría completa de claves de corrección** contra el Apéndice C del manual (validez, clínicas, contenido, suplementarias, Harris-Lingoes, Si1-Si3, VRIN/TRIN). Se corrigieron: **F, Fp, Ma, Si, ANX, MDS, Ho, MAC-R, AAS, APS, D2, Pd4 y un par de VRIN (83-288)**. Las claves verificadas quedan en `data/fuentes/claves_manual_apendiceC.json`.
+- Baremos PSY-5 de varones EE. UU. corregidos (DISC tramo bajo, NEGE 28).
+- PD por encima del máximo impreso de una tabla: se asigna el tope con marca «a verificar».
+- Los casos guardados se recalculan al abrir el informe (motor v5).

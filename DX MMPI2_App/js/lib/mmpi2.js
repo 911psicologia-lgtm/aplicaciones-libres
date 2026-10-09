@@ -113,6 +113,12 @@ const MMPI2 = {
     { group: 'Subescalas', code: 'Si1', name: 'Si1: Timidez/Autoconciencia', k: 0, pdk: false },
     { group: 'Subescalas', code: 'Si2', name: 'Si2: Evitación Social', k: 0, pdk: false },
     { group: 'Subescalas', code: 'Si3', name: 'Si3: Autoalienación/alienación de los otros', k: 0, pdk: false },
+    // PSY-5 (Harkness, McNulty y Ben-Porath, 1995) — claves: Manual MMPI-2, Tabla C-6
+    { group: 'PSY-5', code: 'AGGR', name: 'AGGR (Agresividad)', k: 0, pdk: false },
+    { group: 'PSY-5', code: 'PSYC', name: 'PSYC (Psicoticismo)', k: 0, pdk: false },
+    { group: 'PSY-5', code: 'DISC', name: 'DISC (Falta de control)', k: 0, pdk: false },
+    { group: 'PSY-5', code: 'NEGE', name: 'NEGE (Emocionalidad negativa/Neuroticismo)', k: 0, pdk: false },
+    { group: 'PSY-5', code: 'INTR', name: 'INTR (Introversión/Baja emocionalidad positiva)', k: 0, pdk: false },
   ],
 
   // Mapeo: código de escala → lista de ítems
@@ -302,7 +308,16 @@ const MMPI2 = {
         if (alt !== bs) { tVal = lkIn(alt); if (tVal !== null) { usedKey = alt; break; } }
       }
     }
-    if (tVal === null) return { t: null, status: S.PD_FUERA_DE_TABLA };
+    if (tVal === null) {
+      // PD por encima del máximo impreso (algunas tablas terminan en T = 100 o 120): se usa el tope con aviso
+      const d = sb[bs] || {};
+      const keys = Object.keys(d).map(Number).filter(isFinite);
+      if (keys.length && Number(pd) > Math.max(...keys)) {
+        const top = d[String(Math.max(...keys))];
+        if (typeof top === 'number' && top >= 95) return { t: top, status: 'T_A_VERIFICAR', verify: true, ceiling: true };
+      }
+      return { t: null, status: S.PD_FUERA_DE_TABLA };
+    }
     if (this.suspectPDs(country, scaleCode, usedKey).has(Number(pd))) {
       return { t: tVal, status: 'T_A_VERIFICAR', verify: true };
     }
@@ -370,7 +385,7 @@ const MMPI2 = {
     return results;
   },
 
-  ENGINE_VERSION: 3,
+  ENGINE_VERSION: 5,
 
   /* ---- Determinar banda por T ---- */
   getBand(t) {

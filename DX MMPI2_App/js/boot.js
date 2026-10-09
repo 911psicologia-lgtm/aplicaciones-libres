@@ -38,8 +38,9 @@ loadData().catch(err => {
       });
     }).catch((e) => console.warn('Service worker no registrado:', e));
     let reloaded = false;
+    const hadController = !!navigator.serviceWorker.controller; // primera instalación: no recargar
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (reloaded) return; reloaded = true;
+      if (reloaded || !hadController) return; reloaded = true;
       try { if (window.Storage && Storage.flush) Storage.flush(); } catch (e) {}
       location.reload();
     });

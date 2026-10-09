@@ -183,6 +183,29 @@ const Interpret = {
       hi: 'malestar emocional asociado a experiencias estresantes o traumáticas: ansiedad, pensamientos intrusivos, alteraciones del sueño y sensación de vulnerabilidad',
       f: [['trauma', 'malestar compatible con vivencias estresantes o traumáticas']] },
 
+    // ---- PSY-5 (Harkness, McNulty y Ben-Porath, 1995; Harkness et al., 2002) ----
+    AGGR: { n: 'Agresividad', s: 'agresividad instrumental y dominancia',
+      hi: 'un estilo interpersonal dominante y ofensivo, con uso de la agresión, incluida la intimidación, como medio para lograr fines; puede acompañarse de resentimiento y de disfrute de la confrontación',
+      f: [['personalidad', 'un estilo interpersonal dominante, con disposición a imponerse o confrontar']],
+      lo: 'un estilo interpersonal pasivo y poco asertivo, con tendencia a ceder ante los demás',
+      loF: [['personalidad', 'un estilo interpersonal pasivo y poco asertivo']] },
+    PSYC: { n: 'Psicoticismo', s: 'desconexión con la realidad compartida',
+      hi: 'una desconexión con la realidad compartida: experiencias inusuales, creencias extrañas, sensación de alienación y expectativa de daño por parte de otros',
+      f: [['pensamiento', 'vivencias de desconexión con la realidad compartida y expectativas de daño']] },
+    DISC: { n: 'Falta de control', s: 'desinhibición e impulsividad',
+      hi: 'desinhibición conductual: impulsividad, búsqueda de sensaciones, baja tolerancia al aburrimiento y menor apego a normas convencionales',
+      f: [['control', 'desinhibición, impulsividad y búsqueda de sensaciones']],
+      lo: 'un estilo sobrecontrolado: autocontrol elevado, apego a normas, prudencia y baja tolerancia al riesgo',
+      loF: [['personalidad', 'un estilo sobrecontrolado, prudente y apegado a las normas']] },
+    NEGE: { n: 'Emocionalidad negativa', s: 'tendencia a la ansiedad y la preocupación',
+      hi: 'una disposición estable a experimentar emociones negativas: ansiedad, preocupación, culpa, inseguridad y tendencia a anticipar lo peor ante la información ambigua',
+      f: [['personalidad', 'una disposición estable a experimentar ansiedad, preocupación e inseguridad']] },
+    INTR: { n: 'Introversión/Baja emocionalidad positiva', s: 'baja capacidad para experimentar alegría e interés',
+      hi: 'una baja capacidad para experimentar alegría y placer, retraimiento social, poca energía y escasa motivación por el logro; se asocia con vulnerabilidad a la depresión',
+      f: [['personalidad', 'una baja capacidad para experimentar alegría, interés y energía']],
+      lo: 'sociabilidad, energía y capacidad para experimentar emociones positivas',
+      loF: [['recursos', 'la sociabilidad y la capacidad para experimentar emociones positivas']] },
+
     // ---- Subescalas de Harris-Lingoes ----
     D1: { parent: 'D', n: 'Depresión subjetiva', s: 'tristeza y falta de energía', hi: 'tristeza, falta de energía e interés, y dificultad para afrontar los problemas', f: [['afectivo', 'tristeza y desgaste para afrontar los problemas']] },
     D2: { parent: 'D', n: 'Retardo psicomotor', s: 'inmovilidad y retraimiento', hi: 'enlentecimiento, falta de energía para actuar y retraimiento', f: [['afectivo', 'enlentecimiento y falta de energía para actuar']] },
@@ -249,6 +272,7 @@ const Interpret = {
     Clínicas: ['Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'],
     Contenido: ['ANX', 'FRS', 'OBS', 'DEP', 'HEA', 'BIZ', 'ANG', 'CYN', 'ASP', 'TPA', 'LSE', 'SOD', 'FAM', 'WRK', 'TRT'],
     Suplementarias: ['A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho', 'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK'],
+    'PSY-5': ['AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR'],
     Subescalas: ['D1', 'D2', 'D3', 'D4', 'D5', 'Hy1', 'Hy2', 'Hy3', 'Hy4', 'Hy5', 'Pd1', 'Pd2', 'Pd3', 'Pd4', 'Pd5',
       'Pa1', 'Pa2', 'Pa3', 'Sc1', 'Sc2', 'Sc3', 'Sc4', 'Sc5', 'Sc6', 'Ma1', 'Ma2', 'Ma3', 'Ma4', 'Si1', 'Si2', 'Si3'],
   },
@@ -334,7 +358,7 @@ const Interpret = {
     const parts = [];
     const S = this.subj(sex);
 
-    const labels = { Clínicas: 'las escalas clínicas básicas', Contenido: 'las escalas de contenido', Suplementarias: 'las escalas suplementarias', Subescalas: 'las subescalas' };
+    const labels = { 'PSY-5': 'las escalas de personalidad psicopatológica (PSY-5)', Clínicas: 'las escalas clínicas básicas', Contenido: 'las escalas de contenido', Suplementarias: 'las escalas suplementarias', Subescalas: 'las subescalas' };
     const verbs = ['describe', 'sugiere', 'señala', 'apunta a', 'refleja'];
 
     if (group === 'Subescalas') {
@@ -486,6 +510,42 @@ const Interpret = {
       parts.push(`El índice F − K (puntuaciones directas) es ${sign}${fl.fk}${fl.fk >= 11 ? ', en la dirección de la exageración' : (fl.fk <= -11 ? ', en la dirección de la defensividad' : ', dentro del rango esperado')}.`);
     }
     parts.push(`En conjunto, el protocolo se considera ${this.verdict(results).label}.`);
+    return this._clean(parts.join(' '));
+  },
+
+  /* ---------- Áreas de personalidad (PSY-5 → clústeres DSM-5, orientativo) ----------
+     Correspondencias conceptuales documentadas (Harkness et al., 2002; Bagby et al., 2005;
+     Trull et al., 1995): PSYC con el clúster A; AGGR y DISC con el clúster B;
+     NEGE e INTR con el clúster C (NEGE también con rasgos límite del B). No es diagnóstico. */
+  clusterAreas(results) {
+    const t = (c) => this.T(results, c);
+    const A = t('AGGR'), P = t('PSYC'), D = t('DISC'), N = t('NEGE'), I = t('INTR');
+    const lvl = (v) => v == null ? 'nd' : (v >= 65 ? 'alto' : (v >= 60 ? 'moderado' : 'no'));
+    const pick = (arr) => { const v = arr.filter(x => x != null); return v.length ? Math.max(...v) : null; };
+    const area = (name, scales, max, desc) => ({ name, scales, max, level: lvl(max), desc });
+    return [
+      area('A', ['PSYC'], P, 'raro o excéntrico: desconfianza, distancia emocional, pensamiento o percepciones inusuales (paranoide, esquizoide, esquizotípico)'),
+      area('B', ['AGGR', 'DISC', 'NEGE'].filter(c => c !== 'NEGE' || (N != null && N >= 65 && ((D != null && D >= 60) || (A != null && A >= 60)))), pick([A, D, (N != null && N >= 65 && ((D != null && D >= 60) || (A != null && A >= 60))) ? N : null]), 'dramático, emocional o errático: impulsividad, inestabilidad afectiva, dominancia o transgresión de normas (antisocial, límite, histriónico, narcisista)'),
+      area('C', ['NEGE', 'INTR'], pick([N, I]), 'ansioso o temeroso: inseguridad, temor al rechazo o al error, necesidad de apoyo, inhibición (evitativo, dependiente, obsesivo-compulsivo)'),
+    ];
+  },
+
+  psy5Paragraph(results, sex, validity) {
+    const t = (c) => this.T(results, c);
+    if (['AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR'].every(c => t(c) == null)) return '';
+    const areas = this.clusterAreas(results);
+    const parts = [];
+    const hi = areas.filter(a => a.level === 'alto'), mod = areas.filter(a => a.level === 'moderado');
+    const sc = (a) => a.scales.filter(c => t(c) != null).map(c => `${c}, T = ${t(c)}`).join('; ');
+    parts.push('Las escalas PSY-5 describen rasgos de personalidad relativamente estables y permiten una lectura dimensional que la literatura relaciona, de forma conceptual y no diagnóstica, con los grupos de trastornos de personalidad del DSM-5.');
+    if (hi.length) parts.push(`Se observan rasgos en grado clínicamente significativo en ${hi.length === 1 ? 'el área' : 'las áreas'} ${this.join(hi.map(a => `del clúster ${a.name} (${sc(a)}), de tipo ${a.desc}`))}.`);
+    if (mod.length) parts.push(`En grado moderado aparece${mod.length === 1 ? '' : 'n'} ${this.join(mod.map(a => `el área del clúster ${a.name} (${sc(a)})`))}.`);
+    if (!hi.length && !mod.length) parts.push('Ninguna dimensión alcanza un nivel elevado, por lo que el inventario no aporta indicios de rasgos patológicos de personalidad.');
+    const none = areas.filter(a => a.level === 'no' && !hi.includes(a) && !mod.includes(a)).map(a => a.name);
+    if (none.length && (hi.length || mod.length)) parts.push(`No hay elevaciones en las dimensiones vinculadas ${none.length === 1 ? 'al clúster' : 'a los clústeres'} ${this.join(none)}.`);
+    if (t('NEGE') != null && t('NEGE') >= 65) parts.push('La emocionalidad negativa elevada es poco específica: se presenta en numerosos cuadros y, en contextos de estrés actual intenso, puede reflejar en parte el estado clínico y no solo un rasgo estable.');
+    if (validity && validity.status !== 'INTERPRETABLE') parts.push('Dado el estilo de respuesta observado, estas dimensiones deben leerse con la misma cautela que el resto del perfil.');
+    parts.push('Un diagnóstico de trastorno de personalidad requiere establecer un patrón persistente desde la adolescencia o la adultez temprana, con entrevista específica (p. ej., SCID-5-PD) e información de terceros; el MMPI-2 por sí solo no lo establece.');
     return this._clean(parts.join(' '));
   },
 
@@ -776,7 +836,7 @@ const Interpret = {
     out.push(style + '.');
 
     // 2. Dominios con elevación (≥ 65; 60–64 como matiz)
-    const groups = ['Clínicas', 'Contenido', 'Suplementarias', 'Subescalas'];
+    const groups = ['Clínicas', 'Contenido', 'Suplementarias', 'PSY-5', 'Subescalas'];
     const dom = {}; // d -> { max, feats: Map(phrase -> t) }
     const addFeat = (d, phrase, tv) => {
       if (!dom[d]) dom[d] = { max: 0, feats: new Map() };
@@ -792,7 +852,7 @@ const Interpret = {
         if (k.parent) { const pt = t(k.parent); if (pt == null || pt < 60) continue; }
         if (tv >= this.CUT.sig) {
           for (const [d, p] of this.feats(c, sex)) addFeat(d, p, tv);
-        } else if (tv >= this.CUT.mod && !k.parent && !k.fav) {
+        } else if (tv >= this.CUT.mod && !k.parent && !k.fav && g !== 'PSY-5') {
           // Matices moderados: solo escalas principales y si su dominio ya está presente o es único
           for (const [d, p] of this.feats(c, sex)) addFeat(d + '_mod', p, tv);
         } else if (tv <= this.CUT.low) {
