@@ -29,6 +29,8 @@ const ReportModel = {
       sec_subscales: true,
       sec_psy5: true,
       sec_compare: !!(p.previousMMPI && p.previousMMPI.trim()),
+      sec_critical: true,
+      sec_critical_lw: true,
       sec_recs: true,
       sec_charts: true,
       tbl_descriptors: false,
@@ -60,6 +62,8 @@ const ReportModel = {
         { key: 'sec_charts', label: 'Gráficas', available: true },
         { key: 'sec_subscales', label: 'Subescalas Harris-Lingoes', available: true },
         { key: 'sec_psy5', label: 'Personalidad PSY-5 y áreas de clúster', available: true },
+        { key: 'sec_critical', label: 'Ítems críticos de Koss-Butcher', available: !!(window.Critical && Critical.hasResponses(caseData && caseData.responses)) },
+        { key: 'sec_critical_lw', label: 'Ítems críticos de Lachar-Wrobel', available: !!(window.Critical && Critical.hasResponses(caseData && caseData.responses)) },
         { key: 'tbl_descriptors', label: 'Descriptor breve por escala en las tablas', available: true },
         { key: 'sec_compare', label: 'Comparación con MMPI-2 anterior', available: has(p.previousMMPI) },
         { key: 'sec_recs', label: 'Recomendaciones', available: true },
@@ -292,6 +296,37 @@ const ReportModel = {
       }
     }
 
+    // 4.x Ítems críticos (Koss-Butcher / Lachar-Wrobel)
+    const crit = (window.Critical && (o.sec_critical || o.sec_critical_lw)) ? Critical.compute(caseData.responses, sex) : null;
+    if (crit) {
+      H2(`${sec}.${++an}`, 'Ítems críticos');
+      const lvC = { high: 'vh', mid: 'h', low: 'm', none: null };
+      if (o.sec_critical) {
+        const kb = crit.sets.KB;
+        blocks.push({ t: 'table', num: ++tab, caption: 'Series de ítems críticos de Koss-Butcher (revisadas): ítems reconocidos en la dirección crítica',
+          columns: ['Serie', 'Reconocidos', 'Concentración', 'Ítems'],
+          rows: kb.series.map(s => ({ cells: [s.name, `${s.n} de ${s.total}`, s.conc.label, s.n ? s.endorsed.map(e => e.num + e.dir).join(', ') : '—'], level: lvC[s.conc.key] })), levelCol: 2,
+          footnote: 'V = verdadero; F = falso. Concentración descriptiva: aislada (un ítem o < 25 % de la serie), moderada (25–49 % y al menos dos ítems), marcada (≥ 50 % y al menos dos ítems). No es un baremo. Fuente de las claves: Butcher et al. (2001), Apéndice D, Tabla D-1.' + (crit.omittedCritical ? ` Ítems críticos sin respuesta: ${crit.omittedCritical}.` : '') });
+        const det = [];
+        kb.series.forEach(s => s.endorsed.forEach(e => det.push({ cells: [s.name, String(e.num), e.dir === 'V' ? 'Verdadero' : 'Falso', e.text || '—'], level: (Critical.EXPLICIT_SUICIDE.includes(e.num) ? 'vh' : null) })));
+        if (det.length) blocks.push({ t: 'table', num: ++tab, caption: 'Contenido de los ítems críticos de Koss-Butcher reconocidos', columns: ['Serie', 'Ítem', 'Respuesta', 'Enunciado'], rows: det,
+          footnote: 'Cada afirmación debe verificarse en entrevista; una respuesta aislada no tiene valor diagnóstico.' + (crit.explicitSuicide.length ? ' Resaltados: ítems de contenido suicida explícito.' : '') });
+      }
+      if (o.sec_critical_lw) {
+        blocks.push({ t: 'table', num: ++tab, caption: 'Áreas de ítems críticos de Lachar-Wrobel',
+          columns: ['Área', 'Reconocidos', 'Concentración', 'Ítems'],
+          rows: crit.sets.LW.series.map(s => ({ cells: [s.name, `${s.n} de ${s.total}`, s.conc.label, s.n ? s.endorsed.map(e => e.num + e.dir).join(', ') : '—'], level: lvC[s.conc.key] })), levelCol: 2,
+          footnote: 'Fuente de las claves: Butcher et al. (2001), Apéndice D, Tabla D-2 (ítem 62: verdadero en varones, falso en mujeres).' });
+      }
+      blocks.push({ t: 'interp', title: 'Interpretación', text: Critical.paragraph(crit, R, sex) });
+      if (o.sec_charts) {
+        const ser = o.sec_critical ? crit.sets.KB.series : crit.sets.LW.series;
+        blocks.push({ t: 'chart', num: ++fig, caption: 'Porcentaje de ítems críticos reconocidos por serie' + (o.sec_critical ? ' (Koss-Butcher)' : ' (Lachar-Wrobel)'), spec: {
+          kind: 'pct', labels: ser.map(s => s.name), series: [{ name: '% reconocidos', data: ser.map(s => Math.round(100 * s.n / s.total)) }], refs: [25, 50],
+        } });
+      }
+    }
+
     // 4.5 Comparación
     if (o.sec_compare && p.previousMMPI) {
       const anC = I.comparisonAnalysis(R, p.previousMMPI, p);
@@ -316,12 +351,14 @@ const ReportModel = {
 
     // ---- 5. Síntesis integradora ----
     H1('Síntesis integradora');
-    blocks.push({ t: 'consolidated', text: I.consolidated(R, p) });
+    blocks.push({ t: 'consolidated', text: [I.consolidated(R, p), crit ? Critical.synthesisSentence(crit, validity.status === 'NO_INTERPRETABLE', R) : ''].filter(Boolean).join(' ') });
 
     // ---- 6. Recomendaciones ----
     if (o.sec_recs) {
       H1('Recomendaciones');
-      blocks.push({ t: 'list', items: I.recommendations(R, validity, sex) });
+      const baseRecs = I.recommendations(R, validity, sex);
+      const critRecs = crit ? Critical.recommendations(crit).filter(r => !(/consumo/i.test(r) && baseRecs.some(b => /consumo/i.test(b)))) : [];
+      blocks.push({ t: 'list', items: critRecs.concat(baseRecs) });
     }
 
     // ---- Evaluador y firma (al final) ----

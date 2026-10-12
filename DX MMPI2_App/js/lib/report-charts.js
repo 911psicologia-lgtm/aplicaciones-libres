@@ -109,8 +109,8 @@ const ReportCharts = {
     const C = this.COLORS;
     const fs = forImage ? 13 : 11;
     const refs = (spec.refs || []).map(v => ({
-      value: v, color: v >= 65 ? '#B91C1C' : '#6B7280', dash: v >= 65 ? [6, 4] : [3, 3],
-      label: v === 50 ? 'T 50' : (v === 65 ? 'T 65' : 'T ' + v),
+      value: v, color: (spec.kind === 'pct' ? v >= 50 : v >= 65) ? '#B91C1C' : '#6B7280', dash: (spec.kind === 'pct' ? v >= 50 : v >= 65) ? [6, 4] : [3, 3],
+      label: spec.kind === 'pct' ? v + ' %' : (v === 50 ? 'T 50' : (v === 65 ? 'T 65' : 'T ' + v)),
     }));
     const base = {
       animation: false,
@@ -170,6 +170,23 @@ const ReportCharts = {
       };
     }
 
+    if (spec.kind === 'pct') {
+      // Porcentaje de ítems reconocidos (0–100), sin escala T
+      const s = spec.series[0];
+      const col = (v) => v == null ? C.grid : (v >= 50 ? C.vh : (v >= 25 ? C.h : (v > 0 ? C.m : C.lo)));
+      return {
+        type: 'bar', plugins,
+        data: { labels: spec.labels, datasets: [{ label: s.name, data: s.data, backgroundColor: s.data.map(col), borderWidth: 0, barThickness: forImage ? 18 : 16 }] },
+        options: Object.assign(base, {
+          indexAxis: 'y',
+          scales: {
+            x: { min: 0, max: 100, ticks: { stepSize: 10, font: { size: fs - 1 }, color: C.muted }, grid: { color: C.grid }, title: { display: true, text: 'Porcentaje de ítems reconocidos', font: { size: fs }, color: C.text } },
+            y: { ticks: { font: { size: fs - 1, weight: '600' }, color: C.text, autoSkip: false }, grid: { display: false } },
+          },
+        }),
+      };
+    }
+
     if (spec.kind === 'stacked') {
       const bandColors = [C.vh, C.h, C.ps, C.m, C.lo];
       return {
@@ -192,7 +209,7 @@ const ReportCharts = {
 
   /* Altura sugerida según tipo y nº de etiquetas */
   height(spec) {
-    if (spec.kind === 'barh') return Math.max(200, 60 + spec.labels.length * 30);
+    if (spec.kind === 'barh' || spec.kind === 'pct') return Math.max(200, 60 + spec.labels.length * 30);
     if (spec.kind === 'stacked') return 60 + spec.labels.length * 46;
     return 340;
   },

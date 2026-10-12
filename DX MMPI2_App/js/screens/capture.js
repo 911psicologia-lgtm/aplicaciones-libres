@@ -295,8 +295,8 @@ const Capture = {
         <div class="card-header"><h3>Cargar archivo Excel de respuestas</h3></div>
         <div class="card-body">
           <p class="text-muted mb-16">
-            Suba un archivo <strong>.xlsx</strong> con dos columnas: <strong>A</strong> = número de ítem (1-567),
-            <strong>B</strong> = respuesta (1 = Verdadero, 2 = Falso).
+            Suba la plantilla del paciente u otro archivo <strong>.xlsx</strong> con una columna de número de ítem (1-567)
+            y otra de respuesta: <strong>V / F</strong> (o el formato anterior <strong>1 / 2</strong>). La aplicación detecta las columnas sola.
           </p>
           <input type="file" id="xlsx-input" accept=".xlsx,.xls" class="mb-16">
           <div id="xlsx-preview"></div>
@@ -350,6 +350,16 @@ Columna A  | Columna B
         const parsed = new Array(this._totalItems).fill(null);
         let count = 0, skipped = 0;
 
+        // Respuesta normalizada: acepta 1/2 (formato anterior) y V/F, Verdadero/Falso (plantilla actual)
+        const norm = (v) => {
+          if (v === 1 || v === 2) return v;
+          if (typeof v !== 'string') return null;
+          const s = v.trim().toUpperCase();
+          if (s === '1' || s === 'V' || s === 'VERDADERO' || s === 'T' || s === 'TRUE') return 1;
+          if (s === '2' || s === 'F' || s === 'FALSO' || s === 'FALSE') return 2;
+          return null;
+        };
+
         // Auto-detect column layout: find the column with item numbers and the column with responses
         // Strategy: scan ALL rows, find columns where:
         //  - item col has integers 1..567 (consistent sequence) and FEW values that are 1 or 2
@@ -365,10 +375,7 @@ Columna A  | Columna B
             if (!r || c >= r.length) continue;
             const v = r[c];
             if (v == null || v === '') continue;
-            const respVal = typeof v === 'number' ? v : parseInt(v, 10);
-            if ((respVal === 1 || respVal === 2) && (typeof v !== 'string' || /^[12]$/.test(v.trim()))) {
-              respScore++;
-            }
+            if (norm(v) != null) respScore++;
           }
           if (respScore > bestRespScore && respScore >= 100) {
             bestRespScore = respScore;
@@ -415,9 +422,8 @@ Columna A  | Columna B
             continue;
           }
           
-          let resp = respRaw;
-          if (typeof resp === 'string') resp = parseInt(resp, 10);
-          if (resp !== 1 && resp !== 2) {
+          const resp = norm(respRaw);
+          if (resp == null) {
             skipped++;
             continue;
           }
@@ -426,7 +432,7 @@ Columna A  | Columna B
         }
 
         if (count === 0) {
-          window.toast('No se encontraron respuestas en el archivo. Verifique que tenga una columna con el número de ítem (1–567) y otra con la respuesta (1 = V, 2 = F).', 'error', 9000);
+          window.toast('No se encontraron respuestas en el archivo. Verifique que tenga una columna con el número de ítem (1–567) y otra con la respuesta (V/F o 1/2).', 'error', 9000);
           return;
         }
         this._responses = parsed;

@@ -88,6 +88,8 @@ const AIPrompt = {
         ...areas.map(a => `- Clúster ${a.name}: ${a.scales.map(c => c + ' T=' + (Interpret.T(results, c) ?? 'N/D')).join(', ')} → nivel ${a.level} (${a.desc})`),
         'Lectura sugerida por la aplicación: ' + Interpret.psy5Paragraph(results, p.sex, Interpret.verdict(results))].join('\n'));
     }
+    // Ítems críticos (Koss-Butcher / Lachar-Wrobel) calculados desde las respuestas
+    if (window.Critical) sections.push(Critical.promptBlock(Critical.compute(caseData.responses, p.sex)));
     sections.push(this._documentStructureSpec());
     sections.push(this._requiredTablesSpec(country));
     sections.push(this._requiredChartsSpec());
@@ -431,7 +433,8 @@ const AIPrompt = {
       ' 11. Ítems críticos',
       '     - Agrupa los ítems críticos por TEMA (p. ej. ideación autolítica, sintomatología psicótica, conducta antisocial, etc.), NO listes indiscriminadamente.',
       '     - Usa bloques `lista` por tema.',
-      '     - Si no se dispone de información de ítems críticos, indícalo explícitamente e integra la información disponible de las escalas de contenido.',
+      '     - Usa EXCLUSIVAMENTE los ítems críticos listados en el bloque «ÍTEMS CRÍTICOS» (Koss-Butcher y Lachar-Wrobel); no inventes ítems ni enunciados. Si el bloque indica que no hay respuestas ítem a ítem, decláralo e integra la información de las escalas de contenido.',
+      '     - Recuerda que no son escalas ni tienen punto de corte: preséntalos como contenidos a explorar en entrevista. Si hay ítems de contenido suicida explícito, inclúyelo como alerta y en recomendaciones.',
       '',
       ' 12. Integración clínica del perfil',
       '     - ESTA ES LA SECCIÓN MÁS IMPORTANTE Y PROFUNDA DEL INFORME.',

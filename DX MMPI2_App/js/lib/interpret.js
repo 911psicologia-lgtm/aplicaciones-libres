@@ -821,7 +821,7 @@ const Interpret = {
     if (validity.status === 'NO_INTERPRETABLE' || fl.inconsistent || fl.overInvalid || fl.underInvalid || fl.invalidOmit) {
       const why = [];
       if (fl.invalidOmit) why.push('dejó sin responder un número elevado de preguntas');
-      if (fl.inconsistent) why.push('sus respuestas no guardan la coherencia necesaria');
+      if (fl.inconsistent) why.push('respondió sin la coherencia necesaria entre preguntas de contenido similar');
       if (fl.overInvalid) why.push('reconoció una cantidad de síntomas tan inusual que sugiere una exageración marcada');
       if (fl.underInvalid) why.push('ofreció una imagen de sí excesivamente favorable');
       out.push(`En la presente evaluación${ctxPhrase}, ${S} ${this.join(why.length ? why : ['respondió de un modo que no permite una lectura fiable'])}, de modo que el perfil obtenido no permite describir su funcionamiento psicológico con suficiente confianza. Por esta razón no se formulan inferencias clínicas a partir del inventario, y la comprensión del caso debe apoyarse en la entrevista, la observación y otras fuentes, valorando la conveniencia de una nueva aplicación.`);

@@ -389,7 +389,7 @@ const ReportRender = {
         case 'table': {
           ensure(70);
           text(`Tabla ${b.num}. ${b.caption}`, { size: 9, style: 'bold', color: blue, align: 'left', after: 2 });
-          const wide = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio/.test(c));
+          const wide = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio|Enunciado|Serie|Área|Ítems/.test(c));
           doc.autoTable({
             startY: y, margin: { left: M.l, right: M.r }, theme: 'grid',
             head: [b.columns.map(T)], body: b.rows.map(r => r.cells.map(T)),

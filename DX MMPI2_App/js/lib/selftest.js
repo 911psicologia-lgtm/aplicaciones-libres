@@ -299,6 +299,27 @@ const SelfTest = {
       }
     } catch (e) { this._fail('14. Perfil no interpretable', e.message); }
 
+    // ---- 15. Ítems críticos (Koss-Butcher / Lachar-Wrobel) ----
+    try {
+      const C = window.Critical;
+      const sizes = Object.fromEntries(C.SETS.KB.series ? Object.entries(C.SETS.KB.series).map(([k, v]) => [k, v.items.length]) : []);
+      const okSizes = sizes.ansiedad_aguda === 17 && sizes.ideacion_suicida === 22 && sizes.amenaza_ataque === 5 && sizes.estres_alcohol === 7 && sizes.confusion_mental === 11 && sizes.persecucion === 16;
+      const resp = new Array(567).fill(2);
+      resp[505] = 1; // 506 V (suicida explícito)
+      resp[36] = 1;  // 37 V (amenaza de ataque)
+      resp[61] = 2;  // 62 F → crítico en mujeres, no en varones
+      const cM = C.compute(resp, 'M'), cH = C.compute(resp, 'H');
+      const sui = cM.sets.KB.series.find(s => s.key === 'ideacion_suicida');
+      const sexM = cM.sets.LW.series.find(s => s.key === 'sexual').endorsed.some(e => e.num === 62);
+      const sexH = cH.sets.LW.series.find(s => s.key === 'sexual').endorsed.some(e => e.num === 62);
+      const none = C.compute(new Array(567).fill(null), 'M');
+      if (okSizes && cM.explicitSuicide.includes(506) && sui.endorsed.some(e => e.num === 506) && sexM && !sexH && none === null) {
+        this._ok('15. Ítems críticos', `KB ${JSON.stringify(sizes)}; 506 detectado; ítem 62 según sexo; sin respuestas → null`);
+      } else {
+        this._fail('15. Ítems críticos', JSON.stringify({ okSizes, sizes, explicit: cM.explicitSuicide, sexM, sexH, none }));
+      }
+    } catch (e) { this._fail('15. Ítems críticos', e.message); }
+
     // ---- Resumen ----
     const passed = this._results.filter(r => r.status === 'PASS').length;
     const failed = this._results.filter(r => r.status === 'FAIL').length;

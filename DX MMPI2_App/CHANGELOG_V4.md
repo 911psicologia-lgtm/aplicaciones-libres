@@ -58,3 +58,19 @@ Orden: 1) Identificación en un solo cuadro con divisiones · 2) Información de
 - Baremos PSY-5 de varones EE. UU. corregidos (DISC tramo bajo, NEGE 28).
 - PD por encima del máximo impreso de una tabla: se asigna el tope con marca «a verificar».
 - Los casos guardados se recalculan al abrir el informe (motor v5).
+
+## V4.5 · Ítems críticos (Koss-Butcher y Lachar-Wrobel)
+- Nuevo módulo `js/lib/critical.js` con las claves del **Apéndice D** del manual (Butcher et al., 2001; ed. El Manual Moderno): seis series de **Koss-Butcher revisadas** (Tabla D-1) y once áreas de **Lachar-Wrobel** (Tabla D-2). Claves transcritas y verificadas contra el manual; copia de referencia en `data/criticos.json`. El ítem 62 de Lachar-Wrobel se corrige según el sexo (V en varones, F en mujeres).
+- Se calculan desde las respuestas ítem a ítem: ítems reconocidos en la dirección crítica, con su enunciado. Si el caso solo tiene puntuaciones (sin respuestas), la sección no aparece y el prompt de IA lo declara.
+- Informe, sección **Análisis → Ítems críticos**: tabla por serie (reconocidos, concentración, ítems), tabla con el contenido de los ítems de Koss-Butcher reconocidos, tabla de Lachar-Wrobel, interpretación y gráfica de porcentajes. Opciones independientes en «Contenido del informe».
+- La **concentración** (aislada / moderada / marcada) es descriptiva, no normativa: los ítems críticos no tienen baremo ni puntos de corte.
+- **Alerta suicida**: si se reconocen los ítems 506, 520 o 524 se resaltan, se añade recomendación de valoración directa del riesgo y una frase en la síntesis, incluso en protocolos no interpretables o cuando las escalas de ánimo no se elevan (se señala la discrepancia).
+- La interpretación pondera la validez: con sobrerreporte advierte que el número de ítems puede estar sobredimensionado; con defensividad, que su escasez no descarta los contenidos.
+- Prompt de IA: bloque «ÍTEMS CRÍTICOS» con series, ítems y enunciados; se prohíbe a la IA inventar ítems.
+- Corrección de redacción en la síntesis de protocolos inconsistentes («la evaluada respondió sin la coherencia necesaria…»).
+- Autoprueba 15: tamaño de las series, detección del ítem 506, ítem 62 por sexo y caso sin respuestas.
+
+## V4.6 · Plantilla Excel del paciente
+- Plantilla rediseñada (`assets/MMPI2_Plantilla_Paciente.xlsx`) con el mismo contenido y la misma disposición: **lista desplegable V / F** en cada ítem (rechaza otros valores), bordes visibles, filas alternas, encabezado fijo al desplazarse, contador «Progreso: X de 567», columna Estado en color (OK / PENDIENTE), impresión ajustada al ancho con encabezado repetido e instrucciones actualizadas.
+- La carga de Excel acepta ahora **V/F** (también Verdadero/Falso) además del formato anterior **1/2**; las plantillas ya entregadas a pacientes siguen funcionando.
+- Corregida errata en el ítem 17 («2Estoy seguro…» → «Estoy seguro…») en la app y en la plantilla.

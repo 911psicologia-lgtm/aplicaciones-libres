@@ -1,0 +1,25 @@
+{
+  "_fuente": "Butcher, J. N., Graham, J. R., Ben-Porath, Y. S., Tellegen, A., Dahlstrom, W. G. y Kaemmer, B. (2001/2015). MMPI-2: Manual de aplicación, calificación e interpretación (ed. en español, El Manual Moderno). Apéndice D, Tablas D-1 y D-2. Transcrito y verificado contra las páginas 151-152 del manual.",
+  "_formato": "Cada ítem: número + dirección clave (V = verdadero, F = falso). Ítem 62 de Lachar-Wrobel: V en varones, F en mujeres.",
+  "koss_butcher": {
+    "ansiedad_aguda": {"nombre": "Estado de ansiedad aguda", "items": ["2F","3F","5V","10F","15V","28V","39V","59V","140F","172V","208F","218V","223F","301V","444V","463V","469V"]},
+    "ideacion_suicida": {"nombre": "Ideación suicida depresiva", "items": ["9F","38V","65V","71V","75F","92V","95F","130V","146V","215V","233V","273V","303V","306V","388F","411V","454V","485V","506V","518V","520V","524V"]},
+    "amenaza_ataque": {"nombre": "Amenaza de ataque", "items": ["37V","85V","134V","213V","389V"]},
+    "estres_alcohol": {"nombre": "Estrés ocasionado por el alcoholismo", "items": ["125F","264V","487V","489V","502V","511V","518V"]},
+    "confusion_mental": {"nombre": "Confusión mental", "items": ["24V","31V","32V","72V","96V","180V","198V","299V","311V","316V","325V"]},
+    "persecucion": {"nombre": "Ideas de persecución", "items": ["17V","42V","99V","124V","138V","144V","145V","162V","216V","228V","241V","251V","259V","314F","333V","361V"]}
+  },
+  "lachar_wrobel": {
+    "ansiedad_tension": {"nombre": "Ansiedad y tensión", "items": ["15V","17V","172V","218V","223F","261F","299V","301V","320V","405F","463V"]},
+    "sueno": {"nombre": "Alteraciones del sueño", "items": ["5V","30V","39V","140F","328V","471V"]},
+    "pensamiento_desviado": {"nombre": "Pensamiento y experiencia desviados", "items": ["32V","60V","96V","122V","198V","298V","307V","316V","319V","427F"]},
+    "antisocial": {"nombre": "Actitud antisocial", "items": ["27V","35V","84V","105V","227V","240V","254V","266F","324V"]},
+    "ira": {"nombre": "Problemas de ira", "items": ["85V","134V","213V","389V"]},
+    "somaticos": {"nombre": "Síntomas somáticos", "items": ["18V","28V","33F","40V","44V","47F","53V","57F","59V","101V","111V","142F","159F","164F","175V","176F","182V","224F","229V","247V","255F","295F","464V"]},
+    "depresion_preocupacion": {"nombre": "Depresión y preocupación", "items": ["2F","3F","10F","65V","73V","75F","130V","150V","165F","180V","273V","303V","339V","411V","415V","454V"]},
+    "creencias_desviadas": {"nombre": "Creencias desviadas", "items": ["42V","99V","106F","138V","144V","162V","216V","228V","259V","314F","333V","336V","355V","361V","466V"]},
+    "sustancias": {"nombre": "Abuso de sustancias", "items": ["168V","264V","429F"]},
+    "familia": {"nombre": "Conflictos familiares", "items": ["21V","83F","125F","288V"]},
+    "sexual": {"nombre": "Preocupación y desviación sexual", "items": ["12F","34F","62V|62F","121F","166V","268V"]}
+  }
+}
