@@ -1,0 +1,15 @@
+{
+  "version": "17.1",
+  "items": 567,
+  "unique_ids": 567,
+  "empty_texts": 0,
+  "source": "Plantilla de cuestionario previa del usuario; no se incluyen sus datos identificativos ni respuestas.",
+  "source_sha256": "aa1f40140d5ad06b542de09f3c195b9ac5c75b3e3cc77c7730f4c0625109e344",
+  "normalizations": [
+    {
+      "item": 17,
+      "change": "Se retiró un dígito 2 suelto antepuesto al inicio de la frase; se conservó el enunciado."
+    }
+  ],
+  "scope": "Comprobación estructural de cobertura y correspondencia de ítems. No constituye cotejo editorial independiente del texto del instrumento."
+}

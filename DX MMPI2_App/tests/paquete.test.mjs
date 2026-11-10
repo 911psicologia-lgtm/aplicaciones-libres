@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {readFile,access,readdir} from 'node:fs/promises';
+import vm from 'node:vm';
+const root=new URL('../',import.meta.url),html=await readFile(new URL('index.html',root),'utf8'),sw=await readFile(new URL('sw.js',root),'utf8');
+const resources=[...html.matchAll(/(?:src|href)="\.\/([^"#]+)"/g)].map(m=>m[1].split('?')[0]);
+for(const r of resources)await access(new URL(r,root));
+for(const name of await readdir(root))if(name.endsWith('.js'))new vm.Script(await readFile(new URL(name,root),'utf8'),{filename:name});
+const manifest=JSON.parse(await readFile(new URL('manifest.webmanifest',root),'utf8'));assert.equal(manifest.start_url,'./');assert.equal(manifest.display,'standalone');
+for(const icon of manifest.icons)await access(new URL(icon.src,root));
+assert(sw.includes("request.method!=='GET'"));assert(sw.includes("url.origin!==self.location.origin"));assert(sw.includes("startsWith('mmpi2-')"));
+assert(!html.includes('/_next/'));assert(!html.includes('cdn.'));assert(!html.includes('https://'));
+console.log(JSON.stringify({passed:true,relativeResources:resources.length,syntax:true,manifest:true,offlineResources:true,noRuntimeCDN:true}));

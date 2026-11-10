@@ -1,63 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MMPI-2 · Aplicación clínica</title>
-  <meta name="description" content="Aplicación clínica para la aplicación, corrección e interpretación del MMPI-2 con baremos españoles y estadounidenses">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <meta name="referrer" content="no-referrer">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#1F3864">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="MMPI-2">
-  <link rel="apple-touch-icon" href="assets/icon-192.png">
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#193d54"><meta name="description" content="Suite MMPI-2 para registro, cálculo, comparación e integración profesional de casos.">
+ <title>MMPI-2 · Suite clínica 17.2</title><link rel="icon" href="./assets/icon-192.png"><link rel="apple-touch-icon" href="./assets/apple-touch-icon.png"><link rel="manifest" href="./manifest.webmanifest">
+ <link rel="stylesheet" href="./app.css?v=17.2">
+ <script defer src="./mmpi-data.js?v=17.2"></script><script defer src="./mmpi-engine.js?v=17.2"></script><script defer src="./mmpi-questions.js?v=17.2"></script><script defer src="./mmpi-sections.js?v=17.2"></script><script defer src="./mmpi-prompt.js?v=17.2"></script><script defer src="./mmpi-report.js?v=17.2"></script><script defer src="./mmpi-cases.js?v=17.2"></script><script defer src="./mmpi-io.js?v=17.2"></script><script defer src="./app.js?v=17.2"></script>
 </head>
-<body>
-  <!-- Pantallas -->
-  <div id="app"></div>
-
-  <!-- Modal overlay para menú hamburguesa (role=dialog, aria-modal) -->
-  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-content" id="modal-content"></div>
-  </div>
-
-  <!-- Toast notifications (aria-live para anunciar cambios) -->
-  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-
-  <!-- Vendor scripts (librerías externas) -->
-  <script src="vendor/xlsx.full.min.js"></script>
-  <script src="vendor/chart.umd.min.js"></script>
-  <script src="vendor/docx.umd.min.js"></script>
-  <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="vendor/jspdf.plugin.autotable.min.js"></script>
-
-
-  <!-- App scripts (módulos) -->
-  <script src="js/lib/utils.js"></script>
-  <script src="js/lib/storage.js"></script>
-  <script src="js/lib/mmpi2.js"></script>
-  <script src="js/lib/export.js"></script>
-  <script src="js/lib/interpret.js"></script>
-  <script src="js/lib/report-charts.js"></script>
-  <script src="js/lib/critical.js"></script>
-  <script src="js/lib/report-model.js"></script>
-  <script src="js/lib/report-render.js"></script>
-  <script src="js/lib/signature.js"></script>
-  <script src="js/lib/json-repair.js"></script>
-  <script src="js/lib/previous.js"></script>
-  <script src="js/lib/ai-prompt.js"></script>
-  <script src="js/lib/selftest.js"></script>
-  <script src="js/screens/splash.js"></script>
-  <script src="js/screens/setup.js"></script>
-  <script src="js/screens/dashboard.js"></script>
-  <script src="js/screens/case.js"></script>
-  <script src="js/screens/capture.js"></script>
-  <script src="js/screens/report.js"></script>
-  <script src="js/screens/cases.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/boot.js"></script>
-</body>
+<body><a class="skip" href="#main">Ir al contenido</a><div id="app"><p class="loading">Cargando la suite clínica…</p></div><div id="toast" role="status" aria-live="polite"></div><dialog id="dialog" aria-labelledby="dialog-title"></dialog><input id="file-cases" type="file" accept=".json" hidden><input id="file-responses" type="file" accept=".xlsx,.csv,.tsv,.txt,.json" hidden><input id="file-ai" type="file" accept=".txt,.md,.json,.html,.docx" hidden><input id="file-bank" type="file" accept=".json,.xlsx,.csv,.tsv,.txt" hidden><input id="file-signature" type="file" accept="image/png,image/jpeg,image/webp" hidden><noscript>Active JavaScript para utilizar esta aplicación.</noscript></body>
 </html>

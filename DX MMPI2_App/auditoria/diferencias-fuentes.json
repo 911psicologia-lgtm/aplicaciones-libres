@@ -1,0 +1,7977 @@
+{
+  "keys": [
+    {
+      "scale": "F",
+      "direction": "T",
+      "added": [
+        349
+      ],
+      "removed": [
+        348
+      ]
+    },
+    {
+      "scale": "Fb",
+      "direction": "T",
+      "added": [
+        329,
+        468
+      ],
+      "removed": [
+        325,
+        466
+      ]
+    },
+    {
+      "scale": "Fp",
+      "direction": "T",
+      "added": [
+        193
+      ],
+      "removed": [
+        163
+      ]
+    },
+    {
+      "scale": "D",
+      "direction": "F",
+      "added": [
+        260
+      ],
+      "removed": [
+        250
+      ]
+    },
+    {
+      "scale": "Pt",
+      "direction": "T",
+      "added": [
+        242
+      ],
+      "removed": [
+        222
+      ]
+    },
+    {
+      "scale": "Sc",
+      "direction": "T",
+      "added": [
+        268
+      ],
+      "removed": [
+        259
+      ]
+    },
+    {
+      "scale": "Sc",
+      "direction": "F",
+      "added": [
+        179
+      ],
+      "removed": [
+        178
+      ]
+    },
+    {
+      "scale": "A",
+      "direction": "T",
+      "added": [
+        135
+      ],
+      "removed": [
+        130
+      ]
+    },
+    {
+      "scale": "R",
+      "direction": "F",
+      "added": [
+        69,
+        168,
+        423,
+        430
+      ],
+      "removed": [
+        68,
+        158,
+        443,
+        480
+      ]
+    },
+    {
+      "scale": "Es",
+      "direction": "T",
+      "added": [
+        413
+      ],
+      "removed": [
+        418
+      ]
+    },
+    {
+      "scale": "Es",
+      "direction": "F",
+      "added": [
+        236
+      ],
+      "removed": [
+        233
+      ]
+    },
+    {
+      "scale": "Re",
+      "direction": "F",
+      "added": [
+        235,
+        358
+      ],
+      "removed": [
+        225,
+        359
+      ]
+    },
+    {
+      "scale": "GM",
+      "direction": "F",
+      "added": [
+        146
+      ],
+      "removed": [
+        149
+      ]
+    },
+    {
+      "scale": "GF",
+      "direction": "T",
+      "added": [
+        203,
+        266
+      ],
+      "removed": [
+        265,
+        268
+      ]
+    },
+    {
+      "scale": "GF",
+      "direction": "F",
+      "added": [
+        487,
+        548
+      ],
+      "removed": [
+        497,
+        549
+      ]
+    },
+    {
+      "scale": "DISC",
+      "direction": "T",
+      "added": [
+        86,
+        103,
+        284,
+        344
+      ],
+      "removed": [
+        88,
+        264,
+        334,
+        503
+      ]
+    },
+    {
+      "scale": "D1",
+      "direction": "F",
+      "added": [
+        260
+      ],
+      "removed": [
+        250
+      ]
+    }
+  ],
+  "norms": [
+    {
+      "scale": "TRIN",
+      "country": "US",
+      "sex": "F",
+      "PD": 11,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "TRIN",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": 58,
+      "document": 56
+    },
+    {
+      "scale": "F",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": 33,
+      "document": 35
+    },
+    {
+      "scale": "Fb",
+      "country": "US",
+      "sex": "F",
+      "PD": 17,
+      "previous": 109,
+      "document": 108
+    },
+    {
+      "scale": "Fb",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": 38,
+      "document": 39
+    },
+    {
+      "scale": "Fp",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": 91,
+      "document": 94
+    },
+    {
+      "scale": "L",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": 46,
+      "document": 45
+    },
+    {
+      "scale": "L",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": 44,
+      "document": 43
+    },
+    {
+      "scale": "L",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": 35,
+      "document": 36
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": 35,
+      "document": 33
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": 33,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "K",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "S",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "M",
+      "PD": 38,
+      "previous": 98,
+      "document": 99
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 38,
+      "previous": 99,
+      "document": 98
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hs",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": 38,
+      "document": 37
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": 36,
+      "document": 35
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 53,
+      "previous": 118,
+      "document": 119
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 47,
+      "previous": 105,
+      "document": 106
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 15,
+      "previous": 39,
+      "document": 38
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": 34,
+      "document": 33
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 12,
+      "previous": 33,
+      "document": 32
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": 33,
+      "document": 32
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 50,
+      "previous": 116,
+      "document": 115
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 30,
+      "previous": 64,
+      "document": 66
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pd",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 18,
+      "previous": 36,
+      "document": 34
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 17,
+      "previous": 34,
+      "document": 32
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": 85,
+      "document": 86
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 16,
+      "previous": 32,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "F",
+      "PD": 13,
+      "previous": 105,
+      "document": 106
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "F",
+      "PD": 12,
+      "previous": 108,
+      "document": 109
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mf",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": 45,
+      "document": 46
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": 43,
+      "document": 42
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pa",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pa",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 20,
+      "previous": 34,
+      "document": 35
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 52,
+      "previous": 96,
+      "document": 95
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Pt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 34,
+      "previous": 61,
+      "document": 60
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 33,
+      "previous": 59,
+      "document": 58
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 66,
+      "previous": 118,
+      "document": 119
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 24,
+      "previous": 56,
+      "document": 55
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 20,
+      "previous": 45,
+      "document": 46
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 15,
+      "previous": 36,
+      "document": 35
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 26,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 26,
+      "previous": 69,
+      "document": 68
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 69,
+      "previous": 94,
+      "document": 95
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 59,
+      "previous": 89,
+      "document": 88
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 57,
+      "previous": 81,
+      "document": 82
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 56,
+      "previous": 80,
+      "document": 81
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 55,
+      "previous": 79,
+      "document": 80
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 54,
+      "previous": 78,
+      "document": 79
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 53,
+      "previous": 77,
+      "document": 78
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 18,
+      "previous": 43,
+      "document": 42
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 52,
+      "previous": 76,
+      "document": 77
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 16,
+      "previous": 39,
+      "document": 38
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 12,
+      "previous": 35,
+      "document": 36
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": 31,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 40,
+      "previous": 65,
+      "document": 66
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Si",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DEP",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": 88,
+      "document": 86
+    },
+    {
+      "scale": "ANG",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": 59,
+      "document": 58
+    },
+    {
+      "scale": "CYN",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": 39,
+      "document": 38
+    },
+    {
+      "scale": "CYN",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": 36,
+      "document": 35
+    },
+    {
+      "scale": "ASP",
+      "country": "MX",
+      "sex": "M",
+      "PD": 18,
+      "previous": 78,
+      "document": 79
+    },
+    {
+      "scale": "TPA",
+      "country": "MX",
+      "sex": "M",
+      "PD": 19,
+      "previous": 88,
+      "document": 86
+    },
+    {
+      "scale": "TPA",
+      "country": "MX",
+      "sex": "M",
+      "PD": 17,
+      "previous": 79,
+      "document": 78
+    },
+    {
+      "scale": "TPA",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": 78,
+      "document": 79
+    },
+    {
+      "scale": "WRK",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": 55,
+      "document": 56
+    },
+    {
+      "scale": "TRT",
+      "country": "MX",
+      "sex": "M",
+      "PD": 22,
+      "previous": 96,
+      "document": 95
+    },
+    {
+      "scale": "TRT",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": 94,
+      "document": 95
+    },
+    {
+      "scale": "A",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": 55,
+      "document": 56
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": 45,
+      "document": 46
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 24,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 25,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 24,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 50,
+      "previous": 78,
+      "document": 79
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 23,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 22,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 21,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 20,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 19,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 18,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 17,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Es",
+      "country": "MX",
+      "sex": "M",
+      "PD": 26,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 24,
+      "previous": 64,
+      "document": 61
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": 61,
+      "document": 58
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": 58,
+      "document": 55
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": 55,
+      "document": 53
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 45,
+      "previous": null,
+      "document": 120
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": 53,
+      "document": 50
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 44,
+      "previous": 120,
+      "document": 117
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": 50,
+      "document": 47
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 43,
+      "previous": 117,
+      "document": 114
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": 47,
+      "document": 44
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 42,
+      "previous": 114,
+      "document": 112
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": 44,
+      "document": 41
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 41,
+      "previous": 112,
+      "document": 109
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": 41,
+      "document": 38
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 40,
+      "previous": 109,
+      "document": 106
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": 39,
+      "document": 36
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 39,
+      "previous": 106,
+      "document": 103
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": 36,
+      "document": 33
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 38,
+      "previous": 103,
+      "document": 100
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": 33,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 37,
+      "previous": 100,
+      "document": 98
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 36,
+      "previous": 98,
+      "document": 95
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 35,
+      "previous": 95,
+      "document": 92
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 34,
+      "previous": 92,
+      "document": 89
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 33,
+      "previous": 89,
+      "document": 86
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 32,
+      "previous": 86,
+      "document": 83
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 31,
+      "previous": 83,
+      "document": 81
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 30,
+      "previous": 81,
+      "document": 78
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 29,
+      "previous": 78,
+      "document": 75
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 28,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 28,
+      "previous": 75,
+      "document": 72
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 27,
+      "previous": 72,
+      "document": 69
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 26,
+      "previous": 69,
+      "document": 67
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 25,
+      "previous": 67,
+      "document": 64
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MAC-R",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": 38,
+      "document": 39
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": 55,
+      "document": 56
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "APS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "MDS",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": 99,
+      "document": 98
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 24,
+      "previous": 57,
+      "document": 56
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": 56,
+      "document": 54
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": 54,
+      "document": 53
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": 53,
+      "document": 52
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 46,
+      "previous": 83,
+      "document": 82
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": 52,
+      "document": 51
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": 51,
+      "document": 49
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": 49,
+      "document": 48
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": 48,
+      "document": 47
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": 47,
+      "document": 45
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": 45,
+      "document": 44
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": 44,
+      "document": 43
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": 43,
+      "document": 41
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": 41,
+      "document": 40
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": 40,
+      "document": 39
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": 39,
+      "document": 38
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": 38,
+      "document": 36
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 34,
+      "previous": 68,
+      "document": 69
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": 36,
+      "document": 35
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": 35,
+      "document": 34
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": 34,
+      "document": 32
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": 32,
+      "document": 31
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": 31,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 26,
+      "previous": 59,
+      "document": 58
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ho",
+      "country": "MX",
+      "sex": "F",
+      "PD": 25,
+      "previous": 58,
+      "document": 57
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "O-H",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Do",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 28,
+      "previous": 68,
+      "document": 69
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Re",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": 62,
+      "document": 60
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": 60,
+      "document": 59
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": 59,
+      "document": 57
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": 57,
+      "document": 55
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": 55,
+      "document": 54
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": 54,
+      "document": 52
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": 52,
+      "document": 50
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": 50,
+      "document": 49
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": 49,
+      "document": 47
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": 47,
+      "document": 45
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 31,
+      "previous": 79,
+      "document": 78
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": 45,
+      "document": 44
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": 44,
+      "document": 42
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 29,
+      "previous": 76,
+      "document": 75
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": 42,
+      "document": 41
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 28,
+      "previous": 75,
+      "document": 73
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": 41,
+      "document": 39
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 27,
+      "previous": 73,
+      "document": 72
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": 39,
+      "document": 37
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 26,
+      "previous": 72,
+      "document": 70
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": 38,
+      "document": 39
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": 37,
+      "document": 36
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 25,
+      "previous": 70,
+      "document": 68
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": 36,
+      "document": 34
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 24,
+      "previous": 68,
+      "document": 67
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": 34,
+      "document": 32
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": 67,
+      "document": 65
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": 32,
+      "document": 31
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": 66,
+      "document": 64
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": 31,
+      "document": 30
+    },
+    {
+      "scale": "Mt",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": 64,
+      "document": 62
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 23,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": 41,
+      "document": 39
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 22,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": 39,
+      "document": 37
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 21,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": 37,
+      "document": 35
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 20,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": 35,
+      "document": 34
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 19,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": 34,
+      "document": 32
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 18,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": 32,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 17,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 40,
+      "previous": 69,
+      "document": 68
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 39,
+      "previous": 68,
+      "document": 66
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 38,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 37,
+      "previous": 65,
+      "document": 63
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 36,
+      "previous": 63,
+      "document": 61
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 35,
+      "previous": 61,
+      "document": 60
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 34,
+      "previous": 60,
+      "document": 58
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 33,
+      "previous": 58,
+      "document": 56
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 32,
+      "previous": 56,
+      "document": 54
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 31,
+      "previous": 54,
+      "document": 53
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 30,
+      "previous": 53,
+      "document": 51
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 29,
+      "previous": 51,
+      "document": 49
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 28,
+      "previous": 49,
+      "document": 47
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 27,
+      "previous": 47,
+      "document": 46
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 26,
+      "previous": 46,
+      "document": 44
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 25,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 25,
+      "previous": 44,
+      "document": 42
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 24,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 24,
+      "previous": 42,
+      "document": 41
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GM",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 22,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 21,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 20,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 19,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 19,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 18,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 18,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 17,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 17,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 16,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 15,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 14,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 13,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 12,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 11,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 10,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 9,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 8,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 7,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 6,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 5,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 27,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 26,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 25,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 24,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "GF",
+      "country": "MX",
+      "sex": "F",
+      "PD": 23,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "PK",
+      "country": "MX",
+      "sex": "M",
+      "PD": 17,
+      "previous": 66,
+      "document": 65
+    },
+    {
+      "scale": "AGGR",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "AGGR",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "AGGR",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "AGGR",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "AGGR",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "PSYC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 20,
+      "previous": 98,
+      "document": 99
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 29,
+      "previous": 96,
+      "document": 100
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 14,
+      "previous": 46,
+      "document": 49
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 28,
+      "previous": 93,
+      "document": 96
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 13,
+      "previous": 44,
+      "document": 46
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 27,
+      "previous": 89,
+      "document": 93
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 26,
+      "previous": 85,
+      "document": 89
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 25,
+      "previous": 82,
+      "document": 85
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 24,
+      "previous": 78,
+      "document": 82
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 23,
+      "previous": 75,
+      "document": 78
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 8,
+      "previous": 38,
+      "document": 39
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 22,
+      "previous": 71,
+      "document": 75
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 7,
+      "previous": 35,
+      "document": 36
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 21,
+      "previous": 67,
+      "document": 71
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 20,
+      "previous": 64,
+      "document": 67
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 19,
+      "previous": 60,
+      "document": 64
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 4,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 18,
+      "previous": 57,
+      "document": 60
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 3,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 17,
+      "previous": 54,
+      "document": 57
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "F",
+      "PD": 2,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 16,
+      "previous": 51,
+      "document": 54
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 15,
+      "previous": 49,
+      "document": 51
+    },
+    {
+      "scale": "DISC",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "DISC",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "INTR",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "INTR",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "D2",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Hy2",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Sc5",
+      "country": "US",
+      "sex": "F",
+      "PD": 1,
+      "previous": 45,
+      "document": 46
+    },
+    {
+      "scale": "Sc5",
+      "country": "MX",
+      "sex": "F",
+      "PD": 1,
+      "previous": 45,
+      "document": 46
+    },
+    {
+      "scale": "Ma2",
+      "country": "US",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma2",
+      "country": "US",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma2",
+      "country": "MX",
+      "sex": "M",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    },
+    {
+      "scale": "Ma2",
+      "country": "MX",
+      "sex": "F",
+      "PD": 0,
+      "previous": null,
+      "document": 30
+    }
+  ],
+  "pairs": {
+    "VRIN_added": [
+      [
+        48,
+        1,
+        184,
+        1
+      ],
+      [
+        99,
+        2,
+        138,
+        1
+      ],
+      [
+        196,
+        2,
+        415,
+        1
+      ],
+      [
+        199,
+        1,
+        467,
+        2
+      ],
+      [
+        199,
+        2,
+        467,
+        1
+      ],
+      [
+        226,
+        1,
+        267,
+        2
+      ],
+      [
+        259,
+        2,
+        333,
+        1
+      ],
+      [
+        369,
+        2,
+        421,
+        1
+      ],
+      [
+        491,
+        1,
+        509,
+        2
+      ]
+    ],
+    "VRIN_removed": [
+      [
+        49,
+        1,
+        184,
+        1
+      ],
+      [
+        98,
+        2,
+        138,
+        1
+      ],
+      [
+        186,
+        2,
+        415,
+        1
+      ],
+      [
+        189,
+        1,
+        467,
+        2
+      ],
+      [
+        199,
+        2,
+        487,
+        1
+      ],
+      [
+        229,
+        1,
+        267,
+        2
+      ],
+      [
+        250,
+        2,
+        333,
+        1
+      ],
+      [
+        368,
+        2,
+        421,
+        1
+      ],
+      [
+        481,
+        1,
+        509,
+        2
+      ]
+    ]
+  },
+  "source": "MMPI2_Manual_tecnico_escalas_claves_baremos.docx",
+  "sha256": "883add2323ea28bf375ce493d268916b449308e337540a429d04e33e7ac84734",
+  "nonmonotonic": []
+}

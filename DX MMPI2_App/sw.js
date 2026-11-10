@@ -1,105 +1,11 @@
-/* Service worker · MMPI-2 App (generado) — versión 7d042bab6c
-   Precarga todos los archivos para que la app funcione sin conexión.
-   Estrategia: caché primero; en segundo plano se actualiza la copia. */
-const CACHE = 'mmpi2-7d042bab6c';
-const ASSETS = [
-  "./",
-  "./assets/MMPI2_Plantilla_Paciente.xlsx",
-  "./assets/favicon.svg",
-  "./assets/icon-192.png",
-  "./assets/icon-512.png",
-  "./assets/icon-maskable-512.png",
-  "./css/styles.css",
-  "./data/baremo_mx.json",
-  "./data/baremo_us.json",
-  "./data/baremos.json",
-  "./data/criterios.json",
-  "./data/criticos.json",
-  "./data/fuentes/apendiceD_criticos.json",
-  "./data/fuentes/claves_manual_apendiceC.json",
-  "./data/fuentes/mx_B1_men.txt",
-  "./data/fuentes/mx_B2_women.txt",
-  "./data/fuentes/mx_B5_men.txt",
-  "./data/fuentes/mx_B6_women.txt",
-  "./data/fuentes/mx_B7_men.txt",
-  "./data/fuentes/mx_B8_women.txt",
-  "./data/fuentes/mx_psy5_men.txt",
-  "./data/fuentes/mx_psy5_women.txt",
-  "./data/fuentes/psy5_claves.json",
-  "./data/fuentes/us_A1_men.txt",
-  "./data/fuentes/us_A2_women.txt",
-  "./data/fuentes/us_psy5_fix.txt",
-  "./data/fuentes/us_subscales.json",
-  "./data/items.json",
-  "./data/scale_items.json",
-  "./data/vrin_trin_pairs.json",
-  "./index.html",
-  "./js/app.js",
-  "./js/boot.js",
-  "./js/lib/ai-prompt.js",
-  "./js/lib/critical.js",
-  "./js/lib/export.js",
-  "./js/lib/interpret.js",
-  "./js/lib/json-repair.js",
-  "./js/lib/mmpi2.js",
-  "./js/lib/mmpi2_orig.js",
-  "./js/lib/previous.js",
-  "./js/lib/report-charts.js",
-  "./js/lib/report-model.js",
-  "./js/lib/report-render.js",
-  "./js/lib/selftest.js",
-  "./js/lib/signature.js",
-  "./js/lib/storage.js",
-  "./js/lib/utils.js",
-  "./js/screens/capture.js",
-  "./js/screens/case.js",
-  "./js/screens/cases.js",
-  "./js/screens/dashboard.js",
-  "./js/screens/report.js",
-  "./js/screens/setup.js",
-  "./js/screens/splash.js",
-  "./manifest.webmanifest",
-  "./vendor/chart.umd.min.js",
-  "./vendor/docx.umd.min.js",
-  "./vendor/jspdf.plugin.autotable.min.js",
-  "./vendor/jspdf.umd.min.js",
-  "./vendor/xlsx.full.min.js"
-];
-
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
-});
-
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('mmpi2-') && k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('message', (e) => {
-  if (e.data === 'SKIP_WAITING') self.skipWaiting();
-});
-
-self.addEventListener('fetch', (e) => {
-  const req = e.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
-  // Navegación: servir index.html desde caché si no hay red
-  if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then((r) => {
-      const copy = r.clone(); caches.open(CACHE).then((c) => c.put('./index.html', copy)); return r;
-    }).catch(() => caches.match('./index.html')));
-    return;
-  }
-  e.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((hit) => {
-      const net = fetch(req).then((r) => {
-        if (r && r.ok && r.type === 'basic') { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
-        return r;
-      }).catch(() => hit);
-      return hit || net;
-    })
-  );
+const VERSION='mmpi2-suite-17.2-r1';
+const FILES=['./','./index.html','./app.css?v=17.2','./app.js?v=17.2','./mmpi-data.js?v=17.2','./mmpi-engine.js?v=17.2','./mmpi-questions.js?v=17.2','./mmpi-sections.js?v=17.2','./mmpi-prompt.js?v=17.2','./mmpi-report.js?v=17.2','./mmpi-cases.js?v=17.2','./mmpi-io.js?v=17.2','./manifest.webmanifest','./assets/icon-192.png','./assets/icon-512.png','./assets/icon-maskable-512.png','./assets/apple-touch-icon.png'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('mmpi2-')&&key!==VERSION).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{
+ const request=event.request,url=new URL(request.url);if(request.method!=='GET'||url.origin!==self.location.origin)return;
+ // Never cache imported files or generated reports. Only the application shell.
+ const relative=url.href.slice(self.registration.scope.length),known=FILES.some(file=>file.replace(/^\.\//,'')===relative);
+ if(request.mode==='navigate')event.respondWith(fetch(request).then(response=>{if(response.ok){const copy=response.clone();caches.open(VERSION).then(cache=>cache.put('./index.html',copy));}return response;}).catch(()=>caches.match('./index.html')));
+ else if(known)event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{if(response.ok){const copy=response.clone();caches.open(VERSION).then(cache=>cache.put(request,copy));}return response;})));
 });
