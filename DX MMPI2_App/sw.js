@@ -1,11 +1,15 @@
-/* Service worker · MMPI-2 App (generado) — versión b286e29881
+/* Service worker · MMPI-2 App (generado) — versión e23de1b8ad
    Precarga todos los archivos para que la app funcione sin conexión.
    Estrategia: caché primero; en segundo plano se actualiza la copia. */
-const CACHE = 'mmpi2-b286e29881';
+const CACHE = 'mmpi2-e23de1b8ad';
 const ASSETS = [
   "./",
   "./assets/MMPI2_Plantilla_Paciente.xlsx",
   "./assets/favicon.svg",
+  "./assets/formularios/coordenadas.json",
+  "./assets/formularios/perfil-mx.pdf",
+  "./assets/formularios/perfil-us.pdf",
+  "./assets/formularios/respuestas.pdf",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/icon-maskable-512.png",
@@ -39,6 +43,7 @@ const ASSETS = [
   "./js/lib/ai-prompt.js",
   "./js/lib/critical.js",
   "./js/lib/export.js",
+  "./js/lib/formularios-pdf.js",
   "./js/lib/interpret.js",
   "./js/lib/json-repair.js",
   "./js/lib/license-catalog.js",
@@ -67,6 +72,7 @@ const ASSETS = [
   "./vendor/docx.umd.min.js",
   "./vendor/jspdf.plugin.autotable.min.js",
   "./vendor/jspdf.umd.min.js",
+  "./vendor/pdf-lib.min.js",
   "./vendor/xlsx.full.min.js"
 ];
 

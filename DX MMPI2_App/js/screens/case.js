@@ -9,6 +9,19 @@ const Case = {
     ['diagnosticImpression','Impresión diagnóstica tentativa documentada'],['prognosis','Pronóstico documentado'],
     ['limitations','Limitaciones de la evaluación'],['recommendations','Recomendaciones del evaluador']
   ],
+
+  _pdfFieldsHTML(p){
+    return '<div class="form-section"><details><summary class="form-section-title">Datos para formularios PDF (opcionales)</summary><div class="form-grid">'+
+      FormulariosPDF.FIELDS.map(([key,label])=>{
+        let input;
+        if(key==='maritalStatus')input='<select class="form-select" id="p-form-'+key+'"><option value="">— Sin dato —</option>'+
+          ['Soltero','Casado','Unión libre','Divorciado','Separado','Viudo'].map(value=>'<option value="'+value+'" '+(p[key]===value?'selected':'')+'>'+value+'</option>').join('')+'</select>';
+        else input='<input class="form-input" id="p-form-'+key+'" type="'+(key==='yearsEducation'?'number':'text')+'" '+
+          (key==='yearsEducation'?'min="0" max="99" step="1"':'maxlength="200"')+' value="'+this._esc(p[key]??'')+'" '+
+          (key==='formIdentifier'?'placeholder="Se utiliza el documento de identidad cuando queda vacío"':key==='graderInitials'?'placeholder="Se toman del nombre del evaluador cuando queda vacío"':'')+'>';
+        return '<div class="form-field"><label class="form-label" for="p-form-'+key+'">'+label+'</label>'+input+'</div>';
+      }).join('')+'</div><p class="form-hint">Se usan al diligenciar las hojas. Los espacios sin datos quedan en blanco.</p></details></div>';
+  },
   render() {
     let cur = Storage.getCurrentCase() || {};
     // Caso nuevo: recuperar borrador autoguardado si existe
@@ -94,6 +107,8 @@ const Case = {
                   </div>
                 </div>
               </div>
+
+              ${this._pdfFieldsHTML(p)}
 
               <div class="form-section">
                 <div class="form-field full">
@@ -184,7 +199,7 @@ const Case = {
       App.navigate('dashboard');
     });
     // Autoguardado del formulario: borrador (caso nuevo) o guardado del caso (edición)
-    const fields = ['p-name','p-doc','p-dob','p-sex','p-country','p-context','p-appdate','p-history','p-reason','p-case-history','p-request-context','p-previous-mmpi','pv-date','pv-source','pv-baremo','pv-nomen','pv-sex','pv-same-method','p-interview',...this._clinicalFields.map(([key])=>'p-clinical-'+key)];
+    const fields = ['p-name','p-doc','p-dob','p-sex','p-country','p-context','p-appdate','p-history','p-reason','p-case-history','p-request-context','p-previous-mmpi','pv-date','pv-source','pv-baremo','pv-nomen','pv-sex','pv-same-method','p-interview',...this._clinicalFields.map(([key])=>'p-clinical-'+key),...FormulariosPDF.FIELDS.map(([key])=>'p-form-'+key)];
     let t = null;
     const autosave = () => {
       clearTimeout(t);
@@ -223,6 +238,7 @@ const Case = {
       country: v('p-country') || 'US',
       context: v('p-context'),
       applicationDate: v('p-appdate'),
+      ...Object.fromEntries(FormulariosPDF.FIELDS.map(([key])=>[key,v('p-form-'+key).trim()])),
       history: v('p-history'),
       reason: v('p-reason'),
       caseHistory: v('p-case-history'),

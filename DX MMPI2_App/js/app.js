@@ -73,10 +73,11 @@ const App = {
   },
 
   hideModal() {
+    window.FormulariosPDF?.closePreview();
     const overlay = document.getElementById('modal-overlay');
     if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('centered'); }
     const content = document.getElementById('modal-content');
-    if (content) content.classList.remove('dialog');
+    if (content) content.classList.remove('dialog','forms-preview');
   },
 
   _renderMenu() {
@@ -326,22 +327,22 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 17.3 licenciada · Aplicación clínica para la administración, corrección
+          Versión 17.5 licenciada · Aplicación clínica para la administración, corrección
           e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
-          con baremos español (TEA) y estadounidense (Minnesota N=2.600).
+          con baremos español (TEA), estadounidense (Minnesota N=2.600) y mexicano.
         </p>
         <div style="background:var(--color-bg);border-radius:8px;padding:12px;margin-top:16px;font-size:12px;color:var(--color-text-muted);text-align:left">
           <strong>Notas:</strong><br>
           • Motor de cálculo fail-closed: las escalas sin clave devuelven null (no 0).<br>
-          • Conversión PD→T exacta (sin aproximación); PD fuera de tabla → PD_FUERA_DE_TABLA.<br>
-          • Baremo (ES/US) se pasa explícitamente; sin estado global mutable.<br>
+          • Conversión PD→T según las tablas incorporadas; los límites de reporte conservan su signo.<br>
+          • Baremo (ES/US/MX) se pasa explícitamente; sin estado global mutable.<br>
           • Validación estricta de importación JSON (sex, country, responses).<br>
           • Las escalas marcadas <em>ES-ONLINE</em> (Fp, S, Ho) requieren TEAcorrige.<br>
           • Los datos se almacenan localmente en el navegador (localStorage).<br>
           • Descargue copias de seguridad periódicas (menú › Copias de seguridad).<br>
           • Instalable como aplicación y utilizable sin conexión.
         </div>
-        <button class="btn btn-secondary mt-24 w-full" id="about-selftest">⚙ Ejecutar self-test (14 pruebas)</button>
+        <button class="btn btn-secondary mt-24 w-full" id="about-selftest">⚙ Ejecutar self-test (15 pruebas)</button>
         <button class="btn btn-primary mt-24 w-full" id="about-close">Cerrar</button>
       </div>
     `;

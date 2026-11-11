@@ -248,6 +248,14 @@ table.data-table .t-low { background: rgba(47, 84, 150, 0.1); color: var(--color
   display: flex; flex-direction: column;
   animation: slideIn 0.3s ease;
 }
+.forms-export-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--color-border); }
+.forms-export-row .form-hint { margin-top:4px; }
+.forms-export-actions { display:flex; gap:8px; flex-shrink:0; }
+.modal-content.forms-preview { width:1100px; max-width:96vw; height:91vh; border-radius:12px; overflow:hidden; }
+.forms-preview-info { padding:10px 20px; border-bottom:1px solid var(--color-border); font-size:13px; }
+.forms-preview-info p { margin-bottom:6px; }
+.forms-preview-frame { width:100%; flex:1; min-height:240px; border:0; background:#e5e7eb; }
+@media (max-width:680px) { .forms-export-row { align-items:flex-start; flex-direction:column; gap:8px; } .forms-export-actions { flex-wrap:wrap; } }
 @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 .modal-header {
   padding: 20px; border-bottom: 1px solid var(--color-border);

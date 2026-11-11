@@ -1,0 +1,46 @@
+22 secciones · 1. Encabezado institucional → 2. Ficha de identificación → 3. Motivo y objetivo de la evaluación → 4. Antecedentes e historia del caso → 5. Contexto de la solicitud → 6. Técnica, fuentes y control de calidad → 7. Examen mental y observación conductual → 8. Validez y estilo de respuesta → 9. Escalas clínicas básicas → 10. Escalas de contenido → 11. Escalas suplementarias y PSY-5 → 12. Subescalas Harris-Lingoes → 13. Ítems críticos → 14. Integración clínica → 15. Recursos y fortalezas → 16. Contraste longitudinal → 17. Impresión diagnóstica (tentativa) → 18. Pronóstico → 19. Limitaciones de la evaluación → 20. Conclusiones → 21. Recomendaciones → 22. Nota de alcance
+9 secciones · 1. Encabezado institucional → 2. Ficha de identificación → 3. Técnica, fuentes y control de calidad → 4. Validez y estilo de respuesta → 5. Escalas clínicas básicas → 6. Escalas de contenido → 7. Escalas suplementarias → 8. Integración clínica → 9. Conclusiones
+Ítems únicos en el protocolo de exportación: 57
+✔ 01 · Caso nuevo, opciones y dependencias (606.739846ms)
+✔ 02 · Migración de V16 conserva selecciones, caso, borrador y papelera (9.915004ms)
+✔ 03 · Plan completo, mínimo, esquema y resguardo del prompt (53.819539ms)
+✔ 04 · Contraste requiere datos, con límites y Mf incompatibles preservados (69.186697ms)
+✔ 05 · Dos series críticas agrupadas y texto literal optativo (90.673997ms)
+✔ 06 · Conversión de Es, dirección de TRIN y lectura de validez (115.487499ms)
+✔ 07 · JSON variable y ficha local en HTML, Word, PDF, Excel y TXT (1193.404356ms)
+✔ 08 · Las 81 claves revisadas activan con el cupo correcto (36.392328ms)
+─── MMPI-2 Self-Test ───
+  ✓ PASS · 1. Escala sin clave → pd===null ZZZ_SIN_CLAVE → null (correcto)
+  ✓ PASS · 2. PD fuera de tabla → T=null, status=PD_FUERA_DE_TABLA PD=9999 → correcto
+  ✓ PASS · 3. Caso US → usa baremo US (no ES) L(H,M): US=33, ES=22 — difieren correctamente
+  ✓ PASS · 4. Caso ES → usa baremo ES (no US) Hs(H): ES=41, US=48 — difieren
+  ✓ PASS · 5. Cambio de país → recalcula T L(M,PD=0): ES=22 → US=33
+  ✓ PASS · 6. Caso restaurado conserva country country=US preservado en localStorage
+  ✓ PASS · 7. F-K usa PD directas 
+  ✓ PASS · 8. Gráficas sujetas a la selección de secciones 
+  ✓ PASS · 9. exportAIReportHTML acepta chartImages Parámetro presente en la firma
+  ✓ PASS · 10. exportAIReportWord acepta chartImages Parámetro presente en la firma
+  ✓ PASS · 11. HTML exportado incluye <img> embebida figure+img presente
+  ✓ PASS · 12. Fallback: tabla + mensaje cuando no hay imagen OK
+  ✓ PASS · 13. JSON malicioso → rechazado Error esperado: Caso #1: "patient.sex" debe ser "M" o "H".
+  ✓ PASS · 14. Perfil no interpretable → assessValidity=NO_INTERPRETABLE reasons: F (T=95) > 90: protocolo no interpretable.
+  ✓ PASS · 15. Ítems críticos KB {"ansiedad_aguda":17,"ideacion_suicida":22,"amenaza_ataque":5,"estres_alcohol":7,"confusion_mental":11,"persecucion":16}; 506 detectado; ítem 62 según sexo; sin respuestas → null
+  ─── Resumen ───
+    15 PASS  /  0 FAIL  /  0 INFO
+✔ 09 · Último cupo, saldo V16, concurrencia, reintento y renovación (21.823326ms)
+✔ 10 · Recursos del paquete y sintaxis de aplicación (107.423906ms)
+✔ 11 · Autopruebas del motor y de la V16 (427.337989ms)
+[License] App bloqueada: exhausted
+✔ 12 · Arranque y acceso a un informe con licencia agotada (8.962802ms)
+✔ 13 · Lecturas sustantivas recuperadas de V16 por escala, rango y sexo (118.485485ms)
+✔ 14 · Validez descriptiva, comprensible y sin órdenes al evaluador (0.717869ms)
+✔ 15 · Es en casos guardados: límite visible, prompt coherente y licencia intacta (91.581561ms)
+✔ 16 · Todas las celdas originales de Es se conservan; el límite es específico US (1.500136ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3190.194745

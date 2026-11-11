@@ -1,8 +1,25 @@
-# MMPI-2 · Suite clínica licenciada 17.4
+# MMPI-2 · Suite clínica licenciada 17.5
 
 Actualización de la edición V16 licenciada. El paquete conserva la aplicación estática y los casos guardados en el mismo origen del navegador. La revisión de informes parte de las secciones acordadas para la 17.2 y se integra con los exportadores y el sistema de activación de esta edición.
 
 Esta revisión recupera las lecturas breves y los párrafos interpretativos de V16 para las escalas clínicas, de contenido, suplementarias, PSY-5 y subescalas. Recupera también la distribución de elevaciones, la configuración del perfil, la síntesis y las recomendaciones específicas. Las lecturas de validez explican cada resultado en lenguaje descriptivo. Los cambios anteriores de identificación, opciones, secciones y activación se conservan.
+
+La edición 17.5 añade los PDF diligenciados de la hoja de respuestas y de los dos perfiles aportados por el evaluador. El generador documental es independiente del cálculo psicométrico y conserva el funcionamiento de informes y licencias de 17.4.
+
+## Formularios PDF
+
+En la pantalla **Informe**, debajo de las herramientas de exportación, aparece **Formularios originales PDF**. Cada documento tiene **Descargar PDF** y **Vista previa**. La marca predeterminada es **X negra de trazo tipo lapicero**; también puede elegirse un círculo relleno. La preferencia queda guardada con el caso.
+
+- **Hoja de respuestas diligenciada**: las dos páginas del original, con los datos disponibles del cliente y las respuestas V/F registradas. Acepta respuestas procedentes de Excel y de la aplicación interactiva. Las omisiones permanecen vacías y cada nueva descarga refleja el registro actual. Durante la captura, **Ver hoja de respuestas PDF** permite revisar y descargar un avance parcial.
+- **Perfil estadounidense**: la lámina adaptada aportada, con L, F, K y las diez escalas clínicas básicas. Se habilita con baremo estadounidense y resultados calculados. Incluye PD, PD+K cuando corresponde, T y trazado. El eje inferior se corrigió para recuperar la etiqueta 30 y el encabezado identifica la referencia estadounidense y el carácter adaptado de la lámina.
+- **Perfil mexicano de contenido**: las quince escalas de contenido sobre la lámina aportada. Se habilita con baremo mexicano y selecciona la página masculina o femenina correspondiente al sexo normativo del caso. Incluye las puntuaciones directas y el trazado de las T.
+- Con referencia española, las dos plantillas nuevas de perfil permanecen deshabilitadas. **Más → Perfil general (actual)** y las figuras del informe conservan su funcionamiento.
+
+Los datos complementarios están en **Datos del paciente → Datos para formularios PDF (opcionales)**: escolaridad, años de educación, ocupación, estado civil, dirección, referido por, clave de perfil, iniciales del calificador e identificador documental. Si el identificador es numérico y cabe en las nueve casillas se completan números y círculos; un identificador más largo o alfanumérico se imprime completo en la franja de identificación, sin marcar círculos incompatibles. Los datos faltantes permanecen en blanco. Las casillas de documento y nacimiento del informe se respetan también en la hoja.
+
+Los PDF se diligencian en el navegador y los archivos necesarios están incorporados al paquete. Las plantillas se incluyen en la caché de la aplicación para su uso sin conexión después de una carga completa. Descargar o revisar estos documentos conserva el consumo existente de la licencia. La X es una marca visual; el propio formulario indica círculo relleno con lápiz para el soporte original. La compatibilidad con lectura óptica requiere una verificación específica.
+
+Los ejemplos ficticios de descarga y el detalle de comprobaciones están en `auditoria/FORMULARIOS_17_5.md` y `auditoria/ejemplos/`.
 
 ## Abrir o actualizar
 

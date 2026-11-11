@@ -1,0 +1,17 @@
+✔ F01 · Las tres plantillas y las 1134 posiciones corresponden a sus archivos (58.479334ms)
+✔ F02 · PDF real: todas V, todas F, omisiones y correcciones de respuestas (408.646298ms)
+✔ F03 · Demostraciones H/M: perfil correspondiente al baremo y a la página (225.185584ms)
+✔ F04 · Escala geométrica T, datos pendientes, extremos y ausencia de T para omisiones (25.852459ms)
+✔ F05 · Interfaz, datos nuevos opcionales y conservación al guardar (4.066116ms)
+✔ F06 · PDF ajeno al baremo rechazado y casos sin respuestas reconocidos (1.659656ms)
+✔ F07 · Los PDF no modifican el caso, las puntuaciones ni el registro de licencia (73.976659ms)
+✔ F08 · Solo se cargan recursos locales y la vista previa permite descarga directa (3.345059ms)
+✔ F09 · Vista previa: creación, enlace de descarga y cierre con los métodos reales (68.48579ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1132.719661

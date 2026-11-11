@@ -14,7 +14,7 @@ const datasets={
   __BAREMOS_MX__:json('data/baremo_mx.json'),__CRITERIOS__:json('data/criterios.json'),__VRIN_TRIN_PAIRS__:json('data/vrin_trin_pairs.json')
 };
 const smokeModules=['utils','report-sections','storage','license-catalog','license','mmpi2','interpret','critical',
-  'previous','report-charts','report-model','ai-prompt','json-repair','report-render','export','selftest'];
+  'previous','report-charts','report-model','formularios-pdf','ai-prompt','json-repair','report-render','export','selftest'];
 const originalFixture=Object.values(json('tests/respuestas-sinteticas.json'));
 const basePatient={
   name:'Protocolo ficticio',document:'IDENTIFICADOR-FICTICIO',dob:'1980-10-15',age:45,sex:'M',country:'US',applicationDate:'2026-10-12',

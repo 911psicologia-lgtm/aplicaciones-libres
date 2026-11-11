@@ -55,6 +55,7 @@ const Capture = {
           <div class="flex gap-8">
             <button class="btn btn-secondary btn-sm" id="mode-test">Aplicar test</button>
             <button class="btn btn-secondary btn-sm" id="mode-excel">Cargar Excel</button>
+            <button class="btn btn-secondary btn-sm" id="cap-form-preview">Ver hoja de respuestas PDF</button>
           </div>
         </div>
 
@@ -79,6 +80,12 @@ const Capture = {
     [25, 50, 75, 100].forEach(m => { if (doneNow / this._totalItems * 100 >= m) this._milestones.add(m); });
 
     bindEvent('ham-btn', 'click', () => App.openMenu());
+    bindEvent('cap-form-preview','click',async event=>{
+      this._persist();Storage.flush();
+      const button=event.currentTarget;button.disabled=true;
+      try{await FormulariosPDF.request('answers',Storage.getCurrentCase(),Storage.getEvaluator()||{},{preview:true});}
+      finally{button.disabled=false;}
+    });
     bindEvent('cap-back', 'click', () => {
       this._persist();
       Storage.flush();

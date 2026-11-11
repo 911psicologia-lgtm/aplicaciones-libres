@@ -72,8 +72,8 @@ const Report = {
                       <button class="btn btn-ghost btn-sm" id="exp-data">Datos técnicos en Excel</button>
                       <button class="btn btn-ghost btn-sm" id="exp-txt">Informe en TXT</button>
                       <button class="btn btn-ghost btn-sm" id="exp-json">Caso en JSON</button>
-                      <button class="btn btn-ghost btn-sm" id="exp-answer-sheet">Hoja de respuestas</button>
-                      <button class="btn btn-ghost btn-sm" id="exp-profile-sheet">Hoja de perfil</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-answer-sheet">Listado de respuestas (actual)</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-profile-sheet">Perfil general (actual)</button>
                     </div>
                   </details>
                 </div>
@@ -100,6 +100,8 @@ const Report = {
                 </div>
               </div>
             </div>
+
+            ${this._formsHTML(cur)}
 
             <div class="card">
               <div class="card-header"><h3>Contenido del informe</h3><span class="form-hint">Marque lo que debe aparecer. Se guarda con el caso.</span></div>
@@ -134,6 +136,29 @@ const Report = {
         </label>
       </fieldset>
     </div>`;
+  },
+
+  _formsHTML(cur){
+    if(!window.FormulariosPDF)return '';
+    const a=FormulariosPDF.availability(cur),mark=cur.formOptions?.mark||'pen';
+    const row=(kind,title,description,available)=>'<div class="forms-export-row"><div><strong>'+title+'</strong><p class="form-hint">'+description+'</p></div>'+
+      '<div class="forms-export-actions"><button class="btn btn-primary btn-sm" id="form-download-'+kind+'" '+(available?'':'disabled')+'>Descargar PDF</button>'+
+      '<button class="btn btn-secondary btn-sm" id="form-preview-'+kind+'" '+(available?'':'disabled')+'>Vista previa</button></div></div>';
+    return '<div class="card no-print"><div class="card-header"><h3>Formularios originales PDF</h3></div><div class="card-body">'+
+      '<div class="form-field"><label class="form-label" for="form-mark">Tipo de marca</label><select class="form-select" id="form-mark">'+
+      '<option value="pen" '+(mark==='pen'?'selected':'')+'>X negra · trazo tipo lapicero</option><option value="circle" '+(mark==='circle'?'selected':'')+'>Círculo negro relleno</option></select></div>'+
+      row('answers','Hoja de respuestas diligenciada','Identificación y respuestas V/F en dos páginas. '+(a.answers?'':'Sin respuestas ítem a ítem registradas.'),a.answers)+
+      row('US','Perfil estadounidense','L, F, K y las diez escalas clínicas básicas. Disponible con baremo Estados Unidos.',a.US)+
+      row('MX','Perfil mexicano de contenido','Quince escalas de contenido. Disponible con baremo México; página masculina o femenina según el caso.',a.MX)+
+      (a.reason?'<p class="form-hint">'+this._esc(a.reason)+'</p>':'')+
+      '<p class="form-hint">Las marcas se generan desde el registro actual. Descargar estos documentos conserva el saldo de aplicaciones.</p></div></div>';
+  },
+
+  async _requestForm(kind,preview,button){
+    const c=Storage.getCurrentCase();if(!c)return;
+    const text=button?.textContent;if(button){button.disabled=true;button.textContent='Preparando…';}
+    try{await FormulariosPDF.request(kind,c,Storage.getEvaluator()||{},{preview});}
+    finally{if(button){button.disabled=false;button.textContent=text;}}
   },
 
   _docHTML(cur) {
@@ -174,6 +199,13 @@ const Report = {
     bindEvent('exp-json', 'click', () => this._exportJSON());
     bindEvent('exp-answer-sheet', 'click', () => this._downloadAnswerSheet());
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
+    for(const kind of ['answers','US','MX'])for(const action of ['download','preview'])
+      bindEvent('form-'+action+'-'+kind,'click',event=>this._requestForm(kind,action==='preview',event.currentTarget));
+    bindEvent('form-mark','change',event=>{
+      const c=Storage.getCurrentCase();if(!c)return;
+      c.formOptions={...c.formOptions,mark:event.target.value==='circle'?'circle':'pen'};
+      Storage.setCurrentCase(c);Storage.saveCase(c);Storage.flush();
+    });
     bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
 
     const options=document.getElementById('report-options');
