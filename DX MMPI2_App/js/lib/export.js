@@ -396,6 +396,46 @@ const Export = {
   },
 
   /* ---------- Export Excel ---------- */
+  exportModelExcel(model,filename){
+    const book=XLSX.utils.book_new(),rows=[[model.title]],scores=[],chartData=[['Figura','Serie','Escala','T numérica','T publicada']];
+    for(const block of model.blocks){
+      switch(block.t){
+        case 'title':rows.push([block.text],[block.subtitle]);break;
+        case 'h1':
+        case 'h2':rows.push([], [block.text]);break;
+        case 'idbox':rows.push(...block.rows);break;
+        case 'list':rows.push(...block.items.map(item=>[item]));break;
+        case 'table':
+          rows.push(['Tabla '+block.num+'. '+block.caption],block.columns,...block.rows.map(row=>row.cells));
+          if(block.footnote)rows.push([block.footnote]);
+          if(block.group){
+            if(!scores.length)scores.push(['Grupo',...block.columns]);
+            scores.push(...block.rows.map(row=>[block.group,...row.cells]));
+          }
+          break;
+        case 'chart':
+          rows.push(['Figura '+block.num+'. '+block.caption]);
+          for(const series of block.spec.series)block.spec.labels.forEach((label,index)=>
+            chartData.push([block.num,series.name,label,series.data[index]??'',series.shown?.[index]??series.data[index]??'—']));
+          break;
+        case 'signature':
+          rows.push([block.evaluator.name||''],...[block.institution,block.place,block.date].filter(Boolean).map(value=>[value]));
+          break;
+        default:if(block.text)rows.push([block.text]);break;
+      }
+    }
+    const sheet=(name,values,widths)=>{
+      const ws=XLSX.utils.aoa_to_sheet(values);
+      ws['!cols']=widths.map(wch=>({wch}));
+      XLSX.utils.book_append_sheet(book,ws,name);
+    };
+    sheet('Informe',rows,[60,42,70,12,13,23,84]);
+    if(scores.length)sheet('Puntuaciones',scores,[24,12,42,11,12,13,22,84]);
+    if(chartData.length>1)sheet('Datos de gráficas',chartData,[10,20,18,15,17]);
+    const output=XLSX.write(book,{bookType:'xlsx',type:'array'});
+    this._download(new Blob([output],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),filename);
+  },
+
   exportExcel(caseData, evaluator) {
     if (!window.XLSX) throw new Error('SheetJS no disponible');
     const patient = caseData.patient || {};
@@ -1116,183 +1156,15 @@ const Export = {
   },
 
   /* ---------- Export AI Report: Excel (AI-PROMPT-V2 con bloques) ---------- */
-  exportAIReportExcel(parsed, caseData, evaluator) {
-    if (!window.XLSX) throw new Error('SheetJS no disponible');
-    const p = caseData.patient || {};
-    const ev = evaluator || {};
-    const meta = parsed.metadatos || {};
-    const firma = parsed.firma || {};
-    const wb = XLSX.utils.book_new();
-
-    // Sheet 1: Datos del informe
-    const datos = [
-      ['INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2'],
-      ['Generado:', new Date().toLocaleString('es-ES')],
-      [],
-      ['EVALUADO'],
-      ['Nombre', meta.evaluado || p.name || ''],
-      ['Edad', meta.edad || (p.age != null ? p.age : '')],
-      ['Sexo', meta.sexo || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : ''))],
-      ['Documento', meta.documento || p.document || ''],
-      ['Fecha de aplicación', meta.fecha_aplicacion || this._fmtDate(p.applicationDate)],
-      ['Contexto', meta.contexto || p.context || ''],
-      ['Fecha del informe', meta.fecha_informe || ''],
-      [],
-      ['EVALUADOR'],
-      ['Nombre', firma.nombre || ev.name || ''],
-      ['Profesión', firma.profesion || ''],
-      ['Registro', firma.registro || ev.registry || ''],
-      ['Institución', firma.institucion || ev.institution || ''],
-      ['Correo', firma.correo || ev.email || ''],
-      ['Teléfono', firma.telefono || ev.phone || ''],
-      [],
-      ['TÍTULO DEL INFORME'],
-      [parsed.titulo || ''],
-      [],
-      ['SECCIONES DEL INFORME'],
-    ];
-    for (const sec of (parsed.secciones || [])) {
-      datos.push([]);
-      const secNumero = (sec.numero != null) ? sec.numero : '';
-      datos.push([(secNumero ? secNumero + '. ' : '') + (sec.titulo || '')]);
-      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
-      if (bloques.length === 0 && typeof sec.contenido === 'string' && sec.contenido.trim()) {
-        bloques.push({ tipo: 'parrafo', contenido: sec.contenido });
-      }
-      for (const block of bloques) {
-        this._aiBlockToExcelAOA(datos, block);
-      }
-    }
-    if (parsed.referencias && parsed.referencias.length) {
-      datos.push([]);
-      datos.push(['REFERENCIAS']);
-      for (let i = 0; i < parsed.referencias.length; i++) {
-        datos.push([(i + 1) + '.', typeof parsed.referencias[i] === 'string' ? parsed.referencias[i] : JSON.stringify(parsed.referencias[i])]);
-      }
-    }
-    const wsDatos = XLSX.utils.aoa_to_sheet(datos);
-    wsDatos['!cols'] = [{ wch: 32 }, { wch: 60 }];
-    XLSX.utils.book_append_sheet(wb, wsDatos, 'Informe IA');
-
-    // Sheet 2: Secciones (tabla indexada con tipo de bloque y resumen)
-    const seccionesAOA = [['#', 'Título de sección', 'Tipo de bloque', 'Resumen']];
-    (parsed.secciones || []).forEach((sec, i) => {
-      const secNumero = sec.numero != null ? sec.numero : (i + 1);
-      const bloques = Array.isArray(sec.bloques) ? sec.bloques : [];
-      if (bloques.length === 0) {
-        const resumen = (sec.contenido || '').substring(0, 200);
-        seccionesAOA.push([secNumero, sec.titulo || '', 'parrafo (legacy)', resumen]);
-      } else {
-        bloques.forEach((b, bi) => {
-          const tipo = (b.tipo || 'parrafo').toLowerCase();
-          let resumen = '';
-          if (tipo === 'parrafo') resumen = (b.contenido || '').substring(0, 200);
-          else if (tipo === 'tabla') resumen = 'Tabla: ' + (b.titulo || '') + ' (' + (b.columnas || []).length + ' col, ' + (b.filas || []).length + ' filas)';
-          else if (tipo === 'grafico') resumen = 'Figura ' + (b.figura != null ? b.figura : '?') + ': ' + (b.titulo || '') + ' [' + (b.grafico_tipo || 'linea') + ']';
-          else if (tipo === 'lista') resumen = 'Lista: ' + (b.titulo || '') + ' (' + (b.items || []).length + ' items)';
-          else if (tipo === 'firma') resumen = 'Firma: ' + (b.nombre || '');
-          else if (tipo === 'referencias') resumen = 'Referencias (' + (b.items || []).length + ')';
-          else resumen = JSON.stringify(b).substring(0, 200);
-          seccionesAOA.push([bi === 0 ? secNumero : '', bi === 0 ? (sec.titulo || '') : '', tipo, resumen]);
-        });
-      }
-    });
-    const wsSec = XLSX.utils.aoa_to_sheet(seccionesAOA);
-    wsSec['!cols'] = [{ wch: 5 }, { wch: 36 }, { wch: 16 }, { wch: 80 }];
-    XLSX.utils.book_append_sheet(wb, wsSec, 'Secciones');
-
-    const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.xlsx`);
-  },
-
-  /* ---------- Helper: render de un bloque IA a filas AOA de Excel ---------- */
-  _aiBlockToExcelAOA(datos, block) {
-    if (!block || typeof block !== 'object') return;
-    const tipo = (block.tipo || '').toLowerCase();
-    try {
-      if (tipo === 'parrafo' || (!tipo && block.contenido != null)) {
-        const contenido = (block.contenido || '').trim();
-        if (!contenido) return;
-        const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
-        if (paragraphs.length === 0) {
-          datos.push([contenido]);
-        } else {
-          for (const par of paragraphs) datos.push([par]);
-        }
-      } else if (tipo === 'tabla') {
-        const columnas = Array.isArray(block.columnas) ? block.columnas : [];
-        const filas = Array.isArray(block.filas) ? block.filas : [];
-        if (block.titulo) datos.push(['[Tabla]', block.titulo]);
-        if (columnas.length) datos.push(columnas);
-        for (const row of filas) {
-          const cells = Array.isArray(row) ? row.slice() : [row];
-          while (columnas.length && cells.length < columnas.length) cells.push('');
-          datos.push(cells.map(c => c == null ? '' : String(c)));
-        }
-        datos.push([]); // separador
-      } else if (tipo === 'grafico') {
-        const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
-        datos.push(['[Gráfico]', figura + (block.titulo ? ' — ' + block.titulo : '') + ' (' + (block.grafico_tipo || 'linea') + ')']);
-        const series = Array.isArray(block.series) ? block.series : [];
-        const labels = [];
-        for (const s of series) {
-          for (const pt of (s.puntos || [])) {
-            if (pt && labels.indexOf(pt.x) === -1) labels.push(pt.x);
-          }
-        }
-        if (labels.length) {
-          datos.push(['Escala'].concat(series.map(s => s.nombre || 'T')));
-          for (const lbl of labels) {
-            const row = [lbl];
-            for (const s of series) {
-              const pt = (s.puntos || []).find(p => p.x === lbl);
-              row.push(pt ? pt.y : '');
-            }
-            datos.push(row);
-          }
-        }
-        datos.push([]); // separador
-      } else if (tipo === 'lista') {
-        if (block.titulo) datos.push(['[Lista]', block.titulo]);
-        const items = Array.isArray(block.items) ? block.items : [];
-        for (const it of items) {
-          datos.push(['•', typeof it === 'string' ? it : JSON.stringify(it)]);
-        }
-        datos.push([]); // separador
-      } else if (tipo === 'referencias') {
-        const items = Array.isArray(block.items) ? block.items : [];
-        for (let i = 0; i < items.length; i++) {
-          datos.push([(i + 1) + '.', typeof items[i] === 'string' ? items[i] : JSON.stringify(items[i])]);
-        }
-        datos.push([]);
-      } else if (tipo === 'firma') {
-        datos.push(['[Firma]', '']);
-        datos.push(['Nombre', block.nombre || '']);
-        datos.push(['Profesión', block.profesion || '']);
-        datos.push(['Registro', block.registro || '']);
-        datos.push(['Institución', block.institucion || '']);
-        datos.push(['Dirección', block.direccion || '']);
-        datos.push(['Correo', block.correo || '']);
-        datos.push(['Teléfono', block.telefono || '']);
-        datos.push([]);
-      }
-    } catch (e) {
-      console.warn('Error renderizando bloque IA (Excel):', e, block);
-    }
+  exportAIReportExcel(parsed,caseData,evaluator){
+    return this.exportModelExcel(ReportModel.fromAI(parsed,caseData,evaluator),
+      'Informe_IA_MMPI2_'+this._safeName(caseData.patient?.name)+'.xlsx');
   },
 
   /* ---------- Export AI Report: JSON ---------- */
-  exportAIReportJSON(parsed, caseData) {
-    const p = caseData.patient || {};
-    const data = {
-      type: 'mmpi2_ai_report',
-      generatedAt: new Date().toISOString(),
-      patient: { name: p.name || '', document: p.document || '' },
-      report: parsed,
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
-    this._download(blob, `Informe_IA_MMPI2_${this._safeName(p.name)}.json`);
+  exportAIReportJSON(parsed,caseData,evaluator={}){
+    this.exportJSON(ReportModel.serialize(ReportModel.fromAI(parsed,caseData,evaluator)),
+      'Informe_IA_MMPI2_'+this._safeName(caseData.patient?.name)+'.json');
   },
 };
 

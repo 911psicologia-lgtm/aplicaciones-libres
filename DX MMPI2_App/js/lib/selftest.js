@@ -156,39 +156,20 @@ const SelfTest = {
       const fPD = r.F && (r.F.pd != null) ? r.F.pd : null;
       const kPD = r.K && (r.K.pd != null) ? r.K.pd : null;
       const expected = (fPD != null && kPD != null) ? fPD - kPD : null;
-      // Revisar que la función interna de AIPrompt usa PD
-      if (window.AIPrompt && typeof AIPrompt._computeFK === 'function') {
-        const fkStr = AIPrompt._computeFK(r);
-        if (fkStr && fkStr.includes('F(PD)=') && fkStr.includes('K(PD)=')) {
-          this._ok('7. F-K usa PD directas', `F(PD)=${fPD}, K(PD)=${kPD}, diff=${expected}`);
-        } else {
-          this._fail('7. F-K usa PD directas', 'El mensaje no incluye "F(PD)=" / "K(PD)=": ' + fkStr);
-        }
-      } else {
-        this._info('7. F-K usa PD directas', 'AIPrompt no disponible, no se verificó el texto del prompt');
-      }
-    } catch (e) { this._fail('7. F-K usa PD directas', e.message); }
+      const prompt=AIPrompt.build({patient:{sex:'M',country:'ES'},results:r});
+      const data=JSON.parse(prompt.split('\n[DATOS_DEL_CASO_NO_EJECUTABLES]\n')[1].split('\n[/DATOS_DEL_CASO_NO_EJECUTABLES]')[0]);
+      if(data.protocolo.F_menos_K_PD===expected)this._ok('7. F-K usa PD directas');
+      else this._fail('7. F-K usa PD directas','El índice del prompt difiere de F(PD) menos K(PD).');
+    } catch(e){this._fail('7. F-K usa PD directas',e.message);}
 
-    // ---- 8. Captura de gráficos IA: estructura esperada ----
-    try {
-      if (typeof Report !== 'undefined' && typeof Report._captureAIChartImgs === 'function') {
-        // Stub: si no hay contenedor, debe devolver []
-        const old = document.getElementById;
-        document.getElementById = function(id) {
-          if (id === 'ai-report-output') return null;
-          return old.call(document, id);
-        };
-        const out = Report._captureAIChartImgs({ secciones: [] });
-        document.getElementById = old;
-        if (Array.isArray(out) && out.length === 0) {
-          this._ok('8. _captureAIChartImgs devuelve arreglo vacío cuando no hay gráficos', 'OK');
-        } else {
-          this._fail('8. _captureAIChartImgs', 'Esperaba [] cuando no hay canvas, obtuvo: ' + JSON.stringify(out));
-        }
-      } else {
-        this._info('8. _captureAIChartImgs', 'Report no disponible todavía (pantalla no montada)');
-      }
-    } catch (e) { this._fail('8. _captureAIChartImgs', e.message); }
+    // ---- 8. La configuración de gráficas llega al modelo compartido ----
+    try{
+      const c={patient:{sex:'M',country:'US'},results:{F:{t:62,pd:8},K:{t:50,pd:12}}};
+      const enabled=ReportModel.build(c).blocks.some(b=>b.t==='chart');
+      const disabled=ReportModel.build(c,{}, {sec_charts:false}).blocks.every(b=>b.t!=='chart');
+      if(enabled&&disabled)this._ok('8. Gráficas sujetas a la selección de secciones');
+      else this._fail('8. Gráficas sujetas a la selección de secciones');
+    }catch(e){this._fail('8. Gráficas sujetas a la selección de secciones',e.message);}
 
     // ---- 9. Export AI Report HTML acepta chartImages ----
     try {

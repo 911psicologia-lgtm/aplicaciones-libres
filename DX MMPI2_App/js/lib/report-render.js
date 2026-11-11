@@ -62,6 +62,14 @@ const ReportRender = {
 `,
 
   _e(s) { return window.escHTML ? window.escHTML(s) : String(s == null ? '' : s); },
+  _chartValues(spec) {
+    return spec.series.map(series=>series.name+' · '+spec.labels.map((label,index)=>
+      label+' '+(series.shown?.[index]??series.data[index]??'—')).join(' | '));
+  },
+  _criticalWidths(columns) {
+    if(columns[0]!=='Ítem'||columns[1]!=='Respuesta'||columns[2]!=='Paráfrasis temática')return null;
+    return columns.length===4?[.08,.13,.34,.45]:[.08,.13,.79];
+  },
 
   /* ---------- HTML ---------- */
   toHTML(model, { images = null, chartIdPrefix = 'rchart-' } = {}) {
@@ -101,7 +109,8 @@ const ReportRender = {
           const img = images && images[b.num];
           const body = img
             ? `<img src="${img.dataURL}" alt="Figura ${b.num}. ${e(b.caption)}">`
-            : `<div class="canvas-wrap" style="height:${h}px"><canvas id="${chartIdPrefix}${b.num}" data-fig="${b.num}"></canvas></div>`;
+            : images ? this._chartValues(b.spec).map(values=>`<p class="r-note">${e(values)}</p>`).join('')
+              : `<div class="canvas-wrap" style="height:${h}px"><canvas id="${chartIdPrefix}${b.num}" data-fig="${b.num}"></canvas></div>`;
           out.push(`<figure class="r-fig">${body}<figcaption><b>Figura ${b.num}.</b> ${e(b.caption)}</figcaption></figure>`);
           break;
         }
@@ -112,7 +121,7 @@ const ReportRender = {
           const sub1 = [ev.profession, ev.license ? 'T.P. ' + ev.license : '', ev.registry ? 'Registro ' + ev.registry : ''].filter(Boolean).join(' · ');
           const sub2 = [ev.email, ev.phone, ev.address].filter(Boolean).join(' · ');
           out.push(`<div class="r-sign">
-            <div class="place">${e([b.place, b.date].filter(Boolean).join(', '))}</div>
+            <div class="place">${e([b.institution,b.place,b.date].filter(Boolean).join(' · '))}</div>
             ${ev.signature ? `<img src="${ev.signature}" alt="Firma">` : '<div style="height:60px"></div>'}
             <div class="line"><div class="nm">${e(ev.name || 'Evaluador/a')}</div>${sub1 ? `<div class="sub">${e(sub1)}</div>` : ''}${sub2 ? `<div class="sub">${e(sub2)}</div>` : ''}</div>
           </div>`);
@@ -213,8 +222,8 @@ const ReportRender = {
         case 'table': {
           children.push(new Paragraph({ spacing: { before: 120, after: 60 }, keepNext: true, children: [new TextRun({ text: `Tabla ${b.num}. `, bold: true, size: 19, color: blue }), new TextRun({ text: b.caption, italics: true, size: 19 })] }));
           const n = b.columns.length;
-          // Anchos: columna "Nombre"/"Lectura" más ancha
-          const weights = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio/.test(c) ? 3 : (/^Nivel/.test(c) ? 2 : 1.1));
+          const weights = this._criticalWidths(b.columns)||
+            b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio/.test(c)?3:/^(?:Nivel|Rango de T)/.test(c)?2:1.1);
           const sum = weights.reduce((a, x) => a + x, 0);
           const w = weights.map(x => Math.floor(FULL * x / sum));
           const head = new TableRow({ tableHeader: true, children: b.columns.map((c, i) => cell(c, w[i], { fill: blue, color: 'FFFFFF', bold: true, border: blue })) });
@@ -243,7 +252,7 @@ const ReportRender = {
             const wpx = 600, hpx = Math.round(wpx * img.height / img.width);
             children.push(new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, spacing: { before: 60, after: 40 }, children: [new ImageRun({ data: b64(img.dataURL), transformation: { width: wpx, height: hpx } })] }));
           } else {
-            children.push(para('[No fue posible generar la imagen de esta figura]', { italics: true, color: '9CA3AF' }));
+            this._chartValues(b.spec).forEach(values=>children.push(para(values,{size:17,color:'526176'})));
           }
           children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: [new TextRun({ text: `Figura ${b.num}. `, bold: true, size: 19, color: blue }), new TextRun({ text: b.caption, italics: true, size: 19 })] }));
           break;
@@ -254,7 +263,7 @@ const ReportRender = {
           break;
         case 'signature': {
           const ev = b.evaluator;
-          children.push(para([b.place, b.date].filter(Boolean).join(', '), { before: 480, after: 360, align: AlignmentType.LEFT }));
+          children.push(para([b.institution,b.place,b.date].filter(Boolean).join(' · '), { before: 480, after: 360, align: AlignmentType.LEFT }));
           if (ev.signature) {
             try {
               const dims = await this._imgDims(ev.signature);
@@ -389,14 +398,17 @@ const ReportRender = {
         case 'table': {
           ensure(70);
           text(`Tabla ${b.num}. ${b.caption}`, { size: 9, style: 'bold', color: blue, align: 'left', after: 2 });
-          const wide = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio|Enunciado|Serie|Área|Ítems/.test(c));
+          const wide = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio|Paráfrasis|Enunciado|Serie|Área/.test(c));
+          const critical=this._criticalWidths(b.columns);
           doc.autoTable({
             startY: y, margin: { left: M.l, right: M.r }, theme: 'grid',
             head: [b.columns.map(T)], body: b.rows.map(r => r.cells.map(T)),
             styles: { fontSize: 8.6, cellPadding: 3.5, lineColor: [209, 213, 219], lineWidth: 0.5, textColor: [31, 41, 55], valign: 'top' },
             headStyles: { fillColor: blue, textColor: 255, fontStyle: 'bold' },
             alternateRowStyles: { fillColor: [249, 250, 251] },
-            columnStyles: Object.fromEntries(b.columns.map((c, i) => [i, wide[i] ? {} : { halign: 'center' }])),
+            columnStyles: Object.fromEntries(b.columns.map((c,i)=>[i,{
+              ...(wide[i]?{}:{halign:'center'}),...(critical?{cellWidth:W*critical[i]}:{})
+            }])),
             didParseCell: (d) => {
               if (d.section !== 'body') return;
               const r = b.rows[d.row.index];
@@ -427,7 +439,11 @@ const ReportRender = {
         }
         case 'chart': {
           const img = images && images[b.num];
-          if (!img) { text('[No fue posible generar la imagen de esta figura]', { style: 'italic', color: [156, 163, 175] }); break; }
+          if (!img) {
+            text(`Figura ${b.num}. ${b.caption}`,{size:9,style:'italic'});
+            this._chartValues(b.spec).forEach(values=>text(values,{size:8.5}));
+            break;
+          }
           const w = W, h = w * img.height / img.width;
           ensure(h + 24);
           doc.addImage(img.dataURL, 'PNG', M.l, y, w, h, undefined, 'FAST');
@@ -448,7 +464,7 @@ const ReportRender = {
           const ev = b.evaluator;
           ensure(170);
           y += 20;
-          text([b.place, b.date].filter(Boolean).join(', '), { align: 'left', after: 24 });
+          text([b.institution,b.place,b.date].filter(Boolean).join(' · '), { align: 'left', after: 24 });
           if (ev.signature) {
             try {
               const d = await this._imgDims(ev.signature);

@@ -1,144 +1,28 @@
-# MMPI-2 · Aplicación clínica
+# MMPI-2 · Suite clínica licenciada 17.3
 
-Aplicación web para aplicación, corrección e interpretación del MMPI-2 con baremos españoles (TEA Ediciones).
+Actualización de la edición V16 licenciada. El paquete conserva la aplicación estática y los casos guardados en el mismo origen del navegador. La revisión de informes parte de las secciones acordadas para la 17.2 y se integra con los exportadores y el sistema de activación de esta edición.
 
-## 🚀 Despliegue rápido en Cloudflare Pages via GitHub
+## Abrir o actualizar
 
-### Opción A: Drag-and-drop directo
-1. Descomprime `MMPI2_App.zip`
-2. Ve a https://dash.cloudflare.com → Pages → Create a project → Upload assets
-3. Arrastra la carpeta `app/` completa
-4. Click "Deploy site" — listo, sin build step
+1. Extraiga el ZIP. La carpeta `app/` contiene `index.html`, los recursos del sitio y el código.
+2. Para actualizar un sitio existente, use esa carpeta como raíz y conserve su dominio y perfil de navegador. Si la PWA avisa que hay una versión nueva, pulse **Actualizar**.
+3. Para una prueba local, desde la carpeta extraída puede ejecutar `python -m http.server 8000 --directory app` y abrir `http://localhost:8000`. Use HTTPS en un sitio publicado. El servidor sirve archivos estáticos y la app valida la activación en el navegador.
+4. Para trasladar casos a otro equipo u origen, use la copia de seguridad JSON de los casos. El registro de saldo corresponde al navegador y al origen donde se activó la clave.
 
-### Opción B: Vía GitHub
-1. Crea un nuevo repositorio en GitHub (público o privado)
-2. Sube el contenido de la carpeta `app/` a la raíz del repo
-3. Ve a Cloudflare Pages → Create a project → Connect to Git
-4. Selecciona el repositorio
-5. Build settings:
-   - Framework preset: **None**
-   - Build command: **(vacío)**
-   - Build output directory: **/** (raíz)
-6. Click "Save and Deploy"
+## Activación
 
-La app estará disponible en `https://<tu-proyecto>.pages.dev` en ~30 segundos.
+- El catálogo incorporado contiene las huellas de las **81 claves suministradas**, 80 en los ocho planes de 5 a 50 aplicaciones y una maestra ilimitada. Los archivos con las claves se entregan por separado para administración.
+- Una clave del lote previamente activa en V16 conserva su saldo al actualizar en el mismo navegador y dominio. Cambiar de clave o volver a activarla conserva el consumo anterior.
+- La licencia registra una finalización por caso. Volver a exportar o revisar un caso finalizado conserva el saldo. Se abre el informe del último cupo y los informes guardados quedan disponibles con la licencia agotada.
+- El validador usa SHA-256 mediante Web Crypto. El control de saldo es local. En navegadores con Web Locks, la finalización y la activación se coordinan entre pestañas del mismo origen. [Web Crypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest) · [Web Locks](https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API).
 
-## 📁 Estructura de archivos
+## Informes
 
-```
-app/
-├── index.html                  # Punto de entrada
-├── css/
-│   └── styles.css               # Estilos (CSS vanilla)
-├── js/
-│   ├── app.js                   # Router principal + menú hamburguesa
-│   ├── lib/
-│   │   ├── storage.js           # Persistencia localStorage
-│   │   ├── mmpi2.js             # Motor de cálculo MMPI-2
-│   │   ├── signature.js         # Firma digital (canvas)
-│   │   └── export.js            # Export HTML/Word/Excel/JSON
-│   └── screens/
-│       ├── splash.js            # Pantalla splash (2s)
-│       ├── setup.js             # Config evaluador (primera vez)
-│       ├── dashboard.js         # Panel principal + casos
-│       ├── case.js              # Datos del evaluado
-│       ├── capture.js           # Captura (cargar Excel o aplicar)
-│       └── report.js            # Informe con tablas + gráficos
-├── data/
-│   ├── items.json               # 567 ítems del MMPI-2
-│   ├── baremos.json             # Baremos por sexo (78 escalas)
-│   ├── criterios.json           # Criterios interpretativos (79 escalas)
-│   └── scale_items.json         # Mapeo escala → ítems
-├── assets/
-│   ├── favicon.svg
-│   └── MMPI2_Plantilla_Paciente.xlsx  # Excel para enviar a pacientes
-└── vendor/
-    ├── chart.umd.min.js         # Chart.js (gráficos)
-    ├── xlsx.full.min.js         # SheetJS (Excel import/export)
-    └── docx.umd.min.js          # docx.js (Word export)
-```
+- En **Contenido del informe** se eligen los datos de identificación, las secciones, las gráficas y las lecturas breves. La ficha se arma con el caso local. Documento, nacimiento y modalidad tienen sus propias casillas.
+- **Rango de T** describe la posición normativa. **Habitual** corresponde a T de 40 a 55. Validez incluye lectura narrativa por índice. La columna **Lectura breve** se añade al activarla.
+- La historia aparece cuando hay texto, el contraste aparece cuando hay puntuaciones previas y el pronóstico se habilita al documentar entrevista suficiente. La ficha de edición incluye aportes clínicos, procedencia del MMPI-2 anterior y la comprobación de clave y fuente comparables.
+- Koss-Butcher y Lachar-Wrobel se pueden combinar en un apartado temático sin duplicados. El informe local puede mostrar enunciados solo con autorización explícita mediante la casilla correspondiente. El prompt usa paráfrasis.
+- El prompt solicita un JSON con secciones consecutivas y referencias como clave raíz. Las tablas, figuras, firma e identificación se generan con los datos locales. Word, PDF, HTML, TXT y el Excel del informe comparten ese contenido. **Datos técnicos en Excel** sigue siendo una descarga separada.
+- El motor conserva sus tablas V16. Para Es con PD 22 en mujeres, la referencia estadounidense incluida deja la T pendiente y la mexicana devuelve 30. Los límites y marcas del motor se muestran en las tablas y figuras.
 
-## 🎯 Uso de la aplicación
-
-### Primera vez (setup del evaluador)
-1. Splash (2s) → detecta primera vez
-2. Formulario evaluador: nombre, correo, registro profesional, dirección, teléfono, firma digital
-3. Configuración guardada → panel principal
-
-### Flujo de un caso
-1. Click "Nuevo caso"
-2. Datos del evaluado (nombre, documento, fecha nacimiento, sexo, contexto, antecedentes, motivo)
-3. Captura de respuestas (2 modos):
-   - **Cargar Excel**: sube el `MMPI2_Plantilla_Paciente.xlsx` con respuestas del paciente
-   - **Aplicar test directo**: 567 ítems uno a uno con botones V/F
-4. Procesamiento automático → informe completo
-5. Exportar: HTML standalone / Word / Excel / JSON
-
-### Persistencia
-- Todos los casos se guardan en `localStorage` del navegador
-- Menú hamburguesa (top right) → "Mis casos" → ver/editar cualquier caso guardado
-- Export JSON: respaldo completo de la app (evaluador + todos los casos)
-
-## 📋 Plantilla Excel para pacientes
-
-El archivo `assets/MMPI2_Plantilla_Paciente.xlsx` está diseñado para enviarlo a los pacientes:
-- 567 ítems con texto completo
-- Columna "Respuesta" con validación (solo 1=V o 2=F)
-- Columna "Estado" automática (OK / PENDIENTE / INVÁLIDA)
-- Hoja "Instrucciones" con guía para el paciente
-
-**Flujo:**
-1. Evaluador envía el Excel al paciente (email, descarga, etc.)
-2. Paciente abre, completa sus respuestas (1 o 2 en columna C)
-3. Paciente devuelve el archivo
-4. Evaluador carga el Excel en la app → procesamiento automático → informe
-
-## 🔒 Características
-
-- ✅ **Sin backend**: 100% cliente, ideal para Cloudflare Pages
-- ✅ **Sin dependencias build**: HTML+CSS+JS vanilla, sin npm
-- ✅ **Offline-ready**: funciona una vez cargados los datos
-- ✅ **Selector sexo M/H**: recalcula todos los baremos automáticamente
-- ✅ **Datos verificados**: baremos del manual español TEA (N=500 por grupo)
-- ✅ **79 escalas interpretadas**: 0 escalas sin texto interpretativo
-- ✅ **Export multi-formato**: HTML standalone, Word (.docx), Excel (.xlsx), JSON
-- ✅ **Firma digital**: canvas con soporte mouse + táctil
-
-## 📊 Cobertura
-
-| Componente | Cantidad |
-|------------|----------|
-| Ítems MMPI-2 | 567 |
-| Escalas evaluadas | 79 |
-| Baremos (H + M) | 3.109 filas |
-| Textos interpretativos | 17.380 |
-| Configuraciones clínicas | 22 patrones |
-| Criterios por banda T | 407 bandas |
-
-## 🛠️ Stack técnico
-
-- **Frontend**: HTML5, CSS3, JavaScript ES6 (vanilla, sin frameworks)
-- **Persistencia**: localStorage API
-- **Gráficos**: Chart.js 4.4.1
-- **Excel**: SheetJS 0.20.3
-- **Word**: docx.js 8.5.0
-- **Firma**: HTML5 Canvas API
-
-## 📝 Fuentes
-
-- Manual MMPI-2 adaptación española (TEA Ediciones)
-- Apunte Universidad de Concepción (apunte_mmpi_2.pdf)
-- Butcher, J.N. (2011) — A Beginner's Guide to the MMPI-2
-- Graham, J.R. (2006) — MMPI-2: Assessing Personality and Psychopathology
-- Harris & Lingoes (1955) — Subescalas Harris-Lingoes
-- Informe técnico de baremos (Informe_tecnico_tablas_PD_T_MMPI2_espanol.docx)
-
-## ⚠️ Notas clínicas
-
-- Las escalas **Fp, S, Ho** están marcadas como **ES-ONLINE**: sus baremos completos no están publicados en extracto abierto y requieren TEAcorrige (sistema oficial). La app calcula la PD pero muestra el mensaje "REQUIERE TEAcorrige".
-- Las escalas **O-H, MDS, APS, AAS** tienen baremos verificados solo parcialmente para mujeres (tramo T≤62), per el informe técnico.
-- Esta aplicación es una herramienta de apoyo. La interpretación clínica final debe realizarla un profesional acreditado.
-
-## 📄 Licencia
-
-Uso clínico y educativo. Los baremos y criterios provienen de fuentes documentadas; verificar licencia de uso del MMPI-2 con TEA Ediciones para uso comercial.
+El detalle de las pruebas y las propuestas editoriales están en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete permanecen como referencia de las versiones anteriores.

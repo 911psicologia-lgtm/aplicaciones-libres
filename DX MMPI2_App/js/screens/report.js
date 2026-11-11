@@ -13,8 +13,6 @@
 const Report = {
   _charts: [],      // Chart.js del informe principal
   _aiCharts: [],    // Chart.js del informe IA
-  _aiChartSpecs: [],
-  _aiChartSeq: 0,
   _mounted: false,
   _model: null,
 
@@ -70,7 +68,9 @@ const Report = {
                   <details class="more-exp">
                     <summary class="btn btn-ghost btn-sm">Más ▾</summary>
                     <div class="more-pop">
-                      <button class="btn btn-ghost btn-sm" id="exp-excel">Datos en Excel</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-excel">Excel del informe</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-data">Datos técnicos en Excel</button>
+                      <button class="btn btn-ghost btn-sm" id="exp-txt">Informe en TXT</button>
                       <button class="btn btn-ghost btn-sm" id="exp-json">Caso en JSON</button>
                       <button class="btn btn-ghost btn-sm" id="exp-answer-sheet">Hoja de respuestas</button>
                       <button class="btn btn-ghost btn-sm" id="exp-profile-sheet">Hoja de perfil</button>
@@ -120,13 +120,17 @@ const Report = {
     const cat = ReportModel.optionCatalog(cur);
     return `<div class="opt-grid">${cat.map(g => `
       <fieldset class="opt-group"><legend>${this._esc(g.group)}</legend>
-        ${g.items.map(it => `<label class="opt ${it.available ? '' : 'disabled'}" title="${it.available ? '' : 'Sin datos registrados en el caso'}">
-          <input type="checkbox" data-opt="${it.key}" ${o[it.key] && it.available ? 'checked' : ''} ${it.available ? '' : 'disabled'}>
-          <span>${this._esc(it.label)}${it.available ? '' : ' <em>(sin datos)</em>'}</span></label>`).join('')}
+        ${g.items.map(it => `<label class="opt ${it.available?'':'disabled'}">
+          <input type="checkbox" data-opt="${it.key}" ${o[it.key]&&it.available?'checked':''}
+            ${it.available?'':`disabled aria-describedby="hint-${it.key}"`}>
+          <span>${this._esc(it.label)}${it.reason?` <em id="hint-${it.key}">${this._esc(it.reason)}</em>`:''}</span></label>`).join('')}
       </fieldset>`).join('')}
       <fieldset class="opt-group"><legend>Firma</legend>
         <label class="opt-text">Lugar de emisión
-          <input type="text" class="form-input" id="opt-place" value="${this._esc(o.place || (Storage.getEvaluator() || {}).city || '')}" placeholder="Ciudad">
+          <input type="text" class="form-input" id="opt-place" data-opt="place" value="${this._esc(o.place || (Storage.getEvaluator() || {}).city || '')}" placeholder="Ciudad">
+        </label>
+        <label class="opt-text">Institución / centro
+          <input type="text" class="form-input" id="opt-institution" data-opt="institution" value="${this._esc(o.institution)}">
         </label>
       </fieldset>
     </div>`;
@@ -164,35 +168,30 @@ const Report = {
     bindEvent('exp-word', 'click', () => this._exportWord());
     bindEvent('exp-html', 'click', () => this._exportHTML());
     bindEvent('exp-print', 'click', () => this._printOnly('main'));
-    bindEvent('exp-excel', 'click', () => this._exportExcel());
+    bindEvent('exp-excel','click',()=>this._exportExcel());
+    bindEvent('exp-data','click',()=>this._exportTechnicalExcel());
+    bindEvent('exp-txt','click',()=>this._exportText());
     bindEvent('exp-json', 'click', () => this._exportJSON());
     bindEvent('exp-answer-sheet', 'click', () => this._downloadAnswerSheet());
     bindEvent('exp-profile-sheet', 'click', () => this._downloadProfileSheet());
     bindEvent('baremo-select', 'change', (e) => this._recalcCountry(e.target.value));
 
-    // Opciones de contenido
-    document.querySelectorAll('[data-opt]').forEach(cb => cb.addEventListener('change', () => {
-      this._setOption(cb.getAttribute('data-opt'), cb.checked);
-    }));
-    let tPlace = null;
-    bindEvent('opt-place', 'input', (e) => { clearTimeout(tPlace); tPlace = setTimeout(() => this._setOption('place', e.target.value), 500); });
-
-    bindEvent('ai-copy-prompt', 'click', () => this._copyAIPrompt());
-    bindEvent('ai-generate', 'click', () => this._generateAIReport());
-    bindEvent('ai-clear', 'click', () => this._clearAIReport());
-
-    // Restaurar informe IA si existe
-    const cur2 = Storage.getCurrentCase();
-    if (cur2 && cur2.aiReport) {
-      const out = document.getElementById('ai-report-output');
-      if (out) {
-        try {
-          out.innerHTML = this._renderAIReport(cur2.aiReport);
-          this._renderAICharts();
-        } catch (e) { console.warn('No se pudo restaurar el informe IA:', e); }
-        this._bindAIExportButtons();
+    const options=document.getElementById('report-options');
+    options?.addEventListener('change',event=>{
+      const input=event.target;
+      if(!input.dataset.opt||input.disabled)return;
+      const key=input.dataset.opt,isCheckbox=input.type==='checkbox';
+      this._setOption(key,isCheckbox?input.checked:input.value.trim());
+      if(isCheckbox){
+        options.innerHTML=this._optionsHTML(Storage.getCurrentCase());
+        options.querySelector('[data-opt="'+key+'"]')?.focus({preventScroll:true});
       }
-    }
+    });
+
+    bindEvent('ai-copy-prompt','click',()=>this._copyAIPrompt());
+    bindEvent('ai-generate','click',()=>this._generateAIReport());
+    bindEvent('ai-clear','click',()=>this._clearAIReport());
+    this._refreshAI();
 
     this._charts = ReportRender.mountCharts(this._model, document.getElementById('report-doc-wrap'));
   },
@@ -226,11 +225,12 @@ const Report = {
   _setOption(key, value) {
     const cur = Storage.getCurrentCase();
     if (!cur) return;
-    cur.reportOptions = Object.assign(ReportModel.options(cur), { [key]: value });
+    cur.reportOptions=ReportSections.change(cur,key,value);
     cur.updatedAt = new Date().toISOString();
     Storage.saveCase(cur);
     Storage.setCurrentCase(cur);
     this._refreshDoc();
+    this._refreshAI();
   },
 
   unmount() {
@@ -260,11 +260,11 @@ const Report = {
     const color = isNo ? 'var(--color-danger)' : 'var(--color-warning)';
     const bg = isNo ? 'rgba(192, 0, 0, 0.08)' : 'rgba(191, 143, 0, 0.08)';
     const title = isNo ? 'Protocolo NO interpretable' : 'Protocolo interpretable con cautela';
-    const reasons = (validity.reasons || []).map(r => `<li>${this._esc(r)}</li>`).join('');
+    const reasons = 'Consulte las puntuaciones y la lectura de los indicadores de validez en el informe.';
     return `<div class="card no-print" style="border:2px solid ${color};background:${bg}">
       <div class="card-body">
         <div style="font-weight:700;color:${color};font-size:14px;margin-bottom:6px">⚠ ${this._esc(title)}</div>
-        <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.6;color:var(--color-text)">${reasons}</ul>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-text)">${reasons}</p>
       </div>
     </div>`;
   },
@@ -318,7 +318,25 @@ const Report = {
     } catch (e) { console.error(e); window.toast(window.friendlyError(e, 'generar el HTML'), 'error', 8000); }
   },
 
-  _exportExcel() {
+  _exportExcel(){
+    const cur=Storage.getCurrentCase();
+    try{
+      if(!cur?.results)throw new Error('No hay resultados para exportar.');
+      const model=ReportModel.build(cur,Storage.getEvaluator()||{});
+      Export.exportModelExcel(model,`Informe_MMPI2_${this._safeName(cur.patient?.name)}.xlsx`);
+      window.toast('Excel del informe descargado','success');
+    }catch(error){window.toast(window.friendlyError(error,'generar el Excel'),'error',8000);}
+  },
+
+  _exportText(){
+    const cur=Storage.getCurrentCase();
+    if(!cur?.results)return;
+    const model=ReportModel.build(cur,Storage.getEvaluator()||{});
+    Export._download(new Blob([ReportModel.toText(model)],{type:'text/plain;charset=utf-8'}),
+      `Informe_MMPI2_${this._safeName(cur.patient?.name)}.txt`);
+  },
+
+  _exportTechnicalExcel() {
     const cur = Storage.getCurrentCase();
     if (!cur || !cur.results) { window.toast('No hay resultados para exportar', 'error'); return; }
     try { window.Export.exportExcel(cur, Storage.getEvaluator() || {}); window.toast('Datos en Excel descargados', 'success'); }
@@ -385,9 +403,8 @@ const Report = {
         </div>
         <div class="card-body">
           <p style="font-size:13px;line-height:1.55;color:var(--color-text);margin-bottom:16px">
-            Genere un <strong>informe contextualizado profesional</strong> (estilo informe pericial de ~11 páginas)
-            usando una IA externa. Copie el prompt completo (incluye todos los datos del caso, las 79 escalas del
-            MMPI-2 y la síntesis interpretativa), péguelo en una IA, recupere el JSON resultante y péguelo abajo.
+            Copie el prompt de las secciones seleccionadas y pegue aquí el JSON devuelto. El informe incorpora la ficha,
+            las puntuaciones y las figuras desde el caso guardado. Revise la integración antes de emitirla.
           </p>
 
           <button class="btn btn-success btn-lg w-full" id="ai-copy-prompt"
@@ -413,14 +430,14 @@ const Report = {
             </label>
             <textarea id="ai-json-input" class="form-textarea" rows="10"
               style="font-family:'Courier New',monospace;font-size:12px;line-height:1.45"
-              placeholder='{"titulo":"INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2","metadatos":{...},"secciones":[{"numero":1,"titulo":"Encabezado institucional","bloques":[{"tipo":"parrafo","contenido":"..."}]}], "referencias":["..."], "firma":{...}}'></textarea>
+              placeholder='{"secciones":[{"id":"encabezado","numero":1,"titulo":"Encabezado institucional","bloques":[]}],"referencias":[],"firma":{}}'></textarea>
           </div>
 
           <div class="flex" style="gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" id="ai-generate">✓ Generar informe contextualizado</button>
             <button class="btn btn-ghost btn-sm" id="ai-clear">Limpiar</button>
             <span style="font-size:12px;color:var(--color-text-muted);margin-left:auto">
-              La IA no almacena ni transmite datos desde esta app; el prompt se procesa localmente.
+              El prompt se prepara en este navegador. Usted decide qué texto comparte con un servicio externo.
             </span>
           </div>
         </div>
@@ -513,61 +530,26 @@ const Report = {
     }
   },
 
-  _generateAIReport() {
-    const ta = document.getElementById('ai-json-input');
-    if (!ta) { window.toast('No se encuentra el campo de entrada JSON', 'error'); return; }
-    const raw = (ta.value || '').trim();
-    if (!raw) {
-      window.toast('Pegue primero el JSON devuelto por la IA', 'warning');
-      return;
+  _generateAIReport(){
+    const ta=document.getElementById('ai-json-input'),cur=Storage.getCurrentCase();
+    const text=ta?.value.trim();
+    if(!text||!cur){window.toast('Pegue el JSON devuelto por la IA.','warning');return;}
+    if(text.length>500000){window.toast('El JSON supera el tamaño admitido.','error');return;}
+    const parsed=JSONRepair.parse(text);
+    this._showJSONStatus(parsed);
+    if(!parsed.ok)return;
+    try{
+      ReportModel.parseAI(parsed.data,cur,{strict:true});
+      if(parsed.fixes.length)ta.value=JSON.stringify(parsed.data,null,2);
+      cur.aiReport=parsed.data;
+      cur.updatedAt=new Date().toISOString();
+      Storage.saveCaseNow(cur);
+      this._refreshAI();
+      window.toast('Integración guardada. Revise el informe completo.','success');
+      document.getElementById('ai-report-output')?.scrollIntoView({behavior:'smooth',block:'start'});
+    }catch(error){
+      this._showJSONStatus({ok:false,error:{message:error.message},fixes:[]});
     }
-
-    // Extraer el primer objeto JSON de la respuesta (por si la IA envolvió en ```json ... ```)
-    const res = window.JSONRepair ? JSONRepair.parse(raw) : (() => { try { return { ok: true, data: JSON.parse(this._extractJSON(raw)), fixes: [] }; } catch (e) { return { ok: false, fixes: [], error: { message: e.message } }; } })();
-    this._showJSONStatus(res);
-    if (!res.ok) return;
-    const parsed = res.data;
-    if (res.fixes.length) {
-      // Dejar en el cuadro la versión corregida para que quede guardada así
-      try { ta.value = JSON.stringify(parsed, null, 2); } catch (e) {}
-    }
-
-    if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.secciones)) {
-      window.toast('El JSON no tiene la estructura esperada (falta el arreglo "secciones" con "bloques")', 'error');
-      return;
-    }
-    if (parsed.secciones.length === 0) {
-      window.toast('El JSON no contiene secciones', 'error');
-      return;
-    }
-    // Detectar si al menos una sección trae `bloques` (nuevo formato AI-PROMPT-V2)
-    // o si todas vienen con `contenido` (formato legacy).
-    const hasBloques = parsed.secciones.some(s => Array.isArray(s.bloques) && s.bloques.length);
-    if (!hasBloques && !parsed.secciones.some(s => typeof s.contenido === 'string')) {
-      window.toast('El JSON no contiene "bloques" ni "contenido" en sus secciones', 'error');
-      return;
-    }
-
-    const out = document.getElementById('ai-report-output');
-    if (!out) { window.toast('No se encuentra el contenedor del informe', 'error'); return; }
-    out.innerHTML = this._renderAIReport(parsed);
-    // Render Chart.js charts after DOM insertion (AI-PROMPT-V2 — bloques tipo `grafico`)
-    this._renderAICharts();
-    // Bind AI export buttons (created dynamically after render)
-    this._bindAIExportButtons();
-
-    // Persist on the case so it survives navigation
-    const cur = Storage.getCurrentCase();
-    if (cur) {
-      cur.aiReport = parsed;
-      cur.updatedAt = new Date().toISOString();
-      Storage.saveCase(cur);
-      Storage.setCurrentCase(cur);
-    }
-
-    window.toast('Informe contextualizado generado', 'success');
-    // Scroll suave al informe generado
-    setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
   },
 
   _showJSONStatus(res) {
@@ -614,461 +596,52 @@ const Report = {
     bindEvent('ai-exp-html', 'click', () => this._exportAIReport('html'));
     bindEvent('ai-exp-word', 'click', () => this._exportAIReport('word'));
     bindEvent('ai-exp-excel', 'click', () => this._exportAIReport('excel'));
-    bindEvent('ai-exp-json', 'click', () => this._exportAIReport('json'));
+    bindEvent('ai-exp-json','click',()=>this._exportAIReport('json'));
+    bindEvent('ai-exp-txt','click',()=>this._exportAIReport('txt'));
     bindEvent('ai-exp-pdf', 'click', () => this._exportAIReport('pdf'));
     bindEvent('ai-print', 'click', () => this._printOnly('ai'));
   },
 
-  async _exportAIReport(format) {
-    const cur = Storage.getCurrentCase();
-    if (!cur || !cur.aiReport) { window.toast('No hay informe IA generado para exportar', 'warning'); return; }
-    const ev = Storage.getEvaluator() || {};
-    try {
-      // Imágenes generadas fuera de pantalla (no dependen de lo visible)
-      const chartImages = this._captureAIChartImgs(cur.aiReport);
-      if (format === 'html') { window.Export.exportAIReportHTML(cur.aiReport, cur, ev, chartImages); window.toast('Informe IA · HTML descargado', 'success'); }
-      else if (format === 'word') {
-        window.toast('Generando Word…', 'info', 2000);
-        await window.Export.exportAIReportWord(cur.aiReport, cur, ev, chartImages);
-        window.toast('Informe IA · Word descargado', 'success');
-      } else if (format === 'pdf') {
-        window.toast('Generando PDF…', 'info', 2000);
-        await window.Export.exportAIReportPDF(cur.aiReport, cur, ev, chartImages);
-        window.toast('Informe IA · PDF descargado', 'success');
-      } else if (format === 'excel') { window.Export.exportAIReportExcel(cur.aiReport, cur, ev); window.toast('Informe IA · Excel descargado', 'success'); }
-      else if (format === 'json') { window.Export.exportAIReportJSON(cur.aiReport, cur); window.toast('Informe IA · JSON descargado', 'success'); }
-    } catch (e) {
-      console.error('Error exportando informe IA:', e);
-      window.toast(window.friendlyError(e, 'exportar el informe IA'), 'error', 8000);
-    }
-  },
-
-  /* ---------- Imágenes de los gráficos IA (offscreen) ----------
-     Devuelve [{key, figura, titulo, dataURL, width, height}] */
-  _captureAIChartImgs(parsed) {
-    const out = [];
-    const blocks = [];
-    for (const sec of (parsed.secciones || [])) for (const b of (sec.bloques || [])) if (b && (b.tipo || '').toLowerCase() === 'grafico') blocks.push(b);
-    blocks.forEach((b, i) => {
-      try {
-        const spec = this._aiBlockToSpec(b);
-        if (!spec) return;
-        const img = window.ReportCharts.toImage(spec, 900);
-        out.push({ key: 'ai-graf-' + (i + 1), figura: b.figura != null ? b.figura : (i + 1), titulo: b.titulo || '', dataURL: img.dataURL, width: img.width, height: img.height });
-      } catch (e) { console.warn('No se pudo generar imagen del gráfico IA', e); }
-    });
-    return out;
-  },
-
-  /* Convierte un bloque `grafico` de la IA en un spec de ReportCharts.
-     Si la IA no aportó datos utilizables, se construye con los resultados reales del caso. */
-  _aiBlockToSpec(block) {
-    const tipo = (block.grafico_tipo || 'linea').toLowerCase();
-    const series = Array.isArray(block.series) ? block.series : [];
-    const labels = [];
-    const getX = (pt) => pt && (pt.x != null ? pt.x : (pt.escala != null ? pt.escala : (pt.label != null ? pt.label : pt.nombre)));
-    const getY = (pt) => { const v = pt && (pt.y != null ? pt.y : (pt.t != null ? pt.t : (pt.T != null ? pt.T : pt.valor))); const n = typeof v === 'number' ? v : parseFloat(v); return isFinite(n) ? n : null; };
-    for (const s of series) for (const pt of (s.puntos || s.datos || [])) { const x = getX(pt); if (x != null && labels.indexOf(String(x)) === -1) labels.push(String(x)); }
-    let data = series.map(s => ({ name: s.nombre || 'T', data: labels.map(l => { const pt = (s.puntos || s.datos || []).find(p => String(getX(p)) === l); return pt ? getY(pt) : null; }) }));
-    const usable = labels.length > 0 && data.some(d => d.data.some(v => v != null));
-    const cur = Storage.getCurrentCase() || {};
-    const R = cur.results || {};
-    const I = window.Interpret;
-    if (!usable) {
-      // Fallback con datos reales según número de figura
-      const f = Number(block.figura);
-      let codes;
-      if (f === 1) codes = ['L', 'F', 'K', 'Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
-      else if (f === 2) codes = ['Fb', 'Fp', 'S', 'A', 'R', 'Es', 'MAC-R', 'AAS', 'APS', 'MDS', 'Ho', 'O-H', 'Do', 'Re', 'Mt', 'GM', 'GF', 'PK'];
-      else if (f === 3) codes = I.GROUP_ORDER.Subescalas.filter(c => (I.T(R, c) || 0) >= 56).sort((a, b) => I.T(R, b) - I.T(R, a));
-      else if (f === 4 && cur.patient && cur.patient.previousMMPI) {
-        const rows = I.comparisonRows(R, cur.patient.previousMMPI, cur.patient);
-        return { kind: 'compare', labels: rows.map(r => r.code), series: [{ name: 'T actual', data: rows.map(r => r.cur) }, { name: 'T anterior', data: rows.map(r => r.prev) }], refs: [65], yMin: 30 };
-      } else codes = ['Hs', 'D', 'Hy', 'Pd', 'Mf', 'Pa', 'Pt', 'Sc', 'Ma', 'Si'];
-      codes = codes.filter(c => I.T(R, c) != null);
-      if (!codes.length) return null;
-      return { kind: tipo === 'barras_h' ? 'barh' : 'profile', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65], yMin: 30 };
-    }
-    const refs = (Array.isArray(block.lineas_referencia) ? block.lineas_referencia : [50, 65]).map(Number).filter(isFinite);
-    if (tipo === 'barras_h') return { kind: 'barh', labels, series: [data[0]], refs };
-    if (tipo === 'barras_agrupadas' || data.length > 1) return { kind: 'compare', labels, series: data.slice(0, 2), refs, yMin: 30 };
-    return { kind: 'profile', labels, series: [data[0]], refs, yMin: 30 };
-  },
-
-  _extractJSON(text) {
-    let s = text.trim();
-    // Quitar fences markdown ```json ... ``` o ``` ... ```
-    if (s.startsWith('```')) {
-      s = s.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-    }
-    // Si hay texto antes del primer { o después del último }, recortar
-    const start = s.indexOf('{');
-    const end = s.lastIndexOf('}');
-    if (start >= 0 && end > start) {
-      s = s.substring(start, end + 1);
-    }
-    return s;
-  },
-
-  _renderAIReport(parsed) {
-    // Reiniciar specs de gráficos IA pendientes (se renderizan tras insertar HTML)
-    this._aiChartSeq = 0;
-    this._aiChartSpecs = [];
-
-    const titulo = parsed.titulo || 'INFORME DE VALORACIÓN PSICOLÓGICA · MMPI-2';
-    const meta = parsed.metadatos || {};
-    const cur = Storage.getCurrentCase() || {};
-    const p = cur.patient || {};
-    const ev = Storage.getEvaluator() || {};
-    const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-
-    // Metadatos: prioriza parsed.metadatos, con fallback a datos del paciente del caso
-    const metaNombre      = meta.evaluado        || p.name || '—';
-    const metaDocumento   = meta.documento       || p.document || '—';
-    const metaEdad        = meta.edad            || (p.age != null ? p.age + ' años' : '—');
-    const metaSexo        = meta.sexo            || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Varón' : '—'));
-    const metaFechaApp    = meta.fecha_aplicacion|| this._fmtDate(p.applicationDate) || '—';
-    const metaFechaInf    = meta.fecha_informe   || today;
-    const metaContexto    = meta.contexto        || p.context || '—';
-    const metaEvaluador   = meta.evaluador       || ev.name || '—';
-
-    // Render de cada sección: si trae `bloques` (AI-PROMPT-V2) los itera; si trae
-    // `contenido` (formato legacy) lo degrada a un bloque parrafo.
-    const sectionsHTML = (parsed.secciones || []).map((sec, idx) => {
-      const secNumero = (sec.numero != null) ? sec.numero : (idx + 1);
-      const secTitulo = sec.titulo || ('Sección ' + secNumero);
-      let bodyHTML = '';
-      if (Array.isArray(sec.bloques) && sec.bloques.length) {
-        bodyHTML = sec.bloques.map(b => this._renderAIBlock(b, secNumero)).join('');
-      } else if (typeof sec.contenido === 'string' && sec.contenido.trim()) {
-        bodyHTML = this._renderAIBlock({ tipo: 'parrafo', contenido: sec.contenido }, secNumero);
-      } else {
-        bodyHTML = '<p style="color:#9CA3AF;font-style:italic">[Sección sin contenido]</p>';
+  async _exportAIReport(format){
+    const cur=Storage.getCurrentCase();
+    if(!cur?.aiReport){window.toast('No hay integración guardada.','warning');return;}
+    try{
+      const model=ReportModel.fromAI(cur.aiReport,cur,Storage.getEvaluator()||{});
+      const name=`Informe_IA_MMPI2_${this._safeName(cur.patient?.name)}`;
+      if(format==='json')Export.exportJSON(ReportModel.serialize(model),name+'.json');
+      else if(format==='excel')Export.exportModelExcel(model,name+'.xlsx');
+      else if(format==='txt')Export._download(new Blob([ReportModel.toText(model)],{type:'text/plain;charset=utf-8'}),name+'.txt');
+      else{
+        const images=ReportModel.chartImages(model);
+        if(format==='word')Export._download(await ReportRender.toDocx(model,images),name+'.docx');
+        if(format==='pdf')Export._download(await ReportRender.toPDF(model,images),name+'.pdf');
+        if(format==='html')Export._download(new Blob([ReportRender.toStandaloneHTML(model,images)],{type:'text/html;charset=utf-8'}),name+'.html');
       }
-      return `
-        <section class="ai-report-section">
-          <h2 class="ai-report-section-title">
-            <span class="ai-sec-num">${this._esc(String(secNumero))}.</span> ${this._esc(secTitulo)}
-          </h2>
-          <div class="ai-report-section-body">${bodyHTML}</div>
-        </section>
-      `;
-    }).join('');
-
-    // Referencias (clave raíz opcional: array de strings)
-    const refsHTML = (parsed.referencias && Array.isArray(parsed.referencias) && parsed.referencias.length)
-      ? `<section class="ai-report-section">
-          <h2 class="ai-report-section-title"><span class="ai-sec-num">·</span> Referencias</h2>
-          <div class="ai-report-section-body">
-            <ol class="ai-referencias">
-              ${parsed.referencias.map(r => `<li>${this._esc(typeof r === 'string' ? r : JSON.stringify(r))}</li>`).join('')}
-            </ol>
-          </div>
-        </section>`
-      : '';
-
-    // Firma (clave raíz opcional: objeto con datos del evaluador)
-    const firma = parsed.firma;
-    const firmaHTML = (firma && typeof firma === 'object')
-      ? this._renderAIFirma(firma)
-      : `<div class="ai-report-firma">
-          ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
-          <div class="signature-line">
-            ${this._esc(ev.name || 'Evaluador/a')}
-            <div style="font-size:10px;color:#6B7280;margin-top:2px">
-              ${this._esc(ev.license || '')}${ev.license && ev.registry ? ' · ' : ''}${this._esc(ev.registry || '')}
-            </div>
-          </div>
-        </div>`;
-
-    return `
-      <style>
-        .ai-report-container { margin-top: 24px; }
-        .ai-report-doc {
-          background: #FFFFFF;
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-md);
-          padding: 48px 56px;
-          font-family: Georgia, 'Times New Roman', serif;
-          color: #1F2937;
-          font-size: 14px;
-          line-height: 1.65;
-          box-shadow: var(--shadow-md);
-        }
-        .ai-report-header {
-          text-align: center;
-          border-bottom: 3px double var(--color-primary-dark);
-          padding-bottom: 18px;
-          margin-bottom: 24px;
-        }
-        .ai-report-header h1 {
-          font-size: 22px;
-          font-weight: 700;
-          color: var(--color-primary-dark);
-          letter-spacing: 1px;
-          margin-bottom: 8px;
-          font-family: Georgia, serif;
-        }
-        .ai-report-meta {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 6px 24px;
-          font-family: Arial, sans-serif;
-          font-size: 11px;
-          color: #4B5563;
-          margin-top: 10px;
-          text-align: left;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .ai-report-meta div span { color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; font-size: 9px; display: block; }
-        .ai-report-section { margin-bottom: 22px; page-break-inside: avoid; }
-        .ai-report-section-title {
-          font-size: 14px;
-          font-weight: 700;
-          color: var(--color-primary-dark);
-          border-left: 4px solid var(--color-primary);
-          padding-left: 10px;
-          margin-bottom: 10px;
-          font-family: Georgia, serif;
-        }
-        .ai-report-section-title .ai-sec-num { color: var(--color-primary); margin-right: 4px; }
-        .ai-report-section-body { padding-left: 14px; font-family: Georgia, serif; }
-        .ai-report-section-body p { text-align: justify; margin: 0 0 10px; line-height: 1.6; }
-        .ai-report-section-body p:last-child { margin-bottom: 0; }
-        .ai-tabla-wrap { margin: 8px 0 14px; page-break-inside: avoid; }
-        .ai-tabla-titulo { font-size: 12px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 4px; font-family: Arial, sans-serif; }
-        .ai-tabla { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11px; }
-        .ai-tabla thead th { background: var(--color-primary-dark, #1F3864); color: #fff; padding: 6px 8px; text-align: left; border: 1px solid #1F3864; }
-        .ai-tabla tbody td { padding: 5px 8px; border: 1px solid #D1D5DB; vertical-align: top; }
-        .ai-tabla tbody tr:nth-child(even) td { background: #F9FAFB; }
-        .ai-grafico-wrap { margin: 10px 0 16px; page-break-inside: avoid; }
-        .ai-grafico-figura { font-size: 11px; font-weight: 700; color: var(--color-primary-dark); font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
-        .ai-grafico-titulo { font-size: 12px; font-weight: 600; color: #1F2937; margin-bottom: 6px; font-family: Arial, sans-serif; }
-        .ai-grafico-canvas-wrap { width: 100%; height: 380px; }
-        .ai-lista-wrap { margin: 6px 0 12px; }
-        .ai-lista-titulo { font-size: 12px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 4px; font-family: Arial, sans-serif; }
-        .ai-lista { margin: 0; padding-left: 22px; }
-        .ai-lista li { margin-bottom: 4px; line-height: 1.55; }
-        .ai-referencias { margin: 0; padding-left: 22px; font-size: 12px; font-family: Arial, sans-serif; }
-        .ai-referencias li { margin-bottom: 4px; line-height: 1.5; }
-        .ai-report-firma {
-          margin-top: 28px;
-          padding-top: 14px;
-          border-top: 1px solid var(--color-border);
-          font-family: Arial, sans-serif;
-          font-size: 11px;
-          color: #6B7280;
-          text-align: center;
-        }
-        .ai-report-firma .signature-line {
-          margin-top: 32px;
-          padding-top: 4px;
-          border-top: 1px solid #1F2937;
-          width: 260px;
-          margin-left: auto;
-          margin-right: auto;
-          font-size: 12px;
-          color: #1F2937;
-        }
-        .ai-report-firma .signature-img {
-          max-height: 70px;
-          margin: 12px auto 0;
-          display: block;
-        }
-        .ai-firma-sub { font-size: 10px; color: #6B7280; margin-top: 2px; }
-        @media print {
-          .ai-report-doc { box-shadow: none; border: none; padding: 24px; }
-          .ai-export-bar { display: none !important; }
-          .ai-grafico-canvas-wrap { height: 320px; }
-        }
-      </style>
-      <div class="card">
-        <div class="card-header no-print" style="display:flex;justify-content:space-between;align-items:center;background:var(--color-bg);flex-wrap:wrap;gap:8px">
-          <h3 style="color:var(--color-primary-dark)">Informe contextualizado</h3>
-          <div class="flex gap-8" style="flex-wrap:wrap">
-            <button class="btn btn-secondary btn-sm" id="ai-exp-html">⤓ HTML</button>
-            <button class="btn btn-secondary btn-sm" id="ai-exp-word">⤓ Word</button>
-            <button class="btn btn-secondary btn-sm" id="ai-exp-excel">⤓ Excel</button>
-            <button class="btn btn-secondary btn-sm" id="ai-exp-json">⤓ JSON</button>
-            <button class="btn btn-primary btn-sm" id="ai-exp-pdf">⤓ PDF</button>
-            <button class="btn btn-secondary btn-sm" id="ai-print">Imprimir</button>
-          </div>
-        </div>
-        <div class="card-body" style="padding:16px">
-          <div class="ai-report-doc">
-            <header class="ai-report-header">
-              <h1>${this._esc(titulo)}</h1>
-              <div class="ai-report-meta">
-                <div><span>Evaluado</span>${this._esc(metaNombre)}</div>
-                <div><span>Edad</span>${this._esc(metaEdad)}</div>
-                <div><span>Sexo</span>${this._esc(metaSexo)}</div>
-                <div><span>Documento</span>${this._esc(metaDocumento)}</div>
-                <div><span>Fecha de aplicación</span>${this._esc(metaFechaApp)}</div>
-                <div><span>Contexto</span>${this._esc(metaContexto)}</div>
-                <div><span>Evaluador</span>${this._esc(metaEvaluador)}</div>
-                <div><span>Fecha del informe</span>${this._esc(metaFechaInf)}</div>
-              </div>
-            </header>
-            ${sectionsHTML}
-            ${refsHTML}
-            <footer class="ai-report-footer">
-              <div>Fecha de emisión: ${this._esc(metaFechaInf)}</div>
-              ${firmaHTML}
-            </footer>
-          </div>
-        </div>
-      </div>
-    `;
-  },
-
-  /* ---------- AI block rendering helpers (AI-PROMPT-V2) ---------- */
-
-  _renderAIBlock(block, secNumero) {
-    if (!block || typeof block !== 'object') return '';
-    const tipo = (block.tipo || '').toLowerCase();
-    try {
-      switch (tipo) {
-        case 'parrafo':     return this._renderAIParrafo(block);
-        case 'tabla':       return this._renderAITabla(block);
-        case 'grafico':     return this._renderAIGrafico(block);
-        case 'lista':       return this._renderAILista(block);
-        case 'referencias': return this._renderAIReferencias(block);
-        case 'firma':       return this._renderAIFirma(block);
-        default:
-          // Tipo desconocido: si tiene contenido, lo degradamos a párrafo
-          if (block.contenido != null) return this._renderAIParrafo(block);
-          return '';
-      }
-    } catch (e) {
-      console.warn('Error renderizando bloque IA (' + tipo + '):', e, block);
-      return `<p style="color:#C00000;font-size:11px;font-family:Arial,sans-serif">[Error renderizando bloque de tipo "${this._esc(tipo || 'desconocido')}"]</p>`;
+      window.toast('Informe IA descargado','success');
+    }catch(error){
+      window.toast(window.friendlyError(error,'exportar el informe IA'),'error',8000);
     }
   },
 
-  _renderAIParrafo(block) {
-    const contenido = (block.contenido || '').trim();
-    if (!contenido) return '';
-    const paragraphs = contenido.split(/\n{2,}|\r\n{2,}/).map(s => s.trim()).filter(Boolean);
-    if (paragraphs.length > 1) {
-      return paragraphs.map(par =>
-        `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(par).replace(/\n/g, '<br>')}</p>`
-      ).join('');
-    }
-    return `<p style="margin:0 0 10px;line-height:1.6;text-align:justify">${this._esc(contenido).replace(/\n/g, '<br>')}</p>`;
-  },
-
-  _renderAITabla(block) {
-    const titulo = block.titulo || '';
-    const columnas = Array.isArray(block.columnas) ? block.columnas : [];
-    const filas = Array.isArray(block.filas) ? block.filas : [];
-    if (!columnas.length && !filas.length) return '';
-
-    const head = columnas.length
-      ? `<thead><tr>${columnas.map(c => `<th>${this._esc(c)}</th>`).join('')}</tr></thead>`
-      : '';
-    const body = filas.map(row => {
-      const cells = Array.isArray(row) ? row : [row];
-      return `<tr>${cells.map(c => `<td>${this._esc(c == null ? '' : String(c))}</td>`).join('')}</tr>`;
-    }).join('');
-
-    return `<div class="ai-tabla-wrap">
-      ${titulo ? `<div class="ai-tabla-titulo">${this._esc(titulo)}</div>` : ''}
-      <table class="ai-tabla">
-        ${head}
-        <tbody>${body}</tbody>
-      </table>
-    </div>`;
-  },
-
-  _renderAIGrafico(block) {
-    const figura = (block.figura != null) ? ('Figura ' + block.figura) : '';
-    const titulo = block.titulo || '';
-    const canvasId = 'ai-graf-' + (++this._aiChartSeq);
-    // Guardamos el spec para renderizarlo tras la inserción en el DOM
-    this._aiChartSpecs.push({ id: canvasId, block });
-    return `<div class="ai-grafico-wrap">
-      ${figura ? `<div class="ai-grafico-figura">${this._esc(figura)}</div>` : ''}
-      ${titulo ? `<div class="ai-grafico-titulo">${this._esc(titulo)}</div>` : ''}
-      <div class="ai-grafico-canvas-wrap" style="position:relative;height:380px">
-        <canvas id="${canvasId}" class="ai-grafico-canvas"></canvas>
-      </div>
-    </div>`;
-  },
-
-  _renderAILista(block) {
-    const titulo = block.titulo || '';
-    const items = Array.isArray(block.items) ? block.items : [];
-    if (!items.length) return '';
-    const itemsHTML = items.map(it =>
-      `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`
-    ).join('');
-    return `<div class="ai-lista-wrap">
-      ${titulo ? `<div class="ai-lista-titulo">${this._esc(titulo)}</div>` : ''}
-      <ul class="ai-lista">${itemsHTML}</ul>
-    </div>`;
-  },
-
-  _renderAIReferencias(block) {
-    const items = Array.isArray(block.items) ? block.items : [];
-    if (!items.length) return '';
-    const itemsHTML = items.map(it =>
-      `<li>${this._esc(typeof it === 'string' ? it : JSON.stringify(it))}</li>`
-    ).join('');
-    return `<div class="ai-referencias-wrap"><ol class="ai-referencias">${itemsHTML}</ol></div>`;
-  },
-
-  _renderAIFirma(block) {
-    const ev = Storage.getEvaluator() || {};
-    const nombre = block.nombre || ev.name || 'Evaluador/a';
-    const profesion = block.profesion || 'Psicólogo/a';
-    const registro = block.registro || ev.registry || '';
-    const institucion = block.institucion || ev.institution || '';
-    const direccion = block.direccion || ev.address || '';
-    const correo = block.correo || ev.email || '';
-    const telefono = block.telefono || ev.phone || '';
-    const extras = [direccion, correo, telefono].filter(Boolean);
-    return `<div class="ai-report-firma">
-      ${ev.signature ? `<img src="${ev.signature}" alt="firma" class="signature-img">` : ''}
-      <div class="signature-line">
-        ${this._esc(nombre)}
-        <div class="ai-firma-sub">${this._esc(profesion)}${registro ? ' · ' + this._esc(registro) : ''}</div>
-        ${institucion ? `<div class="ai-firma-sub">${this._esc(institucion)}</div>` : ''}
-        ${extras.length ? `<div class="ai-firma-sub">${extras.map(s => this._esc(s)).join(' · ')}</div>` : ''}
-      </div>
-    </div>`;
-  },
-
-  /* ---------- Chart.js rendering for AI report grafico blocks ---------- */
-
-  _renderAICharts() {
-    if (!window.Chart) { console.warn('Chart.js no disponible — no se renderizan gráficos IA'); return; }
-    // Copiar los specs ANTES de destruir: _destroyAICharts() vacía la lista
-    // (este era el motivo de que las gráficas IA salieran en blanco).
-    const specs = (this._aiChartSpecs || []).slice();
+  _refreshAI(){
+    const cur=Storage.getCurrentCase(),out=document.getElementById('ai-report-output');
     this._destroyAICharts();
-    this._aiChartSpecs = specs;
-    for (const spec of specs) {
-      try {
-        const canvas = document.getElementById(spec.id);
-        if (!canvas) { console.warn('Canvas IA no encontrado:', spec.id); continue; }
-        const cs = this._aiBlockToSpec(spec.block);
-        if (!cs) continue;
-        const wrap = canvas.parentElement;
-        if (wrap) wrap.style.height = window.ReportCharts.height(cs) + 'px';
-        const chart = window.ReportCharts.mount(canvas, cs);
-        if (chart) this._aiCharts.push(chart);
-      } catch (e) {
-        console.warn('Error renderizando gráfico IA:', spec.id, e);
-      }
-    }
+    if(!out)return;
+    if(!cur?.aiReport){out.innerHTML='';return;}
+    const model=ReportModel.fromAI(cur.aiReport,cur,Storage.getEvaluator()||{});
+    const exports=[['word','Word'],['pdf','PDF'],['html','HTML'],['excel','Excel'],['json','JSON'],['txt','TXT'],['print','Imprimir']];
+    out.innerHTML=`<div class="card no-print ai-tools"><div class="card-body">
+      <h3>Informe con IA · revisión profesional</h3>
+      ${model.issues.length?`<p class="form-hint">Se omitieron fragmentos incompatibles con el registro actual. Revise las puntuaciones o regenere la integración.</p>`:''}
+      <div class="flex gap-8" style="flex-wrap:wrap">${exports.map(([id,label])=>`<button type="button" class="btn btn-secondary btn-sm" id="ai-${id==='print'?'print':'exp-'+id}">${label}</button>`).join('')}</div>
+    </div></div>`+ReportRender.toHTML(model,{chartIdPrefix:'iachart-'});
+    this._aiCharts=ReportRender.mountCharts(model,out,'iachart-');
+    this._bindAIExportButtons();
   },
 
-  _destroyAICharts() {
-    for (const c of this._aiCharts) { try { c.destroy(); } catch (e) {} }
-    this._aiCharts = [];
-    this._aiChartSpecs = [];
+  _destroyAICharts(){
+    for(const chart of this._aiCharts){try{chart.destroy();}catch(error){}}
+    this._aiCharts=[];
   },
 
   /* ---------- Descargar Hoja de Respuestas (PDF vía print) ---------- */

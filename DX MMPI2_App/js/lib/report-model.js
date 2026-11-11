@@ -1,443 +1,495 @@
-/* ============================================
-   ReportModel — estructura única del informe MMPI-2
-   Un solo modelo alimenta la pantalla, HTML, Word y PDF.
-
-   Orden del informe:
-     Encabezado
-     1. Datos de identificación (un solo cuadro con divisiones)
-     2. Información del caso (campos seleccionables)
-     3. Perfil de escalas — por grupo: tabla → interpretación → gráfica
-     4. Análisis de resultados — misma dinámica
-     5. Síntesis integradora (prosa, sin valores ni siglas)
-     6. Recomendaciones (opcional)
-     Evaluador: datos y firma (al final)
-   ============================================ */
-
+/* Modelo común para el informe base, la integración de IA y las exportaciones. */
 const ReportModel = {
-
-  /* Opciones por defecto (qué incluir). Se guardan en case.reportOptions */
-  defaultOptions(caseData) {
-    const p = (caseData && caseData.patient) || {};
-    return {
-      id_document: true,
-      id_dob: true,
-      id_mode: true,
-      info_reason: !!(p.reason && p.reason.trim()),
-      info_history: !!(p.history && p.history.trim()),
-      info_caseHistory: !!(p.caseHistory && p.caseHistory.trim()),
-      info_legal: !!(p.legalContext && p.legalContext.trim()),
-      sec_subscales: true,
-      sec_psy5: true,
-      sec_compare: !!(p.previousMMPI && p.previousMMPI.trim()),
-      sec_critical: true,
-      sec_critical_lw: true,
-      sec_recs: true,
-      sec_charts: true,
-      tbl_descriptors: false,
-      place: '',
-    };
-  },
-
-  options(caseData) {
-    return Object.assign(this.defaultOptions(caseData), (caseData && caseData.reportOptions) || {});
-  },
-
-  /* Catálogo para la interfaz de selección */
-  optionCatalog(caseData) {
-    const p = (caseData && caseData.patient) || {};
-    const has = (v) => !!(v && String(v).trim());
-    return [
-      { group: 'Identificación', items: [
-        { key: 'id_document', label: 'Documento de identidad', available: has(p.document) },
-        { key: 'id_dob', label: 'Fecha de nacimiento', available: has(p.dob) },
-        { key: 'id_mode', label: 'Modalidad de aplicación', available: has(caseData && caseData.captureMode) },
-      ] },
-      { group: 'Información del caso', items: [
-        { key: 'info_reason', label: 'Motivo de evaluación', available: has(p.reason) },
-        { key: 'info_history', label: 'Antecedentes', available: has(p.history) },
-        { key: 'info_caseHistory', label: 'Historia del caso', available: has(p.caseHistory) },
-        { key: 'info_legal', label: 'Contexto pericial', available: has(p.legalContext) },
-      ] },
-      { group: 'Secciones', items: [
-        { key: 'sec_charts', label: 'Gráficas', available: true },
-        { key: 'sec_subscales', label: 'Subescalas Harris-Lingoes', available: true },
-        { key: 'sec_psy5', label: 'Personalidad PSY-5 y áreas de clúster', available: true },
-        { key: 'sec_critical', label: 'Ítems críticos de Koss-Butcher', available: !!(window.Critical && Critical.hasResponses(caseData && caseData.responses)) },
-        { key: 'sec_critical_lw', label: 'Ítems críticos de Lachar-Wrobel', available: !!(window.Critical && Critical.hasResponses(caseData && caseData.responses)) },
-        { key: 'tbl_descriptors', label: 'Descriptor breve por escala en las tablas', available: true },
-        { key: 'sec_compare', label: 'Comparación con MMPI-2 anterior', available: has(p.previousMMPI) },
-        { key: 'sec_recs', label: 'Recomendaciones', available: true },
-      ] },
-    ];
-  },
-
-  COUNTRY_LABEL: {
-    US: 'Estadounidense (muestra normativa de Minnesota, N = 2.600)',
-    MX: 'Mexicano (Lucio, Reyes-Lagunes y Scott)',
-    ES: 'Español (TEA Ediciones)',
-  },
-
+  COUNTRY_LABEL: {US:'Estados Unidos · Minnesota',MX:'México · Lucio, Reyes-Lagunes y Scott',ES:'España · TEA Ediciones'},
   GROUP_TITLES: {
-    Validez: 'Escalas de validez',
-    Clínicas: 'Escalas clínicas básicas',
-    Contenido: 'Escalas de contenido',
-    Suplementarias: 'Escalas suplementarias',
-    Subescalas: 'Subescalas de Harris-Lingoes y de Introversión social',
-    'PSY-5': 'Dimensiones de personalidad psicopatológica (PSY-5)',
+    Validez:'Escalas de validez',Clínicas:'Escalas clínicas básicas',Contenido:'Escalas de contenido',
+    Suplementarias:'Escalas suplementarias',Subescalas:'Subescalas Harris-Lingoes y de Introversión social',
+    'PSY-5':'Dimensiones PSY-5'
+  },
+  LEGACY_TITLES: {
+    'datos de identificacion':'identificacion','motivo de evaluacion':'motivo','antecedentes':'antecedentes',
+    'historia del caso':'antecedentes','contexto pericial':'contexto','validez del protocolo':'validez',
+    'escalas de validez':'validez','escalas suplementarias y psy 5':'suplementarias','personalidad psy 5':'suplementarias',
+    'subescalas clinicamente relevantes':'subescalas','integracion clinica del perfil':'integracion','sintesis integradora':'integracion',
+    'items criticos y seguridad':'criticos','comparacion con mmpi 2 anterior':'contraste',
+    'conclusiones integrativas':'conclusiones','recomendaciones clinicas':'recomendaciones'
+  },
+  TOPICS: {
+    ansiedad_aguda:['Ansiedad y activación','Tensión o activación ansiosa.'],
+    ansiedad_tension:['Ansiedad y activación','Tensión o activación ansiosa.'],
+    ideacion_suicida:['Estado de ánimo y seguridad','Malestar depresivo o contenido relacionado con la seguridad. Aclarar su vigencia.'],
+    depresion_preocupacion:['Estado de ánimo y seguridad','Malestar afectivo y preocupaciones.'],
+    amenaza_ataque:['Ira y convivencia','Ira o conducta que requiere indagación sobre seguridad interpersonal.'],
+    antisocial:['Ira y convivencia','Actitudes frente a normas y convivencia.'],
+    ira:['Ira y convivencia','Expresión o regulación del enojo.'],
+    estres_alcohol:['Consumo de sustancias','Impacto del consumo de alcohol.'],
+    sustancias:['Consumo de sustancias','Experiencias relacionadas con consumo.'],
+    confusion_mental:['Atención y experiencias inusuales','Dificultades percibidas de atención o confusión.'],
+    persecucion:['Atención y experiencias inusuales','Percepción de amenaza o desconfianza.'],
+    pensamiento_desviado:['Atención y experiencias inusuales','Experiencias o pensamientos inusuales.'],
+    creencias_desviadas:['Atención y experiencias inusuales','Creencias que requieren contexto.'],
+    sueno:['Sueño','Dificultades relacionadas con el sueño.'],
+    somaticos:['Bienestar físico','Molestias corporales o preocupación por la salud.'],
+    familia:['Relaciones familiares','Tensiones o experiencias en el contexto familiar.'],
+    sexual:['Experiencias e inquietudes sobre sexualidad','Experiencias o preocupaciones relacionadas con la sexualidad.']
+  },
+  LEGEND:'Las puntuaciones T se interpretan frente al grupo de referencia. T = 50 es el centro de la escala. En este informe, los rangos descriptivos son Bajo (≤39), Habitual (40–55), Promedio superior (56–59), Alto (60–69) y Muy alto (≥70). Los indicadores de validez conservan sus propios criterios.',
+  SUPPLEMENTARY_CONTENT:{
+    A:'Malestar y tensión informados.',R:'Estilo de expresión y control emocional.',
+    AAS:'Reconocimiento informado de dificultades de consumo.',APS:'Contenido que orienta a explorar vulnerabilidad al consumo.',
+    MDS:'Tensiones y satisfacción en las relaciones de pareja.',Ho:'Hostilidad o desconfianza informadas.',
+    'O-H':'Forma de manejar la expresión del enojo.',Do:'Afirmación interpersonal en los contextos evaluados.',
+    Re:'Responsabilidad y cumplimiento según la autodescripción.',Mt:'Malestar en contenidos desarrollados para población estudiantil.',
+    PK:'Síntomas relacionados con estrés. Contraste exposición, curso e impacto funcional.'
+  },
+  _literalCache:new WeakMap(),
+
+  country(c){return ['ES','US','MX'].includes(c.patient?.country)?c.patient.country:'US';},
+  defaultOptions(){return {...ReportSections.DEFAULTS};},
+  options(c){return ReportSections.options(c);},
+  optionCatalog(c){return ReportSections.catalog(c);},
+
+  _fmtDate(iso){
+    if(!iso)return 'No consta';
+    const d=/^\d{4}-\d{2}-\d{2}$/.test(iso)?new Date(iso+'T12:00:00-05:00'):new Date(iso);
+    return Number.isNaN(d.getTime())?String(iso):d.toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric',timeZone:'America/Bogota'});
   },
 
-  _fmtDate(iso) {
-    if (!iso) return '—';
-    const d = /^\d{4}-\d{2}-\d{2}$/.test(iso) ? new Date(iso + 'T12:00:00') : new Date(iso);
-    if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+  levelLabel(t,bound=''){
+    if(!Number.isFinite(t))return '—';
+    if(bound&&!(bound==='≤'&&t<=39)&&!(bound==='≥'&&t>=70))return 'Límite de tabla';
+    return t>=70?'Muy alto':t>=60?'Alto':t>=56?'Promedio superior':t>=40?'Habitual':'Bajo';
   },
+  levelKey(t){return !Number.isFinite(t)?'nd':t>=70?'vh':t>=60?'h':t>=56?'ps':t>=40?'m':'lo';},
 
-  levelLabel(t) {
-    if (typeof t !== 'number') return '—';
-    if (t >= 70) return 'Muy alto';
-    if (t >= 60) return 'Alto';
-    if (t >= 56) return 'Promedio-superior';
-    if (t >= 40) return 'Medio';
-    return 'Bajo';
-  },
-  levelKey(t) {
-    if (typeof t !== 'number') return 'nd';
-    if (t >= 70) return 'vh';
-    if (t >= 60) return 'h';
-    if (t >= 56) return 'ps';
-    if (t >= 40) return 'm';
-    return 'lo';
-  },
-
-  /* ============================================
-     BUILD
-     ============================================ */
-  build(caseData, evaluator, optsOverride) {
-    const I = window.Interpret;
-    const p = caseData.patient || {};
-    const R = caseData.results || {};
-    const ev = evaluator || {};
-    const o = Object.assign(this.options(caseData), optsOverride || {});
-    const sex = p.sex;
-    const country = (p.country === 'ES' || p.country === 'US' || p.country === 'MX') ? p.country : 'US';
-    const blocks = [];
-    let fig = 0, tab = 0, sec = 0;
-    const H1 = (text) => blocks.push({ t: 'h1', text: `${++sec}. ${text}` });
-    const H2 = (num, text) => blocks.push({ t: 'h2', text: `${num} ${text}` });
-
-    // ---- Encabezado ----
-    blocks.push({ t: 'title', text: 'Informe de evaluación psicológica', subtitle: 'Inventario Multifásico de Personalidad de Minnesota-2 (MMPI-2)' });
-
-    // ---- 1. Identificación ----
-    H1('Datos de identificación');
-    const idRows = [['Nombre', p.name || '—']];
-    if (o.id_document) idRows.push(['Documento', p.document || '—']);
-    if (o.id_dob) idRows.push(['Fecha de nacimiento', this._fmtDate(p.dob)]);
-    idRows.push(['Edad', p.age != null ? p.age + ' años' : '—']);
-    idRows.push(['Sexo', sex === 'M' ? 'Mujer' : (sex === 'H' ? 'Hombre' : '—')]);
-    idRows.push(['Contexto de evaluación', p.context || '—']);
-    idRows.push(['Fecha de aplicación', this._fmtDate(p.applicationDate)]);
-    idRows.push(['Fecha del informe', this._fmtDate(new Date().toISOString())]);
-    idRows.push(['Baremo', this.COUNTRY_LABEL[country]]);
-    if (o.id_mode) idRows.push(['Modalidad', caseData.captureMode === 'Excel' ? 'Respuestas cargadas desde hoja de cálculo' : (caseData.captureMode || '—')]);
-    idRows.push(['Evaluador/a', ev.name || '—']);
-    blocks.push({ t: 'idbox', rows: idRows });
-
-    // ---- 2. Información del caso ----
-    const infoFields = [];
-    if (o.info_reason && p.reason) infoFields.push(['Motivo de evaluación', p.reason]);
-    if (o.info_history && p.history) infoFields.push(['Antecedentes', p.history]);
-    if (o.info_caseHistory && p.caseHistory) infoFields.push(['Historia del caso', p.caseHistory]);
-    if (o.info_legal && p.legalContext) infoFields.push(['Contexto pericial', p.legalContext]);
-    if (infoFields.length) {
-      H1('Información del caso');
-      infoFields.forEach(([label, text]) => blocks.push({ t: 'field', label, text }));
+  score(c,code){
+    const r=c.results?.[code]||{},p=c.patient||{},country=this.country(c);
+    const t=Number.isFinite(r.t)?r.t:null;
+    let bound=r.bound||'',direction=['V','F'].includes(r.direction)?r.direction:'';
+    if(t!=null&&r.verify&&!bound&&window.MMPI2?.lookupT){
+      const lookup=MMPI2.lookupT(code,r.pdk?r.pdK:r.pd,p.sex,country);
+      if(lookup.t===t&&lookup.ceiling)bound='≥';
     }
-
-    // ---- 3. Perfil de escalas ----
-    const validity = I.verdict(R);
-    const covAll = I.coverage(R);
-    H1('Perfil de escalas');
-    blocks.push({ t: 'p', cls: 'note', text: `Puntuaciones T obtenidas con el baremo ${this.COUNTRY_LABEL[country].toLowerCase()}. Se considera clínicamente significativa una puntuación T ≥ 65; el rango 60–64 se interpreta como elevación moderada. Escalas con T documentada: ${covAll.documented} de ${covAll.total}.` });
-    if (validity.status === 'NO_INTERPRETABLE') {
-      blocks.push({ t: 'banner', level: 'danger', text: 'Protocolo no interpretable: ' + (validity.reasons || []).join(' ') + ' Las interpretaciones de las escalas sustantivas se presentan solo a título descriptivo.' });
+    const constant=window.__VRIN_TRIN_PAIRS__?.TRIN?.constant;
+    if(t!=null&&code==='TRIN'&&!direction&&country==='US'&&Number.isFinite(r.pd)&&Number.isFinite(constant)){
+      direction=r.pd===constant?'':r.pd>constant?'V':'F';
     }
-    const groups = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias'].concat(o.sec_psy5 && I.GROUP_ORDER['PSY-5'].some(c => R[c] && typeof R[c].t === 'number') ? ['PSY-5'] : []).concat(o.sec_subscales ? ['Subescalas'] : []);
-    groups.forEach((g, gi) => {
-      const num = `${sec}.${gi + 1}`;
-      const codes = I.GROUP_ORDER[g].filter(c => R[c]);
-      if (!codes.length) return;
-      H2(num, this.GROUP_TITLES[g]);
-      const cov = I.coverage(R, codes);
-      // Tabla
-      const columns = ['Escala', 'Nombre', 'PD', 'PD+K', 'T', 'Nivel'].concat(o.tbl_descriptors ? ['Lectura breve'] : []);
-      const rows = codes.map(c => {
-        const r = R[c];
-        const tv = typeof r.t === 'number' ? r.t : null;
-        const pdk = r.pdk ? (r.pdK != null ? r.pdK : '—') : '—';
-        const desc = o.tbl_descriptors ? [tv == null ? I.statusReason(r) : (tv >= 60 ? I.g((I.KB[c] || {}).s || '', sex) : (tv <= 39 && I.loText(c, sex) ? I.loText(c, sex) : 'Sin elevación'))] : [];
-        return { cells: [c, g === 'Validez' ? I.VALIDITY_NAMES[c] : I.name(c), r.pd != null ? r.pd : '—', pdk, tv != null ? (r.verify ? tv + '*' : tv) : 'N/D', this.levelLabel(tv)].concat(desc), level: this.levelKey(tv) };
+    return {...r,t,bound,direction,published:t==null?'—':bound+t+direction+(r.verify?'*':'')};
+  },
+
+  groups(o){
+    return ['Validez','Clínicas','Contenido','Suplementarias',...(o.sec_psy5?['PSY-5']:[]),...(o.sec_subscales?['Subescalas']:[])];
+  },
+
+  readings(r,code,invalid=false){
+    const t=r.t;
+    if(t==null)return code==='Es'&&Number.isFinite(r.pd)?
+      'PD '+r.pd+'. Conversión T pendiente en el baremo seleccionado.':
+      'Conversión T pendiente. '+Interpret.statusReason(r)+'.';
+    switch(code){
+      case 'VRIN':return t>=80?'La inconsistencia en pares alcanza el umbral de invalidez.':
+        t>=70?'Revise la consistencia entre pares y las condiciones de aplicación.':'El índice apoya la consistencia de los pares evaluados.';
+      case 'TRIN':return (r.direction?'Dirección '+r.direction+' ('+(r.direction==='V'?'verdadero':'falso')+') en los pares evaluados. ':'')+
+        (t>=80?'El patrón fijo alcanza el umbral de invalidez.':t>=70?'Revise el patrón de respuesta fija.':'Por debajo del umbral de invalidez.');
+      case 'F':return 'Infrecuencia en el bloque inicial. Integre el malestar referido, la consistencia y las condiciones de aplicación.';
+      case 'Fb':return 'Infrecuencia en el bloque posterior. Contraste con F y las condiciones de aplicación.';
+      case 'Fp':return 'Infrecuencia respecto de muestras clínicas. Considere conjuntamente F, Fb y la información de entrevista.';
+      case 'L':return t>=65?'Explore una posible presentación favorable. Contraste con K, S y la entrevista.':
+        'Examine la presentación de sí junto con K y S.';
+      case 'K':return (this.levelLabel(t)==='Habitual'?'Rango habitual. ':'')+'Integre la presentación de sí con L y S.';
+      case 'S':return (this.levelLabel(t)==='Habitual'?'Rango habitual. ':'')+'Considere la autopresentación junto con L y K.';
+    }
+    if(invalid)return 'Lectura clínica suspendida por los indicadores de validez.';
+    if(r.verify)return 'Conversión marcada para verificación. Lectura provisional.';
+    if(['Mf','GM','GF'].includes(code))return 'Intereses y preferencias en el marco del instrumento y del grupo normativo.';
+    if(code==='Es'&&t<=39)return 'Explore posibles dificultades para movilizar estrategias y apoyos de afrontamiento frente a las demandas actuales.';
+    if(this.SUPPLEMENTARY_CONTENT[code])return this.levelLabel(t,r.bound)+'. '+this.SUPPLEMENTARY_CONTENT[code];
+    if(t>=60)return 'Elevación descriptiva. Contraste su significado con el perfil y la entrevista.';
+    return this.levelLabel(t,r.bound)+'. Integre el dato con el resto del perfil.';
+  },
+
+  criticalRows(c,o=this.options(c),withLiteral=false){
+    const result=window.Critical?.compute(c.responses,c.patient?.sex);
+    const found=new Map();
+    for(const family of ['KB','LW']){
+      if(family==='KB'&&!o.sec_critical||family==='LW'&&!o.sec_critical_lw)continue;
+      for(const series of result?.sets[family]?.series||[]){
+        const [theme,summary]=this.TOPICS[series.key]||['Otros contenidos','Contenido que requiere entrevista.'];
+        for(const item of series.endorsed){
+          const row=found.get(item.num)||{item:item.num,response:item.dir,theme,summaries:new Set(),families:new Set(),
+            ...(withLiteral&&o.critical_literal?{literal:item.text}: {})};
+          row.summaries.add(summary);
+          row.families.add(family);
+          found.set(item.num,row);
+        }
+      }
+    }
+    return [...found.values()].sort((a,b)=>a.theme.localeCompare(b.theme,'es')||a.item-b.item)
+      .map(({summaries,families,...row})=>({...row,summary:[...summaries].join(' '),families:[...families]}));
+  },
+
+  _withoutLiterals(text){
+    const bank=window.__ITEMS__;
+    if(!Array.isArray(bank)||!text)return text;
+    if(!this._literalCache.has(bank)){
+      const escaped=[...new Set(bank.map(row=>String(row?.text||'').trim().replace(/[.,;!?]+$/,'')).filter(Boolean))]
+        .sort((a,b)=>b.length-a.length).map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\s+/g,'\\s+'));
+      this._literalCache.set(bank,escaped.length?new RegExp('(?<![\\p{L}\\p{N}])(?:'+escaped.join('|')+')(?![\\p{L}\\p{N}])','giu'):null);
+    }
+    const pattern=this._literalCache.get(bank);
+    return pattern?text.replace(pattern,'[Contenido literal reservado]'):text;
+  },
+
+  cleanText(c,value,o=this.options(c)){
+    let text=this._withoutLiterals(String(value??'')).trim()
+      .replace(/\bbanda\s*(?:\/\s*puntuaci[oó]n\s*)?modal\b/giu,'rango habitual')
+      .replace(/\bpuntuaci[oó]n\s+modal\b/giu,'puntuación en rango habitual');
+    if(!o.info_request_context)text=text.replace(/\bpericial(?:es)?\b/giu,'de evaluación')
+      .replace(/\bperit[oa]s?\b/giu,'profesional').replace(/\bdict[aá]men(?:es)?\b/giu,'informe');
+    if(this.country(c)==='US')text=text.replace(/TEA\s*corrige/gi,'plataforma ajena al baremo aplicado');
+    return text;
+  },
+
+  _key(text){return String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/^\s*\d+[.)]\s*/,'').replace(/[^a-z0-9]+/g,' ').trim();},
+
+  _sectionId(section){
+    if(section?.id)return Object.hasOwn(ReportSections.TITLES,section.id)?section.id:null;
+    const key=this._key(section?.titulo);
+    return Object.keys(ReportSections.TITLES).find(id=>this._key(ReportSections.TITLES[id])===key)||this.LEGACY_TITLES[key]||null;
+  },
+
+  _scoreIssues(c,text,o=this.options(c),section){
+    const known=new Map(Object.keys(c.results||{}).filter(code=>code!=='_meta').map(code=>[code.toLowerCase(),code]));
+    const previous=o.sec_compare&&(section==='contraste'||/\b(?:anterior|previ[ao])\b/i.test(text))?ReportSections.prior(c).rows:[];
+    const re=/\b([A-Za-z][A-Za-z0-9-]*)\s*(?:\(\s*)?(?:T\s*(?:(?:[:=]|de)\s*)?|=\s*)([≤≥<>]?)\s*(\d{1,3})([VF]?)(\*?)(?![\d.])/gi;
+    const issues=[];
+    for(const match of String(text).matchAll(re)){
+      const code=known.get(match[1].toLowerCase());
+      if(!code)continue;
+      const score=this.score(c,code),provided=match[2]+match[3]+match[4].toUpperCase()+match[5];
+      if(provided===score.published||previous.some(row=>row.code===code&&row.previous===provided))continue;
+      issues.push(code+' ('+provided+' frente a '+(score.t==null?'T pendiente':score.published)+')');
+    }
+    return [...new Set(issues)];
+  },
+
+  _aiBlocks(section,c,o){
+    const convert=value=>this.cleanText(c,value,o);
+    const input=Array.isArray(section.bloques)?section.bloques:
+      typeof section.contenido==='string'?section.contenido.split(/\n\s*\n/).map(contenido=>({tipo:'parrafo',contenido})):[];
+    return input.flatMap(b=>{
+      if(!b||typeof b!=='object')return [];
+      const kind=this._key(b.tipo);
+      if(kind==='parrafo'&&typeof b.contenido==='string'){
+        const text=convert(b.contenido);
+        return text?[{t:'p',text}]:[];
+      }
+      if(kind==='lista'&&Array.isArray(b.items)){
+        const items=b.items.filter(value=>typeof value==='string').map(convert).filter(Boolean);
+        return items.length?[{t:'list',items}]:[];
+      }
+      if(kind==='tabla'&&Array.isArray(b.columnas)&&Array.isArray(b.filas)){
+        const cols=b.columnas.filter(x=>typeof x==='string');
+        if(!cols.length||cols.length!==b.columnas.length||cols.some(x=>/^(?:pd|t)(?:\s|$)|(?:escala|identificaci[oó]n|enunciado literal)/i.test(x)))return [];
+        const rows=b.filas.filter(row=>Array.isArray(row)&&row.length===cols.length&&row.every(x=>x==null||['string','number'].includes(typeof x)));
+        if(rows.length)return [{t:'table',caption:convert(b.titulo)||'Síntesis cualitativa',columns:cols.map(convert),rows:rows.map(row=>({cells:row.map(convert)}))}];
+      }
+      return [];
+    });
+  },
+
+  parseAI(input,c,{strict=false}={}){
+    const value=input?.report&&Array.isArray(input.report.secciones)?input.report:input;
+    if(!Array.isArray(value?.secciones)||!value.secciones.length||value.secciones.length>80){
+      throw new Error('El JSON debe contener un arreglo de secciones con interpretación.');
+    }
+    const o=this.options(c),plan=ReportSections.plan(c,o),active=new Set(plan.map(x=>x.id));
+    const reserved=new Set(['encabezado','identificacion','criticos','alcance']);
+    if(Interpret.verdict(c.results||{}).status==='NO_INTERPRETABLE'){
+      for(const id of active)if(!['tecnica','validez','limitaciones'].includes(id))reserved.add(id);
+    }
+    if(!ReportSections.has(c.patient?.mentalExam))reserved.add('examen');
+    if(!ReportSections.interview(c))reserved.add('impresion');
+    if(!ReportSections.has(c.patient?.strengths)&&!ReportSections.interview(c))reserved.add('recursos');
+    const modern=value.secciones.some(s=>s?.id);
+    const map=new Map(),issues=[];
+    for(const [index,section] of value.secciones.entries()){
+      const id=this._sectionId(section);
+      if(strict&&modern&&(!id||section.numero!==index+1||map.has(id))){
+        throw new Error('Revise los identificadores, las secciones repetidas y la numeración continua del JSON.');
+      }
+      if(!id)continue;
+      const blocks=(!active.has(id)||reserved.has(id))?[]:this._aiBlocks(section,c,o).filter(b=>{
+        const text=b.text||b.items?.join(' ')||b.rows?.flatMap(r=>r.cells).join(' ')||'';
+        if(!o.sec_psy5&&/\b(?:PSY[- ]?5|AGGR|PSYC|DISC|NEGE|INTR)\b/i.test(text))return false;
+        if(!o.sec_clusters&&/\bcl[uú]ster(?:es)?\b/i.test(text))return false;
+        const found=this._scoreIssues(c,text,o,id);
+        issues.push(...found);
+        return !found.length;
       });
-      const notes = [];
-      if (cov.missing.length) notes.push(`T documentada en ${cov.documented} de ${cov.total} escalas.`);
-      if (cov.verify.length) notes.push('* T a verificar: la puntuación directa cae en un tramo de la tabla del baremo con inconsistencias; confírmela en el manual o en el sistema oficial de corrección.');
-      if (g === 'Clínicas' && R.Mf && R.Mf.key && R.Mf.key !== 'Mf') notes.push(`Mf corregida con la clave femenina (${R.Mf.key}).`);
-      blocks.push({ t: 'table', num: ++tab, caption: `${this.GROUP_TITLES[g]}: puntuaciones directas (PD), corregidas por K (PD+K) y típicas (T)`, columns, rows, tCol: 4, levelCol: 5, footnote: notes.length ? notes.join(' ') : null });
-      // Interpretación
-      blocks.push({ t: 'interp', title: 'Interpretación', text: I.groupParagraph(g, R, sex) });
-      // Gráfica
-      if (o.sec_charts) {
-        blocks.push({ t: 'chart', num: ++fig, caption: `Perfil de ${this.GROUP_TITLES[g].charAt(0).toLowerCase() + this.GROUP_TITLES[g].slice(1)}`, spec: {
-          kind: 'profile', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65], yMin: 30,
-        } });
-      }
-    });
-
-    // ---- 4. Análisis de resultados ----
-    H1('Análisis de resultados');
-    let an = 0;
-    // 4.1 Validez y estilo de respuesta
-    {
-      const fl = I.validityFlags(R, R._meta ? R._meta.omissions : null);
-      H2(`${sec}.${++an}`, 'Validez y estilo de respuesta');
-      const vRows = [];
-      const fmt = (v) => v == null ? 'N/D' : v;
-      if (fl.omissions != null) vRows.push({ cells: ['Ítems sin responder', fl.omissions, '≥ 30 invalida; 10–29 cautela', fl.invalidOmit ? 'Invalidante' : (fl.cautionOmit ? 'Cautela' : 'Adecuado')], level: fl.invalidOmit ? 'vh' : (fl.cautionOmit ? 'h' : 'm') });
-      vRows.push({ cells: ['Consistencia (VRIN / TRIN)', `${fmt(fl.V)} / ${fmt(fl.TR)}`, 'T ≥ 80 invalida; 70–79 cautela', fl.inconsistent ? 'Inconsistente' : (fl.someInconsistency ? 'Cautela' : 'Consistente')], level: fl.inconsistent ? 'vh' : (fl.someInconsistency ? 'h' : 'm') });
-      vRows.push({ cells: ['Sobrerreporte (F / Fb / Fp)', `${fmt(fl.F)} / ${fmt(fl.Fb)} / ${fmt(fl.Fp)}`, 'F ≥ 80 o Fp ≥ 70: posible exageración', fl.overInvalid ? 'Probable exageración' : (fl.overPossible ? 'Posible amplificación' : (fl.openDistress ? 'Reconoce malestar' : 'Sin indicios'))], level: fl.overInvalid ? 'vh' : (fl.overPossible ? 'h' : 'm') });
-      vRows.push({ cells: ['Infrarreporte (L / K / S)', `${fmt(fl.L)} / ${fmt(fl.K)} / ${fmt(fl.S)}`, 'L ≥ 65, K ≥ 65 o S ≥ 70: defensividad', fl.underInvalid ? 'Defensividad invalidante' : (fl.under ? 'Defensividad' : (fl.selfCritical ? 'Autocrítica' : 'Sin indicios'))], level: fl.underInvalid ? 'vh' : (fl.under ? 'h' : 'm') });
-      if (fl.fk != null) vRows.push({ cells: ['Índice F − K (PD)', (fl.fk > 0 ? '+' : '') + fl.fk, '≥ +11 exageración; ≤ −11 defensividad', fl.fk >= 11 ? 'Exageración' : (fl.fk <= -11 ? 'Defensividad' : 'Rango esperado')], level: Math.abs(fl.fk) >= 11 ? 'h' : 'm' });
-      blocks.push({ t: 'table', num: ++tab, caption: 'Indicadores de validez del protocolo', columns: ['Indicador', 'Valor', 'Criterio', 'Lectura'], rows: vRows, levelCol: 3 });
-      let txt = `El conjunto de indicadores permite considerar el protocolo ${validity.label}.`;
-      if (validity.status === 'NO_INTERPRETABLE') txt += ' Motivos: ' + validity.reasons.join(' ') + ' Las puntuaciones clínicas se presentan solo de forma descriptiva y no deben sustentar conclusiones sin corroboración externa.';
-      else if (fl.overPossible) txt += ' El patrón de sobrerreporte no alcanza el nivel invalidante, pero aconseja leer la magnitud de las elevaciones clínicas como un límite superior y buscar convergencia con otras fuentes antes de afirmar la intensidad de los síntomas.';
-      if (fl.under) txt += ' La tendencia defensiva implica que las elevaciones observadas probablemente subestiman el malestar real.';
-      if (!fl.overPossible && !fl.under && validity.status === 'INTERPRETABLE') txt += ' No hay indicios de exageración ni de minimización, por lo que las puntuaciones clínicas pueden interpretarse de forma directa.';
-      blocks.push({ t: 'interp', title: 'Interpretación', text: txt });
-      if (o.sec_charts) {
-        const vc = ['VRIN', 'TRIN', 'F', 'Fb', 'Fp', 'L', 'K', 'S'].filter(c => R[c]);
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Indicadores de validez ordenados de mayor a menor', spec: {
-          kind: 'barh', labels: vc.slice().sort((a, b) => (I.T(R, b) || 0) - (I.T(R, a) || 0)), series: [{ name: 'T', data: [] }], refs: [50, 65],
-        } });
-        const last = blocks[blocks.length - 1].spec; last.series[0].data = last.labels.map(c => I.T(R, c));
-      }
+      map.set(id,[...(map.get(id)||[]),...blocks]);
     }
-    // 4.2 Distribución
-    {
-      H2(`${sec}.${++an}`, 'Distribución de las elevaciones por grupo de escalas');
-      const dist = I.distribution(R).filter(r => r.group !== 'Validez' && (o.sec_subscales || r.group !== 'Subescalas'));
-      blocks.push({ t: 'table', num: ++tab, caption: 'Número de escalas por nivel de puntuación T', columns: ['Grupo', 'Escalas', 'T documentada', 'Muy alto (≥ 70)', 'Alto (60–69)', 'Prom.-sup. (56–59)', 'Medio (40–55)', 'Bajo (≤ 39)'],
-        rows: dist.map(r => ({ cells: [this.GROUP_TITLES[r.group].replace(' de Harris-Lingoes y de Introversión social', ''), r.total, r.documented, r.vh, r.h, r.ps, r.m, r.lo] })) });
-      blocks.push({ t: 'interp', title: 'Interpretación', text: I.distributionParagraph(R, sex) });
-      if (o.sec_charts) {
-        const short = { Clínicas: 'Clínicas', Contenido: 'Contenido', Suplementarias: 'Suplementarias', Subescalas: 'Subescalas' };
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Distribución de escalas por nivel en cada grupo', spec: {
-          kind: 'stacked', labels: dist.map(r => short[r.group]),
-          series: [
-            { name: 'Muy alto (≥70)', data: dist.map(r => r.vh) }, { name: 'Alto (60–69)', data: dist.map(r => r.h) },
-            { name: 'Prom.-sup. (56–59)', data: dist.map(r => r.ps) }, { name: 'Medio (40–55)', data: dist.map(r => r.m) },
-            { name: 'Bajo (≤39)', data: dist.map(r => r.lo) },
-          ],
-        } });
-      }
-    }
-    // 4.3 Escalas significativas
-    {
-      H2(`${sec}.${++an}`, 'Escalas con elevación clínicamente significativa');
-      let sig = I.significant(R);
-      if (!o.sec_subscales) sig = sig.filter(s => s.group !== 'Subescalas');
-      if (sig.length) {
-        blocks.push({ t: 'table', num: ++tab, caption: 'Escalas sustantivas con T ≥ 65, de mayor a menor', columns: ['Escala', 'Nombre', 'Grupo', 'T', 'Nivel'],
-          rows: sig.map(s => ({ cells: [s.code, I.name(s.code), s.group, s.t, this.levelLabel(s.t)], level: this.levelKey(s.t) })), tCol: 3, levelCol: 4 });
-      }
-      blocks.push({ t: 'interp', title: 'Interpretación', text: I.significantParagraph(R, sex) });
-      if (o.sec_charts && sig.length) {
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Escalas con elevación clínicamente significativa', spec: {
-          kind: 'barh', labels: sig.map(s => s.code), series: [{ name: 'T', data: sig.map(s => s.t) }], refs: [65],
-        } });
-      }
-    }
-    // 4.4 Configuración del perfil clínico
-    {
-      H2(`${sec}.${++an}`, 'Configuración del perfil clínico');
-      const ct = I.codeType(R);
-      const cfgs = I.configs(R);
-      const rows = [];
-      rows.push({ cells: ['Código de dos puntos', ct ? ct.code + ' (' + ct.scales.join('-') + ')' : 'Sin elevaciones ≥ 65', ct ? (ct.defined ? 'Bien definido' : 'Poco definido') : '—'] });
-      if (cfgs.length) cfgs.forEach(c => rows.push({ cells: ['Configuración', c.name, c.desc] }));
-      else rows.push({ cells: ['Configuraciones clásicas', 'No se detectan', '—'] });
-      blocks.push({ t: 'table', num: ++tab, caption: 'Código del perfil y configuraciones', columns: ['Indicador', 'Resultado', 'Lectura'], rows });
-      let txt = ct ? ct.sentence : 'Ninguna escala clínica alcanza T ≥ 65, por lo que no se establece código del perfil.';
-      if (cfgs.length) txt += ` Además, se ${cfgs.length === 1 ? 'identifica la siguiente configuración' : 'identifican las siguientes configuraciones'}. ` + cfgs.map(c => `${c.name}: ${c.desc}`).join(' ');
-      if (validity.status === 'NO_INTERPRETABLE') txt = 'Dado que el protocolo no es interpretable, no se establece código ni configuración del perfil.';
-      blocks.push({ t: 'interp', title: 'Interpretación', text: txt });
-      if (o.sec_charts) {
-        const clin = ['Hs', 'D', 'Hy', 'Pd', 'Pa', 'Pt', 'Sc', 'Ma'].filter(c => I.T(R, c) != null).sort((a, b) => I.T(R, b) - I.T(R, a));
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Escalas clínicas ordenadas de mayor a menor (excluidas Mf y Si)', spec: {
-          kind: 'barh', labels: clin, series: [{ name: 'T', data: clin.map(c => I.T(R, c)) }], refs: [50, 65],
-        } });
-      }
-    }
-    // 4.x Áreas de personalidad (PSY-5 → clústeres)
-    if (o.sec_psy5 && I.GROUP_ORDER['PSY-5'].some(c => I.T(R, c) != null)) {
-      H2(`${sec}.${++an}`, 'Rasgos de personalidad por áreas (clústeres DSM-5, lectura dimensional)');
-      const areas = I.clusterAreas(R);
-      const lv = { alto: 'Elevado (T ≥ 65)', moderado: 'Moderado (T 60–64)', no: 'Sin elevación', nd: 'Sin datos' };
-      blocks.push({ t: 'table', num: ++tab, caption: 'Correspondencia conceptual entre las dimensiones PSY-5 y los clústeres de personalidad del DSM-5',
-        columns: ['Clúster', 'Escalas PSY-5 de referencia', 'T máxima', 'Nivel', 'Rasgos del área'],
-        rows: areas.map(a => ({ cells: [a.name, a.scales.map(c => `${c} (${I.T(R, c) ?? 'N/D'})`).join(', '), a.max ?? 'N/D', lv[a.level], a.desc.charAt(0).toUpperCase() + a.desc.slice(1)], level: a.max == null ? null : this.levelKey(a.max) })),
-        tCol: 2, levelCol: 3,
-        footnote: 'Correspondencia orientativa (Harkness et al., 2002; Bagby et al., 2005). No constituye diagnóstico de trastorno de personalidad.' });
-      blocks.push({ t: 'interp', title: 'Interpretación', text: I.psy5Paragraph(R, sex, validity) });
-      if (o.sec_charts) {
-        const codes = ['AGGR', 'PSYC', 'DISC', 'NEGE', 'INTR'].filter(c => I.T(R, c) != null);
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Dimensiones de personalidad PSY-5', spec: { kind: 'barh', labels: codes, series: [{ name: 'T', data: codes.map(c => I.T(R, c)) }], refs: [50, 65] } });
-      }
-    }
-
-    // 4.x Ítems críticos (Koss-Butcher / Lachar-Wrobel)
-    const crit = (window.Critical && (o.sec_critical || o.sec_critical_lw)) ? Critical.compute(caseData.responses, sex) : null;
-    if (crit) {
-      H2(`${sec}.${++an}`, 'Ítems críticos');
-      const lvC = { high: 'vh', mid: 'h', low: 'm', none: null };
-      if (o.sec_critical) {
-        const kb = crit.sets.KB;
-        blocks.push({ t: 'table', num: ++tab, caption: 'Series de ítems críticos de Koss-Butcher (revisadas): ítems reconocidos en la dirección crítica',
-          columns: ['Serie', 'Reconocidos', 'Concentración', 'Ítems'],
-          rows: kb.series.map(s => ({ cells: [s.name, `${s.n} de ${s.total}`, s.conc.label, s.n ? s.endorsed.map(e => e.num + e.dir).join(', ') : '—'], level: lvC[s.conc.key] })), levelCol: 2,
-          footnote: 'V = verdadero; F = falso. Concentración descriptiva: aislada (un ítem o < 25 % de la serie), moderada (25–49 % y al menos dos ítems), marcada (≥ 50 % y al menos dos ítems). No es un baremo. Fuente de las claves: Butcher et al. (2001), Apéndice D, Tabla D-1.' + (crit.omittedCritical ? ` Ítems críticos sin respuesta: ${crit.omittedCritical}.` : '') });
-        const det = [];
-        kb.series.forEach(s => s.endorsed.forEach(e => det.push({ cells: [s.name, String(e.num), e.dir === 'V' ? 'Verdadero' : 'Falso', e.text || '—'], level: (Critical.EXPLICIT_SUICIDE.includes(e.num) ? 'vh' : null) })));
-        if (det.length) blocks.push({ t: 'table', num: ++tab, caption: 'Contenido de los ítems críticos de Koss-Butcher reconocidos', columns: ['Serie', 'Ítem', 'Respuesta', 'Enunciado'], rows: det,
-          footnote: 'Cada afirmación debe verificarse en entrevista; una respuesta aislada no tiene valor diagnóstico.' + (crit.explicitSuicide.length ? ' Resaltados: ítems de contenido suicida explícito.' : '') });
-      }
-      if (o.sec_critical_lw) {
-        blocks.push({ t: 'table', num: ++tab, caption: 'Áreas de ítems críticos de Lachar-Wrobel',
-          columns: ['Área', 'Reconocidos', 'Concentración', 'Ítems'],
-          rows: crit.sets.LW.series.map(s => ({ cells: [s.name, `${s.n} de ${s.total}`, s.conc.label, s.n ? s.endorsed.map(e => e.num + e.dir).join(', ') : '—'], level: lvC[s.conc.key] })), levelCol: 2,
-          footnote: 'Fuente de las claves: Butcher et al. (2001), Apéndice D, Tabla D-2 (ítem 62: verdadero en varones, falso en mujeres).' });
-      }
-      blocks.push({ t: 'interp', title: 'Interpretación', text: Critical.paragraph(crit, R, sex) });
-      if (o.sec_charts) {
-        const ser = o.sec_critical ? crit.sets.KB.series : crit.sets.LW.series;
-        blocks.push({ t: 'chart', num: ++fig, caption: 'Porcentaje de ítems críticos reconocidos por serie' + (o.sec_critical ? ' (Koss-Butcher)' : ' (Lachar-Wrobel)'), spec: {
-          kind: 'pct', labels: ser.map(s => s.name), series: [{ name: '% reconocidos', data: ser.map(s => Math.round(100 * s.n / s.total)) }], refs: [25, 50],
-        } });
-      }
-    }
-
-    // 4.5 Comparación
-    if (o.sec_compare && p.previousMMPI) {
-      const anC = I.comparisonAnalysis(R, p.previousMMPI, p);
-      const rowsC = anC.rows;
-      if (rowsC.length) {
-        H2(`${sec}.${++an}`, 'Comparación con la aplicación anterior');
-        blocks.push({ t: 'table', num: ++tab, caption: 'Cambio entre aplicaciones (Δ = T actual − T anterior)', columns: ['Escala', 'Nombre', 'T anterior', 'T actual', 'Δ', 'Cambio'],
-          rows: rowsC.map(r => ({ cells: [r.code, I.name(r.code), r.prev == null ? `No comparable (${r.prevRaw} ${r.prevLabel})` : (r.approx ? `≈ ${r.prev} (${r.prevRaw} ${r.prevLabel})` : (r.kind !== 'T' ? `${r.prev} (desde PD ${r.prevRaw})` : r.prev)), r.cur != null ? r.cur : 'N/D', r.delta == null ? '—' : (r.approx ? '≈ ' : '') + (r.delta > 0 ? '+' : '') + r.delta, r.change], level: r.delta == null ? null : (r.delta >= 10 ? 'vh' : (r.delta <= -10 ? 'lo' : 'm')) })), levelCol: 5,
-          footnote: [
-            rowsC.some(r => r.approx) ? '≈ Valor anterior convertido de forma aproximada por su puntuación directa implicada (ver interpretación).' : '',
-            !anC.srcCountry ? 'Baremo de la aplicación anterior: no consta.' : `Baremo de la aplicación anterior: ${Previous.COUNTRY_LABEL[anC.srcCountry]}.`,
-            anC.meta.date ? `Fecha de la aplicación anterior: ${Previous._fmtDate(anC.meta.date)}.` : 'Fecha de la aplicación anterior: no consta.',
-          ].filter(Boolean).join(' ') });
-        blocks.push({ t: 'interp', title: 'Interpretación', text: I.comparisonParagraph(R, p.previousMMPI, p) });
-        if (o.sec_charts) {
-          blocks.push({ t: 'chart', num: ++fig, caption: 'Comparación entre la aplicación actual y la anterior', spec: {
-            kind: 'compare', labels: rowsC.map(r => r.code), series: [{ name: 'T actual', data: rowsC.map(r => r.cur) }, { name: 'T anterior' + (rowsC.some(r => r.approx) ? ' (≈ convertida)' : ''), data: rowsC.map(r => r.prev) }], refs: [65], yMin: 30,
-          } });
-        }
-      }
-    }
-
-    // ---- 5. Síntesis integradora ----
-    H1('Síntesis integradora');
-    blocks.push({ t: 'consolidated', text: [I.consolidated(R, p), crit ? Critical.synthesisSentence(crit, validity.status === 'NO_INTERPRETABLE', R) : ''].filter(Boolean).join(' ') });
-
-    // ---- 6. Recomendaciones ----
-    if (o.sec_recs) {
-      H1('Recomendaciones');
-      const baseRecs = I.recommendations(R, validity, sex);
-      const critRecs = crit ? Critical.recommendations(crit).filter(r => !(/consumo/i.test(r) && baseRecs.some(b => /consumo/i.test(b)))) : [];
-      blocks.push({ t: 'list', items: critRecs.concat(baseRecs) });
-    }
-
-    // ---- Evaluador y firma (al final) ----
-    blocks.push({ t: 'signature', evaluator: {
-      name: ev.name || '', profession: ev.profession || 'Psicólogo/a', license: ev.license || '', registry: ev.registry || '',
-      email: ev.email || '', phone: ev.phone || '', address: ev.address || '', signature: ev.signature || null,
-    }, place: o.place || ev.city || '', date: this._fmtDate(new Date().toISOString()) });
-
-    blocks.push({ t: 'footnote', text: `Informe elaborado con la aplicación MMPI-2 a partir de las respuestas del evaluado y del baremo ${this.COUNTRY_LABEL[country].toLowerCase()}. Las interpretaciones son hipótesis actuariales basadas en Butcher et al. (2001) y Graham (2012), deben integrarse con el juicio profesional y no constituyen por sí solas un diagnóstico. Documento confidencial: su uso está restringido al propósito de la evaluación.` });
-
-    return { title: 'Informe MMPI-2 — ' + (p.name || ''), patientName: p.name || '', blocks, validity, coverage: covAll };
+    if(strict&&issues.length)throw new Error('Revise las puntuaciones del texto de IA: '+[...new Set(issues)].slice(0,6).join(' · '));
+    if(strict&&![...map.values()].some(b=>b.length))throw new Error('El JSON carece de interpretación para las secciones activas.');
+    const references=o.sec_references&&Array.isArray(value.referencias)?
+      value.referencias.filter(r=>typeof r==='string').map(r=>this.cleanText(c,r,o)).filter(Boolean):[];
+    return {map,references,issues};
   },
 
-  /* ---------- Modelo a partir del JSON de la IA externa ----------
-     Permite exportar el informe IA con el mismo motor (Word/PDF/HTML),
-     con gráficas reales y la firma al final. */
-  fromAI(parsed, caseData, evaluator) {
-    const p = (caseData && caseData.patient) || {};
-    const ev = evaluator || {};
-    const meta = parsed.metadatos || {};
-    const blocks = [];
-    blocks.push({ t: 'title', text: parsed.titulo || 'Informe de valoración psicológica · MMPI-2', subtitle: 'Inventario Multifásico de Personalidad de Minnesota-2 (MMPI-2)' });
-    blocks.push({ t: 'idbox', rows: [
-      ['Evaluado/a', meta.evaluado || p.name || '—'], ['Documento', meta.documento || p.document || '—'],
-      ['Edad', meta.edad || (p.age != null ? p.age + ' años' : '—')], ['Sexo', meta.sexo || (p.sex === 'M' ? 'Mujer' : (p.sex === 'H' ? 'Hombre' : '—'))],
-      ['Fecha de aplicación', meta.fecha_aplicacion || this._fmtDate(p.applicationDate)], ['Contexto', meta.contexto || p.context || '—'],
-      ['Evaluador/a', meta.evaluador || ev.name || '—'], ['Fecha del informe', meta.fecha_informe || this._fmtDate(new Date().toISOString())],
-    ] });
-    let tab = 0, autoFig = 100;
-    (parsed.secciones || []).forEach((sec, i) => {
-      const n = sec.numero != null ? sec.numero : i + 1;
-      // La identificación ya está en el cuadro superior
-      if (/^ficha de identificaci|^datos de identificaci/i.test(sec.titulo || '')) return;
-      blocks.push({ t: 'h1', text: `${n}. ${sec.titulo || 'Sección ' + n}` });
-      const bloques = Array.isArray(sec.bloques) && sec.bloques.length ? sec.bloques : (sec.contenido ? [{ tipo: 'parrafo', contenido: sec.contenido }] : []);
-      for (const b of bloques) {
-        const tipo = (b && b.tipo || '').toLowerCase();
-        if (tipo === 'parrafo' || (!tipo && b.contenido)) {
-          String(b.contenido || '').split(/\n{2,}/).map(x => x.trim()).filter(Boolean).forEach(par => blocks.push({ t: 'p', text: par }));
-        } else if (tipo === 'tabla') {
-          const columns = Array.isArray(b.columnas) ? b.columnas.map(String) : [];
-          const rows = (Array.isArray(b.filas) ? b.filas : []).map(r => ({ cells: (Array.isArray(r) ? r : [r]).map(c => c == null ? '' : String(c)) }));
-          if (columns.length || rows.length) {
-            const nc = Math.max(columns.length, ...rows.map(r => r.cells.length));
-            rows.forEach(r => { while (r.cells.length < nc) r.cells.push(''); });
-            blocks.push({ t: 'table', num: ++tab, caption: b.titulo || '', columns: columns.length ? columns : Array(nc).fill(''), rows });
+  build(c,evaluator={},override,ai=null){
+    const S=ReportSections,I=Interpret,p=c.patient||{},R=c.results||{},o=S.options(c,false,override);
+    const country=this.country(c),prior=S.prior(c),sections=S.plan(c,o,prior),blocks=[];
+    const verdict=I.verdict(R),invalid=verdict.status==='NO_INTERPRETABLE';
+    const ev={...evaluator,signature:/^data:image\/(?:png|jpe?g);base64,[A-Za-z0-9+/=]+$/i.test(evaluator.signature||'')?evaluator.signature:null};
+    const place=(o.place||ev.city||'').trim(),institution=(o.institution||ev.institution||'').trim();
+    const day=this._fmtDate(c.reportDate||new Date().toISOString());
+    const flags=I.validityFlags(R,R._meta?.omissions);
+    const clean=value=>this.cleanText(c,value,o);
+    const field=value=>clean(value)||'No consta';
+    let tableNo=0,figNo=0,sectionId=null;
+    const push=b=>blocks.push({...b,sectionId});
+    const pText=text=>{if(text)push({t:'p',text});};
+    const h2=text=>push({t:'h2',text});
+    const table=(caption,columns,rows,extra={})=>push({t:'table',num:++tableNo,caption,columns,rows,...extra});
+    const list=items=>{if(items.length)push({t:'list',items});};
+    const chart=(caption,spec)=>{if(o.sec_charts&&spec.series.some(s=>s.data.some(Number.isFinite)))push({t:'chart',num:++figNo,caption,spec});};
+    const take=id=>{
+      if(invalid&&id!=='tecnica'&&id!=='validez'&&id!=='limitaciones')return;
+      for(const block of ai?.map.get(id)||[]){
+        if(block.t==='table')table(block.caption,block.columns,block.rows);
+        else push(block);
+      }
+    };
+    const selectedGroups=this.groups(o);
+    const visiblePrior=prior.rows.filter(row=>selectedGroups.some(g=>I.GROUP_ORDER[g].includes(row.code)));
+    const profile=(group,id)=>{
+      const codes=I.GROUP_ORDER[group].filter(code=>Object.hasOwn(R,code));
+      if(!codes.length){pText('No consta un registro de puntuaciones para este grupo.');return;}
+      const scores=codes.map(code=>this.score(c,code));
+      const header=['Escala','Nombre','PD','PD+K','T','Rango de T',...(o.tbl_descriptors?['Lectura breve']:[])];
+      const rows=codes.map((code,i)=>{
+        const r=scores[i];
+        return {cells:[code,I.name(code),r.pd??'—',r.pdk?r.pdK??'—':'—',r.published,this.levelLabel(r.t,r.bound),
+          ...(o.tbl_descriptors?[clean(this.readings(r,code,invalid))]:[])],level:this.levelKey(r.t)};
+      });
+      const pending=codes.filter((code,i)=>scores[i].t==null);
+      const es=group==='Suplementarias'?scores[codes.indexOf('Es')]:null;
+      const footnotes=[];
+      if(pending.length)footnotes.push('Conversión T pendiente en '+pending.join(', ')+'.');
+      if(scores.some(r=>r.verify))footnotes.push('* Conversión a verificar en la fuente seleccionada.');
+      if(es?.t==null&&Number.isFinite(es?.pd))footnotes.push('Es conserva PD '+es.pd+'.');
+      table(this.GROUP_TITLES[group]+' · puntuaciones directas (PD), corregidas por K (PD+K) y típicas (T)',header,rows,
+        {group,tCol:4,levelCol:5,footnote:footnotes.join(' ')});
+      if(group==='Validez'){
+        const summary=codes.map((code,i)=>code+' ('+scores[i].published+'). '+clean(this.readings(scores[i],code))).join(' ');
+        push({t:'interp',text:summary});
+        pText('Omisiones registradas: '+(flags.omissions??'No consta')+'. Índice F − K (PD): '+(flags.fk??'No consta')+'.');
+        pText('Lectura del protocolo: '+verdict.label+'.');
+        const observations=[];
+        if(flags.overInvalid||flags.overPossible)observations.push('Revise la infrecuencia y el posible impacto del malestar actual. Contraste con la entrevista.');
+        if(flags.underInvalid||flags.under)observations.push('Explore una posible presentación favorable y contraste con otras fuentes.');
+        if(flags.inconsistent||flags.someInconsistency)observations.push('Revise la consistencia del patrón de respuestas y las condiciones de aplicación.');
+        list(observations);
+      }else if(invalid){
+        pText('Las puntuaciones disponibles se presentan para revisión técnica. La interpretación clínica está suspendida.');
+      }else{
+        const noteworthy=codes.map((code,i)=>[code,scores[i]]).filter(([code,r])=>r.t>=65&&!r.verify&&!['Mf','GM','GF'].includes(code))
+          .sort((a,b)=>b[1].t-a[1].t);
+        const summary=noteworthy.length?'Elevaciones de mayor magnitud en el grupo: '+noteworthy.slice(0,4).map(([code,r])=>code+' (T '+r.published+')').join(', ')+'.':
+          'Entre los valores documentados, el grupo carece de elevaciones interpretables de T ≥65.';
+        const context={
+          Clínicas:'Integre el perfil con el motivo, el funcionamiento actual y las condiciones de aplicación.',
+          Contenido:'Contraste los temas reconocidos con su duración, su impacto y la historia documentada.',
+          Suplementarias:'Explore el funcionamiento interpersonal, los recursos y las estrategias de afrontamiento según la historia.',
+          Subescalas:'Lea cada faceta junto con su escala madre. Una elevación aislada en una faceta requiere corroboración.',
+          'PSY-5':'Lea las dimensiones en relación con el funcionamiento actual y su persistencia en distintos contextos.'
+        };
+        push({t:'interp',text:summary+' '+context[group]});
+        if(es?.t!=null&&es.t<=39)pText('Es (T '+es.published+'). '+this.readings(es,'Es'));
+      }
+      if(id)take(id);
+      const esCaption=es?es.t==null?' Es conserva PD '+(es.pd??'—')+' y su T queda pendiente.':' Es: '+es.published+'.':'';
+      chart('Perfil de '+this.GROUP_TITLES[group].toLocaleLowerCase('es')+'.'+esCaption,{
+        kind:group==='PSY-5'?'barh':'profile',labels:codes,series:[{name:'T',data:scores.map(r=>r.t),shown:scores.map(r=>r.published)}],refs:[50,65],yMin:20
+      });
+    };
+
+    push({t:'title',text:'Informe de evaluación psicológica',subtitle:'Inventario Multifásico de Personalidad de Minnesota-2 (MMPI-2)'});
+    for(const section of sections){
+      sectionId=section.id;
+      push({t:'h1',text:section.numero+'. '+section.titulo});
+      switch(section.id){
+        case 'encabezado':
+          if(institution)pText(institution);
+          pText(ai?'Informe contextualizado con IA, sujeto a revisión profesional.':'Informe base de aplicación y corrección.');
+          break;
+        case 'identificacion':
+          push({t:'idbox',rows:[
+            ['Evaluado',p.name||'No consta'],...(o.id_document?[['Documento de identidad',p.document||'No consta']]:[]),
+            ...(o.id_dob?[['Fecha de nacimiento',this._fmtDate(p.dob)]]:[]),['Edad en la aplicación',p.age??'No consta'],
+            ['Sexo normativo',p.sex==='M'?'Mujer':p.sex==='H'?'Hombre':'No consta'],['Fecha de aplicación',this._fmtDate(p.applicationDate)],
+            ['Fecha del informe',day],...(o.id_mode?[['Modalidad de aplicación',c.captureMode||'No consta']]:[]),
+            ['Contexto de evaluación',p.context||'No consta'],['Evaluador',ev.name||'No consta']
+          ]});
+          break;
+        case 'motivo':pText(field(p.reason));take(section.id);break;
+        case 'antecedentes':
+          if(o.info_history){if(S.has(p.caseHistory)&&o.info_caseHistory)h2('Antecedentes');pText(field(p.history));}
+          if(o.info_caseHistory&&S.has(p.caseHistory)){if(o.info_history)h2('Historia del caso');pText(field(p.caseHistory));}
+          take(section.id);break;
+        case 'contexto':pText(field(S.context(p)));take(section.id);break;
+        case 'tecnica':
+          pText('Instrumento de autoinforme de 567 ítems. Referencia normativa seleccionada: '+this.COUNTRY_LABEL[country]+'.');
+          pText(this.LEGEND);
+          if(S.has(p.sources))pText(field(p.sources));
+          take(section.id);break;
+        case 'examen':
+          pText(field(p.mentalExam));
+          if(S.has(p.mentalExam))take(section.id);
+          break;
+        case 'validez': {
+          profile('Validez',section.id);
+          if(window.Critical?.EXPLICIT_SUICIDE.some(item=>c.responses?.[item-1]===1)||window.Critical?.RELATED_SUICIDE.some(item=>c.responses?.[item-1]===1)){
+            pText('Hay contenidos que requieren indagación clínica directa de seguridad. Documente vigencia, intención, medios y apoyos.');
           }
-        } else if (tipo === 'grafico') {
-          const spec = window.Report && Report._aiBlockToSpec ? Report._aiBlockToSpec(b) : null;
-          if (spec) blocks.push({ t: 'chart', num: b.figura != null ? b.figura : ++autoFig, caption: b.titulo || '', spec });
-        } else if (tipo === 'lista' || tipo === 'referencias') {
-          if (b.titulo) blocks.push({ t: 'p', text: b.titulo });
-          const items = (Array.isArray(b.items) ? b.items : []).map(x => typeof x === 'string' ? x : JSON.stringify(x));
-          if (items.length) blocks.push({ t: 'list', items });
+          break;
         }
+        case 'clinicas':profile('Clínicas',section.id);break;
+        case 'contenido':profile('Contenido',section.id);break;
+        case 'suplementarias':
+          profile('Suplementarias',section.id);
+          if(o.sec_psy5){h2('Personalidad PSY-5');profile('PSY-5');}
+          if(o.sec_clusters){
+            h2('Correspondencia con clústeres DSM-5');
+            const rows=I.clusterAreas(R).map(a=>({cells:[a.name,a.scales.join(', '),a.max??'—',invalid?'Lectura suspendida':this.levelLabel(a.max)]}));
+            table('Correspondencia dimensional orientativa',['Clúster','Dimensiones de referencia','T máxima','Lectura'],rows);
+            pText('Correspondencia conceptual para contrastar con entrevista y trayectoria clínica.');
+          }
+          break;
+        case 'subescalas':profile('Subescalas',section.id);break;
+        case 'criticos':{
+          const records=this.criticalRows(c,o,true);
+          if(records.length)table('Contenidos críticos agrupados por tema',
+            ['Ítem','Respuesta','Paráfrasis temática',...(o.critical_literal?['Enunciado literal']:[])],
+            records.map(row=>({cells:[row.item,row.response,row.theme+' · '+row.summary,...(o.critical_literal?[row.literal||'No consta']:[])]})));
+          else pText(Critical.hasResponses(c.responses)?'El registro carece de coincidencias en las familias seleccionadas.':'No constan respuestas para revisar los contenidos críticos.');
+          pText('Los contenidos críticos orientan preguntas de entrevista. La valoración actual del riesgo requiere evaluación directa.');
+          break;
+        }
+        case 'integracion':
+          if(invalid)pText('La formulación clínica queda pendiente de revisar las condiciones de aplicación y los indicadores de validez.');
+          else {
+            const eligible=Object.fromEntries(Object.entries(R).filter(([key,score])=>key==='_meta'||score&&!score.verify&&!score.bound));
+            const code=I.codeType(eligible);
+            if(code)pText('Código descriptivo del perfil clínico: '+code.code+' ('+code.scales.join(', ')+'). '+
+              (code.defined?'La separación entre escalas permite describir el patrón principal.':'La cercanía de otras escalas aconseja una lectura conjunta.'));
+            pText('Relacione las convergencias del perfil con la cronología, el funcionamiento cotidiano y las fuentes disponibles.');
+            if(S.has(p.integration))pText(field(p.integration));
+            take(section.id);
+          }
+          break;
+        case 'recursos':
+          pText(field(p.strengths));
+          if(S.has(p.strengths)||S.interview(c))take(section.id);
+          break;
+        case 'contraste':
+          if(S.has(prior.meta.date))pText('Aplicación anterior del '+this._fmtDate(prior.meta.date)+'.');
+          if(S.has(prior.meta.source))pText('Fuente anterior: '+field(prior.meta.source)+'.');
+          if(visiblePrior.length)table('Puntuaciones anteriores y actuales documentadas',
+            ['Escala','Puntuación anterior','T actual','Diferencia T','Lectura'],
+            visiblePrior.map(row=>({cells:[row.code,row.previous,this.score(c,row.code).published,row.delta??'—',row.change]})));
+          else pText('Los datos anteriores corresponden a escalas fuera de la selección actual.');
+          prior.notes.forEach(pText);
+          take(section.id);
+          {
+            const comparable=visiblePrior.filter(r=>r.delta!=null&&I.GROUP_ORDER.Clínicas.includes(r.code)&&r.code!=='Mf');
+            if(comparable.length)chart('Contraste de escalas clínicas con T comparables.',{
+              kind:'compare',labels:comparable.map(r=>r.code),refs:[50,65],yMin:20,series:[
+                {name:'Actual',data:comparable.map(r=>r.current)},
+                {name:'Anterior',data:comparable.map(r=>r.current-r.delta),shown:comparable.map(r=>r.previous)}
+              ]
+            });
+          }
+          break;
+        case 'impresion':
+          if(invalid||!S.interview(c))pText('Formulación tentativa pendiente de una entrevista clínica suficiente y de un protocolo interpretable.');
+          else {
+            pText(S.has(p.diagnosticImpression)?'Impresión tentativa documentada. '+field(p.diagnosticImpression):'No consta una impresión diagnóstica tentativa documentada.');
+            take(section.id);
+          }
+          break;
+        case 'pronostico':
+          pText(invalid?'Pronóstico pendiente de integrar con resultados interpretables.':field(p.prognosis));
+          take(section.id);break;
+        case 'limitaciones':
+          pText('La aplicabilidad de la referencia normativa seleccionada depende de la población y de las condiciones de aplicación.');
+          if(!S.interview(c))pText('Entrevista clínica suficiente pendiente de documentar.');
+          if(S.has(p.limitations))pText(field(p.limitations));
+          take(section.id);break;
+        case 'conclusiones':
+          pText('Estado del protocolo: '+verdict.label+'. La integración final depende de la entrevista y de las fuentes corroboradas.');
+          take(section.id);break;
+        case 'recomendaciones':
+          pText(S.has(p.recommendations)?field(p.recommendations):'Contraste los hallazgos pertinentes con la entrevista y documente las necesidades de seguimiento.');
+          take(section.id);break;
+        case 'alcance':pText(S.SCOPE);break;
       }
-    });
-    if (Array.isArray(parsed.referencias) && parsed.referencias.length) {
-      blocks.push({ t: 'h1', text: 'Referencias' });
-      blocks.push({ t: 'list', items: parsed.referencias.map(r => typeof r === 'string' ? r : JSON.stringify(r)) });
     }
-    const f = parsed.firma || {};
-    blocks.push({ t: 'signature', evaluator: {
-      name: f.nombre || ev.name || '', profession: f.profesion || ev.profession || 'Psicólogo/a', license: ev.license || '', registry: f.registro || ev.registry || '',
-      email: f.correo || ev.email || '', phone: f.telefono || ev.phone || '', address: f.direccion || ev.address || '', signature: ev.signature || null,
-    }, place: ev.city || '', date: this._fmtDate(new Date().toISOString()) });
-    return { title: 'Informe IA MMPI-2 — ' + (p.name || ''), patientName: meta.evaluado || p.name || '', blocks };
+    sectionId=null;
+    const references=o.sec_references?[...new Set([
+      'Butcher, J. N. et al. (2001). MMPI-2: Manual for administration, scoring, and interpretation. University of Minnesota Press.',
+      ...(ai?.references||[])
+    ])]:[];
+    if(references.length){push({t:'h1',text:'Referencias técnicas'});list(references);}
+    push({t:'h1',text:'Evaluador y firma'});
+    push({t:'signature',evaluator:ev,place,institution,date:day});
+    return {title:(ai?'Informe IA MMPI-2':'Informe MMPI-2')+' · '+(p.name||''),patientName:p.name||'',
+      blocks,sections,references,evaluator:ev,place,institution,issues:ai?.issues||[]};
   },
 
-  /* Generar imágenes PNG de todas las gráficas del modelo (para exportar) */
-  chartImages(model) {
-    const imgs = {};
-    for (const b of model.blocks) {
-      if (b.t !== 'chart') continue;
-      try { imgs[b.num] = window.ReportCharts.toImage(b.spec, 900); }
-      catch (e) { console.warn('No se pudo generar la imagen de la figura', b.num, e); }
-    }
-    return imgs;
+  fromAI(parsed,c,evaluator){
+    let ai;
+    try{ai=this.parseAI(parsed,c);}
+    catch(error){ai={map:new Map(),references:[],issues:[error.message]};}
+    return this.build(c,evaluator,null,ai);
   },
+
+  serialize(model){
+    const blocks=b=>{
+      if(['p','interp','banner','footnote','consolidated'].includes(b.t))return {tipo:'parrafo',contenido:b.text};
+      if(b.t==='list')return {tipo:'lista',items:b.items};
+      if(b.t==='idbox')return {tipo:'tabla',titulo:'Ficha de identificación',columnas:['Campo','Valor'],filas:b.rows};
+      if(b.t==='table')return {tipo:'tabla',titulo:b.caption,columnas:b.columns,filas:b.rows.map(r=>r.cells)};
+      if(b.t==='chart')return {tipo:'grafico',figura:b.num,titulo:b.caption,etiquetas:b.spec.labels,series:b.spec.series};
+      return null;
+    };
+    return {titulo:model.title,secciones:model.sections.map(section=>({...section,
+      bloques:model.blocks.filter(b=>b.sectionId===section.id).map(blocks).filter(Boolean)})),
+      referencias:model.references,
+      firma:{nombre:model.evaluator.name||'',lugar:model.place,...(model.institution?{institucion:model.institution}:{})}};
+  },
+
+  toText(model){
+    return model.blocks.map(b=>{
+      if(b.t==='idbox')return b.rows.map(row=>row.join(' · ')).join('\n');
+      if(b.t==='table')return ['Tabla '+b.num+'. '+b.caption,b.columns.join(' | '),
+        ...b.rows.map(row=>row.cells.join(' | ')),b.footnote].filter(Boolean).join('\n');
+      if(b.t==='chart')return 'Figura '+b.num+'. '+b.caption+'\n'+b.spec.series.map(s=>
+        s.name+' · '+b.spec.labels.map((label,i)=>label+' '+(s.shown?.[i]??s.data[i]??'—')).join(' | ')).join('\n');
+      if(b.t==='list')return b.items.map(item=>'• '+item).join('\n');
+      if(b.t==='signature')return [b.institution,b.place,b.date,b.evaluator.name,b.evaluator.license,b.evaluator.registry].filter(Boolean).join('\n');
+      if(b.t==='title')return b.text+'\n'+b.subtitle;
+      return b.text||'';
+    }).filter(Boolean).join('\n\n');
+  },
+
+  chartImages(model){
+    const images={};
+    for(const b of model.blocks)if(b.t==='chart'){
+      try{images[b.num]=ReportCharts.toImage(b.spec,900);}
+      catch(error){console.warn('No se pudo generar la imagen de la figura',b.num,error);}
+    }
+    return images;
+  }
 };
-
-window.ReportModel = ReportModel;
+window.ReportModel=ReportModel;

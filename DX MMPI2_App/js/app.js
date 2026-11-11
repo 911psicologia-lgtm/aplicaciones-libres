@@ -16,7 +16,17 @@ const App = {
       capture: window.Capture,
       report: window.Report,
       cases: window.Cases,
+      activation: window.Activation,
     };
+    // Licencia: interceptar navegación si la app está bloqueada
+    // (excepto si vamos explícitamente a la pantalla de activación)
+    if (window.License && screenName !== 'activation') {
+      const block = window.License.isBlocked(screenName,Storage.getCurrentCase());
+      if (block.blocked) {
+        console.warn('[License] App bloqueada:', block.reason);
+        screenName = 'activation';
+      }
+    }
     const screen = screens[screenName];
     if (!screen) {
       console.error('Pantalla desconocida:', screenName);
@@ -272,7 +282,7 @@ const App = {
             const ok = await window.confirmDialog({ title: 'El caso ya existe', message: `Ya hay un caso «${existing.patient?.name || ''}» con el mismo identificador. ¿Reemplazarlo con la versión del archivo?`, okText: 'Reemplazar' });
             if (!ok) return;
           }
-          Storage.saveCase(valid.case);
+          Storage.saveCase(ReportSections.migrate(valid.case));
           Storage.flush();
           if (valid.evaluator && !Storage.getEvaluator()) Storage.setEvaluator(valid.evaluator);
           window.toast('Caso importado correctamente', 'success');
@@ -316,7 +326,7 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 4.0 — Aplicación clínica para la administración, corrección
+          Versión 17.3 licenciada · Aplicación clínica para la administración, corrección
           e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
           con baremos español (TEA) y estadounidense (Minnesota N=2.600).
         </p>
@@ -370,14 +380,26 @@ const App = {
   /* ---- Boot ---- */
   init() {
     // Wait for data + DOM ready
-    const start = () => {
-      this.navigate('splash');
+    const start = async () => {
+      try { Storage.migrateReportFields(); } catch (error) { console.warn('No se pudieron migrar las opciones de informe.'); }
+      try {
+        const license = await License.initialize();
+        this.navigate(license.active ? 'splash' : 'activation');
+        if(license.error)window.toast(license.error,'warning',6500);
+      } catch (error) {
+        this.navigate('activation');
+        window.toast('No se pudo leer la licencia local. Revise el almacenamiento del navegador.', 'error');
+      }
     };
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', start);
     } else {
       start();
     }
+
+    window.addEventListener('storage',event=>{
+      if(event.key===License.STORAGE_KEY)License.initialize().catch(()=>{});
+    });
 
     // ESC closes modal
     document.addEventListener('keydown', (e) => {

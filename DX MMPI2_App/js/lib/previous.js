@@ -46,7 +46,7 @@ const Previous = {
   COUNTRY_LABEL: { US: 'EE. UU.', MX: 'México', ES: 'España (TEA)', unknown: 'no consta' },
 
   defaultMeta() {
-    return { date: '', source: '', baremo: 'unknown', nomenclature: 'auto' };
+    return { date: '', source: '', baremo: 'unknown', nomenclature: 'auto', sex:'unknown', sameMethod:false };
   },
 
   meta(patient) {
@@ -58,12 +58,47 @@ const Previous = {
     const out = [];
     if (!text) return out;
     // Admite «Hs=78», «Hs: 78», «Hs 78», «Hs_PD=13», «Hs PD 13», «Hs (T) 78», saltos de línea o tabulaciones
-    const re = /([A-Za-zÁÉÍÓÚáéíóúñÑ][A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\-]{0,7})(?:[\s_]*(?:\(|\[)?\s*(PDK|PD\+K|PD|T)\s*(?:\)|\])?)?\s*(?:[:=]|\t|\s)\s*(-?\d{1,3})(?![\d.])/g;
+    const re = /([A-Za-zÁÉÍÓÚáéíóúñÑ][A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\-]{0,7})(?:[\s_]*(?:\(|\[)?\s*(PDK|PD\+K|PD|T)\s*(?:\)|\])?)?\s*(?:[:=]|\t|\s)\s*(≤|≥|<=|>=|<|>)?\s*(-?\d{1,3})([VF])?(\*)?(?![\d.])/gi;
     let m;
     while ((m = re.exec(text)) !== null) {
-      out.push({ raw: m[0].trim(), label: m[1], kind: (m[2] || 'T').toUpperCase().replace('PD+K', 'PDK'), value: parseInt(m[3], 10), index: m.index });
+      out.push({ raw:m[0].trim(),label:m[1],kind:(m[2]||'T').toUpperCase().replace('PD+K','PDK'),
+        value:Number(m[4]),bound:({'<=':'≤','>=':'≥'})[m[3]]||m[3]||'',direction:m[5]?.toUpperCase()||'',
+        verify:!!m[6],index:m.index });
     }
     return out;
+  },
+
+  /* Comparación para informes. Conserva la puntuación publicada y su procedencia. */
+  documented(text,patient={},results={}){
+    const meta=this.meta(patient),tokens=this.tokenize(text);
+    const nomen=meta.nomenclature==='auto'?this.detectNomenclature(tokens):meta.nomenclature;
+    const sameNorm=meta.baremo===patient.country&&['US','MX','ES'].includes(meta.baremo);
+    const rows=new Map();
+    for(const token of tokens){
+      const parsed=this.canonical(token.label,nomen);
+      if(!parsed||token.value<0||token.value>120)continue;
+      const code=parsed.code,kind=token.kind,r=results?.[code]||{};
+      if(kind!=='T'&&rows.get(code)?.kind==='T')continue;
+      const priorSex=parsed.mfSex||meta.sex;
+      const direction=code==='TRIN'&&window.ReportModel?ReportModel.score({patient,results},code).direction:r.direction;
+      const compatible=sameNorm&&['H','M'].includes(priorSex)&&priorSex===patient.sex&&
+        ['H','M'].includes(meta.sex)&&meta.sex===patient.sex&&meta.sameMethod===true&&
+        kind==='T'&&!token.bound&&!token.verify&&!r.verify&&!r.bound&&
+        (code!=='TRIN'||(token.direction||'')===(direction||''));
+      const previous=kind==='T'?token.bound+token.value+token.direction+(token.verify?'*':''):
+        (kind==='PDK'?'PD+K':'PD')+' '+token.value;
+      const current=typeof r.t==='number'?r.t:null;
+      const delta=compatible&&current!=null?current-token.value:null;
+      rows.set(code,{code,kind,previous,current,delta,
+        change:delta==null?'Comparabilidad pendiente':Math.abs(delta)<5?'Estable':Math.abs(delta)<10?'Cambio leve':'Cambio relevante (descriptivo)'});
+    }
+    const order=this._known();
+    const ordered=[...rows.values()].sort((a,b)=>order.indexOf(a.code)-order.indexOf(b.code));
+    const notes=ordered.length?[
+      'Se conservan las puntuaciones previas tal como se documentaron. La diferencia T requiere el mismo baremo, sexo normativo, clave y fuente de corrección.',
+      'Las diferencias son descriptivas. Los valores aproximados, pendientes o con límites no se restan.'
+    ]:[];
+    return {rows:ordered,meta,notes};
   },
 
   detectNomenclature(tokens) {

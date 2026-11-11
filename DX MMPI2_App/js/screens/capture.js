@@ -539,40 +539,53 @@ Columna A  | Columna B
   },
 
   async _finish() {
-    const cur = Storage.getCurrentCase();
-    if (!cur || !cur.patient) { window.toast('No hay caso activo', 'error'); return; }
-    const done = this._responses.filter(r => r !== null).length;
-    if (done === 0) { window.toast('No hay respuestas para procesar', 'error'); return; }
-    if (done < this._totalItems) {
-      const missing = [];
-      this._responses.forEach((r, i) => { if (r === null) missing.push(i + 1); });
-      const list = missing.slice(0, 25).join(', ') + (missing.length > 25 ? '…' : '');
-      const omit = this._totalItems - done;
-      const warn = omit > 30 ? '\n\nAtención: con más de 30 omisiones el protocolo se considera NO interpretable.' : (omit > 10 ? '\n\nCon más de 10 omisiones el protocolo debe interpretarse con cautela.' : '');
-      const ok = await confirmDialog({ title: 'Faltan respuestas', message: `Hay ${omit} ítem(s) sin responder: ${list}.${warn}\n\n¿Procesar de todos modos?`, okText: 'Procesar igualmente', cancelText: 'Volver y completar' });
-      if (!ok) { if (this._mode === 'test') this._goto(missing[0] - 1); return; }
-    }
-    window.toast('Procesando resultados…', 'success');
-    this._persist();
+    if (this._finishing) return;
+    this._finishing=true;
+    const button=document.getElementById('cap-finish');
+    if(button)button.disabled=true;
     try {
-      // FAIL-CLOSED: country es obligatorio y viene del paciente
-      const country = (cur.patient.country === 'ES' || cur.patient.country === 'US' || cur.patient.country === 'MX')
-        ? cur.patient.country : 'ES';
-      const results = await window.MMPI2.computeAll(this._responses, cur.patient.sex, country);
-      // Anotar omisiones en results._meta para assessValidity()
-      const omissions = this._responses.filter(r => r === null).length;
-      results._meta = Object.assign(results._meta || {}, { omissions });
-      cur.results = results;
-      cur.narrative = window.MMPI2.buildNarrative(results, cur.patient.name, cur.patient.age, cur.patient.sex, country);
-      cur.completedAt = new Date().toISOString();
-      Storage.saveCase(cur);
-      Storage.setCurrentCase(cur);
-      Storage.flush();
-      window.toast('Informe generado ✓', 'success');
-      setTimeout(() => App.navigate('report'), 400);
-    } catch (err) {
-      console.error(err);
-      window.toast(window.friendlyError(err, 'procesar los resultados'), 'error', 8000);
+      const cur=Storage.getCurrentCase();
+      if(!cur?.patient){window.toast('No hay caso activo','error');return;}
+      const responses=this._responses.slice();
+      const missing=[];
+      for(let i=0;i<this._totalItems;i++)if(responses[i]!==1&&responses[i]!==2)missing.push(i+1);
+      if(missing.length===this._totalItems){window.toast('No hay respuestas para procesar','error');return;}
+      if(missing.length){
+        const list=missing.slice(0,25).join(', ')+(missing.length>25?'…':'');
+        const warn=missing.length>=30?' El criterio de omisiones suspende la interpretación.':'';
+        const ok=await confirmDialog({title:'Faltan respuestas',
+          message:`Hay ${missing.length} ítem(s) sin responder: ${list}.${warn}`,
+          okText:'Procesar igualmente',cancelText:'Volver y completar'});
+        if(!ok){if(this._mode==='test')this._goto(missing[0]-1);return;}
+      }
+      const blocked=License.isBlocked('capture',cur);
+      if(blocked.blocked){
+        window.toast('Active una clave con cupos para procesar el caso.','warning');
+        App.navigate('activation');
+        return;
+      }
+      const country=['US','MX','ES'].includes(cur.patient.country)?cur.patient.country:'ES';
+      const results=await MMPI2.computeAll(responses,cur.patient.sex,country);
+      results._meta={...results._meta,omissions:missing.length};
+      const now=new Date().toISOString();
+      const finished={...cur,responses,results,captureMode:this._mode==='excel'?'Excel':'Test interactivo',
+        narrative:MMPI2.buildNarrative(results,cur.patient.name,cur.patient.age,cur.patient.sex,country),
+        completedAt:cur.completedAt||now,updatedAt:now};
+      const usage=await License.complete(finished,Storage);
+      if(!usage.ok){
+        window.toast(usage.error,'warning',6000);
+        App.navigate('activation');
+        return;
+      }
+      const balance=usage.isMaster?'':` · Cupos restantes: ${usage.remaining}`;
+      window.toast('Informe generado'+balance,'success',5000);
+      App.navigate('report');
+    }catch(error){
+      console.error(error);
+      window.toast(window.friendlyError(error,'procesar los resultados'),'error',8000);
+    }finally{
+      this._finishing=false;
+      if(button?.isConnected)button.disabled=false;
     }
   },
 

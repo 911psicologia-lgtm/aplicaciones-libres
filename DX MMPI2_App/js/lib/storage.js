@@ -55,7 +55,7 @@ const Storage = {
   getAllCases() {
     try {
       const data = localStorage.getItem(this.KEYS.CASES);
-      return data ? JSON.parse(data) : [];
+      return data ? JSON.parse(data).map(c=>ReportSections.migrate(c)) : [];
     } catch (e) { return []; }
   },
   getCase(id) {
@@ -71,7 +71,7 @@ const Storage = {
     if (!caseData || !caseData.id) {
       throw new Error('Storage.saveCase: caseData.id es obligatorio');
     }
-    this._savePending = caseData;
+    this._savePending = ReportSections.migrate(caseData,false);
     if (this._saveTimer) clearTimeout(this._saveTimer);
     this._saveTimer = setTimeout(() => {
       this._flushSave();
@@ -95,6 +95,15 @@ const Storage = {
     if (!caseData) return;
     this._saveTimer = null;
     this._savePending = null;
+    try { this._writeCase(caseData); }
+    catch (e) {
+      this._savePending = caseData;
+      document.dispatchEvent(new CustomEvent('storage:error', { detail: { error: e } }));
+      if (window.toast && window.friendlyError) window.toast(window.friendlyError(e, 'guardar'), 'error', 8000);
+    }
+  },
+
+  _writeCase(caseData) {
     const cases = this.getAllCases();
     // Límite máximo de casos
     if (cases.length >= this.MAX_CASES) {
@@ -111,19 +120,24 @@ const Storage = {
     } else {
       cases.push(caseData);
     }
-    try {
-      localStorage.setItem(this.KEYS.CASES, JSON.stringify(cases));
-      this.lastSavedAt = new Date();
-      document.dispatchEvent(new CustomEvent('storage:saved', { detail: { id: caseData.id, at: this.lastSavedAt } }));
-    } catch (e) {
-      console.error('Storage._flushSave: error escribiendo localStorage', e);
-      // Conservar el pendiente para reintentar y avisar con lenguaje claro
-      this._savePending = caseData;
-      document.dispatchEvent(new CustomEvent('storage:error', { detail: { error: e } }));
-      if (window.toast && window.friendlyError) {
-        window.toast(window.friendlyError(e, 'guardar'), 'error', 8000);
-      }
+    localStorage.setItem(this.KEYS.CASES, JSON.stringify(cases));
+    this.lastSavedAt = new Date();
+    document.dispatchEvent(new CustomEvent('storage:saved', { detail: { id: caseData.id, at: this.lastSavedAt } }));
+  },
+
+  saveCaseNow(caseData) {
+    const pending=this._savePending;
+    if(pending?.id!==caseData.id)this.flush();
+    const c=ReportSections.migrate(caseData,false);
+    this._writeCase(c);
+    if(this._savePending?.id===c.id){
+      clearTimeout(this._saveTimer);
+      this._saveTimer=null;
+      this._savePending=null;
     }
+    try { this.setCurrentCase(c); }
+    catch (error) { this._currentOverride=c; }
+    return c;
   },
 
   /* ---- Borrado: los casos van a la PAPELERA (recuperables) ---- */
@@ -158,7 +172,7 @@ const Storage = {
   getTrash() {
     try {
       const data = localStorage.getItem(this.KEYS.TRASH);
-      return data ? JSON.parse(data) : [];
+      return data ? JSON.parse(data).map(c=>ReportSections.migrate(c)) : [];
     } catch (e) { return []; }
   },
 
@@ -190,6 +204,7 @@ const Storage = {
     if (!src) return null;
     const copy = JSON.parse(JSON.stringify(src));
     copy.id = this.generateId();
+    delete copy.completedAt;
     copy.createdAt = new Date().toISOString();
     copy.updatedAt = copy.createdAt;
     copy.patient = Object.assign({}, copy.patient, { name: (copy.patient?.name || 'Sin nombre') + ' (copia)' });
@@ -220,22 +235,38 @@ const Storage = {
   },
 
   /* ---- Borrador del formulario de caso (autoguardado) ---- */
-  saveDraft(d) { try { localStorage.setItem(this.KEYS.CASE_DRAFT, JSON.stringify(d)); } catch (e) {} },
-  getDraft() { try { const d = localStorage.getItem(this.KEYS.CASE_DRAFT); return d ? JSON.parse(d) : null; } catch (e) { return null; } },
+  saveDraft(d) { try { localStorage.setItem(this.KEYS.CASE_DRAFT, JSON.stringify(ReportSections.migratePatient(d))); } catch (e) {} },
+  getDraft() { try { const d = localStorage.getItem(this.KEYS.CASE_DRAFT); return d ? ReportSections.migratePatient(JSON.parse(d)) : null; } catch (e) { return null; } },
   clearDraft() { try { localStorage.removeItem(this.KEYS.CASE_DRAFT); } catch (e) {} },
 
   /* ---- Caso actual (en curso) ---- */
   getCurrentCase() {
+    if(this._currentOverride)return this._currentOverride;
     try {
       const data = localStorage.getItem(this.KEYS.CURRENT_CASE);
-      return data ? JSON.parse(data) : null;
+      return data ? ReportSections.migrate(JSON.parse(data)) : null;
     } catch (e) { return null; }
   },
   setCurrentCase(caseData) {
     if (caseData) {
-      localStorage.setItem(this.KEYS.CURRENT_CASE, JSON.stringify(caseData));
+      localStorage.setItem(this.KEYS.CURRENT_CASE, JSON.stringify(ReportSections.migrate(caseData,false)));
     } else {
       localStorage.removeItem(this.KEYS.CURRENT_CASE);
+    }
+    this._currentOverride=null;
+  },
+
+  migrateReportFields(){
+    for(const key of [this.KEYS.CASES,this.KEYS.TRASH,this.KEYS.CURRENT_CASE,this.KEYS.CASE_DRAFT]){
+      const raw=localStorage.getItem(key);
+      if(!raw)continue;
+      try{
+        const value=JSON.parse(raw);
+        const next=key===this.KEYS.CASE_DRAFT?ReportSections.migratePatient(value):
+          Array.isArray(value)?value.map(c=>ReportSections.migrate(c)):ReportSections.migrate(value);
+        const serialized=JSON.stringify(next);
+        if(serialized!==raw)localStorage.setItem(key,serialized);
+      }catch(error){/* La lectura compatible conserva el registro anterior si no se puede actualizar. */}
     }
   },
 
@@ -267,8 +298,8 @@ const Storage = {
     let added = 0, updated = 0, kept = 0;
     for (const c of (d.cases || [])) {
       const ex = byId.get(c.id);
-      if (!ex) { byId.set(c.id, c); added++; }
-      else if ((c.updatedAt || '') > (ex.updatedAt || '')) { byId.set(c.id, c); updated++; }
+      if (!ex) { byId.set(c.id, ReportSections.migrate(c)); added++; }
+      else if ((c.updatedAt || '') > (ex.updatedAt || '')) { byId.set(c.id, ReportSections.migrate(c)); updated++; }
       else kept++;
     }
     localStorage.setItem(this.KEYS.CASES, JSON.stringify(Array.from(byId.values())));
@@ -374,10 +405,10 @@ const Storage = {
     const d = v.data;
     if (d.evaluator) this.setEvaluator(d.evaluator);
     if (d.cases && Array.isArray(d.cases)) {
-      localStorage.setItem(this.KEYS.CASES, JSON.stringify(d.cases));
+      localStorage.setItem(this.KEYS.CASES, JSON.stringify(d.cases.map(c=>ReportSections.migrate(c))));
     }
     if (Array.isArray(d.trash)) {
-      localStorage.setItem(this.KEYS.TRASH, JSON.stringify(d.trash));
+      localStorage.setItem(this.KEYS.TRASH, JSON.stringify(d.trash.map(c=>ReportSections.migrate(c))));
     }
   },
   exportCase(id) {

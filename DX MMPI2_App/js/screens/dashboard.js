@@ -42,6 +42,8 @@ const Dashboard = {
 
           ${cases.length === 0 ? this._onboardingHTML() : this._statsHTML(cases.length, done, inProgress, nTrash)}
 
+          ${this._licenseCardHTML()}
+
           ${this._backupReminderHTML(cases.length)}
 
           ${cases.length ? `
@@ -102,6 +104,42 @@ const Dashboard = {
       </div>`;
   },
 
+  /* ---- Tarjeta de estado de licencia ---- */
+  _licenseCardHTML() {
+    if (!window.License) return '';
+    const st = window.License.getStatus();
+    if (!st.active) return '';
+    const remainingLabel = st.isMaster
+      ? '<strong style="color:var(--color-success)">Ilimitadas</strong>'
+      : (st.remaining > 0
+          ? `<strong style="color:${st.remaining <= 3 ? 'var(--color-danger)' : 'var(--color-primary-dark)'}">${st.remaining}</strong> aplicaciones restantes`
+          : '<strong style="color:var(--color-danger)">Agotadas</strong>');
+    const pct = st.isMaster ? null : Math.round((st.used / st.maxUses) * 100);
+    const barColor = st.isMaster ? 'var(--color-success)' : (st.remaining <= 3 ? 'var(--color-danger)' : 'var(--color-primary)');
+    return `
+      <div class="card" style="border-left:4px solid ${barColor}">
+        <div class="card-body" style="padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div style="font-size:24px">🔑</div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-weight:700;color:var(--color-primary-dark);font-size:13px">${escHTML(window.License.tierLabel(st.tier))}</div>
+              <div style="font-size:13px;color:var(--color-text-muted);margin-top:2px">${remainingLabel}${st.isMaster ? '' : ' · ' + st.used + ' usadas de ' + st.maxUses}</div>
+            </div>
+            <div style="font-size:11px;color:var(--color-text-muted);text-align:right">
+              <div style="font-family:monospace;letter-spacing:1px">•••• ${escHTML(st.key.slice(-4))}</div>
+              ${st.activatedAt ? `<div style="margin-top:2px">Activada el ${new Date(st.activatedAt).toLocaleDateString('es-CO')}</div>` : ''}
+              <button class="btn btn-ghost btn-sm" id="dash-license">Cambiar clave</button>
+            </div>
+          </div>
+          ${pct !== null ? `
+            <div style="margin-top:10px;height:6px;background:var(--color-bg);border-radius:3px;overflow:hidden">
+              <div style="width:${pct}%;height:100%;background:${barColor};transition:width 0.3s"></div>
+            </div>
+          ` : ''}
+        </div>
+      </div>`;
+  },
+
   _backupReminderHTML(nCases) {
     if (!nCases) return '';
     const lb = Storage.getLastBackup();
@@ -154,6 +192,7 @@ const Dashboard = {
     bindEvent('dash-new', 'click', () => this._newCase());
     bindEvent('dash-new-empty', 'click', () => this._newCase());
     bindEvent('dash-edit-evaluator', 'click', () => App.navigate('setup'));
+    bindEvent('dash-license','click',()=>App.navigate('activation'));
     bindEvent('dash-all-cases', 'click', () => App.navigate('cases', { view: 'active' }));
     bindEvent('dash-restore', 'click', () => App.openImportPicker());
     bindEvent('dash-backup', 'click', () => { App.downloadBackup(); setTimeout(() => App.navigate('dashboard'), 400); });

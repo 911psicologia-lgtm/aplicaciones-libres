@@ -76,18 +76,19 @@ const ReportCharts = {
           const v = ds.data[i];
           if (v == null || !isFinite(v)) return;
           if (opts.stacked && v === 0) return;
+          const label = ds._shown?.[i] ?? String(v);
           ctx.fillStyle = opts.color || '#1F2937';
           if (horizontal) {
             ctx.textAlign = opts.stacked ? 'center' : 'left';
             ctx.textBaseline = 'middle';
             const x = opts.stacked ? (el.x + el.base) / 2 : el.x + 4;
             if (opts.stacked) ctx.fillStyle = '#fff';
-            ctx.fillText(String(v), x, el.y);
+            ctx.fillText(label, x, el.y);
           } else {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
             const off = (opts.offsets && opts.offsets[di]) || 7;
-            ctx.fillText(String(v), el.x, el.y - off);
+            ctx.fillText(label, el.x, el.y - off);
           }
         });
       });
@@ -135,7 +136,7 @@ const ReportCharts = {
         const color = isPrev ? C.prev : C.ink;
         const pointColors = (!isPrev && spec.colorByValue !== false) ? s.data.map(v => this.levelColor(v)) : color;
         return {
-          label: s.name, data: s.data, borderColor: color, backgroundColor: color,
+          label: s.name, data: s.data, _shown:s.shown, borderColor: color, backgroundColor: color,
           pointBackgroundColor: pointColors, pointBorderColor: pointColors,
           pointRadius: forImage ? 5 : 5, pointHoverRadius: 7, borderWidth: 2,
           borderDash: isPrev ? [6, 4] : [], pointStyle: isPrev ? 'rectRot' : 'circle',
@@ -159,11 +160,11 @@ const ReportCharts = {
       const { yMin, yMax } = this._yRange(spec);
       return {
         type: 'bar', plugins,
-        data: { labels: spec.labels, datasets: [{ label: s.name, data: s.data, backgroundColor: s.data.map(v => this.levelColor(v)), borderWidth: 0, barThickness: forImage ? 18 : 16 }] },
+        data: { labels: spec.labels, datasets: [{ label: s.name, data: s.data, _shown:s.shown, backgroundColor: s.data.map(v => this.levelColor(v)), borderWidth: 0, barThickness: forImage ? 18 : 16 }] },
         options: Object.assign(base, {
           indexAxis: 'y',
           scales: {
-            x: { min: Math.max(30, yMin), max: yMax, ticks: { stepSize: 10, font: { size: fs - 1 }, color: C.muted }, grid: { color: C.grid }, title: { display: true, text: 'Puntuación T', font: { size: fs }, color: C.text } },
+            x: { min: yMin, max: yMax, ticks: { stepSize: 10, font: { size: fs - 1 }, color: C.muted }, grid: { color: C.grid }, title: { display: true, text: 'Puntuación T', font: { size: fs }, color: C.text } },
             y: { ticks: { font: { size: fs - 1, weight: '600' }, color: C.text, autoSkip: false }, grid: { display: false } },
           },
         }),

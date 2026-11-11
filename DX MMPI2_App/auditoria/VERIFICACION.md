@@ -1,20 +1,18 @@
-# Verificación de MMPI-2 Suite clínica 17.2
+# Verificación de la Suite clínica licenciada 17.3
 
-Base de actualización: paquete completo 17.1 suministrado. Los protocolos de prueba, identificadores y narrativas usados para la verificación son sintéticos.
+Fecha de revisión · 10 de noviembre de 2026. Base · ZIP MMPI-2 V16 licenciada. Los casos, identificadores y narrativas usados en las pruebas son sintéticos.
 
-## Pruebas de aceptación
+## Aceptación
 
-| Prueba | Resultado observado |
+| Prueba | Resultado |
 | --- | --- |
-| Caso nuevo | 25 casillas con los estados previstos. PSY-5 habilita clústeres. Contexto de la solicitud activa Nota de alcance. El pronóstico requiere registrar entrevista suficiente. |
-| Caso guardado en 17.1 | Carga y migración del almacenamiento local con respaldo previo. Se conservaron las 567 respuestas, las puntuaciones, las opciones anteriores, el contexto del caso y de versiones previas, y la integración de IA con huella verificable. |
-| Prompt completo y mínimo | 22 y 9 secciones consecutivas, respectivamente. El esquema del prompt y el informe usan los mismos identificadores y el mismo orden. |
-| Sin MMPI-2 anterior | Casilla deshabilitada con «Sin datos previos». El prompt, el informe y Excel omiten el contraste. Se verificó que Mf con diferente sexo normativo queda sin diferencia T. |
-| Ambas familias de ítems críticos | Un apartado agrupado por tema con números únicos. En el protocolo sintético de exportación se obtuvieron 57 números únicos. Se verificaron la respuesta V/F, la paráfrasis, el control de texto literal en el informe y la exclusión del literal en el prompt. |
+| Caso nuevo | Se verificaron las casillas por defecto, la dependencia entre PSY-5 y clústeres, y la activación de Nota de alcance. |
+| Caso guardado antes del cambio | Migración de las opciones y de Contexto de la solicitud. Se conservaron respuestas, puntuaciones, caso actual, borrador y papelera. |
+| Prompt completo y mínimo | 22 y 9 secciones consecutivas con el mismo plan en las exportaciones. |
+| Ausencia de MMPI-2 anterior | Casilla deshabilitada con «Sin datos previos» y contraste omitido. Mf quedó pendiente cuando la clave anterior correspondía a otro sexo normativo. |
+| Dos familias críticas activas | Apartado único con 57 ítems distintos en el caso sintético. V/F y paráfrasis visibles. La casilla de literal controla únicamente la salida local. |
 
-## Secciones resultantes
-
-El caso completo tenía historia, puntuaciones previas y registro de entrevista suficiente. El mínimo tenía todas las casillas opcionales desactivadas.
+### Orden de las secciones
 
 | N.º | Completo | Mínimo |
 | --- | --- | --- |
@@ -41,18 +39,41 @@ El caso completo tenía historia, puntuaciones previas y registro de entrevista 
 | 21 | Recomendaciones | |
 | 22 | Nota de alcance | |
 
-## Exportaciones, importación y puntuaciones
+### Activación
 
-- Informe base e informe con IA generados como Word, Excel, HTML y TXT. En el Word con IA, la ficha recuperó documento y nacimiento del registro local aunque el JSON devolviera una ficha distinta. Ambos Word se abrieron y renderizaron con LibreOffice.
-- La columna opcional Lectura breve quedó completa en las ocho escalas de validez y en el recuento de omisiones. Con la columna desactivada, la lectura narrativa permanece.
-- Los Excel de prueba conservaron los 112 registros de puntuaciones y siete gráficas nativas en la selección habitual de escalas. El Excel mínimo omitió las hojas opcionales correspondientes a su selección. Se conservó la hoja técnica de respuestas.
-- El JSON anterior de 15 secciones fue reconocido por el importador. El JSON estructurado con secciones fuera de secuencia o sin interpretación se rechaza con un aviso.
-- Es con PD 22 y norma femenina se comprobó en tres fuentes. El manual estadounidense deja la T pendiente y el gráfico omite el punto. La fuente estadounidense anterior conserva «≤30» en tabla y gráfica. El manual mexicano conserva «30» en tabla y gráfica.
-- Se comprobaron las reglas de copia del prompt y de exclusión de TEAcorrige en el baremo estadounidense. El prompt omite los términos pericial, perito y dictamen con Contexto de la solicitud desmarcado.
-- Las huellas de motor, datos, bancos de preguntas, baremos y documento técnico coinciden con las del ZIP 17.1. Las propuestas editoriales para el banco de descriptores quedan separadas de las lecturas breves de presentación.
+| Plan | Cupo por clave | Claves verificadas |
+| --- | ---: | ---: |
+| A1 | 5 | 10 |
+| A2 | 10 | 10 |
+| A3 | 15 | 10 |
+| A4 | 20 | 10 |
+| A5 | 25 | 10 |
+| A6 | 30 | 10 |
+| A7 | 40 | 10 |
+| A8 | 50 | 10 |
+| M0 | Ilimitado | 1 |
 
-Las pruebas incluyen el adaptador DOM de la app, verificación del paquete y caché PWA, comprobaciones directas de los modelos y apertura de archivos OOXML. La prueba con Chromium se intentó y el entorno impidió que el navegador iniciara.
+CSV y JSON coincidieron en sus 81 códigos únicos, planes y cupos. Cada clave aprobó el verificador de V16 y la activación en la 17.3. Se rechazó una clave alterada. Se comprobó la preservación de saldo al actualizar y al reactivar, el último cupo, la reversión ante un error de guardado y dos finalizaciones concurrentes del mismo caso. La app contiene el catálogo de huellas. Los archivos con códigos legibles se entregan como documentos de administración separados.
 
-```bash
-node --test tests/*.test.mjs
-```
+### Informes y puntuaciones
+
+- Se probaron la importación de JSON variable, la reconstrucción de la ficha con documento y nacimiento, y las exportaciones Word, PDF, Excel, HTML y TXT. La ficha generada por IA cedió a la ficha local.
+- Se comprobó la conversión pendiente de Es con PD 22 en la referencia estadounidense, el punto con T 30 en la mexicana y la presentación de la dirección de TRIN cuando corresponde. La prueba confirmó la lectura narrativa de los ocho índices de validez y la columna opcional completa.
+- El prompt conservó sus marcadores de datos. Cuando se desactivó el contexto de la solicitud, se excluyeron los términos solicitados. Con baremo estadounidense se excluyó TEAcorrige.
+- Los archivos de motor, claves de corrección, baremos, ítems críticos, cuestionario y biblioteca interpretativa coinciden byte a byte con el ZIP V16 de origen.
+- Las pruebas de flujos usan un adaptador de navegador. El arranque de Chromium no estuvo disponible en el entorno de pruebas.
+
+## Propuestas editoriales para la biblioteca de textos
+
+Los extractos corresponden a `data/criterios.json`. Las propuestas quedan para revisión del evaluador. El informe usa lecturas descriptivas separadas.
+
+| Escala y rango | Fragmento actual | Propuesta descriptiva |
+| --- | --- | --- |
+| Mf · Muy alto | «Pasivo y afeminado. Inseguro en asertividad. Tendencias homoeróticas.» | La puntuación refleja intereses y preferencias evaluados por el instrumento frente a un grupo normativo histórico. Interprete su significado junto con la entrevista y el contexto sociocultural. |
+| Hs · Muy alto | «Esquizoide; comportamiento bizarro o alucinaciones somáticas.» | Se informan preocupaciones o molestias físicas de intensidad elevada. Explore su curso, impacto cotidiano y antecedentes médicos y psicológicos. |
+| Sc6 · Muy alto | «Posible trastorno psicótico.» | Se reconocen experiencias perceptivas o de pensamiento inusuales. Explore sus características, frecuencia, contexto y repercusión clínica en entrevista. |
+| Pd · Muy alto | «Juicio pobre. Inestable. Irresponsable. […] Agresivo o atacante.» | El resultado orienta a explorar conflictos con normas, dificultades de regulación y sus efectos en las relaciones. Contraste frecuencia, contexto y consecuencias con información clínica. |
+
+## Repetir la verificación
+
+Desde `app/`, con Node.js 20 o posterior, ejecute `node --test tests/verificacion.cjs`. Para verificar también la activación, defina `MMPI2_LICENCIAS` con la ruta del JSON de administración entregado aparte.

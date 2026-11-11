@@ -4,7 +4,7 @@ files=[]
 for d,_,fs in os.walk(root):
     for f in fs:
         p=os.path.join(d,f)[2:]
-        if p.startswith('.') or p.endswith(('.md','.zip','.py')) or p in ('_redirects','sw.js'): continue
+        if p.startswith(('.', 'tests/', 'auditoria/')) or p.endswith(('.md','.zip','.py')) or p in ('_redirects','sw.js'): continue
         files.append(p)
 files=sorted(files)
 h=hashlib.sha1()

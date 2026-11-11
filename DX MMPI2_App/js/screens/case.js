@@ -3,6 +3,12 @@
    ============================================ */
 
 const Case = {
+  _clinicalFields: [
+    ['mentalExam','Examen mental y observación conductual'],['sources','Fuentes clínicas corroboradas'],
+    ['strengths','Recursos y fortalezas'],['integration','Integración del evaluador'],
+    ['diagnosticImpression','Impresión diagnóstica tentativa documentada'],['prognosis','Pronóstico documentado'],
+    ['limitations','Limitaciones de la evaluación'],['recommendations','Recomendaciones del evaluador']
+  ],
   render() {
     let cur = Storage.getCurrentCase() || {};
     // Caso nuevo: recuperar borrador autoguardado si existe
@@ -108,26 +114,39 @@ const Case = {
                   <span class="form-hint">Texto en párrafos. Se incorpora al prompt para IA externa para contextualizar el informe.</span>
                 </div>
                 <div class="form-field full">
-                  <label class="form-label">Contexto pericial (opcional)</label>
-                  <textarea id="p-legal-context" class="form-textarea" rows="3" placeholder="Si procede del ámbito forense: input del abogado, objeto del peritaje, preguntas periciales a responder…">${this._esc(p.legalContext || '')}</textarea>
+                  <label class="form-label">Contexto de la solicitud (opcional)</label>
+                  <textarea id="p-request-context" class="form-textarea" rows="3" placeholder="Solicitante, propósito, preguntas y condiciones de la evaluación…">${this._esc(ReportSections.context(p))}</textarea>
                 </div>
                 <details class="prev-box" ${p.previousMMPI ? 'open' : ''}>
                   <summary><b>Aplicación anterior del MMPI-2 (opcional)</b> <span class="form-hint">— solo si existe; si es la primera evaluación, déjelo vacío y el informe omite la comparación.</span></summary>
-                  ${(() => { const m = Object.assign({date:'',source:'',baremo:'unknown',nomenclature:'auto'}, p.prevMeta||{}); const sel = (v, l, cur) => `<option value="${v}" ${cur === v ? 'selected' : ''}>${l}</option>`; return `
+                  ${(() => { const m = Previous.meta(p); const sel = (v, l, cur) => `<option value="${v}" ${cur === v ? 'selected' : ''}>${l}</option>`; return `
                   <div class="form-grid" style="margin-top:12px">
                     <div class="form-field"><label class="form-label">Fecha de la aplicación anterior</label><input type="date" id="pv-date" class="form-input" value="${this._esc(m.date)}"></div>
                     <div class="form-field"><label class="form-label">Profesional o fuente</label><input type="text" id="pv-source" class="form-input" value="${this._esc(m.source)}" placeholder="Ej.: Psic. N. N., informe de la EPS"></div>
                     <div class="form-field"><label class="form-label">Baremo usado en el informe anterior</label>
-                      <select id="pv-baremo" class="form-select">${sel('unknown', 'No consta (se compara tal cual, con advertencia)', m.baremo)}${sel('US', 'EE. UU. (Minnesota)', m.baremo)}${sel('MX', 'México', m.baremo)}${sel('ES', 'España (TEA)', m.baremo)}</select></div>
+                      <select id="pv-baremo" class="form-select">${sel('unknown', 'No consta', m.baremo)}${sel('US', 'EE. UU. (Minnesota)', m.baremo)}${sel('MX', 'México', m.baremo)}${sel('ES', 'España (TEA)', m.baremo)}</select></div>
                     <div class="form-field"><label class="form-label">Nomenclatura de las escalas</label>
                       <select id="pv-nomen" class="form-select">${sel('auto', 'Detectar automáticamente', m.nomenclature)}${sel('intl', 'Internacional (Hs, Sc, Fb, Fp…)', m.nomenclature)}${sel('es', 'Manual Moderno (Hi, Es, Fp, Fpsi…)', m.nomenclature)}</select></div>
+                    <div class="form-field"><label class="form-label" for="pv-sex">Sexo de la tabla anterior</label>
+                      <select id="pv-sex" class="form-select">${sel('unknown','No consta',m.sex)}${sel('H','Hombre',m.sex)}${sel('M','Mujer',m.sex)}</select></div>
+                    <label class="form-field"><span>Misma clave y fuente de corrección verificadas</span>
+                      <input id="pv-same-method" type="checkbox" ${m.sameMethod?'checked':''}></label>
                   </div>`; })()}
                   <div class="form-field full" style="margin-top:10px">
                     <label class="form-label">Puntuaciones de la aplicación anterior</label>
                     <textarea id="p-previous-mmpi" class="form-textarea" rows="3" placeholder="Pegue las puntuaciones tal como aparecen en el informe anterior, p. ej.: L=51, F=53, K=56, Hs=78, D=51, Hy=68, Pd=66, Mfv=45, Pa=65, Pt=52, Sc=55, Ma=58, Si=41">${this._esc(p.previousMMPI || '')}</textarea>
-                    <span class="form-hint">Por defecto se leen como puntuaciones T. Si dispone de puntuaciones directas escriba «Hs_PD=13» (con «K_PD=19» para aplicar la corrección K) o «Hs_PDK=23»: la comparación será exacta. Para Mf respete el rótulo original: <b>Mfv</b> = baremo de varones, <b>Mfm</b> = baremo de mujeres.</span>
+                    <span class="form-hint">Transcriba la puntuación publicada, por ejemplo «D=70», «TRIN=65V» o «Es=≤30». Una PD transcrita queda registrada como PD. Para Mf conserve el rótulo original.</span>
                   </div>
                   <div id="pv-preview" class="pv-preview" aria-live="polite"></div>
+                </details>
+                <details class="prev-box" ${this._clinicalFields.some(([key])=>ReportSections.has(p[key]))?'open':''}>
+                  <summary><b>Aportes clínicos al informe</b></summary>
+                  <label class="form-field" style="margin-top:12px"><span>Entrevista clínica suficiente documentada</span>
+                    <input type="checkbox" id="p-interview" ${p.interviewSufficient?'checked':''}></label>
+                  ${this._clinicalFields.map(([key,label])=>`<div class="form-field full">
+                    <label for="p-clinical-${key}" class="form-label">${label}</label>
+                    <textarea id="p-clinical-${key}" class="form-textarea" rows="3">${this._esc(p[key]||'')}</textarea>
+                  </div>`).join('')}
                 </details>
               </div>
 
@@ -165,7 +184,7 @@ const Case = {
       App.navigate('dashboard');
     });
     // Autoguardado del formulario: borrador (caso nuevo) o guardado del caso (edición)
-    const fields = ['p-name','p-doc','p-dob','p-sex','p-country','p-context','p-appdate','p-history','p-reason','p-case-history','p-legal-context','p-previous-mmpi','pv-date','pv-source','pv-baremo','pv-nomen'];
+    const fields = ['p-name','p-doc','p-dob','p-sex','p-country','p-context','p-appdate','p-history','p-reason','p-case-history','p-request-context','p-previous-mmpi','pv-date','pv-source','pv-baremo','pv-nomen','pv-sex','pv-same-method','p-interview',...this._clinicalFields.map(([key])=>'p-clinical-'+key)];
     let t = null;
     const autosave = () => {
       clearTimeout(t);
@@ -173,9 +192,10 @@ const Case = {
     };
     fields.forEach(id => { const el = document.getElementById(id); if (el) { el.addEventListener('input', autosave); el.addEventListener('change', autosave); } });
     // Vista previa de la aplicación anterior
-    const pvIds = ['p-previous-mmpi', 'pv-baremo', 'pv-nomen', 'p-sex', 'p-country'];
+    const pvIds = ['p-previous-mmpi','pv-baremo','pv-nomen','pv-sex','pv-same-method','p-sex','p-country'];
     pvIds.forEach(id => { const el = document.getElementById(id); if (el) { el.addEventListener('input', () => this._renderPrevPreview()); el.addEventListener('change', () => this._renderPrevPreview()); } });
     this._renderPrevPreview();
+    bindEvent('p-appdate','change',()=>this._recomputeAge());
     bindEvent('case-continue', 'click', () => this._save());
     bindEvent('case-download-template', 'click', () => this._downloadTemplate());
 
@@ -187,15 +207,9 @@ const Case = {
   },
 
   _recomputeAge() {
-    const dob = document.getElementById('p-dob').value;
-    if (!dob) { document.getElementById('p-age').value = ''; return; }
-    const d = new Date(dob);
-    if (isNaN(d.getTime())) return;
-    const today = new Date();
-    let age = today.getFullYear() - d.getFullYear();
-    const m = today.getMonth() - d.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age--;
-    document.getElementById('p-age').value = age >= 0 ? age : '';
+    const dob=document.getElementById('p-dob').value;
+    const date=document.getElementById('p-appdate').value;
+    document.getElementById('p-age').value=this._computeAge(dob,date)??'';
   },
 
   _collectPatient() {
@@ -204,7 +218,7 @@ const Case = {
       name: v('p-name').trim(),
       document: v('p-doc').trim(),
       dob: v('p-dob'),
-      age: this._computeAge(v('p-dob')),
+      age: this._computeAge(v('p-dob'),v('p-appdate')),
       sex: v('p-sex'),
       country: v('p-country') || 'US',
       context: v('p-context'),
@@ -212,39 +226,23 @@ const Case = {
       history: v('p-history'),
       reason: v('p-reason'),
       caseHistory: v('p-case-history'),
-      legalContext: v('p-legal-context'),
+      requestContext:v('p-request-context'),
+      ...Object.fromEntries(this._clinicalFields.map(([key])=>[key,v('p-clinical-'+key)])),
+      interviewSufficient:document.getElementById('p-interview')?.checked===true,
       previousMMPI: v('p-previous-mmpi'),
-      prevMeta: { date: v('pv-date'), source: v('pv-source').trim(), baremo: v('pv-baremo') || 'unknown', nomenclature: v('pv-nomen') || 'auto' },
+      prevMeta: {date:v('pv-date'),source:v('pv-source').trim(),baremo:v('pv-baremo')||'unknown',nomenclature:v('pv-nomen')||'auto',
+        sex:v('pv-sex')||'unknown',sameMethod:document.getElementById('pv-same-method')?.checked===true},
     };
   },
 
   _renderPrevPreview() {
-    const box = document.getElementById('pv-preview');
-    if (!box || !window.Previous) return;
-    const patient = this._collectPatient();
-    const text = patient.previousMMPI || '';
-    if (!text.trim()) { box.innerHTML = ''; return; }
-    if (!patient.sex) { box.innerHTML = '<div class="pv-warn">Seleccione el sexo del evaluado para interpretar correctamente Mf.</div>'; }
-    const cur = Storage.getCurrentCase() || {};
-    const an = Previous.analyze(text, patient, cur.results || {});
-    const chip = (r) => {
-      const cls = r.prev == null ? 'bad' : (r.approx ? 'approx' : 'ok');
-      const icon = r.prev == null ? '✗' : (r.approx ? '≈' : '✓');
-      let txt = `${r.code} ${r.kind === 'T' ? r.raw : r.kind + ' ' + r.raw}`;
-      if (r.label.toLowerCase() !== r.code.toLowerCase()) txt = `${r.label} → ${txt.replace(/^\S+/, r.code)}`;
-      if (r.approx && r.prev != null) txt += ` → T ≈ ${r.prev} (${r.range[0]}–${r.range[1]})`;
-      else if (r.kind !== 'T' && r.prev != null) txt += ` → T ${r.prev}`;
-      return `<span class="pv-chip ${cls}" title="${this._esc(r.note || '')}">${icon} ${this._esc(txt)}</span>`;
-    };
-    const exact = an.rows.filter(r => r.prev != null && !r.approx).length;
-    const conv = an.rows.filter(r => r.approx && r.prev != null).length;
-    const bad = an.rows.filter(r => r.prev == null).length + an.unknown.length;
-    box.innerHTML = `
-      <div class="pv-head"><b>Así se interpretó:</b> ${exact} reconocida(s) · ${conv} convertida(s) ≈ · ${bad} sin usar
-        <span class="form-hint"> · nomenclatura ${an.nomen === 'es' ? 'Manual Moderno' : 'internacional'}</span></div>
-      <div class="pv-chips">${an.rows.map(chip).join('')}${an.unknown.map(u => `<span class="pv-chip bad" title="No se reconoce como escala del MMPI-2">✗ ${this._esc(u)}</span>`).join('')}</div>
-      ${an.rows.filter(r => r.note).map(r => `<div class="pv-note">${this._esc(r.note)}</div>`).join('')}
-      ${an.notes.map(n => `<div class="pv-note warn">${this._esc(n)}</div>`).join('')}`;
+    const box=document.getElementById('pv-preview');
+    if(!box)return;
+    const patient=this._collectPatient(),cur=Storage.getCurrentCase()||{};
+    const an=Previous.documented(patient.previousMMPI,patient,cur.results);
+    if(!an.rows.length){box.textContent=patient.previousMMPI.trim()?'No se identificaron puntuaciones previas.':'';return;}
+    box.innerHTML='<p>Lectura de puntuaciones previas documentadas</p><ul>'+an.rows.map(row=>
+      '<li>'+this._esc(row.code)+' · '+this._esc(row.previous)+' · '+this._esc(row.change)+'</li>').join('')+'</ul>';
   },
 
   _autosave() {
@@ -313,18 +311,13 @@ const Case = {
     setTimeout(() => App.navigate(cur.results ? 'report' : 'capture'), 250);
   },
 
-  _computeAge(dob) {
-    if (!dob) return null;
-    const d = new Date(dob);
-    if (isNaN(d.getTime())) return null;
-    const today = new Date();
-    let age = today.getFullYear() - d.getFullYear();
-    const m = today.getMonth() - d.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age--;
-    return age >= 0 ? age : null;
+  _computeAge(dob,date) {
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(dob||'')||!/^\d{4}-\d{2}-\d{2}$/.test(date||''))return null;
+    const [by,bm,bd]=dob.split('-').map(Number),[y,m,d]=date.split('-').map(Number);
+    const years=y-by-(m<bm||m===bm&&d<bd?1:0);
+    return years>=0&&years<=120?years:null;
   },
 
-  /* ---- Descargar plantilla Excel para captura de respuestas ---- */
   _downloadTemplate() {
     if (!window.XLSX) { window.toast('SheetJS no está cargado', 'error'); return; }
     try {
