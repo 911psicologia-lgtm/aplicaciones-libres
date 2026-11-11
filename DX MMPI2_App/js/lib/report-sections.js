@@ -1,7 +1,7 @@
 /* Selección de contenido y migración de opciones del informe. */
 const ReportSections = {
   SCHEMA: 2,
-  VERSION: '17.3',
+  VERSION: '17.4',
   DEFAULTS: Object.freeze({
     id_document:true,id_dob:true,id_mode:true,info_reason:true,info_history:true,info_caseHistory:true,info_request_context:false,
     sec_charts:true,sec_subscales:true,sec_psy5:true,sec_clusters:false,sec_critical:true,sec_critical_lw:false,
@@ -51,6 +51,7 @@ const ReportSections = {
 
   migrate(c,legacy=true){
     if(!c||typeof c!=='object')return c;
+    c=window.MMPI2?.applyReportingLimits?.(c)||c;
     return {...c,reportSchema:this.SCHEMA,
       patient:this.migratePatient(c.patient),reportOptions:this.options(c,legacy&&c.reportSchema!==this.SCHEMA)};
   },

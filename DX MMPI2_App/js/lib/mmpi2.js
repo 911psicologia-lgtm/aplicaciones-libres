@@ -6,6 +6,7 @@
    - Texto interpretativo por banda
    - Status codes explícitos:
        T_DOCUMENTADA       — T calculada y documentada
+       T_LIMITE_INFERIOR   — límite inferior de reporte US de Es, mostrado como ≤30
        T_NO_DISPONIBLE     — baremo existe pero PD no se encuentra
        CLAVE_NO_DISPONIBLE — la escala no tiene ítems claveados
        CLAVE_INCOMPLETA    — clave existe pero faltan datos
@@ -17,6 +18,7 @@ const MMPI2 = {
   // Códigos de status V3 (fail-closed)
   STATUS: Object.freeze({
     T_DOCUMENTADA:       'T_DOCUMENTADA',
+    T_LIMITE_INFERIOR:   'T_LIMITE_INFERIOR',
     T_NO_DISPONIBLE:     'T_NO_DISPONIBLE',
     CLAVE_NO_DISPONIBLE: 'CLAVE_NO_DISPONIBLE',
     CLAVE_INCOMPLETA:    'CLAVE_INCOMPLETA',
@@ -280,11 +282,33 @@ const MMPI2 = {
   },
 
   /* ---- Lookup T por sexo y país (FAIL-CLOSED)
+     - Es US por debajo del primer PD tabulado → límite de reporte ≤30
      - Si pd es null → {t:null, status:CLAVE_NO_DISPONIBLE}
      - Si la escala está "online" para el país → {t:<mensaje>, status:ES-ONLINE}
      - Si la escala no está en el baremo → {t:null, status:T_NO_DISPONIBLE}
      - Si el PD exacto no está en la tabla → {t:null, status:PD_FUERA_DE_TABLA}
      - Si todo OK → {t:<number>, status:T_DOCUMENTADA}            ---- */
+  esReportingLimit(pd, sex, country) {
+    // Límite de reporte US: no sustituye ninguna celda de las tablas originales.
+    if (country !== 'US' || !['H','M'].includes(sex) || !Number.isInteger(pd) || pd < 0) return null;
+    const table = this._getBaremos(country)?.Es?.[this._translateSex(sex, country)];
+    const keys = Object.keys(table || {}).map(Number).filter(Number.isFinite);
+    const first = Math.min(...keys);
+    if (!keys.length || table[String(first)] !== 30 || pd >= first) return null;
+    return { t: 30, status: 'T_LIMITE_INFERIOR', bound: '≤', reportingLimit: 'lower',
+      reportingSource: 'Pearson MMPI-2: Adult Clinical Inpatient Mental Health y General Corrections, informes de muestra (Es, límite inferior de reporte T 30).' };
+  },
+
+  applyReportingLimits(c) {
+    const r = c?.results?.Es;
+    if (!r || (r.t != null && r.status !== 'T_LIMITE_INFERIOR')) return c;
+    const limit = this.esReportingLimit(r.pd, c.patient?.sex, c.patient?.country);
+    if (!limit) return c;
+    return {...c, results: {...c.results, Es: {...r, ...limit, verify: false,
+      band: this.getBand(limit.t), interpretation: this.getInterpretation('Es', limit.t, c.patient.sex)},
+      _meta: {...c.results._meta, reportingRevision: '17.4'}}};
+  },
+
   lookupT(scaleCode, pd, sex, country) {
     const S = this.STATUS;
     if (pd == null) return { t: null, status: S.CLAVE_NO_DISPONIBLE };
@@ -301,6 +325,10 @@ const MMPI2 = {
       return (typeof t === 'number' && isFinite(t)) ? t : null;
     };
     const bs = this._translateSex(sex, country);
+    if (scaleCode === 'Es') {
+      const limit = this.esReportingLimit(pd, sex, country);
+      if (limit) return limit;
+    }
     let usedKey = bs;
     let tVal = lkIn(bs);
     if (tVal === null) {
@@ -341,8 +369,7 @@ const MMPI2 = {
       }
       const lk = this.lookupT(scale.code, pdToUse, sex, country);
       results[scale.code] = {
-        t: lk.t,
-        status: lk.status,
+        ...lk,
         verify: !!lk.verify,
       };
     }
@@ -376,6 +403,7 @@ const MMPI2 = {
         t: tInfo.t,
         status: tInfo.status,
         verify: !!tInfo.verify,
+        ...(tInfo.bound ? {bound: tInfo.bound, reportingLimit: tInfo.reportingLimit, reportingSource: tInfo.reportingSource} : {}),
         key: scale.code === 'Mf' ? this.mfKey(sex, country) : undefined,
         band: this.getBand(tInfo.t),
         interpretation: this.getInterpretation(scale.code, tInfo.t, sex),

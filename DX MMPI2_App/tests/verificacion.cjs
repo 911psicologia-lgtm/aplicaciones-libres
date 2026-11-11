@@ -184,7 +184,8 @@ test('05 · Dos series críticas agrupadas y texto literal optativo',()=>{
 });
 
 test('06 · Conversión de Es, dirección de TRIN y lectura de validez',async()=>{
-  assert.equal(M.lookupT('Es',22,'M','US').t,null);
+  assert.equal(M.lookupT('Es',22,'M','US').t,30);
+  assert.equal(M.lookupT('Es',22,'M','US').bound,'≤');
   assert.equal(M.lookupT('Es',22,'M','MX').t,30);
   const selected={...base,reportOptions:{...base.reportOptions,tbl_descriptors:true}};
   const model=R.build(selected);
@@ -194,29 +195,37 @@ test('06 · Conversión de Es, dirección de TRIN y lectura de validez',async()=
   assert(R.build(base).blocks.some(b=>b.sectionId==='validez'&&b.t==='interp'));
   const es=model.blocks.find(b=>b.group==='Suplementarias').rows.find(r=>r.cells[0]==='Es');
   assert.equal(es.cells[2],22);
-  assert.equal(es.cells[4],'—');
-  assert.match(es.cells.at(-1),/Conversión T pendiente/);
+  assert.equal(es.cells[4],'≤30');
+  assert.equal(es.cells[5],'Bajo');
+  assert.match(es.cells.at(-1),/Recursos de afrontamiento percibidos reducidos/);
+  assert.match(model.blocks.find(b=>b.group==='Suplementarias').footnote,/límite inferior de reporte/);
   const us=model.blocks.find(b=>b.t==='chart'&&b.sectionId==='suplementarias');
-  assert.equal(us.spec.series[0].data[us.spec.labels.indexOf('Es')],null);
+  assert.equal(us.spec.series[0].data[us.spec.labels.indexOf('Es')],30);
+  assert.equal(us.spec.series[0].shown[us.spec.labels.indexOf('Es')],'≤30');
   const results=await M.computeAll(base.responses,'M','MX');
   const mx=R.build({...base,patient:{...base.patient,country:'MX'},results}).blocks.find(b=>b.t==='chart'&&b.sectionId==='suplementarias');
   assert.equal(mx.spec.series[0].data[mx.spec.labels.indexOf('Es')],30);
   assert.equal(mx.spec.series[0].shown[mx.spec.labels.indexOf('Es')],'30');
   const Chart=require(join(root,'vendor/chart.umd.min.js'));
-  for(const [spec,present] of [[us.spec,false],[mx.spec,true]]){
+  for(const [spec,label] of [[us.spec,'≤30'],[mx.spec,'30']]){
     const canvas={width:900,height:350,getContext(){return context;}};
     const drawn=[];
     const context=new Proxy({canvas,measureText:value=>({width:String(value).length*7}),
       fillText:(value,x)=>drawn.push({value:String(value),x})},{get:(target,key)=>target[key]??(()=>{})});
     const chart=new Chart(canvas,standard.ctx.ReportCharts.toConfig(spec,true));
     const point=chart.getDatasetMeta(0).data[spec.labels.indexOf('Es')];
-    assert.equal(point.skip,!present);
-    assert.equal(drawn.some(label=>label.value==='30'&&Math.abs(label.x-point.x)<1),present);
+    assert.equal(point.skip,false);
+    assert(drawn.some(drawnLabel=>drawnLabel.value===label&&Math.abs(drawnLabel.x-point.x)<1));
     chart.destroy();
   }
   const trin={...base,results:{...base.results,TRIN:{...base.results.TRIN,pd:11,t:65,verify:false}}};
   assert.equal(R.score(trin,'TRIN').published,'65V');
   assert.equal(R.levelLabel(55),'Habitual');
+  const profileLabels=[];
+  const profileContext=new Proxy({measureText:value=>({width:String(value).length*7}),
+    fillText:value=>profileLabels.push(String(value))},{get:(target,key)=>target[key]??(()=>{})});
+  Report._drawProfileCanvas(profileContext,1400,900,base.results);
+  assert(profileLabels.includes('≤30'),'El perfil imprimible debe conservar el límite de Es');
 });
 
 function aiPayload(c){
@@ -242,13 +251,25 @@ test('07 · JSON variable y ficha local en HTML, Word, PDF, Excel y TXT',async()
   assert.equal(exported.secciones[1].id,'identificacion');
   assert.throws(()=>R.parseAI({referencias:['Referencias sin cuerpo']},c,{strict:true}),/secciones/);
   const bad=aiPayload(c);
+  bad.secciones.find(s=>s.id==='integracion').bloques[0].contenido='Es (T = 31) en la aplicación actual.';
+  assert.throws(()=>R.parseAI(bad,c,{strict:true}),/≤30/);
   bad.secciones.find(s=>s.id==='integracion').bloques[0].contenido='Es (T = 30) en la aplicación actual.';
-  assert.throws(()=>R.parseAI(bad,c,{strict:true}),/T pendiente/);
+  assert.throws(()=>R.parseAI(bad,c,{strict:true}),/≤30/);
+  bad.secciones.find(s=>s.id==='integracion').bloques[0].contenido='Es (T = ≤30), recursos de afrontamiento percibidos reducidos.';
+  R.parseAI(bad,c,{strict:true});
   const {ctx}=standard;
   ctx.docx=require(join(root,'vendor/docx.umd.min.js'));
   ctx.jspdf=require(join(root,'vendor/jspdf.umd.min.js'));
   require(join(root,'vendor/jspdf.plugin.autotable.min.js')).applyPlugin(ctx.jspdf.jsPDF);
   ctx.XLSX=require(join(root,'vendor/xlsx.full.min.js'));
+  let technical;
+  ctx.Export._download=blob=>{technical=blob;};
+  ctx.Export.exportExcel(c,evaluator);
+  const technicalBook=ctx.XLSX.read(await technical.arrayBuffer());
+  const technicalRows=ctx.XLSX.utils.sheet_to_json(technicalBook.Sheets.Puntuaciones,{header:1});
+  assert.equal(technicalRows[0][6],'Rango de T');
+  assert.equal(technicalRows.find(row=>row[1]==='Es')[5],'≤30');
+  assert.equal(technicalRows.find(row=>row[1]==='Es')[6],'Bajo');
   const fakeImages={};
   if(process.env.MMPI2_QA_IMAGE){
     const dataURL='data:image/png;base64,'+readFileSync(process.env.MMPI2_QA_IMAGE).toString('base64');
@@ -366,4 +387,94 @@ test('12 · Arranque y acceso a un informe con licencia agotada',{skip:!inventor
   app.navigate('case');
   assert.equal(app.current,'activation');
   assert.match(appNode.innerHTML,/Aplicaciones agotadas/);
+});
+
+test('13 · Lecturas sustantivas recuperadas de V16 por escala, rango y sexo',()=>{
+  let checks=0;
+  for(const sex of ['H','M'])for(const [group,codes] of Object.entries(I.GROUP_ORDER)){
+    if(group==='Validez')continue;
+    for(const code of codes)for(const t of [30,39,40,55,59,60,65,70,80]){
+      if(code==='Es'&&t<=39)continue;
+      const expected=t>=60?I.g((I.KB[code]||{}).s||'',sex):t<=39&&I.loText(code,sex)?I.loText(code,sex):'Sin elevación';
+      const actual=R.readings({t},code,false,sex);
+      assert.equal(actual,expected,code+' / '+sex+' / '+t);
+      assert(actual.trim(),code+' sin lectura');
+      checks++;
+    }
+  }
+  assert(checks>1000);
+  const c={...base,reportOptions:{...base.reportOptions,tbl_descriptors:true}};
+  const model=R.build(c);
+  for(const group of R.groups(S.options(c)).filter(group=>group!=='Validez')){
+    const paragraph=R.narrative(c,I.groupParagraph(group,c.results,c.patient.sex));
+    assert(model.blocks.some(block=>block.t==='interp'&&block.text===paragraph),group+' sin interpretación V16');
+  }
+  const synthesis=model.blocks.find(block=>block.t==='consolidated');
+  assert(synthesis.text.includes(R.narrative(c,I.consolidated(c.results,c.patient))));
+  const integration=model.blocks.filter(block=>block.sectionId==='integracion').map(b=>b.text||'').join(' ');
+  assert(integration.includes(I.distributionParagraph(c.results,c.patient.sex)));
+  assert(integration.length>600);
+  assert(model.blocks.some(b=>b.sectionId==='recomendaciones'&&b.t==='list'&&b.items.length));
+});
+
+test('14 · Validez descriptiva, comprensible y sin órdenes al evaluador',()=>{
+  const samples={VRIN:46,TRIN:65,F:72,Fb:85,Fp:57,L:66,K:52,S:49};
+  for(const [code,t] of Object.entries(samples)){
+    const text=R.readings({t,direction:code==='TRIN'?'V':''},code,false,'M');
+    assert(text.length>=60,code);
+    assert(!/\b(?:explore|integre|considere|revise|contraste|examine)\b/i.test(text),code);
+    assert(!/pares evaluados|bloque (?:inicial|posterior)/i.test(text),code);
+  }
+  assert.match(R.readings({t:65,direction:'V'},'TRIN'),/Verdadero/);
+  assert.match(R.readings({t:65,direction:'F'},'TRIN'),/Falso/);
+  assert.match(R.readings({t:85},'Fb'),/parte final del cuestionario/);
+  assert.match(R.readings({t:66},'L',false,'M'),/^Posible presentación favorable de sí misma/);
+  assert.match(R.readings({t:52},'K'),/sin elevación defensiva marcada/);
+});
+
+test('15 · Es en casos guardados: límite visible, prompt coherente y licencia intacta',()=>{
+  const c=normal(base);
+  c.results.Es.t=null;c.results.Es.status='PD_FUERA_DE_TABLA';
+  delete c.results.Es.bound;delete c.results.Es.reportingLimit;delete c.results.Es.reportingSource;
+  const {ctx,memory}=runtime();
+  memory.set(ctx.Storage.KEYS.CASES,JSON.stringify([c]));
+  memory.set(ctx.Storage.KEYS.CURRENT_CASE,JSON.stringify(c));
+  const licenseBefore=memory.get('mmpi2_license');
+  const saved=ctx.Storage.getCase(c.id),current=ctx.Storage.getCurrentCase();
+  assert.equal(saved.results.Es.t,30);assert.equal(current.results.Es.bound,'≤');
+  assert.deepEqual(normal(saved.responses),normal(c.responses));
+  for(const code of Object.keys(c.results).filter(code=>code!=='Es'&&code!=='_meta'))
+    assert.deepEqual(normal(saved.results[code]),normal(c.results[code]),code);
+  assert.equal(memory.get('mmpi2_license'),licenseBefore);
+  const prompt=payload(ctx.AIPrompt.build(c));
+  const es=prompt.puntuaciones.find(row=>row.escala==='Es');
+  assert.equal(es.T,30);assert.equal(es.T_publicada,'≤30');assert.equal(es.rango,'Bajo');
+  assert.equal(es.limite,'≤');assert.match(es.nota_limite,/límite inferior de reporte/);
+  const text=ctx.ReportModel.toText(ctx.ReportModel.build(c));
+  assert(!/Es[^\n]{0,50}T (?:queda )?pendiente/.test(text));
+  assert(text.includes('Es, T = ≤30'));
+  assert(!text.includes('pronóstico más reservado'));
+});
+
+test('16 · Todas las celdas originales de Es se conservan; el límite es específico US',()=>{
+  for(const [country,bank,sexKeys] of [['US',datasets.__BAREMOS_US__,[['H','M'],['M','F']]],
+    ['MX',datasets.__BAREMOS_MX__,[['H','M'],['M','F']]]]){
+    for(const [sex,key] of sexKeys)for(const [pd,t] of Object.entries(bank.Es?.[key]||{})){
+      const lookup=M.lookupT('Es',Number(pd),sex,country);
+      assert.equal(lookup.t,t,country+' / '+sex+' / '+pd);
+      assert(!lookup.bound,'Celda original con límite añadido');
+    }
+  }
+  for(const sex of ['H','M']){
+    const table=datasets.__BAREMOS_US__.Es[sex==='H'?'M':'F'];
+    const first=Math.min(...Object.keys(table).map(Number));
+    for(let pd=0;pd<first;pd++){
+      const limit=M.lookupT('Es',pd,sex,'US');
+      assert.equal(limit.t,30);assert.equal(limit.bound,'≤');
+    }
+  }
+  for(const pd of [null,-1,22.5,'22',999])assert.equal(M.esReportingLimit(pd,'M','US'),null);
+  for(const country of ['ES','MX',undefined])assert.equal(M.esReportingLimit(22,'M',country),null);
+  const empty={patient:{sex:'M',country:'ES'},results:{Es:{pd:22,t:null}}};
+  assert.equal(M.applyReportingLimits(empty),empty);
 });

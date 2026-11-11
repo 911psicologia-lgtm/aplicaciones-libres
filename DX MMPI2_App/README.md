@@ -1,6 +1,8 @@
-# MMPI-2 · Suite clínica licenciada 17.3
+# MMPI-2 · Suite clínica licenciada 17.4
 
 Actualización de la edición V16 licenciada. El paquete conserva la aplicación estática y los casos guardados en el mismo origen del navegador. La revisión de informes parte de las secciones acordadas para la 17.2 y se integra con los exportadores y el sistema de activación de esta edición.
+
+Esta revisión recupera las lecturas breves y los párrafos interpretativos de V16 para las escalas clínicas, de contenido, suplementarias, PSY-5 y subescalas. Recupera también la distribución de elevaciones, la configuración del perfil, la síntesis y las recomendaciones específicas. Las lecturas de validez explican cada resultado en lenguaje descriptivo. Los cambios anteriores de identificación, opciones, secciones y activación se conservan.
 
 ## Abrir o actualizar
 
@@ -23,6 +25,7 @@ Actualización de la edición V16 licenciada. El paquete conserva la aplicación
 - La historia aparece cuando hay texto, el contraste aparece cuando hay puntuaciones previas y el pronóstico se habilita al documentar entrevista suficiente. La ficha de edición incluye aportes clínicos, procedencia del MMPI-2 anterior y la comprobación de clave y fuente comparables.
 - Koss-Butcher y Lachar-Wrobel se pueden combinar en un apartado temático sin duplicados. El informe local puede mostrar enunciados solo con autorización explícita mediante la casilla correspondiente. El prompt usa paráfrasis.
 - El prompt solicita un JSON con secciones consecutivas y referencias como clave raíz. Las tablas, figuras, firma e identificación se generan con los datos locales. Word, PDF, HTML, TXT y el Excel del informe comparten ese contenido. **Datos técnicos en Excel** sigue siendo una descarga separada.
-- El motor conserva sus tablas V16. Para Es con PD 22 en mujeres, la referencia estadounidense incluida deja la T pendiente y la mexicana devuelve 30. Los límites y marcas del motor se muestran en las tablas y figuras.
+- Los archivos de baremos y claves de corrección V16 se conservan íntegros. Es añade el límite inferior de reporte estadounidense: en mujeres con PD 22 se muestra **T ≤30**, **Bajo** y «Recursos de afrontamiento percibidos reducidos y sensación de vulnerabilidad ante el estrés actual». La figura sitúa el resultado en 30 con la etiqueta ≤30. El signo se conserva en el prompt y las exportaciones. Las celdas numéricas originales de los baremos permanecen iguales.
+- Los casos guardados con Es pendiente en ese tramo se actualizan al abrirlos. Este ajuste de presentación conserva las respuestas y las demás puntuaciones, y no consume una aplicación de la licencia.
 
-El detalle de las pruebas y las propuestas editoriales están en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete permanecen como referencia de las versiones anteriores.
+El detalle de esta recuperación y sus fuentes está en `auditoria/RESTAURACION_17_4.md`; las pruebas y las propuestas editoriales están en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete permanecen como referencia de las versiones anteriores.

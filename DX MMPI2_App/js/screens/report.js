@@ -978,7 +978,7 @@ const Report = {
         ctx.fillStyle = '#1F2937';
         ctx.font = 'bold 9px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText(String(p.t), p.x, p.y - 8);
+        ctx.fillText((results[p.code]?.bound||'')+String(p.t), p.x, p.y - 8);
       }
     }
 

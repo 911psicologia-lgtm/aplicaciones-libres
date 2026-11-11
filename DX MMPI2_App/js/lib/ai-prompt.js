@@ -1,6 +1,7 @@
 /* Prompt generado desde el mismo plan que los informes y exportaciones. */
 const AIPrompt = {
   build(c,evaluator={},settings={}){
+    c=window.MMPI2?.applyReportingLimits?.(c)||c;
     const S=ReportSections,M=ReportModel,I=Interpret,p=c.patient||{},R=c.results||{},o=S.options(c),prior=S.prior(c);
     const plan=S.plan(c,o,prior),active=new Set(plan.map(s=>s.id));
     const country=M.country(c),verdict=I.verdict(R),invalid=verdict.status==='NO_INTERPRETABLE';
@@ -24,7 +25,8 @@ const AIPrompt = {
       return {escala:code,grupo:group,PD:r.pd??null,PD_mas_K:r.pdk?r.pdK??null:null,T:r.t,
         T_publicada:r.published,rango:M.levelLabel(r.t,r.bound),limite:r.bound||null,direccion:r.direction||null,
         verificacion_pendiente:!!r.verify,estado:r.status||null,
-        ...(o.tbl_descriptors?{lectura_breve:clean(M.readings(r,code,invalid))}:{})};
+        ...(o.tbl_descriptors?{lectura_breve:clean(M.readings(r,code,invalid,p.sex))}:{}),
+        ...(r.reportingLimit?{nota_limite:clean(M.ES_LIMIT_NOTE)}:{})};
     }));
     const patient={
       ...(!anonymize?{nombre:clean(p.name),...(o.id_document?{documento:clean(p.document)}:{}),...(o.id_dob?{nacimiento:p.dob}: {})}:{}),
@@ -82,6 +84,7 @@ const AIPrompt = {
       'Encargo de integración clínica del MMPI-2. Español profesional, con hipótesis explícitas y fuentes verificables.',
       anonymize?'Identificadores directos omitidos. Revise el texto narrativo antes de compartirlo.':'Identificadores según la selección del evaluador.',
       'Integra funcionamiento, cronología, fuentes y convergencias. Diferencia los datos observados de las inferencias. Usa párrafos desarrollados cuando haya evidencia suficiente.',
+      'Redacta interpretaciones descriptivas y comprensibles. Explica qué significa cada hallazgo; las lecturas breves no son órdenes al evaluador. Conserva la diferencia entre autoinforme, hipótesis y diagnóstico.',
       'El programa genera ficha, firma, tablas y figuras psicométricas desde el registro local. Deja sus bloques vacíos y no dupliques sus resultados.',
       'Conserva PD, PD+K, T, referencias y límites. Una T pendiente permanece pendiente. Usa «Rango de T» y «Habitual» para 40–55. Interpreta la validez según cada índice. Una T baja documentada en Es orienta a explorar recursos, estrategias y apoyos de afrontamiento.',
       'Valora consistencia, omisiones, infrecuencia y presentación de sí antes de integrar escalas. Si la interpretación está suspendida, limita el texto a revisión técnica e indagación clínica directa pertinente. Excluye pruebas ajenas al registro.',

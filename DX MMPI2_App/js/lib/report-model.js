@@ -34,15 +34,9 @@ const ReportModel = {
     sexual:['Experiencias e inquietudes sobre sexualidad','Experiencias o preocupaciones relacionadas con la sexualidad.']
   },
   LEGEND:'Las puntuaciones T se interpretan frente al grupo de referencia. T = 50 es el centro de la escala. En este informe, los rangos descriptivos son Bajo (≤39), Habitual (40–55), Promedio superior (56–59), Alto (60–69) y Muy alto (≥70). Los indicadores de validez conservan sus propios criterios.',
-  SUPPLEMENTARY_CONTENT:{
-    A:'Malestar y tensión informados.',R:'Estilo de expresión y control emocional.',
-    AAS:'Reconocimiento informado de dificultades de consumo.',APS:'Contenido que orienta a explorar vulnerabilidad al consumo.',
-    MDS:'Tensiones y satisfacción en las relaciones de pareja.',Ho:'Hostilidad o desconfianza informadas.',
-    'O-H':'Forma de manejar la expresión del enojo.',Do:'Afirmación interpersonal en los contextos evaluados.',
-    Re:'Responsabilidad y cumplimiento según la autodescripción.',Mt:'Malestar en contenidos desarrollados para población estudiantil.',
-    PK:'Síntomas relacionados con estrés. Contraste exposición, curso e impacto funcional.'
-  },
   _literalCache:new WeakMap(),
+  ES_LOW:'recursos de afrontamiento percibidos reducidos y sensación de vulnerabilidad ante el estrés actual',
+  ES_LIMIT_NOTE:'Es: ≤30 corresponde al límite inferior de reporte de la referencia estadounidense. La figura sitúa el resultado en T 30 y conserva el signo ≤. La puntuación se clasifica en rango Bajo.',
 
   country(c){return ['ES','US','MX'].includes(c.patient?.country)?c.patient.country:'US';},
   defaultOptions(){return {...ReportSections.DEFAULTS};},
@@ -63,7 +57,7 @@ const ReportModel = {
   levelKey(t){return !Number.isFinite(t)?'nd':t>=70?'vh':t>=60?'h':t>=56?'ps':t>=40?'m':'lo';},
 
   score(c,code){
-    const r=c.results?.[code]||{},p=c.patient||{},country=this.country(c);
+    const r=(window.MMPI2?.applyReportingLimits?.(c)||c).results?.[code]||{},p=c.patient||{},country=this.country(c);
     const t=Number.isFinite(r.t)?r.t:null;
     let bound=r.bound||'',direction=['V','F'].includes(r.direction)?r.direction:'';
     if(t!=null&&r.verify&&!bound&&window.MMPI2?.lookupT){
@@ -81,31 +75,58 @@ const ReportModel = {
     return ['Validez','Clínicas','Contenido','Suplementarias',...(o.sec_psy5?['PSY-5']:[]),...(o.sec_subscales?['Subescalas']:[])];
   },
 
-  readings(r,code,invalid=false){
+  readings(r,code,invalid=false,sex){
     const t=r.t;
     if(t==null)return code==='Es'&&Number.isFinite(r.pd)?
       'PD '+r.pd+'. Conversión T pendiente en el baremo seleccionado.':
       'Conversión T pendiente. '+Interpret.statusReason(r)+'.';
     switch(code){
-      case 'VRIN':return t>=80?'La inconsistencia en pares alcanza el umbral de invalidez.':
-        t>=70?'Revise la consistencia entre pares y las condiciones de aplicación.':'El índice apoya la consistencia de los pares evaluados.';
-      case 'TRIN':return (r.direction?'Dirección '+r.direction+' ('+(r.direction==='V'?'verdadero':'falso')+') en los pares evaluados. ':'')+
-        (t>=80?'El patrón fijo alcanza el umbral de invalidez.':t>=70?'Revise el patrón de respuesta fija.':'Por debajo del umbral de invalidez.');
-      case 'F':return 'Infrecuencia en el bloque inicial. Integre el malestar referido, la consistencia y las condiciones de aplicación.';
-      case 'Fb':return 'Infrecuencia en el bloque posterior. Contraste con F y las condiciones de aplicación.';
-      case 'Fp':return 'Infrecuencia respecto de muestras clínicas. Considere conjuntamente F, Fb y la información de entrevista.';
-      case 'L':return t>=65?'Explore una posible presentación favorable. Contraste con K, S y la entrevista.':
-        'Examine la presentación de sí junto con K y S.';
-      case 'K':return (this.levelLabel(t)==='Habitual'?'Rango habitual. ':'')+'Integre la presentación de sí con L y S.';
-      case 'S':return (this.levelLabel(t)==='Habitual'?'Rango habitual. ':'')+'Considere la autopresentación junto con L y K.';
+      case 'VRIN':return t>=80?'Respuestas contradictorias frecuentes entre afirmaciones de contenido similar u opuesto. La inconsistencia limita la interpretación del perfil.':
+        t>=70?'Algunas respuestas contradictorias entre afirmaciones de contenido similar u opuesto; consistencia reducida.':
+        'Respuestas coherentes entre afirmaciones de contenido similar u opuesto, sin inconsistencia relevante.';
+      case 'TRIN':return t>=80?'Tendencia marcada a responder '+(r.direction==='V'?'«Verdadero»':r.direction==='F'?'«Falso»':'de forma fija')+
+        ' con independencia del contenido; el patrón limita la interpretación del perfil.':t>=70?
+        'Predominio de respuestas '+(r.direction==='V'?'«Verdadero»':r.direction==='F'?'«Falso»':'fijas')+', con posible influencia del estilo de respuesta en el perfil.':
+        t>=60&&r.direction?'Leve predominio de respuestas «'+(r.direction==='V'?'Verdadero':'Falso')+'», sin alcanzar el umbral de inconsistencia relevante.':
+        'Sin tendencia relevante a responder sistemáticamente «Verdadero» o «Falso» con independencia del contenido.';
+      case 'F':return t>=100?'Reconocimiento extremadamente elevado de experiencias poco frecuentes. El patrón limita la interpretación y puede reflejar malestar intenso o intensificación de síntomas.':
+        t>=80?'Reconocimiento muy elevado de experiencias poco frecuentes, compatible con malestar intenso o intensificación de síntomas.':
+        t>=65?'Reconocimiento elevado de experiencias poco frecuentes, compatible con malestar emocional importante.':
+        'Reconocimiento de experiencias poco frecuentes dentro de los límites habituales de la población de referencia.';
+      case 'Fb':return t>=80?'Respuestas poco frecuentes muy elevadas en la parte final del cuestionario, compatibles con malestar intenso o cambios en la forma de responder.':
+        t>=65?'Respuestas poco frecuentes elevadas en la parte final del cuestionario, compatibles con malestar emocional.':
+        'Respuestas poco frecuentes en la parte final del cuestionario dentro de los límites habituales.';
+      case 'Fp':return t>=100?'Reconocimiento extremadamente elevado de experiencias raras incluso en población clínica; la fiabilidad del perfil está comprometida.':
+        t>=70?'Reconocimiento elevado de experiencias raras incluso en población clínica, con posible intensificación de síntomas.':
+        'Sin elevación relevante de experiencias que son raras incluso en población clínica.';
+      case 'L':return t>=80?'Autodescripción excesivamente favorable, con muy escaso reconocimiento de faltas o dificultades cotidianas.':
+        t>=65?'Posible presentación favorable de sí '+(sex==='M'?'misma':'mismo')+', con menor reconocimiento de faltas o dificultades cotidianas.':
+        'Reconocimiento de faltas o dificultades cotidianas sin una presentación favorable marcada.';
+      case 'K':return t>=65?'Posible actitud defensiva o reservada, con tendencia a minimizar dificultades personales.':
+        t<=40?'Autodescripción autocrítica y mayor reconocimiento de dificultades personales.':
+        'Presentación de las dificultades dentro de límites habituales, sin elevación defensiva marcada.';
+      case 'S':return t>=70?'Autodescripción muy positiva, con posible idealización de la propia imagen y minimización de dificultades.':
+        'Autodescripción positiva dentro de límites habituales, sin idealización marcada de la propia imagen.';
     }
     if(invalid)return 'Lectura clínica suspendida por los indicadores de validez.';
     if(r.verify)return 'Conversión marcada para verificación. Lectura provisional.';
-    if(['Mf','GM','GF'].includes(code))return 'Intereses y preferencias en el marco del instrumento y del grupo normativo.';
-    if(code==='Es'&&t<=39)return 'Explore posibles dificultades para movilizar estrategias y apoyos de afrontamiento frente a las demandas actuales.';
-    if(this.SUPPLEMENTARY_CONTENT[code])return this.levelLabel(t,r.bound)+'. '+this.SUPPLEMENTARY_CONTENT[code];
-    if(t>=60)return 'Elevación descriptiva. Contraste su significado con el perfil y la entrevista.';
-    return this.levelLabel(t,r.bound)+'. Integre el dato con el resto del perfil.';
+    if(code==='Es'&&t<=39)return Interpret.cap(this.ES_LOW)+'.';
+    return t>=60?Interpret.g((Interpret.KB[code]||{}).s||'',sex):
+      t<=39&&Interpret.loText(code,sex)?Interpret.loText(code,sex):'Sin elevación';
+  },
+
+  narrative(c,text,o=this.options(c)){
+    let value=String(text||'');
+    // Se recupera la biblioteca V16; Es mantiene su lectura actual sin un pronóstico automático.
+    value=value.replaceAll(Interpret.g(Interpret.KB.Es.lo,c.patient?.sex),this.ES_LOW);
+    for(const code of Object.keys(c.results||{})){
+      const r=this.score(c,code);
+      if(r.t!=null&&r.published!==String(r.t)){
+        const escaped=code.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        value=value.replace(new RegExp('('+escaped+',?\\s*T\\s*=\\s*)'+r.t+'(?![\\dVF*])','g'),(_,lead)=>lead+r.published);
+      }
+    }
+    return this.cleanText(c,value,o);
   },
 
   criticalRows(c,o=this.options(c),withLiteral=false){
@@ -237,6 +258,7 @@ const ReportModel = {
   },
 
   build(c,evaluator={},override,ai=null){
+    c=window.MMPI2?.applyReportingLimits?.(c)||c;
     const S=ReportSections,I=Interpret,p=c.patient||{},R=c.results||{},o=S.options(c,false,override);
     const country=this.country(c),prior=S.prior(c),sections=S.plan(c,o,prior),blocks=[];
     const verdict=I.verdict(R),invalid=verdict.status==='NO_INTERPRETABLE';
@@ -261,6 +283,13 @@ const ReportModel = {
       }
     };
     const selectedGroups=this.groups(o);
+    const selectedCodes=new Set(selectedGroups.flatMap(group=>I.GROUP_ORDER[group]));
+    const selectedResults=Object.fromEntries(Object.entries(R).filter(([code])=>code==='_meta'||selectedCodes.has(code)));
+    const narrative=text=>this.narrative(c,text,o);
+    const interpretedResults=Object.fromEntries(Object.entries(selectedResults).map(([code,r])=>
+      [code,r?.verify?{...r,t:null}:r]));
+    const critical=(o.sec_critical||o.sec_critical_lw)?window.Critical?.compute(c.responses,p.sex):null;
+    if(critical&&!o.sec_critical)critical.sets.KB={...critical.sets.KB,series:[]};
     const visiblePrior=prior.rows.filter(row=>selectedGroups.some(g=>I.GROUP_ORDER[g].includes(row.code)));
     const profile=(group,id)=>{
       const codes=I.GROUP_ORDER[group].filter(code=>Object.hasOwn(R,code));
@@ -270,7 +299,7 @@ const ReportModel = {
       const rows=codes.map((code,i)=>{
         const r=scores[i];
         return {cells:[code,I.name(code),r.pd??'—',r.pdk?r.pdK??'—':'—',r.published,this.levelLabel(r.t,r.bound),
-          ...(o.tbl_descriptors?[clean(this.readings(r,code,invalid))]:[])],level:this.levelKey(r.t)};
+          ...(o.tbl_descriptors?[clean(this.readings(r,code,invalid,p.sex))]:[])],level:this.levelKey(r.t)};
       });
       const pending=codes.filter((code,i)=>scores[i].t==null);
       const es=group==='Suplementarias'?scores[codes.indexOf('Es')]:null;
@@ -278,34 +307,23 @@ const ReportModel = {
       if(pending.length)footnotes.push('Conversión T pendiente en '+pending.join(', ')+'.');
       if(scores.some(r=>r.verify))footnotes.push('* Conversión a verificar en la fuente seleccionada.');
       if(es?.t==null&&Number.isFinite(es?.pd))footnotes.push('Es conserva PD '+es.pd+'.');
+      if(es?.reportingLimit==='lower')footnotes.push(this.ES_LIMIT_NOTE);
       table(this.GROUP_TITLES[group]+' · puntuaciones directas (PD), corregidas por K (PD+K) y típicas (T)',header,rows,
         {group,tCol:4,levelCol:5,footnote:footnotes.join(' ')});
       if(group==='Validez'){
-        const summary=codes.map((code,i)=>code+' ('+scores[i].published+'). '+clean(this.readings(scores[i],code))).join(' ');
+        const summary=codes.map((code,i)=>I.name(code)+' ('+code+', T = '+scores[i].published+'). '+clean(this.readings(scores[i],code,false,p.sex))).join(' ');
         push({t:'interp',text:summary});
         pText('Omisiones registradas: '+(flags.omissions??'No consta')+'. Índice F − K (PD): '+(flags.fk??'No consta')+'.');
         pText('Lectura del protocolo: '+verdict.label+'.');
         const observations=[];
-        if(flags.overInvalid||flags.overPossible)observations.push('Revise la infrecuencia y el posible impacto del malestar actual. Contraste con la entrevista.');
-        if(flags.underInvalid||flags.under)observations.push('Explore una posible presentación favorable y contraste con otras fuentes.');
-        if(flags.inconsistent||flags.someInconsistency)observations.push('Revise la consistencia del patrón de respuestas y las condiciones de aplicación.');
+        if(flags.overInvalid||flags.overPossible)observations.push('La infrecuencia elevada puede reflejar malestar intenso o intensificación de síntomas; por sí sola no establece simulación.');
+        if(flags.underInvalid||flags.under)observations.push('La posible presentación favorable puede atenuar el reconocimiento de dificultades personales.');
+        if(flags.inconsistent||flags.someInconsistency)observations.push('La inconsistencia de respuestas reduce la confianza en la descripción clínica obtenida.');
         list(observations);
       }else if(invalid){
         pText('Las puntuaciones disponibles se presentan para revisión técnica. La interpretación clínica está suspendida.');
       }else{
-        const noteworthy=codes.map((code,i)=>[code,scores[i]]).filter(([code,r])=>r.t>=65&&!r.verify&&!['Mf','GM','GF'].includes(code))
-          .sort((a,b)=>b[1].t-a[1].t);
-        const summary=noteworthy.length?'Elevaciones de mayor magnitud en el grupo: '+noteworthy.slice(0,4).map(([code,r])=>code+' (T '+r.published+')').join(', ')+'.':
-          'Entre los valores documentados, el grupo carece de elevaciones interpretables de T ≥65.';
-        const context={
-          Clínicas:'Integre el perfil con el motivo, el funcionamiento actual y las condiciones de aplicación.',
-          Contenido:'Contraste los temas reconocidos con su duración, su impacto y la historia documentada.',
-          Suplementarias:'Explore el funcionamiento interpersonal, los recursos y las estrategias de afrontamiento según la historia.',
-          Subescalas:'Lea cada faceta junto con su escala madre. Una elevación aislada en una faceta requiere corroboración.',
-          'PSY-5':'Lea las dimensiones en relación con el funcionamiento actual y su persistencia en distintos contextos.'
-        };
-        push({t:'interp',text:summary+' '+context[group]});
-        if(es?.t!=null&&es.t<=39)pText('Es (T '+es.published+'). '+this.readings(es,'Es'));
+        push({t:'interp',text:narrative(I.groupParagraph(group,selectedResults,p.sex))});
       }
       if(id)take(id);
       const esCaption=es?es.t==null?' Es conserva PD '+(es.pd??'—')+' y su T queda pendiente.':' Es: '+es.published+'.':'';
@@ -361,9 +379,10 @@ const ReportModel = {
           if(o.sec_psy5){h2('Personalidad PSY-5');profile('PSY-5');}
           if(o.sec_clusters){
             h2('Correspondencia con clústeres DSM-5');
-            const rows=I.clusterAreas(R).map(a=>({cells:[a.name,a.scales.join(', '),a.max??'—',invalid?'Lectura suspendida':this.levelLabel(a.max)]}));
-            table('Correspondencia dimensional orientativa',['Clúster','Dimensiones de referencia','T máxima','Lectura'],rows);
+            const rows=I.clusterAreas(interpretedResults).map(a=>({cells:[a.name,a.scales.join(', '),a.max??'—',invalid?'Lectura suspendida':this.levelLabel(a.max),invalid?'Interpretación suspendida':I.cap(a.desc)]}));
+            table('Correspondencia dimensional orientativa',['Clúster','Dimensiones de referencia','T máxima','Rango de T','Rasgos del área'],rows);
             pText('Correspondencia conceptual para contrastar con entrevista y trayectoria clínica.');
+            if(!invalid)push({t:'interp',text:narrative(I.psy5Paragraph(interpretedResults,p.sex,verdict))});
           }
           break;
         case 'subescalas':profile('Subescalas',section.id);break;
@@ -379,17 +398,28 @@ const ReportModel = {
         case 'integracion':
           if(invalid)pText('La formulación clínica queda pendiente de revisar las condiciones de aplicación y los indicadores de validez.');
           else {
-            const eligible=Object.fromEntries(Object.entries(R).filter(([key,score])=>key==='_meta'||score&&!score.verify&&!score.bound));
-            const code=I.codeType(eligible);
-            if(code)pText('Código descriptivo del perfil clínico: '+code.code+' ('+code.scales.join(', ')+'). '+
-              (code.defined?'La separación entre escalas permite describir el patrón principal.':'La cercanía de otras escalas aconseja una lectura conjunta.'));
-            pText('Relacione las convergencias del perfil con la cronología, el funcionamiento cotidiano y las fuentes disponibles.');
+            h2('Distribución e intensidad de las elevaciones');
+            push({t:'interp',text:narrative(I.distributionParagraph(interpretedResults,p.sex))});
+            const significant=I.significant(interpretedResults);
+            if(significant.some(s=>I.feats(s.code,p.sex).some(([domain])=>domain!=='recursos')))
+              push({t:'interp',text:narrative(I.significantParagraph(interpretedResults,p.sex))});
+            else if(!significant.length)pText(I.significantParagraph(interpretedResults,p.sex));
+            h2('Configuración del perfil clínico');
+            const code=I.codeType(interpretedResults),configs=I.configs(interpretedResults);
+            pText(code?narrative(code.sentence):'Ninguna escala clínica alcanza T ≥65, por lo que no se establece código del perfil.');
+            for(const config of configs)pText(config.name+': '+narrative(config.desc));
             if(S.has(p.integration))pText(field(p.integration));
             take(section.id);
           }
           break;
         case 'recursos':
-          pText(field(p.strengths));
+          if(invalid)pText('La identificación de recursos a partir del inventario queda pendiente de un protocolo interpretable.');
+          else {
+            const resources=Object.keys(interpretedResults).filter(code=>I.KB[code]?.fav&&I.T(interpretedResults,code)>=65);
+            for(const code of resources)pText(narrative(I.ref(code,interpretedResults[code].t)+': '+I.hiText(code,p.sex)+'.'));
+            if(S.has(p.strengths))pText(field(p.strengths));
+            else if(!resources.length)pText('No constan fortalezas documentadas en entrevista ni elevaciones en las escalas de recursos seleccionadas.');
+          }
           if(S.has(p.strengths)||S.interview(c))take(section.id);
           break;
         case 'contraste':
@@ -427,10 +457,17 @@ const ReportModel = {
           if(S.has(p.limitations))pText(field(p.limitations));
           take(section.id);break;
         case 'conclusiones':
-          pText('Estado del protocolo: '+verdict.label+'. La integración final depende de la entrevista y de las fuentes corroboradas.');
+          push({t:'consolidated',text:narrative([I.consolidated(interpretedResults,p),
+            critical?Critical.synthesisSentence(critical,invalid,interpretedResults):''].filter(Boolean).join(' '))});
           take(section.id);break;
         case 'recomendaciones':
-          pText(S.has(p.recommendations)?field(p.recommendations):'Contraste los hallazgos pertinentes con la entrevista y documente las necesidades de seguimiento.');
+          {
+            const recommendations=I.recommendations(interpretedResults,verdict,p.sex);
+            const criticalRecommendations=critical?Critical.recommendations(critical).filter(text=>
+              !(/consumo/i.test(text)&&recommendations.some(item=>/consumo/i.test(item)))):[];
+            list([...criticalRecommendations,...recommendations].map(narrative));
+          }
+          if(S.has(p.recommendations))pText(field(p.recommendations));
           take(section.id);break;
         case 'alcance':pText(S.SCOPE);break;
       }

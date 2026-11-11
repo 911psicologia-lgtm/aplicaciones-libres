@@ -1,0 +1,31 @@
+{
+  "original_zip_sha256": "2a1bf0e2220cb1f9f690cb4750ebef1c7c60584d751a213663344566315e1ad0",
+  "original_resources": {
+    "data/items.json": "4835580a177dbd13560688c4815335c8a614bda59ab4bc872e2983f5d37ffabe",
+    "data/criterios.json": "32f8511ecac3c367c4343d846fc56c4743126a8cc72870ab9d2b22b0136ff3b5",
+    "data/criticos.json": "176111086789161309a9371c849a6732c6ca3e8f717d183f472e2cc483f9c49d",
+    "data/vrin_trin_pairs.json": "de3abe270520014ff6dd423e35865a2a4b49a3d184dacc3e8318ecfc3a2abc43",
+    "data/baremo_mx.json": "daec1886d414f52fcec6a125d28ed9edadcdbfaeb756ed200ae39f481daaef8f",
+    "data/baremo_us.json": "d8c3dd0e63c5daaaf9052a207b3922623c0b412532bd441f4954e27c968c86ca",
+    "data/scale_items.json": "7acc177c65832036beeb06161a52565ebf7c5e0a86842533b60260ef8461599e",
+    "data/baremos.json": "3ef6d66aac76ba8841e83018c7c65cea0c32a127dc6d7df0a97603f579e09d5d",
+    "data/fuentes/mx_psy5_women.txt": "d5ce7a5c89b75c43a93b233201da2ee9c9df571b806f430d6abc0ead538aa309",
+    "data/fuentes/claves_manual_apendiceC.json": "03d3e0b7694fd3776e27c512ca2669cceead8fb6a384372c7d7ede6ed0768223",
+    "data/fuentes/us_A1_men.txt": "9f6c97e86ea344efde7e1ddd63d91f066b55b9b95b0c10ed846979257f586fd2",
+    "data/fuentes/us_psy5_fix.txt": "d945dcaa512a2f3e2a478bccf390e882040326053d1572fd17d84a94bc5a06c6",
+    "data/fuentes/mx_B2_women.txt": "5d6cff1e8944945a13e10e75560ca06cd80c3d966251ee43602e535fd89450e3",
+    "data/fuentes/mx_B5_men.txt": "a7cc4afa320975b07e612bd0cd0ab56ffe6d8f0e0a5196a756e8b75549430216",
+    "data/fuentes/mx_psy5_men.txt": "57b2f1ba6c34dfa5c072330ff860aeec5ade928b8e41372de112499cb290c0fa",
+    "data/fuentes/mx_B1_men.txt": "7033fabc886914b13993e638671045d3a84d4a5a81b7a86e97bb984c8008edb0",
+    "data/fuentes/us_subscales.json": "6eb253a2df42cf7fd467b6a315c4e9c454ed8339df92fee1738307f9cbd1e519",
+    "data/fuentes/us_A2_women.txt": "74fdf3c2d2c5b83bccd9835681eff985d1e2c83d2b93a0a33b2b389fcccf3564",
+    "data/fuentes/mx_B7_men.txt": "481c6ed6d93dc93f1c1d11a0f27c42c209f3a42e3cd6e79ca47e3b8cccaeec62",
+    "data/fuentes/mx_B6_women.txt": "8f593598dc245ad0705ac075795c3a65b9b902a85d21fdf808c53fbf47353403",
+    "data/fuentes/mx_B8_women.txt": "9fb96e4a1862a5f55c1d7ba7404d88ba4d63564394e03958aa0125021b2753ae",
+    "data/fuentes/psy5_claves.json": "9d001d6eb45e70c92be30f0c9649ec7f2605036cb7eaca5d067ec6aa7941b4a5",
+    "data/fuentes/apendiceD_criticos.json": "176111086789161309a9371c849a6732c6ca3e8f717d183f472e2cc483f9c49d",
+    "js/lib/interpret.js": "3c92061fa56d21155e95291307fd5428bcbd8c7a099c51dcc77409848093d600",
+    "js/lib/critical.js": "fced175cda850c200cc676ddae952f7290afce5ad782379570ef5f9c2f7d23b0"
+  },
+  "license_modules_17_3_unchanged": true
+}

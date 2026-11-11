@@ -481,16 +481,17 @@ const Export = {
     XLSX.utils.book_append_sheet(wb, wsDatos, 'Informe');
 
     // Sheet 2: Puntuaciones
-    const head = ['Grupo', 'Código', 'Escala', 'PD', 'PD+K', 'T', 'Banda', 'Interpretación'];
+    const head = ['Grupo', 'Código', 'Escala', 'PD', 'PD+K', 'T', 'Rango de T', 'Interpretación'];
     const body = [head];
     const groupOrder = ['Validez', 'Clínicas', 'Contenido', 'Suplementarias', 'Subescalas'];
     for (const g of groupOrder) {
       for (const s of (groups[g] || [])) {
-        const tDisplay = (typeof s.t === 'number') ? s.t : (s.t == null ? '' : s.t);
+        const published = ReportModel.score(caseData, s.code);
+        const tDisplay = published.t == null ? (s.t ?? '') : published.published;
         const pdKDisplay = s.pdk ? (s.pdK != null ? s.pdK : '') : '';
         body.push([
           s.group, s.code, s.name, s.pd ?? '', pdKDisplay, tDisplay,
-          s.band ? s.band.label : '', s.interpretation || '',
+          ReportModel.levelLabel(published.t, published.bound), s.interpretation || '',
         ]);
       }
     }
