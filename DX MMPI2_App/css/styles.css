@@ -605,18 +605,27 @@ kbd { display: inline-block; border: 1px solid var(--color-border); border-botto
 .legal-brief-layout>.no-print>.card{margin-bottom:20px}
 .legal-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0}
 .legal-fields>label:first-child,.legal-fields>label:last-child{grid-column:1/-1}
-.legal-brief-layout .form-label{display:block;margin-bottom:14px;font-weight:600}
-.legal-brief-layout .form-label textarea,.legal-brief-layout .form-label input,.legal-brief-layout .form-label select{margin-top:6px;font-weight:400}
+:is(.legal-brief-layout,.legal-inline) .form-label{display:block;margin-bottom:14px;font-weight:600}
+:is(.legal-brief-layout,.legal-inline) .form-label textarea,:is(.legal-brief-layout,.legal-inline) .form-label input,:is(.legal-brief-layout,.legal-inline) .form-label select{margin-top:6px;font-weight:400}
 .legal-options{display:flex;gap:12px 22px;flex-wrap:wrap;margin:16px 0}
 .legal-wrap{flex-wrap:wrap;margin:12px 0}
 .legal-spaced{margin-top:18px}
 .legal-source-list{margin:18px 0}
 .legal-source-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--color-border)}
 .legal-source-row>.opt{flex:1;min-width:220px}.legal-source-row small{display:block;color:var(--color-text-muted);margin-top:5px;font-size:12px}
-.legal-brief-layout details{margin:18px 0}.legal-brief-layout summary{cursor:pointer;font-weight:600;color:var(--color-primary);padding:7px 0}
+:is(.legal-brief-layout,.legal-inline) details{margin:18px 0}:is(.legal-brief-layout,.legal-inline) summary{cursor:pointer;font-weight:600;color:var(--color-primary);padding:7px 0}
 .legal-source-editor{padding:10px 0}.legal-source-text{font-size:13px;line-height:1.55;min-height:220px}
 .legal-json{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.5}
 .legal-error{padding:12px 14px;border-left:4px solid var(--color-danger);background:#fff1f2;color:#9f1239;margin:14px 0;white-space:pre-line}
 .legal-steps{padding-left:22px;line-height:1.7}.legal-steps li{margin-bottom:5px}
 #legal-document-zone>.rdoc{margin-top:20px}
-@media(max-width:650px){.legal-fields{grid-template-columns:1fr}.legal-source-row>.opt{min-width:0;width:100%}.legal-source-row>.flex{width:100%}.legal-brief-layout .card-header{align-items:flex-start;gap:8px;flex-wrap:wrap}}
+@media(max-width:650px){.legal-fields{grid-template-columns:1fr}.legal-source-row>.opt{min-width:0;width:100%}.legal-source-row>.flex{width:100%}:is(.legal-brief-layout,.legal-inline) .card-header{align-items:flex-start;gap:8px;flex-wrap:wrap}}
+
+/* Informe complementario dentro del informe clínico. */
+.legal-inline { margin: 16px 0 24px; }
+.legal-inline .legal-generator .card-header { flex-wrap: wrap; }
+.legal-workflow > summary { padding: 16px 20px; cursor: pointer; font-weight: 600; color: var(--color-primary-dark); }
+.legal-generator details > summary { cursor: pointer; line-height: 1.6; }
+@media print { #rpt-legal-drawer { display: none !important; } }
+.app-update-notice { position: fixed; z-index: 3000; bottom: 16px; left: 16px; right: 16px; margin: auto; max-width: 680px; padding: 14px 18px; background: #fff; border: 1px solid #b6c6df; border-radius: 8px; box-shadow: 0 3px 18px #0002; display: flex; align-items: center; gap: 16px; justify-content: space-between; font-size: 14px; }
+@media(max-width: 480px) { .app-update-notice { align-items: flex-start; flex-wrap: wrap; } }
