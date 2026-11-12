@@ -52,7 +52,11 @@ const ReportCharts = {
           ctx.fillStyle = r.color || '#999';
           ctx.font = '600 10px Arial, sans-serif';
           if (horizontal) { ctx.textAlign = 'center'; ctx.fillText(r.label, v, chartArea.top - 4); }
-          else { ctx.textAlign = 'right'; ctx.fillText(r.label, chartArea.right - 2, v - 4); }
+          else {
+            const left=opts.labelSide==='left';
+            ctx.textAlign=left?'left':'right';
+            ctx.fillText(r.label,left?chartArea.left+8:chartArea.right-2,v-4);
+          }
         }
       }
       ctx.restore();
@@ -87,7 +91,11 @@ const ReportCharts = {
           } else {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
-            const off = (opts.offsets && opts.offsets[di]) || 7;
+            let off = (opts.offsets && opts.offsets[di]) || 7;
+            if(opts.compare&&chart.data.datasets.length===2){
+              const other=chart.data.datasets[1-di].data[i];
+              if(other!=null&&isFinite(other))off=v>other||(v===other&&di===0)?9:-16;
+            }
             ctx.fillText(label, el.x, el.y - off);
           }
         });
@@ -123,8 +131,8 @@ const ReportCharts = {
         legend: { display: (spec.series || []).length > 1 || spec.kind === 'stacked', position: 'top', labels: { font: { size: fs }, boxWidth: 12, padding: 10, color: C.text } },
         tooltip: { enabled: !forImage },
         title: { display: false },
-        refLines: { lines: refs },
-        valueLabels: { enabled: spec.valueLabels !== false, size: forImage ? 11 : 10, stacked: spec.kind === 'stacked', offsets: spec.kind === 'compare' ? [9, -16] : null },
+        refLines: { lines: refs, labelSide: spec.kind==='compare'?'left':'right' },
+        valueLabels: { enabled: spec.valueLabels !== false, size: forImage ? 11 : 10, stacked: spec.kind === 'stacked', compare:spec.kind==='compare', offsets: spec.kind === 'compare' ? [9, -16] : null },
       },
     };
     const plugins = [this._refPlugin, this._valuePlugin];

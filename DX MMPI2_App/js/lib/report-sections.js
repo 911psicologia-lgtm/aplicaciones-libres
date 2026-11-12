@@ -1,7 +1,15 @@
 /* Selección de contenido y migración de opciones del informe. */
 const ReportSections = {
   SCHEMA: 2,
-  VERSION: '17.4',
+  VERSION: '17.6',
+  PRESETS: Object.freeze({
+    base:{label:'Base · informe habitual',values:{info_reason:true,info_history:true,info_caseHistory:false,
+      sec_charts:true,sec_subscales:false,sec_psy5:true,sec_clusters:false,sec_critical:true,sec_critical_lw:false,
+      tbl_descriptors:false,sec_compare:true,sec_recs:true,sec_exam:true,sec_diagnosis:true,sec_strengths:true,sec_prognosis:false,sec_limits:true,sec_references:true}},
+    extended:{label:'Extendido · detalle completo',values:{info_reason:true,info_history:true,info_caseHistory:true,
+      sec_charts:true,sec_subscales:true,sec_psy5:true,sec_clusters:true,sec_critical:true,sec_critical_lw:true,
+      tbl_descriptors:true,sec_compare:true,sec_recs:true,sec_exam:true,sec_diagnosis:true,sec_strengths:true,sec_limits:true,sec_references:true}}
+  }),
   DEFAULTS: Object.freeze({
     id_document:true,id_dob:true,id_mode:true,info_reason:true,info_history:true,info_caseHistory:true,info_request_context:false,
     sec_charts:true,sec_subscales:true,sec_psy5:true,sec_clusters:false,sec_critical:true,sec_critical_lw:false,
@@ -22,6 +30,21 @@ const ReportSections = {
   has(value){return typeof value==='string'&&Boolean(value.trim());},
   context(patient){return patient?.requestContext??patient?.legalContext??'';},
   interview(c){return c.patient?.interviewSufficient===true;},
+
+  preset(c){return Object.hasOwn(this.PRESETS,c?.reportPreset)?c.reportPreset:'custom';},
+  applyPreset(c,key){
+    if(!Object.hasOwn(this.PRESETS,key))return {...c,reportPreset:'custom'};
+    const values={...this.PRESETS[key].values};
+    // Contexto, identificación, firma y autorización de literales conservan la selección del evaluador.
+    if(key==='extended')values.sec_prognosis=this.interview(c);
+    return {...c,reportPreset:key,aiReportOptions:c.aiReportOptions||this.options(c),reportOptions:this.options(c,false,values)};
+  },
+  aiCase(c){
+    if(!c?.aiReportOptions)return c;
+    const current=this.options(c),shared={};
+    for(const key of ['id_document','id_dob','id_mode','info_request_context','sec_scope','critical_literal','place','institution'])shared[key]=current[key];
+    return {...c,reportPreset:'custom',reportOptions:this.options(c,false,{...c.aiReportOptions,...shared})};
+  },
 
   options(c={},legacy=false,override){
     const raw={...c.reportOptions,...override},p=c.patient||{},o={...this.DEFAULTS};
@@ -78,7 +101,7 @@ const ReportSections = {
       antecedentes:history?(o.info_history?this.TITLES.antecedentes:'Historia del caso'):'Antecedentes',
       suplementarias:o.sec_psy5?this.TITLES.suplementarias+' y PSY-5':this.TITLES.suplementarias
     };
-    return Object.keys(titles).filter(id=>active[id]!==false)
+    return Object.keys(titles).filter(id=>id!=='encabezado'&&active[id]!==false)
       .map((id,index)=>({id,numero:index+1,titulo:titles[id]}));
   },
 

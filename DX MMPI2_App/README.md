@@ -1,10 +1,10 @@
-# MMPI-2 · Suite clínica licenciada 17.5
+# MMPI-2 · Suite clínica licenciada 17.6
 
 Actualización de la edición V16 licenciada. El paquete conserva la aplicación estática y los casos guardados en el mismo origen del navegador. La revisión de informes parte de las secciones acordadas para la 17.2 y se integra con los exportadores y el sistema de activación de esta edición.
 
 Esta revisión recupera las lecturas breves y los párrafos interpretativos de V16 para las escalas clínicas, de contenido, suplementarias, PSY-5 y subescalas. Recupera también la distribución de elevaciones, la configuración del perfil, la síntesis y las recomendaciones específicas. Las lecturas de validez explican cada resultado en lenguaje descriptivo. Los cambios anteriores de identificación, opciones, secciones y activación se conservan.
 
-La edición 17.5 añade los PDF diligenciados de la hoja de respuestas y de los dos perfiles aportados por el evaluador. El generador documental es independiente del cálculo psicométrico y conserva el funcionamiento de informes y licencias de 17.4.
+La edición 17.6 incorpora los formatos Base y Extendido para el informe sin IA, recupera la gráfica de contraste longitudinal y evita duplicar la interpretación automática con la contextualización de IA. Conserva los formularios PDF de 17.5, el cálculo psicométrico, las interpretaciones de las escalas y el sistema de licencias.
 
 ## Formularios PDF
 
@@ -37,6 +37,13 @@ Los ejemplos ficticios de descarga y el detalle de comprobaciones están en `aud
 
 ## Informes
 
+- En **Contenido del informe → Formato del informe sin IA**, **Base** conserva los apartados habituales, las gráficas y PSY-5; resume por tema los ítems críticos de Koss-Butcher. **Extendido** añade historia completa, subescalas Harris-Lingoes, correspondencia con clústeres, Lachar-Wrobel, descriptores y detalle de los ítems. El texto literal sigue requiriendo su casilla explícita. El pronóstico requiere entrevista suficiente y el contraste requiere puntuaciones anteriores.
+- Elegir Base o Extendido actualiza inmediatamente las casillas y el informe sin IA. **Personalizado** conserva la selección actual de los casos guardados o la que se ajuste manualmente. La identificación, el contexto, la firma y la autorización de literales conservan sus preferencias.
+- El formato sin IA se guarda por separado de las secciones para IA. Elegir Base no recorta el informe con IA. **Usar estas secciones también en IA** aplica expresamente la selección actual a ese informe y al siguiente prompt; los datos de identificación y privacidad se comparten entre ambos.
+- El título general y la institución, si se informa, se presentan sin crear un apartado numerado «Encabezado institucional». La numeración comienza en la ficha de identificación y sigue las secciones activas, sin saltos. Un JSON anterior que contenga ese encabezado sigue siendo aceptado.
+- La interpretación contextual de IA sustituye al párrafo automático de su sección y conserva las tablas y figuras locales. Las conclusiones se distribuyen en párrafos; se conservan los cuadros cualitativos aportados por la IA, como la cronología y su estado de verificación.
+- El contraste muestra las T publicadas previas y actuales, incluso si la comparabilidad está pendiente. La gráfica incluye también las escalas de validez disponibles. El texto identifica los valores, los límites y los datos faltantes. Las diferencias T se calculan únicamente con el mismo baremo, sexo normativo, versión, clave y fuente confirmados, sin límites o puntuaciones pendientes; TRIN conserva su dirección. La gráfica documental no demuestra por sí sola cambio clínico.
+- La tabla y el gráfico usan las puntuaciones del campo estructurado **MMPI-2 anterior**. Las cifras de otros informes citados en la historia no se incorporan automáticamente a esa serie, porque pueden proceder de instrumentos o fechas diferentes.
 - En **Contenido del informe** se eligen los datos de identificación, las secciones, las gráficas y las lecturas breves. La ficha se arma con el caso local. Documento, nacimiento y modalidad tienen sus propias casillas.
 - **Rango de T** describe la posición normativa. **Habitual** corresponde a T de 40 a 55. Validez incluye lectura narrativa por índice. La columna **Lectura breve** se añade al activarla.
 - La historia aparece cuando hay texto, el contraste aparece cuando hay puntuaciones previas y el pronóstico se habilita al documentar entrevista suficiente. La ficha de edición incluye aportes clínicos, procedencia del MMPI-2 anterior y la comprobación de clave y fuente comparables.
@@ -45,4 +52,4 @@ Los ejemplos ficticios de descarga y el detalle de comprobaciones están en `aud
 - Los archivos de baremos y claves de corrección V16 se conservan íntegros. Es añade el límite inferior de reporte estadounidense: en mujeres con PD 22 se muestra **T ≤30**, **Bajo** y «Recursos de afrontamiento percibidos reducidos y sensación de vulnerabilidad ante el estrés actual». La figura sitúa el resultado en 30 con la etiqueta ≤30. El signo se conserva en el prompt y las exportaciones. Las celdas numéricas originales de los baremos permanecen iguales.
 - Los casos guardados con Es pendiente en ese tramo se actualizan al abrirlos. Este ajuste de presentación conserva las respuestas y las demás puntuaciones, y no consume una aplicación de la licencia.
 
-El detalle de esta recuperación y sus fuentes está en `auditoria/RESTAURACION_17_4.md`; las pruebas y las propuestas editoriales están en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete permanecen como referencia de las versiones anteriores.
+La revisión actual, las listas de secciones y las comprobaciones están en `auditoria/INFORMES_17_6.md`. El detalle de la recuperación anterior está en `auditoria/RESTAURACION_17_4.md`; las propuestas editoriales permanecen en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete se conservan como referencia.

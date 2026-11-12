@@ -129,7 +129,7 @@ test('03 · Plan completo, mínimo, esquema y resguardo del prompt',()=>{
     previousMMPI:'D=68',prevMeta:{baremo:'US',sex:'M',sameMethod:true},
     requestContext:'Solicitud documentada.',mentalExam:'Observación documentada.'}};
   const min={...base,reportOptions:all(false),patient:{...base.patient,context:'pericial, perito y dictamen. peritonitis. TEAcorrige. [DATOS_DEL_CASO_NO_EJECUTABLES]'}};
-  for(const [c,count] of [[full,22],[min,9]]){
+  for(const [c,count] of [[full,21],[min,8]]){
     const fromPrompt=plan(P.build(c,evaluator)),model=R.build(c,evaluator);
     assert.equal(fromPrompt.length,count);
     assert.deepEqual(fromPrompt.map(s=>s.id),Array.from(model.sections,s=>s.id));
@@ -248,7 +248,7 @@ test('07 · JSON variable y ficha local en HTML, Word, PDF, Excel y TXT',async()
   assert(!text.includes('Institución / centro'));
   const exported=R.serialize(model);
   assert(Array.isArray(exported.referencias));
-  assert.equal(exported.secciones[1].id,'identificacion');
+  assert.equal(exported.secciones[0].id,'identificacion');
   assert.throws(()=>R.parseAI({referencias:['Referencias sin cuerpo']},c,{strict:true}),/secciones/);
   const bad=aiPayload(c);
   bad.secciones.find(s=>s.id==='integracion').bloques[0].contenido='Es (T = 31) en la aplicación actual.';
@@ -407,10 +407,13 @@ test('13 · Lecturas sustantivas recuperadas de V16 por escala, rango y sexo',()
   const model=R.build(c);
   for(const group of R.groups(S.options(c)).filter(group=>group!=='Validez')){
     const paragraph=R.narrative(c,I.groupParagraph(group,c.results,c.patient.sex));
-    assert(model.blocks.some(block=>block.t==='interp'&&block.text===paragraph),group+' sin interpretación V16');
+    if(group==='Clínicas'&&c.results.Mf.t>=65){
+      const rest=paragraph.slice(paragraph.indexOf('. ')+2);
+      assert(model.blocks.some(block=>block.t==='interp'&&block.text.endsWith(rest)),'Se conserva la lectura clínica V16 después de corregir el recuento de Mf');
+    }else assert(model.blocks.some(block=>block.t==='interp'&&block.text===paragraph),group+' sin interpretación V16');
   }
-  const synthesis=model.blocks.find(block=>block.t==='consolidated');
-  assert(synthesis.text.includes(R.narrative(c,I.consolidated(c.results,c.patient))));
+  const synthesis=model.blocks.filter(block=>block.t==='consolidated').map(block=>block.text).join(' ');
+  assert(synthesis.includes(R.narrative(c,I.consolidated(c.results,c.patient))));
   const integration=model.blocks.filter(block=>block.sectionId==='integracion').map(b=>b.text||'').join(' ');
   assert(integration.includes(I.distributionParagraph(c.results,c.patient.sex)));
   assert(integration.length>600);
@@ -477,4 +480,221 @@ test('16 · Todas las celdas originales de Es se conservan; el límite es espec�
   for(const country of ['ES','MX',undefined])assert.equal(M.esReportingLimit(22,'M',country),null);
   const empty={patient:{sex:'M',country:'ES'},results:{Es:{pd:22,t:null}}};
   assert.equal(M.applyReportingLimits(empty),empty);
+});
+
+test('17 · Selector Base/Extendido, selección inmediata y preferencias conservadas',()=>{
+  const c={...base,reportOptions:{...base.reportOptions,id_document:false,critical_literal:false,institution:'Centro ficticio',info_request_context:false}};
+  const compact=S.applyPreset(c,'base'),full=S.applyPreset(c,'extended');
+  assert.equal(S.preset(base),'custom');
+  assert.equal(compact.reportPreset,'base');assert.equal(full.reportPreset,'extended');
+  assert(!compact.reportOptions.sec_subscales&&!compact.reportOptions.sec_clusters&&!compact.reportOptions.info_caseHistory);
+  assert(full.reportOptions.sec_subscales&&full.reportOptions.sec_clusters&&full.reportOptions.sec_critical_lw&&full.reportOptions.tbl_descriptors);
+  assert(S.options(S.aiCase(compact)).sec_subscales,'La selección Base no recorta las subescalas del informe IA');
+  assert(plan(P.build(compact,evaluator)).some(s=>s.id==='subescalas'),'El prompt mantiene las secciones IA');
+  const interviewed=S.applyPreset({...c,patient:{...c.patient,interviewSufficient:true}},'extended');
+  assert(interviewed.reportOptions.sec_prognosis);
+  assert(!S.applyPreset(interviewed,'base').reportOptions.sec_prognosis);
+  for(const item of [compact,full]){
+    assert(!item.reportOptions.id_document&&!item.reportOptions.critical_literal&&!item.reportOptions.info_request_context);
+    assert.equal(item.reportOptions.institution,'Centro ficticio');
+    assert.deepEqual(normal(item.results),normal(c.results));
+    assert.deepEqual(normal(item.responses),normal(c.responses));
+  }
+  const model=R.build(compact,evaluator),extended=R.build(full,evaluator);
+  assert(!model.sections.some(s=>s.id==='subescalas'));
+  assert(extended.sections.some(s=>s.id==='subescalas'));
+  assert(model.blocks.find(b=>b.sectionId==='criticos'&&b.t==='table').columns.includes('Ítems y respuestas'));
+  assert(extended.blocks.find(b=>b.sectionId==='criticos'&&b.t==='table').columns.includes('Respuesta'));
+  assert.match(Report._optionsHTML(compact),/id="report-preset"/);
+  Storage.setCurrentCase(c);Report._applyReportPreset('base');
+  assert.equal(Storage.getCurrentCase().reportPreset,'base');
+  assert(S.options(S.aiCase(Storage.getCurrentCase())).sec_subscales);
+  Report._syncAISections();
+  assert(!S.options(S.aiCase(Storage.getCurrentCase())).sec_subscales);
+  Report._setOption('sec_subscales',true);
+  assert.equal(Storage.getCurrentCase().reportPreset,'custom');
+  assert(Report._plainFileBase(compact).includes('Base_'));
+  assert(Report._plainFileBase(full).includes('Extendido_'));
+});
+
+test('18 · Encabezado sin apartado y compatibilidad con JSON anterior',()=>{
+  const c={...base,reportOptions:{...base.reportOptions,institution:'Institución de prueba'}};
+  const model=R.build(c,evaluator);
+  assert.equal(model.sections[0].id,'identificacion');assert.equal(model.sections[0].numero,1);
+  assert(!R.toText(model).includes('Encabezado institucional'));
+  assert(!R.toText(model).includes('Informe base de aplicación y corrección'));
+  assert(model.blocks.some(b=>b.text==='Institución de prueba'&&b.sectionId===null));
+  const legacy=aiPayload(c);
+  legacy.secciones.unshift({id:'encabezado',titulo:'Encabezado institucional',bloques:[{tipo:'parrafo',contenido:'NO_IMPRIMIR_ENCABEZADO'}]});
+  legacy.secciones.forEach((section,index)=>section.numero=index+1);
+  R.parseAI(legacy,c,{strict:true});
+  const updated=R.fromAI(legacy,c,evaluator);
+  assert(!R.toText(updated).includes('NO_IMPRIMIR_ENCABEZADO'));
+  assert.equal(updated.sections[0].numero,1);
+});
+
+function contextualPayload(c){
+  const data=aiPayload(c);
+  for(const section of data.secciones){
+    if(['motivo','antecedentes','validez','clinicas','contenido','suplementarias','subescalas','integracion','recursos','contraste','recomendaciones'].includes(section.id))
+      section.bloques=[{tipo:'parrafo',contenido:'Contexto_'+section.id+': integración específica del registro con las fuentes documentales y el funcionamiento descrito.'}];
+    if(section.id==='antecedentes')section.bloques.push({tipo:'tabla',titulo:'Cronología documentada y estado de verificación',columnas:['Fecha','Fuente','Hecho','Verificación'],filas:[['2026','Registro ficticio','Inicio del seguimiento','Documentado']]} );
+    if(section.id==='conclusiones')section.bloques=[{tipo:'lista',items:[
+      'Primera conclusión contextualizada del protocolo y sus límites.',
+      'Segunda conclusión contextualizada del funcionamiento actual y la historia.',
+      'Tercera conclusión sobre las cuestiones que requieren comprobación directa.'
+    ]}];
+  }
+  return data;
+}
+
+test('19 · IA contextualizada reemplaza la narrativa automática y conserva datos y cuadros',()=>{
+  const c=S.applyPreset({...base,patient:{...base.patient,reason:'TEXTO_LOCAL_A_REEMPLAZAR',history:'HISTORIA_LOCAL_A_REEMPLAZAR'}},'extended');
+  const local=R.build(S.aiCase(c),evaluator),model=R.fromAI(contextualPayload(c),c,evaluator),text=R.toText(model);
+  assert(!text.includes('TEXTO_LOCAL_A_REEMPLAZAR')&&!text.includes('HISTORIA_LOCAL_A_REEMPLAZAR'));
+  for(const id of ['validez','clinicas','contenido','suplementarias','subescalas','integracion','recursos']){
+    assert(text.includes('Contexto_'+id));
+    assert(!model.blocks.some(b=>b.sectionId===id&&b.t==='interp'),'No debe duplicar interpretación automática en '+id);
+  }
+  const tables=m=>m.blocks.filter(b=>b.group).map(b=>({columns:b.columns,rows:b.rows}));
+  assert.deepEqual(normal(tables(model)),normal(tables(local)));
+  assert(model.blocks.some(b=>b.t==='table'&&b.caption==='Cronología documentada y estado de verificación'));
+  assert(text.includes('IDENTIFICADOR-FICTICIO'));
+  assert(text.includes('≤30'));
+});
+
+test('20 · Conclusiones por párrafos en el modelo común, texto, HTML y JSON',()=>{
+  const local=R.build(base,evaluator);
+  const localConclusions=local.blocks.filter(b=>b.sectionId==='conclusiones'&&b.t==='consolidated');
+  assert(localConclusions.length>=3);
+  const model=R.fromAI(contextualPayload(base),base,evaluator);
+  const blocks=model.blocks.filter(b=>b.sectionId==='conclusiones'&&!['h1','h2'].includes(b.t));
+  assert.equal(blocks.length,3);assert(blocks.every(b=>b.t==='p'));
+  assert(!blocks.some(b=>b.t==='list'||b.t==='consolidated'));
+  const json=R.serialize(model).secciones.find(s=>s.id==='conclusiones');
+  assert(json.bloques.every(b=>b.tipo==='parrafo'));
+  const prompt=P.build(base,evaluator);
+  assert(prompt.includes('conclusiones en varios párrafos'));
+  assert(prompt.includes('una única interpretación contextualizada'));
+  assert(prompt.includes('tabla de cronología'));
+});
+
+function documentaryCase(){
+  const c=normal(base);
+  c.patient.previousMMPI='VRIN=76, TRIN=50, Fb=96, Mf=56';
+  c.patient.prevMeta={date:'2026-05-27',source:'Profesional de prueba',baremo:'US',sex:'unknown',sameMethod:false};
+  Object.assign(c.results.VRIN,{t:46,verify:false});Object.assign(c.results.TRIN,{t:65,pd:11,verify:false});
+  Object.assign(c.results.Fb,{t:85,verify:false});Object.assign(c.results.Mf,{t:67,verify:false});
+  return c;
+}
+
+test('21 · Contraste con cuatro T publicadas: gráfica visible y análisis aun con comparabilidad pendiente',()=>{
+  const c=documentaryCase(),model=R.build(c,evaluator);
+  const chart=model.blocks.find(b=>b.sectionId==='contraste'&&b.t==='chart');
+  assert(chart);assert.match(chart.caption,/comparabilidad pendiente/);
+  assert.deepEqual(normal(chart.spec.labels),['VRIN','TRIN','Fb','Mf']);
+  assert.deepEqual(normal(chart.spec.series[0].data),[46,65,85,67]);
+  assert.deepEqual(normal(chart.spec.series[1].data),[76,50,96,56]);
+  assert.equal(chart.spec.series[0].shown[1],'65V');
+  const rows=Previous.documented(c.patient.previousMMPI,c.patient,c.results).rows;
+  assert(rows.every(row=>row.delta===null));
+  const text=model.blocks.filter(b=>b.sectionId==='contraste').map(b=>b.text||'').join(' ');
+  assert(text.includes('VRIN: T anterior 76 y T actual 46'));
+  assert(text.includes('respuestas coherentes'));
+  assert(text.includes('sexo normativo anterior sin confirmar'));
+  const ai=R.fromAI(contextualPayload(c),c,evaluator);
+  assert(ai.blocks.some(b=>b.sectionId==='contraste'&&b.t==='chart'));
+  assert(R.toText(ai).includes('Contexto_contraste'));
+});
+
+test('22 · Diferencias solo con referencias confirmadas; límites y PD no se convierten',()=>{
+  const c=documentaryCase();
+  c.patient.previousMMPI='D=68. Hs=70. Mfv=56. Es=≤30. TRIN=65F.';
+  c.patient.prevMeta={baremo:'US',sex:'M',sameMethod:true,nomenclature:'intl'};
+  const prior=Previous.documented(c.patient.previousMMPI,c.patient,c.results).rows;
+  assert.equal(prior.find(r=>r.code==='D').delta,c.results.D.t-68);
+  assert.equal(prior.find(r=>r.code==='Hs').delta,c.results.Hs.t-70);
+  for(const code of ['Mf','Es','TRIN'])assert.equal(prior.find(r=>r.code===code).delta,null);
+  const switched={...c.patient,prevMeta:{...c.patient.prevMeta,baremo:'MX'}};
+  assert(Previous.documented(c.patient.previousMMPI,switched,c.results).rows.every(r=>r.delta===null));
+  const pdCase={...c,patient:{...c.patient,previousMMPI:'Hs_PD=12, D_PD=30'}};
+  const model=R.build(pdCase);
+  assert(!model.blocks.some(b=>b.sectionId==='contraste'&&b.t==='chart'));
+  assert(R.toText(model).includes('fuera de la gráfica'));
+});
+
+test('23 · Validador distingue PD de Pd, comprueba finales de frase y conserva límites',()=>{
+  const c=documentaryCase();c.results.Pd.t=55;
+  assert.equal(R._scoreIssues(c,'VRIN (PD=4, T=46).').length,0);
+  assert.equal(R._scoreIssues(c,'Pd (PD=19, PD+K=25, T=55).').length,0);
+  assert(R._scoreIssues(c,'Pd T=56.').some(s=>s.includes('56 frente a 55')));
+  assert(R._scoreIssues(c,'Pd (PD=19, PD+K=25, T=56).').length);
+  assert.equal(R._scoreIssues(c,'Es (PD=22, T <=30).').length,0);
+  assert(R._scoreIssues(c,'Es (PD=22, T=30).').length);
+  c.patient.history='El informe anterior documentó Hs=97.';
+  assert.equal(R._scoreIssues(c,'En los antecedentes se informó Hs (T=97).',S.options(c),'antecedentes').length,0);
+  assert(R._scoreIssues(c,'Hs (T=97).',S.options(c),'clinicas').length);
+});
+
+test('24 · Base, Extendido e IA: exportación nativa con gráficas comparativas reales', {skip:!process.env.MMPI2_PRESET_QA},async()=>{
+  const out=process.env.MMPI2_PRESET_QA,{ctx}=standard;
+  const {createCanvas,GlobalFonts}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/@napi-rs/canvas');
+  GlobalFonts.registerFromPath('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf','Arial');
+  ctx.OffscreenCanvas=createCanvas(1,1).constructor;
+  vm.runInContext(read('vendor/chart.umd.min.js'),ctx,{filename:'chart.umd.min.js'});
+  ctx.Chart.register({id:'qaLegend',afterUpdate(chart){
+    if(chart.options.plugins.legend?.display)assert.equal(chart.legend.legendItems.length,chart.data.datasets.length);
+  }});
+  ctx.document.createElement=tag=>{
+    if(tag==='canvas'){const cv=createCanvas(900,340);cv.style={};return cv;}
+    return {style:{},appendChild(){},remove(){}};
+  };
+  ctx.document.body={appendChild(){}};
+  ctx.docx=require(join(root,'vendor/docx.umd.min.js'));
+  ctx.jspdf=require(join(root,'vendor/jspdf.umd.min.js'));
+  require(join(root,'vendor/jspdf.plugin.autotable.min.js')).applyPlugin(ctx.jspdf.jsPDF);
+  ctx.XLSX=require(join(root,'vendor/xlsx.full.min.js'));
+  const c=documentaryCase();c.patient.name='Ejemplo ficticio de contraste';c.patient.document='DEMO-001';
+  c.patient.applicationDate='2026-11-03';c.patient.age=46;
+  c.patient.history='Historia documental ficticia de seguimiento, con evolución de las dificultades y apoyos disponibles.';
+  c.patient.caseHistory='Cronología ficticia detallada. La aplicación anterior se documenta en mayo de 2026 y la actual en noviembre de 2026.';
+  const compact=S.applyPreset(c,'base'),full=S.applyPreset(c,'extended');
+  const demo=contextualPayload(full);
+  const narratives={
+    motivo:'Este ejemplo ficticio presenta una evaluación de seguimiento. Su objetivo es integrar el funcionamiento actual con la historia documentada y distinguir los cambios observados de las diferencias entre puntuaciones todavía pendientes de verificación.',
+    antecedentes:'La cronología aportada sitúa una aplicación previa en mayo de 2026 y el registro actual en noviembre. Se dispone de cuatro puntuaciones T anteriores, pero faltan la confirmación del sexo normativo y la verificación de la misma clave y fuente de corrección. Esta información permite describir ambos registros con sus límites.',
+    validez:'Los indicadores de validez describen aspectos diferentes de las respuestas. El valor actual de VRIN es compatible con respuestas coherentes; el registro anterior presenta una puntuación publicada mayor, cuya equivalencia normativa sigue pendiente de confirmar. La dirección V de TRIN identifica la orientación hacia respuestas Verdadero; su significado se interpreta junto con el conjunto del protocolo.',
+    clinicas:'Las puntuaciones clínicas describen lo que la persona comunica sobre su funcionamiento actual. Su relación con las dificultades cotidianas requiere contrastar el autoinforme con los antecedentes, la entrevista y las fuentes disponibles. El perfil por sí solo no establece un diagnóstico ni una causa de los síntomas.',
+    contenido:'Las escalas de contenido complementan la descripción de las dificultades autoinformadas. Su lectura se vincula con el motivo de consulta y con las situaciones de la historia que estén documentadas, sin atribuir a una puntuación aislada una conducta que no haya sido observada.',
+    suplementarias:'Las escalas suplementarias y PSY-5 amplían la descripción del estilo personal y de los recursos percibidos. El resultado bajo de Es expresa una percepción reducida de los propios recursos frente al malestar; no permite concluir por sí solo que la persona carezca de habilidades o apoyos efectivos.',
+    subescalas:'Las subescalas precisan qué componentes contribuyen a las puntuaciones principales. Su interpretación complementa las escalas de referencia y la información del caso, sin convertir cada componente en un diagnóstico independiente.',
+    integracion:'La integración de este ejemplo distingue el estado actual documentado, la historia del seguimiento y las cuestiones pendientes. La comparación de los valores publicados orienta la revisión del expediente; la atribución de mejoría, empeoramiento o efectos de una intervención exige evidencia clínica adicional.',
+    recursos:'Los recursos y fortalezas se describen a partir de conductas, apoyos y estrategias documentadas. En este ejemplo no se han aportado observaciones suficientes para identificar fortalezas específicas; una puntuación baja de Es no demuestra su ausencia.',
+    contraste:'Entre las dos fechas se documentan diferencias en las puntuaciones publicadas de VRIN, TRIN, Fb y Mf. La gráfica recupera esos datos y conserva la dirección V del resultado actual de TRIN. Como la equivalencia normativa no está confirmada, estos valores no se convierten en diferencias T interpretables ni en una conclusión de cambio clínico.',
+    recomendaciones:'La revisión clínica del seguimiento debe precisar las fechas de aplicación, recuperar la referencia normativa y la clave del registro anterior, y vincular los hallazgos con el funcionamiento cotidiano. La planificación terapéutica se fundamenta en las necesidades y apoyos confirmados en la entrevista.'
+  };
+  for(const section of demo.secciones){
+    if(narratives[section.id])section.bloques[0].contenido=narratives[section.id];
+    if(section.id==='conclusiones')section.bloques=[
+      {tipo:'parrafo',contenido:'Este documento es una demostración con datos ficticios. Las puntuaciones, tablas y figuras se generan desde el registro local y el texto contextual se presenta una sola vez por sección.'},
+      {tipo:'parrafo',contenido:'El contraste longitudinal muestra las cuatro puntuaciones previas disponibles junto a sus valores actuales. La falta de confirmación de las referencias anteriores mantiene pendiente la comparabilidad y excluye una conclusión automática de mejoría o deterioro.'},
+      {tipo:'parrafo',contenido:'La lectura del funcionamiento y de los recursos de afrontamiento requiere integrar el autoinforme con la entrevista y las fuentes documentales. Los aspectos sin evidencia suficiente permanecen explícitamente pendientes.'}
+    ];
+  }
+  const models=[['Informe_Base',R.build(compact,evaluator)],['Informe_Extendido',R.build(full,evaluator)],['Informe_IA',R.fromAI(demo,full,evaluator)]];
+  for(const [name,model] of models){
+    const images=R.chartImages(model),charts=model.blocks.filter(b=>b.t==='chart');
+    assert.equal(Object.keys(images).length,charts.length);
+    const comparison=charts.find(b=>b.sectionId==='contraste');assert(comparison&&images[comparison.num]);
+    writeFileSync(join(out,name+'_comparativo.png'),Buffer.from(images[comparison.num].dataURL.split(',')[1],'base64'));
+    const [word,pdf]=await Promise.all([ctx.ReportRender.toDocx(model,images),ctx.ReportRender.toPDF(model,images)]);
+    writeFileSync(join(out,name+'.docx'),Buffer.from(await word.arrayBuffer()));
+    writeFileSync(join(out,name+'.pdf'),Buffer.from(await pdf.arrayBuffer()));
+    writeFileSync(join(out,name+'.html'),ctx.ReportRender.toStandaloneHTML(model,images));
+    writeFileSync(join(out,name+'.txt'),R.toText(model));
+    writeFileSync(join(out,name+'.json'),JSON.stringify(R.serialize(model),null,2));
+    let excel;ctx.Export._download=blob=>{excel=blob;};ctx.Export.exportModelExcel(model,name+'.xlsx');
+    writeFileSync(join(out,name+'.xlsx'),Buffer.from(await excel.arrayBuffer()));
+    console.log(name+': '+model.sections.length+' secciones, '+charts.length+' figuras; gráfica comparativa incluida.');
+  }
 });

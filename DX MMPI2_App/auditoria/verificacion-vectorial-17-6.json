@@ -1,0 +1,55 @@
+{
+  "resultado": "APROBADO",
+  "documentos": [
+    {
+      "pdf": "respuestas-todas-v",
+      "respuestas_verificadas": 567,
+      "fondo_original": true
+    },
+    {
+      "pdf": "respuestas-todas-f",
+      "respuestas_verificadas": 567,
+      "fondo_original": true
+    },
+    {
+      "pdf": "respuestas-parciales",
+      "respuestas_verificadas": 3,
+      "fondo_original": true
+    },
+    {
+      "pdf": "Hoja_Respuestas_Demo",
+      "respuestas_verificadas": 567,
+      "fondo_original": true
+    },
+    {
+      "pdf": "Perfil_US_H_Demo",
+      "puntos": 13,
+      "uniones_verificadas": 11,
+      "fondo_correcto": true
+    },
+    {
+      "pdf": "Perfil_US_M_Demo",
+      "puntos": 13,
+      "uniones_verificadas": 11,
+      "fondo_correcto": true
+    },
+    {
+      "pdf": "Perfil_MX_H_Demo",
+      "puntos": 15,
+      "uniones_verificadas": 14,
+      "fondo_correcto": true
+    },
+    {
+      "pdf": "Perfil_MX_M_Demo",
+      "puntos": 15,
+      "uniones_verificadas": 14,
+      "fondo_correcto": true
+    },
+    {
+      "pdf": "perfil-pendiente-extremo",
+      "puntos": 12,
+      "uniones_verificadas": 9,
+      "fondo_correcto": true
+    }
+  ]
+}

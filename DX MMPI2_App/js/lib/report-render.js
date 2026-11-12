@@ -45,7 +45,7 @@ const ReportRender = {
 .rdoc figure.r-fig figcaption { font-size:12px; color:#374151; margin-top:4px; text-align:center; }
 .rdoc figure.r-fig figcaption b { color:#1F3864; }
 .rdoc .r-banner { border:2px solid #B91C1C; background:#FEF2F2; color:#7F1D1D; padding:10px 14px; border-radius:6px; margin:10px 0; font-size:13px; }
-.rdoc .r-consolidated { font-size:14.5px; text-align:justify; line-height:1.7; margin:0; }
+.rdoc .r-consolidated { font-size:14.5px; text-align:justify; line-height:1.7; margin:0 0 12px; }
 .rdoc ul.r-list { margin:0 0 8px 20px; padding:0; }
 .rdoc ul.r-list li { margin-bottom:6px; text-align:justify; }
 .rdoc .r-sign { margin-top:40px; page-break-inside:avoid; break-inside:avoid; }
@@ -204,7 +204,7 @@ const ReportRender = {
           const rows = [];
           for (let i = 0; i < b.rows.length; i += 2) {
             const a = b.rows[i], c = b.rows[i + 1] || ['', ''];
-            rows.push(new TableRow({ children: [
+            rows.push(new TableRow({ cantSplit:true, children: [
               cell(a[0], w[0], { fill: 'EEF2F8', bold: true, color: blue, size: 18 }), cell(a[1], w[1]),
               cell(c[0], w[2], { fill: 'EEF2F8', bold: true, color: blue, size: 18 }), cell(c[1], w[3]),
             ] }));
@@ -227,7 +227,7 @@ const ReportRender = {
           const sum = weights.reduce((a, x) => a + x, 0);
           const w = weights.map(x => Math.floor(FULL * x / sum));
           const head = new TableRow({ tableHeader: true, children: b.columns.map((c, i) => cell(c, w[i], { fill: blue, color: 'FFFFFF', bold: true, border: blue })) });
-          const rows = b.rows.map(r => new TableRow({ children: r.cells.map((c, i) => {
+          const rows = b.rows.map(r => new TableRow({ cantSplit:r.cells.join(' ').length<1200, children: r.cells.map((c, i) => {
             const lv = (r.level && (i === b.tCol || i === b.levelCol)) ? r.level : null;
             const isNum = typeof c === 'number' || /^[+−-]?\d+\*?$/.test(String(c)) || ['N/D', '—'].includes(String(c));
             return cell(c, w[i], { fill: lv ? levelFill[lv] : undefined, color: lv ? levelColor[lv] : undefined, bold: lv === 'vh' || lv === 'h' || lv === 'lo', center: isNum });
@@ -381,7 +381,7 @@ const ReportRender = {
             body.push([T(a[0]), T(a[1]), T(c[0]), T(c[1])]);
           }
           doc.autoTable({
-            startY: y, margin: { left: M.l, right: M.r }, body, theme: 'grid',
+            startY: y, margin: { left: M.l, right: M.r }, body, theme: 'grid', rowPageBreak:'avoid',
             styles: { fontSize: 9.5, cellPadding: 5, lineColor: [199, 210, 227], lineWidth: 0.6, textColor: [31, 41, 55] },
             columnStyles: { 0: { fillColor: [238, 242, 248], textColor: blue, fontStyle: 'bold', cellWidth: W * 0.19 }, 1: { cellWidth: W * 0.31 }, 2: { fillColor: [238, 242, 248], textColor: blue, fontStyle: 'bold', cellWidth: W * 0.19 }, 3: { cellWidth: W * 0.31 } },
             tableLineColor: blue, tableLineWidth: 1,
@@ -401,7 +401,7 @@ const ReportRender = {
           const wide = b.columns.map(c => /Nombre|Lectura|Indicador|Criterio|Grupo|Resultado|Cambio|Paráfrasis|Enunciado|Serie|Área/.test(c));
           const critical=this._criticalWidths(b.columns);
           doc.autoTable({
-            startY: y, margin: { left: M.l, right: M.r }, theme: 'grid',
+            startY: y, margin: { left: M.l, right: M.r }, theme: 'grid', rowPageBreak:'avoid',
             head: [b.columns.map(T)], body: b.rows.map(r => r.cells.map(T)),
             styles: { fontSize: 8.6, cellPadding: 3.5, lineColor: [209, 213, 219], lineWidth: 0.5, textColor: [31, 41, 55], valign: 'top' },
             headStyles: { fillColor: blue, textColor: 255, fontStyle: 'bold' },

@@ -1,0 +1,35 @@
+[
+  {
+    "informe": "Informe_Base",
+    "paginas_word": 11,
+    "paginas_contraste": [
+      8,
+      9
+    ],
+    "paginas_conclusiones": [
+      9
+    ]
+  },
+  {
+    "informe": "Informe_Extendido",
+    "paginas_word": 18,
+    "paginas_contraste": [
+      14,
+      15
+    ],
+    "paginas_conclusiones": [
+      16
+    ]
+  },
+  {
+    "informe": "Informe_IA",
+    "paginas_word": 11,
+    "paginas_contraste": [
+      9,
+      10
+    ],
+    "paginas_conclusiones": [
+      10
+    ]
+  }
+]

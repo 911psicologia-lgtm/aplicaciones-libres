@@ -2,6 +2,7 @@
 const AIPrompt = {
   build(c,evaluator={},settings={}){
     c=window.MMPI2?.applyReportingLimits?.(c)||c;
+    c=ReportSections.aiCase(c);
     const S=ReportSections,M=ReportModel,I=Interpret,p=c.patient||{},R=c.results||{},o=S.options(c),prior=S.prior(c);
     const plan=S.plan(c,o,prior),active=new Set(plan.map(s=>s.id));
     const country=M.country(c),verdict=I.verdict(R),invalid=verdict.status==='NO_INTERPRETABLE';
@@ -84,6 +85,11 @@ const AIPrompt = {
       'Encargo de integración clínica del MMPI-2. Español profesional, con hipótesis explícitas y fuentes verificables.',
       anonymize?'Identificadores directos omitidos. Revise el texto narrativo antes de compartirlo.':'Identificadores según la selección del evaluador.',
       'Integra funcionamiento, cronología, fuentes y convergencias. Diferencia los datos observados de las inferencias. Usa párrafos desarrollados cuando haya evidencia suficiente.',
+      'Aporta una única interpretación contextualizada por sección. La app utiliza tu texto en lugar de la narrativa automática de ese apartado. Relaciona los hallazgos con la cronología, el funcionamiento, el tratamiento y las fuentes concretas, sin repetir extensamente los antecedentes.',
+      'Cuando los antecedentes sean extensos, puedes incluir una tabla de cronología con fecha, fuente, hecho documentado y estado de verificación. También puedes usar cuadros de hipótesis, evidencia y límites. Reserva las tablas numéricas de puntuaciones para el programa.',
+      'Redacta las conclusiones en varios párrafos, con una idea integradora por párrafo. Evita una sola pared de texto y las listas de conclusiones. Las recomendaciones sí pueden presentarse como lista.',
+      ...(active.has('contraste')?['En Contraste longitudinal compara explícitamente los valores anteriores y actuales aportados y sus patrones. Si la comparabilidad está pendiente, describe el contraste documental y explica qué falta verificar; evita atribuir mejoría, deterioro o las causas de las diferencias. La gráfica comparativa se genera localmente con las T publicadas. No inventes puntuaciones previas para completar una curva.']:[]),
+      'Una puntuación sin elevación no equivale a ausencia de síntomas o de rasgos. Fp sin elevación no significa cero respuestas infrecuentes. Mf no se cuenta como elevación psicopatológica. Las discrepancias entre instrumentos requieren hipótesis explícitas y no una explicación causal única.',
       'Redacta interpretaciones descriptivas y comprensibles. Explica qué significa cada hallazgo; las lecturas breves no son órdenes al evaluador. Conserva la diferencia entre autoinforme, hipótesis y diagnóstico.',
       'El programa genera ficha, firma, tablas y figuras psicométricas desde el registro local. Deja sus bloques vacíos y no dupliques sus resultados.',
       'Conserva PD, PD+K, T, referencias y límites. Una T pendiente permanece pendiente. Usa «Rango de T» y «Habitual» para 40–55. Interpreta la validez según cada índice. Una T baja documentada en Es orienta a explorar recursos, estrategias y apoyos de afrontamiento.',

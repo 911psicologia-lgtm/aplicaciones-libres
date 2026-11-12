@@ -144,7 +144,7 @@ const Case = {
                       <select id="pv-nomen" class="form-select">${sel('auto', 'Detectar automáticamente', m.nomenclature)}${sel('intl', 'Internacional (Hs, Sc, Fb, Fp…)', m.nomenclature)}${sel('es', 'Manual Moderno (Hi, Es, Fp, Fpsi…)', m.nomenclature)}</select></div>
                     <div class="form-field"><label class="form-label" for="pv-sex">Sexo de la tabla anterior</label>
                       <select id="pv-sex" class="form-select">${sel('unknown','No consta',m.sex)}${sel('H','Hombre',m.sex)}${sel('M','Mujer',m.sex)}</select></div>
-                    <label class="form-field"><span>Misma clave y fuente de corrección verificadas</span>
+                    <label class="form-field"><span>Misma versión, clave y fuente de corrección verificadas</span>
                       <input id="pv-same-method" type="checkbox" ${m.sameMethod?'checked':''}></label>
                   </div>`; })()}
                   <div class="form-field full" style="margin-top:10px">

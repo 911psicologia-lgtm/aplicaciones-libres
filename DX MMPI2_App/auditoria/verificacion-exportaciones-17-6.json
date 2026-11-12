@@ -1,0 +1,23 @@
+[
+  {
+    "informe": "Informe_Base",
+    "paginas_pdf_nativo": 13,
+    "parrafos_conclusiones": 6,
+    "filas_word_con_proteccion_de_salto": 67,
+    "secciones": 17
+  },
+  {
+    "informe": "Informe_Extendido",
+    "paginas_pdf_nativo": 17,
+    "parrafos_conclusiones": 6,
+    "filas_word_con_proteccion_de_salto": 153,
+    "secciones": 18
+  },
+  {
+    "informe": "Informe_IA",
+    "paginas_pdf_nativo": 12,
+    "parrafos_conclusiones": 3,
+    "filas_word_con_proteccion_de_salto": 124,
+    "secciones": 18
+  }
+]

@@ -120,7 +120,16 @@ const Report = {
   _optionsHTML(cur) {
     const o = ReportModel.options(cur);
     const cat = ReportModel.optionCatalog(cur);
-    return `<div class="opt-grid">${cat.map(g => `
+    return `<div class="opt-grid"><div class="opt-group report-preset-control">
+      <label class="form-label" for="report-preset">Formato del informe sin IA</label>
+      <select class="form-select" id="report-preset">
+        ${Object.entries(ReportSections.PRESETS).map(([key,preset])=>`<option value="${key}" ${ReportSections.preset(cur)===key?'selected':''}>${preset.label}</option>`).join('')}
+        <option value="custom" ${ReportSections.preset(cur)==='custom'?'selected':''}>Personalizado · selección actual</option>
+      </select>
+      <p class="form-hint">Al elegir un formato se actualizan las casillas del informe sin IA. La identificación, el contexto y la autorización de literales conservan su selección.</p>
+      <p class="form-hint">El informe con IA conserva su contenido: ${ReportSections.plan(ReportSections.aiCase(cur)).length} secciones activas.</p>
+      <button type="button" class="btn btn-secondary btn-sm" id="ai-use-current-sections">Usar estas secciones también en IA</button>
+    </div>${cat.map(g => `
       <fieldset class="opt-group"><legend>${this._esc(g.group)}</legend>
         ${g.items.map(it => `<label class="opt ${it.available?'':'disabled'}">
           <input type="checkbox" data-opt="${it.key}" ${o[it.key]&&it.available?'checked':''}
@@ -211,6 +220,7 @@ const Report = {
     const options=document.getElementById('report-options');
     options?.addEventListener('change',event=>{
       const input=event.target;
+      if(input.id==='report-preset'){this._applyReportPreset(input.value);return;}
       if(!input.dataset.opt||input.disabled)return;
       const key=input.dataset.opt,isCheckbox=input.type==='checkbox';
       this._setOption(key,isCheckbox?input.checked:input.value.trim());
@@ -218,6 +228,9 @@ const Report = {
         options.innerHTML=this._optionsHTML(Storage.getCurrentCase());
         options.querySelector('[data-opt="'+key+'"]')?.focus({preventScroll:true});
       }
+    });
+    options?.addEventListener('click',event=>{
+      if(event.target.id==='ai-use-current-sections')this._syncAISections();
     });
 
     bindEvent('ai-copy-prompt','click',()=>this._copyAIPrompt());
@@ -258,10 +271,27 @@ const Report = {
     const cur = Storage.getCurrentCase();
     if (!cur) return;
     cur.reportOptions=ReportSections.change(cur,key,value);
+    if(typeof value==='boolean'&&!['id_document','id_dob','id_mode','critical_literal','info_request_context','sec_scope'].includes(key))cur.reportPreset='custom';
     cur.updatedAt = new Date().toISOString();
     Storage.saveCase(cur);
     Storage.setCurrentCase(cur);
     this._refreshDoc();
+    this._refreshAI();
+  },
+
+  _applyReportPreset(key){
+    const current=Storage.getCurrentCase();if(!current)return;
+    const c=ReportSections.applyPreset(current,key);c.updatedAt=new Date().toISOString();
+    Storage.saveCase(c);Storage.setCurrentCase(c);Storage.flush();
+    const options=document.getElementById('report-options');if(options)options.innerHTML=this._optionsHTML(c);
+    this._refreshDoc();this._refreshAI();
+  },
+
+  _syncAISections(){
+    const c=Storage.getCurrentCase();if(!c)return;
+    c.aiReportOptions=ReportSections.options(c);c.updatedAt=new Date().toISOString();
+    Storage.saveCase(c);Storage.setCurrentCase(c);Storage.flush();
+    const options=document.getElementById('report-options');if(options)options.innerHTML=this._optionsHTML(c);
     this._refreshAI();
   },
 
@@ -312,7 +342,12 @@ const Report = {
     Storage.flush();
     const model = ReportModel.build(cur, Storage.getEvaluator() || {});
     const images = ReportModel.chartImages(model);
-    return { cur, model, images, base: `Informe_MMPI2_${this._safeName(cur.patient && cur.patient.name)}` };
+    return { cur, model, images, base:this._plainFileBase(cur) };
+  },
+
+  _plainFileBase(cur){
+    const preset=ReportSections.preset(cur),format=preset==='base'?'Base_':preset==='extended'?'Extendido_':'';
+    return 'Informe_'+format+'MMPI2_'+this._safeName(cur.patient?.name);
   },
 
   async _exportPDF() {
@@ -355,7 +390,7 @@ const Report = {
     try{
       if(!cur?.results)throw new Error('No hay resultados para exportar.');
       const model=ReportModel.build(cur,Storage.getEvaluator()||{});
-      Export.exportModelExcel(model,`Informe_MMPI2_${this._safeName(cur.patient?.name)}.xlsx`);
+      Export.exportModelExcel(model,this._plainFileBase(cur)+'.xlsx');
       window.toast('Excel del informe descargado','success');
     }catch(error){window.toast(window.friendlyError(error,'generar el Excel'),'error',8000);}
   },
@@ -365,7 +400,7 @@ const Report = {
     if(!cur?.results)return;
     const model=ReportModel.build(cur,Storage.getEvaluator()||{});
     Export._download(new Blob([ReportModel.toText(model)],{type:'text/plain;charset=utf-8'}),
-      `Informe_MMPI2_${this._safeName(cur.patient?.name)}.txt`);
+      this._plainFileBase(cur)+'.txt');
   },
 
   _exportTechnicalExcel() {
