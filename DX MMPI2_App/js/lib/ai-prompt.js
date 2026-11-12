@@ -46,6 +46,8 @@ const AIPrompt = {
       ...(active.has('contraste')?{aplicacion_anterior:{
         fecha:prior.meta.date,fuente:clean(prior.meta.source),baremo:prior.meta.baremo,sexo_normativo:prior.meta.sex,
         misma_clave_y_fuente_confirmadas:prior.meta.sameMethod===true,
+        significado_diferencia_T:'T actual menos T anterior; resta aritmética de valores publicados, independiente de la confirmación de comparabilidad normativa. No representa por sí sola cambio clínico.',
+        notas:prior.notes,
         resultados:prior.rows.filter(row=>groups.some(group=>I.GROUP_ORDER[group].includes(row.code)))
       }}:{}),
       aportes:{
@@ -88,7 +90,7 @@ const AIPrompt = {
       'Aporta una única interpretación contextualizada por sección. La app utiliza tu texto en lugar de la narrativa automática de ese apartado. Relaciona los hallazgos con la cronología, el funcionamiento, el tratamiento y las fuentes concretas, sin repetir extensamente los antecedentes.',
       'Cuando los antecedentes sean extensos, puedes incluir una tabla de cronología con fecha, fuente, hecho documentado y estado de verificación. También puedes usar cuadros de hipótesis, evidencia y límites. Reserva las tablas numéricas de puntuaciones para el programa.',
       'Redacta las conclusiones en varios párrafos, con una idea integradora por párrafo. Evita una sola pared de texto y las listas de conclusiones. Las recomendaciones sí pueden presentarse como lista.',
-      ...(active.has('contraste')?['En Contraste longitudinal compara explícitamente los valores anteriores y actuales aportados y sus patrones. Si la comparabilidad está pendiente, describe el contraste documental y explica qué falta verificar; evita atribuir mejoría, deterioro o las causas de las diferencias. La gráfica comparativa se genera localmente con las T publicadas. No inventes puntuaciones previas para completar una curva.']:[]),
+      ...(active.has('contraste')?['En Contraste longitudinal diferencia la resta aritmética de la interpretación clínica. Usa delta para T actual menos T anterior aunque falten metadatos normativos; comparable indica si se confirmó la equivalencia normativa. No afirmes que no se calcularon diferencias cuando delta tenga valor. Explica los patrones y su relación con el caso, sin repetir una advertencia en cada escala. Si la comparabilidad está pendiente, conserva esa limitación sin atribuir mejoría, deterioro o causas. En TRIN, delta resta magnitudes T: conserva V/F y explica las orientaciones distintas aunque delta sea cero. Los límites y valores pendientes no tienen resta exacta. La gráfica se genera localmente con las T publicadas. No inventes puntuaciones previas para completar una curva.']:[]),
       'Una puntuación sin elevación no equivale a ausencia de síntomas o de rasgos. Fp sin elevación no significa cero respuestas infrecuentes. Mf no se cuenta como elevación psicopatológica. Las discrepancias entre instrumentos requieren hipótesis explícitas y no una explicación causal única.',
       'Redacta interpretaciones descriptivas y comprensibles. Explica qué significa cada hallazgo; las lecturas breves no son órdenes al evaluador. Conserva la diferencia entre autoinforme, hipótesis y diagnóstico.',
       'El programa genera ficha, firma, tablas y figuras psicométricas desde el registro local. Deja sus bloques vacíos y no dupliques sus resultados.',

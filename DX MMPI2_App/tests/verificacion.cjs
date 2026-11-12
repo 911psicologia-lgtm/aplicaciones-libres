@@ -155,7 +155,8 @@ test('04 · Contraste requiere datos, con límites y Mf incompatibles preservado
   assert.equal(S.catalog(base).flatMap(g=>g.items).find(it=>it.key==='sec_compare').reason,'Sin datos previos');
   const p={...base.patient,previousMMPI:'Mfv=56, D=68, Es=≤30, TRIN=65V',prevMeta:{baremo:'US',sex:'M',sameMethod:true,nomenclature:'intl'}};
   const rows=Previous.documented(p.previousMMPI,p,base.results).rows;
-  assert.equal(rows.find(r=>r.code==='Mf').delta,null);
+  assert.equal(rows.find(r=>r.code==='Mf').delta,base.results.Mf.t-56);
+  assert.equal(rows.find(r=>r.code==='Mf').comparable,false);
   assert.equal(rows.find(r=>r.code==='D').delta,base.results.D.t-68);
   assert.equal(rows.find(r=>r.code==='Es').previous,'≤30');
   assert.equal(rows.find(r=>r.code==='Es').delta,null);
@@ -581,42 +582,49 @@ test('20 · Conclusiones por párrafos en el modelo común, texto, HTML y JSON',
 
 function documentaryCase(){
   const c=normal(base);
-  c.patient.previousMMPI='VRIN=76, TRIN=50, Fb=96, Mf=56';
+  c.patient.previousMMPI='VRIN=76, TRIN=50, Fb=96, S=55, Mf=56';
   c.patient.prevMeta={date:'2026-05-27',source:'Profesional de prueba',baremo:'US',sex:'unknown',sameMethod:false};
   Object.assign(c.results.VRIN,{t:46,verify:false});Object.assign(c.results.TRIN,{t:65,pd:11,verify:false});
   Object.assign(c.results.Fb,{t:85,verify:false});Object.assign(c.results.Mf,{t:67,verify:false});
+  Object.assign(c.results.S,{t:49,verify:false});
   return c;
 }
 
-test('21 · Contraste con cuatro T publicadas: gráfica visible y análisis aun con comparabilidad pendiente',()=>{
+test('21 · Las cinco diferencias se calculan aun con comparabilidad normativa pendiente',()=>{
   const c=documentaryCase(),model=R.build(c,evaluator);
   const chart=model.blocks.find(b=>b.sectionId==='contraste'&&b.t==='chart');
   assert(chart);assert.match(chart.caption,/comparabilidad pendiente/);
-  assert.deepEqual(normal(chart.spec.labels),['VRIN','TRIN','Fb','Mf']);
-  assert.deepEqual(normal(chart.spec.series[0].data),[46,65,85,67]);
-  assert.deepEqual(normal(chart.spec.series[1].data),[76,50,96,56]);
+  assert.deepEqual(normal(chart.spec.labels),['VRIN','TRIN','Fb','S','Mf']);
+  assert.deepEqual(normal(chart.spec.series[0].data),[46,65,85,49,67]);
+  assert.deepEqual(normal(chart.spec.series[1].data),[76,50,96,55,56]);
   assert.equal(chart.spec.series[0].shown[1],'65V');
   const rows=Previous.documented(c.patient.previousMMPI,c.patient,c.results).rows;
-  assert(rows.every(row=>row.delta===null));
+  assert.deepEqual(normal(rows.map(row=>row.delta)),[-30,15,-11,-6,11]);
+  assert(rows.every(row=>row.comparable===false));
   const text=model.blocks.filter(b=>b.sectionId==='contraste').map(b=>b.text||'').join(' ');
   assert(text.includes('VRIN: T anterior 76 y T actual 46'));
-  assert(text.includes('respuestas coherentes'));
+  assert.match(text,/respuestas coherentes/i);
   assert(text.includes('sexo normativo anterior sin confirmar'));
   const ai=R.fromAI(contextualPayload(c),c,evaluator);
   assert(ai.blocks.some(b=>b.sectionId==='contraste'&&b.t==='chart'));
   assert(R.toText(ai).includes('Contexto_contraste'));
 });
 
-test('22 · Diferencias solo con referencias confirmadas; límites y PD no se convierten',()=>{
+test('22 · Resta publicada y equivalencia normativa independientes; límites y PD protegidos',()=>{
   const c=documentaryCase();
   c.patient.previousMMPI='D=68. Hs=70. Mfv=56. Es=≤30. TRIN=65F.';
   c.patient.prevMeta={baremo:'US',sex:'M',sameMethod:true,nomenclature:'intl'};
   const prior=Previous.documented(c.patient.previousMMPI,c.patient,c.results).rows;
   assert.equal(prior.find(r=>r.code==='D').delta,c.results.D.t-68);
   assert.equal(prior.find(r=>r.code==='Hs').delta,c.results.Hs.t-70);
-  for(const code of ['Mf','Es','TRIN'])assert.equal(prior.find(r=>r.code===code).delta,null);
+  assert.equal(prior.find(r=>r.code==='Mf').delta,c.results.Mf.t-56);
+  assert.equal(prior.find(r=>r.code==='Es').delta,null);
+  assert.equal(prior.find(r=>r.code==='TRIN').delta,0);
+  for(const code of ['Mf','Es','TRIN'])assert.equal(prior.find(r=>r.code===code).comparable,false);
   const switched={...c.patient,prevMeta:{...c.patient.prevMeta,baremo:'MX'}};
-  assert(Previous.documented(c.patient.previousMMPI,switched,c.results).rows.every(r=>r.delta===null));
+  const cross=Previous.documented(c.patient.previousMMPI,switched,c.results).rows;
+  assert(cross.every(r=>r.comparable===false));
+  assert.equal(cross.find(r=>r.code==='D').delta,c.results.D.t-68);
   const pdCase={...c,patient:{...c.patient,previousMMPI:'Hs_PD=12, D_PD=30'}};
   const model=R.build(pdCase);
   assert(!model.blocks.some(b=>b.sectionId==='contraste'&&b.t==='chart'));
@@ -655,14 +663,14 @@ test('24 · Base, Extendido e IA: exportación nativa con gráficas comparativas
   require(join(root,'vendor/jspdf.plugin.autotable.min.js')).applyPlugin(ctx.jspdf.jsPDF);
   ctx.XLSX=require(join(root,'vendor/xlsx.full.min.js'));
   const c=documentaryCase();c.patient.name='Ejemplo ficticio de contraste';c.patient.document='DEMO-001';
-  c.patient.applicationDate='2026-11-03';c.patient.age=46;
+  c.patient.applicationDate='2026-11-03';c.patient.age=46;c.reportDate='2026-11-11';
   c.patient.history='Historia documental ficticia de seguimiento, con evolución de las dificultades y apoyos disponibles.';
   c.patient.caseHistory='Cronología ficticia detallada. La aplicación anterior se documenta en mayo de 2026 y la actual en noviembre de 2026.';
   const compact=S.applyPreset(c,'base'),full=S.applyPreset(c,'extended');
   const demo=contextualPayload(full);
   const narratives={
     motivo:'Este ejemplo ficticio presenta una evaluación de seguimiento. Su objetivo es integrar el funcionamiento actual con la historia documentada y distinguir los cambios observados de las diferencias entre puntuaciones todavía pendientes de verificación.',
-    antecedentes:'La cronología aportada sitúa una aplicación previa en mayo de 2026 y el registro actual en noviembre. Se dispone de cuatro puntuaciones T anteriores, pero faltan la confirmación del sexo normativo y la verificación de la misma clave y fuente de corrección. Esta información permite describir ambos registros con sus límites.',
+    antecedentes:'La cronología aportada sitúa una aplicación previa en mayo de 2026 y el registro actual en noviembre. Se dispone de cinco puntuaciones T anteriores, pero faltan la confirmación del sexo normativo y la verificación de la misma clave y fuente de corrección. Esta información permite describir ambos registros con sus límites.',
     validez:'Los indicadores de validez describen aspectos diferentes de las respuestas. El valor actual de VRIN es compatible con respuestas coherentes; el registro anterior presenta una puntuación publicada mayor, cuya equivalencia normativa sigue pendiente de confirmar. La dirección V de TRIN identifica la orientación hacia respuestas Verdadero; su significado se interpreta junto con el conjunto del protocolo.',
     clinicas:'Las puntuaciones clínicas describen lo que la persona comunica sobre su funcionamiento actual. Su relación con las dificultades cotidianas requiere contrastar el autoinforme con los antecedentes, la entrevista y las fuentes disponibles. El perfil por sí solo no establece un diagnóstico ni una causa de los síntomas.',
     contenido:'Las escalas de contenido complementan la descripción de las dificultades autoinformadas. Su lectura se vincula con el motivo de consulta y con las situaciones de la historia que estén documentadas, sin atribuir a una puntuación aislada una conducta que no haya sido observada.',
@@ -670,14 +678,14 @@ test('24 · Base, Extendido e IA: exportación nativa con gráficas comparativas
     subescalas:'Las subescalas precisan qué componentes contribuyen a las puntuaciones principales. Su interpretación complementa las escalas de referencia y la información del caso, sin convertir cada componente en un diagnóstico independiente.',
     integracion:'La integración de este ejemplo distingue el estado actual documentado, la historia del seguimiento y las cuestiones pendientes. La comparación de los valores publicados orienta la revisión del expediente; la atribución de mejoría, empeoramiento o efectos de una intervención exige evidencia clínica adicional.',
     recursos:'Los recursos y fortalezas se describen a partir de conductas, apoyos y estrategias documentadas. En este ejemplo no se han aportado observaciones suficientes para identificar fortalezas específicas; una puntuación baja de Es no demuestra su ausencia.',
-    contraste:'Entre las dos fechas se documentan diferencias en las puntuaciones publicadas de VRIN, TRIN, Fb y Mf. La gráfica recupera esos datos y conserva la dirección V del resultado actual de TRIN. Como la equivalencia normativa no está confirmada, estos valores no se convierten en diferencias T interpretables ni en una conclusión de cambio clínico.',
+    contraste:'El registro actual presenta una puntuación menor en VRIN y Fb, mientras TRIN pasa de 50 a 65V. La menor T publicada de VRIN coincide con un resultado actual compatible con respuestas coherentes; Fb continúa elevado pese al descenso numérico. S se sitúa en el rango habitual y la variación de Mf describe intereses y roles, sin constituir un indicador psicopatológico. Las diferencias aritméticas constan en la tabla. La información disponible no permite atribuirlas por sí solas a mejoría clínica ni a efectos de tratamiento.',
     recomendaciones:'La revisión clínica del seguimiento debe precisar las fechas de aplicación, recuperar la referencia normativa y la clave del registro anterior, y vincular los hallazgos con el funcionamiento cotidiano. La planificación terapéutica se fundamenta en las necesidades y apoyos confirmados en la entrevista.'
   };
   for(const section of demo.secciones){
     if(narratives[section.id])section.bloques[0].contenido=narratives[section.id];
     if(section.id==='conclusiones')section.bloques=[
       {tipo:'parrafo',contenido:'Este documento es una demostración con datos ficticios. Las puntuaciones, tablas y figuras se generan desde el registro local y el texto contextual se presenta una sola vez por sección.'},
-      {tipo:'parrafo',contenido:'El contraste longitudinal muestra las cuatro puntuaciones previas disponibles junto a sus valores actuales. La falta de confirmación de las referencias anteriores mantiene pendiente la comparabilidad y excluye una conclusión automática de mejoría o deterioro.'},
+      {tipo:'parrafo',contenido:'El contraste longitudinal muestra las cinco puntuaciones previas, sus valores actuales y sus diferencias aritméticas. La falta de confirmación de las referencias anteriores mantiene pendiente la comparabilidad y excluye una conclusión automática de mejoría o deterioro.'},
       {tipo:'parrafo',contenido:'La lectura del funcionamiento y de los recursos de afrontamiento requiere integrar el autoinforme con la entrevista y las fuentes documentales. Los aspectos sin evidencia suficiente permanecen explícitamente pendientes.'}
     ];
   }
@@ -694,7 +702,80 @@ test('24 · Base, Extendido e IA: exportación nativa con gráficas comparativas
     writeFileSync(join(out,name+'.txt'),R.toText(model));
     writeFileSync(join(out,name+'.json'),JSON.stringify(R.serialize(model),null,2));
     let excel;ctx.Export._download=blob=>{excel=blob;};ctx.Export.exportModelExcel(model,name+'.xlsx');
-    writeFileSync(join(out,name+'.xlsx'),Buffer.from(await excel.arrayBuffer()));
+    const excelBytes=await excel.arrayBuffer();
+    writeFileSync(join(out,name+'.xlsx'),Buffer.from(excelBytes));
+    const workbook=ctx.XLSX.read(excelBytes);
+    const excelRows=ctx.XLSX.utils.sheet_to_json(workbook.Sheets.Informe,{header:1});
+    const deltas={VRIN:'−30',TRIN:'+15',Fb:'−11',S:'−6',Mf:'+11'};
+    const comparisonTable=model.blocks.find(b=>b.sectionId==='contraste'&&b.t==='table');
+    for(const row of comparisonTable.rows){
+      assert.equal(row.cells[3],deltas[row.cells[0]]);
+      assert(excelRows.some(values=>values[0]===row.cells[0]&&values[3]===deltas[row.cells[0]]),'Diferencia ausente en Excel');
+    }
+    const comparisonText=R.toText(model).split('Contraste longitudinal')[1];
+    assert(!comparisonText.includes('Contraste documental; sexo normativo anterior sin confirmar'));
     console.log(name+': '+model.sections.length+' secciones, '+charts.length+' figuras; gráfica comparativa incluida.');
   }
+});
+
+test('25 · Base, Extendido e IA: misma resta, una nota común y registro intacto',()=>{
+  const c=documentaryCase(),before=JSON.stringify(c);
+  const models=[R.build(S.applyPreset(c,'base')),R.build(S.applyPreset(c,'extended')),R.fromAI(contextualPayload(c),c)];
+  for(const model of models){
+    const blocks=model.blocks.filter(b=>b.sectionId==='contraste');
+    const table=blocks.find(b=>b.t==='table');
+    assert.deepEqual(normal(table.rows.map(row=>row.cells[3])),['−30','+15','−11','−6','+11']);
+    assert(table.rows.every(row=>!row.cells[4].includes('sexo normativo')));
+    const text=blocks.map(b=>b.text||'').join(' ');
+    assert.equal((text.match(/sexo normativo anterior sin confirmar/g)||[]).length,1);
+    assert(!text.includes('no se calculan diferencias'));
+    assert(blocks.some(b=>b.t==='chart'));
+    const data=R.serialize(model).secciones.find(s=>s.id==='contraste');
+    assert(data.bloques.some(b=>b.tipo==='tabla'&&b.filas.some(row=>row[0]==='TRIN'&&row[3]==='+15')));
+  }
+  assert.equal(JSON.stringify(c),before,'El cálculo documental no debe modificar el caso');
+  const prompt=payload(P.build(c));
+  assert.equal(prompt.aplicacion_anterior.resultados.find(r=>r.code==='VRIN').delta,-30);
+  assert.equal(prompt.aplicacion_anterior.resultados.find(r=>r.code==='VRIN').comparable,false);
+  assert.equal(prompt.aplicacion_anterior.sexo_normativo,'unknown');
+});
+
+test('26 · TRIN distingue magnitud y orientación; cero no oculta V/F opuestas',()=>{
+  const c=documentaryCase();
+  c.patient.prevMeta={baremo:'US',sex:'M',sameMethod:true,nomenclature:'intl'};
+  const read=text=>Previous.documented(text,c.patient,c.results).rows[0];
+  let row=read('TRIN=65F');
+  assert.equal(row.delta,0);assert.equal(row.comparable,false);
+  assert.match(row.change,/Orientaciones distintas/);
+  assert(!row.change.includes('Coinciden'));
+  row=read('TRIN=50');assert.equal(row.delta,15);assert.equal(row.comparable,true);
+  row=read('TRIN=65V');assert.equal(row.delta,0);assert.equal(row.comparable,true);
+  row=read('TRIN=65');assert.equal(row.delta,0);assert.equal(row.comparable,false);
+  assert.match(row.change,/Dirección anterior no informada/);
+  Object.assign(c.results.TRIN,{t:50,pd:9});
+  row=read('TRIN=65V');assert.equal(row.delta,-15);assert.equal(row.comparable,true);
+});
+
+test('27 · No inventa diferencias exactas para límites, verificación, PD o T ausente',()=>{
+  const c=documentaryCase();
+  for(const previous of ['Es=≤30','Es=30*','VRIN=76*','Hs_PD=12']){
+    const rows=Previous.documented(previous,c.patient,c.results).rows;
+    assert.equal(rows[0].delta,null);
+    assert.notEqual(rows[0].change,'');
+  }
+  c.results.VRIN.verify=true;
+  assert.equal(Previous.documented('VRIN=76',c.patient,c.results).rows[0].delta,null);
+  c.results.VRIN.verify=false;c.results.VRIN.t=null;
+  assert.equal(Previous.documented('VRIN=76',c.patient,c.results).rows[0].delta,null);
+});
+
+test('28 · JSON anterior: corrige la frase mecánica incompatible y conserva el análisis contextual',()=>{
+  const c=documentaryCase(),data=contextualPayload(c);
+  const block=data.secciones.find(s=>s.id==='contraste');
+  block.bloques=[{tipo:'parrafo',contenido:'Por eso no se calculan diferencias numéricas, y la comparabilidad de las escalas registradas sigue pendiente. La historia documentada sitúa las dificultades antes de la última evaluación; su relación con el tratamiento es una hipótesis por verificar.'}];
+  const before=JSON.stringify(data),model=R.fromAI(data,c),text=R.toText(model);
+  assert(text.includes('Las diferencias aritméticas se muestran en la tabla'));
+  assert(text.includes('La historia documentada sitúa las dificultades antes de la última evaluación'));
+  assert(!text.includes('Por eso no se calculan diferencias numéricas'));
+  assert.equal(JSON.stringify(data),before,'No debe reescribir el JSON guardado');
 });

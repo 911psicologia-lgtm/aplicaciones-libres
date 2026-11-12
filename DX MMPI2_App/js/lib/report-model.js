@@ -326,6 +326,8 @@ const ReportModel = {
           const values=block.t==='list'?block.items:[block.text];
           for(const value of values)for(const text of this.paragraphs(value))push({t:'p',text});
         }else if(block.t==='table')table(block.caption,block.columns,block.rows);
+        else if(id==='contraste'&&block.text)push({...block,text:Previous.alignComparisonNarrative(block.text,visiblePrior)});
+        else if(id==='contraste'&&block.items)push({...block,items:block.items.map(text=>Previous.alignComparisonNarrative(text,visiblePrior))});
         else push(block);
       }
       return true;
@@ -488,16 +490,16 @@ const ReportModel = {
           if(S.has(prior.meta.source))pText('Fuente anterior: '+field(prior.meta.source)+'.');
           if(visiblePrior.length)table('Puntuaciones anteriores y actuales documentadas',
             ['Escala','Puntuación anterior','T actual','Diferencia T','Lectura'],
-            visiblePrior.map(row=>({cells:[row.code,row.previous,this.score(c,row.code).published,row.delta??'—',row.change]})));
+            visiblePrior.map(row=>({cells:[row.code,row.previous,this.score(c,row.code).published,Previous.signedDelta(row.delta),row.change]})));
           else pText('Los datos anteriores corresponden a escalas fuera de la selección actual.');
-          prior.notes.forEach(pText);
+          Previous.comparisonNotes(visiblePrior).forEach(pText);
           if(hasAI(section.id))h2('Contraste de puntuaciones registradas');
           Previous.comparisonParagraphs(visiblePrior,p,R).forEach(pText);
           if(hasAI(section.id))h2('Integración contextual del contraste');
           take(section.id);
           {
             const plotted=visiblePrior.filter(r=>r.kind==='T'&&Number.isFinite(r.previousValue)&&Number.isFinite(r.current));
-            const pending=plotted.some(r=>r.delta==null);
+            const pending=plotted.some(r=>!r.comparable);
             if(plotted.length)chart(pending?'Contraste documental de T publicadas · comparabilidad pendiente.':'Contraste longitudinal de puntuaciones T comparables.',{
               kind:'compare',labels:plotted.map(r=>r.code),refs:[50,65],yMin:20,colorByValue:false,series:[
                 {name:'Actual',data:plotted.map(r=>r.current),shown:plotted.map(r=>this.score(c,r.code).published)},

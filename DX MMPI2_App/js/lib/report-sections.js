@@ -1,7 +1,7 @@
 /* Selección de contenido y migración de opciones del informe. */
 const ReportSections = {
   SCHEMA: 2,
-  VERSION: '17.6',
+  VERSION: '17.7',
   PRESETS: Object.freeze({
     base:{label:'Base · informe habitual',values:{info_reason:true,info_history:true,info_caseHistory:false,
       sec_charts:true,sec_subscales:false,sec_psy5:true,sec_clusters:false,sec_critical:true,sec_critical_lw:false,

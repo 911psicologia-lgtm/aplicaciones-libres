@@ -1,0 +1,47 @@
+[
+  {
+    "informe": "Informe_Base",
+    "paginas_pdf": 13,
+    "comparacion_en_paginas": [
+      9
+    ],
+    "diferencias_verificadas": [
+      -30,
+      15,
+      -11,
+      -6,
+      11
+    ],
+    "advertencia_comun": 1
+  },
+  {
+    "informe": "Informe_Extendido",
+    "paginas_pdf": 17,
+    "comparacion_en_paginas": [
+      14
+    ],
+    "diferencias_verificadas": [
+      -30,
+      15,
+      -11,
+      -6,
+      11
+    ],
+    "advertencia_comun": 1
+  },
+  {
+    "informe": "Informe_IA",
+    "paginas_pdf": 12,
+    "comparacion_en_paginas": [
+      9
+    ],
+    "diferencias_verificadas": [
+      -30,
+      15,
+      -11,
+      -6,
+      11
+    ],
+    "advertencia_comun": 1
+  }
+]

@@ -90,34 +90,71 @@ const Previous = {
       if(kind!=='T')reasons.push('El antecedente es una puntuación directa');
       if(token.bound||r.bound)reasons.push('Puntuación con límite de reporte');
       if(token.verify||r.verify)reasons.push('Puntuación pendiente de verificación');
-      if(code==='TRIN'&&(token.direction||'')!==(direction||''))reasons.push('Dirección de TRIN no coincidente o no documentada');
+      const previousCenter=code==='TRIN'&&token.value===50&&!token.direction;
+      const currentCenter=code==='TRIN'&&r.t===50&&!direction;
+      if(code==='TRIN'&&!previousCenter&&!currentCenter&&(token.direction||'')!==(direction||''))
+        reasons.push('Dirección de TRIN no coincidente o no documentada');
       const current=Number.isFinite(r.t)?r.t:null;
       if(current==null)reasons.push('T actual no disponible');
       const compatible=reasons.length===0;
       const previous=kind==='T'?token.bound+token.value+token.direction+(token.verify?'*':''):
         (kind==='PDK'?'PD+K':'PD')+' '+token.value;
-      const delta=compatible&&current!=null?current-token.value:null;
-      rows.set(code,{code,kind,previous,current,delta,previousValue:token.value,previousBound:token.bound,
-        previousDirection:token.direction,previousVerify:token.verify,comparable:compatible&&current!=null,reasons,
-        change:delta==null?'Contraste documental; '+(reasons[0]?.toLowerCase()||'T actual pendiente'):
-          delta===0?'Mismo valor T':delta>0?'T actual superior':'T actual inferior'});
+      // La resta entre valores publicados no confirma equivalencia normativa ni cambio clínico.
+      const exact=kind==='T'&&current!=null&&!token.bound&&!r.bound&&!token.verify&&!r.verify;
+      const delta=exact?current-token.value:null;
+      const row={code,kind,previous,current,delta,previousValue:token.value,previousBound:token.bound,
+        previousDirection:token.direction,currentDirection:direction||'',previousVerify:token.verify,
+        currentBound:r.bound||'',currentVerify:!!r.verify,comparable:compatible&&current!=null,reasons,
+        deltaMeaning:delta==null?null:'T actual menos T anterior; diferencia aritmética entre valores publicados'};
+      row.change=this.comparisonReading(row);
+      rows.set(code,row);
     }
     const order=this._known();
     const ordered=[...rows.values()].sort((a,b)=>order.indexOf(a.code)-order.indexOf(b.code));
-    const notes=ordered.length?[
-      'Se conservan las puntuaciones previas tal como se documentaron. La diferencia T requiere el mismo baremo, sexo normativo, clave y fuente de corrección.',
-      'Las diferencias son descriptivas. Los valores aproximados, pendientes o con límites no se restan.'
-    ]:[];
+    const notes=this.comparisonNotes(ordered);
     return {rows:ordered,meta,notes};
   },
 
+  signedDelta(value){return value==null?'—':value>0?'+'+value:value<0?'−'+Math.abs(value):'0';},
+
+  comparisonReading(row){
+    if(row.delta==null){
+      if(row.kind!=='T')return 'Antecedente en '+(row.kind==='PDK'?'PD+K':'PD')+'; falta la T anterior.';
+      if(row.current==null)return 'T actual no disponible.';
+      if(row.previousBound||row.currentBound)return 'Puntuación con límite; no hay una diferencia exacta.';
+      return 'Puntuación pendiente de verificación; diferencia exacta no disponible.';
+    }
+    const directionName=value=>value==='V'?'Verdadero (V)':'Falso (F)';
+    if(row.code==='TRIN'&&row.previousDirection&&row.currentDirection&&row.previousDirection!==row.currentDirection)
+      return 'Orientaciones distintas: '+directionName(row.previousDirection)+' → '+directionName(row.currentDirection)+
+        '. La resta compara magnitudes T.';
+    let text=row.delta===0?'Coinciden los valores T publicados.':
+      row.delta>0?'Aumento de '+row.delta+' puntos T publicados.':'Descenso de '+Math.abs(row.delta)+' puntos T publicados.';
+    if(row.code==='TRIN'){
+      if(row.currentDirection)text+=' Orientación actual: '+directionName(row.currentDirection)+'.';
+      if(!row.previousDirection&&row.previousValue!==50)text+=' Dirección anterior no informada.';
+    }
+    return text;
+  },
+
+  comparisonNotes(rows){
+    if(!rows.length)return [];
+    const notes=['Diferencia T = T actual − T anterior. Es una resta entre valores publicados; por sí sola no demuestra mejoría, deterioro ni cambio fiable.'];
+    const referenceReasons=[...new Set(rows.flatMap(row=>row.reasons).filter(reason=>/baremo|normativ|clave|fuente|referencias/i.test(reason)))];
+    if(referenceReasons.length)notes.push('Comparabilidad normativa no confirmada: '+referenceReasons.map(reason=>reason[0].toLowerCase()+reason.slice(1)).join('; ')+'. Las puntuaciones conservan su referencia original.');
+    if(rows.some(row=>row.code==='TRIN'&&row.kind==='T'))notes.push('En TRIN se restan las magnitudes T y se conservan V/F. El signo de la diferencia no indica por sí solo un cambio de orientación de respuesta.');
+    if(rows.some(row=>row.delta==null))notes.push('Las puntuaciones directas, con límites, aproximadas, pendientes de verificación o sin T disponible no tienen una diferencia T exacta.');
+    return notes;
+  },
+
   comparisonParagraphs(rows,patient,results){
-    const parts=[],comparable=rows.filter(r=>r.delta!=null),I=window.Interpret;
+    const parts=[],calculated=rows.filter(r=>r.delta!=null),I=window.Interpret;
     const published=rows.filter(r=>r.kind==='T'&&Number.isFinite(r.current));
     if(!rows.length)return [];
     parts.push('Se contrastan '+rows.length+' escalas documentadas del registro anterior con el actual. '+
-      (comparable.length?'En '+comparable.length+' se confirmó la comparabilidad y se informa la diferencia T como variación descriptiva.':
-        'La comparación disponible es documental: se conservan los valores publicados y la interpretación de cambio clínico permanece pendiente.'));
+      (calculated.length?'Se presentan '+calculated.length+' diferencias aritméticas entre las T publicadas.':
+        'Los valores disponibles no permiten calcular diferencias T exactas.'));
+    const invalid=I?.verdict(results).status==='NO_INTERPRETABLE';
     for(const [label,codes] of [['Validez y estilo de respuesta',['VRIN','TRIN','F','Fb','Fp','L','K','S']],
       ['Escalas clínicas',['Hs','D','Hy','Pd','Mf','Pa','Pt','Sc','Ma','Si']],
       ['Contenido y escalas complementarias',null]]){
@@ -126,25 +163,27 @@ const Previous = {
       const details=selected.map(r=>{
         const current=window.ReportModel?ReportModel.score({patient,results},r.code).published:r.current;
         let text=r.code+': T anterior '+r.previous+' y T actual '+current;
-        if(r.delta!=null)text+=r.delta===0?' (mismo valor)':r.delta>0?' (aumento de '+r.delta+' T)':' (descenso de '+Math.abs(r.delta)+' T)';
+        if(r.delta!=null)text+=' (diferencia '+this.signedDelta(r.delta)+' T)';
+        text+='.';
+        if(window.ReportModel&&['VRIN','TRIN','F','Fb','Fp','L','K','S'].includes(r.code))
+          text+=' '+ReportModel.readings(ReportModel.score({patient,results},r.code),r.code,invalid,patient.sex);
+        if(r.code==='Mf')text+=' La variación de Mf se refiere a intereses y roles definidos por el instrumento; no es por sí sola un indicador de psicopatología.';
         return text;
       });
-      parts.push(label+'. '+details.join('; ')+'.');
+      const text=label+'. '+details.join(' ');
+      parts.push(...(window.ReportModel?ReportModel.paragraphs(text):[text]));
     }
-    const currentVRIN=I?.T(results,'VRIN'),priorVRIN=rows.find(r=>r.code==='VRIN');
-    if(priorVRIN&&currentVRIN!=null)parts.push('La consistencia actual se describe mediante VRIN: '+
-      (currentVRIN<70?'el registro actual presenta respuestas coherentes entre afirmaciones de contenido similar u opuesto.':
-        currentVRIN<80?'el registro actual presenta algunas respuestas contradictorias.':'el registro actual presenta inconsistencia marcada.')+
-      (priorVRIN.delta==null?' La diferencia entre los valores publicados de ambas fechas requiere confirmar las condiciones y referencias antes de interpretarse como cambio.':''));
-    const pending=rows.filter(r=>r.delta==null);
-    if(pending.length){
-      const reasons=[...new Set(pending.flatMap(r=>r.reasons))];
-      parts.push('Aspectos pendientes de comparabilidad: '+reasons.join('; ').toLowerCase()+'. '+
-        'La gráfica muestra las puntuaciones T publicadas en su escala original. Sus diferencias visuales no establecen mejoría, deterioro ni equivalencia normativa.');
-    }
-    if(comparable.length)parts.push('Las variaciones T describen diferencias de puntuación. Su alcance clínico depende de la evolución, las condiciones de aplicación, el tratamiento y las fuentes disponibles; no se ha calculado un índice de cambio fiable.');
     if(published.length<rows.length)parts.push('Los antecedentes aportados como PD o sin T actual se conservan en la tabla y quedan fuera de la gráfica de puntuaciones T.');
     return parts;
+  },
+
+  alignComparisonNarrative(text,rows){
+    if(!rows.some(row=>row.delta!=null))return text;
+    // Compatibilidad con frases mecánicas del prompt anterior; el JSON guardado no se modifica.
+    return String(text).replace(/Por eso no se calculan diferencias numéricas,? y la comparabilidad de las escalas registradas sigue pendiente\./gi,
+      'Las diferencias aritméticas se muestran en la tabla; la comparabilidad normativa sigue pendiente.')
+      .replace(/\bno se calculan diferencias (?:numéricas|T) porque\b/gi,'la comparabilidad normativa sigue pendiente porque')
+      .replace(/\bno se calculan diferencias (?:numéricas|T)\./gi,'La tabla presenta diferencias aritméticas entre las T publicadas, sin establecer por ello cambio clínico.');
   },
 
   detectNomenclature(tokens) {

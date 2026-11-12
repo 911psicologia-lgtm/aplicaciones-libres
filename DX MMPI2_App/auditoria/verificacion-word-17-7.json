@@ -1,0 +1,23 @@
+[
+  {
+    "informe": "Informe_Base",
+    "paginas_word": 11,
+    "paginas_tabla_contraste": [
+      8
+    ]
+  },
+  {
+    "informe": "Informe_Extendido",
+    "paginas_word": 18,
+    "paginas_tabla_contraste": [
+      14
+    ]
+  },
+  {
+    "informe": "Informe_IA",
+    "paginas_word": 11,
+    "paginas_tabla_contraste": [
+      9
+    ]
+  }
+]
