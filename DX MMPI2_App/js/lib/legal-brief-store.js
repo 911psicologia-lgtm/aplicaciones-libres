@@ -1,8 +1,8 @@
 /* Estado opcional del tercer informe. No modifica puntuaciones ni consumo de licencia. */
 const LegalBriefStore={
   SCHEMA:1,
-  empty(){return {schema:1,request:{question:'',recipient:'',purpose:'',notes:'',additionalIdentifiers:'',includeIdentity:false},
-    options:{chronology:true,comparison:true,questions:true,appendix:true},sources:[],document:null,prepared:null,review:null};},
+  empty(){return {schema:1,workflow:'auto-case-v2',request:{question:'',recipient:'',purpose:'',notes:'',additionalIdentifiers:'',includeIdentity:false},
+    options:{chronology:false,comparison:true,questions:false,appendix:false},sources:[],document:null,prepared:null,review:null};},
   read(c){
     const raw=c?.legalBrief;
     if(!raw)return this.empty();

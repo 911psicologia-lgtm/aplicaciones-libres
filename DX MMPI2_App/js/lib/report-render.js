@@ -176,7 +176,7 @@ const ReportRender = {
     });
     const para = (text, opts = {}) => new Paragraph({
       alignment: opts.align || AlignmentType.JUSTIFIED,
-      spacing: { after: opts.after != null ? opts.after : 120, before: opts.before || 0, line: opts.line || 300 },
+      spacing: { after: opts.after != null ? opts.after : 120, before: opts.before || 0, line: opts.line || 300 }, keepNext: opts.keepNext,
       children: [new TextRun({ text: String(text), size: opts.size || 22, bold: !!opts.bold, italics: !!opts.italics, color: opts.color })],
     });
     const cell = (text, w, o = {}) => new TableCell({
@@ -263,15 +263,15 @@ const ReportRender = {
           break;
         case 'signature': {
           const ev = b.evaluator;
-          children.push(para([b.institution,b.place,b.date].filter(Boolean).join(' · '), { before: 480, after: 360, align: AlignmentType.LEFT }));
+          children.push(para([b.institution,b.place,b.date].filter(Boolean).join(' · '), { before: b.compact?180:480, after: b.compact?100:360, align: AlignmentType.LEFT, keepNext:b.compact?true:undefined }));
           if (ev.signature) {
             try {
               const dims = await this._imgDims(ev.signature);
-              const h = 70, w = Math.min(260, Math.round(h * dims.w / dims.h));
+              const h = b.compact?50:70, w = Math.min(260, Math.round(h * dims.w / dims.h));
               children.push(new Paragraph({ keepNext: true, spacing: { after: 0 }, children: [new ImageRun({ data: b64(ev.signature), transformation: { width: w, height: Math.round(w * dims.h / dims.w) } })] }));
             } catch (err) { console.warn('Firma no incrustada', err); }
           } else {
-            children.push(para(' ', { after: 600 }));
+            children.push(para(' ', { after: b.compact?180:600, keepNext:b.compact?true:undefined }));
           }
           children.push(new Paragraph({ keepNext: true, spacing: { after: 0 }, border: { top: { style: BorderStyle.SINGLE, size: 8, color: '1F2937', space: 4 } }, indent: { right: 5200 }, children: [new TextRun({ text: ev.name || 'Evaluador/a', bold: true, size: 23 })] }));
           const sub1 = [ev.profession, ev.license ? 'T.P. ' + ev.license : '', ev.registry ? 'Registro ' + ev.registry : ''].filter(Boolean).join(' · ');
@@ -462,18 +462,24 @@ const ReportRender = {
           break;
         case 'signature': {
           const ev = b.evaluator;
-          ensure(170);
-          y += 20;
-          text([b.institution,b.place,b.date].filter(Boolean).join(' · '), { align: 'left', after: 24 });
+          if(b.compact){
+            const height=(value,size,style='normal')=>{doc.setFont('helvetica',style);doc.setFontSize(size);return doc.splitTextToSize(T(value),W).length*size*1.45;};
+            const profession=[ev.profession,ev.license?'T.P. '+ev.license:'',ev.registry?'Registro '+ev.registry:''].filter(Boolean).join(' · ');
+            const contact=[ev.email,ev.phone,ev.address].filter(Boolean).join(' · ');
+            const needed=8+height([b.institution,b.place,b.date].filter(Boolean).join(' · '),10.5)+8+(ev.signature?52:22)+4+height(ev.name||'Evaluador/a',11,'bold')+1+(profession?height(profession,9.5)+1:0)+(contact?height(contact,9.5)+1:0);
+            ensure(needed);
+          }else ensure(170);
+          y += b.compact?8:20;
+          text([b.institution,b.place,b.date].filter(Boolean).join(' · '), { align: 'left', after: b.compact?8:24 });
           if (ev.signature) {
             try {
               const d = await this._imgDims(ev.signature);
-              const h = 58, w = Math.min(220, h * d.w / d.h);
+              const h = b.compact?45:58, w = Math.min(220, h * d.w / d.h);
               const fmt = /^data:image\/jpe?g/.test(ev.signature) ? 'JPEG' : 'PNG';
               doc.addImage(ev.signature, fmt, M.l, y, w, w * d.h / d.w);
               y += w * d.h / d.w + 2;
             } catch (err) { y += 50; }
-          } else { y += 50; }
+          } else { y += b.compact?22:50; }
           doc.setDrawColor(31, 41, 55); doc.setLineWidth(0.9); doc.line(M.l, y, M.l + 230, y); y += 4;
           text(ev.name || 'Evaluador/a', { style: 'bold', size: 11, align: 'left', after: 1 });
           const sub1 = [ev.profession, ev.license ? 'T.P. ' + ev.license : '', ev.registry ? 'Registro ' + ev.registry : ''].filter(Boolean).join(' · ');

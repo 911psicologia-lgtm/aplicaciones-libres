@@ -1,0 +1,49 @@
+✔ A01 · Casos antiguos y estado opcional: informes y puntuaciones conservados (385.792105ms)
+✔ A02 · Fuentes seleccionadas, límites y revisión expresa (18.92644ms)
+✔ A03 · Importación real DOCX: párrafos, acentos y contexto de filas (80.292651ms)
+✔ A04 · Importación real PDF.js: texto y páginas; sin texto requiere OCR (497.604429ms)
+✔ A05 · Texto UTF-8, archivos grandes y formatos incorrectos (0.676994ms)
+✔ A06 · Desidentificación y reserva del texto literal incluso con identificadores habilitados (32.656525ms)
+✔ A07 · Marcadores de seguridad y esquema independiente con fuentes localizables (8.298168ms)
+✔ A08 · Huella cambia con fuentes, metadatos, encargo y datos del caso (70.502134ms)
+✔ A09 · JSON válido, cita comprobada y puntuación atribuida a su fuente (2.830178ms)
+✔ A10 · Rechazo de fuentes inventadas, citas alteradas, categorías y huellas ajenas (2.490488ms)
+✔ A11 · No confunde T actuales con otro fragmento ni pierde límites o dirección (2.074367ms)
+✔ A12 · Revisión vinculada al texto y las fuentes; destinatario y anexo solo requieren revisar (32.597608ms)
+✔ A13 · Guardado y copia de seguridad conservan casos, fuentes y documento sin consumo (11.622919ms)
+✔ A14 · Fallo de espacio restaura los registros anteriores (2.382674ms)
+✔ A15 · Guardar el trabajo de otro caso no cambia el caso actualmente seleccionado (4.637418ms)
+✔ A16 · Fuentes modificadas o retiradas: conserva citas de la versión original como borrador (11.459697ms)
+✔ A17 · Secciones opcionales no reaparecen mediante el anexo (7.331113ms)
+✔ A18 · Pantalla y métodos reales: importar, editar, revisar, exportar y recuperar edición pendiente (78.318322ms)
+✔ A19 · Recursos locales y puntos de acceso sin reemplazar los informes existentes (0.819896ms)
+✔ A21 · Una importación anterior no reemplaza el archivo seleccionado después (0.295448ms)
+✔ A22 · Un cambio de firma o perfil no conserva una revisión anterior (24.15108ms)
+Demostración ficticia: 12 secciones; fuentes y fragmentos incluidos.
+✔ A20 · Exportaciones reales Word/PDF/HTML/TXT/JSON y versiones de borrador (81.799586ms)
+✔ B01 · Flujo simple: pregunta y documentos adicionales son opcionales (34.588009ms)
+✔ B02 · Historia y comparación se incorporan aunque estén ocultas en el informe base (25.508533ms)
+✔ B03 · Sin integración IA guardada se genera con el caso y el informe sin IA (26.457921ms)
+✔ B04 · Información adicional utilizable como evidencia sin volver a cargar fuentes (24.331667ms)
+✔ B05 · Un informe corregido externo sustituye su versión automática (76.586104ms)
+✔ B06 · Cambiar historia, IA o puntuaciones invalida la elaboración automática (128.243008ms)
+✔ B07 · Informe complementario: matriz, formulación y conclusiones separadas (29.07ms)
+✔ B08 · Afirmación externa ya transcrita en el caso: contraste sin cargar de nuevo su archivo (33.104308ms)
+✔ B09 · Referencias documentadas y obligatoria formulación jurídica (37.66981ms)
+✔ B10 · El botón abre y cierra un cajón sin navegar ni destruir las gráficas (0.423498ms)
+✔ B11 · Pantalla simple: campos opcionales, documentos colapsados y versiones previas preservadas (4.679651ms)
+✔ B12 · Editor de hallazgos conserva la evidencia e invalida la revisión (31.558606ms)
+✔ B13 · Privacidad y marcadores también en las fuentes automáticas y la información adicional (22.072567ms)
+✔ B14 · Exportación real del informe complementario y caso automático ficticio (91.102128ms)
+✔ B15 · La actualización ya pendiente se anuncia de forma persistente y conserva el almacenamiento (1.600023ms)
+✔ B16 · HTML, XML de Word y trazos PDF anteriores se mantienen al no pedir firma compacta (498.243957ms)
+✔ B17 · Las fuentes automáticas no cambian solo por abrir el caso otro día (42.630477ms)
+✔ B18 · Las T anteriores y actuales pueden citarse desde el contraste ya guardado (25.536314ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2851.660616

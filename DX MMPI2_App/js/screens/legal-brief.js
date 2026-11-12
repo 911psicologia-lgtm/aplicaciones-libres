@@ -3,64 +3,57 @@ const LegalBrief={
   _mounted:false,_timer:null,_revision:0,_refreshNumber:0,
   _esc(value){return window.escHTML(value);},
   _case(){return Storage.getCase(this._caseId);},
-  render(){
+  render(params={}){
     const selected=Storage.getCurrentCase(),cur=selected?.id?Storage.getCase(selected.id)||selected:null;
+    this._embedded=params.embedded===true;
     this._mounted=false;this._revision=0;this._editingSource=null;this._loadedFile=null;this._editorDirty=false;this._fileToken=(this._fileToken||0)+1;
-    if(!cur?.results)return '<div class="screen"><div class="screen-content"><h2>Seleccione un caso con resultados</h2><button class="btn btn-primary" id="legal-empty-back">Ir a los casos</button></div></div>';
+    if(!cur?.results)return '<div class="screen-content"><h2>Seleccione un caso con resultados</h2><button class="btn btn-primary" id="legal-empty-back">Ir a los casos</button></div>';
     this._caseId=cur.id;
-    try{this._state=LegalBriefStore.read(cur);}catch(error){
-      this._state=null;
-      return '<div class="screen"><div class="screen-content"><h2>Documento no disponible</h2><p>'+this._esc(error.message)+'</p><button class="btn btn-secondary" id="legal-empty-back">Volver a los casos</button></div></div>';
-    }
-    this._editorDirty=Boolean(this._state.editorDraft);
-    const s=this._state,q=s.request,e=this._esc.bind(this);
-    return `<div class="screen"><div class="topbar no-print"><div class="topbar-title">Para el abogado · ${e(cur.patient?.name||'Caso')}</div>
-      <div class="topbar-actions flex gap-8"><button class="btn btn-secondary btn-sm" id="legal-back">Informes clínicos</button><button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú"><span></span><span></span><span></span></button></div></div>
-      <div class="screen-content wide legal-brief-layout"><div class="no-print">
-      <nav class="legal-tabs" aria-label="Documentos del caso"><button class="btn btn-secondary" id="legal-clinical-tab">Base / Extendido e IA</button><span class="btn btn-primary" aria-current="page">Para el abogado</span></nav>
-      <div class="card"><div class="card-header"><h2>Informe explicativo para el abogado</h2><span class="form-hint" id="legal-save-state" role="status">Trabajo guardado con el caso</span></div>
-      <div class="card-body"><p>Reúna sus informes revisados y los documentos que desea contrastar. La IA prepara una explicación con fuentes localizables; usted revisa el texto antes de emitirlo.</p>
-      <div class="legal-fields"><label class="form-label">Pregunta que debe responder el documento<textarea class="form-textarea" id="legal-question" rows="3" maxlength="8000" placeholder="¿Qué necesita comprender, aclarar o controvertir el abogado?">${e(q.question)}</textarea></label>
-      <label class="form-label">Destinatario<input class="form-input" id="legal-recipient" maxlength="300" value="${e(q.recipient)}" placeholder="Nombre o identificación del abogado"></label>
-      <label class="form-label">Finalidad y uso previsto<textarea class="form-textarea" id="legal-purpose" rows="2" maxlength="5000">${e(q.purpose)}</textarea></label>
-      <label class="form-label">Observaciones y precisiones del evaluador<textarea class="form-textarea" id="legal-notes" rows="3" maxlength="12000">${e(q.notes)}</textarea></label></div>
-      <div class="legal-options">${[['chronology','Cronología documentada'],['comparison','Matriz de contraste con documentos externos'],['questions','Preguntas para aclaración'],['appendix','Anexar los fragmentos citados']].map(([key,title])=>`<label class="opt"><input type="checkbox" data-legal-option="${key}" ${s.options[key]!==false?'checked':''}><span>${title}</span></label>`).join('')}</div>
-      <details><summary>Datos que se comparten en el prompt</summary><label class="opt"><input type="checkbox" id="legal-identity" ${q.includeIdentity?'checked':''}><span>Compartir identificadores directos en el prompt externo</span></label>
-      <p class="form-hint">Por defecto se reservan los identificadores conocidos del evaluado y del profesional. Revise el texto libre y los nombres de terceros. La ficha del documento final se completa localmente según las preferencias del informe.</p>
-      <label class="form-label">Otros identificadores que desea reservar, uno por línea<textarea class="form-textarea" rows="3" id="legal-redactions" maxlength="5000">${e(q.additionalIdentifiers)}</textarea></label></details>
-      <div id="legal-error" role="alert"></div></div></div>
-      <div class="card"><div class="card-header"><h3>Fuentes revisadas</h3><span class="form-hint">Word, PDF con texto o texto pegado</span></div><div class="card-body">
-      <p class="form-hint">El registro psicométrico local se incorpora como fuente del caso. Las modificaciones que hizo fuera de la app deben cargarse aquí. Cada fuente seleccionada necesita su revisión de texto.</p>
-      <div class="flex gap-8 legal-wrap"><button class="btn btn-secondary btn-sm" id="legal-use-base">Usar informe sin IA actual</button><button class="btn btn-secondary btn-sm" id="legal-use-ai" ${cur.aiReport?'':'disabled'}>Usar integración IA guardada</button></div>
+    try{this._state=LegalBriefStore.read(cur);}catch(error){this._state=null;return '<p class="legal-error">'+this._esc(error.message)+'</p>';}
+    if(cur.legalBrief?.workflow!=='auto-case-v2')this._state.options={...this._state.options,chronology:false,questions:false,appendix:false};
+    this._state.workflow='auto-case-v2';this._editorDirty=Boolean(this._state.editorDraft);
+    const state=this._state,q=state.request,e=this._esc.bind(this),prior=ReportSections.prior(cur),extra=state.sources.filter(v=>v.included!==false).length;
+    const contents=`<div class="no-print"><div class="card legal-generator"><div class="card-header"><h2>Generar informe técnico complementario</h2>
+      ${this._embedded?'<button class="btn btn-ghost btn-sm" id="legal-close">Cerrar</button>':''}<span class="form-hint" id="legal-save-state" role="status">Guardado con el caso</span></div>
+      <div class="card-body"><p>La app utilizará los datos del caso, los antecedentes y la cronología registrados, los resultados actuales${prior.rows.length?' y el MMPI-2 anterior':''}, el informe sin IA${cur.aiReport?' y la integración IA guardada':''}. El informe explicará su significado frente a las afirmaciones de los documentos disponibles, con una formulación comprensible para el abogado.</p>
+      <div class="legal-fields"><label class="form-label">Pregunta específica <span class="form-hint">(opcional)</span><textarea class="form-textarea" id="legal-question" rows="3" maxlength="8000" placeholder="Si lo deja vacío, se analizarán los resultados y su alcance frente a los informes y el problema del caso.">${e(q.question)}</textarea></label>
+      <label class="form-label">Información adicional o precisión <span class="form-hint">(opcional)</span><textarea class="form-textarea" id="legal-notes" rows="3" maxlength="12000" placeholder="Agregue solo lo que todavía no esté registrado en el caso.">${e(q.notes)}</textarea></label></div>
+      <div class="flex gap-8 legal-wrap"><button class="btn btn-primary" id="legal-prepare">Preparar informe con IA</button><span class="form-hint">Se emplea el mismo circuito de IA externa de la app.</span></div><div id="legal-error" role="alert"></div>
+      <details class="legal-spaced" id="legal-additional"><summary>Agregar o actualizar documentos <span class="form-hint">(opcional${extra?'; '+extra+' seleccionados':''})</span></summary>
+      <p class="form-hint">Los informes guardados se incorporan automáticamente. Use este apartado si tiene una versión corregida fuera de la app o un documento que aún no forma parte del caso.</p>
       <div id="legal-sources-list">${this._sourcesHTML()}</div>
-      <details id="legal-source-editor"><summary id="legal-source-summary">Agregar una fuente</summary><div class="legal-source-editor">
-      <div class="legal-fields"><label class="form-label">Tipo de fuente<select class="form-select" id="legal-source-role">${Object.entries(LegalBriefSources.ROLES).map(([id,title])=>`<option value="${id}" ${id==='externo'?'selected':''}>${title}</option>`).join('')}</select></label>
+      <details id="legal-source-editor"><summary id="legal-source-summary">Agregar documento o texto</summary><div class="legal-source-editor"><div class="legal-fields">
+      <label class="form-label">Tipo de documento<select class="form-select" id="legal-source-role">${Object.entries(LegalBriefSources.ROLES).map(([id,title])=>`<option value="${id}" ${id==='externo'?'selected':''}>${title}</option>`).join('')}</select></label>
       <label class="form-label">Cargar archivo<input class="form-input" type="file" id="legal-source-file" accept=".docx,.pdf,.txt,.md"></label>
-      <label class="form-label">Título del documento<input class="form-input" id="legal-source-title" maxlength="180"></label><label class="form-label">Autor o procedencia<input class="form-input" id="legal-source-author" maxlength="180"></label>
-      <label class="form-label">Fecha del documento<input class="form-input" id="legal-source-date" type="date"></label></div>
-      <p class="form-hint" id="legal-source-notice">Puede pegar el texto revisado o cargar un archivo. Los archivos originales permanecen en su equipo; se guarda el texto extraído.</p>
-      <label class="form-label">Texto de la fuente<textarea class="form-textarea legal-source-text" id="legal-source-text" rows="9" maxlength="180000"></textarea></label>
-      <label class="opt"><input type="checkbox" id="legal-source-reviewed"><span>He revisado el texto, el orden de lectura, las tablas y los signos de puntuación.</span></label>
-      <div class="flex gap-8 legal-wrap"><button class="btn btn-primary" id="legal-source-save">Guardar fuente</button><button class="btn btn-ghost" id="legal-source-cancel">Cancelar edición</button></div></div></details>
-      </div></div>
-      <div class="card"><div class="card-header"><h3>Elaboración con IA externa</h3></div><div class="card-body">
-      <ol class="legal-steps"><li>Prepare el prompt con las fuentes seleccionadas y revise su contenido.</li><li>Cópielo en su servicio de IA y recupere el JSON.</li><li>Importe el resultado, revise el documento y registre su aprobación.</li></ol>
-      <div class="flex gap-8 legal-wrap"><button class="btn btn-primary" id="legal-prepare">Preparar prompt</button><button class="btn btn-secondary" id="legal-copy" disabled>Copiar prompt</button><button class="btn btn-ghost" id="legal-prompt-download" disabled>Descargar prompt TXT</button></div>
-      <details id="legal-prompt-details"><summary>Revisar el prompt preparado</summary><textarea class="form-textarea legal-json" id="legal-prompt" rows="10" readonly aria-label="Prompt preparado"></textarea></details>
-      <label class="form-label legal-spaced">JSON devuelto por la IA<textarea class="form-textarea legal-json" id="legal-json-input" rows="8" maxlength="500000" placeholder='{"tipo":"informe_explicativo_abogado","version":1,"huella_fuentes":"…","secciones":[],"cronologia":[],"contrastes":[],"preguntas":[]}'></textarea></label>
-      <button class="btn btn-primary" id="legal-import-json">Guardar documento de IA</button><p class="form-hint">Se comprueban las referencias existentes, las citas de la matriz y las puntuaciones explícitas frente a los fragmentos citados. La revisión del razonamiento sigue siendo profesional.</p>
-      </div></div></div>
-      <div id="legal-document-zone"></div></div></div>`;
+      <label class="form-label">Título<input class="form-input" id="legal-source-title" maxlength="180"></label><label class="form-label">Autor o entidad<input class="form-input" id="legal-source-author" maxlength="180"></label><label class="form-label">Fecha<input class="form-input" id="legal-source-date" type="date"></label></div>
+      <p class="form-hint" id="legal-source-notice">Puede cargar Word, PDF con texto o pegar el contenido. Revise la extracción antes de incorporarlo.</p>
+      <label class="form-label">Texto del documento<textarea class="form-textarea legal-source-text" id="legal-source-text" rows="8" maxlength="180000"></textarea></label>
+      <label class="opt"><input type="checkbox" id="legal-source-reviewed"><span>He revisado el texto extraído.</span></label>
+      <div class="flex gap-8 legal-wrap"><button class="btn btn-primary" id="legal-source-save">Incorporar documento</button><button class="btn btn-ghost" id="legal-source-cancel">Cancelar</button></div></div></details>
+      <div class="flex gap-8 legal-spaced"><button class="btn btn-ghost btn-sm" id="legal-use-base">Ver texto del informe sin IA</button><button class="btn btn-ghost btn-sm" id="legal-use-ai" ${cur.aiReport?'':'disabled'}>Ver texto de la integración IA</button></div></details>
+      <details class="legal-spaced"><summary>Destinatario, presentación y privacidad</summary><div class="legal-fields legal-spaced"><label class="form-label">Dirigido a<input class="form-input" id="legal-recipient" maxlength="300" value="${e(q.recipient)}"></label><label class="form-label">Finalidad adicional <span class="form-hint">(opcional)</span><textarea class="form-textarea" id="legal-purpose" rows="2" maxlength="5000">${e(q.purpose)}</textarea></label></div>
+      <div class="legal-options">${[['chronology','Añadir tabla cronológica'],['comparison','Contrastar afirmaciones documentadas'],['questions','Añadir apartado de preguntas'],['appendix','Anexar los fragmentos citados']].map(([key,title])=>`<label class="opt"><input type="checkbox" data-legal-option="${key}" ${state.options[key]?'checked':''}><span>${title}</span></label>`).join('')}</div>
+      <label class="opt"><input type="checkbox" id="legal-identity" ${q.includeIdentity?'checked':''}><span>Compartir identificadores directos en el prompt externo</span></label><p class="form-hint">Se reservan por defecto los identificadores conocidos. La identificación y firma finales se incorporan localmente. Revise también los nombres de terceros en el texto libre.</p>
+      <label class="form-label">Otros identificadores que desea reservar, uno por línea<textarea class="form-textarea" rows="2" id="legal-redactions" maxlength="5000">${e(q.additionalIdentifiers)}</textarea></label></details></div></div>
+      <details class="card legal-workflow" id="legal-ai-workflow"><summary>Continuar con la IA y cargar el informe</summary><div class="card-body">
+      <p>Copie el encargo preparado en su IA y pegue aquí el JSON que devuelva. Después podrá revisar, editar y descargar el informe.</p>
+      <div class="flex gap-8 legal-wrap"><button class="btn btn-primary" id="legal-copy" disabled>Copiar encargo</button><button class="btn btn-ghost" id="legal-prompt-download" disabled>Descargar encargo TXT</button></div>
+      <details id="legal-prompt-details"><summary>Ver los datos y el encargo preparados</summary><textarea class="form-textarea legal-json" id="legal-prompt" rows="10" readonly aria-label="Encargo preparado"></textarea></details>
+      <label class="form-label legal-spaced">Respuesta JSON de la IA<textarea class="form-textarea legal-json" id="legal-json-input" rows="7" maxlength="500000"></textarea></label>
+      <button class="btn btn-primary" id="legal-import-json">Cargar y ver el informe</button></div></details></div><div id="legal-document-zone"></div>`;
+    if(this._embedded)return '<section class="legal-inline" aria-label="Generar informe para el abogado">'+contents+'</section>';
+    return `<div class="screen"><div class="topbar no-print"><div class="topbar-title">Para el abogado · ${e(cur.patient?.name||'Caso')}</div><div class="topbar-actions"><button class="btn btn-secondary btn-sm" id="legal-back">Informes clínicos</button><button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú"><span></span><span></span><span></span></button></div></div><div class="screen-content wide legal-brief-layout">${contents}</div></div>`;
   },
   _sourcesHTML(){
     const sources=this._state.sources;
-    if(!sources.length)return '<p class="form-hint legal-spaced">Aún no hay documentos añadidos. Incorpore al menos uno de sus informes revisados.</p>';
+    if(!sources.length)return '<p class="form-hint legal-spaced">Los documentos adicionales aparecerán aquí. La información guardada en el caso ya se incorpora automáticamente.</p>';
     return '<div class="legal-source-list">'+sources.map(s=>`<article class="legal-source-row"><label class="opt"><input type="checkbox" data-legal-source="${this._esc(s.id)}" ${s.included!==false?'checked':''}><span><strong>${this._esc(s.title)}</strong><small>${this._esc(LegalBriefSources.ROLES[s.role])} · ${this._esc(s.author||'Autor no informado')} · ${this._esc(s.date||'Fecha no informada')} · ${s.reviewed?'Texto revisado':'Texto pendiente de revisar'}</small></span></label><div class="flex gap-8"><button class="btn btn-secondary btn-sm" data-legal-edit-source="${this._esc(s.id)}">Revisar / editar</button><button class="btn btn-ghost btn-sm" data-legal-remove-source="${this._esc(s.id)}">Quitar</button></div></article>`).join('')+'</div>';
   },
   mount(){
     bindEvent('legal-empty-back','click',()=>App.navigate('cases'));
     if(!this._state||!document.getElementById('legal-question'))return;
-    this._mounted=true;bindEvent('ham-btn','click',()=>App.openMenu());
+    this._mounted=true;if(!this._embedded)bindEvent('ham-btn','click',()=>App.openMenu());
+    bindEvent('legal-close','click',()=>Report._toggleLegalDrawer(false));
     for(const id of ['legal-back','legal-clinical-tab'])bindEvent(id,'click',()=>App.navigate('report'));
     for(const id of ['legal-question','legal-recipient','legal-purpose','legal-notes','legal-redactions'])bindEvent(id,'input',()=>this._requestChanged());
     bindEvent('legal-identity','change',()=>this._requestChanged());
@@ -93,7 +86,7 @@ const LegalBrief={
       if(button.id==='legal-load-json')document.getElementById('legal-json-input').value=JSON.stringify(this._state.editorDraft||this._state.document,null,2);
     });
     document.getElementById('legal-document-zone').addEventListener('input',event=>{
-      if(!event.target.matches('[data-legal-section],[data-legal-contrast],[data-legal-chronology],[data-legal-question]'))return;
+      if(!event.target.matches('[data-legal-section],[data-legal-contrast],[data-legal-chronology],[data-legal-question],[data-legal-finding]'))return;
       this._editorDirty=true;this._state.review=null;this._state.editorDraft=this._editedDocument();
       document.querySelectorAll('[data-legal-export],#legal-review').forEach(button=>button.disabled=true);
       const label=document.getElementById('legal-edit-state');if(label)label.textContent='Edición pendiente: guarde y valide el texto antes de descargar o revisar.';
@@ -197,7 +190,8 @@ const LegalBrief={
     const built=await LegalBriefPrompt.build(c,this._state,Storage.getEvaluator()||{});
     if(!this._mounted||revision!==this._revision)throw new Error('El encargo cambió durante la preparación. Prepare el prompt de nuevo.');
     this._prompt=built.prompt;this._state.prepared={fingerprint:built.book.fingerprint,at:new Date().toISOString()};this._save();
-    document.getElementById('legal-prompt').value=built.prompt;document.getElementById('legal-prompt-details').open=true;
+    document.getElementById('legal-prompt').value=built.prompt;
+    const workflow=document.getElementById('legal-ai-workflow');if(workflow)workflow.open=true;
     for(const id of ['legal-copy','legal-prompt-download'])document.getElementById(id).disabled=false;
     window.toast('Prompt preparado. Revise el texto antes de compartirlo.','success');
   },
@@ -219,7 +213,7 @@ const LegalBrief={
     if(!this._mounted||revision!==this._revision)throw new Error('Las fuentes cambiaron durante la importación. Inténtelo de nuevo.');
     const previous=JSON.parse(JSON.stringify(this._state));
     this._state.document=doc;this._state.documentSnapshot=LegalBriefModel.snapshot(book,doc);
-    this._state.documentContext={request:{...this._state.request},options:{...this._state.options},patient:{name:c.patient?.name,document:c.patient?.document,dob:c.patient?.dob,applicationDate:c.patient?.applicationDate}};
+    this._state.documentContext={createdAt:new Date().toISOString(),request:{...this._state.request},options:{...this._state.options},patient:{name:c.patient?.name,document:c.patient?.document,dob:c.patient?.dob,age:c.patient?.age,applicationDate:c.patient?.applicationDate}};
     this._state.review=null;delete this._state.editorDraft;this._editorDirty=false;
     try{this._save();}catch(error){this._state=previous;this._editorDirty=Boolean(previous.editorDraft);throw error;}
     await this._refreshPreview();window.toast('Documento guardado como borrador. Revise su contenido y sus fuentes.','success');
@@ -228,16 +222,17 @@ const LegalBrief={
     const doc=this._state.editorDraft||this._state.document,e=this._esc.bind(this);
     const fields=[];
     for(const [si,section] of doc.secciones.entries())for(const [bi,block] of section.bloques.entries())
-      fields.push(`<label class="form-label">${e(LegalBriefModel.SECTIONS[section.id])}${block.tipo==='lista'?' · un elemento por línea':''}<textarea class="form-textarea" rows="4" data-legal-section="${si}" data-legal-block="${bi}" maxlength="18000">${e(block.tipo==='lista'?block.items.join('\n'):block.contenido)}</textarea></label>`);
+      fields.push(`<label class="form-label">${e(section.titulo||LegalBriefModel.SECTIONS[section.id])}${block.tipo==='lista'?' · un elemento por línea':''}<textarea class="form-textarea" rows="4" data-legal-section="${si}" data-legal-block="${bi}" maxlength="18000">${e(block.tipo==='lista'?block.items.join('\n'):block.contenido)}</textarea></label>`);
     for(const [i,row] of doc.contrastes.entries())for(const key of ['analisis','alcance'])fields.push(`<label class="form-label">Contraste ${i+1} · ${key==='analisis'?'Análisis':'Alcance'}<textarea class="form-textarea" rows="4" data-legal-contrast="${i}" data-legal-key="${key}" maxlength="9000">${e(row[key])}</textarea></label>`);
     for(const [i,row] of doc.cronologia.entries())fields.push(`<label class="form-label">Cronología ${i+1} · hecho<textarea class="form-textarea" rows="2" data-legal-chronology="${i}" maxlength="6000">${e(row.hecho)}</textarea></label>`);
     for(const [i,row] of doc.preguntas.entries())fields.push(`<label class="form-label">Pregunta ${i+1}<textarea class="form-textarea" rows="2" data-legal-question="${i}" maxlength="4000">${e(row.pregunta)}</textarea></label>`);
+    for(const [i,row] of (doc.hallazgos||[]).entries())for(const key of ['dimension','evidencia','lectura','alcance'])fields.push(`<label class="form-label">Hallazgo ${i+1} · ${e(key)}<textarea class="form-textarea" rows="3" data-legal-finding="${i}" data-legal-key="${key}" maxlength="4000">${e(row[key])}</textarea></label>`);
     return '<details id="legal-text-editor" '+(this._editorDirty?'open':'')+'><summary>Editar el texto del documento</summary><p class="form-hint" id="legal-edit-state">'+(this._editorDirty?'Edición recuperada: guarde y valide el texto antes de descargar o revisar.':'Se conservan las referencias de cada bloque. Guardar una edición deja el documento pendiente de una nueva revisión.')+'</p>'+fields.join('')+'<button class="btn btn-primary" id="legal-save-edits">Guardar y validar edición</button></details>';
   },
   async _refreshPreview(){
     if(!this._mounted)return;const token=++this._refreshNumber,zone=document.getElementById('legal-document-zone');
     if(this._editorDirty&&zone.querySelector('#legal-text-editor'))return;
-    if(!this._state.document){zone.innerHTML='<div class="card"><div class="card-body"><h3>Documento explicativo</h3><p>El borrador aparecerá aquí cuando importe el JSON de la IA.</p></div></div>';return;}
+    if(!this._state.document){zone.innerHTML='';return;}
     try{
       const c=this._case(),book=await LegalBriefSources.prepare(c,this._state,{evaluator:Storage.getEvaluator()||{}});
       const status=await LegalBriefModel.status(this._state,book);
@@ -257,6 +252,7 @@ const LegalBrief={
     document.querySelectorAll('[data-legal-contrast]').forEach(el=>doc.contrastes[Number(el.dataset.legalContrast)][el.dataset.legalKey]=el.value);
     document.querySelectorAll('[data-legal-chronology]').forEach(el=>doc.cronologia[Number(el.dataset.legalChronology)].hecho=el.value);
     document.querySelectorAll('[data-legal-question]').forEach(el=>doc.preguntas[Number(el.dataset.legalQuestion)].pregunta=el.value);
+    document.querySelectorAll('[data-legal-finding]').forEach(el=>doc.hallazgos[Number(el.dataset.legalFinding)][el.dataset.legalKey]=el.value);
     return doc;
   },
   async _saveEdits(){

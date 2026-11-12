@@ -331,7 +331,7 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 17.8 licenciada · Aplicación clínica para la administración, corrección
+          Versión 17.9 licenciada · Aplicación clínica para la administración, corrección
           e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
           con baremos español (TEA), estadounidense (Minnesota N=2.600) y mexicano.
         </p>

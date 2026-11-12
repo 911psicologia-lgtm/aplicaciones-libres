@@ -1,0 +1,82 @@
+Informe técnico complementario
+Afrontamiento actual y alcance de las afirmaciones sobre personalidad
+
+Evaluado · María Demo
+Documento de identidad · DEMO-9988
+Fecha de aplicación · 3 de noviembre de 2026
+Fecha de nacimiento · 15 de octubre de 1980
+
+1. Pregunta técnica
+
+Explicar qué describen los resultados actuales, cómo se relacionan con el seguimiento registrado y qué fundamento tiene la afirmación sobre una causa exclusiva de personalidad. La pregunta se resuelve con la información que ya consta en el caso. [1, 3]
+
+2. Respuesta ejecutiva
+
+La información disponible describe malestar durante el seguimiento y recursos de ayuda conservados. La medición actual permite hablar de cómo la persona se percibe en el momento de la evaluación; no acredita por sí sola que esa forma de responder existiera antes del inicio del cuadro. [1]
+
+La frase atribuida al documento externo introduce una explicación exclusiva que el material transcrito no permite sostener. La objeción técnica se dirige a ese salto entre un hallazgo actual y una causa previa, con la precisión de que solo está disponible el resumen registrado en la historia. [1]
+
+3. Fuentes y método
+
+Se integraron el registro psicométrico actual, la historia y cronología guardadas, el antecedente de evaluación y la integración del caso. La afirmación externa se conoce a través de su transcripción en la historia; su análisis conserva esa diferencia de procedencia. [1, 3]
+
+4. Matriz de hallazgos relevantes
+
+Tabla 1. Evidencia, significado y alcance
+Dimensión | Evidencia documentada | Lectura técnica | Alcance frente a la pregunta
+Afrontamiento actual | Es T=≤30; búsqueda de ayuda y apoyo familiar registrados. [1] | La persona refiere recursos reducidos en la evaluación y conserva apoyos y acciones de afrontamiento. | No demuestra incapacidad global ni una disposición previa fija.
+Antecedencia de los hallazgos | Seguimiento desde 2023; cambio de funciones en 2024. No consta una medida anterior de personalidad. [1] | Hay una secuencia documentada que debe distinguirse de una explicación causal. | La exclusividad causal requiere información adicional.
+
+5. El MMPI-2 actual y su significado
+
+VRIN T=46 describe coherencia en la forma de responder a contenidos relacionados. Esta información contribuye a valorar la consistencia del protocolo; no determina si un relato externo es verdadero ni identifica por sí sola la causa del malestar. [1]
+
+Es T=≤30 se refiere a una percepción reducida de los recursos de afrontamiento durante la evaluación. En este caso coexiste con búsqueda de ayuda y apoyo familiar registrados. La lectura conjunta permite distinguir sentirse desbordado de carecer de toda capacidad para actuar o recibir apoyo. [1]
+
+6. Qué aporta la secuencia temporal
+
+El seguimiento por sueño y concentración comenzó antes del cambio de funciones descrito. Esa secuencia impide explicar el inicio únicamente por un hecho posterior; tampoco identifica por sí sola una causa única. Para afirmar que una disposición de personalidad antecedía al cuadro se necesitan datos anteriores o información longitudinal suficientemente documentada. [1]
+
+7. Contraste de afirmaciones documentadas
+
+Tabla 2. Afirmación y fundamento de la respuesta
+Afirmación y fuente | Lectura técnica | Qué permite sostener
+«el malestar deriva exclusivamente de la personalidad» [1] | La historia atribuye esta frase al documento externo, sin reproducirlo íntegramente. Los hallazgos actuales y la cronología registrada no establecen por sí solos una causa previa exclusiva. [1] | Puede solicitarse el respaldo longitudinal de la afirmación. La objeción debe mantenerse referida a la transcripción disponible hasta revisar el texto completo.
+
+8. Fundamento de la controversia técnica
+
+El aspecto controvertible es la atribución exclusiva a la personalidad. La transcripción disponible no aporta una medición anterior al seguimiento ni describe cómo se descartaron explicaciones alternativas. Puede cuestionarse la suficiencia de ese fundamento y solicitarse el documento completo; con este material no corresponde atribuir una omisión al informe íntegro que todavía no se ha revisado. [1]
+
+9. Información que podría modificar la lectura
+
+La ausencia de una evaluación previa en el material aportado limita tanto la afirmación externa como una conclusión propia sobre el funcionamiento premórbido. Si aparecen antecedentes independientes o una argumentación longitudinal en el documento completo, deberán incorporarse al análisis y podrá cambiar el alcance de la objeción. [1]
+
+10. Conclusiones
+
+Los datos actuales permiten describir malestar y percepción de recursos reducida, junto con conductas de búsqueda de ayuda. No equivalen a una demostración de incapacidad global ni de una disposición previa fija. [1]
+
+La explicación exclusiva atribuida a la entidad requiere un fundamento temporal y metodológico que no está contenido en la transcripción disponible. La controversia defendible se refiere al alcance de esa inferencia, conservando la necesidad de revisar el informe completo. [1]
+
+11. Formulación para el equipo jurídico
+
+Los resultados psicológicos aportados describen el funcionamiento durante la evaluación y no acreditan, por sí solos, una causa exclusiva de personalidad anterior al cuadro. La historia sitúa dificultades documentadas antes del cambio de funciones y registra búsqueda de ayuda. Por ello, la afirmación atribuida a la entidad requiere mostrar su respaldo longitudinal y explicar cómo se estableció la exclusividad causal. Esta observación se formula sobre la transcripción disponible y debe contrastarse con el documento íntegro. [1]
+
+12. Recomendaciones
+
+• Obtener el informe completo de la Entidad de Referencia para verificar el contenido, sus métodos y el fundamento temporal de la afirmación transcrita. [1]
+• Incorporar los antecedentes independientes que permitan describir el funcionamiento previo al seguimiento y revisar con ellos las dos interpretaciones. [1]
+
+13. Alcance y límites
+
+El alcance se limita a las puntuaciones y documentos ya registrados. No se cuenta con el texto íntegro externo ni con una medición de personalidad anterior al inicio descrito. La secuencia temporal aporta una condición del análisis y no sustituye la valoración clínica ni la determinación jurídica correspondiente. [1]
+
+[1] Registro local del caso · Registro de la aplicación · 3 de noviembre de 2026
+[2] Informe sin IA del caso · Profesional ficticio · 3 de noviembre de 2026
+[3] Informe IA guardado en el caso · Profesional ficticio · 3 de noviembre de 2026
+
+Revisión profesional registrada el 12 de noviembre de 2026.
+
+Ciudad de prueba
+12 de noviembre de 2026
+Profesional ficticio
+DEMO-TP

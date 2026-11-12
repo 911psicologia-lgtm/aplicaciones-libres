@@ -1,6 +1,6 @@
 /* Validación, revisión y modelo de presentación exclusivo del informe para el abogado. */
 const LegalBriefModel={
-  SECTIONS:{resumen:'Respuesta principal',explicacion:'Explicación de los hallazgos',argumentos:'Argumentos y alcance técnico',pendientes:'Aspectos pendientes de aclaración',conclusiones:'Conclusiones'},
+  SECTIONS:{objeto:'Pregunta técnica',resumen:'Respuesta principal',metodo:'Fuentes y método',explicacion:'Significado y alcance de los resultados',temporalidad:'Temporalidad y evolución del caso',argumentos:'Argumentos y alcance técnico',pendientes:'Aspectos pendientes de aclaración',conclusiones:'Conclusiones',formulacion:'Formulación para el equipo jurídico',recomendaciones:'Recomendaciones',limitaciones:'Alcance y límites'},
   CLASSES:['Coincidencia','Discrepancia','Diferencia explicable','Información insuficiente'],
   _text(value,label,max=18000){
     if(typeof value!=='string'||!value.trim())throw new Error('Falta texto en '+label+'.');
@@ -32,10 +32,10 @@ const LegalBriefModel={
     }
   },
   parse(value,book,{allowStale=false}={}){
-    if(!value||typeof value!=='object'||Array.isArray(value)||value.tipo!=='informe_explicativo_abogado'||value.version!==1)
-      throw new Error('El JSON debe ser un informe_explicativo_abogado, versión 1.');
+    if(!value||typeof value!=='object'||Array.isArray(value)||value.tipo!=='informe_explicativo_abogado'||![1,2].includes(value.version))
+      throw new Error('El JSON debe ser un informe_explicativo_abogado, versión 1 o 2.');
     if(!allowStale&&value.huella_fuentes!==book.fingerprint)throw new Error('El JSON corresponde a otras versiones de fuentes o a otro encargo. Prepare un prompt actualizado.');
-    if(!Array.isArray(value.secciones)||value.secciones.length>8)throw new Error('Falta el arreglo de secciones del documento.');
+    if(!Array.isArray(value.secciones)||value.secciones.length>16)throw new Error('Falta el arreglo de secciones del documento.');
     const used=new Set(),sections=[];
     for(const section of value.secciones){
       if(!Object.hasOwn(this.SECTIONS,section.id)||used.has(section.id))throw new Error('Sección desconocida o repetida: '+section.id);
@@ -53,15 +53,16 @@ const LegalBriefModel={
         }
         throw new Error('Solo se admiten párrafos y listas en las secciones explicativas.');
       });
-      sections.push({id:section.id,bloques:blocks});
+      sections.push({id:section.id,...(value.version===2&&section.titulo?.trim()?{titulo:this._text(section.titulo,'título de sección',180)}:{}),bloques:blocks});
     }
     if(!sections.find(s=>s.id==='resumen')?.bloques.length||!sections.find(s=>s.id==='conclusiones')?.bloques.length)
       throw new Error('El documento necesita respuesta principal y conclusiones.');
+    if(value.version===2&&!sections.find(s=>s.id==='formulacion')?.bloques.length)throw new Error('El informe complementario necesita la formulación para el equipo jurídico.');
     const chronology=(book.options?.chronology===false?[]:Array.isArray(value.cronologia)?value.cronologia:[]).map(row=>{
       const evidencias=this._refs(row.evidencias,book,'cronología'),hecho=this._text(row.hecho,'cronología',6000);
       this._checkScores(hecho,evidencias,book);return {fecha:this._text(row.fecha,'fecha',120),hecho,evidencias};
     });
-    const contrasts=(book.options?.comparison===false||book.externalCount===0?[]:Array.isArray(value.contrastes)?value.contrastes:[]).map(row=>{
+    const contrasts=(book.options?.comparison===false||(value.version===1&&book.externalCount===0)?[]:Array.isArray(value.contrastes)?value.contrastes:[]).map(row=>{
       if(!this.CLASSES.includes(row.clasificacion))throw new Error('Clasificación de contraste no admitida.');
       if(!book.byRef.has(row.referencia))throw new Error('La afirmación de contraste remite a un fragmento inexistente.');
       const cita=this._text(row.cita,'cita de contraste',600),fragment=book.byRef.get(row.referencia);
@@ -74,12 +75,29 @@ const LegalBriefModel={
     });
     const questions=(book.options?.questions===false?[]:Array.isArray(value.preguntas)?value.preguntas:[]).map(row=>({pregunta:this._text(row.pregunta,'pregunta',4000),evidencias:this._refs(row.evidencias,book,'pregunta')}));
     if(chronology.length>80||contrasts.length>40||questions.length>40)throw new Error('El documento supera el número de elementos admitido.');
-    return {tipo:value.tipo,version:1,huella_fuentes:String(value.huella_fuentes),secciones:sections,cronologia:chronology,contrastes:contrasts,preguntas:questions};
+    const extra={};
+    if(value.version===2){
+      extra.titulo=this._text(value.titulo||'Informe técnico complementario','título',180);
+      extra.subtitulo=typeof value.subtitulo==='string'?value.subtitulo.trim().slice(0,240):'';
+      if((value.hallazgos?.length||0)>30||(value.referencias?.length||0)>40)throw new Error('Demasiados hallazgos o referencias.');
+      extra.hallazgos=(Array.isArray(value.hallazgos)?value.hallazgos:[]).map(row=>{
+        const evidencias=this._refs(row.evidencias,book,'hallazgos'),entry={evidencias};
+        for(const key of ['dimension','evidencia','lectura','alcance'])entry[key]=this._text(row[key],key,4000);
+        this._checkScores(Object.values(entry).filter(v=>typeof v==='string').join(' '),evidencias,book);return entry;
+      });
+      extra.referencias=(Array.isArray(value.referencias)?value.referencias:[]).map(row=>{
+        const texto=this._text(row.texto,'referencia',3000),evidencias=this._refs(row.evidencias,book,'referencia');
+        if(!evidencias.some(id=>this._normalized(book.byRef.get(id).text).includes(this._normalized(texto))))throw new Error('La referencia bibliográfica no aparece en sus fuentes citadas.');
+        return {texto,evidencias};
+      });
+    }
+    return {tipo:value.tipo,version:value.version,huella_fuentes:String(value.huella_fuentes),secciones:sections,cronologia:chronology,contrastes:contrasts,preguntas:questions,...extra};
   },
   refs(doc){
     return [...new Set([
       ...doc.secciones.flatMap(s=>s.bloques.flatMap(b=>b.evidencias)),
-      ...doc.cronologia.flatMap(r=>r.evidencias),...doc.contrastes.flatMap(r=>[r.referencia,...r.evidencias]),...doc.preguntas.flatMap(r=>r.evidencias)
+      ...doc.cronologia.flatMap(r=>r.evidencias),...doc.contrastes.flatMap(r=>[r.referencia,...r.evidencias]),...doc.preguntas.flatMap(r=>r.evidencias),
+      ...(doc.hallazgos||[]).flatMap(r=>r.evidencias),...(doc.referencias||[]).flatMap(r=>r.evidencias)
     ])];
   },
   snapshot(book,doc){
@@ -96,6 +114,7 @@ const LegalBriefModel={
   },
   build(c,state,live,evaluator={},status={}){
     const doc=state.document;if(!doc)throw new Error('Todavía no hay un documento explicativo guardado.');
+    if(doc.version===2)return this._buildComplementary(c,state,live,evaluator,status);
     const book=state.documentSnapshot?this.snapshotBook(state.documentSnapshot):live;
     const checked=this.parse(doc,book,{allowStale:true}),context=state.documentContext||{request:state.request,patient:c.patient,options:state.options};
     const request={...context.request,recipient:state.request?.recipient||''},p=context.patient||{},options={...(context.options||state.options),appendix:state.options?.appendix!==false},flags=ReportSections.options(c),blocks=[],sections=[];
@@ -147,6 +166,41 @@ const LegalBriefModel={
       push({t:'table',num:++tableNo,caption:'Pasajes citados y localización',columns:['Fuente y localización','Fragmento citado'],rows:this.refs(checked).map(id=>({cells:[label(id),book.byRef.get(id).text]}))});
     }
     return {title:'Informe explicativo para el abogado · '+(p.name||''),patientName:p.name||'',blocks,sections,references:[],evaluator:ev,place:flags.place||ev.city||'',institution:flags.institution||ev.institution||'',issues:[]};
+  },
+  _buildComplementary(c,state,live,evaluator={},status={}){
+    const book=state.documentSnapshot?this.snapshotBook(state.documentSnapshot):live,doc=this.parse(state.document,book,{allowStale:true});
+    const context=state.documentContext||{request:state.request,patient:c.patient,options:state.options},p=context.patient||{},flags=ReportSections.options(c);
+    const blocks=[],sections=[],numbers=new Map(book.manifest.map((s,i)=>[s.id,i+1]));let sectionId=null,n=0,tables=0;
+    const push=b=>blocks.push({...b,sectionId});
+    const heading=(id,title)=>{sectionId=id;sections.push({id,numero:++n,titulo:title});push({t:'h1',text:n+'. '+title});};
+    const cite=refs=>' ['+[...new Set(refs.map(id=>numbers.get(book.byRef.get(id).sourceId)))].sort((a,b)=>a-b).join(', ')+']';
+    const add=id=>{const section=doc.secciones.find(s=>s.id===id);if(!section?.bloques.length)return;
+      heading(id,section.titulo||(id==='resumen'?'Respuesta ejecutiva':this.SECTIONS[id]));for(const b of section.bloques){
+        if(b.tipo==='parrafo')for(const text of ReportModel.paragraphs(b.contenido))push({t:'p',text:text+cite(b.evidencias)});
+        else push({t:'list',items:b.items.map(text=>text+cite(b.evidencias))});
+      }};
+    push({t:'title',text:doc.titulo,subtitle:doc.subtitulo||'Análisis de resultados e informes para el equipo jurídico'});
+    if(!status.reviewed)push({t:'banner',text:status.stale?'BORRADOR · El caso o sus informes cambiaron. Actualice el análisis y registre su revisión.':'BORRADOR · Pendiente de revisión profesional.'});
+    const rows=[['Evaluado',p.name||'No consta'],['Fecha de aplicación',ReportModel._fmtDate(p.applicationDate)]];
+    if(flags.id_document&&p.document)rows.splice(1,0,['Documento de identidad',p.document]);
+    if(flags.id_dob&&p.dob)rows.push(['Fecha de nacimiento',ReportModel._fmtDate(p.dob)]);
+    if(state.request?.recipient)rows.push(['Dirigido a',state.request.recipient]);push({t:'idbox',rows});
+    add('objeto');add('resumen');add('metodo');
+    if(doc.hallazgos.length){heading('hallazgos','Matriz de hallazgos relevantes');push({t:'table',num:++tables,caption:'Evidencia, significado y alcance',columns:['Dimensión','Evidencia documentada','Lectura técnica','Alcance frente a la pregunta'],rows:doc.hallazgos.map(r=>({cells:[r.dimension,r.evidencia+cite(r.evidencias),r.lectura,r.alcance]}))});}
+    add('explicacion');add('temporalidad');
+    if(doc.cronologia.length){heading('cronologia','Hitos pertinentes del caso');push({t:'table',num:++tables,caption:'Hechos documentados',columns:['Fecha','Hecho documentado','Soporte'],rows:doc.cronologia.map(r=>({cells:[r.fecha,r.hecho,cite(r.evidencias).trim()]}))});}
+    if(doc.contrastes.length){heading('contraste','Contraste de afirmaciones documentadas');push({t:'table',num:++tables,caption:'Afirmación y fundamento de la respuesta',columns:['Afirmación y fuente','Lectura técnica','Qué permite sostener'],rows:doc.contrastes.map(r=>({cells:['«'+r.cita+'»'+cite([r.referencia]),r.analisis+cite(r.evidencias),r.alcance]}))});}
+    add('argumentos');add('pendientes');
+    if(doc.preguntas.length){heading('preguntas','Preguntas de aclaración');push({t:'list',items:doc.preguntas.map(r=>r.pregunta+cite(r.evidencias))});}
+    add('conclusiones');add('formulacion');add('recomendaciones');add('limitaciones');
+    sectionId=null;
+    if(doc.referencias.length){push({t:'h1',text:'Referencias técnicas'});push({t:'list',items:doc.referencias.map(r=>r.texto+cite(r.evidencias))});}
+    push({t:'field',label:'Fuentes del caso',text:book.manifest.map((s,i)=>'['+(i+1)+'] '+[s.title,s.author,/^\d{4}-\d{2}-\d{2}$/.test(s.date)?ReportModel._fmtDate(s.date):s.date].filter(Boolean).join(' · ')).join('\n')});
+    if(status.reviewed)push({t:'p',text:'Revisión profesional registrada el '+ReportModel._fmtDate(state.review.at)+'.'});
+    const ev={...evaluator,signature:/^data:image\/(?:png|jpe?g);base64,[A-Za-z0-9+/=]+$/i.test(evaluator.signature||'')?evaluator.signature:null};
+    push({t:'signature',compact:true,evaluator:ev,place:flags.place||ev.city||'',institution:flags.institution||ev.institution||'',date:ReportModel._fmtDate(state.review?.at||context.createdAt||state.prepared?.at||new Date().toISOString())});
+    if(state.options?.appendix){heading('fragmentos','Anexo de soporte');push({t:'table',num:++tables,caption:'Pasajes citados',columns:['Fuente y localización','Fragmento citado'],rows:this.refs(doc).map(id=>({cells:['['+numbers.get(book.byRef.get(id).sourceId)+'] '+book.byRef.get(id).locator,book.byRef.get(id).text]}))});}
+    return {title:doc.titulo+' · '+(p.name||''),patientName:p.name||'',blocks,sections,references:doc.referencias.map(r=>r.texto),evaluator:ev,place:flags.place||ev.city||'',institution:flags.institution||ev.institution||'',issues:[]};
   }
 };
 window.LegalBriefModel=LegalBriefModel;

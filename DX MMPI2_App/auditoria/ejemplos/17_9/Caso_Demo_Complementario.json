@@ -1,0 +1,2553 @@
+{
+  "version": "4.0",
+  "type": "single_case",
+  "case": {
+    "id": "demo-complementario",
+    "completedAt": "2026-11-03T10:00:00Z",
+    "responses": [
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      2
+    ],
+    "results": {
+      "L": {
+        "code": "L",
+        "name": "L (Mentira)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 52,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Modal (50-59)] Válido. Acercamiento típico a la situación de test. Comodidad con la propia autoimagen."
+      },
+      "F": {
+        "code": "F",
+        "name": "F (Infrecuencia)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 13,
+        "pdK": 13,
+        "t": 55,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Alto (71-90)] Validez cuestionable. Fingir enfermedad. Procesos psicóticos. Todas las respuestas verdaderas. Pedido de ayuda. Crisis de identidad en la adolescencia. Estado confusional."
+      },
+      "K": {
+        "code": "K",
+        "name": "K (Corrección)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 19,
+        "pdK": 19,
+        "t": 50,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-70)] Moderadamente defensivo. No reconocimiento del estrés. Adaptado. Con autoconfianza. Sin intención de buscar ayuda."
+      },
+      "Hs": {
+        "code": "Hs",
+        "name": "Hs (Hipocondría)",
+        "group": "Clínicas",
+        "k": 0.5,
+        "pdk": true,
+        "pd": 15,
+        "pdK": 25,
+        "t": 76,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥76)] Esquizoide; comportamiento bizarro o alucinaciones somáticas. Inmovilizado por múltiples síntomas y quejas."
+      },
+      "D": {
+        "code": "D",
+        "name": "D (Depresión)",
+        "group": "Clínicas",
+        "k": 0,
+        "pdk": false,
+        "pd": 24,
+        "pdK": 24,
+        "t": 57,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-65)] Inhibido, irritable, tímido, malhumorado. Desanimado, melancólico, infeliz, insatisfecho consigo mismo y con el mundo. Pesimista, preocupado. Introvertido, moralista, responsable, modesto."
+      },
+      "Hy": {
+        "code": "Hy",
+        "name": "Hy (Histeria de conversión)",
+        "group": "Clínicas",
+        "k": 0,
+        "pdk": false,
+        "pd": 34,
+        "pdK": 34,
+        "t": 77,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥76)] Altamente sugestionable. Episodios súbitos de ansiedad y pánico. Desinhibido. Berrinches infantiles. Reacciones de vergüenza por el desarrollo de síntomas físicos."
+      },
+      "Pd": {
+        "code": "Pd",
+        "name": "Pd (Desviación psicopática)",
+        "group": "Clínicas",
+        "k": 0.4,
+        "pdk": true,
+        "pd": 20,
+        "pdK": 28,
+        "t": 63,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Promedio-Superior (56-65)] Impulsivo y aventurero. Hedonista. Resentido. Desconfiado e impaciente. Sociable. Autoconfiado y asertivo. Imaginativo y creativo."
+      },
+      "Mf": {
+        "code": "Mf",
+        "name": "Mf (Masculinidad–feminidad)",
+        "group": "Clínicas",
+        "k": 0,
+        "pdk": false,
+        "pd": 28,
+        "pdK": 28,
+        "t": 67,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "key": "Mf-F",
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (66-75)] Curioso y creativo. Tolerancia a los otros. Individualista. Intereses intelectuales. Empático."
+      },
+      "Pa": {
+        "code": "Pa",
+        "name": "Pa (Paranoia)",
+        "group": "Clínicas",
+        "k": 0,
+        "pdk": false,
+        "pd": 14,
+        "pdK": 14,
+        "t": 63,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Promedio-Superior (56-65)] Marcadamente sensible al desprecio y al rechazo. Defensivo en situaciones sociales iniciales. Moralista; se hace la víctima. Confiado hasta ser traicionado. Trabajo duro."
+      },
+      "Pt": {
+        "code": "Pt",
+        "name": "Pt (Psicastenia)",
+        "group": "Clínicas",
+        "k": 1,
+        "pdk": true,
+        "pd": 20,
+        "pdK": 39,
+        "t": 72,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Alto (66-75)] Inseguridad y ansiedad. Preocupado y aprehensivo. Sentimientos de equivocación (de fallar). Marcadamente meticuloso e indeciso. Moralista. Tenso y miserable."
+      },
+      "Sc": {
+        "code": "Sc",
+        "name": "Sc (Esquizofrenia)",
+        "group": "Clínicas",
+        "k": 1,
+        "pdk": true,
+        "pd": 29,
+        "pdK": 48,
+        "t": 84,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥76)] Desorden de pensamiento. Conductas excéntricas. Socialmente excluido. Contacto pobre con la realidad. Alucinatorio y autista."
+      },
+      "Ma": {
+        "code": "Ma",
+        "name": "Ma (Hipomanía)",
+        "group": "Clínicas",
+        "k": 0.2,
+        "pdk": true,
+        "pd": 26,
+        "pdK": 30,
+        "t": 79,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥76)] Expansivo. Grandiosidad. Irritable. Control pobre del temperamento. Hiperactivo. Distractibilidad. Decisiones impulsivas. Confusión."
+      },
+      "Si": {
+        "code": "Si",
+        "name": "Si (Introversión social)",
+        "group": "Clínicas",
+        "k": 0,
+        "pdk": false,
+        "pd": 26,
+        "pdK": 26,
+        "t": 49,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (45-55)] Activo. Energético. Amigable. Conversador. Equilibrado."
+      },
+      "ANX": {
+        "code": "ANX",
+        "name": "ANX (Ansiedad)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 7,
+        "pdK": 7,
+        "t": 51,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Nivel de ansiedad dentro de lo esperado. Sin síntomas ansiosos significativos. Calma, capacidad decisional adecuada, sin quejas somáticas de origen ansioso."
+      },
+      "FRS": {
+        "code": "FRS",
+        "name": "FRS (Miedos)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 8,
+        "pdK": 8,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Sin miedos fóbicos significativos. Aproximación tranquila a las situaciones cotidianas."
+      },
+      "OBS": {
+        "code": "OBS",
+        "name": "OBS (Obsesividad)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 10,
+        "pdK": 10,
+        "t": 63,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Rasgos obsesivos clínicamente significativos. Preocupación excesiva por el orden, los detalles y el control; necesidad de hacer las cosas repetidamente; dificultades para tomar decisiones. Posible TOC o trastorno de personalidad obsesivo."
+      },
+      "DEP": {
+        "code": "DEP",
+        "name": "DEP (Depresión)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 10,
+        "pdK": 10,
+        "t": 58,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Disforia leve, cierta desesperanza o tristeza sin alcance clínico. Reconoce periodos de ánimo bajo."
+      },
+      "HEA": {
+        "code": "HEA",
+        "name": "HEA (Preocupaciones por la salud)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 19,
+        "pdK": 19,
+        "t": 76,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Quejas somáticas múltiples y severas que abarcan varios sistemas orgánicos. Alta probabilidad de trastorno somatomorfo, hipocondría o síntomas funcionales severos. Preocupación marcada por la salud. Descartar primero patología orgánica real; luego explorar componente psicológico."
+      },
+      "BIZ": {
+        "code": "BIZ",
+        "name": "BIZ (Pensamiento estrafalario)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 7,
+        "pdK": 7,
+        "t": 67,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Ideación psicótica o paranoide significativa. Experiencias perceptuales inusuales, sospechas de persecución, posible ideación delirante aislada. Riesgo psicótico; requiere evaluación clínica."
+      },
+      "ANG": {
+        "code": "ANG",
+        "name": "ANG (Hostilidad)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 10,
+        "pdK": 10,
+        "t": 64,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Dificultades significativas con el control de la ira. Irritable, malhumorado, impulsivo. Riesgo de episodios agresivos. Posible trastorno de personalidad antisocial o límite."
+      },
+      "CYN": {
+        "code": "CYN",
+        "name": "CYN (Cinismo)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 11,
+        "pdK": 11,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Confianza interpersonal razonable. Visión equilibrada del mundo social."
+      },
+      "ASP": {
+        "code": "ASP",
+        "name": "ASP (Conductas antisociales)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 56,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Algunas actitudes antisociales sin conducta delictiva manifiesta."
+      },
+      "TPA": {
+        "code": "TPA",
+        "name": "TPA (Comportamiento tipo A)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre trabajo y descanso. Sin patrón Tipo A marcado."
+      },
+      "LSE": {
+        "code": "LSE",
+        "name": "LSE (Baja autoestima)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 13,
+        "pdK": 13,
+        "t": 68,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Baja autoestima clínicamente significativa. Sentimientos de inadecuación, dificultad para aceptar cumplidos, autocrítica excesiva. Posible trastorno depresivo o de personalidad."
+      },
+      "SOD": {
+        "code": "SOD",
+        "name": "SOD (Malestar social)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 52,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Comodidad social adecuada. Sin malestar significativo en situaciones sociales."
+      },
+      "FAM": {
+        "code": "FAM",
+        "name": "FAM (Problemas familiares)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 57,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Algunas tensiones familiares puntuales sin alcance clínico."
+      },
+      "WRK": {
+        "code": "WRK",
+        "name": "WRK (Interferencia laboral)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 16,
+        "pdK": 16,
+        "t": 63,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Dificultades laborales significativas. Indecisión, conflicto con colegas, baja motivación. Riesgo de bajo rendimiento."
+      },
+      "TRT": {
+        "code": "TRT",
+        "name": "TRT (Indicadores negativos de tratam.)",
+        "group": "Contenido",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 59,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Algunas reservas ante el tratamiento sin oposición manifiesta."
+      },
+      "A": {
+        "code": "A",
+        "name": "A (Ansiedad)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 14,
+        "pdK": 14,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre malestar y bienestar emocional. Funcionamiento adaptativo."
+      },
+      "R": {
+        "code": "R",
+        "name": "R (Represión)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 18,
+        "pdK": 18,
+        "t": 54,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre represión y expresión emocional. Adaptabilidad."
+      },
+      "Es": {
+        "code": "Es",
+        "name": "Es (Fuerza del Yo)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 22,
+        "pdK": 27,
+        "t": 30,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Bajo (≤39)",
+          "color": "t-low",
+          "level": 1
+        },
+        "interpretation": "[Bajo (≤39)] Debilidad del yo. Inhibición, quejas de dolencias físicas, incapacidad para enfrentar la presión ambiental, baja autoestima, dificultad para adaptarse. Mal pronóstico terapéutico; requiere soporte activo.",
+        "bound": "≤",
+        "reportingLimit": "lower"
+      },
+      "MAC-R": {
+        "code": "MAC-R",
+        "name": "MAC-R (Alcoholismo MacAndrew Revisada)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 23,
+        "pdK": 23,
+        "t": 61,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Sugerencia fuerte de abuso de sustancias (T≥65 es el cutoff clásico). T 60-64: zona ambigua con falsos positivos. Explorar consumo actual y antecedentes. Personalidad extrovertida, asunción de riesgos."
+      },
+      "AAS": {
+        "code": "AAS",
+        "name": "AAS (Reconocimiento de la Adicción)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 67,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Reconocimiento significativo de problemas de abuso de sustancias. Admite consumos problemáticos. Probable patología adictiva."
+      },
+      "APS": {
+        "code": "APS",
+        "name": "APS (Potencial Adictivo)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 22,
+        "pdK": 22,
+        "t": 47,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Sin indicadores de potencial adictivo."
+      },
+      "MDS": {
+        "code": "MDS",
+        "name": "MDS (Malestar marital)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 59,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Algunas tensiones en la relación de pareja sin alcance clínico."
+      },
+      "Ho": {
+        "code": "Ho",
+        "name": "Ho (Hostilidad)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 22,
+        "pdK": 22,
+        "t": 56,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Tendencia al cinismo y a la atribución hostil sin alcance clínico."
+      },
+      "O-H": {
+        "code": "O-H",
+        "name": "O-H (Hostilidad Sobrecontrolada)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 12,
+        "pdK": 12,
+        "t": 44,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Control adecuado de la hostilidad. Capacidad de modulación emocional."
+      },
+      "Do": {
+        "code": "Do",
+        "name": "Do (Dominancia)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 17,
+        "pdK": 17,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre dominancia y sumisión. Estilo interpersonal flexible."
+      },
+      "Re": {
+        "code": "Re",
+        "name": "Re (Responsabilidad)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 17,
+        "pdK": 17,
+        "t": 38,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Bajo (≤39)",
+          "color": "t-low",
+          "level": 1
+        },
+        "interpretation": "[Bajo (≤39)] Baja responsabilidad. No acepta las consecuencias de su conducta, poco confiable, falta de sentido de responsabilidad hacia el grupo. Posible trastorno antisocial de la personalidad."
+      },
+      "Mt": {
+        "code": "Mt",
+        "name": "Mt (Desajuste Escolar)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 18,
+        "pdK": 18,
+        "t": 58,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Algunas dificultades de adaptación escolar sin alcance clínico."
+      },
+      "GM": {
+        "code": "GM",
+        "name": "GM (Rol Género Masculino)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 26,
+        "pdK": 26,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio en el rol de género. Sin extremos."
+      },
+      "GF": {
+        "code": "GF",
+        "name": "GF (Rol Género Femenino)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 23,
+        "pdK": 23,
+        "t": 40,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio en el rol de género. Sin extremos."
+      },
+      "PK": {
+        "code": "PK",
+        "name": "PK (Estrés Postraumático)",
+        "group": "Suplementarias",
+        "k": 0,
+        "pdk": false,
+        "pd": 16,
+        "pdK": 16,
+        "t": 61,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Síntomas significativos de TEPT. Múltiples indicadores postraumáticos. Probable TEPT clínico."
+      },
+      "VRIN": {
+        "code": "VRIN",
+        "name": "VRIN (Variable de inconsistencia de respuesta)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] VRIN, TRIN y Fb dentro de lo esperado. Protocolo consistente y fiable."
+      },
+      "TRIN": {
+        "code": "TRIN",
+        "name": "TRIN (Verdadera inconsistencia de respuesta)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 11,
+        "pdK": 10,
+        "t": 50,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] VRIN: mínima inconsistencia. TRIN: ligera tendencia direccional. Fb: leve elevación que puede reflejar estrés o sintomatología en la parte final del cuadernillo."
+      },
+      "Fb": {
+        "code": "Fb",
+        "name": "Fb (Infrecuencia posterior)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 16,
+        "pdK": 16,
+        "t": 55,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] VRIN:.respuestas altamente inconsistentes; protocolo probablemente INVÁLIDO por respuestas al azar, descuido, confusión o analfabetismo funcional. TRIN: tendencia marcada a responder en una dirección (V o F) sin considerar contenido; sospecha de fingimiento o de falta de cooperación. Fb: psicopatología severa o fingimiento en la segunda mitad del cuadernillo. Revisar la validez global del protocolo."
+      },
+      "Fp": {
+        "code": "Fp",
+        "name": "Fp (Infrecuencia psicopatológica)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 3,
+        "pdK": 3,
+        "t": 49,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Promedio-Superior (56-69)] Elevación subclínica. Posible sobrerreporte de síntomas inusuales. Si coexiste con patología clínica genuina, puede reflejar severidad del cuadro. Verificar consistencia con escalas clínicas."
+      },
+      "S": {
+        "code": "S",
+        "name": "S (Autoconcepto superlativo)",
+        "group": "Validez",
+        "k": 0,
+        "pdk": false,
+        "pd": 25,
+        "pdK": 25,
+        "t": 49,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Rango esperado. Autoconcepto equilibrado. Reconocimiento realista de virtudes y defectos. Franqueza en la autodescripción."
+      },
+      "D1": {
+        "code": "D1",
+        "name": "D1: Depresión subjetiva",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 14,
+        "pdK": 14,
+        "t": 65,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Depresión subjetiva significativa. Infelicidad, falta de energía, sentimientos de inferioridad. Posible depresión clínica."
+      },
+      "D2": {
+        "code": "D2",
+        "name": "D2: Retardo Psicomotor",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 51,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Actividad psicomotora adecuada. Sin inhibición."
+      },
+      "D3": {
+        "code": "D3",
+        "name": "D3: Problemas Físicos",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 70,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Disfunción física severa. Preocupación acusada por el funcionamiento físico, múltiples quejas somáticas. Posible trastorno somatomorfo o depresión con síntomas somáticos marcados. Descartar primero patología orgánica."
+      },
+      "D4": {
+        "code": "D4",
+        "name": "D4: Inhibición mental",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 7,
+        "pdK": 7,
+        "t": 70,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Enlentecimiento mental severo. Deterioro marcado de concentración, atención y memoria. Sentimientos intensos de inferioridad y de inutilidad. Posible depresión severa con componente cognitivo."
+      },
+      "D5": {
+        "code": "D5",
+        "name": "D5: Rumiación",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 58,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Alguna rumiación sin alcance clínico."
+      },
+      "Hy1": {
+        "code": "Hy1",
+        "name": "Hy1: Negación de la ansiedad social",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 51,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre sociabilidad e introversión."
+      },
+      "Hy2": {
+        "code": "Hy2",
+        "name": "Hy2: Necesidad de afecto",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 59,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Cierta necesidad de afecto sin alcance clínico."
+      },
+      "Hy3": {
+        "code": "Hy3",
+        "name": "Hy3: Lasitud-enfermedad",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 75,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Lasitud y malestar severos. Sensación marcada de mala salud, debilidad, fatiga, dificultades de concentración y sueño, tristeza. Posible trastorno somatomorfo o conversivo."
+      },
+      "Hy4": {
+        "code": "Hy4",
+        "name": "Hy4: Quejas somáticas",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 7,
+        "pdK": 7,
+        "t": 65,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Múltiples quejas somáticas significativas. Negación de hostilidad. Posible somatización."
+      },
+      "Hy5": {
+        "code": "Hy5",
+        "name": "Hy5: Inhibición de la agresión",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 3,
+        "pdK": 3,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre expresión e inhibición de la agresión."
+      },
+      "Pd1": {
+        "code": "Pd1",
+        "name": "Pd1: Discordia familiar",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 74,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Discordia familiar severa. Familia descrita como muy carente de amor y apoyo. Historia familiar muy conflictiva. Posible historia de maltrato o desatención."
+      },
+      "Pd2": {
+        "code": "Pd2",
+        "name": "Pd2: Problemas con figuras de autoridad",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 2,
+        "pdK": 2,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Aceptación razonable de la autoridad."
+      },
+      "Pd3": {
+        "code": "Pd3",
+        "name": "Pd3: Imperturbabilidad Social",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 58,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Seguridad social adecuada."
+      },
+      "Pd4": {
+        "code": "Pd4",
+        "name": "Pd4: Alienación social",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 3,
+        "pdK": 3,
+        "t": 44,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Sin alienación social significativa."
+      },
+      "Pd5": {
+        "code": "Pd5",
+        "name": "Pd5: Autoalienación",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Satisfacción vital adecuada."
+      },
+      "Pa1": {
+        "code": "Pa1",
+        "name": "Pa1: Ideas persecutorias",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 3,
+        "pdK": 3,
+        "t": 57,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Cierta suspicacia sin alcance clínico."
+      },
+      "Pa2": {
+        "code": "Pa2",
+        "name": "Pa2: Hiperestesia",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 59,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "[Promedio-Superior (56-59)] Cierta sensibilidad interpersonal sin alcance clínico."
+      },
+      "Pa3": {
+        "code": "Pa3",
+        "name": "Pa3: Ingenuidad",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 45,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Equilibrio entre confianza y suspicacia."
+      },
+      "Sc1": {
+        "code": "Sc1",
+        "name": "Sc1: Alienación social",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 61,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Alienación social significativa. Sensación de incomprensión y maltrato."
+      },
+      "Sc2": {
+        "code": "Sc2",
+        "name": "Sc2: Alienación emocional",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 86,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Alienación emocional severa. Apatía profunda, falta total de interés por la vida, deseos de estar muerto. Posible depresión psicótica o esquizofrenia con componente deficitario. Evaluar riesgo suicida."
+      },
+      "Sc3": {
+        "code": "Sc3",
+        "name": "Sc3: Ausencia de control del yo, cognitivo",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 67,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Pérdida significativa del control cognitivo. Pensamiento peculiar, dificultades de concentración."
+      },
+      "Sc4": {
+        "code": "Sc4",
+        "name": "Sc4: Ausencia del control del yo, conativo",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 65,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Pérdida significativa del control conativo. Retraimiento a la fantasía, deseo de muerte."
+      },
+      "Sc5": {
+        "code": "Sc5",
+        "name": "Sc5: Ausencia del control del yo, inhibición defectual",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 2,
+        "pdK": 2,
+        "t": 53,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Control emocional e inhibitorio adecuado."
+      },
+      "Sc6": {
+        "code": "Sc6",
+        "name": "Sc6: Experiencias sensoriales bizarras",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 10,
+        "pdK": 10,
+        "t": 86,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Experiencias sensoriales extrañas severas. Posibles alucinaciones auditivas, visuales u olfativas; contenidos de pensamiento insólitos; ideas de referencia. Posible trastorno psicótico."
+      },
+      "Ma1": {
+        "code": "Ma1",
+        "name": "Ma1: Amoralidad",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 70,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Muy Alto (≥70)",
+          "color": "t-very-high",
+          "level": 5
+        },
+        "interpretation": "[Muy Alto (≥70)] Amoralidad severa. Visión muy negativa de los demás, justificación marcada de la explotación, satisfacción vicaria de la manipulación. Posible trastorno antisocial de la personalidad."
+      },
+      "Ma2": {
+        "code": "Ma2",
+        "name": "Ma2: Hipercinesia",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 55,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Actividad psicomotora adecuada. Sin aceleración."
+      },
+      "Ma3": {
+        "code": "Ma3",
+        "name": "Ma3: Imperturbabilidad",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 5,
+        "pdK": 5,
+        "t": 62,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Imperturbabilidad social significativa. Seguridad interpersonal marcada."
+      },
+      "Ma4": {
+        "code": "Ma4",
+        "name": "Ma4: Hipertrofia del yo",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 68,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "[Alto (60-69)] Autoenvanecimiento significativo. Sobrevaloración de capacidades, resentimiento."
+      },
+      "Si1": {
+        "code": "Si1",
+        "name": "Si1: Timidez/Autoconciencia",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 4,
+        "pdK": 4,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Comodidad social adecuada."
+      },
+      "Si2": {
+        "code": "Si2",
+        "name": "Si2: Evitación Social",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 2,
+        "pdK": 2,
+        "t": 47,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Participación social adecuada."
+      },
+      "Si3": {
+        "code": "Si3",
+        "name": "Si3: Autoalienación/alienación de los otros",
+        "group": "Subescalas",
+        "k": 0,
+        "pdk": false,
+        "pd": 6,
+        "pdK": 6,
+        "t": 52,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "[Modal (40-55)] Autoestima y autoconfianza adecuadas."
+      },
+      "AGGR": {
+        "code": "AGGR",
+        "name": "AGGR (Agresividad)",
+        "group": "PSY-5",
+        "k": 0,
+        "pdk": false,
+        "pd": 9,
+        "pdK": 9,
+        "t": 57,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Promedio-Superior (56-59)",
+          "color": "t-mod-high",
+          "level": 3
+        },
+        "interpretation": "Texto interpretativo no disponible"
+      },
+      "PSYC": {
+        "code": "PSYC",
+        "name": "PSYC (Psicoticismo)",
+        "group": "PSY-5",
+        "k": 0,
+        "pdk": false,
+        "pd": 2,
+        "pdK": 2,
+        "t": 46,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "Texto interpretativo no disponible"
+      },
+      "DISC": {
+        "code": "DISC",
+        "name": "DISC (Falta de control)",
+        "group": "PSY-5",
+        "k": 0,
+        "pdk": false,
+        "pd": 15,
+        "pdK": 15,
+        "t": 63,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Alto (60-69)",
+          "color": "t-high",
+          "level": 4
+        },
+        "interpretation": "Texto interpretativo no disponible"
+      },
+      "NEGE": {
+        "code": "NEGE",
+        "name": "NEGE (Emocionalidad negativa/Neuroticismo)",
+        "group": "PSY-5",
+        "k": 0,
+        "pdk": false,
+        "pd": 11,
+        "pdK": 11,
+        "t": 49,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "Texto interpretativo no disponible"
+      },
+      "INTR": {
+        "code": "INTR",
+        "name": "INTR (Introversión/Baja emocionalidad positiva)",
+        "group": "PSY-5",
+        "k": 0,
+        "pdk": false,
+        "pd": 11,
+        "pdK": 11,
+        "t": 50,
+        "status": "T_DOCUMENTADA",
+        "verify": false,
+        "band": {
+          "label": "Modal (40-55)",
+          "color": "t-modal",
+          "level": 2
+        },
+        "interpretation": "Texto interpretativo no disponible"
+      },
+      "_meta": {
+        "engine": 5,
+        "omissions": 0
+      }
+    },
+    "captureMode": "Excel",
+    "patient": {
+      "name": "María Demo",
+      "document": "DEMO-9988",
+      "dob": "1980-10-15",
+      "age": 46,
+      "sex": "M",
+      "country": "US",
+      "applicationDate": "2026-11-03",
+      "context": "Clínico",
+      "reason": "Solicitud ficticia de aclaración",
+      "history": "Caso íntegramente ficticio. El seguimiento por dificultades de sueño y concentración comenzó en febrero de 2023.",
+      "previousMMPI": "VRIN=76, TRIN=50, Fb=96, S=55, Mf=56",
+      "prevMeta": {
+        "baremo": "US",
+        "sex": "unknown",
+        "sameMethod": false,
+        "date": "2026-05-27"
+      },
+      "caseHistory": "Cronología ficticia: el seguimiento empezó en febrero de 2023; el cambio de funciones ocurrió en junio de 2024. La historia transcribe una afirmación atribuida al informe de la Entidad de Referencia de mayo de 2026: «el malestar deriva exclusivamente de la personalidad». No se dispone del texto íntegro de ese informe ni de una valoración de personalidad anterior a 2023.",
+      "sources": "Historia de seguimiento ficticia y resumen del informe de la Entidad de Referencia ya registrados en el caso.",
+      "integration": "El análisis del evaluador diferencia el malestar actual de una disposición previa y registra ayuda profesional y apoyo familiar.",
+      "strengths": "Búsqueda de ayuda profesional y apoyo familiar documentados en el seguimiento ficticio.",
+      "limitations": "No se dispone de entrevista estructurada de personalidad ni de una medida de personalidad previa al inicio del seguimiento."
+    },
+    "reportSchema": 2,
+    "reportOptions": {
+      "id_document": true,
+      "id_dob": true,
+      "id_mode": true,
+      "info_reason": true,
+      "info_history": true,
+      "info_caseHistory": false,
+      "info_request_context": false,
+      "sec_charts": true,
+      "sec_subscales": true,
+      "sec_psy5": true,
+      "sec_clusters": false,
+      "sec_critical": true,
+      "sec_critical_lw": false,
+      "critical_literal": false,
+      "tbl_descriptors": false,
+      "sec_compare": false,
+      "sec_recs": true,
+      "sec_exam": true,
+      "sec_diagnosis": true,
+      "sec_strengths": true,
+      "sec_prognosis": false,
+      "sec_limits": true,
+      "sec_scope": false,
+      "sec_references": true,
+      "place": "",
+      "institution": ""
+    },
+    "aiReport": {
+      "secciones": [
+        {
+          "id": "integracion",
+          "bloques": [
+            {
+              "tipo": "parrafo",
+              "contenido": "La integración guardada relaciona el malestar con la secuencia del seguimiento. La evaluación actual no demuestra por sí sola una disposición de personalidad previa."
+            }
+          ]
+        },
+        {
+          "id": "antecedentes",
+          "bloques": [
+            {
+              "tipo": "parrafo",
+              "contenido": "Dato conservado en la IA: se documentaron dificultades de descanso antes del cambio de funciones."
+            }
+          ]
+        }
+      ],
+      "referencias": []
+    },
+    "legalBrief": {
+      "schema": 1,
+      "workflow": "auto-case-v2",
+      "request": {
+        "question": "",
+        "recipient": "",
+        "purpose": "",
+        "notes": "",
+        "additionalIdentifiers": "",
+        "includeIdentity": false
+      },
+      "options": {
+        "chronology": false,
+        "comparison": true,
+        "questions": false,
+        "appendix": false
+      },
+      "sources": [],
+      "document": {
+        "tipo": "informe_explicativo_abogado",
+        "version": 2,
+        "huella_fuentes": "17afafaf57c7d548a6d2ac06dc873be6563d2931381ff5fffc5f5ada27faaa47",
+        "secciones": [
+          {
+            "id": "objeto",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "Explicar qué describen los resultados actuales, cómo se relacionan con el seguimiento registrado y qué fundamento tiene la afirmación sobre una causa exclusiva de personalidad. La pregunta se resuelve con la información que ya consta en el caso.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "IA-P0003"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "resumen",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "La información disponible describe malestar durante el seguimiento y recursos de ayuda conservados. La medición actual permite hablar de cómo la persona se percibe en el momento de la evaluación; no acredita por sí sola que esa forma de responder existiera antes del inicio del cuadro.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0045",
+                  "CASO-P0007"
+                ]
+              },
+              {
+                "tipo": "parrafo",
+                "contenido": "La frase atribuida al documento externo introduce una explicación exclusiva que el material transcrito no permite sostener. La objeción técnica se dirige a ese salto entre un hallazgo actual y una causa previa, con la precisión de que solo está disponible el resumen registrado en la historia.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "metodo",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "Se integraron el registro psicométrico actual, la historia y cronología guardadas, el antecedente de evaluación y la integración del caso. La afirmación externa se conoce a través de su transcripción en la historia; su análisis conserva esa diferencia de procedencia.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "IA-P0003"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "explicacion",
+            "titulo": "El MMPI-2 actual y su significado",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "VRIN T=46 describe coherencia en la forma de responder a contenidos relacionados. Esta información contribuye a valorar la consistencia del protocolo; no determina si un relato externo es verdadero ni identifica por sí sola la causa del malestar.",
+                "evidencias": [
+                  "CASO-P0010"
+                ]
+              },
+              {
+                "tipo": "parrafo",
+                "contenido": "Es T=≤30 se refiere a una percepción reducida de los recursos de afrontamiento durante la evaluación. En este caso coexiste con búsqueda de ayuda y apoyo familiar registrados. La lectura conjunta permite distinguir sentirse desbordado de carecer de toda capacidad para actuar o recibir apoyo.",
+                "evidencias": [
+                  "CASO-P0045",
+                  "CASO-P0007"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "temporalidad",
+            "titulo": "Qué aporta la secuencia temporal",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "El seguimiento por sueño y concentración comenzó antes del cambio de funciones descrito. Esa secuencia impide explicar el inicio únicamente por un hecho posterior; tampoco identifica por sí sola una causa única. Para afirmar que una disposición de personalidad antecedía al cuadro se necesitan datos anteriores o información longitudinal suficientemente documentada.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "argumentos",
+            "titulo": "Fundamento de la controversia técnica",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "El aspecto controvertible es la atribución exclusiva a la personalidad. La transcripción disponible no aporta una medición anterior al seguimiento ni describe cómo se descartaron explicaciones alternativas. Puede cuestionarse la suficiencia de ese fundamento y solicitarse el documento completo; con este material no corresponde atribuir una omisión al informe íntegro que todavía no se ha revisado.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "pendientes",
+            "titulo": "Información que podría modificar la lectura",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "La ausencia de una evaluación previa en el material aportado limita tanto la afirmación externa como una conclusión propia sobre el funcionamiento premórbido. Si aparecen antecedentes independientes o una argumentación longitudinal en el documento completo, deberán incorporarse al análisis y podrá cambiar el alcance de la objeción.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "conclusiones",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "Los datos actuales permiten describir malestar y percepción de recursos reducida, junto con conductas de búsqueda de ayuda. No equivalen a una demostración de incapacidad global ni de una disposición previa fija.",
+                "evidencias": [
+                  "CASO-P0045",
+                  "CASO-P0007"
+                ]
+              },
+              {
+                "tipo": "parrafo",
+                "contenido": "La explicación exclusiva atribuida a la entidad requiere un fundamento temporal y metodológico que no está contenido en la transcripción disponible. La controversia defendible se refiere al alcance de esa inferencia, conservando la necesidad de revisar el informe completo.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "formulacion",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "Los resultados psicológicos aportados describen el funcionamiento durante la evaluación y no acreditan, por sí solos, una causa exclusiva de personalidad anterior al cuadro. La historia sitúa dificultades documentadas antes del cambio de funciones y registra búsqueda de ayuda. Por ello, la afirmación atribuida a la entidad requiere mostrar su respaldo longitudinal y explicar cómo se estableció la exclusividad causal. Esta observación se formula sobre la transcripción disponible y debe contrastarse con el documento íntegro.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0045",
+                  "CASO-P0007",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "recomendaciones",
+            "bloques": [
+              {
+                "tipo": "lista",
+                "items": [
+                  "Obtener el informe completo de la Entidad de Referencia para verificar el contenido, sus métodos y el fundamento temporal de la afirmación transcrita.",
+                  "Incorporar los antecedentes independientes que permitan describir el funcionamiento previo al seguimiento y revisar con ellos las dos interpretaciones."
+                ],
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "limitaciones",
+            "bloques": [
+              {
+                "tipo": "parrafo",
+                "contenido": "El alcance se limita a las puntuaciones y documentos ya registrados. No se cuenta con el texto íntegro externo ni con una medición de personalidad anterior al inicio descrito. La secuencia temporal aporta una condición del análisis y no sustituye la valoración clínica ni la determinación jurídica correspondiente.",
+                "evidencias": [
+                  "CASO-P0005",
+                  "CASO-P0009"
+                ]
+              }
+            ]
+          }
+        ],
+        "cronologia": [],
+        "contrastes": [
+          {
+            "referencia": "CASO-P0005",
+            "cita": "el malestar deriva exclusivamente de la personalidad",
+            "clasificacion": "Información insuficiente",
+            "analisis": "La historia atribuye esta frase al documento externo, sin reproducirlo íntegramente. Los hallazgos actuales y la cronología registrada no establecen por sí solos una causa previa exclusiva.",
+            "alcance": "Puede solicitarse el respaldo longitudinal de la afirmación. La objeción debe mantenerse referida a la transcripción disponible hasta revisar el texto completo.",
+            "preguntas": [],
+            "evidencias": [
+              "CASO-P0005",
+              "CASO-P0045",
+              "CASO-P0009"
+            ]
+          }
+        ],
+        "preguntas": [],
+        "titulo": "Informe técnico complementario",
+        "subtitulo": "Afrontamiento actual y alcance de las afirmaciones sobre personalidad",
+        "hallazgos": [
+          {
+            "evidencias": [
+              "CASO-P0045",
+              "CASO-P0007"
+            ],
+            "dimension": "Afrontamiento actual",
+            "evidencia": "Es T=≤30; búsqueda de ayuda y apoyo familiar registrados.",
+            "lectura": "La persona refiere recursos reducidos en la evaluación y conserva apoyos y acciones de afrontamiento.",
+            "alcance": "No demuestra incapacidad global ni una disposición previa fija."
+          },
+          {
+            "evidencias": [
+              "CASO-P0005",
+              "CASO-P0009"
+            ],
+            "dimension": "Antecedencia de los hallazgos",
+            "evidencia": "Seguimiento desde 2023; cambio de funciones en 2024. No consta una medida anterior de personalidad.",
+            "lectura": "Hay una secuencia documentada que debe distinguirse de una explicación causal.",
+            "alcance": "La exclusividad causal requiere información adicional."
+          }
+        ],
+        "referencias": []
+      },
+      "prepared": null,
+      "review": {
+        "at": "2026-11-12T20:00:00Z",
+        "fingerprint": "17afafaf57c7d548a6d2ac06dc873be6563d2931381ff5fffc5f5ada27faaa47",
+        "documentHash": "b8a5774f386e67cfe391d3c0d91e6fbe9db141fa9138fba6d5808b90f735d501",
+        "layoutKey": "[\"\",false,\"b19f1b4bb6c0572c1082b40a7b029146c2ccb851616b160ef0389ea754a2b928\"]",
+        "evaluator": "Profesional ficticio"
+      },
+      "documentSnapshot": {
+        "fingerprint": "17afafaf57c7d548a6d2ac06dc873be6563d2931381ff5fffc5f5ada27faaa47",
+        "options": {
+          "chronology": false,
+          "comparison": true,
+          "questions": false,
+          "appendix": false
+        },
+        "externalCount": 0,
+        "manifest": [
+          {
+            "id": "CASO",
+            "role": "registro",
+            "title": "Registro local del caso",
+            "author": "Registro de la aplicación",
+            "date": "2026-11-03",
+            "fileName": "",
+            "hash": "4044e3d4bf1fb057169c27543d34f3b326a67fc7c3dcc10aa9f07bc7635f8894",
+            "reviewed": true
+          },
+          {
+            "id": "BASE",
+            "role": "base",
+            "title": "Informe sin IA del caso",
+            "author": "Profesional ficticio",
+            "date": "2026-11-03",
+            "fileName": "",
+            "hash": "024c28a9e17b3b8c0ed599847cad4db2ec26815bdfc71aa2016013918165832e",
+            "reviewed": true
+          },
+          {
+            "id": "IA",
+            "role": "ia",
+            "title": "Informe IA guardado en el caso",
+            "author": "Profesional ficticio",
+            "date": "2026-11-03",
+            "fileName": "",
+            "hash": "2de2267d454279d6f51cbdf358d729a8822548c2373874b1299dd86177c572af",
+            "reviewed": true
+          }
+        ],
+        "fragments": [
+          {
+            "id": "CASO-P0005",
+            "sourceId": "CASO",
+            "text": "Historia y cronología del caso: Cronología ficticia: el seguimiento empezó en febrero de 2023; el cambio de funciones ocurrió en junio de 2024. La historia transcribe una afirmación atribuida al informe de la Entidad de Referencia de mayo de 2026: «el malestar deriva exclusivamente de la personalidad». No se dispone del texto íntegro de ese informe ni de una valoración de personalidad anterior a 2023.",
+            "page": null,
+            "locator": "fragmento 5"
+          },
+          {
+            "id": "IA-P0003",
+            "sourceId": "IA",
+            "text": "La integración guardada relaciona el malestar con la secuencia del seguimiento. La evaluación actual no demuestra por sí sola una disposición de personalidad previa.",
+            "page": null,
+            "locator": "fragmento 3"
+          },
+          {
+            "id": "CASO-P0045",
+            "sourceId": "CASO",
+            "text": "Es (Fuerza del yo) · PD=22; T=≤30; rango=Bajo.",
+            "page": null,
+            "locator": "fragmento 45"
+          },
+          {
+            "id": "CASO-P0007",
+            "sourceId": "CASO",
+            "text": "Recursos: Búsqueda de ayuda profesional y apoyo familiar documentados en el seguimiento ficticio.",
+            "page": null,
+            "locator": "fragmento 7"
+          },
+          {
+            "id": "CASO-P0009",
+            "sourceId": "CASO",
+            "text": "Limitaciones: No se dispone de entrevista estructurada de personalidad ni de una medida de personalidad previa al inicio del seguimiento.",
+            "page": null,
+            "locator": "fragmento 9"
+          },
+          {
+            "id": "CASO-P0010",
+            "sourceId": "CASO",
+            "text": "VRIN (Inconsistencia de respuestas variables) · PD=6; T=46; rango=Habitual.",
+            "page": null,
+            "locator": "fragmento 10"
+          }
+        ]
+      },
+      "documentContext": {
+        "request": {
+          "question": "",
+          "recipient": "",
+          "purpose": "",
+          "notes": "",
+          "additionalIdentifiers": "",
+          "includeIdentity": false
+        },
+        "patient": {
+          "name": "María Demo",
+          "document": "DEMO-9988",
+          "dob": "1980-10-15",
+          "age": 46,
+          "sex": "M",
+          "country": "US",
+          "applicationDate": "2026-11-03",
+          "context": "Clínico",
+          "reason": "Solicitud ficticia de aclaración",
+          "history": "Caso íntegramente ficticio. El seguimiento por dificultades de sueño y concentración comenzó en febrero de 2023.",
+          "previousMMPI": "VRIN=76, TRIN=50, Fb=96, S=55, Mf=56",
+          "prevMeta": {
+            "baremo": "US",
+            "sex": "unknown",
+            "sameMethod": false,
+            "date": "2026-05-27"
+          },
+          "caseHistory": "Cronología ficticia: el seguimiento empezó en febrero de 2023; el cambio de funciones ocurrió en junio de 2024. La historia transcribe una afirmación atribuida al informe de la Entidad de Referencia de mayo de 2026: «el malestar deriva exclusivamente de la personalidad». No se dispone del texto íntegro de ese informe ni de una valoración de personalidad anterior a 2023.",
+          "sources": "Historia de seguimiento ficticia y resumen del informe de la Entidad de Referencia ya registrados en el caso.",
+          "integration": "El análisis del evaluador diferencia el malestar actual de una disposición previa y registra ayuda profesional y apoyo familiar.",
+          "strengths": "Búsqueda de ayuda profesional y apoyo familiar documentados en el seguimiento ficticio.",
+          "limitations": "No se dispone de entrevista estructurada de personalidad ni de una medida de personalidad previa al inicio del seguimiento."
+        },
+        "options": {
+          "chronology": false,
+          "comparison": true,
+          "questions": false,
+          "appendix": false
+        }
+      }
+    }
+  }
+}

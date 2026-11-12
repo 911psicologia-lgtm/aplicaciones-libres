@@ -1,0 +1,14 @@
+{
+  "version": "17.9",
+  "recursos_cache": 265,
+  "scripts_locales_presentes": true,
+  "cajon_integrado": true,
+  "pregunta_y_documentos_adicionales_opcionales": true,
+  "pruebas_aprobadas": 77,
+  "sin_omisiones": true,
+  "claves_catalogo_verificadas": 81,
+  "claves_administrativas_en_paquete": 0,
+  "modulos_protegidos_identicos": 51,
+  "salida_exportadores_anteriores_identica_verificada": true,
+  "sesion_completa_navegador_verificada": false
+}

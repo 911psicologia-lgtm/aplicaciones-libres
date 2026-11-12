@@ -152,26 +152,54 @@ const LegalBriefSources={
     return out;
   },
   currentSource(c){
-    const p=c.patient||{},o=ReportSections.options(ReportSections.aiCase(c));
+    const p=c.patient||{};
     const lines=['Registro local del MMPI-2. Fecha de aplicación: '+(p.applicationDate||'No consta')+'. Referencia: '+ReportModel.COUNTRY_LABEL[ReportModel.country(c)]+'. Sexo normativo: '+(p.sex==='M'?'Mujer':p.sex==='H'?'Hombre':'No consta')+'.'];
     lines.push('Validez del protocolo: '+Interpret.verdict(c.results||{}).label+'.');
-    for(const [label,key,enabled] of [['Motivo','reason',o.info_reason],['Antecedentes','history',o.info_history],['Historia','caseHistory',o.info_caseHistory],['Fuentes clínicas','sources',true],['Examen mental','mentalExam',o.sec_exam],['Recursos','strengths',o.sec_strengths],['Integración documentada','integration',true],['Limitaciones','limitations',o.sec_limits]])
-      if(enabled)lines.push(label+': '+(this.text(p[key])||'No consta')+'.');
-    if(o.info_request_context)lines.push('Contexto de la solicitud: '+ReportSections.context(p));
-    for(const group of ReportModel.groups(o))for(const code of Interpret.GROUP_ORDER[group]||[]){
+    for(const [label,key] of [['Motivo','reason'],['Antecedentes','history'],['Historia y cronología del caso','caseHistory'],['Fuentes clínicas y documentos ya registrados','sources'],['Examen mental','mentalExam'],['Recursos','strengths'],['Integración documentada','integration'],['Impresión diagnóstica documentada','diagnosticImpression'],['Pronóstico documentado','prognosis'],['Limitaciones','limitations'],['Recomendaciones','recommendations']])
+      if(this.text(p[key]))lines.push(label+': '+this.text(p[key]));
+    if(this.text(ReportSections.context(p)))lines.push('Contexto de la solicitud: '+ReportSections.context(p));
+    for(const group of Object.keys(Interpret.GROUP_ORDER))for(const code of Interpret.GROUP_ORDER[group]||[]){
       if(!c.results?.[code])continue;const r=ReportModel.score(c,code);
       lines.push(code+' ('+Interpret.name(code)+') · PD='+ (r.pd??'—')+'; '+(r.pdk?'PD+K='+(r.pdK??'—')+'; ':'')+'T='+r.published+'; rango='+ReportModel.levelLabel(r.t,r.bound)+'.');
     }
     const prior=ReportSections.prior(c);
-    if(o.sec_compare&&prior.rows.length){
+    if(prior.rows.length){
       lines.push('Antecedente MMPI-2: fecha '+(prior.meta.date||'No consta')+'; fuente '+(prior.meta.source||'No consta')+'.');
-      for(const row of prior.rows)lines.push('Contraste '+row.code+': anterior '+row.previous+'; actual '+ReportModel.score(c,row.code).published+'; diferencia aritmética '+Previous.signedDelta(row.delta)+'; comparabilidad normativa confirmada: '+(row.comparable?'sí':'no')+'.');
+      for(const row of prior.rows)lines.push('Contraste '+row.code+': anterior T='+row.previous+'; actual T='+ReportModel.score(c,row.code).published+'; diferencia aritmética '+Previous.signedDelta(row.delta)+'; comparabilidad normativa confirmada: '+(row.comparable?'sí':'no')+'.');
       lines.push(...prior.notes);
     }
     return {id:'CASO',role:'registro',title:'Registro local del caso',author:'Registro de la aplicación',date:p.applicationDate||'',text:lines.join('\n\n'),spans:[],included:true,reviewed:true};
   },
+  automaticSources(c,state,evaluator={}){
+    if(state.workflow==='legacy')return [];
+    const selected=(state.sources||[]).filter(s=>s.included!==false),sources=[];
+    const safe={...c,reportDate:c.reportDate||c.completedAt||c.patient?.applicationDate||c.createdAt||'1970-01-01',reportOptions:{...ReportSections.options(c),critical_literal:false},
+      ...(c.aiReportOptions?{aiReportOptions:{...c.aiReportOptions,critical_literal:false}}:{})};
+    const add=(id,role,title,model)=>{
+      const blocks=model.blocks.filter(b=>b.t!=='signature'&&!(b.t==='h1'&&b.text==='Evaluador y firma')).map(b=>b.t==='idbox'&&!c.reportDate?{...b,rows:b.rows.filter(r=>r[0]!=='Fecha del informe')}:b);
+      sources.push({id,role,title,author:evaluator.name||'Evaluador del caso',date:c.patient?.applicationDate||'',text:ReportModel.toText({...model,blocks}),spans:[],included:true,reviewed:true,automatic:true});
+    };
+    if(!selected.some(s=>s.role==='base'))add('BASE','base','Informe sin IA del caso',ReportModel.build(safe,evaluator));
+    if(c.aiReport&&!selected.some(s=>s.role==='ia')){
+      const input=c.aiReport.report||c.aiReport,lines=['Integración IA guardada. Sus afirmaciones se contrastan con los resultados del registro local y conservan su atribución.'];
+      for(const section of input.secciones||[]){
+        if(section.titulo||section.id)lines.push(section.titulo||section.id);
+        if(typeof section.contenido==='string')lines.push(section.contenido);
+        for(const b of section.bloques||[]){
+          if(typeof b.contenido==='string')lines.push(b.contenido);
+          if(Array.isArray(b.items))lines.push(...b.items.filter(v=>typeof v==='string'));
+          if(Array.isArray(b.columnas))lines.push(b.columnas.join(' | '));
+          if(Array.isArray(b.filas))lines.push(...b.filas.filter(Array.isArray).map(row=>row.join(' | ')));
+        }
+      }
+      if(Array.isArray(input.referencias))lines.push(...input.referencias.filter(v=>typeof v==='string'));
+      sources.push({id:'IA',role:'ia',title:'Informe IA guardado en el caso',author:evaluator.name||'Evaluador del caso',date:c.patient?.applicationDate||'',text:lines.join('\n\n'),spans:[],included:true,reviewed:true,automatic:true});
+    }
+    if(this.text(state.request?.notes))sources.push({id:'ADICIONAL',role:'observaciones',title:'Información adicional del evaluador',author:evaluator.name||'Evaluador del caso',date:'',text:this.text(state.request.notes),spans:[],included:true,reviewed:true,automatic:true});
+    return sources;
+  },
   redactor(c,state,evaluator={},local=false){
-    const protect=value=>ReportModel._withoutLiterals(String(value??''));
+    const protect=value=>ReportModel.cleanText(c,String(value??''),ReportSections.options(c));
     const p=c.patient||{},policy=ReportSections.options(c),anonymize=!local&&state.request?.includeIdentity!==true;
     const hideDOB=!policy.id_dob||anonymize;
     const values=[...(anonymize?[p.name,p.document,p.email,p.phone,p.address,evaluator.name,evaluator.email,evaluator.phone,evaluator.address]:[]),
@@ -187,7 +215,7 @@ const LegalBriefSources={
     state=JSON.parse(JSON.stringify(state));c=JSON.parse(JSON.stringify(c));
     this.validateSources(state.sources||[],requireReviewed);
     const chosen=(state.sources||[]).filter(s=>s.included!==false).map(s=>this.normalize(s));
-    const raw=[this.currentSource(c),...chosen],clean=this.redactor(c,state,evaluator),localClean=this.redactor(c,state,evaluator,true),fragments=[],manifest=[],localManifest=[];
+    const raw=[this.currentSource(c),...this.automaticSources(c,state,evaluator),...chosen],clean=this.redactor(c,state,evaluator),localClean=this.redactor(c,state,evaluator,true),fragments=[],manifest=[],localManifest=[];
     for(const source of raw){
       const hash=await this.hash(source);
       manifest.push({id:source.id,role:source.role,title:clean(source.title),author:clean(source.author),date:source.date,fileName:clean(source.fileName||''),hash,reviewed:source.reviewed});
@@ -198,7 +226,7 @@ const LegalBriefSources={
     const {appendix,...contentOptions}=state.options||{};
     const privacyContext=state.request?.includeIdentity?null:{name:evaluator.name,email:evaluator.email,phone:evaluator.phone,address:evaluator.address};
     const policy=ReportSections.options(c);
-    const fingerprint=await this.hash({caseId:c.id,caseIdentity:c.patient,results:c.results,request:contentRequest,options:contentOptions,sources:raw,privacyContext,idPolicy:{document:policy.id_document,dob:policy.id_dob}});
+    const fingerprint=await this.hash({caseId:c.id,caseIdentity:c.patient,results:c.results,request:contentRequest,options:contentOptions,sources:raw,privacyContext,idPolicy:{document:policy.id_document,dob:policy.id_dob},...(state.workflow!=='legacy'?{workflow:'auto-case-v2'}:{})});
     return {fingerprint,manifest,localManifest,fragments,byRef:new Map(fragments.map(f=>[f.id,f])),bySource:new Map(manifest.map(s=>[s.id,s])),
       question:clean(state.request?.question||''),purpose:clean(state.request?.purpose||''),notes:clean(state.request?.notes||''),
       options:{...state.options},reviewerStamp:await this.hash(evaluator),externalCount:chosen.filter(s=>s.role==='externo').length};

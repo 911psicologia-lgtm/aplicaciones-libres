@@ -1,0 +1,16 @@
+[
+  {
+    "formato": "Word",
+    "paginas": 4,
+    "margenes_verificados": true,
+    "formulacion_y_fuentes_presentes": true,
+    "sin_firma_aislada": true
+  },
+  {
+    "formato": "PDF",
+    "paginas": 3,
+    "margenes_verificados": true,
+    "formulacion_y_fuentes_presentes": true,
+    "sin_firma_aislada": true
+  }
+]

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe técnico complementario · María Demo</title>
+<style>body{margin:0;background:#F3F4F6;padding:24px 12px;} 
+.rdoc { background:#fff; color:#1F2937; font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size:14px; line-height:1.6; max-width: 900px; margin: 0 auto; padding: 48px 56px; border:1px solid #E5E7EB; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.06); }
+.rdoc * { box-sizing: border-box; }
+.rdoc .r-title { text-align:center; border-bottom:3px double #1F3864; padding-bottom:14px; margin-bottom:22px; }
+.rdoc .r-title h1 { font-size:22px; letter-spacing:.5px; color:#1F3864; margin:0 0 4px; text-transform:uppercase; }
+.rdoc .r-title .sub { font-size:13px; color:#4B5563; }
+.rdoc h2.r-h1 { font-size:17px; color:#1F3864; border-bottom:2px solid #2F5496; padding-bottom:4px; margin:30px 0 12px; }
+.rdoc h3.r-h2 { font-size:15px; color:#1F3864; margin:24px 0 10px; }
+.rdoc .r-idbox { width:100%; border-collapse:collapse; border:1.5px solid #1F3864; font-size:13px; }
+.rdoc .r-idbox td { border:1px solid #C7D2E3; padding:7px 10px; vertical-align:top; }
+.rdoc .r-idbox td.k { background:#EEF2F8; color:#1F3864; font-weight:700; width:19%; font-size:12px; }
+.rdoc .r-idbox td.v { width:31%; }
+.rdoc .r-field { margin: 0 0 14px; }
+.rdoc .r-field .lbl { font-weight:700; color:#1F3864; margin-bottom:2px; }
+.rdoc .r-field p, .rdoc p.r-p { text-align:justify; margin:0 0 8px; white-space:pre-line; }
+.rdoc p.r-note { font-size:12px; color:#4B5563; font-style:italic; }
+.rdoc .r-caption { font-size:12px; color:#1F3864; font-weight:700; margin:12px 0 4px; }
+.rdoc .r-caption span { font-weight:400; color:#374151; font-style:italic; }
+.rdoc table.r-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-bottom:4px; }
+.rdoc table.r-table th { background:#1F3864; color:#fff; text-align:left; padding:6px 8px; font-weight:600; border:1px solid #1F3864; }
+.rdoc table.r-table td { padding:5px 8px; border:1px solid #D1D5DB; vertical-align:top; }
+.rdoc table.r-table tr:nth-child(even) td { background:#F9FAFB; }
+.rdoc table.r-table td.num { text-align:center; white-space:nowrap; }
+.rdoc table.r-table td.lv-vh { background:#FEE2E2 !important; color:#991B1B; font-weight:700; }
+.rdoc table.r-table td.lv-h  { background:#FFEDD5 !important; color:#9A3412; font-weight:700; }
+.rdoc table.r-table td.lv-ps { background:#FEF9C3 !important; color:#854D0E; }
+.rdoc table.r-table td.lv-m  { background:#ECFDF5 !important; color:#166534; }
+.rdoc table.r-table td.lv-lo { background:#DBEAFE !important; color:#1E40AF; font-weight:700; }
+.rdoc .r-tfoot { font-size:11px; color:#6B7280; margin-bottom:8px; }
+.rdoc .r-interp { background:#F5F7FA; border-left:4px solid #2F5496; padding:10px 14px; margin:10px 0 12px; border-radius:4px; }
+.rdoc .r-interp .lbl { font-weight:700; color:#1F3864; font-size:12px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.rdoc .r-interp p { margin:0; text-align:justify; }
+.rdoc figure.r-fig { margin:8px 0 20px; page-break-inside:avoid; break-inside:avoid; }
+.rdoc figure.r-fig .canvas-wrap { position:relative; width:100%; }
+.rdoc figure.r-fig img { width:100%; height:auto; display:block; border:1px solid #E5E7EB; border-radius:6px; }
+.rdoc figure.r-fig figcaption { font-size:12px; color:#374151; margin-top:4px; text-align:center; }
+.rdoc figure.r-fig figcaption b { color:#1F3864; }
+.rdoc .r-banner { border:2px solid #B91C1C; background:#FEF2F2; color:#7F1D1D; padding:10px 14px; border-radius:6px; margin:10px 0; font-size:13px; }
+.rdoc .r-consolidated { font-size:14.5px; text-align:justify; line-height:1.7; margin:0 0 12px; }
+.rdoc ul.r-list { margin:0 0 8px 20px; padding:0; }
+.rdoc ul.r-list li { margin-bottom:6px; text-align:justify; }
+.rdoc .r-sign { margin-top:40px; page-break-inside:avoid; break-inside:avoid; }
+.rdoc .r-sign .place { margin-bottom:28px; }
+.rdoc .r-sign img { max-height:80px; max-width:260px; display:block; margin-bottom:2px; }
+.rdoc .r-sign .line { border-top:1.5px solid #1F2937; width:300px; padding-top:6px; }
+.rdoc .r-sign .nm { font-weight:700; font-size:14.5px; }
+.rdoc .r-sign .sub { font-size:12.5px; color:#374151; }
+.rdoc .r-footnote { margin-top:30px; padding-top:10px; border-top:1px solid #E5E7EB; font-size:11px; color:#6B7280; text-align:justify; }
+.rdoc table, .rdoc .r-interp { page-break-inside:auto; }
+.rdoc tr { page-break-inside:avoid; break-inside:avoid; }
+@media (max-width: 700px) { .rdoc { padding:22px 16px; } .rdoc .r-idbox td.k { width:auto; } }
+@media print { .rdoc { border:none; box-shadow:none; padding:0; max-width:100%; } .rdoc h2.r-h1, .rdoc h3.r-h2 { page-break-after:avoid; break-after:avoid; } }
+ @media print{body{background:#fff;padding:0}} @page{size:letter;margin:18mm 16mm;}</style>
+</head><body><article class="rdoc"><div class="r-title"><h1>Informe técnico complementario</h1><div class="sub">Afrontamiento actual y alcance de las afirmaciones sobre personalidad</div></div>
+<table class="r-idbox"><tbody><tr><td class="k">Evaluado</td><td class="v">María Demo</td><td class="k">Documento de identidad</td><td class="v">DEMO-9988</td></tr><tr><td class="k">Fecha de aplicación</td><td class="v">3 de noviembre de 2026</td><td class="k">Fecha de nacimiento</td><td class="v">15 de octubre de 1980</td></tr></tbody></table>
+<h2 class="r-h1">1. Pregunta técnica</h2>
+<p class="r-p ">Explicar qué describen los resultados actuales, cómo se relacionan con el seguimiento registrado y qué fundamento tiene la afirmación sobre una causa exclusiva de personalidad. La pregunta se resuelve con la información que ya consta en el caso. [1, 3]</p>
+<h2 class="r-h1">2. Respuesta ejecutiva</h2>
+<p class="r-p ">La información disponible describe malestar durante el seguimiento y recursos de ayuda conservados. La medición actual permite hablar de cómo la persona se percibe en el momento de la evaluación; no acredita por sí sola que esa forma de responder existiera antes del inicio del cuadro. [1]</p>
+<p class="r-p ">La frase atribuida al documento externo introduce una explicación exclusiva que el material transcrito no permite sostener. La objeción técnica se dirige a ese salto entre un hallazgo actual y una causa previa, con la precisión de que solo está disponible el resumen registrado en la historia. [1]</p>
+<h2 class="r-h1">3. Fuentes y método</h2>
+<p class="r-p ">Se integraron el registro psicométrico actual, la historia y cronología guardadas, el antecedente de evaluación y la integración del caso. La afirmación externa se conoce a través de su transcripción en la historia; su análisis conserva esa diferencia de procedencia. [1, 3]</p>
+<h2 class="r-h1">4. Matriz de hallazgos relevantes</h2>
+<div class="r-caption">Tabla 1. <span>Evidencia, significado y alcance</span></div><table class="r-table"><thead><tr><th>Dimensión</th><th>Evidencia documentada</th><th>Lectura técnica</th><th>Alcance frente a la pregunta</th></tr></thead><tbody><tr><td class="">Afrontamiento actual</td><td class="">Es T=≤30; búsqueda de ayuda y apoyo familiar registrados. [1]</td><td class="">La persona refiere recursos reducidos en la evaluación y conserva apoyos y acciones de afrontamiento.</td><td class="">No demuestra incapacidad global ni una disposición previa fija.</td></tr><tr><td class="">Antecedencia de los hallazgos</td><td class="">Seguimiento desde 2023; cambio de funciones en 2024. No consta una medida anterior de personalidad. [1]</td><td class="">Hay una secuencia documentada que debe distinguirse de una explicación causal.</td><td class="">La exclusividad causal requiere información adicional.</td></tr></tbody></table>
+<h2 class="r-h1">5. El MMPI-2 actual y su significado</h2>
+<p class="r-p ">VRIN T=46 describe coherencia en la forma de responder a contenidos relacionados. Esta información contribuye a valorar la consistencia del protocolo; no determina si un relato externo es verdadero ni identifica por sí sola la causa del malestar. [1]</p>
+<p class="r-p ">Es T=≤30 se refiere a una percepción reducida de los recursos de afrontamiento durante la evaluación. En este caso coexiste con búsqueda de ayuda y apoyo familiar registrados. La lectura conjunta permite distinguir sentirse desbordado de carecer de toda capacidad para actuar o recibir apoyo. [1]</p>
+<h2 class="r-h1">6. Qué aporta la secuencia temporal</h2>
+<p class="r-p ">El seguimiento por sueño y concentración comenzó antes del cambio de funciones descrito. Esa secuencia impide explicar el inicio únicamente por un hecho posterior; tampoco identifica por sí sola una causa única. Para afirmar que una disposición de personalidad antecedía al cuadro se necesitan datos anteriores o información longitudinal suficientemente documentada. [1]</p>
+<h2 class="r-h1">7. Contraste de afirmaciones documentadas</h2>
+<div class="r-caption">Tabla 2. <span>Afirmación y fundamento de la respuesta</span></div><table class="r-table"><thead><tr><th>Afirmación y fuente</th><th>Lectura técnica</th><th>Qué permite sostener</th></tr></thead><tbody><tr><td class="">«el malestar deriva exclusivamente de la personalidad» [1]</td><td class="">La historia atribuye esta frase al documento externo, sin reproducirlo íntegramente. Los hallazgos actuales y la cronología registrada no establecen por sí solos una causa previa exclusiva. [1]</td><td class="">Puede solicitarse el respaldo longitudinal de la afirmación. La objeción debe mantenerse referida a la transcripción disponible hasta revisar el texto completo.</td></tr></tbody></table>
+<h2 class="r-h1">8. Fundamento de la controversia técnica</h2>
+<p class="r-p ">El aspecto controvertible es la atribución exclusiva a la personalidad. La transcripción disponible no aporta una medición anterior al seguimiento ni describe cómo se descartaron explicaciones alternativas. Puede cuestionarse la suficiencia de ese fundamento y solicitarse el documento completo; con este material no corresponde atribuir una omisión al informe íntegro que todavía no se ha revisado. [1]</p>
+<h2 class="r-h1">9. Información que podría modificar la lectura</h2>
+<p class="r-p ">La ausencia de una evaluación previa en el material aportado limita tanto la afirmación externa como una conclusión propia sobre el funcionamiento premórbido. Si aparecen antecedentes independientes o una argumentación longitudinal en el documento completo, deberán incorporarse al análisis y podrá cambiar el alcance de la objeción. [1]</p>
+<h2 class="r-h1">10. Conclusiones</h2>
+<p class="r-p ">Los datos actuales permiten describir malestar y percepción de recursos reducida, junto con conductas de búsqueda de ayuda. No equivalen a una demostración de incapacidad global ni de una disposición previa fija. [1]</p>
+<p class="r-p ">La explicación exclusiva atribuida a la entidad requiere un fundamento temporal y metodológico que no está contenido en la transcripción disponible. La controversia defendible se refiere al alcance de esa inferencia, conservando la necesidad de revisar el informe completo. [1]</p>
+<h2 class="r-h1">11. Formulación para el equipo jurídico</h2>
+<p class="r-p ">Los resultados psicológicos aportados describen el funcionamiento durante la evaluación y no acreditan, por sí solos, una causa exclusiva de personalidad anterior al cuadro. La historia sitúa dificultades documentadas antes del cambio de funciones y registra búsqueda de ayuda. Por ello, la afirmación atribuida a la entidad requiere mostrar su respaldo longitudinal y explicar cómo se estableció la exclusividad causal. Esta observación se formula sobre la transcripción disponible y debe contrastarse con el documento íntegro. [1]</p>
+<h2 class="r-h1">12. Recomendaciones</h2>
+<ul class="r-list"><li>Obtener el informe completo de la Entidad de Referencia para verificar el contenido, sus métodos y el fundamento temporal de la afirmación transcrita. [1]</li><li>Incorporar los antecedentes independientes que permitan describir el funcionamiento previo al seguimiento y revisar con ellos las dos interpretaciones. [1]</li></ul>
+<h2 class="r-h1">13. Alcance y límites</h2>
+<p class="r-p ">El alcance se limita a las puntuaciones y documentos ya registrados. No se cuenta con el texto íntegro externo ni con una medición de personalidad anterior al inicio descrito. La secuencia temporal aporta una condición del análisis y no sustituye la valoración clínica ni la determinación jurídica correspondiente. [1]</p>
+<div class="r-field"><div class="lbl">Fuentes del caso</div><p>[1] Registro local del caso · Registro de la aplicación · 3 de noviembre de 2026
+[2] Informe sin IA del caso · Profesional ficticio · 3 de noviembre de 2026
+[3] Informe IA guardado en el caso · Profesional ficticio · 3 de noviembre de 2026</p></div>
+<p class="r-p ">Revisión profesional registrada el 12 de noviembre de 2026.</p>
+<div class="r-sign">
+            <div class="place">Ciudad de prueba · 12 de noviembre de 2026</div>
+            <div style="height:60px"></div>
+            <div class="line"><div class="nm">Profesional ficticio</div><div class="sub">Psicólogo · T.P. DEMO-TP</div></div>
+          </div></article></body></html>

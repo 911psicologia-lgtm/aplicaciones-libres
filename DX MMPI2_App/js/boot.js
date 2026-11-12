@@ -23,19 +23,35 @@ loadData().catch(err => {
   if (!('serviceWorker' in navigator)) return;
   if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then((reg) => {
-      // Aviso cuando hay una versión nueva lista
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+      // Recuperar también las actualizaciones que ya estaban instaladas y esperando.
+      const showUpdate = (worker) => {
+        if (!worker || !navigator.serviceWorker.controller || document.getElementById('app-update-notice')) return;
+        const notice = document.createElement('div');
+        notice.id = 'app-update-notice'; notice.className = 'app-update-notice no-print'; notice.setAttribute('role', 'status');
+        const label = document.createElement('span'); label.textContent = 'Hay una versión nueva lista. Guarde su trabajo antes de actualizar.';
+        const button = document.createElement('button'); button.className = 'btn btn-primary btn-sm'; button.textContent = 'Actualizar';
+        button.onclick = () => {
+          try {
+            if (window.LegalBrief?._mounted) LegalBrief.unmount();
+            if (window.Storage?.flush) Storage.flush();
+            if (Storage._savePending) throw new Error('Hay cambios pendientes de guardar.');
+            (reg.waiting || worker).postMessage('SKIP_WAITING');
+          } catch (error) { if (window.toast) window.toast(error.message, 'error', 7000); }
+        };
+        notice.appendChild(label); notice.appendChild(button); document.body.appendChild(notice);
+      };
+      showUpdate(reg.waiting);
+      const watch = (worker) => {
+        if (!worker) return;
+        const ready = () => { if (worker.state === 'installed') showUpdate(reg.waiting || worker); };
+        worker.addEventListener('statechange', ready); ready();
+      };
+      watch(reg.installing);
       reg.addEventListener('updatefound', () => {
-        const nw = reg.installing;
-        if (!nw) return;
-        nw.addEventListener('statechange', () => {
-          if (nw.state === 'installed' && navigator.serviceWorker.controller && window.toastAction) {
-            window.toastAction('Hay una versión nueva de la aplicación.', 'Actualizar', () => {
-              nw.postMessage('SKIP_WAITING');
-            }, 15000);
-          }
-        });
+        watch(reg.installing);
       });
+      reg.update().catch(() => {});
     }).catch((e) => console.warn('Service worker no registrado:', e));
     let reloaded = false;
     const hadController = !!navigator.serviceWorker.controller; // primera instalación: no recargar

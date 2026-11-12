@@ -19,7 +19,7 @@ const Dashboard = {
     return `
       <div class="screen">
         <div class="topbar">
-          <div class="topbar-title">MMPI-2 · Panel principal</div>
+          <div class="topbar-title">MMPI-2 · Panel principal <span class="form-hint">17.9</span></div>
           <div class="topbar-actions">
             <button class="btn btn-primary btn-sm" id="dash-new">+ Nuevo caso</button>
             <button class="hamburger-btn" id="ham-btn" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>

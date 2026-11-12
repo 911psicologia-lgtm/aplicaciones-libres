@@ -1,0 +1,5 @@
+DEMOSTRACIÓN FICTICIA. No corresponde a un caso clínico real.
+
+El informe técnico complementario ejemplifica el formato y el razonamiento del nuevo encargo. El caso de demostración utiliza el modo automático: pregunta vacía, sin documentos adicionales cargados y con historia e integración guardadas. El texto del informe es una muestra de validación; no certifica el comportamiento de una IA externa ni representa evidencia clínica.
+
+Si importa Caso_Demo_Complementario.json en la app, el cambio de perfil profesional deja la revisión de demostración pendiente. Puede preparar un nuevo encargo con los datos ya cargados. No mezcle datos ficticios con un caso real.

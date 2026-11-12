@@ -53,7 +53,8 @@ const Report = {
         </div>
 
         <div class="screen-content wide report-layout">
-          <nav class="legal-tabs no-print" aria-label="Documentos del caso"><span class="btn btn-primary" aria-current="page">Base / Extendido e IA</span><button type="button" class="btn btn-secondary" id="rpt-legal">Para el abogado</button></nav>
+          <nav class="legal-tabs no-print" aria-label="Documentos del caso"><span class="btn btn-primary" aria-current="page">Base / Extendido e IA</span><button type="button" class="btn btn-secondary" id="rpt-legal" aria-expanded="false" aria-controls="rpt-legal-drawer">Para el abogado</button><span class="form-hint">Versión 17.9</span></nav>
+          <div id="rpt-legal-drawer" class="hidden no-print"></div>
 
           ${this._renderValidityBanner(validity)}
 
@@ -198,7 +199,7 @@ const Report = {
     bindEvent('rpt-back', 'click', () => App.navigate('dashboard'));
     bindEvent('rpt-edit', 'click', () => App.navigate('case'));
     bindEvent('rpt-answers', 'click', () => App.navigate('capture', { editing: true }));
-    bindEvent('rpt-legal','click',()=>App.navigate('legal'));
+    bindEvent('rpt-legal','click',()=>this._toggleLegalDrawer());
 
     bindEvent('exp-pdf', 'click', () => this._exportPDF());
     bindEvent('exp-word', 'click', () => this._exportWord());
@@ -297,7 +298,17 @@ const Report = {
     this._refreshAI();
   },
 
+  _toggleLegalDrawer(open) {
+    const host=document.getElementById('rpt-legal-drawer'),button=document.getElementById('rpt-legal');
+    if(!host||!window.LegalBrief)return;
+    const show=open===undefined?host.classList.contains('hidden'):open;
+    if(!show){if(LegalBrief._embedded)LegalBrief.unmount();host.classList.add('hidden');host.innerHTML='';}
+    else if(host.classList.contains('hidden')){Storage.flush();host.innerHTML=LegalBrief.render({embedded:true});host.classList.remove('hidden');LegalBrief.mount();host.scrollIntoView({behavior:'smooth',block:'start'});}
+    if(button)button.setAttribute('aria-expanded',String(show));
+  },
+
   unmount() {
+    if(window.LegalBrief?._embedded&&LegalBrief._mounted)LegalBrief.unmount();
     this._destroyCharts();
     this._destroyAICharts();
     this._mounted = false;

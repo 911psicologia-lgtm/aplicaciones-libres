@@ -1,0 +1,225 @@
+{
+  "tipo": "informe_explicativo_abogado",
+  "version": 2,
+  "huella_fuentes": "17afafaf57c7d548a6d2ac06dc873be6563d2931381ff5fffc5f5ada27faaa47",
+  "secciones": [
+    {
+      "id": "objeto",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Explicar qué describen los resultados actuales, cómo se relacionan con el seguimiento registrado y qué fundamento tiene la afirmación sobre una causa exclusiva de personalidad. La pregunta se resuelve con la información que ya consta en el caso.",
+          "evidencias": [
+            "CASO-P0005",
+            "IA-P0003"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "resumen",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "La información disponible describe malestar durante el seguimiento y recursos de ayuda conservados. La medición actual permite hablar de cómo la persona se percibe en el momento de la evaluación; no acredita por sí sola que esa forma de responder existiera antes del inicio del cuadro.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0045",
+            "CASO-P0007"
+          ]
+        },
+        {
+          "tipo": "parrafo",
+          "contenido": "La frase atribuida al documento externo introduce una explicación exclusiva que el material transcrito no permite sostener. La objeción técnica se dirige a ese salto entre un hallazgo actual y una causa previa, con la precisión de que solo está disponible el resumen registrado en la historia.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metodo",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Se integraron el registro psicométrico actual, la historia y cronología guardadas, el antecedente de evaluación y la integración del caso. La afirmación externa se conoce a través de su transcripción en la historia; su análisis conserva esa diferencia de procedencia.",
+          "evidencias": [
+            "CASO-P0005",
+            "IA-P0003"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicacion",
+      "titulo": "El MMPI-2 actual y su significado",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "VRIN T=46 describe coherencia en la forma de responder a contenidos relacionados. Esta información contribuye a valorar la consistencia del protocolo; no determina si un relato externo es verdadero ni identifica por sí sola la causa del malestar.",
+          "evidencias": [
+            "CASO-P0010"
+          ]
+        },
+        {
+          "tipo": "parrafo",
+          "contenido": "Es T=≤30 se refiere a una percepción reducida de los recursos de afrontamiento durante la evaluación. En este caso coexiste con búsqueda de ayuda y apoyo familiar registrados. La lectura conjunta permite distinguir sentirse desbordado de carecer de toda capacidad para actuar o recibir apoyo.",
+          "evidencias": [
+            "CASO-P0045",
+            "CASO-P0007"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "temporalidad",
+      "titulo": "Qué aporta la secuencia temporal",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "El seguimiento por sueño y concentración comenzó antes del cambio de funciones descrito. Esa secuencia impide explicar el inicio únicamente por un hecho posterior; tampoco identifica por sí sola una causa única. Para afirmar que una disposición de personalidad antecedía al cuadro se necesitan datos anteriores o información longitudinal suficientemente documentada.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "argumentos",
+      "titulo": "Fundamento de la controversia técnica",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "El aspecto controvertible es la atribución exclusiva a la personalidad. La transcripción disponible no aporta una medición anterior al seguimiento ni describe cómo se descartaron explicaciones alternativas. Puede cuestionarse la suficiencia de ese fundamento y solicitarse el documento completo; con este material no corresponde atribuir una omisión al informe íntegro que todavía no se ha revisado.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pendientes",
+      "titulo": "Información que podría modificar la lectura",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "La ausencia de una evaluación previa en el material aportado limita tanto la afirmación externa como una conclusión propia sobre el funcionamiento premórbido. Si aparecen antecedentes independientes o una argumentación longitudinal en el documento completo, deberán incorporarse al análisis y podrá cambiar el alcance de la objeción.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conclusiones",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Los datos actuales permiten describir malestar y percepción de recursos reducida, junto con conductas de búsqueda de ayuda. No equivalen a una demostración de incapacidad global ni de una disposición previa fija.",
+          "evidencias": [
+            "CASO-P0045",
+            "CASO-P0007"
+          ]
+        },
+        {
+          "tipo": "parrafo",
+          "contenido": "La explicación exclusiva atribuida a la entidad requiere un fundamento temporal y metodológico que no está contenido en la transcripción disponible. La controversia defendible se refiere al alcance de esa inferencia, conservando la necesidad de revisar el informe completo.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "formulacion",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Los resultados psicológicos aportados describen el funcionamiento durante la evaluación y no acreditan, por sí solos, una causa exclusiva de personalidad anterior al cuadro. La historia sitúa dificultades documentadas antes del cambio de funciones y registra búsqueda de ayuda. Por ello, la afirmación atribuida a la entidad requiere mostrar su respaldo longitudinal y explicar cómo se estableció la exclusividad causal. Esta observación se formula sobre la transcripción disponible y debe contrastarse con el documento íntegro.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0045",
+            "CASO-P0007",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recomendaciones",
+      "bloques": [
+        {
+          "tipo": "lista",
+          "items": [
+            "Obtener el informe completo de la Entidad de Referencia para verificar el contenido, sus métodos y el fundamento temporal de la afirmación transcrita.",
+            "Incorporar los antecedentes independientes que permitan describir el funcionamiento previo al seguimiento y revisar con ellos las dos interpretaciones."
+          ],
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "limitaciones",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "El alcance se limita a las puntuaciones y documentos ya registrados. No se cuenta con el texto íntegro externo ni con una medición de personalidad anterior al inicio descrito. La secuencia temporal aporta una condición del análisis y no sustituye la valoración clínica ni la determinación jurídica correspondiente.",
+          "evidencias": [
+            "CASO-P0005",
+            "CASO-P0009"
+          ]
+        }
+      ]
+    }
+  ],
+  "cronologia": [],
+  "contrastes": [
+    {
+      "referencia": "CASO-P0005",
+      "cita": "el malestar deriva exclusivamente de la personalidad",
+      "clasificacion": "Información insuficiente",
+      "analisis": "La historia atribuye esta frase al documento externo, sin reproducirlo íntegramente. Los hallazgos actuales y la cronología registrada no establecen por sí solos una causa previa exclusiva.",
+      "alcance": "Puede solicitarse el respaldo longitudinal de la afirmación. La objeción debe mantenerse referida a la transcripción disponible hasta revisar el texto completo.",
+      "preguntas": [],
+      "evidencias": [
+        "CASO-P0005",
+        "CASO-P0045",
+        "CASO-P0009"
+      ]
+    }
+  ],
+  "preguntas": [],
+  "titulo": "Informe técnico complementario",
+  "subtitulo": "Afrontamiento actual y alcance de las afirmaciones sobre personalidad",
+  "hallazgos": [
+    {
+      "evidencias": [
+        "CASO-P0045",
+        "CASO-P0007"
+      ],
+      "dimension": "Afrontamiento actual",
+      "evidencia": "Es T=≤30; búsqueda de ayuda y apoyo familiar registrados.",
+      "lectura": "La persona refiere recursos reducidos en la evaluación y conserva apoyos y acciones de afrontamiento.",
+      "alcance": "No demuestra incapacidad global ni una disposición previa fija."
+    },
+    {
+      "evidencias": [
+        "CASO-P0005",
+        "CASO-P0009"
+      ],
+      "dimension": "Antecedencia de los hallazgos",
+      "evidencia": "Seguimiento desde 2023; cambio de funciones en 2024. No consta una medida anterior de personalidad.",
+      "lectura": "Hay una secuencia documentada que debe distinguirse de una explicación causal.",
+      "alcance": "La exclusividad causal requiere información adicional."
+    }
+  ],
+  "referencias": []
+}

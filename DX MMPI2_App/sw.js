@@ -1,7 +1,7 @@
-/* Service worker · MMPI-2 App (generado) — versión 07d278ab40
+/* Service worker · MMPI-2 App (generado) — versión 9a66988acf
    Precarga todos los archivos para que la app funcione sin conexión.
    Estrategia: caché primero; en segundo plano se actualiza la copia. */
-const CACHE = 'mmpi2-07d278ab40';
+const CACHE = 'mmpi2-9a66988acf';
 const ASSETS = [
   "./",
   "./assets/MMPI2_Plantilla_Paciente.xlsx",
