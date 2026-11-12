@@ -1,0 +1,61 @@
+21 secciones · 1. Ficha de identificación → 2. Motivo y objetivo de la evaluación → 3. Antecedentes e historia del caso → 4. Contexto de la solicitud → 5. Técnica, fuentes y control de calidad → 6. Examen mental y observación conductual → 7. Validez y estilo de respuesta → 8. Escalas clínicas básicas → 9. Escalas de contenido → 10. Escalas suplementarias y PSY-5 → 11. Subescalas Harris-Lingoes → 12. Ítems críticos → 13. Integración clínica → 14. Recursos y fortalezas → 15. Contraste longitudinal → 16. Impresión diagnóstica (tentativa) → 17. Pronóstico → 18. Limitaciones de la evaluación → 19. Conclusiones → 20. Recomendaciones → 21. Nota de alcance
+8 secciones · 1. Ficha de identificación → 2. Técnica, fuentes y control de calidad → 3. Validez y estilo de respuesta → 4. Escalas clínicas básicas → 5. Escalas de contenido → 6. Escalas suplementarias → 7. Integración clínica → 8. Conclusiones
+Ítems únicos en el protocolo de exportación: 57
+✔ 01 · Caso nuevo, opciones y dependencias (503.939713ms)
+✔ 02 · Migración de V16 conserva selecciones, caso, borrador y papelera (10.77042ms)
+✔ 03 · Plan completo, mínimo, esquema y resguardo del prompt (61.4767ms)
+✔ 04 · Contraste requiere datos, con límites y Mf incompatibles preservados (76.545072ms)
+✔ 05 · Dos series críticas agrupadas y texto literal optativo (69.585125ms)
+✔ 06 · Conversión de Es, dirección de TRIN y lectura de validez (114.009982ms)
+✔ 07 · JSON variable y ficha local en HTML, Word, PDF, Excel y TXT (956.174229ms)
+✔ 08 · Las 81 claves revisadas activan con el cupo correcto (31.083194ms)
+─── MMPI-2 Self-Test ───
+  ✓ PASS · 1. Escala sin clave → pd===null ZZZ_SIN_CLAVE → null (correcto)
+  ✓ PASS · 2. PD fuera de tabla → T=null, status=PD_FUERA_DE_TABLA PD=9999 → correcto
+  ✓ PASS · 3. Caso US → usa baremo US (no ES) L(H,M): US=33, ES=22 — difieren correctamente
+  ✓ PASS · 4. Caso ES → usa baremo ES (no US) Hs(H): ES=41, US=48 — difieren
+  ✓ PASS · 5. Cambio de país → recalcula T L(M,PD=0): ES=22 → US=33
+  ✓ PASS · 6. Caso restaurado conserva country country=US preservado en localStorage
+  ✓ PASS · 7. F-K usa PD directas 
+  ✓ PASS · 8. Gráficas sujetas a la selección de secciones 
+  ✓ PASS · 9. exportAIReportHTML acepta chartImages Parámetro presente en la firma
+  ✓ PASS · 10. exportAIReportWord acepta chartImages Parámetro presente en la firma
+  ✓ PASS · 11. HTML exportado incluye <img> embebida figure+img presente
+  ✓ PASS · 12. Fallback: tabla + mensaje cuando no hay imagen OK
+  ✓ PASS · 13. JSON malicioso → rechazado Error esperado: Caso #1: "patient.sex" debe ser "M" o "H".
+  ✓ PASS · 14. Perfil no interpretable → assessValidity=NO_INTERPRETABLE reasons: F (T=95) > 90: protocolo no interpretable.
+  ✓ PASS · 15. Ítems críticos KB {"ansiedad_aguda":17,"ideacion_suicida":22,"amenaza_ataque":5,"estres_alcohol":7,"confusion_mental":11,"persecucion":16}; 506 detectado; ítem 62 según sexo; sin respuestas → null
+  ─── Resumen ───
+    15 PASS  /  0 FAIL  /  0 INFO
+✔ 09 · Último cupo, saldo V16, concurrencia, reintento y renovación (20.69379ms)
+✔ 10 · Recursos del paquete y sintaxis de aplicación (72.569095ms)
+✔ 11 · Autopruebas del motor y de la V16 (371.829162ms)
+[License] App bloqueada: exhausted
+✔ 12 · Arranque y acceso a un informe con licencia agotada (7.318745ms)
+✔ 13 · Lecturas sustantivas recuperadas de V16 por escala, rango y sexo (48.76471ms)
+✔ 14 · Validez descriptiva, comprensible y sin órdenes al evaluador (0.642908ms)
+✔ 15 · Es en casos guardados: límite visible, prompt coherente y licencia intacta (55.101706ms)
+✔ 16 · Todas las celdas originales de Es se conservan; el límite es específico US (1.3376ms)
+✔ 17 · Selector Base/Extendido, selección inmediata y preferencias conservadas (71.722019ms)
+✔ 18 · Encabezado sin apartado y compatibilidad con JSON anterior (60.279938ms)
+✔ 19 · IA contextualizada reemplaza la narrativa automática y conserva datos y cuadros (33.791707ms)
+✔ 20 · Conclusiones por párrafos en el modelo común, texto, HTML y JSON (45.69912ms)
+✔ 21 · Las cinco diferencias se calculan aun con comparabilidad normativa pendiente (41.064696ms)
+✔ 22 · Resta publicada y equivalencia normativa independientes; límites y PD protegidos (22.015015ms)
+✔ 23 · Validador distingue PD de Pd, comprueba finales de frase y conserva límites (1.17226ms)
+Informe_Base: 17 secciones, 6 figuras; gráfica comparativa incluida.
+Informe_Extendido: 18 secciones, 7 figuras; gráfica comparativa incluida.
+Informe_IA: 18 secciones, 7 figuras; gráfica comparativa incluida.
+✔ 24 · Base, Extendido e IA: exportación nativa con gráficas comparativas reales (6468.162456ms)
+✔ 25 · Base, Extendido e IA: misma resta, una nota común y registro intacto (69.492531ms)
+✔ 26 · TRIN distingue magnitud y orientación; cero no oculta V/F opuestas (0.826679ms)
+✔ 27 · No inventa diferencias exactas para límites, verificación, PD o T ausente (0.789728ms)
+✔ 28 · JSON anterior: corrige la frase mecánica incompatible y conserva el análisis contextual (5.199831ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9496.343523

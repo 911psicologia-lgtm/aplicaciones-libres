@@ -1,0 +1,31 @@
+✔ A01 · Casos antiguos y estado opcional: informes y puntuaciones conservados (470.838565ms)
+✔ A02 · Fuentes seleccionadas, límites y revisión expresa (24.476987ms)
+✔ A03 · Importación real DOCX: párrafos, acentos y contexto de filas (92.843804ms)
+✔ A04 · Importación real PDF.js: texto y páginas; sin texto requiere OCR (545.819063ms)
+✔ A05 · Texto UTF-8, archivos grandes y formatos incorrectos (0.745449ms)
+✔ A06 · Desidentificación y reserva del texto literal incluso con identificadores habilitados (37.315731ms)
+✔ A07 · Marcadores de seguridad y esquema independiente con fuentes localizables (6.57744ms)
+✔ A08 · Huella cambia con fuentes, metadatos, encargo y datos del caso (62.804609ms)
+✔ A09 · JSON válido, cita comprobada y puntuación atribuida a su fuente (2.707218ms)
+✔ A10 · Rechazo de fuentes inventadas, citas alteradas, categorías y huellas ajenas (1.067089ms)
+✔ A11 · No confunde T actuales con otro fragmento ni pierde límites o dirección (1.533592ms)
+✔ A12 · Revisión vinculada al texto y las fuentes; destinatario y anexo solo requieren revisar (24.630831ms)
+✔ A13 · Guardado y copia de seguridad conservan casos, fuentes y documento sin consumo (13.067734ms)
+✔ A14 · Fallo de espacio restaura los registros anteriores (3.308161ms)
+✔ A15 · Guardar el trabajo de otro caso no cambia el caso actualmente seleccionado (8.647977ms)
+✔ A16 · Fuentes modificadas o retiradas: conserva citas de la versión original como borrador (10.35027ms)
+✔ A17 · Secciones opcionales no reaparecen mediante el anexo (6.244383ms)
+✔ A18 · Pantalla y métodos reales: importar, editar, revisar, exportar y recuperar edición pendiente (59.290741ms)
+✔ A19 · Recursos locales y puntos de acceso sin reemplazar los informes existentes (0.680837ms)
+✔ A21 · Una importación anterior no reemplaza el archivo seleccionado después (0.570646ms)
+✔ A22 · Un cambio de firma o perfil no conserva una revisión anterior (17.477071ms)
+Demostración ficticia: 12 secciones; fuentes y fragmentos incluidos.
+✔ A20 · Exportaciones reales Word/PDF/HTML/TXT/JSON y versiones de borrador (75.232694ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1850.773642

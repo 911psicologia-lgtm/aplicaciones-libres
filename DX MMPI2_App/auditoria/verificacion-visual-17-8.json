@@ -1,0 +1,14 @@
+[
+  {
+    "formato": "pdf",
+    "paginas": 3,
+    "sin_texto_fuera_de_pagina": true,
+    "revision_y_fuentes_presentes": true
+  },
+  {
+    "formato": "word",
+    "paginas": 3,
+    "sin_texto_fuera_de_pagina": true,
+    "revision_y_fuentes_presentes": true
+  }
+]

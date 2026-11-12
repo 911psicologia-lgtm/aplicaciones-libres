@@ -1,10 +1,31 @@
-# MMPI-2 · Suite clínica licenciada 17.7
+# MMPI-2 · Suite clínica licenciada 17.8
 
 Actualización de la edición V16 licenciada. El paquete conserva la aplicación estática y los casos guardados en el mismo origen del navegador. La revisión de informes parte de las secciones acordadas para la 17.2 y se integra con los exportadores y el sistema de activación de esta edición.
 
 Esta revisión recupera las lecturas breves y los párrafos interpretativos de V16 para las escalas clínicas, de contenido, suplementarias, PSY-5 y subescalas. Recupera también la distribución de elevaciones, la configuración del perfil, la síntesis y las recomendaciones específicas. Las lecturas de validez explican cada resultado en lenguaje descriptivo. Los cambios anteriores de identificación, opciones, secciones y activación se conservan.
 
-La edición 17.7 corrige el contraste longitudinal: muestra la resta aritmética entre las T publicadas aunque falten datos para confirmar la equivalencia normativa, y concentra las limitaciones comunes en una nota. Conserva los formatos Base y Extendido, la contextualización de IA, los formularios PDF, el cálculo psicométrico, las interpretaciones de las escalas y el sistema de licencias.
+La edición 17.8 añade **Para el abogado**, un tercer documento independiente con fuentes revisadas, contraste explicativo, evidencias localizables y revisión profesional. Conserva el contraste longitudinal corregido en 17.7, los formatos Base y Extendido, la integración de IA, los formularios PDF, el cálculo psicométrico y el sistema de licencias.
+
+## Para el abogado
+
+Desde un caso con resultados, abra **Informe → Para el abogado**. También aparece en el menú del caso. Este espacio guarda su propio encargo, fuentes, documento y revisión dentro del caso; las copias de seguridad habituales los conservan.
+
+1. Escriba la **pregunta que debe responder el documento**, el destinatario, la finalidad y sus precisiones.
+2. Cargue sus versiones definitivas de los informes en **Word .docx**, **PDF con texto** o **TXT/MD UTF-8**, o pegue el texto revisado. Los botones **Usar informe sin IA actual** y **Usar integración IA guardada** permiten incorporar las versiones locales. Si las corrigió fuera de la app, cargue esas correcciones.
+3. Identifique tipo de fuente, título, autor y fecha. Revise el texto extraído y marque su comprobación antes de preparar el prompt. Word conserva párrafos y filas de tabla; PDF conserva referencias de página. Los PDF escaneados requieren OCR fuera de la aplicación o una transcripción revisada.
+4. Pulse **Preparar prompt**, revise su contenido y cópielo en su servicio de IA. El trabajo se prepara localmente. La app no llama a una API de IA ni envía automáticamente los documentos.
+5. Pegue el JSON de respuesta y pulse **Guardar documento de IA**. Se validan la versión de las fuentes, las referencias existentes, las citas literales de la matriz y las puntuaciones explícitas frente a los fragmentos citados. La evaluación de las inferencias y del razonamiento corresponde al profesional.
+6. Revise la vista del documento. Puede abrir **Editar el texto del documento**; las ediciones pendientes se conservan y deben guardarse y validarse antes de descargar o registrar la revisión. Después pulse **Registrar revisión profesional** y descargue **Word, PDF, HTML, TXT o JSON**.
+
+El informe organiza respuesta principal, pregunta y finalidad, fuentes, cronología, explicación, contraste, argumentos, pendientes, preguntas y conclusiones. **Anexar los fragmentos citados** permite mantener el soporte documental o emitir una versión más breve. La matriz distingue coincidencia, discrepancia, diferencia explicable e información insuficiente; exige citas localizables y evita favorecer de antemano una posición.
+
+El prompt reserva por defecto los identificadores conocidos; admite una lista adicional de datos que desea reservar. Las casillas de documento y nacimiento del informe se respetan. La ficha y la identificación del evaluador se completan localmente. Los enunciados literales del test permanecen reservados, incluso si se habilitan identificadores personales en el prompt. Revise el texto libre para identificar nombres de terceros u otros datos sensibles no detectados automáticamente.
+
+Los documentos originales permanecen en su equipo; se guarda el texto extraído y sus metadatos. Se admiten hasta 10 fuentes, 12 MB por archivo, 180.000 caracteres por fuente y 420.000 entre fuentes. Se avisa si un documento necesita dividirse. Un fallo de espacio conserva los registros anteriores y comunica el problema.
+
+Cambiar las fuentes o la pregunta marca el documento como **pendiente de actualizar** y conserva sus citas anteriores para revisión. Cambiar solo destinatario o anexos requiere nueva revisión, sin repetir el trabajo con IA. Una edición o un cambio de firma/perfil invalida la revisión anterior. Las descargas pendientes llevan una marca visible de **BORRADOR**.
+
+El detalle y las pruebas están en `auditoria/ABOGADO_17_8.md`. Los ejemplos de `auditoria/ejemplos/17_8/` son ficticios. No deben confundirse con datos de un caso real.
 
 ## Formularios PDF
 
@@ -54,4 +75,4 @@ Los ejemplos ficticios de descarga y el detalle de comprobaciones están en `aud
 - Los archivos de baremos y claves de corrección V16 se conservan íntegros. Es añade el límite inferior de reporte estadounidense: en mujeres con PD 22 se muestra **T ≤30**, **Bajo** y «Recursos de afrontamiento percibidos reducidos y sensación de vulnerabilidad ante el estrés actual». La figura sitúa el resultado en 30 con la etiqueta ≤30. El signo se conserva en el prompt y las exportaciones. Las celdas numéricas originales de los baremos permanecen iguales.
 - Los casos guardados con Es pendiente en ese tramo se actualizan al abrirlos. Este ajuste de presentación conserva las respuestas y las demás puntuaciones, y no consume una aplicación de la licencia.
 
-La corrección actual está en `auditoria/CONTRASTE_17_7.md`. Las listas de secciones de los formatos se describen en `auditoria/INFORMES_17_6.md`. El detalle de la recuperación anterior está en `auditoria/RESTAURACION_17_4.md`; las propuestas editoriales permanecen en `auditoria/VERIFICACION.md`. Los documentos históricos del paquete se conservan como referencia.
+El módulo nuevo se documenta en `auditoria/ABOGADO_17_8.md`. La corrección longitudinal se conserva en `auditoria/CONTRASTE_17_7.md`; los formatos se describen en `auditoria/INFORMES_17_6.md`. Los demás documentos históricos se mantienen como referencia de sus ediciones.

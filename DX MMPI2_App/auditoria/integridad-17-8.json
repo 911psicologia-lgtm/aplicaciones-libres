@@ -1,0 +1,266 @@
+{
+  "referencia": "17.7 licenciada",
+  "resultado": "APROBADO",
+  "archivos": [
+    {
+      "archivo": "assets/formularios/coordenadas.json",
+      "sha256": "75a5afe21a00233c8a1a48a0f7519efef7d394ea5edc1c7ed5314d353d42d898",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "assets/formularios/perfil-mx.pdf",
+      "sha256": "4e525e05adb638f2cd6c182d3f94155512e1aa7a519aba8e4441ca90b14eb273",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "assets/formularios/perfil-us.pdf",
+      "sha256": "ecedfd3872e336aa88d453678940cfee797961f1b065296c0912a44132ca7e9e",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "assets/formularios/respuestas.pdf",
+      "sha256": "c0b7770277748347782f5e6081a81bef583373fc730df0cbe34e8f2ec2f090b7",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/baremo_mx.json",
+      "sha256": "daec1886d414f52fcec6a125d28ed9edadcdbfaeb756ed200ae39f481daaef8f",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/baremo_us.json",
+      "sha256": "d8c3dd0e63c5daaaf9052a207b3922623c0b412532bd441f4954e27c968c86ca",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/baremos.json",
+      "sha256": "3ef6d66aac76ba8841e83018c7c65cea0c32a127dc6d7df0a97603f579e09d5d",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/criterios.json",
+      "sha256": "32f8511ecac3c367c4343d846fc56c4743126a8cc72870ab9d2b22b0136ff3b5",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/criticos.json",
+      "sha256": "176111086789161309a9371c849a6732c6ca3e8f717d183f472e2cc483f9c49d",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/apendiceD_criticos.json",
+      "sha256": "176111086789161309a9371c849a6732c6ca3e8f717d183f472e2cc483f9c49d",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/claves_manual_apendiceC.json",
+      "sha256": "03d3e0b7694fd3776e27c512ca2669cceead8fb6a384372c7d7ede6ed0768223",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B1_men.txt",
+      "sha256": "7033fabc886914b13993e638671045d3a84d4a5a81b7a86e97bb984c8008edb0",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B2_women.txt",
+      "sha256": "5d6cff1e8944945a13e10e75560ca06cd80c3d966251ee43602e535fd89450e3",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B5_men.txt",
+      "sha256": "a7cc4afa320975b07e612bd0cd0ab56ffe6d8f0e0a5196a756e8b75549430216",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B6_women.txt",
+      "sha256": "8f593598dc245ad0705ac075795c3a65b9b902a85d21fdf808c53fbf47353403",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B7_men.txt",
+      "sha256": "481c6ed6d93dc93f1c1d11a0f27c42c209f3a42e3cd6e79ca47e3b8cccaeec62",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_B8_women.txt",
+      "sha256": "9fb96e4a1862a5f55c1d7ba7404d88ba4d63564394e03958aa0125021b2753ae",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_psy5_men.txt",
+      "sha256": "57b2f1ba6c34dfa5c072330ff860aeec5ade928b8e41372de112499cb290c0fa",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/mx_psy5_women.txt",
+      "sha256": "d5ce7a5c89b75c43a93b233201da2ee9c9df571b806f430d6abc0ead538aa309",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/psy5_claves.json",
+      "sha256": "9d001d6eb45e70c92be30f0c9649ec7f2605036cb7eaca5d067ec6aa7941b4a5",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/us_A1_men.txt",
+      "sha256": "9f6c97e86ea344efde7e1ddd63d91f066b55b9b95b0c10ed846979257f586fd2",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/us_A2_women.txt",
+      "sha256": "74fdf3c2d2c5b83bccd9835681eff985d1e2c83d2b93a0a33b2b389fcccf3564",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/us_psy5_fix.txt",
+      "sha256": "d945dcaa512a2f3e2a478bccf390e882040326053d1572fd17d84a94bc5a06c6",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/fuentes/us_subscales.json",
+      "sha256": "6eb253a2df42cf7fd467b6a315c4e9c454ed8339df92fee1738307f9cbd1e519",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/items.json",
+      "sha256": "4835580a177dbd13560688c4815335c8a614bda59ab4bc872e2983f5d37ffabe",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/scale_items.json",
+      "sha256": "7acc177c65832036beeb06161a52565ebf7c5e0a86842533b60260ef8461599e",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "data/vrin_trin_pairs.json",
+      "sha256": "de3abe270520014ff6dd423e35865a2a4b49a3d184dacc3e8318ecfc3a2abc43",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/ai-prompt.js",
+      "sha256": "c40f36c74f29f7f6f6f4ea8a42625a93f6df999118ad9a9450786e94e8c260f0",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/critical.js",
+      "sha256": "fced175cda850c200cc676ddae952f7290afce5ad782379570ef5f9c2f7d23b0",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/export.js",
+      "sha256": "eabdcd86196d0feb67e711bc3a7b4ea1f061d57f1535ab84fa3476100e0a1f08",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/formularios-pdf.js",
+      "sha256": "467748f88b8816953adcc5acc506002056d7d2c35e3e71d66e53f1669b11851d",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/interpret.js",
+      "sha256": "3c92061fa56d21155e95291307fd5428bcbd8c7a099c51dcc77409848093d600",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/json-repair.js",
+      "sha256": "5815e07ce336df4b176f8e81047713b7318e7773543d167bfcbd5a689ce9e961",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/license-catalog.js",
+      "sha256": "0f44b080472e925944d819d8b33681ae4f5823d9887107e43ef08e04b3578fdc",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/license.js",
+      "sha256": "1e310ddd7e04dce1195e9dedf10b3c538fd05144856231036d7d1ae126a977b6",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/mmpi2.js",
+      "sha256": "4d42373786ca43b979f6d04584d04ebb292dfce64263cc627d3ba234a338fa35",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/mmpi2_orig.js",
+      "sha256": "352af9432c8a031bdfced47319dea9fbd6ba2c32c4214401db0c3de4dd086f7b",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/previous.js",
+      "sha256": "7f3d76258d0fc8ad3dab69a6d98145573fead9910006350cbd539eafb0f9425e",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/report-charts.js",
+      "sha256": "91e671a82ddd8381e1dbdaebae1c6ba259e5690f53bc2c646375f942211a107b",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/report-model.js",
+      "sha256": "1a75bda9078636a35723e62725ce581cec24b81a877fbfc08721a5f24ee66b58",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/report-render.js",
+      "sha256": "fb412418551658f41e681cce08e82631002ee28853a54ebe28cbde647fc4bf51",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/selftest.js",
+      "sha256": "64743c5111371b4bd522512c2e33e1b54c3b57783c9f724270e25d4370de56ba",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/signature.js",
+      "sha256": "5bd4e7191e8c4f72d8c38700873aecf8260206029a24e39ffe89911fe272293c",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/storage.js",
+      "sha256": "cfb013028bdea1abcb365bd2454de57315a7c5aea97e65f25eea8022017df633",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "js/lib/utils.js",
+      "sha256": "dc7a94cc1f6e03448373f5250ef8316fe9e508c81edb5974387f4c8e553a8385",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/chart.umd.min.js",
+      "sha256": "d2af8974e95271638772e9e9524db5b9a6f58d6ec2d5d781400447b4a31c681e",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/docx.umd.min.js",
+      "sha256": "02d568d203c0180af37609bcf5ff6c0919d220f933a88ca896eba0556a08faad",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/jspdf.plugin.autotable.min.js",
+      "sha256": "2223830cf9a1ec85af014cc71b37c1b1eb566f3d18b2ab8071e96af822c58bdb",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/jspdf.umd.min.js",
+      "sha256": "85ba2cc3ff858a20fa49fe6e457bec863ea40b55a9f3725e58a940e62f6f61a4",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/pdf-lib-LICENSE.md",
+      "sha256": "f2c9fc00fdb66eb99ac156ba52d734af66d8d309f65753ae809ad34ee2883bcb",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/pdf-lib.min.js",
+      "sha256": "0f9a5cad07941f0826586c94e089d89b918c46e5c17cf2d5a3c6f666e3bc694f",
+      "identico_17_7": true
+    },
+    {
+      "archivo": "vendor/xlsx.full.min.js",
+      "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41",
+      "identico_17_7": true
+    }
+  ]
+}

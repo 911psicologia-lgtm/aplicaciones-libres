@@ -15,6 +15,7 @@ const App = {
       case: window.Case,
       capture: window.Capture,
       report: window.Report,
+      legal: window.LegalBrief,
       cases: window.Cases,
       activation: window.Activation,
     };
@@ -148,6 +149,7 @@ const App = {
         </div>
 
         <div class="menu-section">
+          ${currentCase?.results?'<div class="menu-item" data-action="legal"><span class="icon">▤</span><span class="label">Para el abogado<div class="meta">Fuentes revisadas y contraste explicativo</div></span></div>':''}
           ${window.__installPrompt ? `<div class="menu-item" data-action="install"><span class="icon">⬇</span><span class="label"><strong>Instalar aplicación</strong><div class="meta">Abrir desde el escritorio y usar sin conexión</div></span></div>` : ''}
           <div class="menu-item" data-action="about">
             <span class="icon">ℹ</span><span class="label">Acerca de</span>
@@ -194,6 +196,8 @@ const App = {
 
   _menuAction(action) {
     switch (action) {
+      case 'legal':
+        this.hideModal();this.navigate('legal');break;
       case 'setup':
         this.hideModal();
         this.navigate('setup');
@@ -327,7 +331,7 @@ const App = {
         <div style="width:64px;height:64px;background:linear-gradient(135deg,#1F3864,#4472C4);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 16px">M2</div>
         <h3 style="color:var(--color-primary-dark);font-size:20px">MMPI-2 · Aplicación clínica</h3>
         <p style="color:var(--color-text-muted);font-size:13px;margin-top:8px">
-          Versión 17.7 licenciada · Aplicación clínica para la administración, corrección
+          Versión 17.8 licenciada · Aplicación clínica para la administración, corrección
           e interpretación del Inventario Multifásico de Personalidad de Minnesota-2,
           con baremos español (TEA), estadounidense (Minnesota N=2.600) y mexicano.
         </p>

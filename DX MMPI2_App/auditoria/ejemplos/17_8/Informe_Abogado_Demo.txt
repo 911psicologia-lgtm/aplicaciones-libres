@@ -1,0 +1,81 @@
+Informe explicativo para el abogado
+Comprensión de hallazgos y contraste técnico de documentos
+
+Evaluado · María Demo
+Documento de identidad · DEMO-9988
+Fecha de aplicación · 3 de noviembre de 2026
+Fecha de nacimiento · 15 de octubre de 1980
+Destinatario · Abogado de demostración
+
+1. Respuesta principal
+
+Los documentos aportan descripciones diferentes del malestar y utilizan fuentes de evaluación distintas. El contraste identifica qué está documentado y qué necesita aclaración antes de atribuir incompatibilidad a las conclusiones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2]
+
+2. Pregunta y finalidad
+
+¿Qué diferencias documentadas deben aclararse para comprender ambos informes?
+
+Documento ficticio para comprobar el módulo explicativo.
+
+3. Fuentes utilizadas
+
+Tabla 1. Documentos y versiones de referencia
+Fuente | Documento | Autor / procedencia | Fecha
+1 | Registro local del caso | Registro de la aplicación | 3 de noviembre de 2026
+2 | Informe propio revisado | Profesional ficticio | 3 de noviembre de 2026
+3 | Integración revisada | Profesional ficticio | 3 de noviembre de 2026
+4 | Informe externo ficticio | Entidad de demostración | 27 de mayo de 2026
+
+4. Cronología documentada
+
+Tabla 2. Hechos y fuentes
+Fecha | Hecho documentado | Soporte
+3 de noviembre de 2026 | El informe propio documenta seguimiento y aplicación del MMPI-2. | Fuente 2, fragmento 1
+
+5. Explicación de los hallazgos
+
+El registro local consigna VRIN T=46. El informe revisado describe coherencia de las respuestas; ese hallazgo se integra con el seguimiento y conserva los límites para atribuir causas mediante una escala aislada. [Fuente 1, fragmento 11; Fuente 2, fragmento 2; Fuente 2, fragmento 1]
+
+6. Contraste entre documentos
+
+Tabla 3. Afirmaciones, soporte y alcance del contraste
+Afirmación y fuente | Clasificación | Análisis y soporte | Qué permite sostener
+«Se descartó malestar emocional a partir de una entrevista breve.» · Fuente 4, fragmento 1 | Información insuficiente | El informe propio describe seguimiento e inventario; el extracto externo alude a una entrevista breve. La información aportada no permite establecer que ambos procedimientos respondieran a la misma pregunta y condiciones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2] | Puede señalarse la diferencia de procedimientos documentados y solicitar su aclaración. Estos extractos, por sí solos, no permiten atribuir falsedad al otro informe. Preguntas: ¿Qué registros sustentan la entrevista y cuál fue su alcance?
+
+7. Argumentos y alcance técnico
+
+El contraste defendible se refiere al procedimiento documentado: seguimiento e inventario en un informe y entrevista breve en el otro. Los límites del propio informe y la información pendiente deben acompañar cualquier explicación al destinatario. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 3, fragmento 1]
+
+8. Aspectos pendientes de aclaración
+
+En el extracto externo faltan detalles de la entrevista. La aclaración requiere sus registros y una descripción de sus condiciones; la ausencia de información en el extracto no demuestra que nunca se haya obtenido. [Fuente 4, fragmento 2]
+
+9. Preguntas para aclaración
+
+• ¿Cuáles fueron la fecha, duración y condiciones de la entrevista mencionada en el documento externo? [Fuente 4, fragmento 2]
+
+10. Conclusiones
+
+Las fuentes permiten identificar una diferencia de procedimiento documentado y delimitar cuestiones verificables. La explicación del caso queda sujeta a la revisión de los registros completos y de la comparabilidad entre evaluaciones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2; Fuente 3, fragmento 1]
+
+11. Alcance y revisión
+
+Documento de explicación y contraste técnico de las fuentes relacionadas, destinado al uso indicado. Sus conclusiones se limitan a la información disponible y requieren la valoración profesional responsable. Las decisiones jurídicas corresponden al abogado.
+
+Revisión profesional registrada el 12 de noviembre de 2026.
+
+Ciudad de prueba
+12 de noviembre de 2026
+Profesional ficticio
+DEMO-TP
+
+12. Anexo · Fragmentos de soporte
+
+Tabla 4. Pasajes citados y localización
+Fuente y localización | Fragmento citado
+Fuente 2, fragmento 1 | El informe propio del 3 de noviembre de 2026 documenta dificultades de sueño y concentración en el seguimiento clínico y utiliza el MMPI-2.
+Fuente 4, fragmento 1 | Se descartó malestar emocional a partir de una entrevista breve.
+Fuente 4, fragmento 2 | El extracto no precisa la duración ni la fecha de esa entrevista, y no describe sus registros de soporte.
+Fuente 1, fragmento 11 | VRIN (Inconsistencia de respuestas variables) · PD=6; T=46; rango=Habitual.
+Fuente 2, fragmento 2 | La lectura de VRIN en el informe propio describe coherencia de las respuestas, con límites para atribuir causas o diagnosticar mediante una escala aislada.
+Fuente 3, fragmento 1 | La integración revisada vincula las dificultades de sueño y concentración con el seguimiento documentado y con los resultados disponibles. La equivalencia normativa entre evaluaciones requiere verificación.

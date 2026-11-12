@@ -53,6 +53,7 @@ const Report = {
         </div>
 
         <div class="screen-content wide report-layout">
+          <nav class="legal-tabs no-print" aria-label="Documentos del caso"><span class="btn btn-primary" aria-current="page">Base / Extendido e IA</span><button type="button" class="btn btn-secondary" id="rpt-legal">Para el abogado</button></nav>
 
           ${this._renderValidityBanner(validity)}
 
@@ -197,6 +198,7 @@ const Report = {
     bindEvent('rpt-back', 'click', () => App.navigate('dashboard'));
     bindEvent('rpt-edit', 'click', () => App.navigate('case'));
     bindEvent('rpt-answers', 'click', () => App.navigate('capture', { editing: true }));
+    bindEvent('rpt-legal','click',()=>App.navigate('legal'));
 
     bindEvent('exp-pdf', 'click', () => this._exportPDF());
     bindEvent('exp-word', 'click', () => this._exportWord());

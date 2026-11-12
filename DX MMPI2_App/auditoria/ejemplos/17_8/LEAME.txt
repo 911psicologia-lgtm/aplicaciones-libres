@@ -1,0 +1,3 @@
+DEMOSTRACIÓN FICTICIA — NO CORRESPONDE A UNA PERSONA REAL.
+
+Informe_Abogado_Demo muestra el documento explicativo con fuentes, contraste y anexo. El JSON Caso_Demo_Abogado permite importar un caso de demostración mediante la copia de seguridad de casos de la app. No importa un perfil profesional ni una licencia. Al abrirlo con otro perfil, la revisión anterior puede quedar pendiente, como corresponde al control de versiones. No mezcle estos datos con un caso real.

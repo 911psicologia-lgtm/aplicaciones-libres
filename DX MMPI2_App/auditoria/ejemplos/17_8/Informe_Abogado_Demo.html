@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe explicativo para el abogado · María Demo</title>
+<style>body{margin:0;background:#F3F4F6;padding:24px 12px;} 
+.rdoc { background:#fff; color:#1F2937; font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size:14px; line-height:1.6; max-width: 900px; margin: 0 auto; padding: 48px 56px; border:1px solid #E5E7EB; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.06); }
+.rdoc * { box-sizing: border-box; }
+.rdoc .r-title { text-align:center; border-bottom:3px double #1F3864; padding-bottom:14px; margin-bottom:22px; }
+.rdoc .r-title h1 { font-size:22px; letter-spacing:.5px; color:#1F3864; margin:0 0 4px; text-transform:uppercase; }
+.rdoc .r-title .sub { font-size:13px; color:#4B5563; }
+.rdoc h2.r-h1 { font-size:17px; color:#1F3864; border-bottom:2px solid #2F5496; padding-bottom:4px; margin:30px 0 12px; }
+.rdoc h3.r-h2 { font-size:15px; color:#1F3864; margin:24px 0 10px; }
+.rdoc .r-idbox { width:100%; border-collapse:collapse; border:1.5px solid #1F3864; font-size:13px; }
+.rdoc .r-idbox td { border:1px solid #C7D2E3; padding:7px 10px; vertical-align:top; }
+.rdoc .r-idbox td.k { background:#EEF2F8; color:#1F3864; font-weight:700; width:19%; font-size:12px; }
+.rdoc .r-idbox td.v { width:31%; }
+.rdoc .r-field { margin: 0 0 14px; }
+.rdoc .r-field .lbl { font-weight:700; color:#1F3864; margin-bottom:2px; }
+.rdoc .r-field p, .rdoc p.r-p { text-align:justify; margin:0 0 8px; white-space:pre-line; }
+.rdoc p.r-note { font-size:12px; color:#4B5563; font-style:italic; }
+.rdoc .r-caption { font-size:12px; color:#1F3864; font-weight:700; margin:12px 0 4px; }
+.rdoc .r-caption span { font-weight:400; color:#374151; font-style:italic; }
+.rdoc table.r-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-bottom:4px; }
+.rdoc table.r-table th { background:#1F3864; color:#fff; text-align:left; padding:6px 8px; font-weight:600; border:1px solid #1F3864; }
+.rdoc table.r-table td { padding:5px 8px; border:1px solid #D1D5DB; vertical-align:top; }
+.rdoc table.r-table tr:nth-child(even) td { background:#F9FAFB; }
+.rdoc table.r-table td.num { text-align:center; white-space:nowrap; }
+.rdoc table.r-table td.lv-vh { background:#FEE2E2 !important; color:#991B1B; font-weight:700; }
+.rdoc table.r-table td.lv-h  { background:#FFEDD5 !important; color:#9A3412; font-weight:700; }
+.rdoc table.r-table td.lv-ps { background:#FEF9C3 !important; color:#854D0E; }
+.rdoc table.r-table td.lv-m  { background:#ECFDF5 !important; color:#166534; }
+.rdoc table.r-table td.lv-lo { background:#DBEAFE !important; color:#1E40AF; font-weight:700; }
+.rdoc .r-tfoot { font-size:11px; color:#6B7280; margin-bottom:8px; }
+.rdoc .r-interp { background:#F5F7FA; border-left:4px solid #2F5496; padding:10px 14px; margin:10px 0 12px; border-radius:4px; }
+.rdoc .r-interp .lbl { font-weight:700; color:#1F3864; font-size:12px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.rdoc .r-interp p { margin:0; text-align:justify; }
+.rdoc figure.r-fig { margin:8px 0 20px; page-break-inside:avoid; break-inside:avoid; }
+.rdoc figure.r-fig .canvas-wrap { position:relative; width:100%; }
+.rdoc figure.r-fig img { width:100%; height:auto; display:block; border:1px solid #E5E7EB; border-radius:6px; }
+.rdoc figure.r-fig figcaption { font-size:12px; color:#374151; margin-top:4px; text-align:center; }
+.rdoc figure.r-fig figcaption b { color:#1F3864; }
+.rdoc .r-banner { border:2px solid #B91C1C; background:#FEF2F2; color:#7F1D1D; padding:10px 14px; border-radius:6px; margin:10px 0; font-size:13px; }
+.rdoc .r-consolidated { font-size:14.5px; text-align:justify; line-height:1.7; margin:0 0 12px; }
+.rdoc ul.r-list { margin:0 0 8px 20px; padding:0; }
+.rdoc ul.r-list li { margin-bottom:6px; text-align:justify; }
+.rdoc .r-sign { margin-top:40px; page-break-inside:avoid; break-inside:avoid; }
+.rdoc .r-sign .place { margin-bottom:28px; }
+.rdoc .r-sign img { max-height:80px; max-width:260px; display:block; margin-bottom:2px; }
+.rdoc .r-sign .line { border-top:1.5px solid #1F2937; width:300px; padding-top:6px; }
+.rdoc .r-sign .nm { font-weight:700; font-size:14.5px; }
+.rdoc .r-sign .sub { font-size:12.5px; color:#374151; }
+.rdoc .r-footnote { margin-top:30px; padding-top:10px; border-top:1px solid #E5E7EB; font-size:11px; color:#6B7280; text-align:justify; }
+.rdoc table, .rdoc .r-interp { page-break-inside:auto; }
+.rdoc tr { page-break-inside:avoid; break-inside:avoid; }
+@media (max-width: 700px) { .rdoc { padding:22px 16px; } .rdoc .r-idbox td.k { width:auto; } }
+@media print { .rdoc { border:none; box-shadow:none; padding:0; max-width:100%; } .rdoc h2.r-h1, .rdoc h3.r-h2 { page-break-after:avoid; break-after:avoid; } }
+ @media print{body{background:#fff;padding:0}} @page{size:letter;margin:18mm 16mm;}</style>
+</head><body><article class="rdoc"><div class="r-title"><h1>Informe explicativo para el abogado</h1><div class="sub">Comprensión de hallazgos y contraste técnico de documentos</div></div>
+<table class="r-idbox"><tbody><tr><td class="k">Evaluado</td><td class="v">María Demo</td><td class="k">Documento de identidad</td><td class="v">DEMO-9988</td></tr><tr><td class="k">Fecha de aplicación</td><td class="v">3 de noviembre de 2026</td><td class="k">Fecha de nacimiento</td><td class="v">15 de octubre de 1980</td></tr><tr><td class="k">Destinatario</td><td class="v">Abogado de demostración</td><td class="k"></td><td class="v"></td></tr></tbody></table>
+<h2 class="r-h1">1. Respuesta principal</h2>
+<p class="r-p ">Los documentos aportan descripciones diferentes del malestar y utilizan fuentes de evaluación distintas. El contraste identifica qué está documentado y qué necesita aclaración antes de atribuir incompatibilidad a las conclusiones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2]</p>
+<h2 class="r-h1">2. Pregunta y finalidad</h2>
+<p class="r-p ">¿Qué diferencias documentadas deben aclararse para comprender ambos informes?</p>
+<p class="r-p ">Documento ficticio para comprobar el módulo explicativo.</p>
+<h2 class="r-h1">3. Fuentes utilizadas</h2>
+<div class="r-caption">Tabla 1. <span>Documentos y versiones de referencia</span></div><table class="r-table"><thead><tr><th>Fuente</th><th>Documento</th><th>Autor / procedencia</th><th>Fecha</th></tr></thead><tbody><tr><td class="num">1</td><td class="">Registro local del caso</td><td class="">Registro de la aplicación</td><td class="">3 de noviembre de 2026</td></tr><tr><td class="num">2</td><td class="">Informe propio revisado</td><td class="">Profesional ficticio</td><td class="">3 de noviembre de 2026</td></tr><tr><td class="num">3</td><td class="">Integración revisada</td><td class="">Profesional ficticio</td><td class="">3 de noviembre de 2026</td></tr><tr><td class="num">4</td><td class="">Informe externo ficticio</td><td class="">Entidad de demostración</td><td class="">27 de mayo de 2026</td></tr></tbody></table>
+<h2 class="r-h1">4. Cronología documentada</h2>
+<div class="r-caption">Tabla 2. <span>Hechos y fuentes</span></div><table class="r-table"><thead><tr><th>Fecha</th><th>Hecho documentado</th><th>Soporte</th></tr></thead><tbody><tr><td class="">3 de noviembre de 2026</td><td class="">El informe propio documenta seguimiento y aplicación del MMPI-2.</td><td class="">Fuente 2, fragmento 1</td></tr></tbody></table>
+<h2 class="r-h1">5. Explicación de los hallazgos</h2>
+<p class="r-p ">El registro local consigna VRIN T=46. El informe revisado describe coherencia de las respuestas; ese hallazgo se integra con el seguimiento y conserva los límites para atribuir causas mediante una escala aislada. [Fuente 1, fragmento 11; Fuente 2, fragmento 2; Fuente 2, fragmento 1]</p>
+<h2 class="r-h1">6. Contraste entre documentos</h2>
+<div class="r-caption">Tabla 3. <span>Afirmaciones, soporte y alcance del contraste</span></div><table class="r-table"><thead><tr><th>Afirmación y fuente</th><th>Clasificación</th><th>Análisis y soporte</th><th>Qué permite sostener</th></tr></thead><tbody><tr><td class="">«Se descartó malestar emocional a partir de una entrevista breve.» · Fuente 4, fragmento 1</td><td class="">Información insuficiente</td><td class="">El informe propio describe seguimiento e inventario; el extracto externo alude a una entrevista breve. La información aportada no permite establecer que ambos procedimientos respondieran a la misma pregunta y condiciones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2]</td><td class="">Puede señalarse la diferencia de procedimientos documentados y solicitar su aclaración. Estos extractos, por sí solos, no permiten atribuir falsedad al otro informe. Preguntas: ¿Qué registros sustentan la entrevista y cuál fue su alcance?</td></tr></tbody></table>
+<h2 class="r-h1">7. Argumentos y alcance técnico</h2>
+<p class="r-p ">El contraste defendible se refiere al procedimiento documentado: seguimiento e inventario en un informe y entrevista breve en el otro. Los límites del propio informe y la información pendiente deben acompañar cualquier explicación al destinatario. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 3, fragmento 1]</p>
+<h2 class="r-h1">8. Aspectos pendientes de aclaración</h2>
+<p class="r-p ">En el extracto externo faltan detalles de la entrevista. La aclaración requiere sus registros y una descripción de sus condiciones; la ausencia de información en el extracto no demuestra que nunca se haya obtenido. [Fuente 4, fragmento 2]</p>
+<h2 class="r-h1">9. Preguntas para aclaración</h2>
+<ul class="r-list"><li>¿Cuáles fueron la fecha, duración y condiciones de la entrevista mencionada en el documento externo? [Fuente 4, fragmento 2]</li></ul>
+<h2 class="r-h1">10. Conclusiones</h2>
+<p class="r-p ">Las fuentes permiten identificar una diferencia de procedimiento documentado y delimitar cuestiones verificables. La explicación del caso queda sujeta a la revisión de los registros completos y de la comparabilidad entre evaluaciones. [Fuente 2, fragmento 1; Fuente 4, fragmento 1; Fuente 4, fragmento 2; Fuente 3, fragmento 1]</p>
+<h2 class="r-h1">11. Alcance y revisión</h2>
+<p class="r-p ">Documento de explicación y contraste técnico de las fuentes relacionadas, destinado al uso indicado. Sus conclusiones se limitan a la información disponible y requieren la valoración profesional responsable. Las decisiones jurídicas corresponden al abogado.</p>
+<p class="r-p ">Revisión profesional registrada el 12 de noviembre de 2026.</p>
+<div class="r-sign">
+            <div class="place">Ciudad de prueba · 12 de noviembre de 2026</div>
+            <div style="height:60px"></div>
+            <div class="line"><div class="nm">Profesional ficticio</div><div class="sub">Psicólogo · T.P. DEMO-TP</div></div>
+          </div>
+<h2 class="r-h1">12. Anexo · Fragmentos de soporte</h2>
+<div class="r-caption">Tabla 4. <span>Pasajes citados y localización</span></div><table class="r-table"><thead><tr><th>Fuente y localización</th><th>Fragmento citado</th></tr></thead><tbody><tr><td class="">Fuente 2, fragmento 1</td><td class="">El informe propio del 3 de noviembre de 2026 documenta dificultades de sueño y concentración en el seguimiento clínico y utiliza el MMPI-2.</td></tr><tr><td class="">Fuente 4, fragmento 1</td><td class="">Se descartó malestar emocional a partir de una entrevista breve.</td></tr><tr><td class="">Fuente 4, fragmento 2</td><td class="">El extracto no precisa la duración ni la fecha de esa entrevista, y no describe sus registros de soporte.</td></tr><tr><td class="">Fuente 1, fragmento 11</td><td class="">VRIN (Inconsistencia de respuestas variables) · PD=6; T=46; rango=Habitual.</td></tr><tr><td class="">Fuente 2, fragmento 2</td><td class="">La lectura de VRIN en el informe propio describe coherencia de las respuestas, con límites para atribuir causas o diagnosticar mediante una escala aislada.</td></tr><tr><td class="">Fuente 3, fragmento 1</td><td class="">La integración revisada vincula las dificultades de sueño y concentración con el seguimiento documentado y con los resultados disponibles. La equivalencia normativa entre evaluaciones requiere verificación.</td></tr></tbody></table></article></body></html>

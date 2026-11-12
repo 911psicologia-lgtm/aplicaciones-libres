@@ -1,0 +1,110 @@
+{
+  "tipo": "informe_explicativo_abogado",
+  "version": 1,
+  "huella_fuentes": "08a75e067156bf4ed14fb09cfc8df2747b24e6d28e43139b8c21a17cf34a6ea1",
+  "secciones": [
+    {
+      "id": "resumen",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Los documentos aportan descripciones diferentes del malestar y utilizan fuentes de evaluación distintas. El contraste identifica qué está documentado y qué necesita aclaración antes de atribuir incompatibilidad a las conclusiones.",
+          "evidencias": [
+            "F001-P0001",
+            "F003-P0001",
+            "F003-P0002"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicacion",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "El registro local consigna VRIN T=46. El informe revisado describe coherencia de las respuestas; ese hallazgo se integra con el seguimiento y conserva los límites para atribuir causas mediante una escala aislada.",
+          "evidencias": [
+            "CASO-P0011",
+            "F001-P0002",
+            "F001-P0001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "argumentos",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "El contraste defendible se refiere al procedimiento documentado: seguimiento e inventario en un informe y entrevista breve en el otro. Los límites del propio informe y la información pendiente deben acompañar cualquier explicación al destinatario.",
+          "evidencias": [
+            "F001-P0001",
+            "F003-P0001",
+            "F002-P0001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pendientes",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "En el extracto externo faltan detalles de la entrevista. La aclaración requiere sus registros y una descripción de sus condiciones; la ausencia de información en el extracto no demuestra que nunca se haya obtenido.",
+          "evidencias": [
+            "F003-P0002"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conclusiones",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "contenido": "Las fuentes permiten identificar una diferencia de procedimiento documentado y delimitar cuestiones verificables. La explicación del caso queda sujeta a la revisión de los registros completos y de la comparabilidad entre evaluaciones.",
+          "evidencias": [
+            "F001-P0001",
+            "F003-P0001",
+            "F003-P0002",
+            "F002-P0001"
+          ]
+        }
+      ]
+    }
+  ],
+  "cronologia": [
+    {
+      "fecha": "3 de noviembre de 2026",
+      "hecho": "El informe propio documenta seguimiento y aplicación del MMPI-2.",
+      "evidencias": [
+        "F001-P0001"
+      ]
+    }
+  ],
+  "contrastes": [
+    {
+      "referencia": "F003-P0001",
+      "cita": "Se descartó malestar emocional a partir de una entrevista breve.",
+      "clasificacion": "Información insuficiente",
+      "analisis": "El informe propio describe seguimiento e inventario; el extracto externo alude a una entrevista breve. La información aportada no permite establecer que ambos procedimientos respondieran a la misma pregunta y condiciones.",
+      "alcance": "Puede señalarse la diferencia de procedimientos documentados y solicitar su aclaración. Estos extractos, por sí solos, no permiten atribuir falsedad al otro informe.",
+      "preguntas": [
+        "¿Qué registros sustentan la entrevista y cuál fue su alcance?"
+      ],
+      "evidencias": [
+        "F001-P0001",
+        "F003-P0001",
+        "F003-P0002"
+      ]
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Cuáles fueron la fecha, duración y condiciones de la entrevista mencionada en el documento externo?",
+      "evidencias": [
+        "F003-P0002"
+      ]
+    }
+  ]
+}
